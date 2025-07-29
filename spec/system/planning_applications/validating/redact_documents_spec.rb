@@ -69,14 +69,17 @@ RSpec.describe "Redact documents" do
       expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "Completed")
     end
 
-    click_link "Tag and validate supplied documents"
+    click_link "Review documents"
 
     within("#check-tag-documents-tasks") do
-      expect(page).to have_selector("li:nth-of-type(3)", text: "existing-floorplan-redacted.png")
-      expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "Valid")
-
-      expect(page).to have_selector("li:nth-of-type(4)", text: "proposed-floorplan-redacted.png")
-      expect(page).to have_selector("li:nth-of-type(4) .govuk-tag", text: "Valid")
+      within("table tbody tr:nth-child(3)") do
+        expect(page).to have_text("existing-floorplan-redacted.png")
+        expect(page).to have_text("Valid")
+      end
+      within("table tbody tr:nth-child(4)") do
+        expect(page).to have_text("proposed-floorplan-redacted.png")
+        expect(page).to have_text("Valid")
+      end
     end
 
     click_link "existing-floorplan-redacted.png"

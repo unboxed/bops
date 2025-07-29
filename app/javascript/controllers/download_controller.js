@@ -15,7 +15,9 @@ export default class extends Controller {
     this.showLoadingSpinner()
 
     const applicationReference = this.element.dataset.applicationReferenceValue
-    const documents = this.documentsElementTarget.querySelectorAll("li")
+    const documents = this.documentsElementTarget.querySelectorAll(
+      "[data-document-title-value]",
+    )
     const zip = new JSZip()
     const fileNameMap = new Map()
 

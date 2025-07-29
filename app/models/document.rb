@@ -294,6 +294,10 @@ class Document < ApplicationRecord
     file.filename.to_s if file.attached?
   end
 
+  def reference_or_name
+    numbers.presence || name
+  end
+
   def archived?
     archived_at.present?
   end
@@ -384,6 +388,18 @@ class Document < ApplicationRecord
 
   def has_tags?(tags)
     tags.empty? || (tags & self.tags).any?
+  end
+
+  def status
+    @status ||= if validated?
+      :valid
+    elsif replacement_document_validation_request&.open_or_pending?
+      :invalid
+    elsif ReplacementDocumentValidationRequest.find_by(new_document: self).present?
+      :updated
+    else
+      :not_started
+    end
   end
 
   private

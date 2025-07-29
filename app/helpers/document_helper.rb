@@ -29,10 +29,6 @@ module DocumentHelper
     "#{document.name}#{document.numbers? ? " - #{document.numbers}" : ""}"
   end
 
-  def reference_or_file_name(document)
-    document.numbers.presence || document.name
-  end
-
   def document_thumbnail_link(document, thumbnail_args: {}, image_args: {})
     image = if document.representable?
       image_tag(document.representation_url(**thumbnail_args) || "", **image_args)
@@ -41,5 +37,20 @@ module DocumentHelper
     end
 
     link_to_document image, document
+  end
+
+  def document_link_path(document)
+    if document.status == :invalid
+      planning_application_validation_replacement_document_validation_request_path(
+        document.planning_application,
+        document.replacement_document_validation_request
+      )
+    else
+      edit_planning_application_document_path(
+        document.planning_application,
+        document,
+        validate: :yes
+      )
+    end
   end
 end

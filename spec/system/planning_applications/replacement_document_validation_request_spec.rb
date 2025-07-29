@@ -18,7 +18,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
   let(:file2) { Rack::Test::UploadedFile.new(file_path2, "image/png") }
 
   before do
-    travel_to Time.zone.local(2021, 1, 1)
     sign_in assessor
     visit "/planning_applications/#{planning_application.reference}"
   end
@@ -48,18 +47,17 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "I can mark documents as invalid and edit/delete the validation request", :capybara do
       click_link "Check and validate"
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
 
       within("#check-tag-documents-tasks") do
-        expect(page).to have_list_item_for(
-          "proposed-floorplan.png",
-          with: "Not started"
-        )
-
-        expect(page).to have_list_item_for(
-          "proposed-roofplan.png",
-          with: "Not started"
-        )
+        within("table tbody tr:nth-child(1)") do
+          expect(page).to have_text("proposed-roofplan.png")
+          expect(page).to have_text("Not started")
+        end
+        within("table tbody tr:nth-child(2)") do
+          expect(page).to have_text("proposed-floorplan.png")
+          expect(page).to have_text("Not started")
+        end
 
         click_link("proposed-roofplan.png")
       end
@@ -105,18 +103,17 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         expect(page).to have_content("Invalid items 1")
       end
 
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
 
       within("#check-tag-documents-tasks") do
-        expect(page).to have_list_item_for(
-          "proposed-floorplan.png",
-          with: "Not started"
-        )
-
-        expect(page).to have_list_item_for(
-          "proposed-roofplan.png",
-          with: "Invalid"
-        )
+        within("table tbody tr:nth-child(1)") do
+          expect(page).to have_text("proposed-roofplan.png")
+          expect(page).to have_text("Invalid")
+        end
+        within("table tbody tr:nth-child(2)") do
+          expect(page).to have_text("proposed-floorplan.png")
+          expect(page).to have_text("Not started")
+        end
 
         click_link("proposed-roofplan.png")
       end
@@ -142,14 +139,14 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       end
       click_link "Check and validate"
 
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
 
       # Delete the request
       within("#check-tag-documents-tasks") do
-        expect(page).to have_list_item_for(
-          "proposed-roofplan.png",
-          with: "Invalid"
-        )
+        within("table tbody tr:nth-child(1)") do
+          expect(page).to have_text("proposed-roofplan.png")
+          expect(page).to have_text("Invalid")
+        end
 
         click_link("proposed-roofplan.png")
       end
@@ -166,12 +163,12 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       expect(document1.invalidated_document_reason).to be_nil
       expect(document1.validated).to be_nil
 
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
       within("#check-tag-documents-tasks") do
-        expect(page).to have_list_item_for(
-          "proposed-roofplan.png",
-          with: "Not started"
-        )
+        within("table tbody tr:nth-child(1)") do
+          expect(page).to have_text("proposed-roofplan.png")
+          expect(page).to have_text("Not started")
+        end
 
         click_link("proposed-roofplan.png")
       end
@@ -188,12 +185,12 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         expect(page).to have_content("Invalid items 1")
       end
 
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
       within("#check-tag-documents-tasks") do
-        expect(page).to have_list_item_for(
-          "proposed-roofplan.png",
-          with: "Invalid"
-        )
+        within("table tbody tr:nth-child(1)") do
+          expect(page).to have_text("proposed-roofplan.png")
+          expect(page).to have_text("Invalid")
+        end
       end
 
       click_link "Back"
@@ -206,7 +203,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "I can mark documents as valid" do
       click_link "Check and validate"
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
 
       within("#check-tag-documents-tasks") do
         click_link("proposed-roofplan.png")
@@ -226,17 +223,16 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       expect(page).to have_content "Sustainability statement"
 
       click_link "Check and validate"
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
       within("#check-tag-documents-tasks") do
-        expect(page).to have_list_item_for(
-          "proposed-roofplan.png",
-          with: "Valid"
-        )
-
-        expect(page).to have_list_item_for(
-          "proposed-floorplan.png",
-          with: "Not started"
-        )
+        within("table tbody tr:nth-child(1)") do
+          expect(page).to have_text("proposed-roofplan.png")
+          expect(page).to have_text("Valid")
+        end
+        within("table tbody tr:nth-child(2)") do
+          expect(page).to have_text("proposed-floorplan.png")
+          expect(page).to have_text("Not started")
+        end
       end
 
       click_link "Back"
@@ -265,18 +261,17 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       delivered_emails = ActionMailer::Base.deliveries.count
 
       click_link "Check and validate"
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
 
       within("#check-tag-documents-tasks") do
-        expect(page).to have_list_item_for(
-          "proposed-floorplan.png",
-          with: "Not started"
-        )
-
-        expect(page).to have_list_item_for(
-          "proposed-roofplan.png",
-          with: "Not started"
-        )
+        within("table tbody tr:nth-child(1)") do
+          expect(page).to have_text("proposed-roofplan.png")
+          expect(page).to have_text("Not started")
+        end
+        within("table tbody tr:nth-child(2)") do
+          expect(page).to have_text("proposed-floorplan.png")
+          expect(page).to have_text("Not started")
+        end
 
         click_link("proposed-roofplan.png")
       end
@@ -298,17 +293,16 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         expect(page).to have_content("Invalid items 1")
       end
 
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
       within("#check-tag-documents-tasks") do
-        expect(page).to have_list_item_for(
-          "proposed-roofplan.png",
-          with: "Invalid"
-        )
-
-        expect(page).to have_list_item_for(
-          "proposed-floorplan.png",
-          with: "Not started"
-        )
+        within("table tbody tr:nth-child(1)") do
+          expect(page).to have_text("proposed-roofplan.png")
+          expect(page).to have_text("Invalid")
+        end
+        within("table tbody tr:nth-child(2)") do
+          expect(page).to have_text("proposed-floorplan.png")
+          expect(page).to have_text("Not started")
+        end
       end
 
       click_link "Back"
@@ -332,7 +326,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       # Cancel request
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
       within("#check-tag-documents-tasks") do
         click_link("proposed-roofplan.png")
       end
@@ -371,12 +365,12 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       end
       expect(page).not_to have_content("Invalid documents")
 
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
       within("#check-tag-documents-tasks") do
-        expect(page).to have_list_item_for(
-          "proposed-roofplan.png",
-          with: "Not started"
-        )
+        within("table tbody tr:nth-child(1)") do
+          expect(page).to have_text("proposed-roofplan.png")
+          expect(page).to have_text("Not started")
+        end
       end
 
       click_link "Back"
@@ -427,13 +421,13 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
           expect(page).to have_content("Updated items 0")
         end
 
-        click_link "Tag and validate supplied documents"
+        click_link "Review documents"
 
         within("#check-tag-documents-tasks") do
-          expect(page).to have_list_item_for(
-            "proposed-roofplan.png",
-            with: "Updated"
-          )
+          within("table tbody tr:nth-child(2)") do
+            expect(page).to have_text("proposed-roofplan.png")
+            expect(page).to have_text("Updated")
+          end
 
           click_link("proposed-roofplan.png")
         end
@@ -449,13 +443,13 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
           expect(page).to have_content("Invalid items 1")
         end
 
-        click_link "Tag and validate supplied documents"
+        click_link "Review documents"
 
         within("#check-tag-documents-tasks") do
-          expect(page).to have_list_item_for(
-            "proposed-roofplan.png",
-            with: "Invalid"
-          )
+          within("table tbody tr:nth-child(2)") do
+            expect(page).to have_text("proposed-roofplan.png")
+            expect(page).to have_text("Invalid")
+          end
         end
 
         request = ReplacementDocumentValidationRequest.last
@@ -488,7 +482,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       it "can see reason why a replacement document was requested once the request is complete" do
         click_link "Check and validate"
-        click_link "Tag and validate supplied documents"
+        click_link "Review documents"
         click_link replacement_document_validation_request.reload.new_document.name.to_s.truncate(50).to_s
 
         expect(page).to have_content("This document replaced: #{replacement_document_validation_request.old_document.name}")
@@ -507,14 +501,6 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       create(:planning_application, :in_assessment, local_authority: default_local_authority)
     end
     let!(:document1) { create(:document, :with_file, planning_application:) }
-
-    it "does not allow you to validate documents" do
-      click_link "Check and validate"
-
-      within("#check-supplied-documents-task") do
-        expect(page).to have_content("Planning application has already been validated")
-      end
-    end
 
     it "allows new replacement requests" do
       click_link "Check and assess"
@@ -600,13 +586,13 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "does not appear in the validate document list" do
       click_link "Check and validate"
-      click_link "Tag and validate supplied documents"
+      click_link "Review documents"
 
       within("#check-tag-documents-tasks") do
-        expect(page).to have_list_item_for(
-          "proposed-floorplan.png",
-          with: "Not started"
-        )
+        within("table tbody tr:nth-child(1)") do
+          expect(page).to have_text("proposed-floorplan.png")
+          expect(page).to have_text("Not started")
+        end
 
         expect(page).not_to have_content(
           "proposed-roofplan.png"
