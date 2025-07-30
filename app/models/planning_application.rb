@@ -110,6 +110,7 @@ class PlanningApplication < ApplicationRecord
     delegate :planning_conditions?
     delegate :heads_of_terms?
     delegate :informatives?
+    delegate :immunity?
     delegate :publishable?, allow_nil: true
   end
   delegate :consultee_responses, to: :consultation, allow_nil: true

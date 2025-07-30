@@ -98,6 +98,7 @@ class ApplicationType < ApplicationRecord
       delegate :description_change_requires_validation?
       delegate :eia?
       delegate :heads_of_terms?
+      delegate :immunity?
       delegate :informatives?
       delegate :legislative_requirements?
       delegate :ownership_details?

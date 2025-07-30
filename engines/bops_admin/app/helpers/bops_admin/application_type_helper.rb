@@ -27,6 +27,7 @@ module BopsAdmin
         site_visits
         description_change_requires_validation
         publishable
+        immunity
       ]
     end
   end

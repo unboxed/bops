@@ -39,6 +39,7 @@ module BopsConfig
           :description_change_requires_validation,
           :eia,
           :heads_of_terms,
+          :immunity,
           :informatives,
           :legislative_requirements,
           :ownership_details,

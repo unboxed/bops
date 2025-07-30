@@ -12,6 +12,7 @@ class ApplicationTypeFeature
   attribute :description_change_requires_validation, :boolean, default: true
   attribute :eia, :boolean, default: true
   attribute :heads_of_terms, :boolean, default: true
+  attribute :immunity, :boolean, default: true
   attribute :informatives, :boolean, default: false
   attribute :legislative_requirements, :boolean, default: true
   attribute :ownership_details, :boolean, default: true
