@@ -1,0 +1,22 @@
+<%= render "enforcements/enforcement", title: "Check report details" %>
+
+<%= govuk_accordion do |accordion| %>
+    <%= accordion.with_section(heading_text: "Breach report") do %>
+      <% @enforcement.proposal_details.each do |proposal_detail| %>
+        <%= render(
+              ProposalDetails::SummaryComponent.new(proposal_detail: proposal_detail)
+            ) %>
+      <% end %>
+    <% end %>
+
+    <%= accordion.with_section(heading_text: "Complainant details") { tag.p("Content") } %>
+    <%= accordion.with_section(heading_text: "Site owner and interested parties") { tag.p("Content") } %>
+    <%= accordion.with_section(heading_text: "Documents") { tag.p("Content") } %>
+    <%= accordion.with_section(heading_text: "Photos") { tag.p("Content") } %>
+<% end %>
+
+<% if @task.top_level? %>
+  <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
+<% else %>
+  <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
+<% end %>

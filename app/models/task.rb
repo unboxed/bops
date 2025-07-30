@@ -22,6 +22,10 @@ class Task < ApplicationRecord
     full_slug
   end
 
+  def top_level?
+    parent_type == "CaseRecord"
+  end
+
   private
 
   def set_slug
