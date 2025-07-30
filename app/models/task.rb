@@ -6,9 +6,12 @@ class Task < ApplicationRecord
   belongs_to :parent, polymorphic: true
   has_many :tasks, -> { order(:position) }, as: :parent, dependent: :destroy, autosave: true
 
-  before_save :set_slug
+  validates :slug, :name, presence: true, strict: true
 
-  validates :slug, :name, presence: true
+  after_initialize do
+    self.slug ||= name.to_s.parameterize
+    self.status ||= "not_started"
+  end
 
   def full_slug
     @full_slug ||= parent.is_a?(Task) ? "#{parent.full_slug}/#{slug}" : slug
@@ -24,11 +27,5 @@ class Task < ApplicationRecord
 
   def top_level?
     parent_type == "CaseRecord"
-  end
-
-  private
-
-  def set_slug
-    self.slug = name.parameterize
   end
 end

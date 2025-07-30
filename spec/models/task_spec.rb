@@ -22,14 +22,18 @@ RSpec.describe Task, type: :model do
 
   it "is invalid without a name" do
     task.name = nil
-    expect(task).not_to be_valid
-    expect(task.errors[:name]).to include("can't be blank")
+
+    expect {
+      task.valid?
+    }.to raise_error(ActiveModel::StrictValidationFailed, "Name can't be blank")
   end
 
   it "is invalid without a slug" do
     task.slug = nil
-    expect(task).not_to be_valid
-    expect(task.errors[:slug]).to include("can't be blank")
+
+    expect {
+      task.valid?
+    }.to raise_error(ActiveModel::StrictValidationFailed, "Slug can't be blank")
   end
 
   it "enforces uniqueness of name scoped to parent" do
