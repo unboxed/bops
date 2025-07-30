@@ -24,6 +24,10 @@ class EnforcementsController < AuthenticationController
       .enforcements
       .joins(:case_record)
       .by_received_at_desc
+
+    if params["urgent"]
+      @enforcements = @enforcements.where(urgent: true)
+    end
   end
 
   def set_enforcement
@@ -31,6 +35,10 @@ class EnforcementsController < AuthenticationController
       .enforcements
       .joins(:case_record)
       .find_by!(case_record: {id: params[:id]})
+  end
+
+  def filter_params
+    params.permit(:urgent)
   end
 
   def set_case_record
