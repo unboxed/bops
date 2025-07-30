@@ -48,8 +48,6 @@ export default class extends Controller {
     // Confirm that the user wants to send the emails
     if (this.hasSubmitTarget) {
       this.formTarget.addEventListener("submit", (event) => {
-        const form = document.querySelector("form")
-
         if (!confirm(this.confirmationMessage)) {
           event.preventDefault()
 
