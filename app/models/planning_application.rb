@@ -91,26 +91,22 @@ class PlanningApplication < ApplicationRecord
   end
 
   with_options to: :application_type do
-    delegate :appeals?
-    delegate :assess_against_policies?
+    ApplicationTypeFeature::ALL_FEATURES.each_key do |feature|
+      delegate :"#{feature}?", allow_nil: true
+    end
+
+    Consultation::STEPS.each do |feature|
+      delegate :"#{feature}_consultation_feature?"
+    end
+
     delegate :consultation?
     delegate :disclaimer
-    delegate :neighbour_consultation_feature?
-    delegate :consultee_consultation_feature?
-    delegate :publicity_consultation_feature?
     delegate :prior_approval?
     delegate :selected_reporting_types?
     delegate :pre_application?
     delegate :lawfulness_certificate?
     delegate :planning_permission?
     delegate :work_status
-    delegate :considerations?
-    delegate :site_visits?
-    delegate :ownership_details?
-    delegate :planning_conditions?
-    delegate :heads_of_terms?
-    delegate :informatives?
-    delegate :publishable?, allow_nil: true
   end
   delegate :consultee_responses, to: :consultation, allow_nil: true
   delegate :end_date, to: :consultation, prefix: true, allow_nil: true
@@ -679,7 +675,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def possibly_immune?
-    immunity_detail.present?
+    immunity? && immunity_detail.present?
   end
 
   def address_or_boundary_or_constraints_updated?

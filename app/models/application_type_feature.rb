@@ -3,22 +3,31 @@
 class ApplicationTypeFeature
   include StoreModel::Model
 
-  attribute :appeals, :boolean, default: true
-  attribute :assess_against_policies, :boolean, default: false
-  attribute :cil, :boolean, default: true
-  attribute :considerations, :boolean, default: false
+  APPLICATION_DETAILS_FEATURES = {
+    assess_against_policies: false,
+    cil: true,
+    considerations: false,
+    description_change_requires_validation: true,
+    eia: true,
+    heads_of_terms: true,
+    immunity: true,
+    informatives: false,
+    legislative_requirements: true,
+    ownership_details: true,
+    permitted_development_rights: true,
+    planning_conditions: false,
+    publishable: true,
+    site_visits: true
+  }.freeze
+  CONSULTATION_FEATURES = {consultations_skip_bank_holidays: false}.freeze
+  OTHER_FEATURES = {appeals: true}.freeze
+  ALL_FEATURES = APPLICATION_DETAILS_FEATURES.merge(CONSULTATION_FEATURES).merge(OTHER_FEATURES)
+
   attribute :consultation_steps, :list, default: -> { [] }
-  attribute :consultations_skip_bank_holidays, :boolean, default: false
-  attribute :description_change_requires_validation, :boolean, default: true
-  attribute :eia, :boolean, default: true
-  attribute :heads_of_terms, :boolean, default: true
-  attribute :informatives, :boolean, default: false
-  attribute :legislative_requirements, :boolean, default: true
-  attribute :ownership_details, :boolean, default: true
-  attribute :permitted_development_rights, :boolean, default: true
-  attribute :planning_conditions, :boolean, default: false
-  attribute :publishable, :boolean, default: true
-  attribute :site_visits, :boolean, default: true
+
+  ALL_FEATURES.each do |feature, default|
+    attribute feature, :boolean, default: default
+  end
 
   validate :consultation_steps_are_valid
 

@@ -35,7 +35,7 @@
 
       <%= render "assessment_information" %>
 
-      <% if @planning_application.possibly_immune?  && !@planning_application.pre_application? %>
+      <% if @planning_application.possibly_immune? %>
         <%= render "assess_immunity" %>
       <% end %>
 

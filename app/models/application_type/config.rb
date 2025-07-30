@@ -89,22 +89,8 @@ class ApplicationType < ApplicationRecord
       validates :determination_period_days, numericality: {less_than_or_equal_to: 99}
     end
 
-    with_options to: :features do
-      delegate :appeals?
-      delegate :assess_against_policies?
-      delegate :cil?
-      delegate :considerations?
-      delegate :consultations_skip_bank_holidays?
-      delegate :description_change_requires_validation?
-      delegate :eia?
-      delegate :heads_of_terms?
-      delegate :informatives?
-      delegate :legislative_requirements?
-      delegate :ownership_details?
-      delegate :permitted_development_rights?
-      delegate :planning_conditions?
-      delegate :publishable?
-      delegate :site_visits?
+    ApplicationTypeFeature::ALL_FEATURES.each_key do |feature|
+      delegate :"#{feature}?", to: :features
     end
 
     with_options to: :legislation, prefix: true, allow_nil: true do

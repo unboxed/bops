@@ -30,24 +30,7 @@ module BopsConfig
       end
 
       def features_attributes
-        [
-          :appeals,
-          :assess_against_policies,
-          :cil,
-          :considerations,
-          :consultations_skip_bank_holidays,
-          :description_change_requires_validation,
-          :eia,
-          :heads_of_terms,
-          :informatives,
-          :legislative_requirements,
-          :ownership_details,
-          :permitted_development_rights,
-          :planning_conditions,
-          :publishable,
-          :site_visits,
-          {consultation_steps: []}
-        ]
+        ApplicationTypeFeature::ALL_FEATURES.keys + [{consultation_steps: []}]
       end
 
       def set_application_type
