@@ -47,7 +47,7 @@ class TasksController < AuthenticationController
   def build_form
     klass = Tasks.form_for(@task.slug)
 
-    @form = klass.new(@task, enforcement: @enforcement)
+    @form = klass.new(@task)
   end
 
   def task_params
