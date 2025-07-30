@@ -75,10 +75,14 @@ RSpec.describe CaseRecord, type: :model do
   end
 
   describe "#find_task_by_path!" do
-    let(:case_record) { described_class.create!(local_authority:, caseable: enforcement) }
-    let!(:phase) { create(:task, name: "Phase", slug: "phase", parent: case_record) }
-    let!(:step) { create(:task, name: "Step", slug: "step", parent: phase) }
-    let!(:sub_step) { create(:task, name: "Sub Step", slug: "sub-step", parent: step) }
+    let(:phase) { Task.new(name: "Phase", tasks: [step]) }
+    let(:step) { Task.new(name: "Step", tasks: [sub_step]) }
+    let(:sub_step) { Task.new(name: "Sub Step") }
+    let(:case_record) { CaseRecord.new(local_authority:, caseable: enforcement, tasks: [phase]) }
+
+    before do
+      case_record.save!
+    end
 
     it "returns the correct task from a single-segment slug" do
       expect(case_record.find_task_by_path!("phase")).to eq(phase)

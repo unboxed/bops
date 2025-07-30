@@ -40,11 +40,12 @@ class TaskLoader
   private
 
   def build_tasks_for(parent, nodes)
-    Array(nodes).each do |node|
+    Array(nodes).each_with_index do |node, index|
       task = parent.tasks.build(
         name: node["name"],
-        position: node["position"],
-        status: node["status"] || :not_started
+        slug: node["slug"],
+        status: node["status"],
+        position: index
       )
 
       build_tasks_for(task, node["tasks"]) if node["tasks"].present?

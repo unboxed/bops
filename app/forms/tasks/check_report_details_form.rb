@@ -2,9 +2,12 @@
 
 module Tasks
   class CheckReportDetailsForm < BaseForm
-    def initialize(task, enforcement:)
-      super(task)
-      @enforcement = enforcement
+    attr_reader :enforcement
+
+    def initialize(task)
+      super
+
+      @enforcement = case_record.caseable
     end
 
     def permitted_fields(params)
@@ -12,12 +15,12 @@ module Tasks
     end
 
     def update(params)
-      @enforcement.update!(params)
-      @task.update!(status: "completed")
+      enforcement.update!(params)
+      task.update!(status: "completed")
     end
 
     def redirect_url
-      task_path(case_type: "enforcement", case_id: @case_record, slug: parent.full_slug)
+      task_path(case_record, parent)
     end
   end
 end

@@ -35,7 +35,7 @@
 
 <div id="urgent-tag">
   <h2 class="govuk-heading-m govuk-!-margin-top-5"> Is this case urgent? </h2>
-  <%= form_with model: [@task, @enforcement], url: task_path(case_type: "enforcement", case_id: @enforcement.case_record.id, slug: @task.full_slug), method: :patch do |form| %>
+  <%= form_with model: [@task, @enforcement], url: task_path(@case_record, @task), method: :patch do |form| %>
     <div>
       <%= form.govuk_check_box :urgent, 1, 0, label: {text: "Select here if the case is urgent"}, multiple: false %>
     </div>
@@ -47,7 +47,7 @@
     </div>
 
     <%= form.govuk_submit "Save and mark complete", class: "govuk-!-margin-top-5" do %>
-      <%= govuk_button_link_to "Back", task_path(case_type: "enforcement", case_id: @enforcement.case_record.id, slug: @task.parent.full_slug), secondary: true %>
+      <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
     <% end %>
   <% end %>
 </div>
