@@ -95,11 +95,12 @@ class PlanningApplication < ApplicationRecord
       delegate :"#{feature}?", allow_nil: true
     end
 
+    Consultation::STEPS.each do |feature|
+      delegate :"#{feature}_consultation_feature?"
+    end
+
     delegate :consultation?
     delegate :disclaimer
-    delegate :neighbour_consultation_feature?
-    delegate :consultee_consultation_feature?
-    delegate :publicity_consultation_feature?
     delegate :prior_approval?
     delegate :selected_reporting_types?
     delegate :pre_application?
