@@ -13,22 +13,7 @@ module BopsCore
     end
 
     def application_details_features
-      %i[
-        heads_of_terms
-        informatives
-        assess_against_policies
-        considerations
-        legislative_requirements
-        permitted_development_rights
-        planning_conditions
-        cil
-        eia
-        ownership_details
-        site_visits
-        description_change_requires_validation
-        publishable
-        immunity
-      ]
+      ApplicationTypeFeature::APPLICATION_DETAILS_FEATURES.keys.sort
     end
   end
 end
