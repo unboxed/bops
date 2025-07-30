@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module BopsAdmin
+module BopsCore
   module ApplicationTypeHelper
     COLOURS = {
       active: "green",

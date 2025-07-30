@@ -2,6 +2,7 @@
 
 module BopsCore
   module ApplicationHelper
+    include ApplicationTypeHelper
     include GOVUKDesignSystemFormBuilder::BuilderHelper
 
     using HTMLAttributesUtils
