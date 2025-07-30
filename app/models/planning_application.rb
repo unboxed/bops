@@ -680,7 +680,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def possibly_immune?
-    immunity_detail.present?
+    immunity? && immunity_detail.present?
   end
 
   def address_or_boundary_or_constraints_updated?
