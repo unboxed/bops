@@ -59,20 +59,20 @@ jobs:
         specs:
           - { group: "models A-M", directories: "models", pattern: "**/[A-Ma-m]*_spec.rb" }
           - { group: "models N-Z", directories: "models", pattern: "**/[N-Zn-z]*_spec.rb" }
-          - { group: "requests A-M", directories: "requests", pattern: "**/[A-Ma-m]*_spec.rb", want_pdf: true }
+          - { group: "requests A-M", directories: "requests", pattern: "**/[A-Ma-m]*_spec.rb", want_pdf: false }
           - { group: "requests N-Z", directories: "requests", pattern: "**/[N-Zn-z]*_spec.rb", want_pdf: true }
           - { group: "system: rack_test A-F", directories: "system", pattern: "**/[A-Fa-f]*_spec.rb", additional_spec_opts: "--tag ~capybara --tag ~js", want_pdf: true }
-          - { group: "system: rack_test G-L", directories: "system", pattern: "**/[G-Lg-l]*_spec.rb", additional_spec_opts: "--tag ~capybara --tag ~js", want_pdf: true }
-          - { group: "system: rack_test M-S", directories: "system", pattern: "**/[M-Sm-s]*_spec.rb", additional_spec_opts: "--tag ~capybara --tag ~js", want_pdf: true }
-          - { group: "system: rack_test T-Z", directories: "system", pattern: "**/[T-Zt-z]*_spec.rb", additional_spec_opts: "--tag ~capybara --tag ~js", want_pdf: true }
+          - { group: "system: rack_test G-L", directories: "system", pattern: "**/[G-Lg-l]*_spec.rb", additional_spec_opts: "--tag ~capybara --tag ~js", want_pdf: false }
+          - { group: "system: rack_test M-S", directories: "system", pattern: "**/[M-Sm-s]*_spec.rb", additional_spec_opts: "--tag ~capybara --tag ~js", want_pdf: false }
+          - { group: "system: rack_test T-Z", directories: "system", pattern: "**/[T-Zt-z]*_spec.rb", additional_spec_opts: "--tag ~capybara --tag ~js", want_pdf: false }
           - { group: "system: capybara A-C", directories: "system", pattern: "**/[A-Ca-c]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: true }
-          - { group: "system: capybara D-F", directories: "system", pattern: "**/[D-Fd-f]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: true }
-          - { group: "system: capybara G-I", directories: "system", pattern: "**/[G-Ig-i]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: true }
-          - { group: "system: capybara J-L", directories: "system", pattern: "**/[J-Lj-l]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: true }
-          - { group: "system: capybara M-O", directories: "system", pattern: "**/[M-Om-o]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: true }
-          - { group: "system: capybara P-S", directories: "system", pattern: "**/[P-Sp-s]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: true }
-          - { group: "system: capybara T-V", directories: "system", pattern: "**/[T-Vt-v]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: true }
-          - { group: "system: capybara W-Z", directories: "system", pattern: "**/[W-Zw-z]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: true }
+          - { group: "system: capybara D-F", directories: "system", pattern: "**/[D-Fd-f]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: false }
+          - { group: "system: capybara G-I", directories: "system", pattern: "**/[G-Ig-i]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: false }
+          - { group: "system: capybara J-L", directories: "system", pattern: "**/[J-Lj-l]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: false }
+          - { group: "system: capybara M-O", directories: "system", pattern: "**/[M-Om-o]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: false }
+          - { group: "system: capybara P-S", directories: "system", pattern: "**/[P-Sp-s]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: false }
+          - { group: "system: capybara T-V", directories: "system", pattern: "**/[T-Vt-v]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: false }
+          - { group: "system: capybara W-Z", directories: "system", pattern: "**/[W-Zw-z]*_spec.rb", additional_spec_opts: "--tag 'capybara' --tag 'js'", want_pdf: false }
           - { group: "components", want_pdf: true }
           - {
               group: "other",
