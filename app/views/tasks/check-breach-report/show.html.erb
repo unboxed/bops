@@ -30,7 +30,7 @@
   <% @task.tasks.each do |task| %>
       <%= task_list.with_item(
             title: task.name,
-            href: edit_task_path(case_type: "enforcement", case_id: @enforcement.case_record.id, slug: task.full_slug),
+            href: edit_task_path(@case_record, task),
             status: task_status_tag(task)
           ) %>
     <% end %>

@@ -17,7 +17,7 @@ module Tasks
     end
 
     def redirect_url
-      task_path(case_type: "enforcement", case_id: @case_record, slug: parent.full_slug)
+      task_path(case_record, parent)
     end
   end
 end

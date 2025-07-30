@@ -18,6 +18,10 @@ class Task < ApplicationRecord
     @case_record ||= parent.try(:parent) || self
   end
 
+  def to_param
+    full_slug
+  end
+
   private
 
   def set_slug
