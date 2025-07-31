@@ -22,9 +22,9 @@ class TasksController < AuthenticationController
     respond_to do |format|
       format.html do
         if @form.update(task_params)
-          redirect_to @form.redirect_url, notice: "Task updated successfully"
+          redirect_to @form.redirect_url, notice: t(".#{@task.slug.tr("-", "_")}.success")
         else
-          render template_for(:edit)
+          render template_for(:edit), notice: t(".#{@task.slug.tr("-", "_")}.failure")
         end
       end
     end

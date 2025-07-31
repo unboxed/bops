@@ -2541,6 +2541,12 @@ en:
         link_text: Check ownership certificate
     validation_decision_component:
       send_validation_decision: Send validation decision
+  tasks:
+    update:
+      check_description:
+        success: Site description successfully updated
+      check_report_details:
+        success: Report details successfully checkedtime
   time:
     formats:
       default: "%-d %B %Y"
