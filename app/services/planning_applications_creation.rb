@@ -45,8 +45,12 @@ class PlanningApplicationsCreation
   ].freeze
 
   def initialize(**params)
+    @warnings = []
+
     ATTRIBUTES.each do |attribute|
-      instance_variable_set(:"@#{attribute}", params[attribute])
+      value = params[attribute]
+      value = false if %i[regulation_3 regulation_4].include?(attribute) && value.nil?
+      instance_variable_set(:"@#{attribute}", value)
     end
   end
 
@@ -54,18 +58,30 @@ class PlanningApplicationsCreation
     importer
   end
 
+  def warnings
+    @warnings
+  end
+
   private
 
   attr_reader(*ATTRIBUTES)
 
   def importer
-    pa = PlanningApplication.find_or_initialize_by(reference: reference)
-    pa.update!(case_record: CaseRecord.new(local_authority: planning_application_attributes[:local_authority]),
-               **planning_application_attributes)
+    attrs = planning_application_attributes
+
+    pa = PlanningApplication.find_by(reference: reference)
+
+    if pa
+      pa.assign_attributes(attrs)
+    else
+      pa = PlanningApplication.new(attrs.merge(reference: reference))
+    end
+
+    pa.save!
     pa
   rescue => e
     Rails.logger.debug { "[IMPORT ERROR] #{e.class}: #{e.message}" }
-    Rails.logger.debug pa.errors.full_messages.join(", ")
+    Rails.logger.debug pa.errors.full_messages.join(", ") if pa
     raise
   end
 
@@ -78,8 +94,20 @@ class PlanningApplicationsCreation
     when "NOT REQUIRED"
       "not_required"
     else
-      ""
+      nil
     end
+  end
+
+  def resolved_application_type_id
+    raise "Missing application_type_id for reference #{reference}" if application_type_id.blank?
+
+    type = ApplicationType.find_by(code: application_type_id)
+    unless type
+      @warnings << "Application type with code '#{application_type_id}' not found for planning application #{reference}; field omitted."
+      raise "Application type with code '#{application_type_id}' not found"
+    end
+
+    type.id
   end
 
   def planning_application_attributes
@@ -91,7 +119,7 @@ class PlanningApplicationsCreation
       applicant_first_name:,
       applicant_last_name:,
       applicant_email:,
-      application_type_id:,
+      application_type_id: resolved_application_type_id,
       assessment_in_progress_at:,
       awaiting_determination_at:,
       cil_liable:,
@@ -106,7 +134,6 @@ class PlanningApplicationsCreation
       payment_amount:,
       postcode:,
       previous_references:,
-      reference:,
       received_at:,
       reporting_type_code:,
       returned_at:,
@@ -123,7 +150,8 @@ class PlanningApplicationsCreation
       validated_at:,
       ward:,
       withdrawn_at:,
-      local_authority:
+      local_authority:,
+      case_record: CaseRecord.new(local_authority: local_authority)
     }
   end
 end

@@ -1,3 +1,4 @@
+# rubocop:enable Layout/ArgumentAlignment, Layout/FirstArgumentIndentation, Layout/MultilineOperationIndentation
 # frozen_string_literal: true
 
 require "rails_helper"
@@ -5,10 +6,10 @@ require "rails_helper"
 # rubocop:disable Layout/ArgumentAlignment, Layout/FirstArgumentIndentation, Layout/MultilineOperationIndentation
 RSpec.describe PlanningApplicationsCreation do
   let(:local_authority) { create(:local_authority) }
-  let(:application_type) { create(:application_type, local_authority: local_authority) }
+  let(:application_type) { create(:application_type, :ldc_existing, local_authority: local_authority) }
 
   context "with an application that was determined in the past" do
-    target_date = 2.weeks.ago.in_time_zone.to_date
+    target_date = 1.week.from_now.in_time_zone.to_date
     received_at_date = Time.zone.parse("2025-05-27 10:38:35.469341000 +0100")
     assessment_date = Time.zone.parse("2025-05-28 10:38:35.469341000 +0100")
     in_committee_at = Time.zone.parse("2025-05-29 10:38:35.469341000 +0100")
@@ -23,7 +24,7 @@ RSpec.describe PlanningApplicationsCreation do
         applicant_first_name: "Bob",
         applicant_last_name: "Builder",
         applicant_email: "bob@example.com",
-        application_type_id: application_type.id,
+        application_type_id: application_type.code,
         assessment_in_progress_at: assessment_date,
         awaiting_determination_at: nil,
         received_at: received_at_date,
@@ -103,8 +104,8 @@ RSpec.describe PlanningApplicationsCreation do
   end
 
   context "with an application that is in the process of being determined" do
+    target_date = Time.zone.parse("2025-07-01 10:38:35.469341000 +0100").to_date
     received_at_date = Time.zone.parse("2025-05-27 10:38:35.469341000 +0100")
-    target_date_in_progress = Time.zone.parse("2025-07-01 10:38:35.469341000 +0100")
 
     let(:params) do
       {
@@ -115,7 +116,7 @@ RSpec.describe PlanningApplicationsCreation do
         applicant_first_name: "Bob",
         applicant_last_name: "Builder",
         applicant_email: "bob@example.com",
-        application_type_id: application_type.id,
+        application_type_id: application_type.code,
         assessment_in_progress_at: nil,
         awaiting_determination_at: nil,
         received_at: received_at_date,
@@ -126,14 +127,14 @@ RSpec.describe PlanningApplicationsCreation do
         uprn: "10000000001",
         parish_name: "My Parish",
         cil_liable: false,
-        decision: "",
+        decision: nil,
         invalidated_at: nil,
         determined_at: nil,
         valid_ownership_certificate: true,
         previous_references: ["HZY-43232"],
         payment_amount: 892,
         returned_at: nil,
-        target_date: nil,
+        target_date: target_date,
         valid_description: true,
         in_committee_at: nil,
         ownership_certificate_checked: true,
@@ -178,7 +179,7 @@ RSpec.describe PlanningApplicationsCreation do
                       previous_references: ["HZY-43232"],
                       returned_at: nil,
                       determined_at: nil,
-                      target_date: target_date_in_progress.to_date,
+                      target_date: target_date,
                       valid_description: true,
                       in_committee_at: nil,
                       ownership_certificate_checked: true,
