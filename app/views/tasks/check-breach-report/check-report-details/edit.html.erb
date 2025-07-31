@@ -16,7 +16,7 @@
 <% end %>
 
 <div id="quick-close-case">
-  <h2 class="govuk-heading-m govuk-!-margin-top-5"> Quick close </h2>
+  <h2 class="govuk-heading-m govuk-!-margin-top-8"> Quick close </h2>
   <p class="govuk-body">
     If you believe this case can be closed without an investigation you can
     <%= govuk_link_to "close the case.", class: "govuk-body", no_visited_state: true %>
@@ -25,7 +25,7 @@
 </div>
 
 <div id="quick-recommendation">
-  <h2 class="govuk-heading-m govuk-!-margin-top-5"> Quick recommendation </h2>
+  <h2 class="govuk-heading-m govuk-!-margin-top-8"> Quick recommendation </h2>
   <p class="govuk-body">
     If you believe this case is not expedient to enforce you can
     <%= govuk_link_to "make a recommendation.", class: "govuk-body", no_visited_state: true %>
@@ -34,19 +34,19 @@
 </div>
 
 <div id="urgent-tag">
-  <h2 class="govuk-heading-m govuk-!-margin-top-5"> Is this case urgent? </h2>
+  <h2 class="govuk-heading-m govuk-!-margin-top-8"> Is this case urgent? </h2>
   <%= form_with model: [@task, @enforcement], url: task_path(@case_record, @task), method: :patch do |form| %>
     <div>
       <%= form.govuk_check_box :urgent, 1, 0, label: {text: "Select here if the case is urgent"}, multiple: false %>
     </div>
 
     <div id="quick-recommendation">
-      <h2 class="govuk-heading-m govuk-!-margin-top-5"> Check description </h2>
+      <h2 class="govuk-heading-m govuk-!-margin-top-8"> Check description </h2>
       <p class="govuk-body govuk-!-margin-bottom-1"> <%= @enforcement.description %></p>
       <%= govuk_link_to "Edit desciption", class: "govuk-body-small govuk-!-margin-top-1", no_visited_state: true %>
     </div>
 
-    <%= form.govuk_submit "Save and mark complete", class: "govuk-!-margin-top-5" do %>
+    <%= form.govuk_submit "Save and mark as complete", class: "govuk-!-margin-top-8" do %>
       <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
     <% end %>
   <% end %>
