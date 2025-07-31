@@ -15,12 +15,21 @@ module Tasks
     end
 
     def update(params)
-      enforcement.update!(params)
-      task.update!(status: "completed")
+      ActiveRecord::Base.transaction do
+        enforcement.update!(params)
+        task.update!(status: "completed")
+      end
+    rescue ActiveRecord::RecordInvalid
+      flash.now[:alert] = "Unable to update, please contact support"
+      render template_for(:edit)
     end
 
     def redirect_url
       task_path(case_record, parent)
+    end
+
+    def success_message
+      "Check report details successfully completed"
     end
   end
 end

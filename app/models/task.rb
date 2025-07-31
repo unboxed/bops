@@ -18,7 +18,7 @@ class Task < ApplicationRecord
   end
 
   def case_record
-    @case_record ||= parent.try(:parent) || self
+    @case_record ||= parent&.case_record || self
   end
 
   def to_param
@@ -27,5 +27,9 @@ class Task < ApplicationRecord
 
   def top_level?
     parent_type == "CaseRecord"
+  end
+
+  def task_for(slug)
+    Task.find_by!(slug: slug)
   end
 end

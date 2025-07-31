@@ -14,6 +14,7 @@ module Tasks
     "serve-notice-and-monitor-compliance" => BaseForm,
     "process-an-appeal" => BaseForm,
 
-    "check-report-details" => CheckReportDetailsForm
+    "check-report-details" => CheckReportDetailsForm,
+    "check-description" => CheckDescriptionForm
   }.freeze
 end

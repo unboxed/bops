@@ -43,7 +43,7 @@
     <div id="quick-recommendation">
       <h2 class="govuk-heading-m govuk-!-margin-top-8"> Check description </h2>
       <p class="govuk-body govuk-!-margin-bottom-1"> <%= @enforcement.description %></p>
-      <%= govuk_link_to "Edit desciption", class: "govuk-body-small govuk-!-margin-top-1", no_visited_state: true %>
+      <%= govuk_link_to "Edit description", edit_task_path(@case_record, @task.task_for("check-description")), class: "govuk-body-small govuk-!-margin-top-1", no_visited_state: true %>
     </div>
 
     <%= form.govuk_submit "Save and mark as complete", class: "govuk-!-margin-top-8" do %>
