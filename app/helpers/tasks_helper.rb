@@ -4,11 +4,13 @@ module TasksHelper
   def task_status_tag(task)
     colour = case task.status
     when "completed"
-      "green"
+      "grey"
     else
       "blue"
     end
 
-    govuk_tag(text: task.status.humanize, colour:)
+    classes = (task.status == "completed") ? "govuk-tag--status-review_complete" : ""
+
+    govuk_tag(text: task.status.humanize, colour:, classes:)
   end
 end
