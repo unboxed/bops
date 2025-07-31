@@ -2,7 +2,7 @@
       model: search,
       scope: "",
       method: :get,
-      url: enforcements_path
+      url: enforcements_path(anchor: "enforcements")
     ) do |form| %>
   <%# add in error summary with search %>
   <div class="search-form-inputs">
@@ -26,7 +26,7 @@
     <% accordion.with_section(heading_text: "Filters") do %>
       <div class="govuk-accordion__section-content govuk-!-padding-bottom-0">
         <p><strong>Priority</strong></p>
-        <%= form.govuk_check_box(:urgent, "Urgent", small: true, legend: nil, class: "display-flex") %>
+        <%= form.govuk_check_box(:urgent, true, multiple: false, legend: nil, checked: params["urgent"] == "true", class: "display-flex") %>
         <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
       </div>
 

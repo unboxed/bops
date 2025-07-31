@@ -73,10 +73,31 @@ RSpec.describe "Enforcement index page", type: :system do
     end
   end
 
-  it "has a link to the enforcement show page", capybara: true do
+  it "has a link to the enforcement show page" do
     visit "/enforcements"
     click_link "All cases"
     click_link(enforcement.case_record.id)
     expect(page).to have_current_path("/enforcements/#{enforcement.case_record.id}")
+  end
+
+  it "allows me to filter by urgent cases", capybara: true do
+    enforcement_1.update(urgent: true)
+
+    visit "/enforcements"
+    click_link "All cases"
+
+    within("#filters-section") do
+      click_on "Filters"
+
+      check "Urgent"
+      click_button "Apply filters"
+    end
+
+    within("#filters-content") do
+      expect(page).to have_checked_field("Urgent")
+    end
+
+    expect(page).to have_content(enforcement_1.to_s)
+    expect(page).not_to have_content(enforcement.to_s)
   end
 end
