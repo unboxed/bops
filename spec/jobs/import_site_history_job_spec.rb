@@ -10,7 +10,7 @@ RSpec.describe ImportSiteHistoryJob do
   before do
     File.write(csv_path, <<~CSV)
       reference,address_1,agent_first_name,agent_last_name,agent_email,applicant_first_name,applicant_last_name,applicant_email,application_type_id,assessment_in_progress_at,awaiting_determination_at,received_at,description,postcode,town,ward,uprn,parish_name,cil_liable,decision,invalidated_at,valid_ownership_certificate,previous_references,payment_amount,returned_at,target_date,valid_description,in_committee_at,ownership_certificate_checked,regulation_3,regulation_4,valid_fee,valid_red_line_boundary,validated_at
-      ABC123,1 High Street,Alice,Agent,agent@example.com,Bob,Builder,bob@example.com,#{application_type.id},2025-06-01T10:00:00,,2025-05-27T10:38:35,Planning application for a shed with a purple roof,AB1 2CD,Big City,My Ward,10000000001,My Parish,false,GRANT,,true,HZY-43232,892,,2025-06-19,true,2025-06-05T14:00:00,true,false,false,true,true,
+      ABC123,1 High Street,Alice,Agent,agent@example.com,Bob,Builder,bob@example.com,#{application_type.code},2025-06-01T10:00:00,,2025-05-27T10:38:35,Planning application for a shed with a purple roof,AB1 2CD,Big City,My Ward,10000000001,My Parish,false,GRANT,,true,HZY-43232,892,,2025-06-19,true,2025-06-05T14:00:00,true,false,false,true,true,
     CSV
 
     Rails.configuration.import_config = {
@@ -32,7 +32,6 @@ RSpec.describe ImportSiteHistoryJob do
 
     expect(PlanningApplicationsCreation).to have_received(:new).with(
       hash_including(
-        reference: "ABC123",
         address_1: "1 High Street",
         agent_email: "agent@example.com",
         agent_first_name: "Alice",
@@ -40,7 +39,7 @@ RSpec.describe ImportSiteHistoryJob do
         applicant_email: "bob@example.com",
         applicant_first_name: "Bob",
         applicant_last_name: "Builder",
-        application_type_id: "1",
+        application_type_id: application_type.code,
         assessment_in_progress_at: "2025-06-01T10:00:00",
         awaiting_determination_at: nil,
         cil_liable: "false",
