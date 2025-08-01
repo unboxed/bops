@@ -44,6 +44,7 @@ class TaskLoader
       task = parent.tasks.build(
         name: node["name"],
         slug: node["slug"],
+        optional: node.key?("optional") ? node["optional"] : false,
         status: node["status"],
         position: index
       )

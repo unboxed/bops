@@ -25,6 +25,10 @@ class CaseRecord < ApplicationRecord
     find_task_by_path!(*slug_path.to_s.split("/"))
   end
 
+  def case_record
+    self
+  end
+
   private
 
   def generate_uuid
