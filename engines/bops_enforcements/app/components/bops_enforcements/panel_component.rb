@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Enforcements
+module BopsEnforcements
   class PanelComponent < ViewComponent::Base
     include Pagy::Backend
 
