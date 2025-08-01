@@ -1,0 +1,53 @@
+<%= render "bops_enforcements/enforcements/enforcement", title: "Check report details" %>
+
+<%= govuk_accordion do |accordion| %>
+  <%= accordion.with_section(heading_text: "Breach report") do %>
+    <% @enforcement.proposal_details.each do |proposal_detail| %>
+      <%= render(
+            ProposalDetails::SummaryComponent.new(proposal_detail: proposal_detail)
+          ) %>
+    <% end %>
+  <% end %>
+
+  <%= accordion.with_section(heading_text: "Complainant details") { tag.p("Content") } %>
+  <%= accordion.with_section(heading_text: "Site owner and interested parties") { tag.p("Content") } %>
+  <%= accordion.with_section(heading_text: "Documents") { tag.p("Content") } %>
+  <%= accordion.with_section(heading_text: "Photos") { tag.p("Content") } %>
+<% end %>
+
+<div id="quick-close-case">
+  <h2 class="govuk-heading-m govuk-!-margin-top-8">Quick close</h2>
+  <p class="govuk-body">
+    If you believe this case can be closed without an investigation you can
+    <%= govuk_link_to "close the case.", class: "govuk-body", no_visited_state: true %>
+    This decision will <strong>not</strong> be reviewed.
+  </p>
+</div>
+
+<div id="quick-recommendation">
+  <h2 class="govuk-heading-m govuk-!-margin-top-8"> Quick recommendation </h2>
+  <p class="govuk-body">
+    If you believe this case is not expedient to enforce you can
+    <%= govuk_link_to "make a recommendation.", class: "govuk-body", no_visited_state: true %>
+    This decision will be reviewed by a manager.
+  </p>
+</div>
+
+<div id="urgent-tag">
+  <h2 class="govuk-heading-m govuk-!-margin-top-8"> Is this case urgent? </h2>
+  <%= form_with model: [@task, @enforcement], url: task_path(@case_record, @task), method: :patch do |form| %>
+    <div>
+      <%= form.govuk_check_box :urgent, 1, 0, label: {text: "Select here if the case is urgent"}, multiple: false %>
+    </div>
+
+    <div id="quick-recommendation">
+      <h2 class="govuk-heading-m govuk-!-margin-top-8"> Check description </h2>
+      <p class="govuk-body govuk-!-margin-bottom-1"> <%= @enforcement.description %></p>
+      <%= govuk_link_to "Edit description", edit_task_path(@case_record, @task.task_for("check-description")), class: "govuk-body-small govuk-!-margin-top-1", no_visited_state: true %>
+    </div>
+
+    <%= form.govuk_submit "Save and mark as complete", class: "govuk-!-margin-top-8" do %>
+      <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
+    <% end %>
+  <% end %>
+</div>
