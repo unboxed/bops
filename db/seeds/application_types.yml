@@ -8,6 +8,7 @@
   determination_period_days: 56
   features:
     assess_against_policies: true
+    immunity: true
   steps:
     - validation
     - assessment
@@ -35,6 +36,7 @@
   determination_period_days: 56
   features:
     assess_against_policies: true
+    immunity: true
   steps:
     - validation
     - assessment

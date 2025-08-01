@@ -21,6 +21,7 @@ RSpec.describe "Reviewing immunity enforcement" do
       :planning_application,
       :awaiting_determination,
       :with_recommendation,
+      :ldc_existing,
       :with_immunity,
       local_authority: default_local_authority,
       decision: :granted

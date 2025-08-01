@@ -7,7 +7,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let(:planning_application) do
-    create(:planning_application, :in_assessment, local_authority: default_local_authority)
+    create(:planning_application, :in_assessment, :ldc_existing, local_authority: default_local_authority)
   end
 
   let!(:immunity_detail) do
@@ -316,7 +316,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
 
   context "when planning application has not been validated yet" do
     let!(:planning_application) do
-      create(:planning_application, :not_started, local_authority: default_local_authority)
+      create(:planning_application, :not_started, :ldc_existing, local_authority: default_local_authority)
     end
 
     it "does not allow me to visit the page" do

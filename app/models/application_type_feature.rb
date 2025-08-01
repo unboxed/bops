@@ -10,7 +10,7 @@ class ApplicationTypeFeature
     description_change_requires_validation: true,
     eia: true,
     heads_of_terms: true,
-    immunity: true,
+    immunity: false,
     informatives: false,
     legislative_requirements: true,
     ownership_details: true,
