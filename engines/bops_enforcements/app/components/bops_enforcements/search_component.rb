@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module Enforcements
+module BopsEnforcements
   class SearchComponent < ViewComponent::Base
     def initialize(panel_type:, search:)
       @panel_type = panel_type
@@ -12,7 +12,7 @@ module Enforcements
     attr_reader :search, :panel_type
 
     def clear_search_url
-      enforcements_path
+      helpers.enforcements_path
     end
   end
 end

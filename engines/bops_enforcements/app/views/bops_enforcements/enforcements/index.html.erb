@@ -34,7 +34,7 @@
       </h2>
       <%= govuk_tabs do |tabs|
             tabs.with_tab(label: "All cases", id: "all") {
-              render Enforcements::PanelComponent.new(
+              render BopsEnforcements::PanelComponent.new(
                 enforcements: @enforcements,
                 type: :all,
                 search: @search,

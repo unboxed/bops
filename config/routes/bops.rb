@@ -31,6 +31,8 @@ local_authority_subdomain do
 
   mount BopsConsultees::Engine, at: "/consultees", as: :bops_consultees
 
+  mount BopsEnforcements::Engine, at: "/", as: :bops_enforcements
+
   mount BopsReports::Engine, at: "/reports", as: :bops_reports
 
   mount BopsSubmissions::Engine, at: "/api", as: :bops_submissions
@@ -348,14 +350,6 @@ local_authority_subdomain do
         end
       end
     end
-  end
-
-  resources :enforcements, only: %i[index show]
-
-  scope "/cases/:case_id" do
-    get "/*slug/edit", to: "tasks#edit", as: :edit_task
-    patch "/*slug", to: "tasks#update"
-    get "/*slug", to: "tasks#show", as: :task
   end
 
   namespace :public, path: "/" do
