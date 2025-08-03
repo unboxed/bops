@@ -25,7 +25,7 @@ module StatusTags
 
     def colour
       case status.to_sym
-      when :approved, :auto_approved, :supportive, :complies
+      when :approved, :auto_approved, :supportive, :complies, :valid
         "green"
       when :not_started, :new, :review_not_started, :not_consulted, :none, :no_response
         "blue"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_07_24_134042) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_03_134715) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -435,6 +435,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_07_24_134042) do
     t.boolean "available_to_consultees", default: false, null: false
     t.bigint "submission_id"
     t.jsonb "metadata", default: {}, null: false
+    t.boolean "checked", default: false, null: false
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["document_checklist_items_id"], name: "ix_documents_on_document_checklist_items_id"
     t.index ["evidence_group_id"], name: "ix_documents_on_evidence_group_id"

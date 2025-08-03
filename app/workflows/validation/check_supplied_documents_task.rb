@@ -11,12 +11,15 @@ module Validation
     end
 
     def task_list_status
-      if planning_application.all_null_documents? == true
+      checked_count = planning_application.documents.where(checked: true).count
+      total_count = planning_application.documents.count
+
+      if checked_count.zero?
         :not_started
-      elsif planning_application.all_valid_documents? == true
-        :complete
-      else
+      elsif checked_count < total_count
         :in_progress
+      else
+        :complete
       end
     end
   end
