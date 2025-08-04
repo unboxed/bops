@@ -3,11 +3,7 @@
 module Validation
   class FeeValidationTask < WorkflowTask
     def task_list_link_text
-      if planning_application.validated?
-        "Planning application has already been validated"
-      else
-        I18n.t("task_list_items.fee_component.check_fee")
-      end
+      I18n.t("task_list_items.fee_component.check_fee")
     end
 
     def task_list_link

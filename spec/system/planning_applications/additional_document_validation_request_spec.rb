@@ -540,7 +540,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
       within("#check-missing-documents-task") do
-        expect(page).to have_content("Planning application has already been validated")
+        expect(page).not_to have_link("Check and request documents")
       end
     end
   end

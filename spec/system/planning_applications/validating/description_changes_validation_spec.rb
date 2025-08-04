@@ -183,7 +183,7 @@ RSpec.describe "DescriptionChangesValidation" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
       within("#check-description-task") do
-        expect(page).to have_content("Planning application has already been validated")
+        expect(page).not_to have_link("Check description")
       end
     end
   end

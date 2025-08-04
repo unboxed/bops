@@ -15,12 +15,7 @@ module Validation
     end
 
     def task_list_link_text
-      if @planning_application.validated?
-        "Planning application has already been validated"
-      else
-        I18n.t("task_list_items.description_change.check_description")
-
-      end
+      I18n.t("task_list_items.description_change.check_description")
     end
 
     def task_list_link

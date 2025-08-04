@@ -243,7 +243,6 @@ RSpec.describe "Validation tasks" do
         end
 
         within("#check-description-task") do
-          expect(page).to have_content("Planning application has already been validated")
           expect(page).not_to have_link("Check description")
         end
 
@@ -284,7 +283,6 @@ RSpec.describe "Validation tasks" do
       expect(page).to have_content("Confirm application requirements")
       within("#application-requirements-tasks") do
         within("#fee-validation-task") do
-          expect(page).to have_content("Planning application has already been validated")
           expect(page).not_to have_link("Check fee")
         end
 
