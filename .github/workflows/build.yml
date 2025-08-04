@@ -25,6 +25,7 @@ jobs:
           - biome
           - prettier
           - erblint
+          - herb:lint
           - language_versions
       fail-fast: false
     env:
