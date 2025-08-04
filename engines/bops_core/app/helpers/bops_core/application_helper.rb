@@ -3,6 +3,7 @@
 module BopsCore
   module ApplicationHelper
     include ApplicationTypeHelper
+    include TasksHelper
     include GOVUKDesignSystemFormBuilder::BuilderHelper
 
     using HTMLAttributesUtils
@@ -78,6 +79,32 @@ module BopsCore
       else
         main_app.uploaded_file_url(document.blob)
       end
+    end
+
+    def role_name
+      if current_user.assessor?
+        "Case Officer"
+      elsif current_user.reviewer?
+        "Manager"
+      end
+    end
+
+    def active_page_key
+      page_keys = {
+        "planning_applications" => "planning_applications",
+        "enforcements" => "enforcements"
+      }
+
+      page_keys.fetch(controller_name, "dashboard")
+    end
+
+    def nav_items
+      return [] unless current_user
+
+      [
+        {text: "Planning", href: main_app.planning_applications_path, active: active_page_key?("planning_applications")},
+        {text: "Enforcement", href: bops_enforcements.enforcements_path, active: active_page_key?("enforcements")}
+      ]
     end
   end
 end

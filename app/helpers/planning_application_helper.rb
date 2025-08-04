@@ -1,14 +1,6 @@
 # frozen_string_literal: true
 
 module PlanningApplicationHelper
-  def role_name
-    if current_user.assessor?
-      t("user.officer_role")
-    else
-      t("user.manager_role")
-    end
-  end
-
   def validation_request_summary(validation_requests, planning_application)
     if planning_application.invalidated?
       "This application has #{pluralize(validation_requests.count(&:open?),

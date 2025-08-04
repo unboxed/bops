@@ -41,6 +41,12 @@ PATH
       rails (~> 7.2)
 
 PATH
+  remote: engines/bops_enforcements
+  specs:
+    bops_enforcements (0.1.0)
+      bops_core (= 0.1.0)
+
+PATH
   remote: engines/bops_reports
   specs:
     bops_reports (0.1.0)
@@ -704,6 +710,7 @@ DEPENDENCIES
   bops_config!
   bops_consultees!
   bops_core!
+  bops_enforcements!
   bops_reports!
   bops_submissions!
   bops_uploads!

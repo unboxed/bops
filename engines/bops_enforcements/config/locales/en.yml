@@ -1,0 +1,42 @@
+---
+en:
+  bops_enforcements:
+    enforcements:
+      index:
+        follow_ups:
+          one: "%{count}"
+          other: "%{count}"
+          title: Cases with actions to follow-up
+        returned_cases:
+          one: "%{count}"
+          other: "%{count}"
+          title: Cases returned after review
+    panel_component:
+      all: All enforcement cases
+      closed: Closed
+      days_status_tag: Days received
+      description: Description
+      formatted_expiry_date: Expiry date
+      mine: My applications
+      no_enforcements: No enforcement cases
+      not_started_and_invalid: Not started
+      outcome: Outcome
+      status_tag: Status
+      to_param: Case reference
+      to_s: Address
+      unassigned: Unassigned applications
+      urgent: Priority
+      user_name: Planning officer
+    search_component:
+      clear_search: Clear search
+      find_a_case: Find a case
+      search: Search
+      you_can_search: You can search by case number or description
+    tasks:
+      update:
+        check-description:
+          failure: Unable to update site description
+          success: Site description successfully updated
+        check-report-details:
+          failure: Unable to update task
+          success: Report details successfully checked
