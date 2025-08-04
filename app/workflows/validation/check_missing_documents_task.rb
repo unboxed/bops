@@ -3,11 +3,7 @@
 module Validation
   class CheckMissingDocumentsTask < WorkflowTask
     def task_list_link_text
-      if planning_application.validated?
-        "Planning application has already been validated"
-      else
-        I18n.t("task_list_items.additional_document_component.check_missing_documents")
-      end
+      I18n.t("task_list_items.additional_document_component.check_missing_documents")
     end
 
     def task_list_link

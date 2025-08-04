@@ -506,7 +506,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
       within("#fee-validation-task") do
-        expect(page).to have_content("Planning application has already been validated")
+        expect(page).not_to have_link("Check fee")
       end
     end
   end
