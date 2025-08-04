@@ -30,7 +30,7 @@ RSpec.describe "Immunity", type: :system do
 
   context "when immune" do
     let(:planning_application) do
-      create(:planning_application, :in_assessment, :with_immunity, local_authority: default_local_authority)
+      create(:planning_application, :in_assessment, :ldc_existing, :with_immunity, local_authority: default_local_authority)
     end
 
     before do
@@ -51,7 +51,7 @@ RSpec.describe "Immunity", type: :system do
 
   context "when there is both an assessment and review for the immunity of an application" do
     let(:planning_application) do
-      create(:planning_application, :in_assessment, local_authority: default_local_authority)
+      create(:planning_application, :in_assessment, :ldc_existing, local_authority: default_local_authority)
     end
 
     let!(:immunity_detail) { create(:immunity_detail, planning_application:) }

@@ -16,7 +16,8 @@ FactoryBot.define do
       features {
         {
           assess_against_policies: true,
-          heads_of_terms: false
+          heads_of_terms: false,
+          immunity: true
         }
       }
 
@@ -91,6 +92,7 @@ FactoryBot.define do
         {
           "assess_against_policies" => true,
           "heads_of_terms" => false,
+          "immunity" => true,
           "informatives" => true,
           "planning_conditions" => false,
           "consultation_steps" => []
@@ -110,6 +112,7 @@ FactoryBot.define do
         {
           "assess_against_policies" => true,
           "heads_of_terms" => false,
+          "immunity" => true,
           "informatives" => true,
           "planning_conditions" => false,
           "consultation_steps" => []
