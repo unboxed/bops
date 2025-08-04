@@ -361,6 +361,8 @@ class Document < ApplicationRecord
   def update_or_replace(attributes)
     self.attributes = attributes
     self.replacement_file = attributes[:file]
+    self.checked = true
+
     return false unless valid?
 
     if replacement_file.present?
@@ -392,11 +394,13 @@ class Document < ApplicationRecord
 
   def status
     @status ||= if validated?
-      :valid
+      :checked
     elsif replacement_document_validation_request&.open_or_pending?
       :invalid
     elsif ReplacementDocumentValidationRequest.find_by(new_document: self).present?
       :updated
+    elsif checked?
+      :checked
     else
       :not_started
     end

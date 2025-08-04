@@ -74,11 +74,11 @@ RSpec.describe "Redact documents" do
     within("#check-tag-documents-tasks") do
       within("table tbody tr:nth-child(3)") do
         expect(page).to have_text("existing-floorplan-redacted.png")
-        expect(page).to have_text("Valid")
+        expect(page).to have_text("Checked")
       end
       within("table tbody tr:nth-child(4)") do
         expect(page).to have_text("proposed-floorplan-redacted.png")
-        expect(page).to have_text("Valid")
+        expect(page).to have_text("Checked")
       end
     end
 

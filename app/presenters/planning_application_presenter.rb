@@ -20,14 +20,6 @@ class PlanningApplicationPresenter
     send(:"#{status}_at")
   end
 
-  def all_valid_documents?
-    documents.count == documents.validated.count
-  end
-
-  def all_null_documents?
-    documents.count == documents.where(validated: nil).count
-  end
-
   %i[awaiting_determination_at expiry_date outcome_date].each do |date|
     define_method(:"formatted_#{date}") { send(date).to_date.to_fs(:day_month_only) }
   end

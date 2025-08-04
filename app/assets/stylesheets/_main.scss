@@ -212,13 +212,10 @@ p {
   max-width: none;
 }
 
-.govuk-task-list,
-.app-task-list__item,
-.bops-task-accordion__section-status {
-  .govuk-tag--status-complete,
-  .govuk-tag--status-review_complete {
-    background-color: transparent;
-  }
+.govuk-tag--status-complete,
+.govuk-tag--status-review_complete,
+.govuk-tag--status-checked {
+  background-color: transparent;
 }
 
 .header-session-info {

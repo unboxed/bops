@@ -25,6 +25,10 @@ FactoryBot.define do
     archived_at { Time.zone.now }
   end
 
+  trait :checked do
+    checked { true }
+  end
+
   trait :with_tags do
     tags { %w[elevations.proposed photographs.proposed] }
   end

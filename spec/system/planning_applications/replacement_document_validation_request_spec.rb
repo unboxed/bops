@@ -167,7 +167,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       within("#check-tag-documents-tasks") do
         within("table tbody tr:nth-child(1)") do
           expect(page).to have_text("proposed-roofplan.png")
-          expect(page).to have_text("Not started")
+          expect(page).to have_text("Checked")
         end
 
         click_link("proposed-roofplan.png")
@@ -227,7 +227,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       within("#check-tag-documents-tasks") do
         within("table tbody tr:nth-child(1)") do
           expect(page).to have_text("proposed-roofplan.png")
-          expect(page).to have_text("Valid")
+          expect(page).to have_text("Checked")
         end
         within("table tbody tr:nth-child(2)") do
           expect(page).to have_text("proposed-floorplan.png")
@@ -369,7 +369,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       within("#check-tag-documents-tasks") do
         within("table tbody tr:nth-child(1)") do
           expect(page).to have_text("proposed-roofplan.png")
-          expect(page).to have_text("Not started")
+          expect(page).to have_text("Checked")
         end
       end
 

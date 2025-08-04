@@ -23,7 +23,7 @@ RSpec.describe "Downloading planning application documents", type: :system, js: 
   let!(:doc1) { create(:document, :floorplan_tags, :public, file: file1, planning_application:, redacted: true) }
   let!(:doc2) { create(:document, file: file2, planning_application:) }
   let!(:doc3) { create(:document, file: file3, planning_application:) }
-  let!(:doc4) { create(:document, file: file3, planning_application:) }
+  let!(:doc4) { create(:document, :checked, file: file3, planning_application:) }
 
   let(:download_path) { Rails.root.join("tmp/downloads", "#{planning_application.reference}.zip") }
 
@@ -65,7 +65,7 @@ RSpec.describe "Downloading planning application documents", type: :system, js: 
       end
       within("table tbody tr:nth-child(4)") do
         expect(page).to have_text("existing-floorplan-redacted.png")
-        expect(page).to have_text("Not started")
+        expect(page).to have_text("Checked")
       end
     end
 

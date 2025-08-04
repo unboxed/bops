@@ -2385,6 +2385,7 @@ en:
     awaiting_responses: Awaiting responses
     cancelled: Cancelled
     cannot_start_yet: Cannot start yet
+    checked: Checked
     complete: Completed
     complies: Complies
     does_not_comply: Does not comply
