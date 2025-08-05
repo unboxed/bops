@@ -172,6 +172,66 @@ RSpec.describe BopsApi::Application::SearchService do
       end
     end
 
+    context "when filtering by application status" do
+      let(:local_authority) { create(:local_authority) }
+
+      let!(:app1) { create(:planning_application, :in_assessment) }
+      let!(:app2) { create(:planning_application, :to_be_reviewed) }
+
+      context "when no application type codes are provided" do
+        let(:params) { {applicationStatus: [""]} }
+
+        it "returns matching applications" do
+          expect(results).to be_empty
+        end
+      end
+
+      context "when one matching application type code is provided" do
+        let(:params) { {applicationStatus: ["in_assessment", "notvalid"]} }
+
+        it "returns matching applications" do
+          expect(results).to include(app1)
+          expect(results).not_to include(app2)
+        end
+      end
+
+      context "when one application type code is provided" do
+        let(:params) { {applicationStatus: ["in_assessment"]} }
+
+        it "returns matching applications" do
+          expect(results).to include(app1)
+          expect(results).not_to include(app2)
+        end
+      end
+
+      context "when multiple application type codes are provided" do
+        let(:params) { {applicationStatus: ["in_assessment", "to_be_reviewed"]} }
+
+        it "returns matching applications" do
+          expect(results).to include(app1)
+          expect(results).to include(app2)
+        end
+      end
+
+      context "when comma-separated application type codes are provided as a single string" do
+        let(:params) { {applicationStatus: "in_assessment,to_be_reviewed"} }
+
+        it "returns matching applications for both codes" do
+          expect(results).to include(app1)
+          expect(results).to include(app2)
+        end
+      end
+
+      context "when application type code is provided as a single string" do
+        let(:params) { {applicationStatus: "in_assessment"} }
+
+        it "returns matching applications for both codes" do
+          expect(results).to include(app1)
+          expect(results).not_to include(app2)
+        end
+      end
+    end
+
     context "when sorting results" do
       let!(:older_app) { create(:planning_application, published_at: 3.days.ago) }
       let!(:newer_app) { create(:planning_application, published_at: 1.day.ago) }

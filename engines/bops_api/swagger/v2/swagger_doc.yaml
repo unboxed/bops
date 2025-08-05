@@ -35324,6 +35324,15 @@ paths:
         required: false
         schema:
           type: string
+      - name: applicationStatus[]
+        in: query
+        description: Filter by one or more application statuses
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
       - name: applicationType[]
         in: query
         description: Filter by one or more application type codes
@@ -35852,6 +35861,15 @@ paths:
         required: false
         schema:
           type: string
+      - name: applicationStatus[]
+        in: query
+        description: Filter by one or more application statuses
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
       - name: applicationType[]
         in: query
         description: Filter by one or more application type codes
