@@ -192,7 +192,7 @@ class LocalAuthority < ApplicationRecord
   end
 
   def active_attributes?
-    attributes.select { |k, v| ACTIVE_ATTRIBUTES.include?(k) }.each_value.all?(&:present?)
+    attributes.slice(*ACTIVE_ATTRIBUTES).each_value.all?(&:present?)
   end
 
   def onboarded_attributes

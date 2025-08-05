@@ -42,7 +42,7 @@ module PlanningApplications
             end
           else
             flash.now[:alert] = t(".failure")
-            flash.now[:alert] << (": #{@planning_application.errors.join("; ")}") if @planning_application.errors.present?
+            flash.now[:alert] << ": #{@planning_application.errors.join("; ")}" if @planning_application.errors.present?
             render :show
           end
         end
