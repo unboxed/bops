@@ -184,6 +184,10 @@ class PlanningApplication < ApplicationRecord
     joins(:consultation)
       .where(consultations: {end_date: from..to})
   }
+  scope :for_decisions, ->(decisions) {
+  decisions = Array(decisions).compact_blank
+  where(decision: decisions)
+}
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create

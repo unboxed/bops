@@ -37,6 +37,7 @@ module BopsApi
         :publishedAtTo,
         :consultationEndDateFrom,
         :consultationEndDateTo,
+        :councilDecision,
         applicationStatus: [],
         applicationType: [])
     end
