@@ -315,11 +315,11 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
 
       expect(Appsignal).to have_received(:report_error).once do |arg|
         expect(arg).to be_a(JSON::ParserError)
-        expect(arg.message).to match(/unexpected token at 'not \{ valid: json \}'/)
+        expect(arg.message).to match(/unexpected token 'not' at line 1 column 1/)
       end
 
       expect(Rails.logger).to have_received(:warn).with(
-        /ZipExtractionService: Skipping entry Application.json due to JSON::ParserError: unexpected token at 'not { valid: json }/
+        /ZipExtractionService: Skipping entry Application.json due to JSON::ParserError: unexpected token 'not' at line 1 column 1/
       )
 
       expect(submission.reload.json_file).to be_nil
