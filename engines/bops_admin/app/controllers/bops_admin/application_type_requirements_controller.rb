@@ -14,7 +14,7 @@ module BopsAdmin
     end
 
     def update
-      selected_requirement_ids = (params[:application_type][:requirement_ids]).reject { |id| id.blank? || id.to_i == 0 }.map(&:to_i)
+      selected_requirement_ids = params[:application_type][:requirement_ids].reject { |id| id.blank? || id.to_i == 0 }.map(&:to_i)
       existing_requirement_ids = @application_type.application_type_requirements.pluck(:local_authority_requirement_id)
 
       # add new ones

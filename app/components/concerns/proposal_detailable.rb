@@ -15,7 +15,7 @@ module ProposalDetailable
     def formatted_policy_ref(policy_ref)
       url = policy_ref["url"]
       text = policy_ref["text"]
-      link_to_if(url.present?, (url || text), url, class: "govuk-link")
+      link_to_if(url.present?, url || text, url, class: "govuk-link")
     end
   end
 end

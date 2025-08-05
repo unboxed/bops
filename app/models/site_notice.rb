@@ -105,7 +105,7 @@ class SiteNotice < ApplicationRecord
 
   def eia_statement
     eia = planning_application.environment_impact_assessment
-    if eia&.required? && eia&.with_address_email_and_fee?
+    if eia&.required? && eia.with_address_email_and_fee?
       "<p>You can request a hard copy for a fee of £#{eia.fee} by emailing #{eia.email_address} or in person at #{eia.address}.</p>"
     end
   end

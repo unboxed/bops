@@ -2,7 +2,6 @@
 
 require "rails_helper"
 
-# rubocop:disable Layout/ArgumentAlignment, Layout/FirstArgumentIndentation, Layout/MultilineOperationIndentation
 RSpec.describe UsersCreation do
   let(:local_authority) { create(:local_authority) }
 
@@ -23,11 +22,11 @@ RSpec.describe UsersCreation do
 
       u = User.find_by(email: "alice.planner@example.com")
       expect(u).to have_attributes(
-                      name: "Alice Planner",
-                      email: "alice.planner@example.com",
-                      role: "assessor",
-                      local_authority: local_authority
-                    )
+        name: "Alice Planner",
+        email: "alice.planner@example.com",
+        role: "assessor",
+        local_authority: local_authority
+      )
     end
   end
 
@@ -51,13 +50,12 @@ RSpec.describe UsersCreation do
 
       u = User.find_by(email: "bob.planner@example.com")
       expect(u).to have_attributes(
-                      name: "Bob Planner",
-                      email: "bob.planner@example.com",
-                      role: "reviewer",
-                      deactivated_at: deactivated_at_date,
-                      local_authority: local_authority
-                    )
+        name: "Bob Planner",
+        email: "bob.planner@example.com",
+        role: "reviewer",
+        deactivated_at: deactivated_at_date,
+        local_authority: local_authority
+      )
     end
   end
 end
-# rubocop:enable Layout/ArgumentAlignment, Layout/FirstArgumentIndentation, Layout/MultilineOperationIndentation
