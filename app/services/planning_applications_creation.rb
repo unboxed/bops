@@ -65,18 +65,9 @@ class PlanningApplicationsCreation
   attr_reader(*ATTRIBUTES)
 
   def importer
-    attrs = planning_application_attributes
-
-    pa = PlanningApplication.find_by(reference: reference)
-
-    if pa
-      pa.assign_attributes(attrs)
-    else
-      pa = PlanningApplication.new(attrs.merge(reference: reference))
-    end
-
-    pa.save!
-    pa
+    pa = PlanningApplication.find_or_initialize_by(reference: reference)
+    pa.update!(case_record: CaseRecord.new(local_authority: planning_application_attributes[:local_authority]),
+               **planning_application_attributes)
   rescue => e
     Rails.logger.debug { "[IMPORT ERROR] #{e.class}: #{e.message}" }
     Rails.logger.debug pa.errors.full_messages.join(", ") if pa
@@ -146,8 +137,7 @@ class PlanningApplicationsCreation
       validated_at:,
       ward:,
       withdrawn_at:,
-      local_authority:,
-      case_record: CaseRecord.new(local_authority: local_authority)
+      local_authority:
     }
   end
 end
