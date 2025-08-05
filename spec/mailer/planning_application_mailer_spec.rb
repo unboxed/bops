@@ -962,7 +962,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "This is a copy of your neighbour consultation letter."
       )
       expect(mail_body).to include(
-        "Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs(:day_month_year)}"
+        "Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs}"
       )
       expect(mail_body).to include(
         "A prior approval application has been made for the development described below:"
@@ -985,7 +985,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       it "correctly sets the response date based on the next business day" do
         expect(mail_body).to include(
-          "Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs(:day_month_year)}"
+          "Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs}"
         )
       end
     end
