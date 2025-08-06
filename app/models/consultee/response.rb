@@ -64,7 +64,7 @@ class Consultee
     end
 
     def documents=(files)
-      files.select(&:present?).each do |file|
+      files.compact_blank.each do |file|
         documents.new(file: file)
       end
     end

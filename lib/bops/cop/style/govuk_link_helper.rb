@@ -10,7 +10,7 @@ module Bops
         RESTRICT_ON_SEND = %i[link_to govuk_link_to govuk_button_link_to].freeze
 
         def on_send(node)
-          hash_arg = node.arguments.select { _1.type == :hash }.first
+          hash_arg = node.arguments.select { it.type == :hash }.first
           return if hash_arg.nil? || hash_arg.empty? # rubocop:disable Rails/Blank
 
           classes = ""
