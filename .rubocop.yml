@@ -1,12 +1,14 @@
 ---
 require:
   - standard
+  - ./lib/bops/cop.rb
+
+plugins:
+  - rubocop-performance
+  - rubocop-rails
   - standard-custom
   - standard-performance
   - standard-rails
-  - rubocop-performance
-  - rubocop-rails
-  - ./lib/bops/cop.rb
 
 inherit_gem:
   standard: config/base.yml
@@ -15,7 +17,7 @@ inherit_gem:
   standard-rails: config/base.yml
 
 AllCops:
-  TargetRubyVersion: 3.3.0
+  TargetRubyVersion: 3.4.5
   NewCops: enable
   SuggestExtensions: false
   Exclude:
