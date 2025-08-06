@@ -1,4 +1,5 @@
 - name: "Check breach report"
+  section: "Check"
   tasks:
     - name: "Check report details"
       tasks:
@@ -12,6 +13,7 @@
     - name: "Start investigation"
 
 - name: "Investigate and decide"
+  section: "Investigate"
   tasks:
     - name: "Update site and owner details"
       tasks:
@@ -37,8 +39,10 @@
         - name: "Submit recommendation"
 
 - name: "Review recommendation"
+  section: "Review"
 
 - name: "Serve notice and monitor compliance"
+  section: "Serve and monitor"
   tasks:
     - name: "Serve notice"
       tasks:
@@ -47,3 +51,4 @@
     - name: "Required actions"
 
 - name: "Process an appeal"
+  section: "Appeal"

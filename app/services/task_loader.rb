@@ -45,6 +45,7 @@ class TaskLoader
         name: node["name"],
         slug: node["slug"],
         optional: node.key?("optional") ? node["optional"] : false,
+        section: node["section"],
         status: node["status"],
         position: index
       )

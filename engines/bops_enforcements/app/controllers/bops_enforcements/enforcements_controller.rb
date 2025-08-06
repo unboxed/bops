@@ -5,6 +5,7 @@ module BopsEnforcements
     before_action :set_enforcements, only: %i[index]
     before_action :set_enforcement, only: %i[show]
     before_action :set_case_record, only: %i[show]
+    before_action :set_grouped_tasks, only: %i[show]
 
     def index
       respond_to do |format|
@@ -44,6 +45,10 @@ module BopsEnforcements
 
     def set_case_record
       @case_record = @enforcement.case_record
+    end
+
+    def set_grouped_tasks
+      @grouped_tasks = @case_record.tasks.group_by(&:section)
     end
   end
 end
