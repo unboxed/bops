@@ -184,6 +184,10 @@ class PlanningApplication < ApplicationRecord
     joins(:consultation)
       .where(consultations: {end_date: from..to})
   }
+  scope :for_council_decision, ->(decision) {
+    where(decision: decision)
+      .where.not(determination_date: nil)
+  }
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create

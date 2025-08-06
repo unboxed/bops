@@ -23,6 +23,7 @@ module BopsApi
         @scope = filter_by_application_type_code
         @scope = filter_by_application_status
         @scope = apply_date_filters
+        @scope = filter_by_application_decision
         @scope = search
         @scope = sort
 
@@ -74,6 +75,14 @@ module BopsApi
             current
           end
         end
+      end
+
+      def filter_by_application_decision
+        decision = params[:councilDecision]
+
+        return scope if decision.blank?
+
+        scope.for_council_decision(decision)
       end
 
       def parse_date(date_string)
