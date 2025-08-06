@@ -30,7 +30,7 @@
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <ol data-controller="sortable" id="conditions-list" class="govuk-list sortable-list">
       <% @condition_set.not_cancelled_conditions.each do |condition| %>
-        <%= next unless condition.persisted? %>
+        <% next unless condition.persisted? %>
 
         <%= render(Sortable::ListItemComponent.new(
               record: condition,

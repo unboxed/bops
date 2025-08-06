@@ -16,13 +16,24 @@
       <%= @planning_application.status_tag %>
       <%= @planning_application.days_status_tag %>
     </p>
-      <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-        <div class="govuk-notification-banner__header">
-          <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-            Important
-          </h2>
+
+    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+      <div class="govuk-notification-banner__header">
+        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+          Important
+        </h2>
+      </div>
+
+      <% if @planning_application.consultation.complete? %>
+        <div class="govuk-notification-banner__content">
+          <p class="govuk-notification-banner__heading">
+            Consulation for this planning application has ended
+          </p>
+          <p>
+            Please contact the planning officer if you have further comments.
+          </p>
         </div>
-      <% unless @planning_application.consultation.complete? %>
+      <% else %>
         <div class="govuk-notification-banner__content">
           <p class="govuk-notification-banner__heading">
             Submit your comments by
@@ -34,18 +45,9 @@
           </p>
         </div>
       </div>
-      <% else %>
-        <div class="govuk-notification-banner__content">
-          <p class="govuk-notification-banner__heading">
-            Consulation for this planning application has ended
-          </p>
-          <p>
-            Please contact the planning officer if you have further comments.
-          </p>
-        </div>
-      </div>
-      <% end %>
+    <% end %>
   </div>
+
   <div class="govuk-grid-column-full">
     <% if @planning_application.boundary_geojson.present? %>
       <%= tag.div id: :"map-container", data: {

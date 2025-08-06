@@ -19,21 +19,20 @@
     <%= form_with model: @informative, url: planning_application_review_informatives_item_path(@planning_application, @informative) do |form| %>
       <%= form.govuk_error_summary %>
 
-        <%= form.govuk_fieldset legend: {text: "Edit to accept"} do %>
-          <p>
-            Use this form to make minor changes, such as fixing spelling errors.
-            If you want to suggest changes to the content of the informatives,
-            return the application to the case officer.
-          </p>
+      <%= form.govuk_fieldset legend: {text: "Edit to accept"} do %>
+        <p>
+          Use this form to make minor changes, such as fixing spelling errors.
+          If you want to suggest changes to the content of the informatives,
+          return the application to the case officer.
+        </p>
 
-          <%= form.govuk_text_field :title, label: {text: "Enter a title"} %>
-          <%= form.govuk_text_area :text, label: {text: "Enter details of the informative"} %>
-        <% end %>
+        <%= form.govuk_text_field :title, label: {text: "Enter a title"} %>
+        <%= form.govuk_text_area :text, label: {text: "Enter details of the informative"} %>
+      <% end %>
 
-        <%= form.govuk_submit("Save informative") do %>
-          <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application, anchor: "review-informatives"), secondary: true) %>
-        <% end %>
-      </div>
+      <%= form.govuk_submit("Save informative") do %>
+        <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application, anchor: "review-informatives"), secondary: true) %>
+      <% end %>
     <% end %>
   </div>
 </div>

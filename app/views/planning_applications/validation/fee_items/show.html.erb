@@ -66,7 +66,7 @@
             <th scope="row" class="govuk-table__header">
               Exemptions
             </th>
-              <td class="govuk-table__cell govuk-table__cell--numeric">
+            <td class="govuk-table__cell govuk-table__cell--numeric">
               <% if @planning_application.fee_calculation.exemptions.present? %>
                 <%= @planning_application.fee_calculation.exemptions.map(&:humanize).to_sentence %>
               <% else %>
@@ -100,6 +100,7 @@
               <% if  @planning_application.fee_calculation.requested_fee.present? %>
                 (set by PO)
               <% end %>
+            </th>
             <td class="govuk-table__cell govuk-table__cell--numeric">
               <%= number_to_currency(@planning_application.fee_calculation.requested_fee || @planning_application.fee_calculation.payable_fee || 0, unit: "£") %>
             </td>

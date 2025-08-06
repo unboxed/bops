@@ -7,7 +7,7 @@
   <table class="govuk-table">
     <tbody class="govuk-table__body">
       <% documents.each do |document| %>
-        <%= next unless document.persisted? %>
+        <% next unless document.persisted? %>
         <tr class="govuk-table__row" id="<%= dom_id(document) %>">
           <td class="govuk-table__cell govuk-!-width-one-half">
             <%= render(
@@ -42,7 +42,7 @@
                 Drawing number: <strong><%= document.numbers %></strong>
               </p>
             <% end %>
-          </div>
+          </td>
         </tr>
       <% end %>
     </tbody>
