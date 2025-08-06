@@ -14,6 +14,6 @@
   <%= render(FormattedContentComponent.new(text: validation_request.cancel_reason)) %>
 
   <p>
-    <%= validation_request.cancelled_at.to_time.to_fs(:day_month_year) %>
+    <%= validation_request.cancelled_at.to_time.to_fs %>
   </p>
 </div>
