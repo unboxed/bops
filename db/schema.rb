@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_05_101634) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_06_043822) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -467,6 +467,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_05_101634) do
     t.string "uprn"
     t.geography "boundary_geojson", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
+    t.geography "boundary", limit: {srid: 4326, type: "geometry_collection", geographic: true}
   end
 
   create_table "environment_impact_assessments", force: :cascade do |t|
