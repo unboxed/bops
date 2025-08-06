@@ -349,6 +349,30 @@ RSpec.describe BopsApi::Application::SearchService do
       end
     end
 
+    context "when filtering by application decision" do
+      let(:local_authority) { create(:local_authority) }
+
+      let!(:app1) { create(:planning_application, :in_assessment) }
+      let!(:app2) { create(:planning_application, :determined) }
+
+      context "when no applicaton decisions are provided" do
+        let(:params) { {councilDecision: nil} }
+
+        it "returns matching applications" do
+          puts results
+          expect(results).to match_array([app1, app2])
+        end
+      end
+
+      context "when one matching application decision is provided" do
+        let(:params) { {councilDecision: "granted"} }
+
+        it "returns matching applications" do
+          expect(results).to match_array([app2])
+        end
+      end
+    end
+
     context "when chaining multiple filters: date + search" do
       let!(:roof_a) do
         create(:planning_application, received_at: 5.days.ago, published_at: 5.days.ago, description: "A roof extension")

@@ -171,6 +171,10 @@ class PlanningApplication < ApplicationRecord
   scope :published, -> { publishable.where.not(published_at: nil) }
   scope :in_review, -> { where(status: IN_REVIEW_STATUSES) }
   scope :closed_or_cancelled, -> { where(status: CLOSED_STATUSES) }
+  scope :for_council_decision, ->(decision) {
+    where(decision: decision)
+      .where.not(determination_date: nil)
+  }
   scope :received_at_between, ->(from, to) {
     where(received_at: from..to)
   }
@@ -184,10 +188,6 @@ class PlanningApplication < ApplicationRecord
     joins(:consultation)
       .where(consultations: {end_date: from..to})
   }
-  scope :for_decisions, ->(decisions) {
-  decisions = Array(decisions).compact_blank
-  where(decision: decisions)
-}
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create

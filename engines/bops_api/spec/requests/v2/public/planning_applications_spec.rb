@@ -22,6 +22,7 @@ RSpec.describe "BOPS public API" do
   let(:invalidated) { create(:planning_application, :with_boundary_geojson_features, :published, local_authority:, application_type:, description: "This is not valid even if marked as published", status: :invalidated) }
   let("applicationStatus[]") { [] }
   let("applicationType[]") { [] }
+  let("councilDecision") { nil }
   let(:orderBy) { "desc" }
   let(:sortBy) { "publishedAt" }
 
