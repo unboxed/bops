@@ -21,7 +21,7 @@ module PlanningApplications
     private
 
     def additional_services_names
-      params.require(:planning_application).require(:additional_services).select(&:present?).map(&:to_sym)
+      params.require(:planning_application).require(:additional_services).compact_blank.map(&:to_sym)
     end
 
     def redirect_unless_preapp

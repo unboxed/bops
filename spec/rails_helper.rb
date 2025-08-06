@@ -9,7 +9,7 @@ require "rspec/rails"
 require "email_spec"
 require "email_spec/rspec"
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+Rails.root.glob("spec/support/**/*.rb").each { |f| require f }
 
 ActiveJob::Base.queue_adapter = :test
 

@@ -30,7 +30,7 @@ class SiteVisit < ApplicationRecord
   delegate :consultation, to: :planning_application, allow_nil: true
 
   def documents=(files)
-    files.select(&:present?).each do |file|
+    files.compact_blank.each do |file|
       documents.new(file: file, planning_application: planning_application, tags: %w[internal.siteVisit])
     end
   end

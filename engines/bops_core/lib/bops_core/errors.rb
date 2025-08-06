@@ -51,7 +51,7 @@ module BopsCore
         fonts_dir = public_path.join("fonts")
         FileUtils.mkdir_p(fonts_dir)
 
-        Dir[Rails.root.join("app/assets/fonts/*.woff2")].each do |font|
+        Rails.root.glob("app/assets/fonts/*.woff2").each do |font|
           FileUtils.cp(font, fonts_dir.join(File.basename(font)))
         end
       end
