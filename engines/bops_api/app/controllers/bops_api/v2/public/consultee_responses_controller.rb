@@ -7,9 +7,15 @@ module BopsApi
         def index
           @planning_application = find_planning_application params[:planning_application_id]
           @consultation = @planning_application.consultation
-          raise BopsApi::Errors::InvalidRequestError, "Consultation not found" unless @consultation
 
-          consultation_consultees = @consultation.consultees.includes(:responses)
+          if @consultation
+            consultation_consultees = @consultation.consultees.includes(:responses)
+            redacted_responses = @consultation.consultee_responses.redacted
+          else
+            consultation_consultees = Consultee.none
+            redacted_responses = Consultee::Response.none
+            @total_consulted = 0
+          end
 
           latest_redacted_responses = consultation_consultees
             .map { |consultee| consultee.responses.redacted.max_by(&:id) }
@@ -25,9 +31,9 @@ module BopsApi
             objected: summary_counts["objected"] || 0,
             amendments_needed: summary_counts["amendments_needed"] || 0
           }
-          redacted_responses = @consultation.consultee_responses.redacted
+
           @total_available_items = redacted_responses.count
-          @total_consulted = @consultation.consultees.consulted.count
+          @total_consulted ||= consultation_consultees.consulted.count
 
           @pagy, @comments = BopsApi::Postsubmission::CommentsSpecialistService.new(
             redacted_responses,
