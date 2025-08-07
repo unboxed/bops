@@ -200,6 +200,7 @@ class PlanningApplication < ApplicationRecord
       .where.not(determination_date: nil)
   }
 
+  before_validation :create_case_record, on: :create
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create
   before_validation :reset_published_at, unless: [:can_publish?, :validated?]
@@ -1296,6 +1297,10 @@ class PlanningApplication < ApplicationRecord
     return unless determination_date >= Time.zone.tomorrow
 
     errors.add(:determination_date, "Determination date must be today or in the past")
+  end
+
+  def create_case_record
+    self.case_record ||= CaseRecord.new(caseable: self, local_authority_id: attributes["local_authority_id"])
   end
 
   def set_application_number
