@@ -162,10 +162,10 @@ class PlanningApplication < ApplicationRecord
     joins(:application_type)
       .where(application_types: {code: codes})
   }
-  scope :for_user, ->(user_id) { where(user_id: user_id) }
+  scope :for_user, ->(user_id) { joins(:case_record).where(case_record: {user_id: user_id}) }
   scope :for_current_user, -> { for_user(Current.user.id) }
-  scope :for_null_users, -> { where(user_id: nil) }
-  scope :for_user_and_null_users, ->(user_id) { where(user_id: [user_id, nil]) }
+  scope :for_null_users, -> { joins(:case_record).where(case_record: {user_id: nil}) }
+  scope :for_user_and_null_users, ->(user_id) { joins(:case_record).where(case_record: {user_id: [user_id, nil]}) }
   scope :prior_approvals, -> { joins(:application_type).where(application_type: {name: :prior_approval}) }
   scope :accepted, -> { where.not(status: "pending") }
   scope :published, -> { publishable.where.not(published_at: nil) }
