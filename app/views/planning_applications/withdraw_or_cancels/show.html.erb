@@ -27,7 +27,7 @@
             </p>
             <%= form.hidden_field :status, value: :deleted %>
             <h2 class="govuk-heading-m">Delete application entirely (caution!)</h2>
-            <div id="deleted-hint" class="govuk-hint">
+            <div class="govuk-hint">
               Do not use this for live data
             </div>
           <% elsif !@planning_application.in_progress? %>
@@ -40,7 +40,7 @@
 
             <%= form.hidden_field :status, value: :deleted %>
             <h2 class="govuk-heading-m">Delete application entirely (caution!)</h2>
-            <div id="deleted-hint" class="govuk-hint">
+            <div class="govuk-hint">
               Do not use this for live data
             </div>
           <% else %>
@@ -71,7 +71,7 @@
                     <%= form.radio_button :status, "deleted", class: "govuk-radios__input", id: "deleted", "aria-controls": "conditional-status-deleted-conditional", "aria-expanded": "false" %>
                     <%= form.label :deleted, "Deleted entirely (caution!)", class: "govuk-label govuk-radios__label", for: "deleted" %>
                   </div>
-                  <div id="deleted-hint" class="govuk-hint">
+                  <div class="govuk-hint">
                     Do not use this for live data
                   </div>
                 </div>

@@ -1,20 +1,18 @@
-<% if file_downloader.errors.any? %>
-  <a name="token-file-downloader-field-error"></a>
-<% end %>
-
-<%= form.fields :file_downloader do |fields| %>
-  <%= fields.govuk_radio_buttons_fieldset(:type, legend: {size: "m", text: t(".legend")}, hint: {text: t(".hint")}) do %>
-    <%= fields.govuk_radio_button :type, "NoAuthentication", label: {text: t(".labels.no_authentication")} %>
-    <%= fields.govuk_radio_button :type, "BasicAuthentication", label: {text: t(".labels.basic_authentication")} do %>
-      <%= fields.govuk_text_field :username, label: {text: t(".labels.username")} %>
-      <%= fields.govuk_text_field :password, label: {text: t(".labels.password")} %>
-    <% end %>
-    <%= fields.govuk_radio_button :type, "BearerAuthentication", label: {text: t(".labels.bearer_authentication")} do %>
-      <%= fields.govuk_text_field :token, label: {text: t(".labels.token")} %>
-    <% end %>
-    <%= fields.govuk_radio_button :type, "HeaderAuthentication", label: {text: t(".labels.header_authentication")} do %>
-      <%= fields.govuk_text_field :key, label: {text: t(".labels.key")} %>
-      <%= fields.govuk_text_field :value, label: {text: t(".labels.value")} %>
+<div id="token-file-downloader-field-error">
+  <%= form.fields :file_downloader do |fields| %>
+    <%= fields.govuk_radio_buttons_fieldset(:type, legend: {size: "m", text: t(".legend")}, hint: {text: t(".hint")}) do %>
+      <%= fields.govuk_radio_button :type, "NoAuthentication", label: {text: t(".labels.no_authentication")} %>
+      <%= fields.govuk_radio_button :type, "BasicAuthentication", label: {text: t(".labels.basic_authentication")} do %>
+        <%= fields.govuk_text_field :username, label: {text: t(".labels.username")} %>
+        <%= fields.govuk_text_field :password, label: {text: t(".labels.password")} %>
+      <% end %>
+      <%= fields.govuk_radio_button :type, "BearerAuthentication", label: {text: t(".labels.bearer_authentication")} do %>
+        <%= fields.govuk_text_field :token, label: {text: t(".labels.token")} %>
+      <% end %>
+      <%= fields.govuk_radio_button :type, "HeaderAuthentication", label: {text: t(".labels.header_authentication")} do %>
+        <%= fields.govuk_text_field :key, label: {text: t(".labels.key")} %>
+        <%= fields.govuk_text_field :value, label: {text: t(".labels.value")} %>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+</div>

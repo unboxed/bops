@@ -19,22 +19,21 @@
     <%= form_with model: @condition, url: planning_application_review_pre_commencement_conditions_item_path(@planning_application, @condition) do |form| %>
       <%= form.govuk_error_summary %>
 
-        <%= form.govuk_fieldset legend: {text: "Edit to accept"} do %>
-          <p>
-            Use this form to make minor changes, such as fixing spelling errors.
-            If you want to suggest changes to the content of the condition,
-            return the application to the case officer.
-          </p>
+      <%= form.govuk_fieldset legend: {text: "Edit to accept"} do %>
+        <p>
+          Use this form to make minor changes, such as fixing spelling errors.
+          If you want to suggest changes to the content of the condition,
+          return the application to the case officer.
+        </p>
 
-          <%= form.govuk_text_field :title, label: {text: "Enter a title"} %>
-          <%= form.govuk_text_area :text, label: {text: "Enter details of the condition"} %>
-          <%= form.govuk_text_area :reason, label: {text: "Enter a reason for this condition"} %>
-        <% end %>
+        <%= form.govuk_text_field :title, label: {text: "Enter a title"} %>
+        <%= form.govuk_text_area :text, label: {text: "Enter details of the condition"} %>
+        <%= form.govuk_text_area :reason, label: {text: "Enter a reason for this condition"} %>
+      <% end %>
 
-        <%= form.govuk_submit("Save condition") do %>
-          <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application, anchor: "review-pre-commencement-conditions"), secondary: true) %>
-        <% end %>
-      </div>
+      <%= form.govuk_submit("Save condition") do %>
+        <%= govuk_button_link_to(t("back"), planning_application_review_tasks_path(@planning_application, anchor: "review-pre-commencement-conditions"), secondary: true) %>
+      <% end %>
     <% end %>
   </div>
 </div>

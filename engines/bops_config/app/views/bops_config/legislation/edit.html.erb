@@ -20,7 +20,7 @@
 <% if @legislation.application_types.any? %>
   <h2 class="govuk-heading-m">
     <%= t(".application_types_with") %>
-  </h1>
+  </h2>
 
   <%= render "bops_config/application_types/table", application_types: @legislation.application_types %>
 <% end %>

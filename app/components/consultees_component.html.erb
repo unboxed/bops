@@ -7,7 +7,7 @@
 <%= render NoConsulteesComponent.new(consultees: consultees) %>
 <%= render AddConsulteeComponent.new(consultees: consultees, form: form) %>
 
-<template id="consultee-template" data-consultees-target="template">
+<template data-consultees-target="template">
   <tr class="govuk-table__row just-added">
     <td class="govuk-table__cell govuk-!-padding-0">
       <input autocomplete="off" type="hidden">

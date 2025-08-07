@@ -10,23 +10,26 @@
     <h1 class="govuk-heading-l">
       <%= t(".local_authorities") %>
     </h1>
+
     <div class="govuk-tabs" data-module="govuk-tabs">
-    <%= govuk_tabs do |tabs| %>
-      <% tabs.with_tab(label: "All") do %>
-        <%= render("table", local_authorities: @local_authorities) %>
+      <%= govuk_tabs do |tabs| %>
+        <% tabs.with_tab(label: "All") do %>
+          <%= render("table", local_authorities: @local_authorities) %>
+        <% end %>
+
+        <% tabs.with_tab(label: "Active") do %>
+          <%= render("table", local_authorities: @local_authorities.select(&:active?)) %>
+        <% end %>
+
+        <% tabs.with_tab(label: "Inactive") do %>
+          <%= render("table", local_authorities: @local_authorities.select(&:inactive?)) %>
+        <% end %>
       <% end %>
 
-      <% tabs.with_tab(label: "Active") do %>
-        <%= render("table", local_authorities: @local_authorities.select(&:active?)) %>
-      <% end %>
-
-      <% tabs.with_tab(label: "Inactive") do %>
-        <%= render("table", local_authorities: @local_authorities.select(&:inactive?)) %>
-      <% end %>
-    <% end %>
-    <div class="govuk-button-group">
-      <%= govuk_button_link_to "Onboard local authority", new_local_authority_path, secondary: true %>
-      <%= back_link %>
+      <div class="govuk-button-group">
+        <%= govuk_button_link_to "Onboard local authority", new_local_authority_path, secondary: true %>
+        <%= back_link %>
+      </div>
     </div>
   </div>
 </div>

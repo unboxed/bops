@@ -25,6 +25,7 @@
     <p>
       <%= govuk_link_to "View map on Planning Data", planning_data_map_url(@planning_application_constraints.flat_map(&:dataset).compact, @planning_application), new_tab: true %>
     </p>
+
     <%= render(
           partial: "table",
           locals: {
@@ -36,6 +37,8 @@
             show_action: true
           }
         ) %>
+  </div>
+</div>
 
 <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-full">

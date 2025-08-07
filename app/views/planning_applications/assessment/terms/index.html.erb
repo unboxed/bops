@@ -21,7 +21,7 @@
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <ol data-controller="sortable" id="heads-of-terms-list" class="govuk-list sortable-list">
       <% @heads_of_term.not_cancelled_terms.each do |term| %>
-        <%= next unless term.persisted? %>
+        <% next unless term.persisted? %>
         <%= render(Sortable::ListItemComponent.new(
               record: term,
               record_class: "term",
