@@ -230,9 +230,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def build_planning_application
     @planning_application = current_local_authority.planning_applications.new
-    @planning_application.case_record = CaseRecord.new(local_authority: current_local_authority)
-
-    @planning_application
   end
 
   def planning_application_params
