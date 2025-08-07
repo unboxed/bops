@@ -21,6 +21,7 @@ module BopsApi
 
       def call
         @scope = filter_by_application_type_code
+        @scope = filter_by_application_status
         @scope = apply_date_filters
         @scope = search
         @scope = sort
@@ -38,7 +39,7 @@ module BopsApi
       end
 
       def filter_by_application_type_code
-        return @scope if params[:applicationType].blank?
+        return scope if params[:applicationType].blank?
 
         codes = Array(params[:applicationType])
           .flat_map { |c| c.to_s.split(",") }
@@ -47,6 +48,15 @@ module BopsApi
           .uniq
 
         scope.for_application_type_codes(codes)
+      end
+
+      def filter_by_application_status
+        status = params[:applicationStatus]
+        return scope if status.blank?
+
+        status = status.split(",").compact_blank if status.is_a? String
+
+        scope.where(status:)
       end
 
       def apply_date_filters

@@ -44,6 +44,7 @@ RSpec.describe "BOPS API" do
   let(:page) { 2 }
   let(:maxresults) { 5 }
   let("ids[]") { [] }
+  let("applicationStatus[]") { [] }
   let("applicationType[]") { [] }
   let(:orderBy) { "desc" }
   let(:sortBy) { "publishedAt" }

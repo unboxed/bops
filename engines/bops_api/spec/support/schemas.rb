@@ -32,6 +32,18 @@ RSpec.configure do |config|
           type: :string
         }
 
+      parameter name: "applicationStatus[]",
+        in: :query,
+        description: "Filter by one or more application statuses",
+        style: :form,
+        explode: true,
+        schema: {
+          type: :array,
+          items: {
+            type: :string
+          }
+        }
+
       parameter name: "applicationType[]",
         in: :query,
         description: "Filter by one or more application type codes",
