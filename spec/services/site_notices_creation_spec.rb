@@ -17,7 +17,7 @@ RSpec.describe SiteNoticesCreation do
       {
         reference: reference,
         displayed_at: Date.new(2025, 8, 1),
-        expiry_date: Date.new(2025, 8, 15),
+        expiry_date: Date.new(2025, 8, 15)
       }
     end
 
@@ -40,7 +40,7 @@ RSpec.describe SiteNoticesCreation do
       {
         reference: "APP/9999/0000",
         displayed_at: Date.new(2025, 8, 1),
-        expiry_date: Date.new(2025, 8, 15),
+        expiry_date: Date.new(2025, 8, 15)
       }
     end
 
