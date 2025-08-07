@@ -35418,6 +35418,17 @@ paths:
           - publishedAt
           - receivedAt
           default: receivedAt
+      - name: councilDecision
+        in: query
+        description: Filter by council decision
+        schema:
+          type: string
+          required: false
+          enum:
+          - refused
+          - granted
+          - not_required
+          default:
       responses:
         '200':
           description: returns planning applications when searching by a reference
@@ -35955,6 +35966,17 @@ paths:
           - publishedAt
           - receivedAt
           default: receivedAt
+      - name: councilDecision
+        in: query
+        description: Filter by council decision
+        schema:
+          type: string
+          required: false
+          enum:
+          - refused
+          - granted
+          - not_required
+          default:
       - name: resultsPerPage
         in: query
         schema:

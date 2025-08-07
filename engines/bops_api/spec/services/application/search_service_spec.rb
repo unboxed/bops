@@ -390,5 +390,28 @@ RSpec.describe BopsApi::Application::SearchService do
         expect(results).to eq([mid, new])
       end
     end
+
+    context "when filtering by decision" do
+      let(:local_authority) { create(:local_authority) }
+
+      let!(:app1) { create(:planning_application, :in_assessment) }
+      let!(:app2) { create(:planning_application, :determined) }
+
+      context "when no applicaton decisions are provided" do
+        let(:params) { {councilDecision: nil} }
+
+        it "returns matching applications" do
+          expect(results).to match_array([app1, app2])
+        end
+      end
+
+      context "when one matching application decision is provided" do
+        let(:params) { {councilDecision: "granted"} }
+
+        it "returns matching applications" do
+          expect(results).to match_array([app2])
+        end
+      end
+    end
   end
 end

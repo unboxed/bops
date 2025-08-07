@@ -147,6 +147,16 @@ RSpec.configure do |config|
           enum: ["publishedAt", "receivedAt"],
           default: "receivedAt"
         }
+
+      parameter name: :councilDecision,
+        in: :query,
+        description: "Filter by council decision",
+        schema: {
+          type: :string,
+          required: false,
+          enum: ["refused", "granted", "not_required"],
+          default: nil
+        }
     end
 
     private
