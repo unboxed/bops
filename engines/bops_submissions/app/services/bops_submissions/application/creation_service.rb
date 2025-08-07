@@ -32,9 +32,8 @@ module BopsSubmissions
       end
 
       def build_planning_application
-        PlanningApplication.new(planning_application_params).tap do |pa|
-          pa.case_record = CaseRecord.new(local_authority:, submission:)
-          pa.local_authority_id = local_authority.id
+        local_authority.create_planning_application!(planning_application_params).tap do |pa|
+          pa.case_record.submission = submission
         end
       end
 
