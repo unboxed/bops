@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Check breach report", type: :system, capybara: true do
+RSpec.describe "Check report details", type: :system, capybara: true do
   let(:local_authority) { create(:local_authority, :default) }
   let(:case_record) { build(:case_record, local_authority:) }
   let(:enforcement) { create(:enforcement, case_record:) }
