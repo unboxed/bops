@@ -32,31 +32,15 @@ api-docs:
 submission-api-docs:
 	$(DOCKER-RUN) console rake submission_api:docs:generate
 
-api-specs:
-	$(DOCKER-RUN) console rspec engines/bops_api/spec
+submission-api-specs: submissions-specs
+	@: # noop: for backwards compatibility with a name that didn't fit the pattern
 
-submission-api-specs:
-	$(DOCKER-RUN) console rspec engines/bops_submissions/spec
+%-specs:
+	$(DOCKER-RUN) console rspec engines/bops_$(@:%-specs=%)/spec
 
-admin-specs:
-	$(DOCKER-RUN) console rspec engines/bops_admin/spec
-
-applicants-specs:
-	$(DOCKER-RUN) console rspec engines/bops_applicants/spec
-
-config-specs:
-	$(DOCKER-RUN) console rspec engines/bops_config/spec
-
-core-specs:
-	$(DOCKER-RUN) console rspec engines/bops_core/spec
-
-reports-specs:
-	$(DOCKER-RUN) console rspec engines/bops_reports/spec
-
-uploads-specs:
-	$(DOCKER-RUN) console rspec engines/bops_uploads/spec
-
-engine-specs: api-specs admin-specs config-specs core-specs reports-specs uploads-specs
+ENGINES := $(wildcard engines/*/spec)
+engine-specs: $(patsubst engines/bops_%/spec,%-specs,$(ENGINES))
+	@: # noop: so that this doesn't try to run engines/bops_engine/spec
 
 rspec:
 	$(DOCKER-RUN) console rspec
