@@ -71,7 +71,7 @@ db-prompt:
 	$(DOCKER-RUN) console psql postgres://postgres:postgres@db
 
 lint:
-	$(DOCKER-RUN) console rake rubocop biome erblint prettier
+	$(DOCKER-RUN) console rake rubocop biome herb:lint erblint prettier
 
 lint-auto-correct:
 	$(DOCKER-RUN) console rake rubocop:fix biome:fix erblint:fix prettier:fix
