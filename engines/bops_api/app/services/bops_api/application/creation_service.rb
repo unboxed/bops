@@ -51,10 +51,10 @@ module BopsApi
       def parsers
         {
           "ApplicantParser" => data_params[:applicant],
-          "AgentParser" => data_params[:applicant][:agent],
-          "FeeParser" => data_params[:application][:fee],
-          "AddressParser" => data_params[:property][:address],
-          "ApplicationTypeParser" => data_params[:application][:type],
+          "AgentParser" => data_params.dig(:applicant, :agent),
+          "FeeParser" => data_params.dig(:application, :fee),
+          "AddressParser" => data_params.dig(:property, :address),
+          "ApplicationTypeParser" => data_params.dig(:application, :type),
           "PreAssessmentParser" => params[:preAssessment],
           "ProposalParser" => data_params[:proposal],
           "ProposalDetailsParser" => params[:responses]
