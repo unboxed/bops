@@ -85,7 +85,8 @@ class ImportSiteHistoryJob < ApplicationJob
   def filename_prefix
     {
       "UsersCreation" => "Users",
-      "PlanningApplicationsCreation" => "SiteHistory"
+      "PlanningApplicationsCreation" => "SiteHistory",
+      "SiteNoticesCreation" => "SiteNotices"
     }.fetch(create_class_name.to_s) do
       raise "Unknown create_class_name: #{create_class_name}"
     end
