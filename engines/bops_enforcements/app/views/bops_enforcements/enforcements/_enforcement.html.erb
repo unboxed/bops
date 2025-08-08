@@ -1,7 +1,7 @@
 <%# locals: (title: "Enforcement case", with_dates: false, with_assignment: false, enforcement: nil) %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds" id="planning-application-details">
+  <div class="govuk-grid-column-two-thirds" id="case-details">
     <h1 class="govuk-heading-l"><%= title %></h1>
     <p class="govuk-body">
       <strong><%= @enforcement.address %></strong>
@@ -9,7 +9,7 @@
       Case reference <strong><%= @enforcement.case_record.id %></strong>
     </p>
 
-    <div id="planning-application-statuses-tags">
+    <div id="case-statuses-tags">
       <p class="govuk-body">
         <span class="govuk-!-margin-left-1">
           <span class="govuk-tag"><%= @enforcement.status %></span>

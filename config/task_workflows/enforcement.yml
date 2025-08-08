@@ -5,11 +5,6 @@
       tasks:
         - name: "Check description"
           optional: true
-
-    - name: "Check site location"
-    - name: "Review constraints"
-    - name: "Review site history"
-    - name: "Review documents"
     - name: "Start investigation"
 
 - name: "Investigate and decide"
