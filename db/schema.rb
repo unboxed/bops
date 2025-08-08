@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_06_043822) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_08_141206) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -451,7 +451,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_06_043822) do
 
   create_table "enforcements", force: :cascade do |t|
     t.string "description"
-    t.string "status"
+    t.string "status", default: "not_started", null: false
     t.boolean "urgent", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -468,6 +468,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_06_043822) do
     t.geography "boundary_geojson", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
     t.geography "boundary", limit: {srid: 4326, type: "geometry_collection", geographic: true}
+    t.datetime "not_started_at"
+    t.datetime "under_investigation_at"
+    t.datetime "closed_at"
   end
 
   create_table "environment_impact_assessments", force: :cascade do |t|
