@@ -14,11 +14,25 @@ module BopsCore
 
     included do
       def status_tag
+        return pre_app_status_tag if pre_application?
+
         classes = ["govuk-tag govuk-tag--#{status_tag_colour}"]
 
         tag.span class: classes do
           if determined?
             decision.humanize
+          else
+            aasm.human_state.humanize
+          end
+        end
+      end
+
+      def pre_app_status_tag
+        classes = ["govuk-tag govuk-tag--#{pre_app_status_tag_colour}"]
+
+        tag.span class: classes do
+          if (summary = summary_of_advice&.summary_tag)
+            I18n.t("summary_advice.#{summary}.subheading")
           else
             aasm.human_state.humanize
           end
@@ -99,6 +113,22 @@ module BopsCore
         colour = STATUS_COLOURS[planning_application.status.to_sym]
 
         colour || "grey"
+      end
+    end
+
+    def pre_app_status_tag_colour
+      default = STATUS_COLOURS.fetch(planning_application.status.to_sym, "grey")
+      return default unless summary_of_advice
+
+      case summary_of_advice.summary_tag
+      when "complies"
+        "green"
+      when "needs_changes"
+        "yellow"
+      when "does_not_comply"
+        "red"
+      else
+        default
       end
     end
 
