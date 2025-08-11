@@ -175,6 +175,8 @@ module PlanningApplications
             @planning_application
         elsif @planning_application.validated?
           planning_application_assessment_tasks_path(@planning_application)
+        elsif @validation_request.type == "ReplacementDocumentValidationRequest"
+          supply_documents_planning_application_path(@planning_application)
         else
           planning_application_validation_tasks_path(@planning_application)
         end
