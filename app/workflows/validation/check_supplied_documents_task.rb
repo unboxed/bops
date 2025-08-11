@@ -7,12 +7,13 @@ module Validation
     end
 
     def task_list_link
-      supply_documents_planning_application_path(@planning_application) unless planning_application.validated?
+      supply_documents_planning_application_path(@planning_application)
     end
 
     def task_list_status
-      checked_count = planning_application.documents.where(checked: true).count
-      total_count = planning_application.documents.count
+      documents = planning_application.documents.active
+      checked_count = documents.where(checked: true).count
+      total_count = documents.count
 
       if checked_count.zero?
         :not_started
