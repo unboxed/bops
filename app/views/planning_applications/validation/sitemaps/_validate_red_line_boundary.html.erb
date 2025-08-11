@@ -7,7 +7,7 @@
   <div class="govuk-grid-column-full">
     <p>This digital red line boundary was submitted by the applicant.</p>
 
-    <%= render "shared/location_map", locals: {in_accordion: true, geojson: @planning_application.boundary_geojson} %><br>
+    <%= render "shared/location_map", locals: {in_accordion: true, record: @planning_application, geojson: @planning_application.boundary_geojson} %><br>
 
     <%= form_with model: @planning_application, url: validate_planning_application_validation_sitemap_path(@planning_application) do |form| %>
       <%= form.govuk_radio_buttons_fieldset(:valid_red_line_boundary) do %>

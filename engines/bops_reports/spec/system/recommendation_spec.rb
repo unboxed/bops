@@ -8,6 +8,7 @@ RSpec.describe "Recommending and submitting a pre-application report" do
   let(:reviewer) { create(:user, :reviewer, local_authority:, name: "Alan Jones") }
 
   let(:case_record) { build(:case_record, user: assessor, local_authority:) }
+
   let(:planning_application) do
     create(
       :planning_application,

@@ -1,0 +1,20 @@
+<%= govuk_accordion do |accordion| %>
+  <%= accordion.with_section(heading_text: "Breach report") do %>
+    <% @enforcement.proposal_details.each do |proposal_detail| %>
+      <%= render(
+            ProposalDetails::SummaryComponent.new(proposal_detail: proposal_detail)
+          ) %>
+    <% end %>
+  <% end %>
+
+  <%= accordion.with_section(heading_text: "Site location") do %>
+    <p>This digital red line boundary was submitted by the complainant.</p>
+    <%= render "shared/location_map", locals: {in_accordion: true, record: @enforcement, geojson: @enforcement.boundary_geojson} %>
+  <% end %>
+
+   <%= accordion.with_section(heading_text: "Complainant details") { tag.p("Content") } %>
+   <%= accordion.with_section(heading_text: "Site owner and interested parties") { tag.p("Content") } %>
+   <%= accordion.with_section(heading_text: "Documents") { tag.p("Content") } %>
+   <%= accordion.with_section(heading_text: "Photos") { tag.p("Content") } %>
+
+<% end %>

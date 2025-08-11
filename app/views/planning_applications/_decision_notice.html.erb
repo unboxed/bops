@@ -148,7 +148,7 @@
     </h3>
 
     <% if @planning_application.boundary_geojson.present? %>
-      <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson} %>
+      <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson, record: @planning_application} %>
     <% else %>
       <p>No digital sitemap provided</p>
     <% end %>

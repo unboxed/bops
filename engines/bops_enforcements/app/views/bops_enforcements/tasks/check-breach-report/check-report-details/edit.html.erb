@@ -1,19 +1,6 @@
 <%= render "bops_enforcements/enforcements/enforcement", title: "Check report details" %>
 
-<%= govuk_accordion do |accordion| %>
-  <%= accordion.with_section(heading_text: "Breach report") do %>
-    <% @enforcement.proposal_details.each do |proposal_detail| %>
-      <%= render(
-            ProposalDetails::SummaryComponent.new(proposal_detail: proposal_detail)
-          ) %>
-    <% end %>
-  <% end %>
-
-  <%= accordion.with_section(heading_text: "Complainant details") { tag.p("Content") } %>
-  <%= accordion.with_section(heading_text: "Site owner and interested parties") { tag.p("Content") } %>
-  <%= accordion.with_section(heading_text: "Documents") { tag.p("Content") } %>
-  <%= accordion.with_section(heading_text: "Photos") { tag.p("Content") } %>
-<% end %>
+<%= render "bops_enforcements/enforcements/accordion" %>
 
 <div id="quick-close-case">
   <h2 class="govuk-heading-m govuk-!-margin-top-8">Quick close</h2>

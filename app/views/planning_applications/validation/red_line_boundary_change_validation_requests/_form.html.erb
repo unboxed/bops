@@ -17,6 +17,7 @@
             "shared/location_map",
             locals: {
               draw_geojson_data: @validation_request.new_geojson,
+              record: @planning_application,
               geojson: @planning_application.boundary_geojson,
               geojson_field: "validation-request-new-geojson-field",
               invalid_red_line_boundary: true

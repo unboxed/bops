@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Enforcement show page", type: :system do
+RSpec.describe "Enforcement show page" do
   let(:local_authority) { create(:local_authority, :default) }
   let!(:case_record) { build(:case_record, local_authority:) }
   let!(:enforcement) { create(:enforcement, case_record:) }
@@ -13,11 +13,28 @@ RSpec.describe "Enforcement show page", type: :system do
 
   before do
     sign_in(user)
+    stub_request(:get, "https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857")
+      .with(
+           headers: {
+             "Accept" => "application/octet-stream",
+             "Accept-Encoding" => "gzip;q=1.0,deflate;q=0.6,identity;q=0.3",
+             "Key" => "1Gb6eQu6kyqrLH9ACNorINhTJBeBAlZh",
+             "User-Agent" => "Faraday v2.9.0"
+           }
+         )
+      .to_return(status: 200, body: "", headers: {})
     visit "/enforcements/#{enforcement.case_record.id}/"
   end
 
   it "has a show page with basic details" do
     expect(page).to have_content(enforcement.address)
+
+    within(".govuk-accordion") do
+      sections = all(".govuk-accordion__section", count: 6)
+
+      expect(sections[0]).to have_text("Breach report")
+      expect(sections[1]).to have_text("Site location")
+    end
   end
 
   it "has a link to the breach report page" do

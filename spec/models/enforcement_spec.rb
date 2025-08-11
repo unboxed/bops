@@ -59,7 +59,7 @@ RSpec.describe Enforcement do
       end
 
       it "returns the boundary as GeoJSON" do
-        expect(JSON.parse(enforcement.boundary_geojson)).to match(geojson)
+        expect(enforcement.boundary_geojson).to match(geojson)
       end
     end
   end

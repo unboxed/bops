@@ -12,7 +12,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson} %>
+    <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson, record: @planning_application} %>
 
     <%= render "relevant_documents_accordion" %>
   </div>
