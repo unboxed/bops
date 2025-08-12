@@ -47,3 +47,7 @@
 
 - name: "Process an appeal"
   section: "Appeal"
+
+- name: "Close case"
+  section: "Close"
+  hidden: true

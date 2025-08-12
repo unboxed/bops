@@ -1,0 +1,21 @@
+<%= render "bops_enforcements/enforcements/enforcement", title: @task.name %>
+
+<%= form_with model: @enforcement, url: task_path(@case_record, @task) do |form| %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+      <%= form.govuk_radio_buttons_fieldset :reason, legend: {size: "m", text: t(".reason.legend")} do %>
+        <%= form.govuk_radio_button :reason, "not_enforcement_issue", label: {text: t(".reason.not_enforcement_issue")} %>
+        <%= form.govuk_radio_button :reason, "permission_not_required", label: {text: t(".reason.permission_not_required")} %>
+        <%= form.govuk_radio_button :reason, "permission_previously_granted", label: {text: t(".reason.permission_previously_granted")} %>
+        <%= form.govuk_radio_button :reason, "duplicate", label: {text: t(".reason.duplicate")} %>
+        <%= form.govuk_radio_button :reason, "other", label: {text: t(".reason.other")} do %>
+          <%= form.govuk_text_field :other_reason, label: {text: t(".reason.other_detail")} %>
+        <% end %>
+      <% end %>
+      <%= form.govuk_text_area :detail, label: {text: t(".detail.label"), size: "m"}, hint: {text: t(".detail.hint")} %>
+    </div>
+  </div>
+  <%= form.govuk_submit "Close case" do %>
+    <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
+  <% end %>
+<% end %>

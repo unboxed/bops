@@ -6,7 +6,7 @@
   <h2 class="govuk-heading-m govuk-!-margin-top-8">Quick close</h2>
   <p class="govuk-body">
     If you believe this case can be closed without an investigation you can
-    <%= govuk_link_to "close the case.", class: "govuk-body", no_visited_state: true %>
+    <%= govuk_link_to "close the case.", task_path(@case_record, "close-case"), class: "govuk-body", no_visited_state: true %>
     This decision will <strong>not</strong> be reviewed.
   </p>
 </div>

@@ -16,7 +16,8 @@ module BopsEnforcements
       "process-an-appeal" => BaseForm,
 
       "check-report-details" => CheckReportDetailsForm,
-      "check-description" => CheckDescriptionForm
+      "check-description" => CheckDescriptionForm,
+      "close-case" => CloseCaseForm
     }.freeze
   end
 end
