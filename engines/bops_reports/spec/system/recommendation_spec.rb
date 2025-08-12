@@ -158,5 +158,6 @@ RSpec.describe "Recommending and submitting a pre-application report" do
     ).once
 
     expect(page).to have_selector("[role=alert] p", text: "Pre-application report has been sent to the applicant")
+    expect(page).to have_selector("span.govuk-tag--green", text: "Likely to be supported")
   end
 end
