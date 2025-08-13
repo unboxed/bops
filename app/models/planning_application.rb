@@ -1087,7 +1087,12 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_key_dates
-    return if environment_impact_assessment_required? || time_extension_validation_requests.any?(:accepted) || determined_at.present?
+    return if environment_impact_assessment_required? || time_extension_validation_requests.any?(:accepted)
+
+    if determination_date.present? && target_date.blank?
+      self.target_date = determination_date
+      return
+    end
 
     self.expiry_date = application_type_determination_period.days.after(validated_at || received_at)
     self.target_date = 35.days.after(validated_at || received_at)
