@@ -351,10 +351,6 @@ class PlanningApplication < ApplicationRecord
     fee_calculation.requested_fee
   end
 
-  def timestamp_status_change
-    update("#{aasm.to_state}_at": Time.zone.now)
-  end
-
   def days_from
     created_at.to_date.business_days_until(Time.previous_business_day(Date.current))
   end
