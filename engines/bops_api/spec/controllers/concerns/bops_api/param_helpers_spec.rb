@@ -11,26 +11,22 @@ RSpec.describe BopsApi::ParamHelpers do
 
   describe "#handle_comma_separated_param" do
     it "splits comma-separated values into an array" do
-      params = {example: "a,b"}
-      result = controller.handle_comma_separated_param(params, :example)
+      result = controller.handle_comma_separated_param("a,b")
       expect(result).to eq(["a", "b"])
     end
 
     it "handles array values" do
-      params = {example: ["a", "b"]}
-      result = controller.handle_comma_separated_param(params, :example)
+      result = controller.handle_comma_separated_param(["a", "b"])
       expect(result).to eq(["a", "b"])
     end
 
     it "removes blank values" do
-      params = {example: "a,,"}
-      result = controller.handle_comma_separated_param(params, :example)
+      result = controller.handle_comma_separated_param("a,,")
       expect(result).to eq(["a"])
     end
 
     it "removes duplicate values" do
-      params = {example: "a,a,b"}
-      result = controller.handle_comma_separated_param(params, :example)
+      result = controller.handle_comma_separated_param("a,a,b")
       expect(result).to eq(["a", "b"])
     end
   end

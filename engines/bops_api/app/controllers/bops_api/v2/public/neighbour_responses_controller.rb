@@ -40,7 +40,7 @@ module BopsApi
         def pagination_params
           permitted = params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id, :sentiment)
           if permitted[:sentiment].present?
-            permitted[:sentiment] = handle_comma_separated_param(permitted, :sentiment)
+            permitted[:sentiment] = handle_comma_separated_param(permitted[:sentiment])
           end
           permitted
         end
