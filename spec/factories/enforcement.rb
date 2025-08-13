@@ -26,5 +26,13 @@ FactoryBot.define do
         WKT
       end
     end
+
+    trait :under_investigation do
+      after(:create) { |enforcement| enforcement.start_investigation! }
+    end
+
+    trait :closed do
+      after(:create) { |enforcement| enforcement.close! }
+    end
   end
 end

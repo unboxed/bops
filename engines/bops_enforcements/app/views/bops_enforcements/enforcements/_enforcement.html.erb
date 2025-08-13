@@ -12,7 +12,7 @@
     <div id="case-statuses-tags">
       <p class="govuk-body">
         <span class="govuk-!-margin-left-1">
-          <span class="govuk-tag"><%= @enforcement.status %></span>
+          <span class="govuk-tag"><%= @enforcement.status.humanize %></span>
         </span>
         <% if @enforcement.urgent? %>
           <span class="govuk-!-margin-left-1">

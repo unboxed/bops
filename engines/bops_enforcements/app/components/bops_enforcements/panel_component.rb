@@ -29,7 +29,7 @@ module BopsEnforcements
     TAG_MAPPINGS = {
       urgent: ->(e, h) { e.urgent? ? h.govuk_tag(text: "Urgent", colour: "red") : nil },
       days_status_tag: ->(e, h) { h.govuk_tag(text: "#{e.days_from} days received", colour: "orange") },
-      status_tag: ->(e, h) { h.govuk_tag(text: e.status.to_s, colour: e.status_tag_colour) },
+      status_tag: ->(e, h) { h.govuk_tag(text: e.status.humanize, colour: e.status_tag_colour) },
       to_param: ->(e, h) { h.govuk_link_to(e.case_record.id, h.enforcement_path(e)) }
     }.freeze
 

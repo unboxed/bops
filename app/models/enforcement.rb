@@ -3,6 +3,14 @@
 class Enforcement < ApplicationRecord
   include Caseable
 
+  include EnforcementStatus
+
+  STATUS_COLOURS = {
+    closed: "red",
+    not_started: "blue",
+    under_investigation: "green"
+  }.freeze
+
   # TODO: Drop this column after deployment to production
   self.ignored_columns += %i[boundary_geojson]
 
@@ -52,10 +60,6 @@ class Enforcement < ApplicationRecord
     case_record.id
   end
 
-  def status
-    :unknown
-  end
-
   def proposal_details
     Array(super).each_with_index.map do |hash, index|
       ProposalDetail.new(hash, index)
@@ -63,7 +67,7 @@ class Enforcement < ApplicationRecord
   end
 
   def status_tag_colour
-    "grey"
+    STATUS_COLOURS[status.to_sym]
   end
 
   def days_from
