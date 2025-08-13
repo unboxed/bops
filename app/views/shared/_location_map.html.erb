@@ -1,3 +1,4 @@
+<% record = @planning_application || @enforcement %>
 <my-map
   style="width: 100%; height: 600px;"
   osProxyEndpoint="<%= main_app.os_proxy_url %>"
@@ -13,17 +14,17 @@
     <% if locals[:invalid_red_line_boundary].present? %>
       geojsonColor='#515151'
     <% end %>
-  <% elsif @planning_application.lonlat %>
+  <% elsif record.lonlat %>
     zoom="19"
-    latitude='<%= @planning_application.latitude %>'
-    longitude='<%= @planning_application.longitude %>'
+    latitude='<%= record.latitude %>'
+    longitude='<%= record.longitude %>'
   <% end %>
-  <% if (show_map_pin?(@planning_application, locals) || locals[:polygon_search]) %>
+  <% if (show_map_pin?(record, locals) || locals[:polygon_search]) %>
     showCentreMarker
-    markerLatitude="<%= @planning_application.latitude %>"
-    markerLongitude="<%= @planning_application.longitude %>"
+    markerLatitude="<%= record.latitude %>"
+    markerLongitude="<%= record.longitude %>"
     markerImage="circle"
-    <% if @planning_application.neighbour_boundary_geojson && !locals[:invalid_red_line_boundary].present? %>
+    <% if record.neighbour_boundary_geojson && !locals[:invalid_red_line_boundary].present? %>
       showGeojsonDataMarkers
     <% end %>
   <% end %>
