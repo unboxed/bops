@@ -34137,11 +34137,11 @@ paths:
                     metadata:
                       sectionName: Pay and send
                   files:
-                  - name: https://api.editor.planx.dev/file/private/fomris6d/correspondence.pdf
+                  - name: https://api.editor.planx.dev/file/private/vyyogkcf/correspondence.pdf
                     type:
                     - value: otherSupporting
                       description: Other - supporting document
-                  - name: https://api.editor.planx.dev/file/private/7xsm1un0/myPlans.pdf
+                  - name: https://api.editor.planx.dev/file/private/tbp4kiba/myPlans.pdf
                     type:
                     - value: sitePlan.existing
                       description: Site plan - existing
