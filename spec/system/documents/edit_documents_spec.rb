@@ -76,6 +76,7 @@ RSpec.describe "Edit document", type: :system do
     it "archives and replaces existing document when new file is uploaded" do
       visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 
+      expect(page).to have_content("Drawing number")
       check("Roof plan - proposed")
       fill_in("Drawing number", with: "DOC123")
       click_button("Save")
@@ -115,6 +116,7 @@ RSpec.describe "Edit document", type: :system do
       it "renders an error if user tries to replace the file", :capybara do
         visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 
+        expect(page).to have_content("Upload a replacement file")
         attach_file(
           "Upload a replacement file",
           "spec/fixtures/images/proposed-roofplan.png"
@@ -131,6 +133,7 @@ RSpec.describe "Edit document", type: :system do
     it "renders error when document is in unrepresentable format" do
       visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 
+      expect(page).to have_content("Upload a replacement file")
       attach_file(
         "Upload a replacement file",
         "spec/fixtures/files/valid_planning_application.json"
@@ -146,6 +149,7 @@ RSpec.describe "Edit document", type: :system do
     it "with wrong format document", :capybara do
       visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 
+      expect(page).to have_content("Upload a replacement file")
       attach_file("Upload a replacement file", "spec/fixtures/images/image.gif")
 
       click_button("Save")
@@ -164,6 +168,7 @@ RSpec.describe "Edit document", type: :system do
       it "can edit document and return back to the planning applications index page" do
         visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 
+        expect(page).to have_content("Drawing number")
         fill_in("Drawing number", with: "DOCREF123")
 
         click_button "Save"
@@ -176,6 +181,7 @@ RSpec.describe "Edit document", type: :system do
       it "can archive document and return back to the planning applications index page" do
         visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/archive"
 
+        expect(page).to have_content("Why do you want to archive this document?")
         fill_in "archive_reason", with: "an archive reason"
 
         click_button "Archive"
@@ -192,6 +198,7 @@ RSpec.describe "Edit document", type: :system do
           click_link "Edit"
         end
 
+        expect(page).to have_content("Drawing number")
         fill_in("Drawing number", with: "DOCREF123")
 
         click_button "Save"
@@ -205,6 +212,7 @@ RSpec.describe "Edit document", type: :system do
           click_link "Archive"
         end
 
+        expect(page).to have_content("Why do you want to archive this document?")
         fill_in "archive_reason", with: "an archive reason"
 
         click_button "Archive"
