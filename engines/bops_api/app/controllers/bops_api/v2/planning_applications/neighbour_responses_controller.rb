@@ -7,7 +7,7 @@ module BopsApi
         before_action :set_planning_application
 
         def create
-          unless @planning_application.application_type.consultation_steps.include? "neighbour"
+          unless @planning_application.neighbour_consultation_feature?
             raise NeighbourResponseCreationService::CreateError, "This application type cannot accept neighbour responses"
           end
 

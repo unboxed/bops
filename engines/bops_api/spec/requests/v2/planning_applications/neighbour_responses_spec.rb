@@ -7,6 +7,7 @@ RSpec.describe "Neighbour Responses API", type: :request do
   let(:token) { "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
   let!(:api_user) { create(:api_user, :comment_rw, token:, local_authority:) }
   let!(:Authorization) { "Bearer #{token}" }
+  let(:planning_application) { create(:planning_application, :published, :in_assessment, :with_boundary_geojson, :planning_permission, local_authority:) }
 
   valid_neighbour_response = {name: "Jo Blogs", address: "123 street, AAA111", response: "I like it", summary_tag: "supportive", tags: ["light"]}
 
@@ -31,9 +32,6 @@ RSpec.describe "Neighbour Responses API", type: :request do
       response "200", "Successful operation" do
         schema "$ref" => "#/components/schemas/SubmissionResponse"
 
-        # create a planning application
-        let(:planning_application) { create(:planning_application, :published, :in_assessment, :with_boundary_geojson, :planning_permission, local_authority:) }
-
         # request
         let(:reference) { planning_application.reference }
         let(:body) { valid_neighbour_response }
@@ -48,9 +46,6 @@ RSpec.describe "Neighbour Responses API", type: :request do
       # Document: Request is invalid
       response "400", "Bad Request" do
         schema "$ref" => "#/components/schemas/BadRequestError"
-
-        # create a planning application
-        let(:planning_application) { create(:planning_application, :published, :in_assessment, :with_boundary_geojson, :planning_permission, local_authority:) }
 
         # request
         let(:reference) { planning_application.reference }
