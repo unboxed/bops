@@ -24,8 +24,10 @@
     markerLatitude="<%= record.latitude %>"
     markerLongitude="<%= record.longitude %>"
     markerImage="circle"
-    <% if record.neighbour_boundary_geojson && !locals[:invalid_red_line_boundary].present? %>
-      showGeojsonDataMarkers
+    <% if record.respond_to?(:neighbour_boundary_geojson) %>
+      <% if record.neighbour_boundary_geojson && !locals[:invalid_red_line_boundary].present? %>
+        showGeojsonDataMarkers
+      <% end %>
     <% end %>
   <% end %>
   <% if locals[:geojson_field].present? %>
