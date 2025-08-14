@@ -11,7 +11,7 @@
         <strong><%= @planning_application.full_address %></strong>
         <br>
         <%= t(".application_number") %> <strong><%= @planning_application.reference %></strong>
-        <% if @planning_application.previous_references.any? %>
+        <% if @planning_application.previous_references&.any? %>
           (<%= t(".previously") %>: <strong><%= @planning_application.previous_references.join(", ") %></strong>)
         <% end %>
       </p>
