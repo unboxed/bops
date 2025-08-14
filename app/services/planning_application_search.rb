@@ -89,6 +89,8 @@ class PlanningApplicationSearch
     records_matching_reference(scope).presence ||
       records_matching_address_search(scope).presence ||
       records_matching_description(scope)
+  rescue ActiveRecord::StatementInvalid
+    scope.none
   end
 
   def records_matching_reference(scope)
