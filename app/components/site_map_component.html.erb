@@ -46,7 +46,7 @@
           <h3 class="govuk-heading-s">Constraints</h3>
           <% if planning_application.planning_application_constraints.present? %>
             <ul class="govuk-list govuk-list--spaced">
-              <% planning_application.planning_application_constraints.each_with_index do |planning_application_constraint, index| %>
+              <% planning_application.planning_application_constraints.each do |planning_application_constraint| %>
                 <li>
                   <hr>
                   <strong class="govuk-body-s govuk-!-font-weight-bold">
@@ -54,7 +54,7 @@
                   </strong><br>
                   <% if planning_application_constraint.entities.present? %>
                     <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-font-size-16" data-module="govuk-checkboxes">
-                      <% planning_application_constraint.entities.each do |name, entity| %>
+                      <% planning_application_constraint.entities.each_with_index do |(name, entity), index| %>
                         <% entity_name = name.present? ? name.titleize : "Entity ##{entity}" %>
                         <div class="govuk-checkboxes__item">
                           <%= check_box_tag(
@@ -91,7 +91,7 @@
       <div class="map-data-tab map-data-neighbours govuk-!-display-none">
         <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
         <div class="map-data-scroll-container">
-          <h3 class="govuk-heading-s">All neighbours</h3>
+          <h3 class="govuk-heading-s" id="neighbour-heading">All neighbours</h3>
           <% if planning_application.application_type.consultation? && planning_application.consultation.neighbours.present? %>
             <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-font-size-16" data-module="govuk-checkboxes">
               <% planning_application.consultation.neighbours.each do |neighbour| %>
