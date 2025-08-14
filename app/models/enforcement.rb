@@ -36,7 +36,7 @@ class Enforcement < ApplicationRecord
     end
 
     collection = RGeo::GeoJSON::FeatureCollection.new(features)
-    RGeo::GeoJSON.encode(collection).to_json
+    RGeo::GeoJSON.encode(collection)
   end
 
   def boundary_geojson=(value)
