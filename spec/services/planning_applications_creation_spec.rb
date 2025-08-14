@@ -8,11 +8,11 @@ RSpec.describe PlanningApplicationsCreation do
   let(:application_type) { create(:application_type, :ldc_existing, local_authority: local_authority) }
 
   context "with an application that was determined in the past" do
-    target_date = 1.week.from_now.in_time_zone.to_date
     received_at_date = Time.zone.parse("2025-05-27 10:38:35.469341000 +0100")
     assessment_date = Time.zone.parse("2025-05-28 10:38:35.469341000 +0100")
     in_committee_at = Time.zone.parse("2025-05-29 10:38:35.469341000 +0100")
     determined_at = Time.zone.parse("2025-06-14 10:38:35.469341000 +0100")
+    determination_date = Time.zone.parse("2025-06-14 10:38:35.469341000 +0100")
 
     let(:params) do
       {
@@ -40,8 +40,8 @@ RSpec.describe PlanningApplicationsCreation do
         previous_references: ["HZY-43232"],
         payment_amount: 892,
         returned_at: nil,
-        target_date: target_date,
-        determined_at: determined_at,
+        determined_at: determination_date,
+        determination_date: determination_date,
         valid_description: true,
         in_committee_at: in_committee_at,
         ownership_certificate_checked: true,
@@ -85,7 +85,8 @@ RSpec.describe PlanningApplicationsCreation do
         valid_ownership_certificate: true,
         previous_references: ["HZY-43232"],
         returned_at: nil,
-        target_date: target_date,
+        target_date: determination_date.to_date,
+        determination_date: determination_date,
         determined_at: determined_at,
         valid_description: true,
         in_committee_at: in_committee_at,
