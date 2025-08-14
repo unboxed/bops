@@ -13,10 +13,9 @@ module BopsApi
             render json: {error: {message: "Bad Request", detail: "Consultation not found"}}, status: :bad_request
             return
           end
-          
+
           consultation_consultees = @consultation.consultees.includes(:responses)
           redacted_responses = @consultation.consultee_responses.redacted
-
 
           latest_redacted_responses = consultation_consultees
             .map { |consultee| consultee.responses.redacted.max_by(&:id) }
