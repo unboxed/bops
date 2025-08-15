@@ -74,6 +74,14 @@ class Enforcement < ApplicationRecord
     created_at.to_date.business_days_until(Time.previous_business_day(Date.current))
   end
 
+  def latitude
+    lonlat&.y
+  end
+
+  def longitude
+    lonlat&.x
+  end
+
   private
 
   def factory
