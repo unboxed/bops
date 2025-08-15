@@ -33,7 +33,7 @@ module PlanningApplicationStatus
 
     aasm.attribute_name :status
 
-    aasm whiny_persistence: true, no_direct_assignment: true do
+    aasm whiny_persistence: true, no_direct_assignment: true, timestamps: true do
       state :pending, initial: true
       state :not_started
       state :invalidated, display: "invalid"
@@ -153,8 +153,6 @@ module PlanningApplicationStatus
           after { recommendation.update!(submitted: false) }
         end
       end
-
-      after_all_transitions :timestamp_status_change # FIXME: https://github.com/aasm/aasm#timestamps
     end
 
     def recommendable?
