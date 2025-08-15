@@ -51,7 +51,8 @@ module BopsSubmissions
         {
           "AddressParser" => data_params[:property][:address],
           "ProposalParser" => data_params[:report],
-          "ProposalDetailsParser" => data[:responses]
+          "ProposalDetailsParser" => data[:responses],
+          "ComplainantParser" => data_params[:complainant]
         }.transform_keys { |key| Parsers.const_get(key) }
       end
     end

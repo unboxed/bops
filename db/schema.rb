@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_08_141206) do
+ActiveRecord::Schema[7.2].define(version: 2025_08_15_125224) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -471,6 +471,10 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_08_141206) do
     t.datetime "not_started_at"
     t.datetime "under_investigation_at"
     t.datetime "closed_at"
+    t.string "complainant_name"
+    t.string "complainant_email_address"
+    t.string "complainant_phone_number"
+    t.string "complainant_address"
   end
 
   create_table "environment_impact_assessments", force: :cascade do |t|
