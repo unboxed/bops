@@ -253,7 +253,7 @@ export default class extends Controller {
       }
     }
 
-    const heading = this.element.querySelector("h3")
+    const heading = this.element.querySelector("#neighbour-heading")
     heading.innerHTML = latlng === null ? "All neighbours" : "Neighbours"
   }
 
