@@ -15,7 +15,7 @@ module BopsEnforcements
 
     def template_for(action)
       path = "bops_enforcements/tasks/#{@task.full_slug}/#{action}"
-      lookup_context.exists?(path) ? path : "tasks/generic/#{action}"
+      lookup_context.exists?(path) ? path : "bops_enforcements/tasks/generic/#{action}"
     end
 
     def build_form

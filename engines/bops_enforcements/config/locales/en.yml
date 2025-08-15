@@ -33,6 +33,21 @@ en:
       search: Search
       you_can_search: You can search by case number or description
     tasks:
+      close-case:
+        failure: Unable to update case
+        show:
+          detail:
+            hint: Optional detail to share with complainant
+            label: Reason for closing
+          reason:
+            duplicate: An enforcement case already exists for this report
+            legend: Why is this case being closed?
+            not_enforcement_issue: Not an enforcement or planning issue
+            other: Other
+            other_detail: Reason
+            permission_not_required: Permission not required for use or development
+            permission_previously_granted: Permission previously granted
+        success: Case successfully closed
       update:
         check-description:
           failure: Unable to update site description
