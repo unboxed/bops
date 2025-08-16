@@ -27,10 +27,8 @@ module BopsApi
       end
 
       def build_planning_application
-        PlanningApplication.new(planning_application_params).tap do |pa|
+        local_authority.build_planning_application(planning_application_params).tap do |pa|
           pa.api_user_id = user.id
-          pa.local_authority_id = local_authority.id
-          pa.case_record = CaseRecord.new(local_authority:)
         end
       end
 
