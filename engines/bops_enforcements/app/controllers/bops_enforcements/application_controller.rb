@@ -5,6 +5,7 @@ module BopsEnforcements
     include BopsCore::ApplicationController
 
     before_action :require_local_authority!
+    before_action :authenticate_user!
 
     layout "application"
   end

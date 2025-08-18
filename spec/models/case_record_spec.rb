@@ -20,7 +20,7 @@ RSpec.describe CaseRecord, type: :model do
       }.to change(Task, :count).by_at_least(1)
 
       expect(case_record.tasks.map(&:name)).to eq(
-        ["Check breach report", "Investigate and decide", "Review recommendation", "Serve notice and monitor compliance", "Process an appeal"]
+        ["Check breach report", "Investigate and decide", "Review recommendation", "Serve notice and monitor compliance", "Process an appeal", "Close case"]
       )
     end
 
