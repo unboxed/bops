@@ -3,6 +3,7 @@
 module BopsUploads
   class FilesController < ApplicationController
     before_action :set_blob
+    before_action :set_case_record
     before_action :set_planning_application
     before_action :raise_not_found, unless: :local_authority_matches?
 
@@ -28,9 +29,15 @@ module BopsUploads
       @submission = @blob.submission
     end
 
+    def set_case_record
+      @case_record = @blob.case_record
+    end
+
     def local_authority_matches?
       if @planning_application
         @planning_application.local_authority == current_local_authority
+      elsif @case_record
+        @case_record.local_authority == current_local_authority
       elsif set_submission
         @submission.local_authority == current_local_authority
       end
