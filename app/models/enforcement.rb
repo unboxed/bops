@@ -7,6 +7,8 @@ class Enforcement < ApplicationRecord
 
   include Enforcement::Notification
 
+  delegate :documents, to: :case_record
+
   STATUS_COLOURS = {
     closed: "red",
     not_started: "blue",

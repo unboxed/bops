@@ -8,7 +8,7 @@ module BopsSubmissions
 
       def create
         @submission = creation_service.call
-        SubmissionProcessorJob.perform_later(@submission.id)
+        SubmissionProcessorJob.perform_later(@submission.id, @current_api_user)
 
         respond_to do |format|
           format.json

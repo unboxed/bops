@@ -6,6 +6,7 @@ class CaseRecord < ApplicationRecord
   delegated_type :caseable, types: %w[Enforcement PlanningApplication], dependent: :destroy
 
   has_many :tasks, -> { order(:position) }, as: :parent, dependent: :destroy, autosave: true
+  has_many :documents, dependent: :destroy
 
   belongs_to :local_authority
   belongs_to :user, optional: true

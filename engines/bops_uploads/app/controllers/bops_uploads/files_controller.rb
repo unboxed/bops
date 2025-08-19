@@ -3,7 +3,7 @@
 module BopsUploads
   class FilesController < ApplicationController
     before_action :set_blob
-    before_action :set_planning_application
+    before_action :set_parent
     before_action :raise_not_found, unless: :local_authority_matches?
 
     def show
@@ -20,20 +20,23 @@ module BopsUploads
 
     private
 
-    def set_planning_application
-      @planning_application = @blob.planning_application
-    end
+    def set_parent
+      @parent = @blob.parent_record
 
-    def set_submission
-      @submission = @blob.submission
+      case @parent
+      when CaseRecord
+        @case_record = @parent
+      when PlanningApplication
+        @planning_application = @parent
+      when Submission
+        @submission = @parent
+      else
+        raise ArgumentError, "Unexpected parent record: #{@parent.inspect}"
+      end
     end
 
     def local_authority_matches?
-      if @planning_application
-        @planning_application.local_authority == current_local_authority
-      elsif set_submission
-        @submission.local_authority == current_local_authority
-      end
+      @parent && @parent.local_authority == current_local_authority
     end
 
     def raise_not_found

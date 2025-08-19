@@ -4,7 +4,7 @@ module BopsSubmissions
   class SubmissionProcessorJob < ApplicationJob
     queue_as :submissions
 
-    def perform(submission_id)
+    def perform(submission_id, current_api_user)
       submission = Submission.find(submission_id)
       submission.start! if submission.may_start?
 
@@ -12,7 +12,7 @@ module BopsSubmissions
         ZipExtractionService.new(submission:).call
         Application::CreationService.new(submission:).call!
       elsif submission.planx?
-        Enforcement::CreationService.new(submission:).call!
+        Enforcement::CreationService.new(submission:, user: current_api_user).call!
       end
 
       submission.complete!

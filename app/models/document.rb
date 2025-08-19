@@ -35,6 +35,7 @@ class Document < ApplicationRecord
     belongs_to :site_visit
     belongs_to :submission
     belongs_to :user
+    belongs_to :case_record
   end
 
   has_one :replacement_document_validation_request,
@@ -404,6 +405,10 @@ class Document < ApplicationRecord
     else
       :not_started
     end
+  end
+
+  def parent_record
+    planning_application || case_record || submission
   end
 
   private
