@@ -5,6 +5,8 @@ class Enforcement < ApplicationRecord
 
   include EnforcementStatus
 
+  include Enforcement::Notification
+
   STATUS_COLOURS = {
     closed: "red",
     not_started: "blue",

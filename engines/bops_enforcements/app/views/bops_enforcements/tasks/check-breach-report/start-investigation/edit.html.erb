@@ -1,0 +1,39 @@
+<%= render "bops_enforcements/enforcements/enforcement", title: @task.title %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= form_with model: @form, url: task_path(@case_record, @task), method: :patch do |form| %>
+      <%= form.govuk_error_summary %>
+      <% if @enforcement.not_started? %>
+        <p><strong>When starting an investigation, BOPS will inform the complainant.</strong></p>
+        <p>Investigation will start on <strong><%= Date.current.to_fs %></strong>.</p>
+      <% end %>
+
+      <% if @case_record.user %>
+        <p><strong>The case is currently assigned to: </strong><%= @case_record.user.name %></p>
+      <% else %>
+        <p>No case officer has been assigned yet.<br></p>
+      <% end %>
+      <p><%= govuk_link_to "Change", assign_users_path(case_id: @case_record.id) %></p>
+
+      <% if @enforcement.not_started? %>
+        <p><strong>Notification to be sent to complainant</strong></p>
+      <% else %>
+        <p><strong>Notification was sent to complainant on <%= @enforcement.under_investigation_at.to_fs %></strong></p>
+      <% end %>
+
+      <%= govuk_details(summary_text: "View email template") do %>
+        <%= simple_format @enforcement.start_investigation_email[:body] %>
+      <% end %>
+
+      <% if @enforcement.not_started? %>
+        <%= form.govuk_submit "Start investigation" do %>
+          <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
+        <% end %>
+      <% else %>
+        <p class="govuk-body">The investigation has already been started.</p>
+        <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
