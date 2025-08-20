@@ -11,6 +11,8 @@ class CaseRecord < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :submission, optional: true
 
+  delegate :email, to: :user, prefix: true, allow_nil: true
+
   after_initialize :generate_uuid
 
   before_create :load_tasks!

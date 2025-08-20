@@ -6,6 +6,10 @@ BopsEnforcements::Engine.routes.draw do
   resources :enforcements, only: %i[index show]
 
   scope "/cases/:case_id" do
+    resources :assign_users, only: %i[index] do
+      patch :update, on: :collection
+    end
+
     get "/*slug/edit", to: "tasks#edit", as: :edit_task
     patch "/*slug", to: "tasks#update"
     get "/*slug", to: "tasks#show", as: :task
