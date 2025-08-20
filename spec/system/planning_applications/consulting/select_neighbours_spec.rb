@@ -31,8 +31,6 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     allow(ENV).to receive(:fetch).and_call_original
     allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
 
-    Rails.configuration.os_vector_tiles_api_key = "testtest"
-
     stub_any_os_places_api_request
 
     sign_in assessor
@@ -162,7 +160,6 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
 
     before do
       stub_os_places_api_request_for_polygon(geojson["EPSG:27700"][:features][0])
-      Rails.configuration.os_vector_tiles_api_key = "testtest"
       click_link "Consultees, neighbours and publicity"
       click_link "Select and add neighbours"
 

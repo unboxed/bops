@@ -5,10 +5,6 @@ require "rails_helper"
 RSpec.describe BopsApi::CreateNeighbourBoundaryGeojsonJob, type: :job do
   let!(:planning_application) { create(:planning_application, neighbour_boundary_geojson: nil) }
 
-  before do
-    Rails.configuration.os_vector_tiles_api_key = "testtest"
-  end
-
   context "OS places returns addresses" do
     it "creates geojson for planning application" do
       stub_os_places_api_request_for_radius(planning_application.latitude, planning_application.longitude)

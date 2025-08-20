@@ -47,7 +47,6 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
             headers: {"Content-Type" => content_type}
           )
       end
-      Rails.configuration.os_vector_tiles_api_key = "testtest"
       stub_os_places_api_request_for_radius(51.4656522, -0.1185926)
     end
 

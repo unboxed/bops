@@ -24,8 +24,6 @@ RSpec.describe "Check report details", type: :system, capybara: true do
 
   context "when checking report" do
     before do
-      stub_request(:get, "https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857")
-        .to_return(status: 200, body: "", headers: {})
       click_link "Check report details"
     end
 

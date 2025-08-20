@@ -15,8 +15,6 @@ RSpec.describe MapProxyController, type: :request do
   end
 
   before do
-    Rails.configuration.os_vector_tiles_api_key = "testtest"
-
     stub_request(:get, os_api_url)
       .with(
         headers: {

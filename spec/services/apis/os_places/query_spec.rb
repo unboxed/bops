@@ -5,10 +5,6 @@ require "rails_helper"
 RSpec.describe Apis::OsPlaces::Query, exclude_stub_any_os_places_api_request: true do
   let(:query) { described_class.new }
 
-  before do
-    Rails.configuration.os_vector_tiles_api_key = "testtest"
-  end
-
   describe ".find_addresses" do
     before do
       stub_os_places_api_request_for("SE220HW")

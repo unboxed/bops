@@ -26,9 +26,6 @@ RSpec.describe BopsCore::ApplicationController, type: :controller do
   end
 
   describe "#set_current" do
-    before do
-    end
-
     it "sets the current local authority" do
       get :index
 
