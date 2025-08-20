@@ -1,11 +1,19 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../../../engines/bops_submissions/spec/support/fixture_helper"
 
 RSpec.describe "Enforcement index page", type: :system do
   let!(:local_authority) { create(:local_authority, :default) }
-  let!(:case_record) { build(:case_record, local_authority:) }
-  let!(:case_record_1) { build(:case_record, local_authority:) }
+  let!(:submission) do
+    create(
+      :submission,
+      local_authority: local_authority,
+      request_body: json_fixture_api("v0.7.5/enforcement/breach.json")
+    )
+  end
+  let!(:case_record) { build(:case_record, local_authority:, submission: submission) }
+  let!(:case_record_1) { build(:case_record, local_authority:, submission: submission) }
   let!(:enforcement) { create(:enforcement, case_record: case_record, received_at: 1.day.ago) }
   let!(:enforcement_1) { create(:enforcement, case_record: case_record_1, received_at: 3.days.ago) }
   let(:user) { create(:user, local_authority:) }

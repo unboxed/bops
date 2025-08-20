@@ -82,6 +82,10 @@ class Enforcement < ApplicationRecord
     lonlat&.x
   end
 
+  def complainant
+    @complainant ||= Complainant.new(submission.request_body&.dig("data", "complainant"))
+  end
+
   private
 
   def factory

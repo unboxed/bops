@@ -1,10 +1,19 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require Rails.root.join("engines/bops_submissions/spec/support/fixture_helper")
 
 RSpec.describe "Check report details", type: :system, capybara: true do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:case_record) { build(:case_record, local_authority:) }
+  let(:local_authority) { create(:local_authority, :default) }
+  let!(:submission) do
+    create(
+      :submission,
+      local_authority: local_authority,
+      request_body: json_fixture_api("v0.7.5/enforcement/breach.json")
+    )
+  end
+  let(:case_record) { build(:case_record, local_authority:, submission: submission) }
   let(:enforcement) { create(:enforcement, case_record:) }
   let(:user) { create(:user, local_authority:) }
 
@@ -15,6 +24,8 @@ RSpec.describe "Check report details", type: :system, capybara: true do
 
   context "when checking report" do
     before do
+      stub_request(:get, "https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857")
+        .to_return(status: 200, body: "", headers: {})
       click_link "Check report details"
     end
 

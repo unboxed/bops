@@ -19,6 +19,8 @@ module BopsSubmissions
             local_authority: local_authority
           )
 
+          # document creation service here
+
           enforcement
         end
       end
@@ -54,6 +56,12 @@ module BopsSubmissions
           "ProposalDetailsParser" => data[:responses]
         }.transform_keys { |key| Parsers.const_get(key) }
       end
+
+      # def attach_documents!
+      #   submission.documents.find_each do |document|
+      #     document.update!(planning_application: @planning_application)
+      #   end
+      # end
     end
   end
 end

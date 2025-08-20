@@ -1,23 +1,71 @@
 # frozen_string_literal: true
 
 require "rails_helper"
+require_relative "../../../engines/bops_submissions/spec/support/fixture_helper"
 
 RSpec.describe "Enforcement show page", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
-  let!(:case_record) { build(:case_record, local_authority:) }
-  let!(:enforcement) { create(:enforcement, case_record:) }
+  let!(:submission) do
+    create(
+      :submission,
+      local_authority: local_authority,
+      request_body: json_fixture_api("v0.7.5/enforcement/breach.json")
+    )
+  end
+
+  let(:proposal_details) do
+    [
+      {
+        question: "Has work already started?",
+        responses: [{value: "Yes"}],
+        metadata: {section_name: "About the property"}
+      },
+      {
+        question: "Is ther existing panning permission?",
+        responses: [{value: "No"}],
+        metadata: {section_name: "group_1"}
+      }
+    ]
+  end
+  let!(:case_record) { build(:case_record, local_authority:, submission: submission) }
+  let!(:enforcement) { create(:enforcement, case_record:, proposal_details: proposal_details) }
   let(:user) { create(:user, local_authority:) }
   let!(:task) { create(:task, parent: case_record, section: "Check", name: "Test task 1", slug: "test-task-1") }
   let!(:task2) { create(:task, parent: case_record, section: "Check", name: "Test task 2", slug: "test-task-2") }
   let!(:task3) { create(:task, parent: case_record, section: "Investigate", name: "Test task 3", slug: "test-task-3") }
 
   before do
+    enforcement.update(proposal_details: proposal_details)
+
     sign_in(user)
+    stub_request(:get, "https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857")
+      .to_return(status: 200, body: "", headers: {})
     visit "/enforcements/#{enforcement.case_record.id}/"
   end
 
   it "has a show page with basic details" do
     expect(page).to have_content(enforcement.address)
+  end
+
+  it "has the correct information in the accordion", capybara: true do
+    within(".govuk-accordion") do
+      within("#breach-report-section") do
+        find("button", text: "Breach report").click
+
+        within("tbody") do
+          expect(page).to have_text("Has work already started?")
+        end
+      end
+
+      within("#complainant-details-section") do
+        find("button", text: "Complainant details").click
+
+        within("tbody") do
+          expect(page).to have_text(enforcement.complainant.email)
+          expect(page).to have_text(enforcement.complainant.address)
+        end
+      end
+    end
   end
 
   it "has a link to the breach report page" do

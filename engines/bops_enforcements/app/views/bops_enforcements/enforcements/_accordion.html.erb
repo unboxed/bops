@@ -1,20 +1,53 @@
 <%= govuk_accordion do |accordion| %>
   <%= accordion.with_section(heading_text: "Breach report") do %>
-    <% @enforcement.proposal_details.each do |proposal_detail| %>
-      <%= render(
-            ProposalDetails::SummaryComponent.new(proposal_detail: proposal_detail)
-          ) %>
-    <% end %>
+  <%= govuk_table do |table| %>
+      <% table.with_head do |head| %>
+        <% head.with_row do |row| %>
+          <% row.with_cell(text: "Question", classes: "govuk-!-width-one-half") %>
+          <% row.with_cell(text: "Answer") %>
+        <% end %>
+      <% end %>
+      <% table.with_body do |body| %>
+          <% @enforcement.proposal_details.each_with_index do |proposal_detail, index| %>
+        <% body.with_row do |row| %>
+            <%= row.with_cell(text: "#{index + 1}. #{proposal_detail.question}") %>
+            <%= row.with_cell(text: proposal_detail.response_values.join(", ").to_s, classes: "govuk-!-font-weight-bold") %>
+          <% end %>
+        <% end %>
+      <% end %>
   <% end %>
+<% end %>
 
   <%= accordion.with_section(heading_text: "Site location") do %>
     <p>This digital red line boundary was submitted by the complainant.</p>
     <%= render "shared/location_map", locals: {in_accordion: true, geojson: @enforcement.boundary_geojson} %>
   <% end %>
 
-   <%= accordion.with_section(heading_text: "Complainant details") { tag.p("Content") } %>
-   <%= accordion.with_section(heading_text: "Site owner and interested parties") { tag.p("Content") } %>
-   <%= accordion.with_section(heading_text: "Documents") { tag.p("Content") } %>
-   <%= accordion.with_section(heading_text: "Photos") { tag.p("Content") } %>
+  <%= accordion.with_section(heading_text: "Complainant details") do %>
+    <%= govuk_table do |table| %>
+      <% table.with_head do |head| %>
+        <% head.with_row do |row| %>
+          <% row.with_cell(text: "Question", classes: "govuk-!-width-one-half") %>
+          <% row.with_cell(text: "Answer") %>
+        <% end %>
+      <% end %>
+      <% table.with_body do |body| %>
+        <% body.with_row do |row| %>
+          <%= row.with_cell(text: "Name") %>
+          <%= row.with_cell(text: @enforcement.complainant.name, classes: "govuk-!-font-weight-bold") %>
+        <% end %>
+        <% body.with_row do |row| %>
+          <%= row.with_cell(text: "Address") %>
+          <%= row.with_cell(text: @enforcement.complainant.address, classes: "govuk-!-font-weight-bold") %>
+        <% end %>
+        <% body.with_row do |row| %>
+          <%= row.with_cell(text: "Email") %>
+          <%= row.with_cell(text: @enforcement.complainant.email, classes: "govuk-!-font-weight-bold") %>
 
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= accordion.with_section(heading_text: "Documents and Photos") { tag.p("Content") } %>
 <% end %>
