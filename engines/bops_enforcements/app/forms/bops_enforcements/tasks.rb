@@ -17,7 +17,8 @@ module BopsEnforcements
 
       "check-report-details" => CheckReportDetailsForm,
       "check-description" => CheckDescriptionForm,
-      "close-case" => CloseCaseForm
+      "close-case" => CloseCaseForm,
+      "start-investigation-and-notify-complainant" => StartInvestigationAndNotifyComplainantForm
     }.freeze
   end
 end

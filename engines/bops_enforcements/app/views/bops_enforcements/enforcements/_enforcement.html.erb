@@ -33,7 +33,7 @@
   <div class="govuk-grid-column-two-thirds" id="dates-and-assignment-details">
     <p class="govuk-body">
       Assigned to: <strong><%= @enforcement.user&.name || "Unassigned" %></strong>
-      <%= govuk_link_to (@enforcement.user.present? ? "Change assignee" : "Assign application"), "#" %>
+      <%= govuk_link_to (@enforcement.user.present? ? "Change" : "Assign application"), assign_users_path(@case_record) %>
     </p>
   </div>
 </div>
