@@ -1,30 +1,4 @@
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds" id="<%= @task.slug %>">
-    <h1 class="govuk-heading-l"><%= @task.name %></h1>
-    <p class="govuk-body">
-      <strong><%= @enforcement.address %></strong>
-      <br>
-      Case reference <strong><%= @enforcement.case_record.id %></strong>
-    </p>
-
-    <div id="planning-application-statuses-tags">
-      <p class="govuk-body">
-        <span class="govuk-!-margin-left-1">
-          <span class="govuk-tag"><%= @enforcement.status %></span>
-        </span>
-        <% if @enforcement.urgent? %>
-          <span class="govuk-!-margin-left-1">
-            <span class="govuk-tag govuk-tag--orange">urgent</span>
-          </span>
-        <% end %>
-      </p>
-    </div>
-
-    <p class="govuk-body">
-      <%= @enforcement.description || "No description" %>
-    </p>
-  </div>
-</div>
+<%= render "bops_enforcements/enforcements/enforcement", title: @task.name %>
 
 <%= govuk_task_list(id_prefix: "breach-report") do |task_list| %>
   <% @task.tasks.each do |task| %>
