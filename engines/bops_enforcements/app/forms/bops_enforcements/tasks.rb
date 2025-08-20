@@ -4,20 +4,13 @@ module BopsEnforcements
   module Tasks
     class << self
       def form_for(slug)
-        FORM_HANDLERS.fetch(slug, BaseForm)
+        form_name = "#{slug.underscore}_form".camelcase
+        begin
+          "BopsEnforcements::Tasks::#{form_name}".constantize
+        rescue
+          BaseForm
+        end
       end
     end
-
-    FORM_HANDLERS = {
-      "check-breach-report" => BaseForm,
-      "investigate-and-decide" => BaseForm,
-      "review-recommendation" => BaseForm,
-      "serve-notice-and-monitor-compliance" => BaseForm,
-      "process-an-appeal" => BaseForm,
-
-      "check-report-details" => CheckReportDetailsForm,
-      "check-description" => CheckDescriptionForm,
-      "close-case" => CloseCaseForm
-    }.freeze
   end
 end
