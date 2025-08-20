@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class CreatePlanningApplicationCaseRecords < ActiveRecord::Migration[7.2]
+  class PlanningApplication < ActiveRecord::Base; end
+  class CaseRecord < ActiveRecord::Base; end
+
   def change
     up_only do
       PlanningApplication.all.find_each do |pa|
