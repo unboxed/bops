@@ -20,9 +20,6 @@ RSpec.describe "Enforcement close page", type: :system do
   let!(:task3) { create(:task, parent: case_record, section: "Investigate", name: "Test task 3", slug: "test-task-3") }
 
   before do
-    stub_request(:get, "https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857")
-      .to_return(status: 200, body: "", headers: {})
-
     sign_in(user)
     visit "/enforcements/#{enforcement.case_record.id}/"
   end
