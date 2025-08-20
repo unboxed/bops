@@ -11,6 +11,7 @@ class CreatePlanningApplicationCaseRecords < ActiveRecord::Migration[7.2]
           caseable_id: pa.id,
           caseable_type: "PlanningApplication"
         ) do |record|
+          record.id = SecureRandom.uuid_v7
           record.local_authority_id = pa.attributes["local_authority_id"]
           record.user_id = pa.attributes["user_id"]
           record.submission_id = pa.attributes["submission_id"]
