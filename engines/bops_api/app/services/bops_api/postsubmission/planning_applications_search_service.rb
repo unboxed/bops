@@ -22,6 +22,16 @@ module BopsApi
       private
 
       def filter_by(scope)
+        status_param = params[:applicationStatus]
+        if status_param.present?
+          status = Array(status_param)
+            .flat_map { |c| c.to_s.split(",") }
+            .compact_blank
+            .uniq
+
+          scope = scope.where(status:)
+        end
+
         types_param = params[:applicationType]
         if types_param.present?
           codes = Array(types_param)
