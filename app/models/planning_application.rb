@@ -1045,6 +1045,13 @@ class PlanningApplication < ApplicationRecord
     pre_application? ? "pre-application" : "application"
   end
 
+  def initialize(args)
+    super
+
+    self.case_record ||= CaseRecord.new(local_authority: args[:local_authority])
+    self.case_record.caseable = self
+  end
+
   private
 
   def create_fee_calculation
