@@ -37,3 +37,5 @@ RSpec.configure do |config|
   config.include(SystemSpecHelpers)
   config.include Rails.application.routes.url_helpers
 end
+
+Rails.configuration.os_vector_tiles_api_key = "testtest"

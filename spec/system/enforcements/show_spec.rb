@@ -38,8 +38,6 @@ RSpec.describe "Enforcement show page", type: :system do
     enforcement.update(proposal_details: proposal_details)
 
     sign_in(user)
-    stub_request(:get, "https://api.os.uk/maps/vector/v1/vts/resources/styles?srs=3857")
-      .to_return(status: 200, body: "", headers: {})
     visit "/enforcements/#{enforcement.case_record.id}/"
   end
 

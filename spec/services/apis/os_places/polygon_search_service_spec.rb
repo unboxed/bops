@@ -3,10 +3,6 @@
 require "rails_helper"
 
 RSpec.describe Apis::OsPlaces::PolygonSearchService, exclude_stub_any_os_places_api_request: true do
-  before do
-    Rails.configuration.os_vector_tiles_api_key = "testtest"
-  end
-
   describe "#call" do
     let(:geojson) do
       {

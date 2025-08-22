@@ -23,13 +23,7 @@ module OsPlacesHelper
   end
 
   def stub_any_os_vector_request
-    stub_request(:get, /https:\/\/api\.os\.uk\/maps\/vector\/v1\/vts.*/)
-      .with(
-        headers: {
-          "Key" => "testtest",
-          "Accept" => "application/octet-stream"
-        }
-      )
+    stub_request(:get, %r{https://api\.os\.uk/maps/vector/v1/vts.*})
       .to_return(
         status: 200,
         body: "mock tile data",

@@ -24,8 +24,6 @@ RSpec.describe "BOPS API" do
     create(:application_type_config, :minor)
     create(:application_type_config, :major)
     create(:application_type_config, :pre_application)
-
-    Rails.configuration.os_vector_tiles_api_key = "testtest"
   end
 
   let(:Authorization) { "Bearer bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
