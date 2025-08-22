@@ -26,8 +26,7 @@ module BopsApi
         if types_param.present?
           codes = Array(types_param)
             .flat_map { |c| c.to_s.split(",") }
-            .map(&:presence)
-            .compact
+            .compact_blank
             .uniq
 
           scope = scope.for_application_type_codes(codes)
