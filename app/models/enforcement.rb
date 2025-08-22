@@ -5,6 +5,9 @@ class Enforcement < ApplicationRecord
 
   include EnforcementStatus
 
+  has_one :case_record, as: :caseable
+  has_many :documents, through: :case_record
+
   STATUS_COLOURS = {
     closed: "red",
     not_started: "blue",

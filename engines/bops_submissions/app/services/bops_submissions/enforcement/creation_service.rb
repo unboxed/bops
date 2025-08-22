@@ -3,31 +3,30 @@
 module BopsSubmissions
   module Enforcement
     class CreationService
-      def initialize(submission:)
+      def initialize(submission:, user:)
         @submission = submission
+        @user = user
         @local_authority = submission.local_authority
         @data = submission.request_body.with_indifferent_access
       end
 
       def call!
-        ApplicationRecord.transaction do
+        enforcement = ApplicationRecord.transaction do
           enforcement = build_enforcement
           enforcement.save!
-
           submission.create_case_record!(
             caseable: enforcement,
             local_authority: local_authority
           )
-
-          # document creation service here
-
           enforcement
         end
+        attach_documents!(enforcement) if submission.request_body["files"]
+        enforcement
       end
 
       private
 
-      attr_reader :submission, :data, :local_authority
+      attr_reader :submission, :data, :local_authority, :user
 
       def data_params
         @data_params ||= data.fetch(:data)
@@ -57,11 +56,9 @@ module BopsSubmissions
         }.transform_keys { |key| Parsers.const_get(key) }
       end
 
-      # def attach_documents!
-      #   submission.documents.find_each do |document|
-      #     document.update!(planning_application: @planning_application)
-      #   end
-      # end
+      def attach_documents!(enforcement)
+        DocumentsService.new(case_record: enforcement.case_record, user:, files: submission.request_body["files"]).call!
+      end
     end
   end
 end

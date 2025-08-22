@@ -4,6 +4,9 @@ require "rails_helper"
 
 RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
   let!(:submission) { create(:submission, status: "submitted") }
+  # let(:local_authority) { create(:local_authority, :default) }
+  # let(:revoked_at) { nil }
+  # let(:api_user) { create(:api_user, :validation_requests_ro, local_authority:, revoked_at:) }
 
   before do
     allow(Submission)
@@ -34,7 +37,7 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
         expect(creator).to receive(:call!).ordered
         expect(submission).to receive(:complete!).ordered
 
-        described_class.perform_now(submission.id)
+        described_class.perform_now(submission.id, current_api_user: nil)
       end
     end
 
@@ -55,7 +58,7 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
         expect(submission).to receive(:update!).with(error_message: "An error!").ordered.and_call_original
 
         expect {
-          described_class.perform_now(submission.id)
+          described_class.perform_now(submission.id, current_api_user: nil)
         }.to raise_error(StandardError, "An error!")
 
         expect(submission.reload.status).to eq("failed")
@@ -73,7 +76,7 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
         expect(Appsignal).to receive(:report_error).with(instance_of(ActiveRecord::RecordNotFound))
 
         expect {
-          described_class.perform_now(1)
+          described_class.perform_now(1, current_api_user: nil)
         }.to raise_error(ActiveRecord::RecordNotFound, "not found")
       end
     end
@@ -104,7 +107,7 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
         expect(submission).to receive(:update!).with(error_message: "Submission has no JSON").ordered.and_call_original
 
         expect {
-          described_class.perform_now(submission.id)
+          described_class.perform_now(submission.id, current_api_user: nil)
         }.to raise_error(ArgumentError, "Submission has no JSON")
 
         expect(submission.reload.status).to eq("failed")
@@ -122,7 +125,7 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
           .and_return(extractor)
         allow(extractor).to receive(:call)
 
-        json_data = json_fixture("files/applications/PT-10087984.json")
+        json_data = JSON.parse(BopsSubmissions::Engine.root.join("spec", "fixtures", "files/applications/PT-10087984.json").read)
         submission.update!(json_file: json_data)
       end
 
@@ -130,7 +133,7 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
         create(:application_type, :planning_permission)
 
         expect {
-          described_class.perform_now(submission.id)
+          described_class.perform_now(submission.id, current_api_user: nil)
         }.not_to raise_error
 
         pa = PlanningApplication.last
