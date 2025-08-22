@@ -14,6 +14,8 @@ module BopsApi
 
       def call
         scoped = filter_by(scope)
+        scoped = filter_by_application_type_code(scoped)
+        scoped = filter_by_application_status(scoped)
         scoped = apply_date_filters(scoped)
         scoped = sort_results(scoped)
         paginate(scoped)
@@ -21,27 +23,29 @@ module BopsApi
 
       private
 
+      def filter_by_application_type_code(scope)
+        return scope if params[:applicationType].blank?
+
+        codes = Array(params[:applicationType])
+          .flat_map { |c| c.to_s.split(",") }
+          .compact_blank
+          .uniq
+
+        scope.for_application_type_codes(codes)
+      end
+
+      def filter_by_application_status(scope)
+        return scope if params[:applicationStatus].blank?
+
+        status = Array(params[:applicationStatus])
+          .flat_map { |c| c.to_s.split(",") }
+          .compact_blank
+          .uniq
+
+        scope.where(status:)
+      end
+
       def filter_by(scope)
-        status_param = params[:applicationStatus]
-        if status_param.present?
-          status = Array(status_param)
-            .flat_map { |c| c.to_s.split(",") }
-            .compact_blank
-            .uniq
-
-          scope = scope.where(status:)
-        end
-
-        types_param = params[:applicationType]
-        if types_param.present?
-          codes = Array(types_param)
-            .flat_map { |c| c.to_s.split(",") }
-            .compact_blank
-            .uniq
-
-          scope = scope.for_application_type_codes(codes)
-        end
-
         search_param = (params[:query] || params[:q]).presence
         if search_param.present?
           normalised_query = search_param.downcase.strip
