@@ -44,18 +44,19 @@ module BopsApi
 
         codes = Array(params[:applicationType])
           .flat_map { |c| c.to_s.split(",") }
-          .map(&:presence)
-          .compact
+          .compact_blank
           .uniq
 
         scope.for_application_type_codes(codes)
       end
 
       def filter_by_application_status
-        status = params[:applicationStatus]
-        return scope if status.blank?
+        return scope if params[:applicationStatus].blank?
 
-        status = status.split(",").compact_blank if status.is_a? String
+        status = Array(params[:applicationStatus])
+          .flat_map { |c| c.to_s.split(",") }
+          .compact_blank
+          .uniq
 
         scope.where(status:)
       end

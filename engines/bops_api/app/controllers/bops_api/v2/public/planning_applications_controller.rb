@@ -26,7 +26,28 @@ module BopsApi
         private
 
         def pagination_params
-          params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :q, :page, :format, :reference, :description, :postcode, :publishedAtFrom, :publishedAtTo, :receivedAtFrom, :receivedAtTo, :validatedAtFrom, :validatedAtTo, :consultationEndDateFrom, :consultationEndDateTo, applicationType: [])
+          params.permit(
+            :sortBy,
+            :orderBy,
+            :resultsPerPage,
+            :query,
+            :q,
+            :page,
+            :format,
+            :reference,
+            :description,
+            :postcode,
+            :publishedAtFrom,
+            :publishedAtTo,
+            :receivedAtFrom,
+            :receivedAtTo,
+            :validatedAtFrom,
+            :validatedAtTo,
+            :consultationEndDateFrom,
+            :consultationEndDateTo,
+            applicationStatus: [],
+            applicationType: []
+          )
         end
       end
     end
