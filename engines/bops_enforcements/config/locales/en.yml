@@ -48,6 +48,10 @@ en:
             permission_not_required: Permission not required for use or development
             permission_previously_granted: Permission previously granted
         success: Case successfully closed
+      edit:
+        failure: You cannot make changes to this case as it has already been closed
+      show:
+        failure: You cannot make changes to this case as it has already been closed
       update:
         check-description:
           failure: Unable to update site description
@@ -55,3 +59,4 @@ en:
         check-report-details:
           failure: Unable to update task
           success: Report details successfully checked
+        failure: You cannot make changes to this case as it has already been closed
