@@ -1,0 +1,18 @@
+Application reference number: <%= @planning_application.reference_in_full %>
+Address: <%= @planning_application.full_address %>
+
+Dear <%= @planning_application.agent_or_applicant_name %>,
+
+Your case officer has updated the description of development for your application. Descriptions are updated to provide consistent information and to remove any errors.
+
+Your previous description:
+<%= @description_change_request.specific_attributes["previous_description"] %>
+
+Your new description:
+<%= @description_change_request.specific_attributes["proposed_description"] %>
+
+If you need help with your application, contact us at <%= @planning_application.local_authority.email_address %>.
+
+Regards,
+
+<%= @planning_application.local_authority.council_name %>

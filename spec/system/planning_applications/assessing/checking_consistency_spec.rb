@@ -466,11 +466,12 @@ RSpec.describe "checking consistency" do
     click_link("Request a change to the description")
 
     fill_in(
-      "Enter an amended description to send to the applicant",
+      "Enter an amended description",
       with: "New description"
     )
 
-    click_button("Send")
+    choose "Yes, applicant agreement needed"
+    click_button "Update description"
 
     expect(page).to have_content(
       "Description change request successfully sent."
@@ -498,11 +499,12 @@ RSpec.describe "checking consistency" do
     click_link("Request a change to the description")
 
     fill_in(
-      "Enter an amended description to send to the applicant",
+      "Enter an amended description",
       with: "New description 2"
     )
 
-    click_button("Send")
+    choose "Yes, applicant agreement needed"
+    click_button "Update description"
 
     expect(page).to have_content(
       "Description change request successfully sent."
@@ -533,11 +535,12 @@ RSpec.describe "checking consistency" do
     click_link("Request a change to the description")
 
     fill_in(
-      "Enter an amended description to send to the applicant",
+      "Enter an amended description",
       with: "New description 3"
     )
 
-    click_button("Send")
+    choose "Yes, applicant agreement needed"
+    click_button "Update description"
 
     expect(page).to have_content(
       "Description change request successfully sent."

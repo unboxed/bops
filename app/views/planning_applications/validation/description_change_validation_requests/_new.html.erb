@@ -17,13 +17,10 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <% if @planning_application.application_type.description_change_requires_validation? %>
-      <h2 class="govuk-heading-m govuk-!-margin-top-3">
-        Suggest a new description to the applicant
-      </h2>
+      <h3 class="govuk-heading-s govuk-!-margin-top-3">
+       Update the description or suggest a new description to the applicant
+      </h3>
 
-      <p>
-        This will be sent to the applicant immediately. If the applicant does not respond within 5 days, the amended description will be automatically accepted.
-      </p>
     <% else %>
       <h2 class="govuk-heading-m govuk-!-margin-top-3">
         Update description
@@ -59,16 +56,29 @@
       <% end %>
       <%= form.hidden_field(:type, value: "DescriptionChangeValidationRequest") %>
       <%= form.govuk_text_area :proposed_description,
-            label: {size: "s", text: "Enter an amended description" + (@planning_application.application_type.description_change_requires_validation? ? " to send to the applicant" : "")},
+            value: @planning_application.description,
+            label: {size: "s", text: "Enter an amended description"},
             rows: 5 %>
       <% if @planning_application.not_started? %>
         <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>
       <% else %>
         <%= form.hidden_field(:return_to, value: @back_path) %>
       <% end %>
-      <div class="govuk-button-group">
-        <%= form.govuk_submit @planning_application.application_type.description_change_requires_validation? ? "Send request" : "Save and mark as complete" %>
-        <%= back_link %>
+      <% if @planning_application.application_type.description_change_requires_validation? %>
+        <div class="display govuk-!-margin-top-3">
+          <%= form.govuk_radio_buttons_fieldset(:skip_applicant_approval, legend: {size: "m", text: "Does this description change require applicant's agreement?"}) do %>
+            <%= form.govuk_radio_button :skip_applicant_approval, false, label: {text: "Yes, applicant agreement needed"} do %>
+              <p>The new description will be sent to the applicant to approve. If the applicant does not respond within 5 days, the amended description will be automatically accepted.</p>
+            <% end %>
+            <%= form.govuk_radio_button :skip_applicant_approval, true, label: {text: "No, update description immediately"} do %>
+              <p>The applicant will be notified of the new description.</p>
+            <% end %>
+          <% end %>
+      <% end %>
+        <div class="govuk-button-group">
+          <%= form.govuk_submit @planning_application.application_type.description_change_requires_validation? ? "Update description" : "Save and mark as complete" %>
+          <%= back_link %>
+        </div>
       </div>
     <% end %>
   </div>

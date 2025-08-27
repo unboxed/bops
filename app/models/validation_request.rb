@@ -271,6 +271,12 @@ class ValidationRequest < ApplicationRecord
     ).deliver_now
   end
 
+  def immediate_auto_closed?
+    return false if auto_closed_at.blank?
+
+    (auto_closed_at - created_at) < 60.seconds
+  end
+
   private
 
   def send_and_add_events
@@ -322,6 +328,13 @@ class ValidationRequest < ApplicationRecord
 
   def send_description_request_email
     PlanningApplicationMailer.description_change_mail(
+      planning_application,
+      self
+    ).deliver_now
+  end
+
+  def send_description_update_email
+    PlanningApplicationMailer.description_update_mail(
       planning_application,
       self
     ).deliver_now

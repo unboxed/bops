@@ -7,6 +7,8 @@ class DescriptionChangeValidationRequest < ValidationRequest
   validate :allows_only_one_open_description_change, on: :create
   validate :planning_application_has_not_been_determined, on: :create
   validate :rejected_reason_is_present?
+  attr_accessor :skip_applicant_approval
+  scope :auto_closed, -> { where(auto_closed: true) }
 
   validate if: :applicant_responding? do
     if approved.nil?
@@ -19,7 +21,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
   end
 
   before_create :set_previous_application_description
-  after_save :preapplication_auto_close, if: -> { open? && !planning_application.application_type.description_change_requires_validation? }
+  after_save :description_auto_close, if: -> { open? && !planning_application.application_type.description_change_requires_validation? || skip_applicant_approval? }
 
   def response_due
     RESPONSE_TIME_IN_DAYS.business_days.after(created_at).to_date
@@ -29,6 +31,10 @@ class DescriptionChangeValidationRequest < ValidationRequest
     planning_application.update!(description: proposed_description)
   end
 
+  def skip_applicant_approval?
+    skip_applicant_approval == "true"
+  end
+
   private
 
   def create_audit!
@@ -36,8 +42,11 @@ class DescriptionChangeValidationRequest < ValidationRequest
   end
 
   def email_and_timestamp
-    send_description_request_email if planning_application.application_type.description_change_requires_validation?
-
+    if planning_application.application_type.description_change_requires_validation? && skip_applicant_approval?
+      send_description_update_email
+    elsif planning_application.application_type.description_change_requires_validation?
+      send_description_request_email
+    end
     mark_as_sent!
   end
 
@@ -85,7 +94,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
     planning_application.update!(description: proposed_description)
   end
 
-  def preapplication_auto_close
+  def description_auto_close
     auto_close_request!
     planning_application.update!(valid_description: true)
   end

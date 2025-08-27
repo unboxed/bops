@@ -823,7 +823,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def closed_pre_validation_requests
-    requests_excluding_time_extension.closed - requests_excluding_time_extension.closed.post_validation
+    requests_excluding_time_extension.closed.reject(&:immediate_auto_closed?) - requests_excluding_time_extension.closed.post_validation
   end
 
   def open_post_validation_requests?

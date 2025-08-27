@@ -32,8 +32,9 @@ Feature: Creating a description change on the application
   Scenario: I cannot create a second description change request when an open one exists
     Given I create a description change request with "A yard full of bananas"
     When I visit the new description change request link
-    And I fill in "Enter an amended description to send to the applicant" with "Mambo number 2"
-    And I press "Send"
+    And I fill in "Enter an amended description" with "Mambo number 2"
+    And I choose "Yes, applicant agreement needed"
+    And I press "Update description"
     Then the page contains "An open description change already exists for this planning application."
 
   Scenario: I can view a notification banner when a request has been auto-closed
