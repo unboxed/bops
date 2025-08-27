@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require Rails.root.join("engines/bops_submissions/spec/support/fixture_helper")
 
 RSpec.describe "Check report details", type: :system, capybara: true do
   let(:local_authority) { create(:local_authority, :default) }

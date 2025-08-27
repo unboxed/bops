@@ -43,7 +43,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
           stub_request(:get, event["documentLinks"].first["documentLink"])
             .to_return(
               status: 200,
-              body: zip_fixture("applications/PT-10087984.zip"),
+              body: file_fixture_submissions("applications/PT-10087984.zip"),
               headers: {"Content-Type" => "application/zip"}
             )
         end

@@ -145,7 +145,7 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
   end
 
   shared_examples "a real planning portal fixture" do |zip_name:, doc_count:, expected_filenames:|
-    let(:zip_path) { zip_fixture("applications/#{zip_name}.zip") }
+    let(:zip_path) { file_fixture_submissions("applications/#{zip_name}.zip") }
     let(:application_json) { json_fixture_submissions("files/applications/#{zip_name}.json") }
     let(:submission) do
       create(
@@ -231,7 +231,7 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
   describe "zip processing method" do
     context "when Zip::InputStream throws error and fallbacks to Zip::File" do
       let(:zip_name) { "PT-10078243" }
-      let(:zip_path) { zip_fixture("applications/#{zip_name}.zip") }
+      let(:zip_path) { file_fixture_submissions("applications/#{zip_name}.zip").to_s }
       let(:submission) { create(:submission, request_body: {"documentLinks" => [{"documentLink" => zip_path}]}) }
 
       before do
@@ -258,7 +258,7 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
 
     context "when using Zip::InputStream" do
       let(:zip_name) { "PT-10079425" }
-      let(:zip_path) { zip_fixture("applications/#{zip_name}.zip") }
+      let(:zip_path) { file_fixture_submissions("applications/#{zip_name}.zip").to_s }
       let(:submission) do
         create(:submission,
           request_body: {"documentLinks" => [{"documentLink" => zip_path}]})

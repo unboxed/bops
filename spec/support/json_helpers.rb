@@ -10,6 +10,10 @@ RSpec.configure do |config|
       next unless engine.name.start_with? "Bops"
       engine_name = engine.name.underscore.split(%r{[/_]+})[1]
 
+      define_method(:"file_fixture_#{engine_name}") do |name|
+        engine.root.join("spec", "fixtures", "files", name)
+      end
+
       define_method(:"json_fixture_#{engine_name}") do |name|
         JSON.parse(engine.root.join("spec", "fixtures", name).read).with_indifferent_access
       end

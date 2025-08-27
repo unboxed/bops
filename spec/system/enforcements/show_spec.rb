@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require_relative "../../../engines/bops_submissions/spec/support/fixture_helper"
 
 RSpec.describe "Enforcement show page", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
