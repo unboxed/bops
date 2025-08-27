@@ -45,7 +45,7 @@ module PlanningDataHelper
   def planning_data_entity_geojson_response(status, body = "1000005")
     status = Rack::Utils.status_code(status)
 
-    body = Rails.root.join("spec", "fixtures", "files", "entities", "#{body}.json").read
+    body = file_fixture("entities/#{body}.json").read
 
     {status:, body:}
   end
