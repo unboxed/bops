@@ -327,6 +327,13 @@ class ValidationRequest < ApplicationRecord
     ).deliver_now
   end
 
+  def send_description_update_email
+    PlanningApplicationMailer.description_update_mail(
+      planning_application,
+      self
+    ).deliver_now
+  end
+
   def cancel_audit_event
     post_validation ? "cancelled_post_validation" : "cancelled"
   end

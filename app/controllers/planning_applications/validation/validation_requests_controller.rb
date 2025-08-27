@@ -85,10 +85,9 @@ module PlanningApplications
             validation_request_params.except(:return_to).merge!({planning_application_id: @planning_application.id})
           )
         @validation_request.user = current_user
-
         if @validation_request.save
           i18n_key = ".#{@validation_request.type.underscore}.success"
-          i18n_key << "_autoapproved" if @validation_request.type == "DescriptionChangeValidationRequest" && !@planning_application.application_type.description_change_requires_validation?
+          i18n_key << "_autoapproved" if @validation_request.type == "DescriptionChangeValidationRequest" && !@planning_application.application_type.description_change_requires_validation? || applicant_approval_skipped?
 
           redirect_to(
             create_request_redirect_url,
@@ -190,7 +189,7 @@ module PlanningApplications
         params.require(:validation_request)
           .permit(
             :new_geojson, :reason, :type, :suggestion, :planning_application_id, :proposed_expiry_date,
-            :document_request_type, :old_document_id, :proposed_description, :return_to
+            :document_request_type, :old_document_id, :proposed_description, :return_to, :skip_applicant_approval
           )
       end
 
@@ -240,6 +239,10 @@ module PlanningApplications
         else
           params.require(:validation_request).permit(:type)[:type]
         end
+      end
+
+      def applicant_approval_skipped?
+        params.dig("validation_request", "skip_applicant_approval") == "true"
       end
     end
   end
