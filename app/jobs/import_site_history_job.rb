@@ -64,7 +64,7 @@ class ImportSiteHistoryJob < ApplicationJob
       Rails.logger.debug "Using local file for import"
       file.write(local_import_file)
     else
-      s3.get_object(bucket: "bops-#{Rails.env}-import", key: s3_key) do |chunk|
+      s3.get_object(bucket: "bops-#{Bops.env}-import", key: s3_key) do |chunk|
         file.write(chunk.dup.force_encoding("utf-8"))
       end
     end
