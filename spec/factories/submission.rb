@@ -24,6 +24,7 @@ FactoryBot.define do
     external_uuid { SecureRandom.uuid_v7 }
 
     trait :enforcement do
+      # TODO this should ideally use json_fixture_api, but that helper isn't visible from inside a factory
       request_body { JSON.parse(BopsApi::Engine.root.join("spec", "fixtures", "examples", "odp", "v0.7.5/enforcement/breach.json").read) }
     end
 

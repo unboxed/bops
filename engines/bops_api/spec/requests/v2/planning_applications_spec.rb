@@ -283,7 +283,7 @@ RSpec.describe "BOPS API" do
       }
 
       response "200", "returns planning applications" do
-        example "application/json", :default, api_json_fixture("planning_applications/index.json")
+        example "application/json", :default, json_fixture_api("examples/planning_applications/index.json")
 
         run_test! do |response|
           data = JSON.parse(response.body)
@@ -303,7 +303,7 @@ RSpec.describe "BOPS API" do
       end
 
       response "200", "returns planning applications with given ids" do
-        example "application/json", :ids, api_json_fixture("planning_applications/index.json")
+        example "application/json", :ids, json_fixture_api("examples/planning_applications/index.json")
 
         let(:page) { 1 }
         let("ids[]") { planning_applications.take(4).map(&:id) }
@@ -365,7 +365,7 @@ RSpec.describe "BOPS API" do
       }
 
       response "200", "returns determined planning applications" do
-        example "application/json", :default, api_json_fixture("planning_applications/determined.json")
+        example "application/json", :default, json_fixture_api("examples/planning_applications/determined.json")
 
         let(:page) { 1 }
 
@@ -390,7 +390,7 @@ RSpec.describe "BOPS API" do
       end
 
       response "200", "returns determined planning applications with given ids" do
-        example "application/json", :ids, api_json_fixture("planning_applications/determined.json")
+        example "application/json", :ids, json_fixture_api("examples/planning_applications/determined.json")
 
         let(:page) { 1 }
         let("ids[]") { determined_planning_applications[0, 2].map(&:id) }
@@ -429,7 +429,7 @@ RSpec.describe "BOPS API" do
       }
 
       response "200", "returns a planning application given an ID" do
-        example "application/json", :default, api_json_fixture("planning_applications/show.json")
+        example "application/json", :default, json_fixture_api("examples/planning_applications/show.json")
 
         let(:planning_application) { planning_applications.first }
         let(:reference) { planning_application.id }
@@ -448,7 +448,7 @@ RSpec.describe "BOPS API" do
       end
 
       response "200", "returns a planning application given a reference" do
-        example "application/json", :default, api_json_fixture("planning_applications/show.json")
+        example "application/json", :default, json_fixture_api("examples/planning_applications/show.json")
 
         let(:planning_application) { planning_applications.first }
         let(:reference) { planning_application.reference }

@@ -3,7 +3,7 @@
 RSpec.configure do |config|
   helpers = Module.new do
     def example_fixture(name, version: BopsApi::Schemas::DEFAULT_ODP_VERSION, **)
-      JSON.parse(BopsApi::Engine.root.join("spec", "fixtures", "examples", version, name).read, **)
+      json_fixture_api("examples/#{version}/#{name}")
     end
 
     def load_and_resolve_schema(name:, version:)

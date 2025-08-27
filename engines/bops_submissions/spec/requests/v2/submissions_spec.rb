@@ -4,7 +4,7 @@ require_relative "../../swagger_helper"
 
 RSpec.describe "BOPS Submissions API", type: :request do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:valid_submission_event) { json_fixture("submissions/planning_portal.json") }
+  let(:valid_submission_event) { json_fixture_submissions("planning_portal.json") }
 
   before do
     create(:api_user, permissions: %w[planning_application:write], token: "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw", local_authority:)
@@ -24,13 +24,13 @@ RSpec.describe "BOPS Submissions API", type: :request do
       request_body_example(
         name: "ValidPlanningPortalSubmissionEvent",
         summary: "Planning Portal Submission",
-        value: json_fixture("submissions/planning_portal.json")
+        value: json_fixture_submissions("planning_portal.json")
       )
 
       request_body_example(
         name: "ValidEnforcementSubmissionEvent",
         summary: "Enforcement Submission",
-        value: json_fixture_api("v0.7.5/enforcement/breach.json")
+        value: json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json")
       )
 
       response "200", "submission accepted" do

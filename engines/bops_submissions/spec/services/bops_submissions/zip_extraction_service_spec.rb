@@ -146,7 +146,7 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
 
   shared_examples "a real planning portal fixture" do |zip_name:, doc_count:, expected_filenames:|
     let(:zip_path) { zip_fixture("applications/#{zip_name}.zip") }
-    let(:application_json) { json_fixture("files/applications/#{zip_name}.json") }
+    let(:application_json) { json_fixture_submissions("files/applications/#{zip_name}.json") }
     let(:submission) do
       create(
         :submission,

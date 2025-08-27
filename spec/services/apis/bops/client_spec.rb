@@ -7,7 +7,7 @@ RSpec.describe Apis::Bops::Client do
   let(:planning_application) { create(:planning_application) }
 
   before do
-    create(:planx_planning_data, params_v2: api_json_fixture("odp/v0.7.0/validPlanningPermission.json"), planning_application:)
+    create(:planx_planning_data, params_v2: json_fixture_api("examples/odp/v0.7.0/validPlanningPermission.json"), planning_application:)
   end
 
   describe "#call" do

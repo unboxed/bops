@@ -122,7 +122,7 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
           .and_return(extractor)
         allow(extractor).to receive(:call)
 
-        json_data = json_fixture("files/applications/PT-10087984.json")
+        json_data = json_fixture_submissions("files/applications/PT-10087984.json")
         submission.update!(json_file: json_data)
       end
 
