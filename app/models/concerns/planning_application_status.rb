@@ -182,7 +182,11 @@ module PlanningApplicationStatus
     end
 
     def closed_or_cancelled?
-      determined? || returned? || withdrawn? || closed?
+      determined? || cancelled?
+    end
+
+    def cancelled?
+      returned? || withdrawn? || closed?
     end
 
     def can_submit_recommendation?
@@ -202,7 +206,7 @@ module PlanningApplicationStatus
     end
 
     def can_edit_documents?
-      can_validate? || publish_complete?
+      !cancelled?
     end
 
     def review_complete?

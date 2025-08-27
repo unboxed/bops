@@ -207,8 +207,8 @@ RSpec.describe "Documents index page" do
       visit "/planning_applications/#{awaiting_determination_planning_application.id}/documents"
     end
 
-    it "Archive button is not visible" do
-      expect(page).not_to have_link("Archive")
+    it "Archive button is still visible" do
+      expect(page).to have_link("Archive")
     end
   end
 
