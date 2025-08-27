@@ -11,7 +11,7 @@ RSpec.describe BopsApi::PostApplicationToStagingJob, type: :job do
 
   context "when there is an ODP submission" do
     before do
-      create(:planx_planning_data, params_v2: api_json_fixture("odp/v0.7.0/validPlanningPermission.json"), planning_application:)
+      create(:planx_planning_data, params_v2: json_fixture_api("examples/odp/v0.7.0/validPlanningPermission.json"), planning_application:)
     end
 
     it "calls the query to post to staging" do

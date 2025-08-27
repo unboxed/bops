@@ -3,7 +3,6 @@
 require "rails_helper"
 
 RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
-  let(:examples_root) { BopsApi::Engine.root.join("spec", "fixtures", "examples", "odp") }
   let(:southwark) { create(:local_authority, :southwark) }
   let(:creation_service) { instance_double(BopsApi::Application::CreationService) }
   let(:planning_application) { instance_double(PlanningApplication) }
@@ -34,7 +33,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
         validRetrospectivePlanningPermission.json
       ].each do |example|
         it "#{example} can be submitted successfully" do
-          post :create, as: :json, body: examples_root.join(version, example).read
+          post :create, as: :json, body: json_fixture_api("examples/odp/#{version}/#{example}").to_json
 
           expect(response).to have_http_status(:ok)
           expect(response).to render_template("bops_api/v2/planning_applications/create")
@@ -54,7 +53,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
         validRetrospectivePlanningPermission.json
       ].each do |example|
         it "#{example} can be submitted successfully" do
-          post :create, as: :json, body: examples_root.join(version, example).read
+          post :create, as: :json, body: json_fixture_api("examples/odp/#{version}/#{example}").to_json
 
           expect(response).to have_http_status(:ok)
           expect(response).to render_template("bops_api/v2/planning_applications/create")
@@ -82,7 +81,7 @@ RSpec.describe BopsApi::V2::PlanningApplicationsController, type: :controller do
         preApplication/preApp.json
       ].each do |example|
         it "#{example} can be submitted successfully" do
-          post :create, as: :json, body: examples_root.join(version, example).read
+          post :create, as: :json, body: json_fixture_api("examples/odp/#{version}/#{example}").to_json
 
           expect(response).to have_http_status(:ok)
           expect(response).to render_template("bops_api/v2/planning_applications/create")

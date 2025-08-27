@@ -10,7 +10,7 @@ RSpec.describe BopsApi::Application::SubmissionRedactionService, type: :service 
       described_class.new(planning_application:).call
     end
 
-    let(:submission) { JSON.parse(BopsApi::Engine.root.join("spec", "fixtures", "examples", "odp", "v0.6.0", "validPlanningPermission.json").read) }
+    let(:submission) { json_fixture_api("examples/odp/v0.6.0/validPlanningPermission.json") }
     let(:planx_planning_data) { create(:planx_planning_data, params_v2: submission) }
     let(:planning_application) { create(:planning_application, local_authority:, planx_planning_data:) }
 

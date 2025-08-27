@@ -12,7 +12,7 @@ RSpec.describe BopsSubmissions::Parsers::ApplicantParser do
 
     context "with valid params" do
       let(:params) {
-        json_fixture("files/applications/PT-10087984.json")["applicationData"]["applicant"]
+        json_fixture_submissions("files/applications/PT-10087984.json")["applicationData"]["applicant"]
       }
 
       it "returns a correctly formatted applicant hash" do

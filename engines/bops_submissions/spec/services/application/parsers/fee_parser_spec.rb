@@ -12,7 +12,7 @@ RSpec.describe BopsSubmissions::Parsers::FeeParser do
 
     context "with valid params" do
       let(:params) {
-        json_fixture("files/applications/PT-10087984.json")["feeCalculationSummary"]
+        json_fixture_submissions("files/applications/PT-10087984.json")["feeCalculationSummary"]
       }
 
       it "returns a correctly formatted fee hash" do

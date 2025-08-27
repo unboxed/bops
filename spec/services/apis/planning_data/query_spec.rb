@@ -40,7 +40,7 @@ RSpec.describe Apis::PlanningData::Query do
   end
 
   describe "#get_entity" do
-    let(:submission) { JSON.parse(Rails.root.join("spec/fixtures/files/entities/1000005.geojson").read, symbolize_names: true) }
+    let(:submission) { JSON.parse(file_fixture("entities/1000005.geojson").read, symbolize_names: true) }
 
     context "when the request is successful" do
       context "when a valid entity reference is supplied" do

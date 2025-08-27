@@ -68,7 +68,7 @@ RSpec.describe "Submissions", type: :system do
       )
     end
 
-    let(:zip) { BopsSubmissions::Engine.root.join("spec", "fixtures", "files", "applications/PT-10087984.zip") }
+    let(:zip) { file_fixture_submissions("applications/PT-10087984.zip") }
 
     before do
       sign_in(admin)
@@ -188,7 +188,7 @@ RSpec.describe "Submissions", type: :system do
       )
     end
 
-    let(:zip_path) { BopsSubmissions::Engine.root.join("spec/fixtures/files/applications/PT-10087984.zip") }
+    let(:zip_path) { file_fixture_submissions("applications/PT-10087984.zip") }
 
     before do
       stub_request(:get, submission.document_link_urls.first)

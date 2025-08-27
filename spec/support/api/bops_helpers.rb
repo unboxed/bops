@@ -14,7 +14,7 @@ module BopsHelper
   def bops_api_response(status)
     status = Rack::Utils.status_code(status)
 
-    body = Rails.root.join("spec/fixtures/files/planx_params.json").read
+    body = file_fixture("planx_params.json").read
 
     {status:, body:}
   end

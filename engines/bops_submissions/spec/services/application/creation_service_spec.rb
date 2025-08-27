@@ -20,7 +20,7 @@ RSpec.describe BopsSubmissions::Application::CreationService, type: :service do
         create(
           :submission,
           local_authority: local_authority,
-          json_file: json_fixture("files/applications/PT-10087984.json")
+          json_file: json_fixture_submissions("files/applications/PT-10087984.json")
         )
       end
 
@@ -63,7 +63,7 @@ RSpec.describe BopsSubmissions::Application::CreationService, type: :service do
     end
 
     context "when submission.json_file omits optional fields like feeCalculationSummary or polygon" do
-      let(:base_data) { json_fixture("files/applications/PT-10087984.json") }
+      let(:base_data) { json_fixture_submissions("files/applications/PT-10087984.json") }
       let(:fixture) do
         data = base_data.deep_dup
         data["feeCalculationSummary"] = nil

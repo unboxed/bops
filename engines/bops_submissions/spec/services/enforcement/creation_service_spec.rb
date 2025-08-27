@@ -9,7 +9,7 @@ RSpec.describe BopsSubmissions::Enforcement::CreationService, type: :service do
       create(
         :submission,
         local_authority: local_authority,
-        request_body: json_fixture_api("v0.7.5/enforcement/breach.json")
+        request_body: json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json")
       )
     end
     let(:service) { described_class.new(submission: submission) }

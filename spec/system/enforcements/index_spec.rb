@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require "rails_helper"
-require_relative "../../../engines/bops_submissions/spec/support/fixture_helper"
 
 RSpec.describe "Enforcement index page", type: :system do
   let!(:local_authority) { create(:local_authority, :default) }
@@ -9,7 +8,7 @@ RSpec.describe "Enforcement index page", type: :system do
     create(
       :submission,
       local_authority: local_authority,
-      request_body: json_fixture_api("v0.7.5/enforcement/breach.json")
+      request_body: json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json")
     )
   end
   let!(:case_record) { build(:case_record, local_authority:, submission: submission) }
