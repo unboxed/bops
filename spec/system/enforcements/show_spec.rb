@@ -93,27 +93,28 @@ RSpec.describe "Enforcement show page", type: :system do
       expect(h2s[0]).to have_text("Check")
       within("#Check-section") do
         lis = all("li", count: 3)
-        expect(lis[0]).to have_text("Check breach report")
-        expect(lis[1]).to have_text(task.name)
-        expect(lis[2]).to have_text(task2.name)
+        expect(lis[0]).to have_link("Check breach report")
+        expect(lis[1]).to have_link(task.name)
+        expect(lis[2]).to have_link(task2.name)
       end
 
       expect(h2s[1]).to have_text("Investigate")
       within("#Investigate-section") do
         lis = all("li", count: 2)
-        expect(lis[0]).to have_text("Investigate and decide")
-        expect(lis[1]).to have_text(task3.name)
+        expect(lis[0]).to have_link("Investigate and decide")
+        expect(lis[1]).to have_link(task3.name)
       end
 
       expect(h2s[2]).to have_text("Review")
       within("#Review-section") do
-        expect(page).to have_selector("li", text: "Review recommendation")
+        lis = all("li", count: 1)
+        expect(lis[0]).to have_link("Review recommendation")
       end
 
       expect(h2s[4]).to have_text("Appeal")
       within("#Appeal-section") do
         lis = all("li", count: 1)
-        expect(lis[0]).to have_text("Process an appeal")
+        expect(lis[0]).to have_link("Process an appeal")
       end
     end
   end

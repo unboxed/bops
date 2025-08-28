@@ -6,6 +6,7 @@ module BopsEnforcements
 
     before_action :set_enforcement
     before_action :build_form, only: %i[edit update]
+    before_action :ensure_case_is_not_closed, only: %i[show edit update]
 
     private
 
@@ -22,6 +23,12 @@ module BopsEnforcements
       klass = BopsEnforcements::Tasks.form_for(@task.slug)
 
       @form = klass.new(@task)
+    end
+
+    def ensure_case_is_not_closed
+      return unless @enforcement.closed?
+
+      redirect_to bops_enforcements.enforcement_path(@enforcement), alert: t(".failure")
     end
   end
 end
