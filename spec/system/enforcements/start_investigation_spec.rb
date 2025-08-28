@@ -96,6 +96,15 @@ RSpec.describe "Start investigation", type: :system do
     perform_enqueued_jobs(at: Time.current)
     expect(external).to have_been_requested
 
+    within("#started-date") do
+      expect(page).to have_content(Date.current.to_fs)
+    end
+
+    within("#Check-section") do
+      expect(page).to have_content("Completed")
+    end
+
+    click_link "Check breach report"
     within(".govuk-task-list") do
       expect(page).to have_content("Completed")
     end
