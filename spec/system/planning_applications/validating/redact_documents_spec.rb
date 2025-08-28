@@ -92,7 +92,7 @@ RSpec.describe "Redact documents" do
     click_link "Upload redacted documents"
 
     within(all(".govuk-table__row")[1]) do
-      attach_file("Upload a file", "spec/fixtures/images/image.gif")
+      attach_file("Upload a file", "spec/fixtures/files/images/image.gif")
     end
 
     click_button "Save and mark as complete"

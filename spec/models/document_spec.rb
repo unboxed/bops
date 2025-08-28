@@ -65,7 +65,7 @@ RSpec.describe Document do
 
     it "is valid for a png file content type" do
       document.file.attach(
-        io: Rails.root.join("spec/fixtures/images/existing-roofplan.pdf").open,
+        io: file_fixture("images/existing-roofplan.pdf").open,
         filename: "existing-roofplan.png",
         content_type: "image/png"
       )
@@ -75,7 +75,7 @@ RSpec.describe Document do
 
     it "is valid for a pdf file content type" do
       document.file.attach(
-        io: Rails.root.join("spec/fixtures/images/existing-roofplan.pdf").open,
+        io: file_fixture("images/existing-roofplan.pdf").open,
         filename: "existing-roofplan.pdf",
         content_type: "application/pdf"
       )
@@ -85,7 +85,7 @@ RSpec.describe Document do
 
     it "is invalid for an unpermitted file content type" do
       document.file.attach(
-        io: Rails.root.join("spec/fixtures/images/image.gif").open,
+        io: file_fixture("images/image.gif").open,
         filename: "image.gif",
         content_type: "image/gif"
       )
@@ -259,11 +259,11 @@ RSpec.describe Document do
     let(:planning_application) { create(:planning_application, :not_started) }
 
     let(:file_path1) do
-      Rails.root.join("spec/fixtures/images/proposed-floorplan.png")
+      file_fixture("images/proposed-floorplan.png")
     end
 
     let(:file_path2) do
-      Rails.root.join("spec/fixtures/images/proposed-roofplan.png")
+      file_fixture("images/proposed-roofplan.png")
     end
 
     let(:file1) { Rack::Test::UploadedFile.new(file_path1, "image/png") }

@@ -255,7 +255,7 @@ RSpec.describe "View neighbour responses", type: :system, js: true do
     fill_in "Year", with: "2023"
     fill_in "Response", with: "I think this proposal looks great"
     choose "Supportive"
-    attach_file("Upload documents", "spec/fixtures/images/proposed-floorplan.png")
+    attach_file("Upload documents", "spec/fixtures/files/images/proposed-floorplan.png")
 
     click_button "Save response"
 

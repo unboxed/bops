@@ -174,7 +174,7 @@ RSpec.describe "Withdraw or cancel" do
 
       click_link "Upload document"
 
-      attach_file("Upload a file", "spec/fixtures/images/proposed-roofplan.png")
+      attach_file("Upload a file", "spec/fixtures/files/images/proposed-roofplan.png")
 
       check "Roof plan - proposed"
 
@@ -259,7 +259,7 @@ RSpec.describe "Withdraw or cancel" do
 
         attach_file(
           "Upload a supporting document",
-          "spec/fixtures/images/proposed-roofplan.png"
+          "spec/fixtures/files/images/proposed-roofplan.png"
         )
 
         click_button("Withdraw or cancel application")
@@ -290,7 +290,7 @@ RSpec.describe "Withdraw or cancel" do
 
         attach_file(
           "Upload a supporting document",
-          "spec/fixtures/images/image.gif"
+          "spec/fixtures/files/images/image.gif"
         )
 
         click_button("Withdraw or cancel application")

@@ -20,7 +20,7 @@ RSpec.describe AccordionSections::DocumentsComponent, type: :component do
 
   context "when active document is present" do
     let(:file_path) do
-      Rails.root.join("spec/fixtures/images/proposed-floorplan.png")
+      file_fixture("images/proposed-floorplan.png")
     end
 
     let(:file) { Rack::Test::UploadedFile.new(file_path, "image/png") }

@@ -7,7 +7,7 @@ Feature: Editing documents for an application
     And I view the document with reference "FOOBAR"
 
   Scenario: I can replace the document
-    Given I attach a replacement file with path "spec/fixtures/images/proposed-roofplan.pdf"
+    Given I attach a replacement file with path "spec/fixtures/files/images/proposed-roofplan.pdf"
     And I fill in "Drawing number" with "DOC0001"
     And I click "Edit tags"
     And I check "Floor plan - existing"

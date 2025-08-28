@@ -61,7 +61,7 @@ RSpec.describe "Documents index page", type: :system do
         create(:document,
           planning_application:,
           file: Rack::Test::UploadedFile.new(
-            Rails.root.join("spec/fixtures/images/proposed-roofplan.png"), "proposed-roofplan/png"
+            file_fixture("images/proposed-roofplan.png"), "proposed-roofplan/png"
           ))
       end
 

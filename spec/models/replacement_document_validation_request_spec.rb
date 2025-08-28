@@ -144,11 +144,11 @@ RSpec.describe ReplacementDocumentValidationRequest do
     let(:planning_application) { create(:planning_application, :not_started) }
 
     let(:file_path1) do
-      Rails.root.join("spec/fixtures/images/proposed-floorplan.png")
+      file_fixture("images/proposed-floorplan.png")
     end
 
     let(:file_path2) do
-      Rails.root.join("spec/fixtures/images/proposed-roofplan.png")
+      file_fixture("images/proposed-roofplan.png")
     end
 
     let(:file1) { Rack::Test::UploadedFile.new(file_path1, "image/png") }

@@ -28,7 +28,7 @@ RSpec.describe "API request to patch document create requests" do
   end
 
   let(:file) do
-    fixture_file_upload("../images/proposed-floorplan.png", "image/png")
+    fixture_file_upload("images/proposed-floorplan.png", "image/png")
   end
 
   let(:params) do
@@ -79,7 +79,7 @@ RSpec.describe "API request to patch document create requests" do
 
   it "rejects wrong document types" do
     patch "/api/v1/planning_applications/#{planning_application.reference}/additional_document_validation_requests/#{additional_document_validation_request.id}?change_access_id=#{planning_application.change_access_id}",
-      params: {files: [fixture_file_upload("../images/proposed-floorplan.png", "application/octet-stream")]},
+      params: {files: [fixture_file_upload("images/proposed-floorplan.png", "application/octet-stream")]},
       headers: {Authorization: "Bearer #{api_user.token}"}
 
     expect(response).not_to be_successful
