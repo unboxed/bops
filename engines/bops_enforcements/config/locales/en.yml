@@ -1,6 +1,9 @@
 ---
 en:
   bops_enforcements:
+    assign_users:
+      update:
+        success: Case record was successfully assigned.
     enforcements:
       index:
         follow_ups:
@@ -32,6 +35,32 @@ en:
       find_a_case: Find a case
       search: Search
       you_can_search: You can search by case number or description
+    start_investigation_email:
+      body: |-
+        Enforcement case reference number: %{ref}
+        Address: %{address}
+        Case received: %{received_on}
+
+        Dear %{complainant_name},
+
+        Thank you for contacting the Planning Enforcement Team. This email is an update
+        about your report from %{report_date} regarding a possible breach of planning rules
+        at the above property.
+
+        The site will be investigated to establish the facts surrounding your enquiry.
+        Where a breach is established those responsible will be informed and remedial
+        actions requested within a given time-scale. You will be informed within %{days}
+        working days, whether or not there appears to be a breach of planning control,
+        and if so, how it is intended to resolve the matter.
+
+        All complaints relating to alleged breaches of planning control will be investigated
+        and treated confidentially within the council so far as practicable.
+
+        Should you have any queries please contact me via email %{officer_email}
+
+        Yours
+        %{council_name}
+      subject: 'Enforcement case update (ref: %{ref})'
     tasks:
       close-case:
         failure: Unable to update case
@@ -52,6 +81,8 @@ en:
         failure: You cannot make changes to this case as it has already been closed
       show:
         failure: You cannot make changes to this case as it has already been closed
+      title:
+        start-investigation: Start investigation and notify complainant
       update:
         check-description:
           failure: Unable to update site description
@@ -60,3 +91,6 @@ en:
           failure: Unable to update task
           success: Report details successfully checked
         failure: You cannot make changes to this case as it has already been closed
+        start-investigation:
+          failure: Unable to start investigation
+          success: Investigation successfully started and complainant notified

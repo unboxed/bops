@@ -35,7 +35,7 @@ class User < ApplicationRecord
   validate :password_complexity
   validates :role, inclusion: {in: :local_roles}, if: -> { local_authority.present? }
 
-  scope :non_administrator, -> { where.not(role: "administrator") }
+  scope :non_administrator, -> { where.not(role: %w[administrator global_administrator]) }
   scope :global, -> { where(local_authority_id: nil) }
   scope :global_administrator, -> { global.where(role: "global_administrator") }
   scope :confirmed, -> { kept.where.not(confirmed_at: nil) }

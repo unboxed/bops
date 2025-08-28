@@ -32,4 +32,10 @@ class Task < ApplicationRecord
   def task_for(slug)
     Task.find_by!(slug: slug)
   end
+
+  def title
+    I18n.t("bops_enforcements.tasks.title.#{slug}")
+  rescue I18n::MissingTranslationData
+    name
+  end
 end
