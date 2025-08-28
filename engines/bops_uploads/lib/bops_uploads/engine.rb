@@ -37,14 +37,11 @@ module BopsUploads
           when Consideration
             parent_record(record.consideration_set)
           when Document, ConsiderationSet
-            record.planning_application || record.submission
+            record.parent_record
           else
             raise ArgumentError, "Unexpected record type in chain: #{record.inspect}"
           end
         end
-
-        alias_method :planning_application, :parent_record
-        alias_method :submission, :parent_record
       end
     end
   end

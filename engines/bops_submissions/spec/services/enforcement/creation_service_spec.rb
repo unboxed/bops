@@ -12,7 +12,8 @@ RSpec.describe BopsSubmissions::Enforcement::CreationService, type: :service do
         request_body: json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json")
       )
     end
-    let(:service) { described_class.new(submission: submission) }
+    let!(:api_user) { create(:api_user, :swagger) }
+    let(:service) { described_class.new(submission: submission, user: api_user) }
     let!(:expected_proposal_details) do
       submission.request_body["responses"]
     end

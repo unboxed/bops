@@ -2,6 +2,7 @@
 
 class ConsiderationSet < ApplicationRecord
   belongs_to :planning_application
+  alias_method :parent_record, :planning_application
 
   with_options dependent: :destroy do
     has_many :considerations, -> { order(position: :asc) }

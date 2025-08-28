@@ -29,7 +29,7 @@ RSpec.describe "Enforcement index page", type: :system do
     expect(page).to have_selector("h1", text: "Enforcement cases")
   end
 
-  it "displays all planning applications" do
+  it "displays all enforcement cases" do
     visit "/enforcements"
     click_link "All cases"
 

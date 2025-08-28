@@ -27,6 +27,8 @@ RSpec.describe "Enforcement show page", type: :system do
     ]
   end
   let!(:case_record) { build(:case_record, local_authority:, submission: submission) }
+  let!(:document) { create(:document, :with_tags, case_record:) }
+  let!(:document_1) { create(:document, :with_file, case_record:) }
   let!(:enforcement) { create(:enforcement, case_record:, proposal_details: proposal_details) }
   let(:user) { create(:user, local_authority:) }
   let!(:task) { create(:task, parent: case_record, section: "Check", name: "Test task 1", slug: "test-task-1") }
@@ -43,23 +45,52 @@ RSpec.describe "Enforcement show page", type: :system do
   it "has a show page with basic details" do
     expect(page).to have_content(enforcement.address)
   end
+  context "within the accordion" do
+    it "has the correct information in the accordion", capybara: true do
+      within(".govuk-accordion") do
+        within("#breach-report-section") do
+          find("button", text: "Breach report").click
 
-  it "has the correct information in the accordion", capybara: true do
-    within(".govuk-accordion") do
-      within("#breach-report-section") do
-        find("button", text: "Breach report").click
+          within("tbody") do
+            expect(page).to have_text("Has work already started?")
+          end
+        end
 
-        within("tbody") do
-          expect(page).to have_text("Has work already started?")
+        within("#complainant-details-section") do
+          find("button", text: "Complainant details").click
+
+          within("tbody") do
+            expect(page).to have_text(enforcement.complainant.email)
+            expect(page).to have_text(enforcement.complainant.address)
+          end
         end
       end
+    end
 
-      within("#complainant-details-section") do
-        find("button", text: "Complainant details").click
+    it "allows me to see all documents", :capybara do
+      within(".govuk-accordion") do
+        within("#documents-and-photos-section") do
+          find("button", text: "Documents and Photos").click
 
-        within("tbody") do
-          expect(page).to have_text(enforcement.complainant.email)
-          expect(page).to have_text(enforcement.complainant.address)
+          within("thead") do
+            expect(page).to have_text("Document name")
+            expect(page).to have_text("Date received")
+          end
+
+          within("tbody") do
+            rows = page.all(".govuk-table__row")
+            expect(rows.size).to eq(2)
+
+            within(rows[0]) do
+              expect(page).to have_link("#{document.name} (opens in new tab)")
+              expect(page).to have_selector(".govuk-tag", text: "Elevations - proposed")
+            end
+
+            within(rows[1]) do
+              expect(page).to have_link("#{document_1.name} (opens in new tab)")
+              expect(page).not_to have_selector(".govuk-tag", text: "Elevations - proposed")
+            end
+          end
         end
       end
     end
