@@ -7,7 +7,7 @@ Feature: Uploading documents for an application
 
   Scenario: I can upload a new document with a reference, received date and tags
     Given I press "Upload document"
-    And I upload "spec/fixtures/images/proposed-floorplan.png" for the "file" input
+    And I upload "spec/fixtures/files/images/proposed-floorplan.png" for the "file" input
     And I set the date inputs to "5/7/2021"
     And I click "Edit tags"
     And I check "Floor plan - existing"

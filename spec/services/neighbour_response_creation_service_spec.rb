@@ -59,8 +59,8 @@ RSpec.describe NeighbourResponseCreationService, type: :service do
               "name" => "Sophie Blog",
               "summary_tag" => "supportive",
               "files" => [
-                fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-floorplan.png"), "proposed-floorplan/png"),
-                fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-roofplan.pdf"), "proposed-roofplan/pdf")
+                fixture_file_upload("images/proposed-floorplan.png", "proposed-floorplan/png"),
+                fixture_file_upload("images/proposed-roofplan.pdf", "proposed-roofplan/pdf")
               ]
             }
           )

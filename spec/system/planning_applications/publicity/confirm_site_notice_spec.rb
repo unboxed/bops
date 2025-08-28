@@ -57,7 +57,7 @@ RSpec.describe "Confirm site notice", js: true do
     click_button "Save and mark as complete"
     expect(page).to have_selector("[role=alert] li", text: "Upload a photo or document of the site notice to continue")
 
-    attach_file("Upload evidence of site notice in place", "spec/fixtures/images/proposed-floorplan.png")
+    attach_file("Upload evidence of site notice in place", "spec/fixtures/files/images/proposed-floorplan.png")
     click_button "Save and mark as complete"
     expect(page).to have_content("Site notice was successfully updated")
     expect(list_item("Confirm site notice")).to have_content("Complete")

@@ -457,7 +457,7 @@ RSpec.describe "Press notice" do
         click_link "Confirm press notice"
         click_link "Confirm publication"
 
-        attach_file("Upload photo(s)", "spec/fixtures/images/image.gif")
+        attach_file("Upload photo(s)", "spec/fixtures/files/images/image.gif")
         click_button("Save")
 
         expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
@@ -513,7 +513,7 @@ RSpec.describe "Press notice" do
           fill_in "Year", with: "2023"
         end
 
-        attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
+        attach_file("Upload photo(s)", "spec/fixtures/files/images/proposed-floorplan.png")
         fill_in "Optional comment", with: "Press notice comment"
 
         click_button "Save"

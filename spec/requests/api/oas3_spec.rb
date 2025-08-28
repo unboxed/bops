@@ -54,7 +54,7 @@ RSpec.describe "The Open API Specification document" do
         )
       planning_application.update!(planning_application_hash["site"])
       planning_application_document = planning_application.documents.create!(planning_application_hash.fetch("documents").first.except("url", "blob_url")) do |document|
-        document.file.attach(io: Rails.root.join("spec/fixtures/images/proposed-first-floor-plan.pdf").open,
+        document.file.attach(io: file_fixture("images/proposed-first-floor-plan.pdf").open,
           filename: "roofplan")
         document.publishable = true
       end

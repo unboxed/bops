@@ -153,7 +153,7 @@ RSpec.describe "Fee change validation requests" do
           expect(page).to have_content("Tell us whether you agree or disagree with what was said")
 
           fill_in "Enter any comments", with: "I am eligible for a fee reduction"
-          attach_file "Upload as many files as you need", "spec/fixtures/images/proposed-roofplan.png"
+          attach_file "Upload as many files as you need", "spec/fixtures/files/images/proposed-roofplan.png"
 
           click_button "Submit"
           expect(page).to have_selector("h1", text: "Your planning application")

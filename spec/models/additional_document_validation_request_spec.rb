@@ -40,8 +40,8 @@ RSpec.describe AdditionalDocumentValidationRequest do
     let(:api_user) { create(:api_user, :validation_requests_rw) }
     let(:files) do
       [
-        fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-floorplan.png"), "proposed-floorplan/png"),
-        fixture_file_upload(Rails.root.join("spec/fixtures/images/proposed-roofplan.pdf"), "proposed-roofplan/pdf")
+        fixture_file_upload("images/proposed-floorplan.png", "proposed-floorplan/png"),
+        fixture_file_upload("images/proposed-roofplan.pdf", "proposed-roofplan/pdf")
       ]
     end
 

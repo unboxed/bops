@@ -133,7 +133,7 @@ RSpec.describe "Site visit" do
         expect(page).to have_content("Enter a comment about the site visit")
       end
 
-      attach_file("Upload photo(s)", "spec/fixtures/images/image.gif")
+      attach_file("Upload photo(s)", "spec/fixtures/files/images/image.gif")
       click_button("Save")
 
       expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
@@ -191,7 +191,7 @@ RSpec.describe "Site visit" do
 
         page.find(:xpath, "//li[text()='60-62, Commercial Street, LONDON, E16LT']").click
 
-        attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
+        attach_file("Upload photo(s)", "spec/fixtures/files/images/proposed-floorplan.png")
 
         fill_in "Comment", with: "Site visit is needed"
         click_button "Save"
@@ -307,7 +307,7 @@ RSpec.describe "Site visit" do
 
         page.find(:xpath, "//li[text()='60-62, Commercial Street, LONDON, E16LT']").click
 
-        attach_file("Upload photo(s)", "spec/fixtures/images/proposed-floorplan.png")
+        attach_file("Upload photo(s)", "spec/fixtures/files/images/proposed-floorplan.png")
 
         fill_in "Comment", with: "Site visit is required"
         click_button "Save"

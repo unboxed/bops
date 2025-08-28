@@ -88,7 +88,7 @@ RSpec.describe "Edit document", type: :system do
 
       attach_file(
         "Upload a replacement file",
-        "spec/fixtures/images/proposed-roofplan.png"
+        "spec/fixtures/files/images/proposed-roofplan.png"
       )
 
       click_button("Save")
@@ -119,7 +119,7 @@ RSpec.describe "Edit document", type: :system do
         expect(page).to have_content("Upload a replacement file")
         attach_file(
           "Upload a replacement file",
-          "spec/fixtures/images/proposed-roofplan.png"
+          "spec/fixtures/files/images/proposed-roofplan.png"
         )
 
         click_button("Save")
@@ -150,7 +150,7 @@ RSpec.describe "Edit document", type: :system do
       visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 
       expect(page).to have_content("Upload a replacement file")
-      attach_file("Upload a replacement file", "spec/fixtures/images/image.gif")
+      attach_file("Upload a replacement file", "spec/fixtures/files/images/image.gif")
 
       click_button("Save")
 

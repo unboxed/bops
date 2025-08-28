@@ -7,11 +7,11 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
   let(:file_path1) do
-    Rails.root.join("spec/fixtures/images/proposed-roofplan.png")
+    file_fixture("images/proposed-roofplan.png")
   end
 
   let(:file_path2) do
-    Rails.root.join("spec/fixtures/images/proposed-floorplan.png")
+    file_fixture("images/proposed-floorplan.png")
   end
 
   let(:file1) { Rack::Test::UploadedFile.new(file_path1, "image/png") }

@@ -22,7 +22,7 @@ RSpec.describe "Document uploads" do
         visit "/planning_applications/#{planning_application.reference}/documents"
 
         click_link("Upload document")
-        attach_file("Upload a file", "spec/fixtures/images/image.gif")
+        attach_file("Upload a file", "spec/fixtures/files/images/image.gif")
         check("Floor plan - existing")
 
         click_button("Save")

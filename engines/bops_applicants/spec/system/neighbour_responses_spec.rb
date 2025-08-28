@@ -92,7 +92,7 @@ RSpec.describe "Neighbour responses" do
       expect(page).to have_content("You support the application")
       expect(page).to have_content("I think it looks great")
 
-      attach_file "Upload documents", "spec/fixtures/images/proposed-floorplan.png"
+      attach_file "Upload documents", "spec/fixtures/files/images/proposed-floorplan.png"
 
       click_button "Send"
       expect(page).to have_selector("h1", text: "We've got your comments")

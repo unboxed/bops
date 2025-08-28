@@ -96,7 +96,7 @@ RSpec.describe "Description change validation requests" do
           expect(page).to have_link("contact us", href: "mailto:feedback_email@planx.uk")
           expect(page).to have_content("Select some files to upload")
 
-          attach_file "Upload additional document(s)", "spec/fixtures/images/proposed-roofplan.png"
+          attach_file "Upload additional document(s)", "spec/fixtures/files/images/proposed-roofplan.png"
 
           click_button "Submit"
           expect(page).to have_selector("h1", text: "Your planning application")
