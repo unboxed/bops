@@ -1,5 +1,5 @@
 ---
-name: Deploy
+name: Deploy to staging
 
 on:
   release:
