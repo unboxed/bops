@@ -147,7 +147,7 @@ module PlanningApplications
 
       def redirect_path
         if current_user.reviewer? && @category == "site_description" && !@planning_application.pre_application?
-          report_path_or planning_application_review_tasks_path(@planning_application)
+          report_path_or @back_path
         else
           report_path_or planning_application_assessment_tasks_path(@planning_application)
         end
