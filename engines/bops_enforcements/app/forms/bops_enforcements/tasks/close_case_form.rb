@@ -21,6 +21,10 @@ module BopsEnforcements
           enforcement.update!(closed_reason:, closed_detail: params[:detail])
           enforcement.close!
           task.update!(status: "completed")
+          SendCloseInvestigationEmailJob.perform_later(enforcement,
+            closed_reason: params[:reason],
+            other_reason: params[:other_reason],
+            additional_comment: params[:detail])
         end
       end
     end

@@ -4,6 +4,54 @@ en:
     assign_users:
       update:
         success: Case record was successfully assigned.
+    close_investigation_email:
+      body:
+        duplicate: |-
+          Enforcement case reference number: %{ref}
+          Address: %{address}
+          Case received: %{received_on}
+
+          Dear %{complainant_name},
+
+          Thank you for contacting the Planning Enforcement Team. This email is an update
+          about your report from %{report_date} regarding a possible breach of planning rules
+          at the above property.
+
+          Following a review, we found that **an existing enforcement case is already open for this
+          issue**.%{additional_comment}
+
+          Because an existing case is already in progress, we will not be taking any further action
+          on your new report. The information you provided has been added to the existing case file.
+
+          Some extension or alteration can be undertaken to residential properties under permitted
+          development rights, without the need for planning permission. Should you have any queries
+          please contact me via email %{officer_email}
+
+          Yours
+          %{council_name}
+        other: |-
+          Enforcement case reference number: %{ref}
+          Address: %{address}
+          Case received: %{received_on}
+
+          Dear %{complainant_name},
+
+          Thank you for contacting the Planning Enforcement Team. This email is an update
+          about your report from %{report_date} regarding a possible breach of planning rules
+          at the above property.
+
+          Following further investigation, the Council will not be taking any further action
+          regarding this issue and **this case will be closed**. This is for the following reasons:
+
+          - %{reason}%{additional_comment}
+
+          Some extension or alteration can be undertaken to residential properties under permitted
+          development rights, without the need for planning permission. Should you have any queries
+          please contact me via email %{officer_email}
+
+          Yours
+          %{council_name}
+      subject: 'Enforcement case update (ref: %{ref})'
     enforcements:
       index:
         follow_ups:
