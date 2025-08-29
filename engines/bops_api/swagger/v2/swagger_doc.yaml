@@ -21746,6 +21746,45 @@ components:
       - metadata
       - responses
       type: object
+    NeighbourResponseSubmission:
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        address:
+          type: string
+        email:
+          type: string
+          format: email
+        response:
+          type: string
+        summary_tag:
+          enum:
+          - objection
+          - neutral
+          - supportive
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+            enum:
+            - design
+            - use
+            - light
+            - privacy
+            - access
+            - noise
+            - traffic
+            - other
+      required:
+      - name
+      - address
+      - response
+      - summary_tag
+      - tags
+      type: object
     ValidationRequests:
       properties:
         metadata:
@@ -22253,6 +22292,66 @@ paths:
                       message: Unauthorized
               schema:
                 "$ref": "#/components/schemas/UnauthorizedError"
+  "/api/v2/planning_applications/{reference}/comments/public":
+    post:
+      summary: Accepts a neighbour response
+      tags:
+      - Neighbour Responses
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: reference
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/SubmissionResponse"
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/BadRequestError"
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/UnauthorizedError"
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/NotFoundError"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/InternalServerError"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/NeighbourResponseSubmission"
+            examples:
+              Supportive neighbour response:
+                summary: Supportive neighbour response
+                value:
+                  name: Jo Blogs
+                  address: 123 street, AAA111
+                  response: I like it
+                  summary_tag: supportive
+                  tags:
+                  - light
+        required: true
   "/api/v2/planning_applications/{reference}/validation_requests":
     get:
       summary: Retrieves the validation requests for an application
