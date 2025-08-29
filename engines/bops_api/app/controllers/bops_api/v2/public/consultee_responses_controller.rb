@@ -4,18 +4,18 @@ module BopsApi
   module V2
     module Public
       class ConsulteeResponsesController < PublicController
+        include ParamHelpers
+
         def index
           @planning_application = find_planning_application params[:planning_application_id]
           @consultation = @planning_application.consultation
-
-          if @consultation
-            consultation_consultees = @consultation.consultees.includes(:responses)
-            redacted_responses = @consultation.consultee_responses.redacted
-          else
-            consultation_consultees = Consultee.none
-            redacted_responses = Consultee::Response.none
-            @total_consulted = 0
+          unless @consultation
+            render json: {error: {message: "Bad Request", detail: "Consultation not found"}}, status: :bad_request
+            return
           end
+
+          consultation_consultees = @consultation.consultees.includes(:responses)
+          redacted_responses = @consultation.consultee_responses.redacted
 
           latest_redacted_responses = consultation_consultees
             .map { |consultee| consultee.responses.redacted.max_by(&:id) }
@@ -49,7 +49,11 @@ module BopsApi
 
         # Permit and return the required parameters
         def pagination_params
-          params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id)
+          permitted = params.permit(:sortBy, :orderBy, :resultsPerPage, :query, :page, :format, :planning_application_id, :sentiment)
+          if permitted[:sentiment].present?
+            permitted[:sentiment] = handle_comma_separated_param(permitted[:sentiment])
+          end
+          permitted
         end
       end
     end
