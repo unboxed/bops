@@ -9,7 +9,7 @@ module BopsEnforcements
         email_address: enforcement.complainant.email,
         template_id: template_id,
         email_reply_to_id: enforcement.local_authority.email_reply_to_id,
-        personalisation: enforcement.start_investigation_email
+        personalisation: EnforcementPresenter.new(enforcement).start_investigation_email
       )
     end
   end

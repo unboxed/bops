@@ -29,7 +29,7 @@
       <% end %>
 
       <%= govuk_details(summary_text: "View email template") do %>
-        <%= simple_format @enforcement.start_investigation_email[:body] %>
+        <%= simple_format EnforcementPresenter.new(@enforcement).start_investigation_email[:body] %>
       <% end %>
 
       <% if @enforcement.not_started? %>
