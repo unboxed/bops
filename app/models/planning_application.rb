@@ -1045,6 +1045,10 @@ class PlanningApplication < ApplicationRecord
     pre_application? ? "pre-application" : "application"
   end
 
+  def case_record
+    attributes[:case_record] ||= CaseRecord.new
+  end
+
   private
 
   def create_fee_calculation
@@ -1210,6 +1214,8 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_application_number
+    pp case_record
+    pp case_record.local_authority
     max_application_number = local_authority.planning_applications.with_discarded.maximum(:application_number)
 
     self.application_number = max_application_number ? max_application_number + 1 : 100
