@@ -5,8 +5,6 @@ class Enforcement < ApplicationRecord
 
   include EnforcementStatus
 
-  include Enforcement::Notification
-
   delegate :documents, to: :case_record
 
   STATUS_COLOURS = {
