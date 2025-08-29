@@ -53,7 +53,9 @@
           Started
         </p>
         <h3 class="govuk-heading-s">
-          <% if @enforcement.started_at %>
+          <% if @enforcement.under_investigation? %>
+            <%= @enforcement.under_investigation_at.to_date.to_fs %>
+          <% elsif @enforcement.started_at %>
             <%= @enforcement.started_at.to_date.to_fs %>
           <% else %>
             Not yet started

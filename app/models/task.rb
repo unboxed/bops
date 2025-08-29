@@ -34,8 +34,6 @@ class Task < ApplicationRecord
   end
 
   def title
-    I18n.t("bops_enforcements.tasks.title.#{slug}")
-  rescue I18n::MissingTranslationData
-    name
+    I18n.t("bops_enforcements.tasks.title.#{slug}", default: name)
   end
 end

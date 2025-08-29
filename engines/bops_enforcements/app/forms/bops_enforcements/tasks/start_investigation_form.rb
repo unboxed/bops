@@ -23,12 +23,13 @@ module BopsEnforcements
         ActiveRecord::Base.transaction do
           enforcement.start_investigation!
           task.update!(status: "completed")
+          task.parent.update!(status: "completed")
           SendStartInvestigationEmailJob.perform_later(enforcement)
         end
       end
 
       def redirect_url
-        task_path(case_record, parent)
+        enforcement_path(case_record)
       end
 
       def case_record_assigned_user

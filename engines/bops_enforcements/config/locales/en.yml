@@ -43,18 +43,11 @@ en:
 
         Dear %{complainant_name},
 
-        Thank you for contacting the Planning Enforcement Team. This email is an update
-        about your report from %{report_date} regarding a possible breach of planning rules
-        at the above property.
+        Thank you for contacting the Planning Enforcement Team. This email is an update about your report from %{report_date} regarding a possible breach of planning rules at the above property.
 
-        The site will be investigated to establish the facts surrounding your enquiry.
-        Where a breach is established those responsible will be informed and remedial
-        actions requested within a given time-scale. You will be informed within %{days}
-        working days, whether or not there appears to be a breach of planning control,
-        and if so, how it is intended to resolve the matter.
+        The site will be investigated to establish the facts surrounding your enquiry. Where a breach is established those responsible will be informed and remedial actions requested within a given time-scale. You will be informed within %{days} working days, whether or not there appears to be a breach of planning control, and if so, how it is intended to resolve the matter.
 
-        All complaints relating to alleged breaches of planning control will be investigated
-        and treated confidentially within the council so far as practicable.
+        All complaints relating to alleged breaches of planning control will be investigated and treated confidentially within the council so far as practicable.
 
         Should you have any queries please contact me via email %{officer_email}
 
