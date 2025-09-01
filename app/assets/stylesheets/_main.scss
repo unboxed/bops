@@ -382,6 +382,12 @@ p {
   flex-wrap: wrap;
 }
 
+.case-assignment {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
 .align-items-center {
   align-items: center;
 }

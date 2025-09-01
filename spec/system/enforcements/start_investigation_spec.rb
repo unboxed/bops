@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Start investigation", type: :system do
-  let(:local_authority) { create(:local_authority, :default) }
+  let(:local_authority) { create(:local_authority, :default, feedback_email: "feedback@southwark.gov.uk") }
   let(:submission) { create(:submission, :enforcement) }
   let(:case_record) { build(:case_record, local_authority:, user:, submission:) }
   let(:enforcement) { create(:enforcement, case_record:) }
@@ -16,7 +16,8 @@ RSpec.describe "Start investigation", type: :system do
       :user,
       :assessor,
       local_authority:,
-      name: "Jane Smith"
+      name: "Jane Smith",
+      email: "jane.smith@southwark.gov.uk"
     )
   end
 
@@ -34,11 +35,12 @@ RSpec.describe "Start investigation", type: :system do
       expect(page).to have_content(enforcement.description)
     end
 
-    expect(page).to have_content("Notification to be sent to complainant")
+    expect(page).to have_content("Notification to be sent to complainant - Ebenezer Scrooge (scrooge@waltdisney.com)")
 
     find("span", text: "View email template").click
     expect(page).to have_content("Enforcement case reference number: #{case_record.id}")
     expect(page).to have_content("Thank you for contacting the Planning Enforcement Team.")
+    expect(page).to have_content("Should you have any queries please contact me via email #{user.email}")
 
     expect(page).to have_link("Back")
   end
@@ -50,8 +52,9 @@ RSpec.describe "Start investigation", type: :system do
     click_link "Start investigation and notify complainant"
 
     expect(page).to have_content("No case officer has been assigned yet.")
-    click_button "Start investigation"
-    expect(page).to have_content("Assign a case officer before starting the investigation.")
+
+    find("span", text: "View email template").click
+    expect(page).to have_content("Should you have any queries please contact me via email feedback@southwark.gov.uk")
 
     click_link "Change"
 
@@ -62,6 +65,9 @@ RSpec.describe "Start investigation", type: :system do
     click_link "Check breach report"
     click_link "Start investigation and notify complainant"
     expect(page).to have_content("The case is currently assigned to: Jane Smith")
+
+    find("span", text: "View email template").click
+    expect(page).to have_content("Should you have any queries please contact me via email jane.smith@southwark.gov.uk")
 
     click_button "Start investigation"
     expect(page).to have_content("Investigation successfully started and complainant notified")
