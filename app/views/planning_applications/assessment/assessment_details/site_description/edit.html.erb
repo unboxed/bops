@@ -38,6 +38,7 @@
       <% end %>
 
       <%= form.hidden_field(:category, value: @category) %>
+      <%= form.hidden_field(:return_to, value: @back_path) %>
 
       <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
     <% end %>
