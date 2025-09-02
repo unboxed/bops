@@ -41,7 +41,7 @@ class NeighbourResponseCreationService
 
   def create_files(response)
     params[:files].each do |file|
-      planning_application.documents.create!(file:, neighbour_response: response)
+      planning_application.documents.create!(file:, owner: response)
     end
   end
 
