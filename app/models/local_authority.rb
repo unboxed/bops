@@ -67,6 +67,13 @@ class LocalAuthority < ApplicationRecord
     validates :accessibility_email_address, presence: true
   end
 
+  with_options on: :notify do
+    validates :notify_api_key, presence: true
+    validates :email_template_id, presence: true
+    validates :sms_template_id, presence: true
+    validates :letter_template_id, presence: true
+  end
+
   before_validation do
     if subdomain? && !Bops.env.production?
       self[:applicants_url] = "https://#{subdomain}.#{Rails.configuration.applicants_base_url}"
@@ -124,31 +131,46 @@ class LocalAuthority < ApplicationRecord
     onboarded? ? "Completed" : onboarding_progress
   end
 
-  ACTIVE_ATTRIBUTES = %w[email_address
-    email_reply_to_id
+  ACTIVE_ATTRIBUTES = %w[
+    email_address
     enquiries_paragraph
     feedback_email
-    letter_template_id
-    notify_api_key
     press_notice_email
     reviewer_group_email
     signatory_job_title
-    signatory_name].freeze
+    signatory_name
+  ].freeze
 
-  CREATION_ATTRIBUTES = %w[subdomain
+  NOTIFY_ATTRIBUTES = %w[
+    notify_api_key
+    email_reply_to_id
+    email_template_id
+    sms_template_id
+    letter_template_id
+  ].freeze
+
+  CREATION_ATTRIBUTES = %w[
+    subdomain
     council_code
     council_name
     short_name
-    applicants_url].freeze
+    applicants_url
+  ].freeze
 
-  ONBOARDED_ATTRIBUTES = (CREATION_ATTRIBUTES + ACTIVE_ATTRIBUTES).freeze
+  ONBOARDED_ATTRIBUTES = (CREATION_ATTRIBUTES + ACTIVE_ATTRIBUTES + NOTIFY_ATTRIBUTES).freeze
 
-  REDACTED_INFO = %w[notify_api_key
+  REDACTED_INFO = %w[
+    notify_api_key
     reviewer_group_email
-    email_address].freeze
+    email_address
+  ].freeze
 
-  HIDDEN_ATTRS = %W[email_reply_to_id
-    letter_template_id].freeze
+  HIDDEN_ATTRS = %W[
+    email_reply_to_id
+    email_template_id
+    sms_template_id
+    letter_template_id
+  ].freeze
 
   def redacted?(onboarded_attribute)
     REDACTED_INFO.include?(onboarded_attribute)

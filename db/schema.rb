@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_08_19_104151) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_02_113317) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -603,6 +603,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_08_19_104151) do
     t.string "accessibility_postal_address"
     t.string "accessibility_phone_number"
     t.string "accessibility_email_address"
+    t.uuid "email_template_id"
+    t.uuid "sms_template_id"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
