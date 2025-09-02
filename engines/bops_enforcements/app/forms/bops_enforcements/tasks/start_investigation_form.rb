@@ -5,7 +5,6 @@ module BopsEnforcements
     class StartInvestigationForm < BaseForm
       attr_reader :enforcement
 
-      validate :case_record_assigned_user
       validate :complainant_email
 
       def initialize(task)
@@ -30,10 +29,6 @@ module BopsEnforcements
 
       def redirect_url
         enforcement_path(case_record)
-      end
-
-      def case_record_assigned_user
-        errors.add(:base, "Assign a case officer before starting the investigation.") unless case_record.user
       end
 
       def complainant_email

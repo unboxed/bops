@@ -25,7 +25,7 @@ class Enforcement < ApplicationRecord
         report_date: I18n.l(received_at.to_date),
         complainant_name: complainant.name,
         days: 20,
-        officer_email: case_record.user_email,
+        officer_email: case_record.user_email || local_authority.feedback_email || local_authority.email_address,
         council_name: local_authority.council_name)
     end
   end

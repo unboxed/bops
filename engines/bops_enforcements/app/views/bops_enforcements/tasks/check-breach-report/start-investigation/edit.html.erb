@@ -1,5 +1,7 @@
 <%= render "bops_enforcements/enforcements/enforcement", title: @task.title %>
 
+<hr class="govuk-section-break govuk-section-break--m">
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= form_with model: @form, url: task_path(@case_record, @task), method: :patch do |form| %>
@@ -9,15 +11,19 @@
         <p>Investigation will start on <strong><%= Date.current.to_fs %></strong>.</p>
       <% end %>
 
-      <% if @case_record.user %>
-        <p><strong>The case is currently assigned to: </strong><%= @case_record.user.name %></p>
-      <% else %>
-        <p>No case officer has been assigned yet.<br></p>
-      <% end %>
-      <p><%= govuk_link_to "Change", assign_users_path(case_id: @case_record.id) %></p>
+      <div class="case-assignment">
+        <% if @case_record.user %>
+          <p><strong>The case is currently assigned to: </strong><%= @case_record.user.name %></p>
+        <% else %>
+          <p>No case officer has been assigned yet.</p>
+        <% end %>
+        <p><%= govuk_link_to "Change", assign_users_path(case_id: @case_record.id) %></p>
+      </div>
+
+      <hr class="govuk-section-break govuk-section-break--m">
 
       <% if @enforcement.not_started? %>
-        <p><strong>Notification to be sent to complainant</strong></p>
+        <p><strong>Notification to be sent to complainant</strong> - <%= @enforcement.complainant.name %> (<%= @enforcement.complainant.email %>)</p>
       <% else %>
         <p><strong>Notification was sent to complainant on <%= @enforcement.under_investigation_at.to_fs %></strong></p>
       <% end %>
