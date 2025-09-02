@@ -267,6 +267,9 @@ RSpec.describe "View neighbour responses", type: :system, js: true do
     expect(page).to have_content(neighbour.address.to_s)
     expect(page).to have_content("I think this proposal looks great")
     expect(page).to have_content("proposed-floorplan")
+
+    visit "/planning_applications/#{planning_application.reference}/documents"
+    expect(page).to_not have_content("proposed-floorplan.png")
   end
 
   it "shows error messages" do
