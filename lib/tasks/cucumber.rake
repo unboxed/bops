@@ -2,5 +2,7 @@
 
 desc "Run cucumber"
 task cucumber: :environment do
-  exit 1 unless system "cucumber"
+  cmd = "cucumber"
+  cmd << " --color" if ENV["CI"].present?
+  exit 1 unless cmd
 end
