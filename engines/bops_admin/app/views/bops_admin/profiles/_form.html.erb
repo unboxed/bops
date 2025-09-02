@@ -85,31 +85,9 @@
       ) %>
 
   <%= form.govuk_text_field(
-        :notify_api_key,
-        label: {text: t(".notify_api_key"), class: "govuk-label govuk-label--m"},
-        hint: {text: t(".notify_api_key_hint_html", notify_notion_link: govuk_link_to("Read our guide to Notify set up.", t(".notify_notion_link"), new_tab: true))},
-        class: "govuk-input--width-30",
-        type: "password"
-      ) %>
-
-  <%= form.govuk_text_field(
         :public_register_base_url,
         label: {text: t(".public_register_base_url"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".public_register_base_url_hint")},
-        class: "govuk-input--width-30"
-      ) %>
-
-  <%= form.govuk_text_field(
-        :letter_template_id,
-        label: {text: t(".letter_template_id"), class: "govuk-label govuk-label--m"},
-        hint: {text: t(".letter_template_id_hint")},
-        class: "govuk-input--width-30"
-      ) %>
-
-  <%= form.govuk_text_field(
-        :email_reply_to_id,
-        label: {text: t(".email_reply_to_id"), class: "govuk-label govuk-label--m"},
-        hint: {text: t(".email_reply_to_id_hint")},
         class: "govuk-input--width-30"
       ) %>
 

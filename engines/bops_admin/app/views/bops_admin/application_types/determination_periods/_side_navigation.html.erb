@@ -2,6 +2,7 @@
   <% nav.with_section(title: "Profile", index: 2) do |section| %>
     <% section.with_navigation_item(text: "Manage profile", href: profile_path) %>
     <% section.with_navigation_item(text: "Manage accessibility info", href: edit_accessibility_path) %>
+    <% section.with_navigation_item(text: "Manage GOV.UK Notify", href: edit_notify_path) %>
   <% end %>
   <% nav.with_section(title: "Application Types", index: 2) do |section| %>
     <% section.with_navigation_item(text: "Manage application types", href: application_types_path, current: true) %>

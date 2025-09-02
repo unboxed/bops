@@ -1,0 +1,47 @@
+<% content_for :page_title do %>
+  <%= t(".notify") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_accessibility_path %>
+
+<% content_for :title, t(".notify") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">
+      <%= t(".notify") %>
+    </h1>
+
+    <p>
+      BOPS uses the GOV.UK Notify service to send emails, letters and SMS messages
+      on your behalf. To do this we need to configure access to your account and
+      which templates to use. To create an API Key, manage the reply-to address and
+      setup the templates then you will need to have the following permissions:
+    </p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Add and edit templates</li>
+      <li>Manage settings, team and usage</li>
+      <li>Manage API integration</li>
+    </ul>
+
+    <p>
+      If you do not have these permissions please contact the person in your organisation who
+      manages your GOV.UK Notify account to help set up the integration.
+    </p>
+
+    <p>
+      <%= govuk_link_to(main_app.notify_guide_url, new_tab: true) do %>
+        Read our guide on how to setup GOV.UK Notify for BOPS.
+      <% end %>
+    </p>
+
+    <%= govuk_section_break(visible: true, size: "l") %>
+
+    <%= render "form" %>
+  </div>
+</div>

@@ -5,7 +5,8 @@ BopsAdmin::Engine.routes.draw do
 
   resource :dashboard, only: %i[show]
   resource :profile, only: %i[show edit update]
-  resource :accessibility, only: %i[edit update]
+  resource :accessibility, only: %i[edit update], controller: "accessibility"
+  resource :notify, only: %i[edit update], controller: "notify"
 
   resources :consultees, except: %i[show]
 
