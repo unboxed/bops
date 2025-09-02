@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-desc "Run erblint linter"
-task erblint: :environment do
-  exit 1 unless system "git ls-files -z '*.erb'| xargs -0 erblint"
+desc "Run erb_lint linter"
+task erb_lint: :environment do
+  exit 1 unless system "git ls-files -z '*.erb'| xargs -0 erb_lint"
 end
 
-namespace :erblint do
-  desc "Run erblint linter and apply fixes"
+namespace :erb_lint do
+  desc "Run erb_lint linter and apply fixes"
   task fix: :environment do
-    exit 1 unless system "git ls-files -z '*.erb'| xargs -0 erblint -a"
+    exit 1 unless system "git ls-files -z '*.erb'| xargs -0 erb_lint -a"
   end
 end
