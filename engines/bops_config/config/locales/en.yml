@@ -440,6 +440,25 @@ en:
         local_authorities: Review all local authorities
       new:
         local_authorities: Onboard a local authority
+      notify:
+        edit:
+          notify: Update GOV.UK Notify settings
+        form:
+          email_reply_to_id: Reply-to email address
+          email_reply_to_id_hint: |
+            If you want to use an email address other than the default reply-to address for your Notify account,
+            enter the ID here. You can find this ID in your GOV.UK Notify account, by clicking ‘Manage’ to the
+            right of ‘Reply-to email addresses’  under the ‘Email settings’ section in ‘Settings’.
+          email_template_id: Email template
+          letter_template_id: Letter template
+          notify_api_key: API key
+          notify_api_key_hint: This is used to authenticate BOPS requests to the GOV.UK Notify service.
+          settings: Settings
+          sms_template_id: SMS template
+          submit: Submit
+          templates: Templates
+        update:
+          success: GOV.UK Notify settings successfully updated
       update:
         updated: Local authority successfully updated
     reporting_types:

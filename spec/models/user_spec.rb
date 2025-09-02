@@ -134,7 +134,12 @@ RSpec.describe User do
     end
 
     context "when local_authority is present" do
+      let(:local_authority) { create(:local_authority, :default) }
       let(:user) { build(:user, role: role) }
+
+      before do
+        user.local_authority = local_authority
+      end
 
       context "with a valid local role" do
         let(:role) { :assessor }

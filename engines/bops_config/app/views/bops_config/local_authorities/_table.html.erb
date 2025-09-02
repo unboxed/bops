@@ -12,26 +12,26 @@
 
   <tbody class="govuk-table__body">
     <% local_authorities.each do |local_authority| %>
-        <tr class="govuk-table__row">
-            <td class="govuk-table__cell">
-                <%= govuk_link_to local_authority.short_name, local_authority_path(local_authority) %>
-            </td>
-            <td class="govuk-table__cell">
-                <%= local_authority.council_code %>
-            </td>
-            <td class="govuk-table__cell">
-                <%= local_authority.notify_api_key ? "Yes" : "No" %>
-             </td>
-            <td class="govuk-table__cell">
-                <%= local_authority.created_at.to_fs(:day_month_year_slashes) %>
-            </td>
-            <td class="govuk-table__cell">
-                <%= local_authority.updated_at.to_fs(:day_month_year_slashes) %>
-            </td>
-            <td class="govuk-table__cell">
-                <%= local_authority.onboarding_status %>
-            </td>
-        </tr>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <%= govuk_link_to local_authority.short_name, local_authority_path(local_authority) %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= local_authority.council_code %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= local_authority.notify_api_key ? "Yes" : "No" %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= local_authority.created_at.to_fs(:day_month_year_slashes) %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= local_authority.updated_at.to_fs(:day_month_year_slashes) %>
+        </td>
+        <td class="govuk-table__cell">
+          <%= local_authority.onboarding_status %>
+        </td>
+      </tr>
     <% end %>
   </tbody>
 </table>

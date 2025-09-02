@@ -22,6 +22,8 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
     create(:local_authority,
       notify_api_key: "api_key",
       press_notice_email: "press@buckinghamshire.gov.uk",
+      email_template_id: "b16231c6-88c9-44f1-99cd-43eb3de57ef5",
+      sms_template_id: "62589764-f668-45a7-b5b1-61b96d08dbb8",
       letter_template_id: "4896bb50-4f4c-4b4d-ad67-2caddddde125",
       reviewer_group_email: "ed.arnold@buckinghamshire.gov.uk")
   }
@@ -62,10 +64,10 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
 
     within("#inactive table.govuk-table") do
       expect(page).to have_selector("tr:nth-child(1)", text: "Lambeth")
-      expect(page).to have_selector("tr:nth-child(1)", text: "13 of 15")
+      expect(page).to have_selector("tr:nth-child(1)", text: "12 of 17")
 
       expect(page).to have_selector("tr:nth-child(2)", text: "Southwark")
-      expect(page).to have_selector("tr:nth-child(2)", text: "11 of 15")
+      expect(page).to have_selector("tr:nth-child(2)", text: "11 of 17")
 
       expect(page).not_to have_content("Buckinghamshire")
     end
