@@ -24,7 +24,7 @@
                   <%= render(FormattedContentComponent.new(text: informative.text)) %>
                 </div>
 
-                <nav class="nav-links" data-summary-target="navigation">
+                <nav class="nav-links" data-summary-target="navigation" aria-label="Actions for informative <%= informative.position %>">
                   <%= govuk_link_to "Edit to accept", edit_planning_application_review_informatives_item_path(@planning_application, informative) %>
                 </nav>
               </div>

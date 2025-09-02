@@ -1,52 +1,71 @@
-<% record = @planning_application || @enforcement %>
-<my-map
-  style="width: 100%; height: 600px;"
-  osProxyEndpoint="<%= main_app.os_proxy_url %>"
-  showScale
-  useScaleBarStyle
-  showNorthArrow
-  <% if locals[:draw_geojson_data].present? %>
-    drawGeojsonData='<%= locals[:draw_geojson_data]["features"].first.to_json %>'
-    drawGeojsonDataBuffer=12
-  <% end %>
-  <% if locals[:geojson].present? %>
-    geojsonData='<%= locals[:geojson].to_json %>'
-    <% if locals[:invalid_red_line_boundary].present? %>
-      geojsonColor='#515151'
-    <% end %>
-  <% elsif record.lonlat %>
-    zoom="19"
-    latitude='<%= record.latitude %>'
-    longitude='<%= record.longitude %>'
-  <% end %>
-  <% if (show_map_pin?(record, locals) || locals[:polygon_search]) %>
-    showCentreMarker
-    markerLatitude="<%= record.latitude %>"
-    markerLongitude="<%= record.longitude %>"
-    markerImage="circle"
-    <% if record.respond_to?(:neighbour_boundary_geojson) %>
-      <% if record.neighbour_boundary_geojson && !locals[:invalid_red_line_boundary].present? %>
-        showGeojsonDataMarkers
-      <% end %>
-    <% end %>
-  <% end %>
-  <% if locals[:geojson_field].present? %>
-    drawMode="true"
-  <% end %>
-  <% if @blank_layout %>
-    hideResetControl="true"
-    staticMode="true"
-  <% end %>
-  <% if locals[:polygon_search] %>
-    id="polygon-search-map"
-    drawMode="true"
-    geojsonBuffer=30
-  <% end %>
-  <% %w[geojson_color draw_color draw_fill_color].each do |color| %>
-    <% if locals[color.to_sym] %>
-      <%= "#{color.camelize(:lower)}=#{locals[color.to_sym]}" %>
-    <% end %>
-  <% end %>></my-map>
+<% record = @planning_application || @enforcement
+
+   html_attributes = {
+     style: "width: 100%; height: 600px;",
+     osProxyEndpoint: main_app.os_proxy_url,
+     showScale: true,
+     useScaleBarStyle: true,
+     showNorthArrow: true
+   }
+
+   if locals[:draw_geojson_data].present?
+     html_attributes[:drawGeojsonData] = locals[:draw_geojson_data]["features"].first.to_json
+     html_attributes[:drawGeojsonDataBuffer] = "12"
+   end
+
+   if locals[:geojson].present?
+     html_attributes[:geojsonData] = locals[:geojson].to_json
+
+     if locals[:invalid_red_line_boundary].present?
+       html_attributes[:geojsonColor] = "#515151"
+     end
+   elsif record.lonlat
+     html_attributes[:zoom] = "19"
+     html_attributes[:latitude] = record.latitude
+     html_attributes[:longitude] = record.longitude
+   end
+
+   if show_map_pin?(record, locals) || locals[:polygon_search]
+     html_attributes[:showCentreMarker] = true
+     html_attributes[:markerLatitude] = record.latitude
+     html_attributes[:markerLongitude] = record.longitude
+     html_attributes[:markerImage] = "circle"
+
+     if record.respond_to?(:neighbour_boundary_geojson)
+       if record&.neighbour_boundary_geojson && locals[:invalid_red_line_boundary].blank?
+         html_attributes[:showGeojsonDataMarkers] = true
+       end
+     end
+   end
+
+   if locals[:geojson_field].present?
+     html_attributes[:drawMode] = true
+   end
+
+   if @blank_layout
+     html_attributes[:hideResetControl] = true
+     html_attributes[:staticMode] = true
+   end
+
+   if locals[:polygon_search]
+     html_attributes[:id] = "polygon-search-map"
+     html_attributes[:drawMode] = true
+     html_attributes[:geojsonBuffer] = 30
+   end
+
+   if locals[:geojson_color]
+     html_attributes[:geojsonColor] = locals[:geojson_color]
+   end
+
+   if locals[:draw_color]
+     html_attributes[:drawColor] = locals[:draw_color]
+   end
+
+   if locals[:draw_fill_color]
+     html_attributes[:drawFillColor] = locals[:draw_fill_color]
+   end
+
+   concat(tag.my_map(**html_attributes)) %>
 
 <%= javascript_tag nonce: true do %>
   <% if locals[:geojson_field].present? %>
