@@ -3,6 +3,12 @@
     Assess against legislation
   </h2>
   <ul class="app-task-list__items">
+    <%= render(
+          TaskListItems::Assessment::DevelopmentTypeComponent.new(
+            planning_application: @planning_application
+          )
+        ) %>
+
     <% if @planning_application.no_policy_classes_after_assessment? %>
       <li class="app-task-list__item">
         <span class="app-task-list__task-name">
@@ -20,15 +26,28 @@
       <% end %>
     <% end %>
 
-    <li class="app-task-list__item">
-      <span class="app-task-list__task-name">
-        <%= link_to_if(
-              @planning_application.can_assess?,
-              "Add new assessment area",
-              planning_application_assessment_policy_areas_parts_path(@planning_application),
-              class: "govuk-link"
-            ) %>
-      </span>
-    </li>
+    <% if @planning_application.section_55_development? %>
+      <li class="app-task-list__item" id="add-new-assessment-area">
+        <span class="app-task-list__task-name">
+          <%= link_to_if(
+                @planning_application.can_assess?,
+                "Add new assessment area",
+                planning_application_assessment_policy_areas_parts_path(@planning_application),
+                class: "govuk-link"
+              ) %>
+        </span>
+      </li>
+    <% else %>
+      <li class="govuk-task-list__item" id="add-new-assessment-area">
+        <div class="govuk-task-list__name-and-hint">
+          <div class="govuk-task-list__hint">
+            Add new assessment area
+          </div>
+        </div>
+        <div class="govuk-task-list__status govuk-task-list__status--cannot-start-yet">
+          <%= @planning_application.section_55_development.nil? ? "Cannot start yet" : "Not required" %>
+        </div>
+      </li>
+    <% end %>
   </ul>
 </li>
