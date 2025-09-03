@@ -962,6 +962,11 @@ en:
             it must contain at least one uppercase letter,
             at least one lowercase letter, at least one number,
             and at least one symbol (for example, ?!£%)
+        password_strength: |
+          is not complex enough:
+            although it may meet basic criteria, you need to make the password
+            longer and use a broader range of characters to meet requirements.
+            Make sure to avoid repeated characters or dictionary words.
   form_actions:
     condition:
       save_and_mark_as_complete: Save and mark as complete
