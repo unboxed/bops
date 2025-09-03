@@ -13,9 +13,6 @@ class Enforcement < ApplicationRecord
     under_investigation: "green"
   }.freeze
 
-  # TODO: Drop this column after deployment to production
-  self.ignored_columns += %i[boundary_geojson]
-
   composed_of :address,
     mapping: {
       address_1: :line_1,
