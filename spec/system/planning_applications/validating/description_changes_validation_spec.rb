@@ -60,8 +60,11 @@ RSpec.describe "DescriptionChangesValidation" do
       within(".govuk-fieldset") do
         within(".govuk-radios") { choose "No" }
       end
+
       click_button "Save and mark as complete"
-      click_button "Send request"
+
+      fill_in "Enter an amended description", with: ""
+      click_button "Update description"
 
       within(".govuk-error-summary") do
         expect(page).to have_content("There is a problem")
@@ -88,11 +91,14 @@ RSpec.describe "DescriptionChangesValidation" do
       expect(page).to have_content("Application number: #{planning_application.reference}")
 
       fill_in(
-        "Enter an amended description to send to the applicant",
+        "Enter an amended description",
         with: "My better description"
       )
 
-      click_button "Send request"
+      expect(page).to have_content("Does this description change require applicant's agreement?")
+      choose "Yes, applicant agreement needed"
+
+      click_button "Update description"
 
       expect(page).to have_content("Description change request successfully sent.")
 
@@ -157,11 +163,12 @@ RSpec.describe "DescriptionChangesValidation" do
       click_link "Request a new description change"
 
       fill_in(
-        "Enter an amended description to send to the applicant",
+        "Enter an amended description",
         with: "My better description"
       )
 
-      click_button "Send request"
+      choose "Yes, applicant agreement needed"
+      click_button "Update description"
 
       within("#check-description-task") do
         expect(page).to have_content("Invalid")
@@ -171,6 +178,37 @@ RSpec.describe "DescriptionChangesValidation" do
       expect(page).not_to have_content "Does the description match the development or use in the plans?"
 
       expect(page).to have_content "Agent or applicant has not yet responded"
+    end
+
+    it "I can bypass applicant approval for small changes" do
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      click_link "Check description"
+
+      within(".govuk-fieldset") do
+        within(".govuk-radios") { choose "No" }
+      end
+
+      click_button "Save and mark as complete"
+
+      field = find("#validation-request-proposed-description-field")
+      field.set(field.value + " Extra text")
+
+      expect(page).to have_content("Does this description change require applicant's agreement?")
+      choose "No, update description immediately"
+
+      click_button "Update description"
+
+      expect(page).to have_content("Description updated.")
+
+      within("#check-description-task") do
+        expect(page).to have_content("Completed")
+      end
+
+      expect(planning_application.reload.valid_description).to be_truthy
+      expect(DescriptionChangeValidationRequest.all.length).to eq(1)
+
+      visit "/planning_applications/#{planning_application.reference}"
+      expect(page).to have_content("Applicant has been notified of the description change.")
     end
   end
 
@@ -216,8 +254,9 @@ RSpec.describe "DescriptionChangesValidation" do
         with: "My better description"
       )
 
-      click_button "Save and mark as complete"
+      expect(page).not_to have_content("Does this description change require applicant's agreement?")
 
+      click_button "Save and mark as complete"
       expect(page).to have_content("Description updated.")
 
       within("#check-description-task") do

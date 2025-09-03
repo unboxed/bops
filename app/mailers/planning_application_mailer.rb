@@ -113,6 +113,19 @@ class PlanningApplicationMailer < ApplicationMailer
     )
   end
 
+  def description_update_mail(planning_application, description_change_request)
+    @planning_application = planning_application
+    @description_change_request = description_change_request
+
+    view_mail(
+      NOTIFY_TEMPLATE_ID,
+      subject: subject(:description_update_mail,
+        application_type_name: @planning_application.application_type.human_name),
+      to: @planning_application.applicant_and_agent_email.first,
+      reply_to_id: @planning_application.local_authority.email_reply_to_id
+    )
+  end
+
   def description_closure_notification_mail(planning_application, description_change_request)
     @planning_application = planning_application
     @description_change_request = description_change_request

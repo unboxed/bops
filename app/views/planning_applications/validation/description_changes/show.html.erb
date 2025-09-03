@@ -19,6 +19,13 @@
         )
       ) %>
 
+    <div class="govuk-inset-text">
+      <h3 class="govuk-heading-s">
+        Existing description
+      </h3>
+      <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
+    </div>
+
     <% if @planning_application.valid_description.nil? || params[:edit] == "true" %>
       <%= form_with model: @planning_application, url: validate_planning_application_validation_description_changes_path(@planning_application) do |form| %>
         <%= form.govuk_radio_buttons_fieldset :valid_description, legend: {text: "Does the description match the development or use in the plans?"} do %>

@@ -19,8 +19,9 @@ Given("I create a description change request with {string}") do |details|
     And I press "Check description"
     And I choose "No"
     And I press "Save and mark as complete"
-    And I fill in "Enter an amended description to send to the applicant" with "#{details}"
-    And I press "Send"
+    And I fill in "Enter an amended description" with "#{details}"
+    And I choose "Yes, applicant agreement needed"
+    And I press "Update description"
   )
 end
 
@@ -38,7 +39,9 @@ When("I cancel the existing description change request") do
 end
 
 When("the description change request has been auto-closed after 5 days") do
-  @planning_application.description_change_validation_requests.last.auto_close_request!
+  request = @planning_application.description_change_validation_requests.last
+  request.update!(created_at: 6.business_days.ago)
+  request.auto_close_request!
 end
 
 When("the request has been responded to") do
