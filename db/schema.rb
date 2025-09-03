@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_03_130400) do
+ActiveRecord::Schema[7.2].define(version: 2025_09_03_134634) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -467,7 +467,6 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_03_130400) do
     t.datetime "notice_served_at"
     t.jsonb "proposal_details"
     t.string "uprn"
-    t.geography "boundary_geojson", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
     t.geography "boundary", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.datetime "not_started_at"
