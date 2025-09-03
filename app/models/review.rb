@@ -148,7 +148,7 @@ class Review < ApplicationRecord
     return if enforcement?
 
     last_evidence_review_immunity_detail = owner.current_evidence_review_immunity_detail
-    return unless last_evidence_review_immunity_detail
+    return if last_evidence_review_immunity_detail.nil? || last_evidence_review_immunity_detail.in_progress?
     return if last_evidence_review_immunity_detail.reviewed_at?
 
     raise NotCreatableError,
@@ -159,7 +159,7 @@ class Review < ApplicationRecord
     return if evidence?
 
     last_enforcement_review_immunity_detail = owner.current_enforcement_review_immunity_detail
-    return unless last_enforcement_review_immunity_detail
+    return if last_enforcement_review_immunity_detail.nil? || last_enforcement_review_immunity_detail.in_progress?
     return if last_enforcement_review_immunity_detail.reviewed_at?
 
     raise NotCreatableError,
