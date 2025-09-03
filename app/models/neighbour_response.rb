@@ -6,7 +6,7 @@ class NeighbourResponse < ApplicationRecord
 
   validates_associated :neighbour
 
-  has_many :documents, dependent: :destroy
+  has_many :documents, as: :owner, dependent: :destroy
 
   attr_readonly :response
 

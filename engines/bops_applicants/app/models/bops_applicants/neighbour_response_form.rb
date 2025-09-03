@@ -125,7 +125,7 @@ module BopsApplicants
         end
 
         files.each do |file|
-          documents.create!(file: file, neighbour_response: response)
+          documents.create!(file: file, owner: response)
         end
       end
 

@@ -353,6 +353,7 @@ RSpec.describe "Consultation", type: :system, js: true do
 
       choose "Approved"
       fill_in "Response", with: "We are happy for this application to proceed"
+      attach_file("Upload documents", "spec/fixtures/files/images/proposed-floorplan.png")
 
       click_button "Save response"
       expect(page).to have_text("Response was successfully uploaded.")
@@ -455,6 +456,9 @@ RSpec.describe "Consultation", type: :system, js: true do
         expect(page).to have_selector("li:last-child a", text: "View consultee responses")
         expect(page).to have_selector("li:last-child .govuk-tag", text: "In progress")
       end
+
+      visit "/planning_applications/#{planning_application.reference}/documents"
+      expect(page).to_not have_content("proposed-floorplan.png")
     end
   end
 end

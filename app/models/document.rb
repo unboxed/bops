@@ -29,8 +29,8 @@ class Document < ApplicationRecord
     belongs_to :api_user
     belongs_to :document_checklist_item
     belongs_to :evidence_group
-    belongs_to :neighbour_response
     belongs_to :owner, polymorphic: true
+    belongs_to :neighbour_response
     belongs_to :site_notice
     belongs_to :site_visit
     belongs_to :submission
@@ -221,7 +221,7 @@ class Document < ApplicationRecord
   TAGS = DRAWING_TAGS + EVIDENCE_TAGS + SUPPORTING_DOCUMENT_TAGS
 
   PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
-  EXCLUDED_OWNERS = %w[PressNotice SiteNotice SiteVisit Appeal].freeze
+  EXCLUDED_OWNERS = %w[PressNotice SiteNotice SiteVisit Appeal Consultee::Response NeighbourResponse].freeze
 
   attr_accessor :replacement_file
 

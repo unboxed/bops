@@ -67,7 +67,7 @@ module PlanningApplications
 
     def create_files(response)
       neighbour_response_params[:files].compact_blank.each do |file|
-        @planning_application.documents.create!(file:, neighbour_response: response)
+        @planning_application.documents.create!(file:, owner: response)
       end
     end
 
