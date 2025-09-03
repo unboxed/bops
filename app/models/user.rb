@@ -31,8 +31,8 @@ class User < ApplicationRecord
   end
 
   validates :mobile_number, phone_number: true
-  validates :password, password_strength: {use_dictionary: true}, unless: ->(user) { user.password.blank? }
   validate :password_complexity
+  validates :password, password_strength: {use_dictionary: true}, unless: ->(user) { user.password.blank? }
   validates :role, inclusion: {in: :local_roles}, if: -> { local_authority.present? }
 
   scope :non_administrator, -> { where.not(role: %w[administrator global_administrator]) }
@@ -125,8 +125,6 @@ class User < ApplicationRecord
   def password_complexity
     # Regexp extracted from https://stackoverflow.com/questions/19605150/regex-for-password-must-contain-at-least-eight-characters-at-least-one-number-a
     return if password.blank? || password =~ /(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-])/
-
-    errors.add :password, "complexity requirement not met. Your password must have: " \
-                          "at least 12 characters; at least one symbol (for example, ?!£%); at least one capital letter."
+    errors.add :password, :"password.password_complexity"
   end
 end
