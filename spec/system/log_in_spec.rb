@@ -525,13 +525,13 @@ RSpec.describe "Sign in" do
     url = email.body.encoded.match(%r{https?://[^/]+(/\S+)})[1]
 
     visit url
-    password = "password"
+    password = "blahblahblah"
     fill_in("user[password]", with: password)
     fill_in("user[password_confirmation]", with: password)
     click_button("Change password")
 
     within(".govuk-error-summary") do
-      expect(page).to have_content("Password is too weak")
+      expect(page).to have_content("Password is not complex enough")
     end
   end
 

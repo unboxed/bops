@@ -956,6 +956,17 @@ en:
       date_not_between: is not between %{start_date} and %{end_date}
       date_not_on_or_after: is not on or after %{date}
       date_not_on_or_before: is not on or before %{date}
+      password:
+        password_complexity: |
+          is not complex enough:
+            it must contain at least one uppercase letter,
+            at least one lowercase letter, at least one number,
+            and at least one symbol (for example, ?!£%)
+        password_strength: |
+          is not complex enough:
+            although it may meet basic criteria, you need to make the password
+            longer and use a broader range of characters to meet requirements.
+            Make sure to avoid repeated characters or dictionary words.
   form_actions:
     condition:
       save_and_mark_as_complete: Save and mark as complete
