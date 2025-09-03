@@ -75,6 +75,9 @@ FactoryBot.define do
     trait :unconfigured do
       press_notice_email { nil }
       notify_api_key { nil }
+      email_reply_to_id { nil }
+      email_template_id { nil }
+      sms_template_id { nil }
       letter_template_id { nil }
       reviewer_group_email { nil }
       active { false }

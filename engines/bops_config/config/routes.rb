@@ -47,5 +47,9 @@ BopsConfig::Engine.routes.draw do
     patch :reactivate, on: :member
   end
 
-  resources :local_authorities, param: :name, except: %i[destroy]
+  resources :local_authorities, param: :name, except: %i[destroy] do
+    scope module: "local_authorities" do
+      resource :notify, controller: "notify", only: %i[edit update]
+    end
+  end
 end

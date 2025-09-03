@@ -189,6 +189,14 @@ en:
             summary_of_work_entry:
               not_changed: must be edited
   activerecord:
+    attributes:
+      local_authority:
+        applicants_url: Applicants URL
+        email_reply_to_id: Email reply-to
+        email_template_id: Email template
+        letter_template_id: Letter template
+        notify_api_key: GOV.UK Notify API key
+        sms_template_id: SMS template
     errors:
       models:
         api_user:
@@ -379,6 +387,14 @@ en:
               blank: Enter a phone number for the applicants accessibility page
             accessibility_postal_address:
               blank: Enter a postal address for the applicants accessibility page
+            email_template_id:
+              blank: Enter the ID of the email template you will be using
+            letter_template_id:
+              blank: Enter the ID of the letter template you will be using
+            notify_api_key:
+              blank: Enter your GOV.UK Notify API key
+            sms_template_id:
+              blank: Enter the ID of the SMS template you will be using
         meeting:
           attributes:
             occurred_at:

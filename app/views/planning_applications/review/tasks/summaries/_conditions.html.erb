@@ -27,7 +27,7 @@
                   <%= render(FormattedContentComponent.new(text: condition.reason)) %>
                 </div>
 
-                <nav class="nav-links" data-summary-target="navigation">
+                <nav class="nav-links" data-summary-target="navigation" aria-label="Actions for condition <%= condition.position %>">
                   <%= govuk_link_to "Edit to accept", edit_planning_application_review_conditions_item_path(@planning_application, condition) %>
                 </nav>
               </div>

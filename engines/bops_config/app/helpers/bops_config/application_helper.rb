@@ -36,7 +36,8 @@ module BopsConfig
         "reporting_types" => "reporting_types",
         "policy_schedules" => "gpdo",
         "policy_parts" => "gpdo",
-        "policy_class" => "gpdo"
+        "policy_class" => "gpdo",
+        "notify" => "local_authorities"
       }
 
       page_keys.fetch(controller_name, "dashboard")

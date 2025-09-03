@@ -49,7 +49,7 @@
         <% end %>
       </div>
 
-      <nav class="nav-links" data-summary-target="navigation">
+      <nav class="nav-links" data-summary-target="navigation" aria-label="Actions for item <%= record&.position %>">
         <% if current_request %>
           <% unless current_request.cancelled? || current_request.open? %>
             <%= edit_link %>

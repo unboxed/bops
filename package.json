@@ -30,7 +30,7 @@
   "version": "0.1.0",
   "devDependencies": {
     "@biomejs/biome": "^2.0.5",
-    "@herb-tools/linter": "^0.4.3",
+    "@herb-tools/linter": "^0.6.1",
     "prettier": "^3.6.1"
   },
   "scripts": {

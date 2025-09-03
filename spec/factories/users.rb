@@ -10,6 +10,12 @@ FactoryBot.define do
     password { "Id!l]GT1-{ncnZ!oSvrF.*jx\\w1>V@]_}e>B,A\\yI&'4z6P$2iIQDZ-*rsiFoBP~0=uL/%2wHFg_RrF%nx[`oeY4" }
     mobile_number { "07656546552" }
     confirmed_at { Time.zone.now }
+
+    after(:build) do |user|
+      if user.global_administrator?
+        user.local_authority = nil
+      end
+    end
   end
 
   trait :assessor do
@@ -25,7 +31,6 @@ FactoryBot.define do
   end
 
   trait :global_administrator do
-    local_authority { nil }
     role { :global_administrator }
   end
 

@@ -57,7 +57,7 @@
                   <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
                 </div>
 
-                <nav class="nav-links" data-summary-target="navigation">
+                <nav class="nav-links" data-summary-target="navigation" aria-label="Actions for consideration <%= consideration.position %>">
                   <%= govuk_link_to "Edit to accept", edit_planning_application_review_considerations_item_path(@planning_application, consideration) %>
                 </nav>
               </div>

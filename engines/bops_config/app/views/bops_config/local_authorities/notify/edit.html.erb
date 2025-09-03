@@ -1,16 +1,17 @@
 <% content_for :page_title do %>
-  <%= t(".local_authorities") %> - <%= t("page_title") %>
+  <%= t(".notify") %> - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Local authorities", local_authorities_path %>
+<% add_parent_breadcrumb_link @local_authority.short_name, local_authority_path(@local_authority) %>
 
-<% content_for :title, t(".local_authorities") %>
+<% content_for :title, t(".notify") %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1 class="govuk-heading-l">
-      <%= t(".local_authorities") %>
+      <%= t(".notify") %>
     </h1>
 
     <%= render "form" %>

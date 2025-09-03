@@ -10,7 +10,7 @@ RSpec.describe "Accessibility", type: :system do
     sign_in(user)
   end
 
-  it "allows the administrator update the accessibility information for applicants" do
+  it "allows the administrator to update the accessibility information for applicants" do
     expect(local_authority).to have_attributes(
       accessibility_postal_address: nil, accessibility_phone_number: nil
     )

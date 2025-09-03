@@ -1,7 +1,7 @@
 ---
 en:
   bops_admin:
-    accessibilities:
+    accessibility:
       edit:
         about_accessibility: This information is used on the applicants accessibility page.
         accessibility: Manage accessibility information
@@ -195,6 +195,25 @@ en:
         add_informative: Add a new informative
       update:
         informative_successfully_updated: Informative successfully updated
+    notify:
+      edit:
+        notify: Manage GOV.UK Notify settings
+      form:
+        email_reply_to_id: Reply-to email address
+        email_reply_to_id_hint: |
+          If you want to use an email address other than the default reply-to address for your Notify account,
+          enter the ID here. You can find this ID in your GOV.UK Notify account, by clicking ‘Manage’ to the
+          right of ‘Reply-to email addresses’  under the ‘Email settings’ section in ‘Settings’.
+        email_template_id: Email template
+        letter_template_id: Letter template
+        notify_api_key: API key
+        notify_api_key_hint: This is used to authenticate BOPS requests to the GOV.UK Notify service.
+        settings: Settings
+        sms_template_id: SMS template
+        submit: Submit
+        templates: Templates
+      update:
+        success: GOV.UK Notify settings successfully updated
     policy_areas:
       create:
         successfully_created: Policy area successfully created
@@ -325,9 +344,9 @@ en:
         feedback_email_hint: This is the email of the person or team who will deal with any queries about the BOPS service at your council.
         legend: Some councils use several teams to complete key tasks within the assessment and review process. Add the correct email addresses for each task.
         letter_template_id: Notify letter template
-        letter_template_id_hint: This is the ID number of the letter template you will use in Notify. Find this key in your Notify account.
+        letter_template_id_hint: This is the ID number of the letter template you will use in Notify. You can find this ID in the templates section of your Notify account.
         notify_api_key: Notify API key
-        notify_api_key_hint_html: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letter. You will only see your Notify templates when using the Production environment (the live BOPS service). Find this key in your Notify account. %{notify_notion_link}
+        notify_api_key_hint_html: This is the API key used by the GOV.UK Notify service for sending emails, SMS and letters. You can find this ID in the templates section of your Notify account. %{notify_notion_link}
         notify_notion_link: https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74
         planning_policy_and_guidance: Planning policy and guidance
         planning_policy_and_guidance_hint: Link to planning policy and guidance documents for planning officers.
