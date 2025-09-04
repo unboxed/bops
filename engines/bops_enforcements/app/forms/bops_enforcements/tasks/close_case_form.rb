@@ -17,7 +17,7 @@ module BopsEnforcements
 
       def update(params)
         ActiveRecord::Base.transaction do
-          closed_reason = (params[:reason] == "other") ? params[:other_reason] : I18n.t(params[:reason])
+          closed_reason = (params[:reason] == "other") ? params[:other_reason] : I18n.t(params[:reason], scope: "bops_enforcements.tasks.close-case.show.reason")
           enforcement.update!(closed_reason:, closed_detail: params[:detail])
           enforcement.close!
           task.update!(status: "completed")
