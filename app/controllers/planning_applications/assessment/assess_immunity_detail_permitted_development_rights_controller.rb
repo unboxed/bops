@@ -37,7 +37,6 @@ module PlanningApplications
         @form = AssessImmunityDetailPermittedDevelopmentRightForm.new(
           planning_application: @planning_application
         )
-
         if @form.update(form_params)
           redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
         else

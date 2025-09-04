@@ -131,6 +131,54 @@ RSpec.describe "Evidence of immunity", type: :system do
         expect(list_item("Check and assess")).to have_content("In progress")
       end
 
+      it "I can save and mark complete after saving to come back later" do
+        click_link "Check and assess"
+
+        expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
+        expect(page).to have_list_item_for("Evidence of immunity", with: "Not started")
+
+        click_link "Evidence of immunity"
+
+        expect(page).to have_current_path("/planning_applications/#{reference}/assessment/immunity_details/new")
+        expect(page).to have_selector("h1", text: "Evidence of immunity")
+
+        click_button "Utility bills (1)"
+
+        within(:open_accordion) do
+          within_fieldset("Runs until") do
+            fill_in "Day", with: "03"
+            fill_in "Month", with: "12"
+            fill_in "Year", with: "2021"
+          end
+
+          fill_in "Add comment", with: "This is my comment about utility bills"
+        end
+
+        click_button "Save and come back later"
+
+        expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
+        expect(page).to have_list_item_for("Evidence of immunity", with: "In progress")
+
+        click_link "Evidence of immunity"
+
+        expect(page).to have_current_path(%r{^/planning_applications/#{reference}/assessment/immunity_details/\d+/edit})
+        expect(page).to have_selector("h1", text: "Evidence of immunity")
+
+        click_button "Building control certificates (1)"
+
+        within(:open_accordion) do
+          within_fieldset("Starts from") do
+            expect(page).to have_field("Day", with: "10")
+            expect(page).to have_field("Month", with: "2")
+            expect(page).to have_field("Year", with: "2012")
+          end
+        end
+
+        click_button "Save and mark as complete"
+        expect(page).to have_content("Evidence of immunity successfully updated")
+        expect(page).to have_list_item_for("Evidence of immunity", with: "Completed")
+      end
+
       it "I can save and mark as complete the evidence of immunity" do
         click_link "Check and assess"
 

@@ -104,7 +104,6 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
 
   def update(attributes)
     assign_attributes(attributes)
-
     ActiveRecord::Base.transaction do
       valid? && update_review! && update_permitted_development_right!
     end

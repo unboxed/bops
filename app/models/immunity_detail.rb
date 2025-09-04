@@ -52,7 +52,7 @@ class ImmunityDetail < ApplicationRecord
   private
 
   def should_create_review?
-    return if current_evidence_review_immunity_detail.nil?
+    return if current_evidence_review_immunity_detail.nil? || current_evidence_review_immunity_detail.in_progress?
     current_evidence_review_immunity_detail.status_changed? && current_evidence_review_immunity_detail_review.status_change == %w[to_be_reviewed complete]
   end
 
