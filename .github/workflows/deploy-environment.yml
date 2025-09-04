@@ -81,7 +81,7 @@ jobs:
           bundler-cache: true
 
       - name: Install Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version-file: .node-version
       - run: yarn install

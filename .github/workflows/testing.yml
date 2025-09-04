@@ -74,7 +74,7 @@ jobs:
           bundler-cache: true
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         if: hashFiles('yarn.lock') != ''
         with:
           node-version-file: .node-version
