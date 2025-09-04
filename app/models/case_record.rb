@@ -3,7 +3,9 @@
 require "securerandom"
 
 class CaseRecord < ApplicationRecord
-  delegated_type :caseable, types: %w[Enforcement PlanningApplication], dependent: :destroy
+  CASEABLE_TYPES = %w[Enforcement PlanningApplication].freeze
+
+  delegated_type :caseable, types: CASEABLE_TYPES, dependent: :destroy
 
   has_many :tasks, -> { order(:position) }, as: :parent, dependent: :destroy, autosave: true
   has_many :documents, dependent: :destroy
