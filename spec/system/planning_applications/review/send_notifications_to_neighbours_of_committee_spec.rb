@@ -36,6 +36,28 @@ RSpec.describe "Send notification to neighbours of committee" do
     end
   end
 
+  context "when the application is to be reviewed" do
+    before do
+      planning_application.request_correction!
+      planning_application.committee_decision.update(recommend: true, reasons: ["The first reason"])
+      planning_application.committee_decision.current_review.update(review_status: "review_complete", action: "accepted")
+    end
+
+    it "does not show the option to send to committee" do
+      visit "/planning_applications/#{PlanningApplication.last.id}/review/tasks"
+
+      expect(page).to have_content("Review and sign-off")
+
+      expect(page).not_to have_link "Notify neighbours of committee meeting"
+      within("#notify-neighbours-of-committee-meeting") do
+        expect(page).to have_content "Cannot start yet"
+      end
+      within("#update-decision-notice") do
+        expect(page).to have_content "Cannot start yet"
+      end
+    end
+  end
+
   context "when the assessor has recommended the application go to committee" do
     before do
       consultation = planning_application.consultation
