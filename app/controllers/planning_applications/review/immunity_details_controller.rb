@@ -38,7 +38,7 @@ module PlanningApplications
       end
 
       def set_review_immunity_detail
-        @review_immunity_detail = @immunity_detail.current_evidence_review_immunity_detail
+        @review_immunity_detail = @immunity_detail.current_evidence_review
       end
 
       def immunity_detail_status

@@ -50,15 +50,15 @@
   <h3 class="govuk-heading-m"><%= t(".site_history") %></h3>
   <%= render "planning_applications/assessment/site_histories/table", site_histories: site_histories, show_action: false %>
 </section>
-<% if immunity_detail && review_immunity_detail = immunity_detail.current_enforcement_review_immunity_detail %>
+<% if immunity_detail && review = immunity_detail.current_enforcement_review %>
   <section id="immunity-section">
     <%= render(
           PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: planning_application, evidence_groups: immunity_detail.evidence_groups)
         ) %>
     <p><strong>On the balance of probabilities, is the development immune from enforcement action?</strong></p>
-    <p>Decision: <%= review_immunity_detail.decision %></p>
-    <p>Reason: <%= review_immunity_detail.decision_reason %></p>
-    <p>Summary: <%= review_immunity_detail.summary %></p>
+    <p>Decision: <%= review.decision %></p>
+    <p>Reason: <%= review.decision_reason %></p>
+    <p>Summary: <%= review.summary %></p>
   </section>
 <% end %>
 <% if permitted_development_right.persisted? %>

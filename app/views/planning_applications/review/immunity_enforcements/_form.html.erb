@@ -1,14 +1,14 @@
-<%= form_with scope: :review_immunity_detail_enforcement, model: [@planning_application, @planning_application.immunity_detail.current_enforcement_review_immunity_detail],
-      url: planning_application_review_immunity_enforcement_path(@planning_application, @planning_application.immunity_detail.current_enforcement_review_immunity_detail),
+<%= form_with scope: :review_immunity_detail_enforcement, model: [@planning_application, @planning_application.immunity_detail.current_enforcement_review],
+      url: planning_application_review_immunity_enforcement_path(@planning_application, @planning_application.immunity_detail.current_enforcement_review),
       class: "govuk-!-margin-top-7" do |form| %>
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_radio_buttons_fieldset(:action, small: true, legend: nil) do %>
     <%= form.govuk_radio_button(
-          :action, "accepted", checked: @planning_application.immunity_detail.current_enforcement_review_immunity_detail.accepted?, label: {text: "Agree"}
+          :action, "accepted", checked: @planning_application.immunity_detail.current_enforcement_review.accepted?, label: {text: "Agree"}
         ) %>
     <%= form.govuk_radio_button(
-          :action, "rejected", checked: @planning_application.immunity_detail.current_enforcement_review_immunity_detail.rejected?, label: {text: "Return with comments"}
+          :action, "rejected", checked: @planning_application.immunity_detail.current_enforcement_review.rejected?, label: {text: "Return with comments"}
         ) do %>
       <%= form.govuk_text_area(
             :comment, rows: 6, label: {text: "Add a comment"}

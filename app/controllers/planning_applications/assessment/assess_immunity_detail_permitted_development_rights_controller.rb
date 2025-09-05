@@ -87,7 +87,7 @@ module PlanningApplications
 
       def ensure_review_immunity_detail_is_editable
         immunity_detail = @planning_application.immunity_detail
-        review = immunity_detail.current_enforcement_review_immunity_detail
+        review = immunity_detail.current_enforcement_review
         return unless review.accepted?
 
         raise BopsCore::Errors::ForbiddenError, "Immunity details are not editable"

@@ -16,13 +16,13 @@
   <% end %>
 
   <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.reviews.evidence.any? %>
-    <%= accordion.with_section(id: "review-immunity-details", expanded: @planning_application.immunity_detail.current_evidence_review_immunity_detail.errors.any?) do |section| %>
+    <%= accordion.with_section(id: "review-immunity-details", expanded: @planning_application.immunity_detail.current_evidence_review.errors.any?) do |section| %>
       <% section.with_heading(text: "Review evidence of immunity") %>
 
       <% section.with_status do %>
         <%= render(
               StatusTags::ReviewComponent.new(
-                review_item: @planning_application.immunity_detail.current_evidence_review_immunity_detail
+                review_item: @planning_application.immunity_detail.current_evidence_review
               )
             ) %>
       <% end %>
@@ -41,13 +41,13 @@
   <% end %>
 
   <% if @planning_application.possibly_immune? && @planning_application.immunity_detail.reviews.enforcement.any? %>
-    <%= accordion.with_section(id: "review-immunity-enforcements", expanded: @planning_application.immunity_detail.current_enforcement_review_immunity_detail.errors.any?) do |section| %>
+    <%= accordion.with_section(id: "review-immunity-enforcements", expanded: @planning_application.immunity_detail.current_enforcement_review.errors.any?) do |section| %>
       <% section.with_heading(text: "Review assessment of immunity") %>
 
       <% section.with_status do %>
         <%= render(
               StatusTags::ReviewComponent.new(
-                review_item: @planning_application.immunity_detail.current_enforcement_review_immunity_detail
+                review_item: @planning_application.immunity_detail.current_enforcement_review
               )
             ) %>
       <% end %>

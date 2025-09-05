@@ -59,7 +59,7 @@ module PlanningApplications
           .merge(reviews_attributes: [
             status:,
             specific_attributes: {"review_type" => "evidence"},
-            id: (@immunity_detail&.current_evidence_review_immunity_detail&.id if !mark_as_complete?)
+            id: (@immunity_detail&.current_evidence_review&.id if !mark_as_complete?)
           ])
       end
 

@@ -12,7 +12,7 @@ class ImmunityDetail < ApplicationRecord
   before_update :create_review, if: :should_create_review?
 
   def update_required?
-    current_evidence_review_immunity_detail.status == "complete" && !accepted?
+    current_evidence_review.status == "complete" && !accepted?
   end
 
   def add_document(document)
@@ -23,24 +23,24 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def accepted?
-    current_evidence_review_immunity_detail.status == "complete" &&
-      (current_evidence_review_immunity_detail.review_status == "review_complete" || current_evidence_review_immunity_detail.review_status == "review_in_progress")
+    current_evidence_review.status == "complete" &&
+      (current_evidence_review.review_status == "review_complete" || current_evidence_review.review_status == "review_in_progress")
   end
 
-  def current_enforcement_review_immunity_detail
-    reviews.enforcement.where.not(id: nil).order(:created_at).last
+  def current_enforcement_review
+    @current_enforcement_review ||= reviews.enforcement.order(:created_at).last
   end
 
-  def current_evidence_review_immunity_detail
-    reviews.evidence.where.not(id: nil).order(:created_at).last
+  def current_evidence_review
+    @current_evidence_review ||= reviews.evidence.order(:created_at).last
   end
 
   def earliest_evidence_cover
-    evidence_groups.order(start_date: :asc).first&.start_date
+    @earliest_evidence_cover ||= evidence_groups.order(start_date: :asc).first&.start_date
   end
 
   def latest_evidence_cover
-    evidence_groups.pluck(:end_date, :start_date).flatten.compact.max
+    @latest_evidence_cover ||= evidence_groups.pluck(:end_date, :start_date).flatten.compact.max
   end
 
   def evidence_gaps?
@@ -52,8 +52,8 @@ class ImmunityDetail < ApplicationRecord
   private
 
   def should_create_review?
-    return if current_evidence_review_immunity_detail.nil? || current_evidence_review_immunity_detail.in_progress?
-    current_evidence_review_immunity_detail.status_changed? && current_evidence_review_immunity_detail_review.status_change == %w[to_be_reviewed complete]
+    return if current_evidence_review.nil? || current_evidence_review.in_progress?
+    current_evidence_review.status_changed? && current_evidence_review.status_change == %w[to_be_reviewed complete]
   end
 
   def create_review

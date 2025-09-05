@@ -30,7 +30,7 @@ module PlanningApplications
       end
 
       def set_review_immunity_detail
-        @review_immunity_detail = @planning_application.immunity_detail.current_enforcement_review_immunity_detail
+        @review_immunity_detail = @planning_application.immunity_detail.current_enforcement_review
       end
 
       def status

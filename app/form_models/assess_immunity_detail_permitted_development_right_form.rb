@@ -99,7 +99,7 @@ class AssessImmunityDetailPermittedDevelopmentRightForm
   end
 
   def current_review
-    @current_review ||= immunity_detail.current_enforcement_review_immunity_detail || immunity_detail.reviews.new
+    @current_review ||= immunity_detail.current_enforcement_review || immunity_detail.reviews.new
   end
 
   def update(attributes)

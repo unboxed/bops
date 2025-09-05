@@ -266,8 +266,8 @@ RSpec.describe "Immunity", type: :system do
       expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
       expect(page).to have_content("Permitted development rights response was successfully updated")
 
-      expect(immunity_detail.current_evidence_review_immunity_detail.accepted?).to be(true)
-      expect(immunity_detail.current_enforcement_review_immunity_detail.accepted?).to be(true)
+      expect(immunity_detail.current_evidence_review.accepted?).to be(true)
+      expect(immunity_detail.current_enforcement_review.accepted?).to be(true)
     end
   end
 end
