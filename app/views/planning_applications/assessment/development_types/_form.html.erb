@@ -1,0 +1,27 @@
+<%= form_with model: @planning_application, local: true, url: planning_application_assessment_development_type_url(@planning_application) do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_radio_buttons_fieldset(
+        :section_55_development,
+        legend: {text: "Is this proposal 'development' under Section 55 of the Town and Country Planning Act 1990?", size: "m"},
+        hint: {text: "Development includes building/engineering operations or a material change of use"}
+      ) do %>
+
+      <% if @planning_application.section_55_development.nil? %>
+        <%= form.govuk_radio_button(:section_55_development, true, label: {text: "Yes"}) %>
+        <%= form.govuk_radio_button(:section_55_development, false, label: {text: "No"}) %>
+      <% else %>
+        <%= form.govuk_radio_button(:section_55_development, true, checked: @planning_application.section_55_development, label: {text: "Yes"}) %>
+        <%= form.govuk_radio_button(:section_55_development, false, checked: !@planning_application.section_55_development, label: {text: "No"}) %>
+      <% end %>
+    <% end %>
+
+    <p class="govuk-body-s">
+      <%= govuk_link_to "What count as a development?", "https://www.legislation.gov.uk/ukpga/1990/8/section/55", new_tab: true %>
+    </p>
+
+    <div class="govuk-button-group">
+      <%= form.govuk_submit(t("form_actions.save_and_mark_as_complete")) %>
+      <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+    </div>
+<% end %>

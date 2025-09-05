@@ -1475,6 +1475,9 @@ en:
           'yes': 'Yes'
         update:
           successfully_updated_application: Successfully updated application checklist
+      development_types:
+        update:
+          success: Section 55 development was successfully updated
       heads_of_terms:
         index:
           drag_and_drop: Drag and drop heads of terms to change the order that they appear in the decision notice.

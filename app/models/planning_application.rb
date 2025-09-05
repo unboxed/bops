@@ -129,6 +129,8 @@ class PlanningApplication < ApplicationRecord
     delegate :session_id
   end
 
+  validates :section_55_development, inclusion: [true, false], on: :require_section_55_development
+
   delegate :lodged?, :validated?, :started?, :determined?, :display_status, to: :appeal, allow_nil: true, prefix: true
 
   delegate :code, to: :reporting_type, prefix: true

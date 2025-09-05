@@ -12,7 +12,8 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
       :in_assessment,
       :with_constraints,
       local_authority:,
-      api_user:
+      api_user:,
+      section_55_development: true
     )
   end
 
@@ -266,7 +267,8 @@ RSpec.describe "assessment against legislation", type: :system, capybara: true d
         :in_assessment,
         :with_constraints,
         local_authority:,
-        api_user:
+        api_user:,
+        section_55_development: true
       )
     end
 

@@ -139,6 +139,8 @@ local_authority_subdomain do
           end
         end
 
+        resource :development_type, only: %i[edit update]
+
         resource :recommended_application_type, only: %i[show edit update]
 
         resource :permitted_development_rights, only: %i[show edit update]
