@@ -35,11 +35,12 @@ RSpec.describe "Enforcement close page", type: :system do
   context do
     before do
       click_button "Close case"
-      enforcement.reload
     end
 
     it "can be closed", :capybara do
       expect(page).to have_content("Case successfully closed")
+
+      enforcement.reload
       expect(enforcement.status).to eq("closed")
       expect(enforcement.closed_reason).to eq("Because I want to")
     end
