@@ -21,8 +21,8 @@ class Review < ApplicationRecord
 
   validate :all_policies_are_determined, if: :owner_is_planning_application_policy_class?
 
-  before_create :ensure_no_open_evidence_review_immunity_detail_response!, if: :owner_is_immunity_detail?
-  before_create :ensure_no_open_enforcement_review_immunity_detail_response!, if: :owner_is_immunity_detail?
+  before_create :ensure_no_open_evidence_review_response!, if: :owner_is_immunity_detail?
+  before_create :ensure_no_open_enforcement_review_response!, if: :owner_is_immunity_detail?
   before_commit :ensure_consultation_has_finished!, if: :owner_is_consultation?
   before_update :set_status_to_be_complete, if: :accepted?
   before_update :set_status_to_be_reviewed, if: :comment?
@@ -144,23 +144,23 @@ class Review < ApplicationRecord
     specific_attributes["review_type"] == "evidence"
   end
 
-  def ensure_no_open_evidence_review_immunity_detail_response!
+  def ensure_no_open_evidence_review_response!
     return if enforcement?
 
-    last_evidence_review_immunity_detail = owner.current_evidence_review_immunity_detail
-    return if last_evidence_review_immunity_detail.nil? || last_evidence_review_immunity_detail.in_progress?
-    return if last_evidence_review_immunity_detail.reviewed_at?
+    last_evidence_review = owner.current_evidence_review
+    return if last_evidence_review.nil? || last_evidence_review.in_progress?
+    return if last_evidence_review.reviewed_at?
 
     raise NotCreatableError,
       "Cannot create an evidence review immunity detail response when there is already an open response"
   end
 
-  def ensure_no_open_enforcement_review_immunity_detail_response!
+  def ensure_no_open_enforcement_review_response!
     return if evidence?
 
-    last_enforcement_review_immunity_detail = owner.current_enforcement_review_immunity_detail
-    return if last_enforcement_review_immunity_detail.nil? || last_enforcement_review_immunity_detail.in_progress?
-    return if last_enforcement_review_immunity_detail.reviewed_at?
+    last_enforcement_review = owner.current_enforcement_review
+    return if last_enforcement_review.nil? || last_enforcement_review.in_progress?
+    return if last_enforcement_review.reviewed_at?
 
     raise NotCreatableError,
       "Cannot create an enforcement review immunity detail response when there is already an open response"
