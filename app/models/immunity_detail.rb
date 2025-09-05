@@ -28,11 +28,11 @@ class ImmunityDetail < ApplicationRecord
   end
 
   def current_enforcement_review_immunity_detail
-    @current_enforcement_review_immunity_detail ||= reviews.enforcement.where.not(id: nil).order(:created_at).last
+    @current_enforcement_review_immunity_detail ||= reviews.enforcement.order(:created_at).last
   end
 
   def current_evidence_review_immunity_detail
-    @current_evidence_review_immunity_detail ||= reviews.evidence.where.not(id: nil).order(:created_at).last
+    @current_evidence_review_immunity_detail ||= reviews.evidence.order(:created_at).last
   end
 
   def earliest_evidence_cover
