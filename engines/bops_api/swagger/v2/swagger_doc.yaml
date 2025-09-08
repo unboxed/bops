@@ -36576,6 +36576,49 @@ paths:
                           metadata:
                             byteSize: 258315
                             contentType: image/png
+  "/api/v2/public/planning_applications/{reference}/submission":
+    get:
+      summary: Retrieves the planning application submission given a reference
+      tags:
+      - Planning applications
+      parameters:
+      - name: reference
+        in: path
+        schema:
+          type: string
+          description: The planning application reference
+        required: true
+      responses:
+        '200':
+          description: returns planning application submission when searching by the
+            reference
+          content:
+            application/json:
+              examples:
+                default:
+                  value:
+                    application:
+                      type:
+                        value: pp.full.householder
+                        description: Planning Permission - Full householder
+                    applicant:
+                      name:
+                        first: David
+                        last: Bowie
+                    property:
+                      address:
+                        title: 40, STANSFIELD ROAD, LONDON
+                        street: STANSFIELD ROAD
+                        postcode: SW9 9RZ
+                        town: LONDON
+                    proposal:
+                      description: Roof extension to the rear of the property, incorporating
+                        starship launchpad.
+                    metadata:
+                      id: 81bcaa0f-baf5-4573-ba0a-ea868c573faf
+                      source: PlanX
+              schema:
+                "$ref": "#/components/schemas/ApplicationSubmission"
   "/api/v2/validation_requests":
     get:
       summary: Retrieves a paginated list of notified validation requests for an LPA
