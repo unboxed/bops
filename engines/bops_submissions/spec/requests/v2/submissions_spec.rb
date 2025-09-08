@@ -6,6 +6,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
   let(:local_authority) { create(:local_authority, :default) }
   let(:valid_planning_portal_submission_event) { json_fixture_submissions("planning_portal.json") }
   let(:valid_enforcement_submission_event) { json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json") }
+  let(:valid_planx_submission_event) { json_fixture_api("examples/odp/v0.7.5/application/planningPermission/fullHouseholder.json") }
   let(:token) { "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
 
   before do
@@ -30,6 +31,12 @@ RSpec.describe "BOPS Submissions API", type: :request do
       )
 
       request_body_example(
+        name: "ValidPlanXSubmissionEvent",
+        summary: "PlanX Submission",
+        value: json_fixture_api("examples/odp/v0.7.5/application/planningPermission/fullHouseholder.json")
+      )
+
+      request_body_example(
         name: "ValidEnforcementSubmissionEvent",
         summary: "Enforcement Submission",
         value: json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json")
@@ -40,7 +47,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
 
         let(:Authorization) { "Bearer #{token}" }
 
-        %i[valid_planning_portal_submission_event valid_enforcement_submission_event].each do |ev|
+        %i[valid_planning_portal_submission_event valid_enforcement_submission_event valid_planx_submission_event].each do |ev|
           let(:event) { send(ev) }
           before do
             if (link = event["documentLinks"]&.first&.[]("documentLink"))
