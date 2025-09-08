@@ -4,10 +4,12 @@ require_relative "../../swagger_helper"
 
 RSpec.describe "BOPS Submissions API", type: :request do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:valid_submission_event) { json_fixture_submissions("planning_portal.json") }
+  let(:valid_planning_portal_submission_event) { json_fixture_submissions("planning_portal.json") }
+  let(:valid_enforcement_submission_event) { json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json") }
+  let(:token) { "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
 
   before do
-    create(:api_user, permissions: %w[planning_application:write], token: "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw", local_authority:)
+    create(:api_user, permissions: %w[planning_application:write], token:, local_authority:)
   end
 
   path "/api/v2/submissions" do
@@ -36,21 +38,25 @@ RSpec.describe "BOPS Submissions API", type: :request do
       response "200", "submission accepted" do
         schema "$ref" => "#/components/schemas/SubmissionResponse"
 
-        let(:Authorization) { "Bearer bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
-        let(:event) { valid_submission_event }
+        let(:Authorization) { "Bearer #{token}" }
 
-        before do
-          stub_request(:get, event["documentLinks"].first["documentLink"])
-            .to_return(
-              status: 200,
-              body: file_fixture_submissions("applications/PT-10087984.zip"),
-              headers: {"Content-Type" => "application/zip"}
-            )
-        end
+        %i[valid_planning_portal_submission_event valid_enforcement_submission_event].each do |ev|
+          let(:event) { send(ev) }
+          before do
+            if (link = event["documentLinks"]&.first&.[]("documentLink"))
+              stub_request(:get, link)
+                .to_return(
+                  status: 200,
+                  body: file_fixture_submissions("applications/PT-10087984.zip"),
+                  headers: {"Content-Type" => "application/zip"}
+                )
+            end
+          end
 
-        run_test! do |response|
-          body = JSON.parse(response.body)
-          expect(body["uuid"]).to match(/[0-9a-f\-]{36}/)
+          run_test! do |response|
+            body = JSON.parse(response.body)
+            expect(body["uuid"]).to match(/[0-9a-f\-]{36}/)
+          end
         end
       end
 
@@ -58,7 +64,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
         schema "$ref" => "#/components/schemas/UnauthorizedError"
 
         let(:Authorization) { nil }
-        let(:event) { valid_submission_event }
+        let(:event) { valid_planning_portal_submission_event }
 
         run_test!
       end
@@ -66,7 +72,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
       response "422", "missing request body" do
         schema "$ref" => "#/components/schemas/UnprocessableEntityError"
 
-        let(:Authorization) { "Bearer bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
+        let(:Authorization) { "Bearer #{token}" }
         let(:event) { nil }
 
         run_test!
@@ -75,7 +81,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
       response "400", "bad request" do
         schema "$ref" => "#/components/schemas/BadRequestError"
 
-        let(:Authorization) { "Bearer bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
+        let(:Authorization) { "Bearer #{token}" }
         let(:event) { {foo: "bar"} }
 
         before do
