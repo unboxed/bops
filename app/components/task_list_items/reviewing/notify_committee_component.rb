@@ -11,10 +11,14 @@ module TaskListItems
 
       attr_reader :planning_application
 
-      delegate(:committee_decision, to: :planning_application)
+      delegate(:committee_decision, :to_be_reviewed?, to: :planning_application)
 
       def link_text
         t(".link_text")
+      end
+
+      def link_active?
+        !to_be_reviewed?
       end
 
       def link_path
@@ -32,6 +36,8 @@ module TaskListItems
       def status
         if planning_application.in_committee_at.present?
           :complete
+        elsif to_be_reviewed?
+          :cannot_start_yet
         else
           :not_started
         end

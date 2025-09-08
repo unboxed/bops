@@ -16,8 +16,10 @@ module StatusTags
     def status
       if (planning_application.awaiting_determination? || planning_application.to_be_reviewed?) && planning_application.committee_details_filled?
         :complete
-      else
+      elsif planning_application.in_committee?
         :not_started
+      else
+        :cannot_start_yet
       end
     end
   end
