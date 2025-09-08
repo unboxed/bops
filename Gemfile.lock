@@ -47,6 +47,12 @@ PATH
       bops_core (= 0.1.0)
 
 PATH
+  remote: engines/bops_preapps
+  specs:
+    bops_preapps (0.1.0)
+      bops_core (= 0.1.0)
+
+PATH
   remote: engines/bops_reports
   specs:
     bops_reports (0.1.0)
@@ -415,7 +421,6 @@ GEM
     method_source (1.1.0)
     mini_magick (4.11.0)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (5.25.5)
     msgpack (1.7.2)
     multi_test (1.1.0)
@@ -432,9 +437,6 @@ GEM
     net-smtp (0.4.0.1)
       net-protocol
     nio4r (2.7.3)
-    nokogiri (1.18.9)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.18.9-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.18.9-arm64-darwin)
@@ -698,7 +700,6 @@ GEM
 PLATFORMS
   aarch64-linux
   arm64-darwin
-  ruby
   x86_64-darwin
   x86_64-linux
 
@@ -717,6 +718,7 @@ DEPENDENCIES
   bops_consultees!
   bops_core!
   bops_enforcements!
+  bops_preapps!
   bops_reports!
   bops_submissions!
   bops_uploads!
