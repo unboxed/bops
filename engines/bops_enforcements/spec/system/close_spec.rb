@@ -7,6 +7,7 @@ RSpec.describe "Enforcement close page", type: :system do
   let!(:submission) do
     create(
       :submission,
+      :planning_portal,
       local_authority: local_authority,
       request_body: json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json")
     )

@@ -3,8 +3,8 @@
 module BopsSubmissions
   module V2
     class SubmissionsController < AuthenticatedController
-      # FIxme to use the correct schema validation based on API user making the request.
-      validate_schema! only: :create, if: :planx_submission?
+      # TODO schema validation should be done only after submission, in the processor jobs
+      validate_schema! only: :create, if: :odp_submission?
 
       def create
         @submission = creation_service.call
@@ -19,12 +19,15 @@ module BopsSubmissions
 
       def creation_service
         @creation_service ||= BopsSubmissions::CreationService.new(
-          params: submission_params, headers: request.headers, local_authority: current_local_authority
+          params: submission_params,
+          headers: request.headers,
+          local_authority: current_local_authority,
+          schema:
         )
       end
 
       def submission_params
-        planx_submission? ? request_parameters : planning_portal_params
+        odp_submission? ? request_parameters : planning_portal_params
       end
 
       def planning_portal_params
@@ -38,8 +41,12 @@ module BopsSubmissions
         ).to_h
       end
 
-      def planx_submission?
-        params[:data].present?
+      def schema
+        params[:schema] || "odp"
+      end
+
+      def odp_submission?
+        schema == "odp"
       end
     end
   end
