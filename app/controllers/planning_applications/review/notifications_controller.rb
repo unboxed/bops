@@ -3,6 +3,7 @@
 module PlanningApplications
   module Review
     class NotificationsController < BaseController
+      before_action :redirect_to_review_tasks, if: :to_be_reviewed?
       before_action :set_committee_decision
 
       def new
@@ -82,6 +83,14 @@ module PlanningApplications
           user: Current.user,
           activity_type: "committee_details_sent"
         )
+      end
+
+      def redirect_to_review_tasks
+        redirect_to planning_application_review_tasks_path(@planning_application)
+      end
+
+      def to_be_reviewed?
+        @planning_application.to_be_reviewed?
       end
     end
   end
