@@ -11,15 +11,24 @@ module BopsSubmissions
       end
 
       def call!
-        enforcement = ApplicationRecord.transaction do
-          enforcement = build_enforcement
-          enforcement.save!
-          submission.create_case_record!(
-            caseable: enforcement,
-            local_authority: local_authority
-          )
-          enforcement
+        enforcement = submission.with_lock do
+          if (existing = submission.case_record&.caseable)
+            break existing
+          end
+
+          ApplicationRecord.transaction do
+            record = build_enforcement
+            record.save!
+
+            submission.create_case_record!(
+              caseable: record,
+              local_authority: local_authority
+            )
+
+            record
+          end
         end
+
         attach_documents!(enforcement) if submission.request_body["files"]
         enforcement
       end
