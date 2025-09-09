@@ -55,6 +55,9 @@ RSpec.describe "Send notification to neighbours of committee" do
       within("#update-decision-notice") do
         expect(page).to have_content "Cannot start yet"
       end
+
+      visit "/planning_applications/#{planning_application.reference}/review/committee_decisions/#{planning_application.committee_decision.id}/notifications/edit"
+      expect(page).to have_current_path "/planning_applications/#{planning_application.reference}/review/tasks"
     end
   end
 
