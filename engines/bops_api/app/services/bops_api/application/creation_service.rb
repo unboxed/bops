@@ -3,10 +3,11 @@
 module BopsApi
   module Application
     class CreationService
-      def initialize(local_authority: nil, user: nil, params: nil, email_sending_permitted: false)
+      def initialize(local_authority: nil, user: nil, params: nil, submission: nil, email_sending_permitted: false)
         @local_authority = local_authority
         @user = user
         @params = params
+        @submission = submission
         @email_sending_permitted = email_sending_permitted
       end
 
@@ -16,7 +17,7 @@ module BopsApi
 
       private
 
-      attr_reader :local_authority, :params, :user, :email_sending_permitted
+      attr_reader :local_authority, :params, :user, :submission, :email_sending_permitted
 
       def data_params
         @data_params ||= params.fetch(:data)
@@ -27,10 +28,11 @@ module BopsApi
       end
 
       def build_planning_application
-        PlanningApplication.new(planning_application_params).tap do |pa|
+        case_record = submission&.case_record || local_authority.case_records.new
+
+        local_authority.planning_applications.new(planning_application_params).tap do |pa|
           pa.api_user_id = user.id
-          pa.local_authority_id = local_authority.id
-          pa.case_record = CaseRecord.new(local_authority:)
+          pa.case_record = case_record
         end
       end
 
