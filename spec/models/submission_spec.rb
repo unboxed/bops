@@ -64,34 +64,35 @@ RSpec.describe Submission do
   end
 
   describe "instance methods" do
-    let(:submission) do
-      build(
-        :submission,
-        request_body: {
+    let(:submission) { build(:submission, request_body:) }
+
+    context "when submitted from planning portal" do
+      let(:request_body) {
+        {
           "applicationRef" => "ABC123",
           "documentLinks" => [
             {"documentLink" => "http://foo"},
             {"documentLink" => "http://bar"}
           ]
         }
-      )
-    end
+      }
 
-    describe "#application_reference" do
-      it "reads applicationRef from the body" do
-        expect(submission.application_reference).to eq("ABC123")
+      describe "#application_reference" do
+        it "reads applicationRef from the body" do
+          expect(submission.application_reference).to eq("ABC123")
+        end
       end
-    end
 
-    describe "#document_link_urls" do
-      it "plucks documentLink entries" do
-        expect(submission.document_link_urls).to contain_exactly("http://foo", "http://bar")
+      describe "#document_link_urls" do
+        it "plucks documentLink entries" do
+          expect(submission.document_link_urls).to contain_exactly("http://foo", "http://bar")
+        end
       end
-    end
 
-    describe "#source" do
-      it "currently always returns Planning Portal" do
-        expect(submission.source).to eq("Planning Portal")
+      describe "#source" do
+        it "currently always returns Planning Portal" do
+          expect(submission.source).to eq("Planning Portal")
+        end
       end
     end
   end

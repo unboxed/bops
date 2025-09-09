@@ -13,6 +13,8 @@ class Submission < ApplicationRecord
   end
 
   validates :external_uuid, uniqueness: true, allow_nil: true
+  after_initialize :set_source
+  before_save :set_source, if: :will_save_change_to_request_body?
 
   with_options presence: true do
     validates :request_body
@@ -50,10 +52,6 @@ class Submission < ApplicationRecord
     @document_link_urls ||= request_body.fetch("documentLinks", []).pluck("documentLink")
   end
 
-  def source
-    @source ||= request_body.dig("metadata", "source") || "Planning Portal"
-  end
-
   def request_body
     super.with_indifferent_access
   end
@@ -64,5 +62,11 @@ class Submission < ApplicationRecord
 
   def planx?
     source == "PlanX"
+  end
+
+  private
+
+  def set_source
+    self.source = request_body.dig("metadata", "source")
   end
 end

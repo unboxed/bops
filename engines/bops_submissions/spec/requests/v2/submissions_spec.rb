@@ -24,6 +24,8 @@ RSpec.describe "BOPS Submissions API", type: :request do
         "$ref" => "#/components/schemas/SubmissionEvent"
       }
 
+      parameter name: :schema, in: :query, enum: ["odp", "planning-portal"], required: false, default: "odp"
+
       request_body_example(
         name: "ValidPlanningPortalSubmissionEvent",
         summary: "Planning Portal Submission",
@@ -47,22 +49,40 @@ RSpec.describe "BOPS Submissions API", type: :request do
 
         let(:Authorization) { "Bearer #{token}" }
 
-        %i[valid_planning_portal_submission_event valid_enforcement_submission_event valid_planx_submission_event].each do |ev|
-          let(:event) { send(ev) }
+        context "for planning portal" do
+          let(:schema) { "planning-portal" }
+          let(:event) { valid_planning_portal_submission_event }
+
           before do
-            if (link = event["documentLinks"]&.first&.[]("documentLink"))
-              stub_request(:get, link)
-                .to_return(
-                  status: 200,
-                  body: file_fixture_submissions("applications/PT-10087984.zip"),
-                  headers: {"Content-Type" => "application/zip"}
-                )
-            end
+            stub_request(:get, event["documentLinks"].first["documentLink"])
+              .to_return(
+                status: 200,
+                body: file_fixture_submissions("applications/PT-10087984.zip"),
+                headers: {"Content-Type" => "application/zip"}
+              )
           end
 
           run_test! do |response|
             body = JSON.parse(response.body)
             expect(body["uuid"]).to match(/[0-9a-f\-]{36}/)
+          end
+        end
+
+        context "for odp" do
+          context "for planning applications" do
+            let(:event) { valid_planx_submission_event }
+            run_test! do |response|
+              body = JSON.parse(response.body)
+              expect(body["uuid"]).to match(/[0-9a-f\-]{36}/)
+            end
+          end
+
+          context "for enforcements" do
+            let(:event) { valid_enforcement_submission_event }
+            run_test! do |response|
+              body = JSON.parse(response.body)
+              expect(body["uuid"]).to match(/[0-9a-f\-]{36}/)
+            end
           end
         end
       end
@@ -72,6 +92,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
 
         let(:Authorization) { nil }
         let(:event) { valid_planning_portal_submission_event }
+        let(:schema) { "planning-portal" }
 
         run_test!
       end

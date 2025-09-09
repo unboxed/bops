@@ -19,7 +19,10 @@ module BopsSubmissions
 
       def creation_service
         @creation_service ||= BopsSubmissions::CreationService.new(
-          params: submission_params, headers: request.headers, local_authority: current_local_authority
+          params: submission_params,
+          headers: request.headers,
+          local_authority: current_local_authority,
+          source: ("Planning Portal" if planning_portal_submission?)
         )
       end
 
@@ -40,6 +43,10 @@ module BopsSubmissions
 
       def planx_submission?
         params[:data].present?
+      end
+
+      def planning_portal_submission?
+        params[:schema] == "planning-portal"
       end
     end
   end
