@@ -6,16 +6,19 @@ module BopsSubmissions
 
     def perform(submission_id, current_api_user)
       submission = Submission.find(submission_id)
-      submission.start! if submission.may_start?
 
-      if submission.planning_portal?
-        ZipExtractionService.new(submission:).call
-        Application::CreationService.new(submission:).call!
-      elsif submission.planx?
-        Enforcement::CreationService.new(submission:, user: current_api_user).call!
+      submission.with_lock do
+        submission.start! if submission.may_start?
+
+        if submission.planning_portal?
+          ZipExtractionService.new(submission:).call
+          Application::CreationService.new(submission:).call!
+        elsif submission.planx?
+          Enforcement::CreationService.new(submission:, user: current_api_user).call!
+        end
+
+        submission.complete!
       end
-
-      submission.complete!
     rescue ActiveRecord::RecordNotFound => e
       Appsignal.report_error(e)
       raise
