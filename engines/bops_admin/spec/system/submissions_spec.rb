@@ -199,7 +199,7 @@ RSpec.describe "Submissions", type: :system do
         )
 
       BopsSubmissions::ZipExtractionService.new(submission:).call
-      BopsSubmissions::Application::CreationService.new(submission:).call!
+      BopsSubmissions::Application::PlanningPortalCreationService.new(submission:).call!
       submission.reload
     end
 

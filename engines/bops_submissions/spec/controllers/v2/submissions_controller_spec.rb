@@ -25,7 +25,7 @@ RSpec.describe BopsSubmissions::V2::SubmissionsController, type: :controller do
 
     before do
       expect(BopsApi::Application::CreationService).to receive(:new).and_return(creation_service)
-      expect(BopsSubmissions::Application::CreationService).not_to receive(:new)
+      expect(BopsSubmissions::Application::PlanningPortalCreationService).not_to receive(:new)
       expect(BopsSubmissions::Enforcement::CreationService).not_to receive(:new)
 
       expect(creation_service).to receive(:call!).and_return(planning_application)
@@ -59,13 +59,13 @@ RSpec.describe BopsSubmissions::V2::SubmissionsController, type: :controller do
   end
 
   context "when submitting a planning application from planning portal" do
-    let(:creation_service) { instance_double(BopsSubmissions::Application::CreationService) }
+    let(:creation_service) { instance_double(BopsSubmissions::Application::PlanningPortalCreationService) }
     let(:planning_application) { instance_double(PlanningApplication) }
     let(:json_data) { json_fixture_submissions("planning_portal.json") }
 
     before do
       expect(BopsApi::Application::CreationService).not_to receive(:new)
-      expect(BopsSubmissions::Application::CreationService).to receive(:new).and_return(creation_service)
+      expect(BopsSubmissions::Application::PlanningPortalCreationService).to receive(:new).and_return(creation_service)
       expect(BopsSubmissions::Enforcement::CreationService).not_to receive(:new)
 
       expect(creation_service).to receive(:call!).and_return(planning_application)
@@ -94,7 +94,7 @@ RSpec.describe BopsSubmissions::V2::SubmissionsController, type: :controller do
 
     before do
       expect(BopsApi::Application::CreationService).not_to receive(:new)
-      expect(BopsSubmissions::Application::CreationService).not_to receive(:new)
+      expect(BopsSubmissions::Application::PlanningPortalCreationService).not_to receive(:new)
       expect(BopsSubmissions::Enforcement::CreationService).to receive(:new).and_return(creation_service)
       expect(creation_service).to receive(:call!).and_return(enforcement)
     end

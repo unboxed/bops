@@ -10,7 +10,7 @@ module BopsSubmissions
 
       if submission.planning_portal?
         ZipExtractionService.new(submission:).call
-        Application::CreationService.new(submission:).call!
+        Application::PlanningPortalCreationService.new(submission:).call!
       elsif submission.planx?
         if submission.request_body.dig(:data, :application, :type, :value) == "breach"
           Enforcement::CreationService.new(submission:, user: current_api_user).call!

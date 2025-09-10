@@ -2,7 +2,7 @@
 
 require_relative "../../swagger_helper"
 
-RSpec.describe BopsSubmissions::Application::CreationService, type: :service do
+RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type: :service do
   describe "#call!" do
     let(:local_authority) { create(:local_authority) }
     let!(:application_type_pp) { create(:application_type, :planning_permission) }
