@@ -10,7 +10,7 @@ module BopsApi
       end
 
       def call
-        return unless (submission = planning_application.params_v2.deep_symbolize_keys)
+        return unless (submission = planning_application.params_v2)
 
         filter_submission(FILTER, submission)
       rescue => e
