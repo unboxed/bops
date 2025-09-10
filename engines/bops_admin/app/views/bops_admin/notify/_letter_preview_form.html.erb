@@ -1,0 +1,23 @@
+<%= f.govuk_error_summary %>
+
+<%= f.hidden_field :letter_template_id %>
+
+<%= f.govuk_fieldset legend: { text: "Sender details" } do %>
+  <%= f.govuk_text_field :sender_name,       label: { text: "Sender name" } %>
+  <%= f.govuk_text_field :sender_department, label: { text: "Sender department (optional)" } %>
+<% end %>
+
+<%= f.govuk_fieldset legend: { text: "Recipient address" } do %>
+  <%= f.govuk_text_field :recipient_name,   label: { text: "Recipient name" } %>
+  <%= f.govuk_text_field :address_line1,    label: { text: "Address line 1" } %>
+  <%= f.govuk_text_field :address_line2,    label: { text: "Address line 2 (optional)" } %>
+  <%= f.govuk_text_field :address_town,     label: { text: "Town/City" } %>
+  <%= f.govuk_text_field :address_postcode, label: { text: "Postcode" } %>
+<% end %>
+
+<%= f.govuk_text_area :body,
+                      label: { text: "Body (main letter content)" },
+                      rows: 8 %>
+
+<%= f.govuk_submit "Preview letter" %>
+<%= back_link %>

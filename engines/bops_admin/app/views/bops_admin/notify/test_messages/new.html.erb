@@ -1,0 +1,20 @@
+<% content_for :page_title do %>
+  <%= t(".test_message") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_accessibility_path %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">
+      <%= t(".test_message") %>
+    </h1>
+
+    <p>
+      Use this test message form to ensure that your Notify template has been set up correctly. Enter the email address or phone number you would like the message to be sent to, and the name of the recipient.
+    </p>
+  </div>
+</div>
+
+<%= render "bops_admin/notify/test_message_form", test_message: @test_message %>
