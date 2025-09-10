@@ -1,4 +1,3 @@
-# engines/bops_admin/app/models/bops_admin/letter_preview.rb
 # frozen_string_literal: true
 
 module BopsAdmin
@@ -8,14 +7,14 @@ module BopsAdmin
 
     # Form fields
     attribute :letter_template_id, :string
-    attribute :sender_name,        :string
-    attribute :sender_department,  :string
-    attribute :recipient_name,     :string
-    attribute :address_line1,      :string
-    attribute :address_line2,      :string
-    attribute :address_town,       :string
-    attribute :address_postcode,   :string
-    attribute :body,               :string
+    attribute :sender_name, :string
+    attribute :sender_department, :string
+    attribute :recipient_name, :string
+    attribute :address_line1, :string
+    attribute :address_line2, :string
+    attribute :address_town, :string
+    attribute :address_postcode, :string
+    attribute :body, :string
     attribute :personalisation_json, :string
 
     validates :letter_template_id, presence: true
@@ -24,14 +23,14 @@ module BopsAdmin
 
     def personalisation
       base = {
-        "recipient_name"   => recipient_name,
-        "sender_name"      => sender_name,
-        "sender_department"=> sender_department,
-        "address_line1"    => address_line1,
-        "address_line2"    => address_line2,
-        "address_town"     => address_town,
+        "recipient_name" => recipient_name,
+        "sender_name" => sender_name,
+        "sender_department" => sender_department,
+        "address_line1" => address_line1,
+        "address_line2" => address_line2,
+        "address_town" => address_town,
         "address_postcode" => address_postcode,
-        "body"             => body
+        "body" => body
       }.compact
 
       base.merge(parsed_personalisation)

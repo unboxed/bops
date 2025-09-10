@@ -217,8 +217,8 @@ en:
         success: GOV.UK Notify settings successfully updated
       test_messages:
         new:
-          title_email: "Send email test"
-          title_sms: "Send SMS test"
+          test_email: "Send email test"
+          test_sms: "Send SMS test"
           test_message: "Send a test Notify message"
           name: "Name"
           phone: "Phone number"

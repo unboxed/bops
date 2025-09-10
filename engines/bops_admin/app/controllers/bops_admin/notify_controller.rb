@@ -23,6 +23,7 @@ module BopsAdmin
       @local_authority = current_local_authority
       render :edit
     end
+
     def send_test_new
       @test_message = BopsAdmin::TestMessage.new(
         channel: @channel,
@@ -57,7 +58,7 @@ module BopsAdmin
 
     def preview_letter
       @letter_preview = BopsAdmin::LetterPreview.new(
-        { letter_template_id: params[:letter_template_id].to_s.strip.presence }
+        {letter_template_id: params[:letter_template_id].to_s.strip.presence}
       )
       render template: "bops_admin/notify/letter_previews/new"
     end
@@ -76,10 +77,10 @@ module BopsAdmin
         begin
           client = Notifications::Client.new(resolve_notify_api_key!)
           resp = client.generate_template_preview(@letter_preview.letter_template_id,
-                                                  personalisation: @letter_preview.personalisation)
+            personalisation: @letter_preview.personalisation)
 
           @preview_subject = resp.subject
-          @preview_body    = resp.body
+          @preview_body = resp.body
 
           render template: "bops_admin/notify/letter_previews/preview"
         rescue Notifications::Client::AuthError => e
@@ -91,7 +92,7 @@ module BopsAdmin
         end
       else
         @preview_subject = @letter_preview.personalisation["subject"].presence || "(No subject)"
-        @preview_body    = @letter_preview.body.presence || "(No body content)"
+        @preview_body = @letter_preview.body.presence || "(No body content)"
         render template: "bops_admin/notify/letter_previews/preview"
       end
     end
@@ -146,7 +147,7 @@ module BopsAdmin
 
     def resolve_notify_api_key!
       key = current_local_authority.notify_api_key.presence ||
-            Rails.configuration.default_notify_api_key.presence
+        Rails.configuration.default_notify_api_key.presence
       return key if key.present?
       raise "Notify API key not found"
     end

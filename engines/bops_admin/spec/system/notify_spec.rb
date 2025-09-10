@@ -66,7 +66,7 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
     click_button "Submit"
 
     click_link "Send test email"
-    expect(page).to have_content(/Send a test Notify message/i)
+    expect(page).to have_content(/Send a test email/i)
 
     fill_in "Email", with: "test@example.com"
     fill_in "Subject", with: "A subject for testing"
@@ -97,7 +97,7 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
     click_button "Submit"
 
     click_link "Send test SMS"
-    expect(page).to have_content(/Send a test Notify message/i)
+    expect(page).to have_content(/Send a test SMS/i)
 
     fill_in "Phone number", with: "07900900123"
     fill_in "Body", with: "This is the SMS body for testing."

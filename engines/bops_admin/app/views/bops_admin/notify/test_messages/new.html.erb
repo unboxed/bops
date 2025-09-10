@@ -1,19 +1,35 @@
 <% content_for :page_title do %>
-  <%= t(".test_message") %> - <%= t("page_title") %>
+  <% if @test_message.channel == "sms" %>
+    <%= t(".test_sms") %> - <%= t("page_title") %>
+  <% else %>
+    <%= t(".test_email") %> - <%= t("page_title") %>
+  <% end %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
-<% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_accessibility_path %>
+<% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_notify_path %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
     <h1 class="govuk-heading-l">
-      <%= t(".test_message") %>
+      <% if @test_message.channel == "sms" %>
+        Send a test SMS
+      <% else %>
+        Send a test email
+      <% end %>
     </h1>
 
-    <p>
-      Use this test message form to ensure that your Notify template has been set up correctly. Enter the email address or phone number you would like the message to be sent to, and the name of the recipient.
-    </p>
+    <% if @test_message.channel == "sms" %>
+      <p>
+        Use this form to send a test SMS with your Notify template.
+        Enter the phone number you’d like to send the message to, along with the SMS body.
+      </p>
+    <% else %>
+      <p>
+        Use this form to send a test email with your Notify template.
+        Enter the recipient’s email address, subject, and body text for the email.
+      </p>
+    <% end %>
   </div>
 </div>
 
