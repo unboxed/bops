@@ -33,6 +33,8 @@ local_authority_subdomain do
 
   mount BopsEnforcements::Engine, at: "/", as: :bops_enforcements
 
+  mount BopsPreapps::Engine, at: "/preapps", as: :bops_preapps
+
   mount BopsReports::Engine, at: "/reports", as: :bops_reports
 
   mount BopsSubmissions::Engine, at: "/api", as: :bops_submissions
