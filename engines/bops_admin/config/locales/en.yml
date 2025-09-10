@@ -212,8 +212,23 @@ en:
         sms_template_id: SMS template
         submit: Submit
         templates: Templates
+        send_test_button: "Send test"
       update:
         success: GOV.UK Notify settings successfully updated
+      test_messages:
+        new:
+          title_email: "Send email test"
+          title_sms: "Send SMS test"
+          test_message: "Send a test Notify message"
+          name: "Name"
+          phone: "Phone number"
+          email: "Email address"
+      letter_previews:
+        new:
+          preview_letter: "See a preview of a Notify letter"
+        form:
+          send_test_button: "Send test"
+          preview_letter_button: "Preview letter"
     policy_areas:
       create:
         successfully_created: Policy area successfully created

@@ -1,0 +1,42 @@
+<% content_for :page_title do %>
+  <%= "Letter preview" %> - <%= t("page_title", default: "BOPS Admin") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_accessibility_path %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+
+    <h1 class="govuk-heading-l">Letter preview</h1>
+
+    <section class="govuk-!-margin-bottom-6">
+      <p class="govuk-body">
+        <%= ERB::Util.html_escape(@personalisation["recipient_name"] || "Recipient") %><br>
+        <%= ERB::Util.html_escape(@personalisation["address_line1"] || "") %><br>
+        <% if @personalisation["address_line2"].present? %>
+          <%= ERB::Util.html_escape(@personalisation["address_line2"]) %><br>
+        <% end %>
+        <%= ERB::Util.html_escape(@personalisation["address_town"] || "") %><br>
+        <%= ERB::Util.html_escape(@personalisation["address_postcode"] || "") %>
+      </p>
+    </section>
+
+    <section class="govuk-!-margin-bottom-6">
+      <p class="govuk-body">
+        <%= ERB::Util.html_escape(@personalisation["body"] || "Body") %><br>
+      </p>
+    </section>
+
+    <section class="govuk-!-margin-bottom-6">
+      <p class="govuk-body">
+        <%= ERB::Util.html_escape(@personalisation["sender_name"] || "Sender") %><br>
+        <% if @personalisation["sender_department"].present? %>
+          <%= ERB::Util.html_escape(@personalisation["sender_department"]) %>
+        <% end %>
+      </p>
+    </section>
+
+    <%= back_link %>
+  </div>
+</div>
