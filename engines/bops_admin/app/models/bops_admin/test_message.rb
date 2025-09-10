@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# engines/bops_admin/app/models/bops_admin/test_message.rb
 module BopsAdmin
   class TestMessage
     include ActiveModel::Model
