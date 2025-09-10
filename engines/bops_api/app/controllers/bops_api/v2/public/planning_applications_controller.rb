@@ -23,6 +23,15 @@ module BopsApi
           end
         end
 
+        def submission
+          @planning_application = find_planning_application params[:id]
+          @submission = Application::PublicSubmissionWhitelistingService.new(planning_application: @planning_application).call
+
+          respond_to do |format|
+            format.json
+          end
+        end
+
         private
 
         def pagination_params
