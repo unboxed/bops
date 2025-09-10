@@ -13,7 +13,7 @@ RSpec.describe "Planning guides" do
     it "the planning guide index page is publicy accessible" do
       expect(page).to have_content("Find out how to create a valid plan")
 
-      within("header") do
+      within("header.govuk-header") do
         expect(page).to have_link(
           "PlanX Back-office Planning System",
           href: public_planning_guides_path
@@ -180,7 +180,7 @@ RSpec.describe "Planning guides" do
     it "is accessible" do
       expect(page).to have_content("Find out how to create a valid plan")
 
-      within("header") do
+      within("header.govuk-header") do
         expect(page).to have_link(
           "PlanX Back-office Planning System",
           href: public_planning_guides_path
