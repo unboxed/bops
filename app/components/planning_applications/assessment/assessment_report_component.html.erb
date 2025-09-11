@@ -183,6 +183,16 @@
   <section id="policy-classes-section" class="govuk-!-margin-bottom-7">
     <h3 class="govuk-heading-m"><%= t(".assessment_against_legislation") %></h3>
 
+    <dl class="govuk-summary-list" style="border-top: 1px solid #b1b4b6;">
+      <div class="govuk-summary-list__row">
+        <dt class="govuk-summary-list__key">
+          Is this proposal 'development' under Section 55 of the Town and Country Planning Act 1990?
+        </dt>
+        <dd class="govuk-summary-list__value">
+          <%= @planning_application.section_55_development ? "Yes" : "No" %>
+        </dd>
+      </div>
+    </dl>
     <% planning_application_policy_classes.each do |pa_policy_class| %>
       <p><%= govuk_link_to pa_policy_class.description, pa_policy_class.url %></p>
 
