@@ -4,6 +4,7 @@ module PlanningApplications
   module Assessment
     class DevelopmentTypesController < BaseController
       before_action :ensure_planning_application_is_not_preapp
+      before_action :destroy_policy_classes_if_no_section_55, only: :update
 
       def show
         respond_to do |format|
@@ -34,6 +35,12 @@ module PlanningApplications
 
       def section_55_development_params
         params.fetch(:planning_application, {}).permit(:section_55_development)
+      end
+
+      def destroy_policy_classes_if_no_section_55
+        if params.dig(:planning_application, :section_55_development) == "false"
+          @planning_application.planning_application_policy_classes.destroy_all
+        end
       end
     end
   end
