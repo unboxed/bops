@@ -1,47 +1,53 @@
-<%= form_with model: current_local_authority,
-              url: main_app.bops_admin_notify_path,
-              id: "notify-form",
-              builder: GOVUKDesignSystemFormBuilder::FormBuilder do |form| %>
+<%= form_with(
+      model: current_local_authority,
+      url: main_app.bops_admin_notify_path,
+      id: "notify-form",
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder
+    ) do |form| %>
 
   <%= form.govuk_error_summary %>
 
-  <%= form.govuk_fieldset(legend: { text: t(".settings") }) do %>
+  <%= form.govuk_fieldset(legend: {text: t(".settings")}) do %>
     <%= form.govuk_password_field(
           :notify_api_key,
-          label: { text: t(".notify_api_key") },
-          hint:  { text: t(".notify_api_key_hint") },
+          label: {text: t(".notify_api_key")},
+          hint: {text: t(".notify_api_key_hint")},
           value: current_local_authority.notify_api_key
         ) %>
 
     <%= form.govuk_text_field(
           :email_reply_to_id,
-          label: { text: t(".email_reply_to_id") },
-          hint:  { text: t(".email_reply_to_id_hint") }
+          label: {text: t(".email_reply_to_id")},
+          hint: {text: t(".email_reply_to_id_hint")}
         ) %>
   <% end %>
 
-  <%= form.govuk_fieldset(legend: { text: t(".templates") }) do %>
+  <%= form.govuk_fieldset(legend: {text: t(".templates")}) do %>
     <p>
       You can find the template IDs in the GOV.UK Notify admin interface.
       Click on the ’Templates’ menu item and then select the template you want to use.
       The template ID can be copied by clicking the ’Copy template ID’ button.
     </p>
     <p>
-      You can send a test email or SMS by clicking the relevant link once you have added a template ID, or preview the way a letter will look.
+      You can send a test email or SMS by clicking the relevant link once you have added a template ID, or preview the
+      way a letter will look.
     </p>
 
     <div class="govuk-form-group">
       <label class="govuk-label" for="notify_email_template_id"><%= t(".email_template_id") %></label>
       <div class="govuk-input__wrapper">
-        <input class="govuk-input govuk-input--width-one-third"
-               id="notify_email_template_id"
-               type="text"
-               name="local_authority[email_template_id]"
-               value="<%= current_local_authority.email_template_id %>">
+        <input
+          class="govuk-input govuk-input--width-one-third"
+          id="notify_email_template_id"
+          type="text"
+          name="local_authority[email_template_id]"
+          value="<%= current_local_authority.email_template_id %>"
+          autocomplete="off">
         <div class="govuk-input__suffix">
-          <%= link_to "Send test email",
-                      main_app.bops_admin_notify_send_test_path(email_template_id: current_local_authority.email_template_id),
-                      class: "govuk-link" %>
+          <%= govuk_link_to(
+                "Send test email",
+                main_app.bops_admin_notify_send_test_path(email_template_id: current_local_authority.email_template_id)
+              ) %>
         </div>
       </div>
     </div>
@@ -49,15 +55,18 @@
     <div class="govuk-form-group">
       <label class="govuk-label" for="notify_sms_template_id"><%= t(".sms_template_id") %></label>
       <div class="govuk-input__wrapper">
-        <input class="govuk-input govuk-input--width-one-third"
-               id="notify_sms_template_id"
-               type="text"
-               name="local_authority[sms_template_id]"
-               value="<%= current_local_authority.sms_template_id %>">
+        <input
+          class="govuk-input govuk-input--width-one-third"
+          id="notify_sms_template_id"
+          type="text"
+          name="local_authority[sms_template_id]"
+          value="<%= current_local_authority.sms_template_id %>"
+          autocomplete="off">
         <div class="govuk-input__suffix">
-          <%= link_to "Send test SMS",
-                      main_app.bops_admin_notify_send_test_path(sms_template_id: current_local_authority.sms_template_id),
-                      class: "govuk-link" %>
+          <%= govuk_link_to(
+                "Send test SMS",
+                main_app.bops_admin_notify_send_test_path(sms_template_id: current_local_authority.sms_template_id)
+              ) %>
         </div>
       </div>
     </div>
@@ -65,23 +74,24 @@
     <div class="govuk-form-group">
       <label class="govuk-label" for="notify_letter_template_id"><%= t(".letter_template_id") %></label>
       <div class="govuk-input__wrapper">
-        <input class="govuk-input govuk-input--width-one-third"
-               id="notify_letter_template_id"
-               type="text"
-               name="local_authority[letter_template_id]"
-               value="<%= current_local_authority.letter_template_id %>">
+        <input
+          class="govuk-input govuk-input--width-one-third"
+          id="notify_letter_template_id"
+          type="text"
+          name="local_authority[letter_template_id]"
+          value="<%= current_local_authority.letter_template_id %>"
+          autocomplete="off">
         <div class="govuk-input__suffix">
-          <%= link_to "Preview letter",
-                      main_app.bops_admin_notify_preview_letter_path(letter_template_id: current_local_authority.letter_template_id),
-                      class: "govuk-link" %>
+          <%= govuk_link_to(
+                "Preview letter",
+                main_app.bops_admin_notify_preview_letter_path(letter_template_id: current_local_authority.letter_template_id)
+              ) %>
         </div>
       </div>
     </div>
   <% end %>
 
-
-
   <%= form.govuk_submit(t(".submit")) do %>
-      <%= back_link %>
+    <%= back_link %>
   <% end %>
 <% end %>

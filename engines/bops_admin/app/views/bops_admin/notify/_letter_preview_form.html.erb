@@ -12,13 +12,16 @@
   <%= f.govuk_text_field :address_line_7, label: {text: "Address line 7"} %>
 <% end %>
 
-<%= f.govuk_text_field :heading,
-                      label: {text: "Heading"},
-                      rows: 8 %>
+<%= f.govuk_text_field(
+      :heading,
+      label: {text: "Heading"}
+    ) %>
 
-<%= f.govuk_text_area :message,
+<%= f.govuk_text_area(
+      :message,
       label: {text: "Message (main letter content)"},
-      rows: 8 %>
+      rows: 8
+    ) %>
 
 <%= f.govuk_submit "Preview letter" %>
 <%= back_link %>

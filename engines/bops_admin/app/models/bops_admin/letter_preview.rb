@@ -4,8 +4,7 @@ module BopsAdmin
   class LetterPreview
     include ActiveModel::Model
     include ActiveModel::Attributes
-
-    # Form fields
+    
     attribute :letter_template_id
     attribute :address_line_1, :string
     attribute :address_line_2, :string
