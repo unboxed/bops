@@ -22,8 +22,8 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
           .and_return(extractor)
         allow(extractor).to receive(:call)
 
-        creator = instance_double(BopsSubmissions::Application::CreationService)
-        allow(BopsSubmissions::Application::CreationService)
+        creator = instance_double(BopsSubmissions::Application::PlanningPortalCreationService)
+        allow(BopsSubmissions::Application::PlanningPortalCreationService)
           .to receive(:new)
           .with(submission: submission)
           .and_return(creator)
@@ -90,8 +90,8 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
       end
 
       it "raises ArgumentError and fails the submission" do
-        creator = instance_double(BopsSubmissions::Application::CreationService)
-        allow(BopsSubmissions::Application::CreationService)
+        creator = instance_double(BopsSubmissions::Application::PlanningPortalCreationService)
+        allow(BopsSubmissions::Application::PlanningPortalCreationService)
           .to receive(:new)
           .with(submission: submission)
           .and_return(creator)

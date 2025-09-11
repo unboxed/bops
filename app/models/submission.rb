@@ -54,6 +54,10 @@ class Submission < ApplicationRecord
     @source ||= request_body.dig("metadata", "source") || "Planning Portal"
   end
 
+  def request_body
+    super.with_indifferent_access
+  end
+
   def planning_portal?
     source == "Planning Portal"
   end

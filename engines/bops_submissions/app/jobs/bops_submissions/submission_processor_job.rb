@@ -10,9 +10,21 @@ module BopsSubmissions
 
       if submission.planning_portal?
         ZipExtractionService.new(submission:).call
-        Application::CreationService.new(submission:).call!
+        Application::PlanningPortalCreationService.new(submission:).call!
       elsif submission.planx?
-        Enforcement::CreationService.new(submission:, user: current_api_user).call!
+        if submission.request_body.dig(:data, :application, :type, :value) == "breach"
+          Enforcement::CreationService.new(submission:, user: current_api_user).call!
+        else
+          send_email = false # TODO where do we set this from?
+
+          BopsApi::Application::CreationService.new(
+            local_authority: submission.local_authority,
+            submission:,
+            user: current_api_user,
+            params: submission.request_body,
+            email_sending_permitted: send_email
+          ).call!
+        end
       end
 
       submission.complete!

@@ -110,9 +110,14 @@
         </div>
       </div>
     <% elsif @submission.case_record %>
-      <p>There is an associated case with this submission with type: <%= @submission.case_record.caseable_type %> and case id: <%= @submission.case_record.id %>.</p>
+      <p>
+        There is a case associated with this submission with type:
+        <%= @submission.case_record.caseable_type %>
+        and case id:
+        <%= @submission.case_record.id + "." %>
+      </p>
     <% else %>
-      <p>There is no associated case with this submission.</p>
+      <p>There is no case associated with this submission.</p>
     <% end %>
 
     <div class="govuk-button-group">

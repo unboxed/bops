@@ -2,7 +2,7 @@
 
 module BopsSubmissions
   module Application
-    class CreationService
+    class PlanningPortalCreationService
       def initialize(submission:)
         @submission = submission
         @local_authority = submission.local_authority

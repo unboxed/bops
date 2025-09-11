@@ -38,7 +38,7 @@ RSpec.describe BopsSubmissions::CreationService, type: :service do
       expect(submission.request_headers).to include(
         "User-Agent" => "Mozilla/5.0", "Content-Type" => "application/json", "X-Request-Id" => "abc-123"
       )
-      expect(submission.request_body.deep_symbolize_keys).to eq(submission_params_hash)
+      expect(submission.request_body).to eq(submission_params_hash.with_indifferent_access)
       expect(submission.external_uuid).to match(/[0-9a-f\-]{36}/)
     }.to change { local_authority.submissions.count }.by(1)
   end
