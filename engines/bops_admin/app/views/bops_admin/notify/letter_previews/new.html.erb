@@ -6,8 +6,8 @@
 <% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_notify_path %>
 
 <%= form_with model: @letter_preview,
-              url:   main_app.bops_admin_notify_preview_letter_path,
-              method: :post,
-              builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      url:   main_app.bops_admin_notify_preview_letter_path,
+      method: :post,
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
   <%= render "letter_preview_form", f: f %>
 <% end %>

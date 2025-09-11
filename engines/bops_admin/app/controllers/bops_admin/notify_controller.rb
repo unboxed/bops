@@ -91,8 +91,8 @@ module BopsAdmin
           render template: "bops_admin/notify/letter_previews/new", status: :unprocessable_entity
         end
       else
-        @preview_subject = @letter_preview.personalisation["subject"].presence || "(No subject)"
-        @preview_body = @letter_preview.body.presence || "(No body content)"
+        @preview_subject = @letter_preview.personalisation["heading"].presence || "(No subject)"
+        @preview_body = @letter_preview.message.presence || "(No message content)"
         render template: "bops_admin/notify/letter_previews/preview"
       end
     end
@@ -133,10 +133,9 @@ module BopsAdmin
     def letter_preview_params
       params.require(:letter_preview).permit(
         :letter_template_id,
-        :sender_name, :sender_department,
-        :recipient_name,
-        :address_line1, :address_line2, :address_town, :address_postcode,
-        :body,
+        :address_line_1, :address_line_2, :address_line_3, :address_line_4, :address_line_5, :address_line_6,
+        :heading,
+        :message,
         :personalisation_json
       )
     end

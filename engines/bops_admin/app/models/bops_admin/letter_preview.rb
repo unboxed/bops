@@ -6,31 +6,30 @@ module BopsAdmin
     include ActiveModel::Attributes
 
     # Form fields
-    attribute :letter_template_id, :string
-    attribute :sender_name, :string
-    attribute :sender_department, :string
-    attribute :recipient_name, :string
-    attribute :address_line1, :string
-    attribute :address_line2, :string
-    attribute :address_town, :string
-    attribute :address_postcode, :string
-    attribute :body, :string
+    attribute :letter_template_id
+    attribute :address_line_1, :string
+    attribute :address_line_2, :string
+    attribute :address_line_3, :string
+    attribute :address_line_4, :string
+    attribute :address_line_5, :string
+    attribute :address_line_6, :string
+    attribute :message, :string
+    attribute :heading, :string
     attribute :personalisation_json, :string
 
     validates :letter_template_id, presence: true
-    validates :recipient_name, presence: true
-    validates :address_line1, :address_town, :address_postcode, presence: true
+    validates :address_line_1, :address_line_2, :address_line_3, presence: true
 
     def personalisation
       base = {
-        "recipient_name" => recipient_name,
-        "sender_name" => sender_name,
-        "sender_department" => sender_department,
-        "address_line1" => address_line1,
-        "address_line2" => address_line2,
-        "address_town" => address_town,
-        "address_postcode" => address_postcode,
-        "body" => body
+        "address_line_1" => address_line_1,
+        "address_line_2" => address_line_2,
+        "address_line_3" => address_line_3,
+        "address_line_4" => address_line_4,
+        "address_line_5" => address_line_5,
+        "address_line_6" => address_line_6,
+        "heading" => heading,
+        "message" => message
       }.compact
 
       base.merge(parsed_personalisation)

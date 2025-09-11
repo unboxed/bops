@@ -1,20 +1,20 @@
 <%= form_with model: test_message,
-              url: main_app.bops_admin_notify_send_test_path,
-              method: :post,
-              data: { turbo: false },
-              builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      url: main_app.bops_admin_notify_send_test_path,
+      method: :post,
+      data: {turbo: false},
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
   <%= f.govuk_error_summary %>
 
   <%= f.hidden_field :channel %>
   <%= f.hidden_field :template_id %>
 
   <% if test_message.channel == "email" %>
-    <%= f.govuk_email_field :email, label: { text: t(".email", default: "Email address") } %>
-    <%= f.govuk_text_field :subject, label: { text: t(".subject", default: "Subject") } %>
-    <%= f.govuk_text_field :body, label: { text: t(".body", default: "Body") } %>
+    <%= f.govuk_email_field :email, label: {text: t(".email", default: "Email address")} %>
+    <%= f.govuk_text_field :subject, label: {text: t(".subject", default: "Subject")} %>
+    <%= f.govuk_text_field :body, label: {text: t(".body", default: "Body")} %>
   <% else %>
-    <%= f.govuk_phone_field :phone, label: { text: t(".phone", default: "Phone number") } %>
-    <%= f.govuk_text_field :body, label: { text: t(".body", default: "Body") } %>
+    <%= f.govuk_phone_field :phone, label: {text: t(".phone", default: "Phone number")} %>
+    <%= f.govuk_text_field :body, label: {text: t(".body", default: "Body")} %>
   <% end %>
 
   <%= f.govuk_submit t(".send_test_button", default: "Send test") %>
