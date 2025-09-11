@@ -129,14 +129,13 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
 
     expect(page).to have_button("Preview letter")
 
-    fill_in "Sender name", with: "Case Officer Smith"
-    fill_in "Sender department (optional)", with: "Planning Department"
-    fill_in "Recipient name", with: "Jane Doe"
-    fill_in "Address line 1", with: "1 Test Street"
-    fill_in "Address line 2 (optional)", with: "Flat 2"
-    fill_in "Town/City", with: "Test Town"
-    fill_in "Postcode", with: "TE5 1NG"
-    fill_in "Body", with: "This is a preview body for the letter."
+    fill_in "Address line 1", with: "Jane Doe"
+    fill_in "Address line 2", with: "1 Test Street"
+    fill_in "Address line 3", with: "Flat 2"
+    fill_in "Address line 4", with: "Test Town"
+    fill_in "Address line 5", with: "TE5 1NG"
+    fill_in "Heading", with: "This is a preview heading for the letter."
+    fill_in "Message", with: "This is a preview body for the letter."
 
     click_button "Preview letter"
 
@@ -146,6 +145,7 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
     expect(page).to have_content("Flat 2")
     expect(page).to have_content("Test Town")
     expect(page).to have_content("TE5 1NG")
+    expect(page).to have_content("This is a preview heading for the letter.")
     expect(page).to have_content("This is a preview body for the letter.")
   end
 end

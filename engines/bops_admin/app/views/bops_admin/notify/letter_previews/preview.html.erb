@@ -12,19 +12,23 @@
 
     <section class="govuk-!-margin-bottom-6">
       <p class="govuk-body">
-        <%= ERB::Util.html_escape(@personalisation["recipient_name"] || "Recipient") %><br>
-        <%= ERB::Util.html_escape(@personalisation["address_line1"] || "") %><br>
-        <% if @personalisation["address_line2"].present? %>
-          <%= ERB::Util.html_escape(@personalisation["address_line2"]) %><br>
+        <%= ERB::Util.html_escape(@personalisation["address_line_1"]) %><br>
+        <%= ERB::Util.html_escape(@personalisation["address_line_2"] || "") %><br>
+          <%= ERB::Util.html_escape(@personalisation["address_line_3"]) %><br>
+        <%= ERB::Util.html_escape(@personalisation["address_line_4"] || "") %><br>
+        <%= ERB::Util.html_escape(@personalisation["address_line_5"] || "") %>
+        <% if @personalisation["address_line_6"].present? %>
+          <%= ERB::Util.html_escape(@personalisation["address_line_6"]) %><br>
         <% end %>
-        <%= ERB::Util.html_escape(@personalisation["address_town"] || "") %><br>
-        <%= ERB::Util.html_escape(@personalisation["address_postcode"] || "") %>
       </p>
     </section>
 
     <section class="govuk-!-margin-bottom-6">
       <p class="govuk-body">
-        <%= ERB::Util.html_escape(@personalisation["body"] || "Body") %><br>
+        <%= ERB::Util.html_escape(@personalisation["heading"] || "Heading") %><br>
+      </p>
+      <p class="govuk-body">
+        <%= ERB::Util.html_escape(@personalisation["message"] || "Message") %><br>
       </p>
     </section>
 
