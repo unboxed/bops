@@ -496,19 +496,22 @@
   <h2 class="govuk-heading-m"><%= t(".next_steps_heading") %></h2>
 
   <% if @current_local_authority.submission_url && @current_local_authority.submission_guidance_url %>
-    <p>
-      <%= t(".next_steps_intro_html") %>
-    </p>
+    <% if @planning_application.recommended_application_type %>
+      <p>
+        <%= t(".next_steps_intro_html") %>
+      </p>
 
-    <%= t(".next_steps_list_html") %>
-
-    <p>
-      <%= t(
-            ".next_steps_outro_html",
-            planning_service_link: @current_local_authority.submission_url,
-            application_type: @planning_application.recommended_application_type.human_name
-          ) %>
-    </p>
+      <%= t(".next_steps_list_html") %>
+      <p>
+        <%= t(
+              ".next_steps_outro_html",
+              planning_service_link: @current_local_authority.submission_url,
+              application_type: @planning_application.recommended_application_type.human_name
+            ) %>
+      </p>
+    <% else %>
+      <p>Next steps cannot be displayed until a recommended application type has been set.</p>
+    <% end %>
   <% elsif editing_enabled? %>
     <p>
       You must set the application submission url in local authority settings before displaying next steps to the applicant.
