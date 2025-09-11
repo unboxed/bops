@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# app/jobs/send_test_message_job.rb
 class SendTestMessageJob < ApplicationJob
   queue_as :default
 
