@@ -24,8 +24,8 @@
   <h3 class="govuk-heading-m"><%= t(".constraints_including_article") %></h3>
 
   <% if @planning_application.planning_application_constraints.active.empty? %>
-    <p>
-      There are no planning constraints on the application site.
+    <p class="govuk-!-padding-6 govuk-!-margin-bottom-6 background-light-grey">
+      <strong>There are no planning constraints on the application site.</strong>
     </p>
   <% else %>
     <p>
@@ -166,7 +166,9 @@
         </div>
       <% end %>
     <% else %>
-      <p><%= t(".no_considerations_assessed") %></p>
+      <p class="govuk-!-padding-6 govuk-!-margin-bottom-6 background-light-grey">
+        <strong><%= t(".no_considerations_assessed") %></strong>
+      </p>
     <% end %>
 
     <% if show_edit_links && current_user.assessor? %>
