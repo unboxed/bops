@@ -208,7 +208,7 @@ RSpec.describe "Pre-application report" do
     fill_in "Month", with: "4"
     fill_in "Year", with: "2025"
     fill_in "Add notes (optional)", with: "Discussed next steps"
-    click_button "Save and mark as complete"
+    click_button "Add meeting"
 
     expect(page).to have_current_path("/reports/planning_applications/#{reference}")
     within("#pre-application-details-table") do
