@@ -27,10 +27,9 @@ locales:
 	$(DOCKER-RUN) console i18n-tasks normalize
 
 api-docs:
-	$(DOCKER-RUN) console rake api:docs:generate
+	$(DOCKER-RUN) console rake api:docs:generate submission_api:docs:generate
 
-submission-api-docs:
-	$(DOCKER-RUN) console rake submission_api:docs:generate
+submission-api-docs: api-docs
 
 submission-api-specs: submissions-specs
 	@: # noop: for backwards compatibility with a name that didn't fit the pattern
