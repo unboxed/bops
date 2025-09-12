@@ -16,6 +16,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
+    <% if @planning_application.section_55_development? && @planning_application.planning_application_policy_classes.any? %>
+      <%= govuk_warning_text(text: "This application has already been marked as development and has classes added to it. If you now mark it as not development these classes will be removed. Any assessments made for the classes will be lost.") %>
+    <% end %>
     <%= render "form" %>
   </div>
 </div>
