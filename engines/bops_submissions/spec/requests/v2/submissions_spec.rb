@@ -6,6 +6,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
   let(:local_authority) { create(:local_authority, :default) }
   let(:valid_planning_portal_submission_event) { json_fixture_submissions("planning_portal.json") }
   let(:valid_enforcement_submission_event) { json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json") }
+  let(:valid_enforcement_with_documents_submission_event) { json_fixture_api("examples/odp/v0.7.5/enforcement/breachWithDocuments.json") }
   let(:valid_planx_submission_event) { json_fixture_api("examples/odp/v0.7.5/application/planningPermission/fullHouseholder.json") }
   let(:token) { "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
 
@@ -40,6 +41,12 @@ RSpec.describe "BOPS Submissions API", type: :request do
         name: "ValidEnforcementSubmissionEvent",
         summary: "Enforcement Submission",
         value: json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json")
+      )
+
+      request_body_example(
+        name: "ValidEnforcementWithDocumentsSubmissionEvent",
+        summary: "Enforcement Submission with Documents",
+        value: json_fixture_api("examples/odp/v0.7.5/enforcement/breachWithDocuments.json")
       )
 
       response "200", "submission accepted" do
