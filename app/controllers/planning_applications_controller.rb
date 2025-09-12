@@ -301,7 +301,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def ensure_planning_application_is_publishable
-    return if @planning_application.publishable?
+    return if @planning_application.can_publish?
 
     redirect_to planning_application_assessment_tasks_path(@planning_application),
       alert: t(".not_publishable", application_type: @planning_application.application_type.description)

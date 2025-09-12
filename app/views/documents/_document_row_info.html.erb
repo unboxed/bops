@@ -20,7 +20,7 @@
       Drawing number: <strong><%= document.numbers %></strong>
     </p>
   <% end %>
-  <% if document.planning_application.publishable? && document.planning_application.validated? %>
+  <% if document.planning_application.can_publish? %>
     <p class="govuk-!-margin-bottom-1">
       Included in decision notice: <strong><%= document.referenced_in_decision_notice? ? "Yes" : "No" %></strong>
     </p>
