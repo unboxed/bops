@@ -25,6 +25,8 @@ module BopsSubmissions
             email_sending_permitted: send_email
           ).call!
         end
+      else
+        raise "Unknown source: #{submission.source.presence || "none"}"
       end
 
       submission.complete!
