@@ -15,7 +15,7 @@ module StatusTags
     def status
       if planning_application.publish_complete?
         :complete
-      elsif planning_application.can_publish? && user.assessor?
+      elsif planning_application.ready_to_publish? && user.assessor?
         :waiting
       end
     end
