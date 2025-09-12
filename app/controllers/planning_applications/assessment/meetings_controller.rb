@@ -53,7 +53,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        report_path_or(planning_application_assessment_tasks_path(@planning_application))
+        report_path_or(planning_application_assessment_meetings_path)
       end
     end
   end
