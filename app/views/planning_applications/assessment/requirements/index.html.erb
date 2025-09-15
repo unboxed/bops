@@ -37,12 +37,13 @@
         <%= render("tabs") %>
       </div>
     </details>
-    <%= govuk_button_link_to "Save and mark as complete", planning_application_assessment_tasks_path(@planning_application) %>
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to "Save and mark as complete", planning_application_assessment_tasks_path(@planning_application) %>
+      <% if @existing_requirements.any? %>
+        <%= govuk_button_link_to t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+      <% end %>
+    </div>
   <% end %>
 <% else %>
   <%= render("tabs") %>
-<% end %>
-
-<% if @existing_requirements.any? %>
-  <%= govuk_button_link_to t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true %>
 <% end %>
