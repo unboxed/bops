@@ -57,38 +57,14 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
     )
   end
 
-  it "enqueues a SendTestMessageJob when sending a test email via the suffix link" do
-    visit "/admin/profile"
-    click_link "Manage GOV.UK Notify"
-    expect(page).to have_selector("h1", text: "Manage GOV.UK Notify settings")
+  it "sends a test SMS immediately via Notify from the suffix link" do
+    client = instance_double(Notifications::Client)
+    allow(Notifications::Client).to receive(:new)
+      .with(local_authority.notify_api_key)
+      .and_return(client)
 
-    fill_in "Email template", with: "9d06d78e-ba05-4789-915d-a053c49be0ce"
-    click_button "Submit"
+    allow(client).to receive(:send_sms)
 
-    click_link "Send test email"
-    expect(page).to have_content(/Send a test email/i)
-
-    fill_in "Email", with: "test@example.com"
-    fill_in "Subject", with: "A subject for testing"
-    fill_in "Body", with: "This is the email body for testing."
-
-    expect {
-      click_button "Send test"
-    }.to have_enqueued_job(SendTestMessageJob).with(
-      hash_including(
-        channel: "email",
-        template_id: "9d06d78e-ba05-4789-915d-a053c49be0ce",
-        email: "test@example.com",
-        personalisation: {"subject" => "A subject for testing", "body" => "This is the email body for testing."},
-        local_authority_id: local_authority.id
-      )
-    )
-
-    expect(page).to have_current_path("/admin/notify", ignore_query: true)
-    expect(page).to have_content("Email test queued for test@example.com")
-  end
-
-  it "enqueues a SendTestMessageJob when sending a test SMS via the suffix link" do
     visit "/admin/profile"
     click_link "Manage GOV.UK Notify"
     expect(page).to have_selector("h1", text: "Manage GOV.UK Notify settings")
@@ -102,20 +78,47 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
     fill_in "Phone number", with: "07900900123"
     fill_in "Body", with: "This is the SMS body for testing."
 
-    expect {
-      click_button "Send test"
-    }.to have_enqueued_job(SendTestMessageJob).with(
-      hash_including(
-        channel: "sms",
-        template_id: "9d06d78e-ba05-4789-915d-a053c49be0cb",
-        phone: "07900900123",
-        personalisation: {"body" => "This is the SMS body for testing."},
-        local_authority_id: local_authority.id
-      )
+    click_button "Send test"
+
+    expect(client).to have_received(:send_sms).with(
+      phone_number: "07900900123",
+      template_id: "9d06d78e-ba05-4789-915d-a053c49be0cb",
+      personalisation: {"body" => "This is the SMS body for testing."}
     )
 
     expect(page).to have_current_path("/admin/notify", ignore_query: true)
-    expect(page).to have_content("SMS test queued for 07900900123")
+    expect(page).to have_content("SMS test sent to 07900900123")
+  end
+
+  it "sends a test email immediately via Notify" do
+    client = instance_double(Notifications::Client)
+    allow(Notifications::Client).to receive(:new)
+      .with(local_authority.notify_api_key)
+      .and_return(client)
+    allow(client).to receive(:send_email)
+
+    visit "/admin/profile"
+    click_link "Manage GOV.UK Notify"
+    expect(page).to have_selector("h1", text: "Manage GOV.UK Notify settings")
+
+    fill_in "Email template", with: "9d06d78e-ba05-4789-915d-a053c49be0ce"
+    fill_in "Reply-to email address", with: "9d06d78e-ba05-4789-915d-a053c49be0c4"
+    click_button "Submit"
+
+    click_link "Send test email"
+    expect(page).to have_content(/Send a test email/i)
+
+    fill_in "Email", with: "test@example.com"
+    fill_in "Subject", with: "A subject for testing."
+    fill_in "Body", with: "This is the email body for testing."
+
+    click_button "Send test"
+
+    expect(client).to have_received(:send_email).with(
+      email_address: "test@example.com",
+      template_id: "9d06d78e-ba05-4789-915d-a053c49be0ce",
+      personalisation: {"subject" => "A subject for testing.", "body" => "This is the email body for testing."}
+    )
   end
 
   it "allows the administrator to preview a letter" do

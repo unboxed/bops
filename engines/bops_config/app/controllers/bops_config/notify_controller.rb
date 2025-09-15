@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module BopsAdmin
+module BopsConfig
   class NotifyController < ApplicationController
     include BopsCore::NotifyController
   end
