@@ -43,4 +43,6 @@
   <%= render("tabs") %>
 <% end %>
 
-<%= back_link %>
+<% if @existing_requirements.any? %>
+  <%= govuk_button_link_to t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+<% end %>
