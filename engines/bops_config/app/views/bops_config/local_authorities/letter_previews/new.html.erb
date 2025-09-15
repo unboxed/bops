@@ -3,11 +3,13 @@
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
-<% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_notify_path %>
+<% add_parent_breadcrumb_link "Edit GOV.UK Notify settings", edit_local_authority_notify_path(@local_authority) %>
 
-<%= form_with model: @letter_preview,
-      url:   main_app.bops_admin_notify_preview_letter_path,
+<%= form_with(
+      model: @letter_preview,
+      url: preview_letter_local_authority_notify_path(@local_authority),
       method: :post,
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder
+    ) do |f| %>
   <%= render "letter_preview_form", f: f %>
 <% end %>

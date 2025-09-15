@@ -65,12 +65,11 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
 
     allow(client).to receive(:send_sms)
 
+    local_authority.update!(sms_template_id: "9d06d78e-ba05-4789-915d-a053c49be0cb")
+
     visit "/admin/profile"
     click_link "Manage GOV.UK Notify"
     expect(page).to have_selector("h1", text: "Manage GOV.UK Notify settings")
-
-    fill_in "SMS template", with: "9d06d78e-ba05-4789-915d-a053c49be0cb"
-    click_button "Submit"
 
     click_link "Send test SMS"
     expect(page).to have_content(/Send a test SMS/i)
@@ -86,7 +85,7 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
       personalisation: {"body" => "This is the SMS body for testing."}
     )
 
-    expect(page).to have_current_path("/admin/notify", ignore_query: true)
+    expect(page).to have_current_path("/admin/notify/edit", ignore_query: true)
     expect(page).to have_content("SMS test sent to 07900900123")
   end
 
@@ -97,13 +96,11 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
       .and_return(client)
     allow(client).to receive(:send_email)
 
+    local_authority.update!(sms_template_id: "9d06d78e-ba05-4789-915d-a053c49be0ca")
+
     visit "/admin/profile"
     click_link "Manage GOV.UK Notify"
     expect(page).to have_selector("h1", text: "Manage GOV.UK Notify settings")
-
-    fill_in "Email template", with: "9d06d78e-ba05-4789-915d-a053c49be0ce"
-    fill_in "Reply-to email address", with: "9d06d78e-ba05-4789-915d-a053c49be0c4"
-    click_button "Submit"
 
     click_link "Send test email"
     expect(page).to have_content(/Send a test email/i)
@@ -116,9 +113,11 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
 
     expect(client).to have_received(:send_email).with(
       email_address: "test@example.com",
-      template_id: "9d06d78e-ba05-4789-915d-a053c49be0ce",
+      template_id: "9d06d78e-ba05-4789-915d-a053c49be0ca",
       personalisation: {"subject" => "A subject for testing.", "body" => "This is the email body for testing."}
     )
+    expect(page).to have_current_path("/admin/notify/edit", ignore_query: true)
+    expect(page).to have_content("Email test sent to test@example.com")
   end
 
   it "allows the administrator to preview a letter" do

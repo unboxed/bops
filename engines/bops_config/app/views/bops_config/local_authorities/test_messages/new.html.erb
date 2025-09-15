@@ -7,7 +7,7 @@
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
-<% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_notify_path %>
+<% add_parent_breadcrumb_link "Edit GOV.UK Notify settings", edit_local_authority_notify_path(@local_authority) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-three-quarters">
@@ -33,4 +33,4 @@
   </div>
 </div>
 
-<%= render "bops_admin/notify/test_message_form", test_message: @test_message %>
+<%= render "bops_config/local_authorities/notify/test_message_form", test_message: @test_message %>

@@ -3,7 +3,7 @@
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
-<% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_notify_path %>
+<% add_parent_breadcrumb_link "Edit GOV.UK Notify settings", edit_local_authority_notify_path(@local_authority) %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
@@ -12,32 +12,23 @@
 
     <section class="govuk-!-margin-bottom-6">
       <p class="govuk-body">
-        <%= ERB::Util.html_escape(@personalisation["address_line_1"]) %><br>
-        <%= ERB::Util.html_escape(@personalisation["address_line_2"] || "") %><br>
-          <%= ERB::Util.html_escape(@personalisation["address_line_3"]) %><br>
-        <%= ERB::Util.html_escape(@personalisation["address_line_4"] || "") %><br>
-        <%= ERB::Util.html_escape(@personalisation["address_line_5"] || "") %>
+        <%= @personalisation["address_line_1"] %><br>
+        <%= @personalisation["address_line_2"] || "" %><br>
+        <%= @personalisation["address_line_3"] %><br>
+        <%= @personalisation["address_line_4"] || "" %><br>
+        <%= @personalisation["address_line_5"] || "" %>
         <% if @personalisation["address_line_6"].present? %>
-          <%= ERB::Util.html_escape(@personalisation["address_line_6"]) %><br>
+          <%= @personalisation["address_line_6"] %><br>
         <% end %>
       </p>
     </section>
 
     <section class="govuk-!-margin-bottom-6">
       <p class="govuk-body">
-        <%= ERB::Util.html_escape(@personalisation["heading"] || "Heading") %><br>
+        <%= @personalisation["heading"] || "Heading" %><br>
       </p>
       <p class="govuk-body">
-        <%= ERB::Util.html_escape(@personalisation["message"] || "Message") %><br>
-      </p>
-    </section>
-
-    <section class="govuk-!-margin-bottom-6">
-      <p class="govuk-body">
-        <%= ERB::Util.html_escape(@personalisation["sender_name"] || "Sender") %><br>
-        <% if @personalisation["sender_department"].present? %>
-          <%= ERB::Util.html_escape(@personalisation["sender_department"]) %>
-        <% end %>
+        <%= @personalisation["message"] || "Message" %><br>
       </p>
     </section>
 

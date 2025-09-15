@@ -1,5 +1,5 @@
 <%= form_with model: test_message,
-      url: main_app.bops_admin_notify_send_test_path,
+      url: send_test_local_authority_notify_path(@local_authority),
       method: :post,
       data: {turbo: false},
       builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
@@ -7,7 +7,6 @@
 
   <%= f.hidden_field :channel %>
   <%= f.hidden_field :template_id %>
-  <%= f.hidden_field :reply_to_id %>
 
   <% if test_message.channel == "email" %>
     <%= f.govuk_email_field :email, label: {text: t(".email", default: "Email address")} %>

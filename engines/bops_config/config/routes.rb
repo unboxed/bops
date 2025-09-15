@@ -49,13 +49,13 @@ BopsConfig::Engine.routes.draw do
 
   resources :local_authorities, param: :name, except: %i[destroy] do
     scope module: "local_authorities" do
-      resource :notify, controller: "notify", only: %i[edit update]
+      resource :notify, controller: "notify", only: %i[edit update] do
+        get :send_test, action: :send_test_new
+        post :send_test, action: :send_test_create
 
-      get  "notify/send_test",      to: "notify#send_test_new",     as: :notify_send_test
-      post "notify/send_test",      to: "notify#send_test_create"
-
-      get  "notify/preview_letter", to: "notify#preview_letter",    as: :notify_preview_letter
-      post "notify/preview_letter", to: "notify#generate_preview"
+        get :preview_letter, action: :preview_letter
+        post :preview_letter, action: :generate_preview
+      end
     end
   end
 end
