@@ -1051,6 +1051,10 @@ class PlanningApplication < ApplicationRecord
     pre_application? ? "pre-application" : "application"
   end
 
+  def task_workflow
+    application_type_name
+  end
+
   private
 
   def create_fee_calculation

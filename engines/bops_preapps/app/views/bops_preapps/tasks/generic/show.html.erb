@@ -1,0 +1,15 @@
+<%= govuk_task_list(id_prefix: "#") do |task_list| %>
+  <% @task.tasks.each do |task| %>
+    <%= task_list.with_item(
+          title: task.name,
+          href: edit_task_path(@planning_application, task),
+          status: task_status_tag(task)
+        ) %>
+  <% end %>
+<% end %>
+
+<% if @task.top_level? %>
+  <%= govuk_button_link_to "Back", pre_application_path(@planning_application), secondary: true %>
+<% else %>
+  <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
+<% end %>

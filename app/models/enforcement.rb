@@ -85,6 +85,10 @@ class Enforcement < ApplicationRecord
     @complainant ||= Complainant.new(submission.request_body&.dig("data", "complainant"))
   end
 
+  def task_workflow
+    model_name.singular
+  end
+
   private
 
   def factory
