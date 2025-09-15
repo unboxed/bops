@@ -47,7 +47,7 @@
 
     <% task_list.with_item(
          title: "Publish determination",
-         href: (@planning_application.can_publish? || @planning_application.publish_complete?) && current_user.reviewer? && publish_planning_application_path(@planning_application),
+         href: (@planning_application.ready_to_publish? || @planning_application.publish_complete?) && current_user.reviewer? && publish_planning_application_path(@planning_application),
          html_attributes: {aria: {describedby: "publish_completed"}}
        ) do |item| %>
       <% item.with_status(text: render(StatusTags::PublishDeterminationComponent.new(planning_application: @planning_application, user: current_user))) %>
