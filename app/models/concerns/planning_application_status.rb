@@ -165,10 +165,6 @@ module PlanningApplicationStatus
       true unless closed_or_cancelled?
     end
 
-    def validated?
-      true unless not_started? || invalidated?
-    end
-
     def can_validate?
       true unless awaiting_determination? || closed_or_cancelled?
     end
