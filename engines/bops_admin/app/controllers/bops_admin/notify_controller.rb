@@ -2,6 +2,8 @@
 
 module BopsAdmin
   class NotifyController < ApplicationController
+    include BopsCore::NotifyController
+
     before_action :determine_channel!, only: %i[send_test_new send_test_create]
     def edit
       respond_to do |format|
@@ -112,49 +114,8 @@ module BopsAdmin
 
     private
 
-    def local_authority_params
-      params.require(:local_authority).permit(*local_authority_attributes)
-    end
-
-    def local_authority_attributes
-      %i[notify_api_key email_reply_to_id email_template_id sms_template_id letter_template_id]
-    end
-
-    def test_message_params
-      params.require(:test_message).permit(:channel, :template_id, :email, :phone, :subject, :body)
-    end
-
-    def determine_channel!
-      @channel =
-        if params[:sms_template_id].present?
-          "sms"
-        elsif params[:email_template_id].present?
-          "email"
-        else
-          "email"
-        end
-    end
-
     def resolved_template_id
       current_local_authority.sms_template_id.presence || current_local_authority.letter_template_id.presence
-    end
-
-    def send_test_success_message(tm)
-      tm.sms? ? "SMS test queued for #{tm.phone}" : "Email test queued for #{tm.email}"
-    end
-
-    def letter_preview_params
-      params.require(:letter_preview).permit(
-        :letter_template_id,
-        :address_line_1, :address_line_2, :address_line_3, :address_line_4, :address_line_5, :address_line_6,
-        :heading,
-        :message,
-        :personalisation_json
-      )
-    end
-
-    def use_real_notify_preview?
-      Rails.env.production? || Rails.env.staging?
     end
 
     def resolve_notify_api_key!

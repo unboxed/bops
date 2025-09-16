@@ -3,6 +3,8 @@
 module BopsConfig
   module LocalAuthorities
     class NotifyController < ApplicationController
+      include BopsCore::NotifyController
+
       helper BopsConfig::Engine.helpers
 
       before_action :set_local_authority, only: %i[
@@ -121,48 +123,18 @@ module BopsConfig
         @local_authority = LocalAuthority.find_by!(subdomain: params[:local_authority_name])
       end
 
-      def local_authority_params
-        params.require(:local_authority).permit(*local_authority_attributes)
-      end
-
-      def local_authority_attributes
-        %i[notify_api_key email_reply_to_id email_template_id sms_template_id letter_template_id]
-      end
-
-      def test_message_params
-        params.require(:test_message)
-          .permit(:channel, :template_id, :email_template_id, :sms_template_id,
-            :email, :phone, :subject, :body, :reply_to_id, personalisation: {})
-      end
-
-      def determine_channel!
-        @channel = params[:sms_template_id].present? ? "sms" : "email"
-      end
-
       def resolved_template_id
         direct = params[:sms_template_id].presence || params[:email_template_id].presence
         return direct.to_s.strip if direct
 
         if params[:test_message]
-          tm = test_message_params # <- use the full permitted set
+          tm = test_message_params
           id = tm[:template_id].presence || tm[:sms_template_id].presence || tm[:email_template_id].presence
           return id.to_s.strip if id
         end
 
         fallback = ((@channel == "sms") ? local_authority.sms_template_id : local_authority.email_template_id)
         fallback.to_s.strip if fallback.present?
-      end
-
-      def letter_preview_params
-        params.require(:letter_preview).permit(
-          :letter_template_id,
-          :address_line_1, :address_line_2, :address_line_3, :address_line_4, :address_line_5, :address_line_6,
-          :heading, :message, :personalisation_json
-        )
-      end
-
-      def use_real_notify_preview?
-        Rails.env.production? || Rails.env.staging?
       end
     end
   end
