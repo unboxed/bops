@@ -61,7 +61,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        if current_user.reviewer?
+        if @planning_application.awaiting_determination?
           planning_application_review_tasks_path(@planning_application)
         else
           planning_application_assessment_tasks_path(@planning_application)
