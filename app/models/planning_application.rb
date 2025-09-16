@@ -1133,7 +1133,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def validation_date?
-    !validated_at.nil?
+    validated_at.present?
   end
 
   def public_comment_present

@@ -661,7 +661,7 @@ RSpec.describe PlanningApplication do
   end
 
   describe "#valid_from" do
-    let(:planning_application) { create(:not_started_planning_application) }
+    let(:planning_application) { create(:planning_application, :not_started) }
 
     context "when the application is not valid" do
       it "is nil" do
@@ -670,7 +670,7 @@ RSpec.describe PlanningApplication do
     end
 
     context "when the application is valid" do
-      let(:planning_application) { create(:valid_planning_application) }
+      let(:planning_application) { create(:planning_application, :in_assessment) }
 
       it "is validated at" do
         expect(planning_application.valid_from).to eq(planning_application.validated_at)
@@ -679,7 +679,7 @@ RSpec.describe PlanningApplication do
   end
 
   describe "#valid_from_date" do
-    let(:planning_application) { create(:not_started_planning_application) }
+    let(:planning_application) { create(:planning_application, :not_started) }
 
     context "when the application is valid" do
       context "when there have been validation requests" do
@@ -700,6 +700,7 @@ RSpec.describe PlanningApplication do
             )
           end
 
+          planning_application.validated_at = planning_application.valid_from_date
           planning_application.start!
         end
 
@@ -709,7 +710,10 @@ RSpec.describe PlanningApplication do
       end
 
       context "when there have been no validation requests" do
-        before { planning_application.start! }
+        before do
+          planning_application.validated_at = planning_application.valid_from_date
+          planning_application.start!
+        end
 
         it "returns the received_at value" do
           expect(planning_application.valid_from_date).to eq planning_application.received_at
