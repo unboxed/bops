@@ -404,7 +404,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       context "when there are open post validation requests" do
-        let(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority, user: assessor) }
+        let(:planning_application) { create(:planning_application, :in_assessment, local_authority: default_local_authority, user: assessor) }
         let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application:) }
 
         it "prevents me from submitting the planning application" do
@@ -430,7 +430,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       context "when there is an open time extension request" do
-        let(:planning_application) { create(:in_assessment_planning_application, local_authority: default_local_authority, user: assessor) }
+        let(:planning_application) { create(:planning_application, :in_assessment, local_authority: default_local_authority, user: assessor) }
         let!(:time_extension_request) { create(:time_extension_validation_request, :open, planning_application:, post_validation: true) }
 
         it "allows me to submit the planning application" do

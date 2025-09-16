@@ -171,7 +171,7 @@ RSpec.describe PlanningApplication do
       end
 
       context "when the application type is householder" do
-        let(:planning_application) { build(:planning_application, :planning_permission, published_at:) }
+        let(:planning_application) { build(:planning_application, :planning_permission, :not_started, published_at:) }
 
         it "doesn't reset the published_at timestamp" do
           expect {
@@ -183,7 +183,7 @@ RSpec.describe PlanningApplication do
       end
 
       context "when the application type is pre-application" do
-        let(:planning_application) { build(:planning_application, :pre_application, published_at:) }
+        let(:planning_application) { build(:planning_application, :pre_application, :not_started, published_at:) }
 
         it "resets the published_at timestamp" do
           expect {
