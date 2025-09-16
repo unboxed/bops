@@ -8,7 +8,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
   subject(:presenter) { described_class.new(view, planning_application) }
 
   let(:context) { ActionView::Base.new }
-  let!(:planning_application) { create(:not_started_planning_application) }
+  let!(:planning_application) { create(:planning_application, :not_started) }
 
   it_behaves_like "Presentable" do
     let(:presented) { create(:planning_application) }
@@ -19,7 +19,7 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
 
   describe "#status_tag" do
     context "when an application is in the invalidated state" do
-      let(:planning_application) { create(:invalidated_planning_application) }
+      let(:planning_application) { create(:planning_application, :invalidated) }
 
       it "shows invalid" do
         expect(presenter.status_tag).to include ">Invalid<"
@@ -131,12 +131,12 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       [:closed, "Closed at", :closed_at]
     ].each do |state, label, date|
       context "when the application is #{state.to_s.humanize}" do
-        let(:planning_application) { create("#{state}_planning_application") }
+        let(:planning_application) { create(:planning_application, state) }
 
         it "shows the '#{date}' date" do
           date = planning_application.send(date)
 
-          expect(presenter.next_relevant_date_tag).to include date.to_fs
+          expect(presenter.next_relevant_date_tag).to include date.to_date.to_fs
         end
 
         it "shows a '#{label}' label" do

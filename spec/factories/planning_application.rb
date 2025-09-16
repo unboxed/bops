@@ -408,6 +408,15 @@ FactoryBot.define do
       end
     end
 
+    trait :submitted do
+      status { "awaiting_determination" }
+      decision { "granted" }
+
+      after(:create) do |planning_application|
+        create(:recommendation, planning_application:, submitted: true)
+      end
+    end
+
     trait :with_feedback do
       feedback do
         {
@@ -443,64 +452,6 @@ FactoryBot.define do
         planning_application.planning_application_constraints.first.update!(consultee_id: consultee_1.id)
         planning_application.planning_application_constraints.last.update!(consultee_id: consultee_2.id)
       end
-    end
-
-    factory :not_started_planning_application do
-      status { :not_started }
-
-      factory :invalidated_planning_application do
-        after(:create) do |p|
-          create(
-            :additional_document_validation_request,
-            :pending,
-            planning_application: p
-          )
-
-          p.invalidate!
-        end
-
-        factory :valid_planning_application do
-          after(:create) do |p|
-            p.validation_requests.each(&:close!)
-
-            p.start!
-          end
-
-          factory :in_assessment_planning_application do
-            decision { "granted" }
-
-            after(:create, &:assess!)
-
-            factory :submitted_planning_application do
-              after(:create) do |planning_application|
-                create(:recommendation, planning_application:)
-
-                planning_application.submit!
-              end
-
-              factory :determined_planning_application do
-                after(:create, &:determine!)
-              end
-            end
-          end
-        end
-      end
-    end
-
-    factory :returned_planning_application do
-      after(:create) do |application|
-        application.return!("this will not do")
-      end
-    end
-
-    factory :withdrawn_planning_application do
-      after(:create) do |application|
-        application.withdraw!("no thanks")
-      end
-    end
-
-    factory :closed_planning_application do
-      after(:create, &:close!)
     end
 
     trait :from_planx do

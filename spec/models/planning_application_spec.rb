@@ -580,7 +580,7 @@ RSpec.describe PlanningApplication do
   end
 
   describe "deadlines" do
-    let(:planning_application) { create(:not_started_planning_application) }
+    let(:planning_application) { create(:planning_application, :not_started) }
     let(:date) { Time.zone.local(2021, 9, 23, 22, 10, 44) }
 
     before do
@@ -1028,7 +1028,7 @@ RSpec.describe PlanningApplication do
   end
 
   describe "#withdraw_last_recommendation!" do
-    let(:planning_application) { create(:submitted_planning_application) }
+    let(:planning_application) { create(:planning_application, :submitted) }
     let(:user) { create(:user) }
 
     before do
