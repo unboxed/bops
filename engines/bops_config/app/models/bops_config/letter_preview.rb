@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module BopsAdmin
+module BopsConfig
   class LetterPreview
     include BopsCore::LetterPreview
   end
