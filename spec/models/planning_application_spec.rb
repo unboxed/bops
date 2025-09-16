@@ -170,28 +170,14 @@ RSpec.describe PlanningApplication do
         freeze_time { example.run }
       end
 
-      context "when the application type is householder" do
-        let(:planning_application) { build(:planning_application, :planning_permission, :not_started, published_at:) }
+      let(:planning_application) { build(:planning_application, :pre_application, :not_started, published_at:) }
 
-        it "doesn't reset the published_at timestamp" do
-          expect {
-            planning_application.validate!(:create)
-          }.not_to change {
-            planning_application.published_at
-          }.from(published_at)
-        end
-      end
-
-      context "when the application type is pre-application" do
-        let(:planning_application) { build(:planning_application, :pre_application, :not_started, published_at:) }
-
-        it "resets the published_at timestamp" do
-          expect {
-            planning_application.validate!(:create)
-          }.to change {
-            planning_application.published_at
-          }.from(published_at).to(nil)
-        end
+      it "resets the published_at timestamp" do
+        expect {
+          planning_application.validate!(:create)
+        }.to change {
+          planning_application.published_at
+        }.from(published_at).to(nil)
       end
     end
 
