@@ -39,10 +39,10 @@ class CaseRecord < ApplicationRecord
   end
 
   def load_tasks!
-    return if tasks.exists? || planning_application?
+    return if tasks.exists?
+    return if planning_application? && !planning_application.pre_application?
 
-    key = caseable_type.underscore
-    TaskLoader.new(self, key).load!
+    TaskLoader.new(self, caseable.task_workflow).load!
   rescue => e
     errors.add(:base, "Couldn’t create case record tasks workflow: #{e.message}")
     throw(:abort)
