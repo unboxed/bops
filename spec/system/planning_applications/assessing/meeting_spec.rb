@@ -44,9 +44,11 @@ RSpec.describe "Meeting" do
       fill_in "Month", with: "12"
       fill_in "Year", with: "2024"
       fill_in "Add notes (optional)", with: "Met with applicant"
-      click_button "Save and mark as complete"
+      click_button "Add meeting"
 
       expect(page).to have_content("Meeting record was successfully added.")
+
+      click_link "Back"
 
       within("#meeting") do
         expect(page).to have_content("Completed")
@@ -74,7 +76,7 @@ RSpec.describe "Meeting" do
       end
 
       it "there is a validation error when no date is entered" do
-        click_button "Save and mark as complete"
+        click_button "Add meeting"
 
         within("#meeting-occurred-at-error") do
           expect(page).to have_content("Provide the date when the meeting took place")
@@ -85,7 +87,7 @@ RSpec.describe "Meeting" do
         fill_in "Day", with: "1"
         fill_in "Month", with: "1"
         fill_in "Year", with: "2026"
-        click_button "Save and mark as complete"
+        click_button "Add meeting"
 
         expect(page).to have_content "The date the meeting took place must be on or before today"
       end
@@ -93,7 +95,7 @@ RSpec.describe "Meeting" do
       it "I can't add an incomplete meeting date" do
         fill_in "Day", with: "1"
         fill_in "Month", with: "1"
-        click_button "Save and mark as complete"
+        click_button "Add meeting"
 
         expect(page).to have_content "The date the meeting took place must be a valid date"
       end

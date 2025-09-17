@@ -6,23 +6,18 @@ module PlanningApplications
       include ReturnToReport
 
       before_action :set_planning_application
-      before_action :build_meeting, only: %i[new create index]
+      before_action :build_meeting, only: %i[create index]
       before_action :store_return_to_report_path, only: [:index]
 
       def index
-        @meetings = @planning_application.meetings.by_occurred_at_desc.includes(:created_by)
+        set_planning_application_meetings
+
         respond_to do |format|
           format.html
         end
       end
 
       def show
-        respond_to do |format|
-          format.html
-        end
-      end
-
-      def new
         respond_to do |format|
           format.html
         end
@@ -35,7 +30,8 @@ module PlanningApplications
               redirect_to redirect_path, notice: t(".success")
             end
           else
-            format.html { render :new }
+            set_planning_application_meetings
+            format.html { render :index }
           end
         end
       end
@@ -52,8 +48,12 @@ module PlanningApplications
         @meeting = @planning_application.meetings.new
       end
 
+      def set_planning_application_meetings
+        @meetings = @planning_application.meetings.by_occurred_at_desc.includes(:created_by)
+      end
+
       def redirect_path
-        report_path_or(planning_application_assessment_tasks_path(@planning_application))
+        report_path_or(planning_application_assessment_meetings_path)
       end
     end
   end

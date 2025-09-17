@@ -9,9 +9,7 @@
 
   <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Add notes (optional)"}) %>
 
-  <div class="govuk-button-group govuk-!-padding-top-7">
-    <%= form.submit "Save and mark as complete", class: "govuk-button govuk-button--primary" %>
-
-    <%= back_link %>
+  <div class="govuk-button-group">
+    <%= form.submit "Add meeting", class: "govuk-button govuk-button--secondary" %>
   </div>
 <% end %>

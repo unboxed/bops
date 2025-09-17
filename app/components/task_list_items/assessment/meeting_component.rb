@@ -18,11 +18,7 @@ module TaskListItems
       end
 
       def link_path
-        if @planning_application.meetings.any?
-          planning_application_assessment_meetings_path(@planning_application)
-        else
-          new_planning_application_assessment_meeting_path(@planning_application)
-        end
+        planning_application_assessment_meetings_path(@planning_application)
       end
 
       def status_tag_component
