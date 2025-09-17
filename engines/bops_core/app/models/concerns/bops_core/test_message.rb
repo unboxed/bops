@@ -1,0 +1,40 @@
+# frozen_string_literal: true
+
+module BopsCore
+  module TestMessage
+    extend ActiveSupport::Concern
+
+    included do
+      include ActiveModel::Model
+      include ActiveModel::Attributes
+
+      attribute :channel, :string
+      attribute :template_id, :string
+      attribute :email, :string
+      attribute :phone, :string
+      attribute :subject, :string
+      attribute :body, :string
+
+      validates :channel, inclusion: {in: %w[email sms]}
+      validates :template_id, presence: true
+
+      with_options if: -> { channel == "email" } do
+        validates :email, presence: true, format: {with: URI::MailTo::EMAIL_REGEXP}
+        validates :subject, presence: true
+        validates :body, presence: true
+      end
+
+      with_options if: -> { channel == "sms" } do
+        validates :phone, presence: true, format: {with: /\A\+?[0-9()\-\s]{7,}\z/}
+      end
+    end
+
+    def personalisation
+      if channel == "email"
+        {"subject" => subject, "body" => body}.compact
+      else
+        {"body" => body}.compact
+      end
+    end
+  end
+end

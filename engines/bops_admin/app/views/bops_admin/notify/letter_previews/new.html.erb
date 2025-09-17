@@ -1,0 +1,13 @@
+<% content_for :page_title do %>
+  Preview Notify letter - <%= t("page_title", default: "BOPS Admin") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_notify_path %>
+
+<%= form_with model: @letter_preview,
+      url:   preview_letter_notify_path,
+      method: :post,
+      builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
+  <%= render "letter_preview_form", f: f %>
+<% end %>

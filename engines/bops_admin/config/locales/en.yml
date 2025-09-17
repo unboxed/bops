@@ -208,10 +208,25 @@ en:
         letter_template_id: Letter template
         notify_api_key: API key
         notify_api_key_hint: This is used to authenticate BOPS requests to the GOV.UK Notify service.
+        send_test_button: Send test
         settings: Settings
         sms_template_id: SMS template
         submit: Submit
         templates: Templates
+      letter_previews:
+        form:
+          preview_letter_button: Preview letter
+          send_test_button: Send test
+        new:
+          preview_letter: See a preview of a Notify letter
+      test_messages:
+        new:
+          email: Email address
+          name: Name
+          phone: Phone number
+          test_email: Send email test
+          test_message: Send a test Notify message
+          test_sms: Send SMS test
       update:
         success: GOV.UK Notify settings successfully updated
     policy_areas:

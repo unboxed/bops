@@ -1,0 +1,36 @@
+<% content_for :page_title do %>
+  <% if @test_message.channel == "sms" %>
+    <%= t(".test_sms") %> - <%= t("page_title") %>
+  <% else %>
+    <%= t(".test_email") %> - <%= t("page_title") %>
+  <% end %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Edit GOV.UK Notify settings", edit_local_authority_notify_path(@local_authority) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">
+      <% if @test_message.channel == "sms" %>
+        Send a test SMS
+      <% else %>
+        Send a test email
+      <% end %>
+    </h1>
+
+    <% if @test_message.channel == "sms" %>
+      <p>
+        Use this form to send a test SMS with your Notify template.
+        Enter the phone number you’d like to send the message to, along with the SMS body.
+      </p>
+    <% else %>
+      <p>
+        Use this form to send a test email with your Notify template.
+        Enter the recipient’s email address, subject, and body text for the email.
+      </p>
+    <% end %>
+  </div>
+</div>
+
+<%= render "bops_config/local_authorities/notify/test_message_form", test_message: @test_message %>
