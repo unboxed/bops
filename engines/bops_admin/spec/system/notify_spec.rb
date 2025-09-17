@@ -3,14 +3,11 @@
 require "rails_helper"
 
 RSpec.describe "GOV.UK Notify settings", type: :system do
-  include ActiveJob::TestHelper
-
   let(:local_authority) { create(:local_authority, :default, :unconfigured) }
   let(:user) { create(:user, :administrator, local_authority:) }
 
   before do
     sign_in(user)
-    ActiveJob::Base.queue_adapter = :test
 
     allow(Rails.configuration).to receive(:default_notify_api_key)
       .and_return("test-dc7c299a-bf1a-4890-ad05-c1a47b524c8e-e30ecdbb-329a-4833-bc28-43666d160729")

@@ -65,7 +65,7 @@ module BopsAdmin
 
         redirect_to edit_notify_path(@local_authority), status: :see_other, flash: {success: flash_message}
       rescue Notifications::Client::AuthError, Notifications::Client::RequestError => e
-        Rails.logger.warn("Notify error: #{e.class}: #{e.message}")
+        Appsignal.report_error(e.message)
         flash.now[:alert] = "Notify error: #{e.message}"
         render template: "bops_admin/notify/test_messages/new", status: :unprocessable_entity
       end
