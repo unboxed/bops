@@ -29,16 +29,6 @@ local_authority_subdomain do
 
   mount BopsAdmin::Engine, at: "/admin", as: :bops_admin
 
-  scope path: "/admin", module: "bops_admin", as: "bops_admin" do
-    resource :notify, only: [:show, :update], controller: "notify"
-
-    get "notify/send_test", to: "notify#send_test_new", as: :notify_send_test
-    post "notify/send_test", to: "notify#send_test_create"
-
-    get "notify/preview_letter", to: "notify#preview_letter", as: :notify_preview_letter
-    post "notify/preview_letter", to: "notify#generate_preview"
-  end
-
   mount BopsConsultees::Engine, at: "/consultees", as: :bops_consultees
 
   mount BopsEnforcements::Engine, at: "/", as: :bops_enforcements

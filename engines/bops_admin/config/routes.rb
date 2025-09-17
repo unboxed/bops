@@ -6,7 +6,14 @@ BopsAdmin::Engine.routes.draw do
   resource :dashboard, only: %i[show]
   resource :profile, only: %i[show edit update]
   resource :accessibility, only: %i[edit update], controller: "accessibility"
-  resource :notify, only: %i[edit update], controller: "notify"
+
+  resource :notify, only: %i[show edit update], controller: "notify" do
+    get :send_test, action: :send_test_new
+    post :send_test, action: :send_test_create
+
+    get :preview_letter, action: :preview_letter
+    post :preview_letter, action: :generate_preview
+  end
 
   resources :consultees, except: %i[show]
 
@@ -42,5 +49,5 @@ BopsAdmin::Engine.routes.draw do
     patch :reactivate, on: :member
   end
 
-  resources :submissions, only: [:index, :show]
+  resources :submissions, only: %i[index show]
 end

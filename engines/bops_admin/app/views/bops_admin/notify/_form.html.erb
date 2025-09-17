@@ -1,6 +1,6 @@
 <%= form_with(
       model: current_local_authority,
-      url: main_app.bops_admin_notify_path,
+      url: notify_path,
       id: "notify-form",
       builder: GOVUKDesignSystemFormBuilder::FormBuilder
     ) do |form| %>
@@ -46,7 +46,7 @@
         <div class="govuk-input__suffix">
           <%= govuk_link_to(
                 "Send test email",
-                main_app.bops_admin_notify_send_test_path(email_template_id: current_local_authority.email_template_id)
+                send_test_notify_path(email_template_id: current_local_authority.email_template_id)
               ) %>
         </div>
       </div>
@@ -65,7 +65,7 @@
         <div class="govuk-input__suffix">
           <%= govuk_link_to(
                 "Send test SMS",
-                main_app.bops_admin_notify_send_test_path(sms_template_id: current_local_authority.sms_template_id)
+                send_test_notify_path(sms_template_id: current_local_authority.sms_template_id)
               ) %>
         </div>
       </div>
@@ -84,7 +84,7 @@
         <div class="govuk-input__suffix">
           <%= govuk_link_to(
                 "Preview letter",
-                main_app.bops_admin_notify_preview_letter_path(letter_template_id: current_local_authority.letter_template_id)
+                preview_letter_notify_path(letter_template_id: current_local_authority.letter_template_id)
               ) %>
         </div>
       </div>

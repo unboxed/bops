@@ -1,5 +1,5 @@
 <%= form_with model: test_message,
-      url: main_app.bops_admin_notify_send_test_path,
+      url: send_test_notify_path,
       method: :post,
       data: {turbo: false},
       builder: GOVUKDesignSystemFormBuilder::FormBuilder do |f| %>
