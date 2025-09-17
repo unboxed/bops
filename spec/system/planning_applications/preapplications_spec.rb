@@ -31,7 +31,7 @@ RSpec.describe "assigning planning application" do
   end
 
   context "when pre-app is not started" do
-    let(:planning_application) { create(:planning_application, :pre_application, status: :not_started, local_authority:) }
+    let(:planning_application) { create(:planning_application, :pre_application, :not_started, local_authority:) }
 
     it "correctly displays index task list to an assessor" do
       sign_in(assessor)

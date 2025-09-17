@@ -193,7 +193,7 @@ class PlanningApplication < ApplicationRecord
 
   before_validation :set_application_number, on: :create
   before_validation :set_reference, on: :create
-  before_validation :reset_published_at, unless: :can_publish?
+  before_validation :reset_published_at, unless: [:can_publish?, :validated?]
   before_save :set_lat_and_long
   before_create :set_received_at
   before_create :set_key_dates
@@ -403,6 +403,10 @@ class PlanningApplication < ApplicationRecord
 
   def review_assessment_complete?
     (awaiting_determination? && !pending_review?) || determined?
+  end
+
+  def validated?
+    validated_at.present? && invalidated_at.blank?
   end
 
   def can_publish?
@@ -1129,7 +1133,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def validation_date?
-    !validated_at.nil?
+    validated_at.present?
   end
 
   def public_comment_present
