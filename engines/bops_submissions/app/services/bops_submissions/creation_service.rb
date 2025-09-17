@@ -13,18 +13,20 @@ module BopsSubmissions
       Referer
     ].freeze
 
-    def initialize(params:, headers:, local_authority:)
+    def initialize(params:, headers:, local_authority:, schema: nil)
       @params = params
       @headers = headers
       @local_authority = local_authority
+      @schema = schema
     end
 
-    attr_reader :params, :headers, :local_authority
+    attr_reader :params, :headers, :local_authority, :schema
 
     def call
       submission = local_authority.submissions.create!(
         request_headers: filtered_request_headers,
-        request_body: params
+        request_body: params,
+        schema:
       )
 
       submission.update!(external_uuid: SecureRandom.uuid_v7)

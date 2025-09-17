@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
-  let!(:submission) { create(:submission, status: "submitted") }
+  let!(:submission) { create(:submission, :planning_portal, status: "submitted") }
 
   before do
     allow(Submission)

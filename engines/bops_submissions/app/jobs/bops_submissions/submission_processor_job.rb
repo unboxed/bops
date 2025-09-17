@@ -11,7 +11,7 @@ module BopsSubmissions
       if submission.planning_portal?
         ZipExtractionService.new(submission:).call
         Application::PlanningPortalCreationService.new(submission:).call!
-      elsif submission.planx?
+      elsif submission.odp?
         if submission.request_body.dig(:data, :application, :type, :value) == "breach"
           Enforcement::CreationService.new(submission:, user: current_api_user).call!
         else
@@ -25,6 +25,8 @@ module BopsSubmissions
             email_sending_permitted: send_email
           ).call!
         end
+      else
+        raise "Unknown schema: #{submission.schema}"
       end
 
       submission.complete!

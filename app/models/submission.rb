@@ -51,7 +51,7 @@ class Submission < ApplicationRecord
   end
 
   def source
-    @source ||= request_body.dig("metadata", "source") || "Planning Portal"
+    @source ||= odp? ? request_body.dig("metadata", "source") : "Planning Portal"
   end
 
   def request_body
@@ -59,10 +59,10 @@ class Submission < ApplicationRecord
   end
 
   def planning_portal?
-    source == "Planning Portal"
+    schema == "planning-portal"
   end
 
-  def planx?
-    source == "PlanX"
+  def odp?
+    schema == "odp"
   end
 end

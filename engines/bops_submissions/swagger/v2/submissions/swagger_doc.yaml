@@ -142,7 +142,15 @@ paths:
       - Submissions
       security:
       - bearerAuth: []
-      parameters: []
+      parameters:
+      - name: schema
+        in: query
+        enum:
+        - odp
+        - planning-portal
+        required: false
+        default: odp
+        description: ":\n * `odp` \n * `planning-portal` \n "
       responses:
         '200':
           description: submission accepted

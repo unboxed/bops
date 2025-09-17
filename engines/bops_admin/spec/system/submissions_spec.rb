@@ -9,9 +9,9 @@ RSpec.describe "Submissions", type: :system do
   before { sign_in(admin) }
 
   it "shows paginated submissions and allows viewing details" do
-    create_list(:submission, 4, local_authority:)
-    create_list(:submission, 4, :failed, local_authority:)
-    create_list(:submission, 4, :completed, local_authority:)
+    create_list(:submission, 4, :planning_portal, local_authority:)
+    create_list(:submission, 4, :planning_portal, :failed, local_authority:)
+    create_list(:submission, 4, :planning_portal, :completed, local_authority:)
     submissions = local_authority.submissions.by_created_at_desc
     visit "/admin/submissions"
 
@@ -55,6 +55,7 @@ RSpec.describe "Submissions", type: :system do
     let(:submission) do
       create(
         :submission,
+        :planning_portal,
         request_body: {
           "applicationRef" => "PT-10087984",
           "documentLinks" => [
@@ -175,6 +176,7 @@ RSpec.describe "Submissions", type: :system do
     let(:submission) do
       create(
         :submission,
+        :planning_portal,
         request_body: {
           "applicationRef" => "PT-10087984",
           "documentLinks" => [

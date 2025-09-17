@@ -19,6 +19,7 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
       let(:submission) do
         create(
           :submission,
+          :planning_portal,
           local_authority: local_authority,
           json_file: json_fixture_submissions("files/applications/PT-10087984.json")
         )
@@ -74,6 +75,7 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
       let(:submission) do
         create(
           :submission,
+          :planning_portal,
           local_authority:,
           json_file: fixture
         )
@@ -93,6 +95,7 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
       let(:submission) do
         create(
           :submission,
+          :planning_portal,
           local_authority:,
           json_file: nil
         )
@@ -108,6 +111,7 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
       let(:submission) do
         create(
           :submission,
+          :planning_portal,
           local_authority:,
           json_file: {}
         )
@@ -123,6 +127,7 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
       let(:submission) do
         create(
           :submission,
+          :planning_portal,
           local_authority:,
           json_file: {"foo" => "bar"}
         )
@@ -137,6 +142,7 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
       let(:submission) do
         create(
           :submission,
+          :planning_portal,
           local_authority:,
           json_file: {"applicationData" => {}}
         )
