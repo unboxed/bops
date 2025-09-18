@@ -167,5 +167,5 @@ jobs:
         if: ${{ inputs.test-runner == 'docker' }}
         run: |
           DOCKER_BUILDKIT=1 docker buildx build \
-            --cache-to type=gha,mode=max \
+            --cache-to type=local,mode=min,dest=$RUNNER_TEMP \
             -f ${{ inputs.dockerfile }} ${{ inputs.context }}
