@@ -42,7 +42,7 @@ module BopsApi
 
           grouped_comments = @comments.group_by(&:consultee)
           @specialists = grouped_comments.map do |consultee, responses|
-            BopsApi::V2::SpecialistPresenter.new(consultee, responses)
+            BopsApi::V2::Public::Postsubmission::SpecialistCommentPresenter.new(consultee, responses)
           end
 
           respond_to do |format|
