@@ -129,11 +129,11 @@ local_authority_subdomain do
           post :confirm, on: :collection
           concerns :positionable, module: :pre_commencement_conditions
         end
-        resource :consistency_checklist, except: %i[destroy index]
+        resource :consistency_checklist, except: %i[destroy]
         resources :consultees, only: %i[index] do
           patch :check, on: :collection
         end
-        resource :ownership_certificate, except: %i[destroy index]
+        resource :ownership_certificate, except: %i[destroy]
 
         resources :immunity_details, except: %i[destroy index] do
           resources :evidence_groups do

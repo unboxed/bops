@@ -1,20 +1,20 @@
 # frozen_string_literal: true
 
+require "active_support/core_ext/integer/time"
+
 Rails.application.configure do
-  # Settings specified here will take precedence over those in
-  # config/application.rb.
+  # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
   config.enable_reloading = false
 
-  # Eager load code on boot. This eager loads most of Rails and
-  # your application in memory, allowing both threaded web servers
-  # and those relying on copy on write to perform better.
-  # Rake tasks automatically ignore this option for performance.
+  # Eager load code on boot for better performance and memory savings (ignored by Rake tasks).
   config.eager_load = true
 
-  # Full error reports are disabled and caching is turned on.
-  config.consider_all_requests_local       = false
+  # Full error reports are disabled.
+  config.consider_all_requests_local = false
+
+  # Turn on fragment caching in view templates.
   config.action_controller.perform_caching = true
 
   # Ensures that a master key has been made available in either
@@ -32,44 +32,53 @@ Rails.application.configure do
   # Do not fall back to assets pipeline if a precompiled asset is missed.
   config.assets.compile = false
 
+  # Cache assets for far-future expiry since they are all digest stamped.
+  config.public_file_server.headers = {
+    "cache-control" => "public, max-age=#{1.year.to_i}"
+  }
+
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
-  # config.action_controller.asset_host = 'http://assets.example.com'
+  # config.asset_host = "http://assets.example.com"
 
-  # Specifies the header that your server uses for sending files.
-  # config.action_dispatch.x_sendfile_header = "X-Sendfile" # for Apache
-  # config.action_dispatch.x_sendfile_header = "X-Accel-Redirect" # for NGINX
-
-  # Store uploaded files on the local file system (see config/storage.yml
-  # for options).
+  # Store uploaded files on the local file system (see config/storage.yml for options).
   config.active_storage.service = :amazon
 
-  # Force all access to the app over SSL, use Strict-Transport-Security,
-  # and use secure cookies.
+  # Assume all access to the app is happening through a SSL-terminating reverse proxy.
+  config.assume_ssl = true
+
+  # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
-  config.ssl_options =
-    {redirect: {exclude: ->(request) { request.path =~ /healthcheck/ }}}
+  # Skip http-to-https redirect for the default health check endpoint.
+  config.ssl_options = {redirect: {exclude: ->(request) { request.path =~ %r{^/healthcheck/} }}}
 
-  # Log to STDOUT by default
-  config.logger = ActiveSupport::Logger.new($stdout)
-    .tap { |logger| logger.formatter = ::Logger::Formatter.new }
-    .then { |logger| ActiveSupport::TaggedLogging.new(logger) }
-
-  # Prepend all log lines with the following tags.
+  # Log to STDOUT with the current request id as a default log tag.
   config.log_tags = [:request_id]
+  config.logger = ActiveSupport::TaggedLogging.logger($stdout)
 
-  # "info" includes generic and useful information about system operation, but avoids logging too much
-  # information to avoid inadvertent exposure of personally identifiable information (PII). If you
-  # want to log everything, set the level to "debug".
+  # Change to "debug" to log everything (including potentially personally-identifiable information!)
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
 
-  # Use a different cache store in production.
+  # Prevent health checks from clogging up the logs.
+  config.silence_healthcheck_path = "/healthcheck"
+
+  config.lograge.enabled = true
+  config.lograge.ignore_custom = lambda do |event|
+    event.payload[:path] == "/healthcheck"
+  end
+
+  # Don't log any deprecations.
+  config.active_support.report_deprecations = true
+
+  # Replace the default in-process memory cache store with a durable alternative.
   # config.cache_store = :mem_cache_store
 
-  # Use a real queuing backend for Active Job (and separate queues
-  # per environment).
-  # config.active_job.queue_adapter     = :resque
-  # config.active_job.queue_name_prefix = "bops_production"
+  # Replace the default in-process and non-durable queuing backend for Active Job.
+  # config.active_job.queue_adapter = :resque
+
+  # Ignore bad email addresses and do not raise email delivery errors.
+  # Set this to true and configure the email server for immediate delivery to raise delivery errors.
+  config.action_mailer.raise_delivery_errors = true
 
   config.action_mailer.perform_caching = false
 
@@ -77,65 +86,37 @@ Rails.application.configure do
   config.action_mailer.notify_settings = {
     api_key: ENV["NOTIFY_API_KEY"]
   }
+
+  # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = {host: ENV["DOMAIN"] || "bops.services"}
 
-  # Ignore bad email addresses and do not raise email delivery errors.
-  # Set this to true and configure the email server for immediate delivery to
-  # raise delivery errors.
-  config.action_mailer.raise_delivery_errors = true
+  # Specify outgoing SMTP server. Remember to add smtp/* credentials via rails credentials:edit.
+  # config.action_mailer.smtp_settings = {
+  #   user_name: Rails.application.credentials.dig(:smtp, :user_name),
+  #   password: Rails.application.credentials.dig(:smtp, :password),
+  #   address: "smtp.example.com",
+  #   port: 587,
+  #   authentication: :plain
+  # }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
   config.i18n.fallbacks = true
 
-  # Send deprecation notices to registered listeners.
-  config.active_support.report_deprecations = true
-
-  # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
-
-  # Use a different logger for distributed setups.
-  # require 'syslog/logger'
-  # config.logger = ActiveSupport::TaggedLogging
-  #                   .new(Syslog::Logger.new 'app-name')
-
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new($stdout)
-    logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
-  end
-
-  config.lograge.enabled = true
-  config.lograge.ignore_custom = lambda do |event|
-    event.payload[:path] == "/healthcheck"
-  end
-
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  # Inserts middleware to perform automatic connection switching.
-  # The `database_selector` hash is used to pass options to the DatabaseSelector
-  # middleware. The `delay` is used to determine how long to wait after a write
-  # to send a subsequent read to the primary.
+  # Only use :id for inspections in production.
+  config.active_record.attributes_for_inspect = [:id]
+
+  # Enable DNS rebinding protection and other `Host` header attacks.
+  # config.hosts = [
+  #   "example.com",     # Allow requests from example.com
+  #   /.*\.example\.com/ # Allow requests from subdomains like `www.example.com`
+  # ]
   #
-  # The `database_resolver` class is used by the middleware to determine which
-  # database is appropriate to use based on the time delay.
-  #
-  # The `database_resolver_context` class is used by the middleware to set
-  # timestamps for the last write to the primary. The resolver uses the context
-  # class timestamps to determine how long to wait before reading from the
-  # replica.
-  #
-  # By default Rails will store a last write timestamp in the session. The
-  # DatabaseSelector middleware is designed as such you can define your own
-  # strategy for connection switching and pass that into the middleware through
-  # these configuration options.
-  # config.active_record.database_selector = { delay: 2.seconds }
-  # config.active_record.database_resolver = ActiveRecord::Middleware::
-  #                                           DatabaseSelector::Resolver
-  # config.active_record.database_resolver_context = ActiveRecord::Middleware::
-  #                                                   DatabaseSelector::
-  #                                                   Resolver::Session
+  # Skip DNS rebinding protection for the default health check endpoint.
+  # config.host_authorization = { exclude: ->(request) { request.path =~ %r{^/healthcheck/} } }
 
   config.active_record.encryption.primary_key = ENV["ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY"]
   config.active_record.encryption.deterministic_key = ENV["ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY"]
