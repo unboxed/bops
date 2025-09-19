@@ -54,14 +54,6 @@ module BopsCore
       CommonMarker.render_html(text).html_safe
     end
 
-    def rich_text_area_tag(name, value = nil, options = {})
-      options[:data] ||= {}
-      options[:data][:direct_upload_url] ||= bops_uploads.uploads_url
-      options[:data][:blob_url_template] ||= bops_uploads.file_url(":key")
-
-      super
-    end
-
     def link_to_document(link_text, document, **args)
       new_tab = /(new (window|tab)|<img\b)/.match?(link_text) ? "" : true
 

@@ -45,7 +45,8 @@ class LocalAuthority < ApplicationRecord
     validates :applicants_url
   end
 
-  with_options format: {with: URI::HTTP::ABS_URI} do
+  # TODO this is not really correct; these regexps match a uri but don't validate that the string contains only a uri
+  with_options format: {with: URI::ABS_URI} do
     with_options allow_blank: true do
       validates :applicants_url
     end

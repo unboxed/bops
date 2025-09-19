@@ -30,9 +30,26 @@ module BopsCore
 
       private
 
+      def bops_uploads
+        BopsUploads::Engine.routes.url_helpers
+      end
+
+      def blob_url_template
+        bops_uploads.file_url(":key:", only_path: true)
+      end
+
+      def direct_upload_url
+        bops_uploads.uploads_url(only_path: true)
+      end
+
       def rich_text_area
         tag.div(class: classes, data: {controller: "rich-text"}) do
-          @builder.rich_text_area(@attribute_name, **attributes(@html_attributes))
+          @builder.rich_text_area(@attribute_name,
+            data: {
+              direct_upload_url:,
+              blob_url_template:
+            },
+            **attributes(@html_attributes))
         end
       end
 
