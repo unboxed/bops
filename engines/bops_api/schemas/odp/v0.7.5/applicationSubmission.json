@@ -27,8 +27,7 @@
             }
           },
           "required": [
-            "data",
-            "metadata"
+            "data"    
           ]
         },
         {
