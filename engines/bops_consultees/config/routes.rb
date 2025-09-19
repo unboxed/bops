@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 BopsConsultees::Engine.routes.draw do
-  root to: redirect("dashboard")
+  root to: redirect("planning_applications")
 
-  resource :dashboard, only: %i[show]
-  resources :planning_applications, param: :reference, only: %i[show] do
+  get :dashboard, to: redirect("planning_applications")
+  resources :planning_applications, param: :reference, only: %i[index show] do
     resource :consultee_response, only: :create
     post :resend_link, on: :member
   end

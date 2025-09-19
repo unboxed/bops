@@ -34,7 +34,7 @@ module BopsConsultees
     end
 
     def render_expired
-      render "bops_consultees/dashboards/show"
+      render "bops_consultees/planning_applications/index"
     end
   end
 end

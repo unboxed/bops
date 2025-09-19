@@ -8,6 +8,12 @@ module BopsConsultees
     before_action :set_consultee_response, only: :show
     before_action :ensure_magic_link_resend_allowed, only: :resend_link
 
+    def index
+      respond_to do |format|
+        format.html
+      end
+    end
+
     def show
       respond_to do |format|
         format.html
@@ -39,7 +45,7 @@ module BopsConsultees
     end
 
     def render_expired
-      render "bops_consultees/dashboards/show"
+      render "bops_consultees/planning_applications/index"
     end
 
     def ensure_magic_link_resend_allowed

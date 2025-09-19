@@ -1,10 +1,9 @@
 ---
 en:
   bops_consultees:
-    dashboards:
-      show:
-        consultee_overview: Consultee overview
     planning_applications:
+      index:
+        consultee_overview: Consultee overview
       resend_link:
         failure: A magic link was sent recently. Please wait at least 1 minute before requesting another.
         success: 'A magic link has been sent to: %{email}'
