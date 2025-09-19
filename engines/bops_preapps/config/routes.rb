@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
 BopsPreapps::Engine.routes.draw do
-  root to: redirect("dashboard")
+  root to: redirect("cases")
 
-  resource :dashboard, only: %i[show]
-  resources :pre_applications, only: %(show), path: "/cases"
+  resources :pre_applications, only: %i[index show], path: "/cases"
 
   scope "/cases/:reference" do
     resources :assign_users, only: %i[index] do

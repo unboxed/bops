@@ -1,6 +1,6 @@
 ---
 en:
   bops_preapps:
-    dashboards:
-      show:
+    pre_applications:
+      index:
         title: Preapps

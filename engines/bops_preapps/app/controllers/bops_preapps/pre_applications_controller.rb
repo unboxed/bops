@@ -6,6 +6,12 @@ module BopsPreapps
     before_action :set_case_record, only: %i[show]
     before_action :set_grouped_tasks, only: %i[show]
 
+    def index
+      respond_to do |format|
+        format.html
+      end
+    end
+
     def show
       respond_to do |format|
         format.html
