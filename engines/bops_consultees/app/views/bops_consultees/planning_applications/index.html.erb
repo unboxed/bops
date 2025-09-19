@@ -1,5 +1,7 @@
 <% content_for :page_title do %>
-  <%= t(".consultee_overview") %> - <%= t("page_title") %>
+  <%= t(".consultee_overview") %>
+  -
+  <%= t("page_title") %>
 <% end %>
 
 <div class="govuk-grid-row">
@@ -9,13 +11,16 @@
     </h1>
 
     <% if @expired_resource %>
-      <p><strong>Your magic link has expired</strong></p>
-
+      <h2 class="govuk-heading-s">Your magic link has expired</h2>
       <p>
         Contact <%= govuk_mail_to(current_local_authority.feedback_email) %> if you think there's a problem.
       </p>
-
       <%= govuk_button_to "Send a new magic link", resend_link_planning_application_path(params[:reference], sgid: params[:sgid]) %>
+    <% elsif params[:sgid].blank? %>
+      <h2 class="govuk-heading-s">You are not authenticated</h2>
+      <p>
+        Contact <%= govuk_mail_to(current_local_authority.feedback_email) %> if you think there's a problem.
+      </p>
     <% end %>
   </div>
 </div>
