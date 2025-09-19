@@ -86,7 +86,7 @@
 <% end %>
 <% if consultation_summary.present? %>
   <section id="consultation-summary-section" class="govuk-!-margin-bottom-7">
-    <h3 class="govuk-heading-m"><%= t(".consultation_documents") %></h3>
+    <h3 class="govuk-heading-m"><%= t(".consultees") %></h3>
     <% if planning_application.consultation&.consultees&.any? %>
       <ul class="govuk-list govuk-list--bullet">
         <% consultation.consultees.each do |consultee| %>
