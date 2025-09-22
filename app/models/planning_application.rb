@@ -406,7 +406,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def validated?
-    validated_at.present? && invalidated_at.blank?
+    validated_at.present? && (invalidated_at.blank? || invalidated_at < validated_at)
   end
 
   def can_publish?
