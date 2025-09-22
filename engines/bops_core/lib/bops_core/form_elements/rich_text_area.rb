@@ -35,11 +35,11 @@ module BopsCore
       end
 
       def blob_url_template
-        bops_uploads.file_url(":key:", only_path: true)
+        bops_uploads.file_path(":key:")
       end
 
       def direct_upload_url
-        bops_uploads.uploads_url(only_path: true)
+        bops_uploads.uploads_path
       end
 
       def rich_text_area
