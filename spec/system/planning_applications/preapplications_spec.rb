@@ -43,8 +43,8 @@ RSpec.describe "assigning planning application" do
       end
 
       within("#consultation-section") do
-        expect(page).to have_selector("li:first-child a", text: "Consultees")
-        expect(page).to have_selector("li:first-child .govuk-tag", text: "Not started")
+        expect(page).to have_selector("li:first-child", text: "Consultees")
+        expect(page).to have_selector("li:first-child", text: "Cannot start yet")
       end
 
       within("#assess-section") do
