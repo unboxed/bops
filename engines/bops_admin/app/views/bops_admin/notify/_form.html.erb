@@ -1,10 +1,4 @@
-<%= form_with(
-      model: current_local_authority,
-      url: notify_path,
-      id: "notify-form",
-      builder: GOVUKDesignSystemFormBuilder::FormBuilder
-    ) do |form| %>
-
+<%= form_with(model: current_local_authority, url: notify_path, id: "notify-form") do |form| %>
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_fieldset(legend: {text: t(".settings")}) do %>
@@ -28,67 +22,21 @@
       Click on the ’Templates’ menu item and then select the template you want to use.
       The template ID can be copied by clicking the ’Copy template ID’ button.
     </p>
-    <p>
-      You can send a test email or SMS by clicking the relevant link once you have added a template ID, or preview the
-      way a letter will look.
-    </p>
 
-    <div class="govuk-form-group">
-      <label class="govuk-label" for="notify_email_template_id"><%= t(".email_template_id") %></label>
-      <div class="govuk-input__wrapper">
-        <input
-          class="govuk-input govuk-input--width-one-third"
-          id="notify_email_template_id"
-          type="text"
-          name="local_authority[email_template_id]"
-          value="<%= current_local_authority.email_template_id %>"
-          autocomplete="off">
-        <div class="govuk-input__suffix">
-          <%= govuk_link_to(
-                "Send test email",
-                send_test_notify_path(email_template_id: current_local_authority.email_template_id)
-              ) %>
-        </div>
-      </div>
-    </div>
+    <%= form.govuk_text_field(
+          :email_template_id,
+          label: {text: t(".email_template_id")}
+        ) %>
 
-    <div class="govuk-form-group">
-      <label class="govuk-label" for="notify_sms_template_id"><%= t(".sms_template_id") %></label>
-      <div class="govuk-input__wrapper">
-        <input
-          class="govuk-input govuk-input--width-one-third"
-          id="notify_sms_template_id"
-          type="text"
-          name="local_authority[sms_template_id]"
-          value="<%= current_local_authority.sms_template_id %>"
-          autocomplete="off">
-        <div class="govuk-input__suffix">
-          <%= govuk_link_to(
-                "Send test SMS",
-                send_test_notify_path(sms_template_id: current_local_authority.sms_template_id)
-              ) %>
-        </div>
-      </div>
-    </div>
+    <%= form.govuk_text_field(
+          :sms_template_id,
+          label: {text: t(".sms_template_id")}
+        ) %>
 
-    <div class="govuk-form-group">
-      <label class="govuk-label" for="notify_letter_template_id"><%= t(".letter_template_id") %></label>
-      <div class="govuk-input__wrapper">
-        <input
-          class="govuk-input govuk-input--width-one-third"
-          id="notify_letter_template_id"
-          type="text"
-          name="local_authority[letter_template_id]"
-          value="<%= current_local_authority.letter_template_id %>"
-          autocomplete="off">
-        <div class="govuk-input__suffix">
-          <%= govuk_link_to(
-                "Preview letter",
-                preview_letter_notify_path(letter_template_id: current_local_authority.letter_template_id)
-              ) %>
-        </div>
-      </div>
-    </div>
+    <%= form.govuk_text_field(
+          :letter_template_id,
+          label: {text: t(".letter_template_id")}
+        ) %>
   <% end %>
 
   <%= form.govuk_submit(t(".submit")) do %>
