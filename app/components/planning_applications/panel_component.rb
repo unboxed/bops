@@ -13,16 +13,11 @@ module PlanningApplications
     attr_reader :type, :search
 
     def before_render
-      @pagy, @paginated_applications = pagy(@planning_applications, overflow: :last_page)
+      @pagy, @paginated_applications = pagy(@planning_applications, page_param: page_param, overflow: :last_page)
     end
 
     def planning_applications
-      case type
-      when :all
-        @paginated_applications
-      else
-        @planning_applications
-      end
+      @paginated_applications
     end
 
     def pagination
@@ -42,7 +37,7 @@ module PlanningApplications
     end
 
     def pagination_url(page:)
-      pagy_url_for(@pagy, page) + "##{type}"
+      pagy_url_for(@pagy, page, absolute: false) + "##{type}"
     end
 
     def title
@@ -80,6 +75,10 @@ module PlanningApplications
         status_tag
         user_name
       ]
+    end
+
+    def page_param
+      "page_#{type}"
     end
   end
 end

@@ -74,7 +74,10 @@ class PlanningApplicationSearch
   end
 
   def all_applications
-    @all_applications ||= local_authority.planning_applications.accepted.by_status_order.by_application_type
+    @all_applications ||= local_authority.planning_applications.accepted.by_status_order.by_application_type.preload(
+      {application_type: :config},
+      {case_record: :user}
+    )
   end
 
   def current_user
