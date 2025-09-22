@@ -7,14 +7,14 @@
 
 Rails.application.configure do
   config.after_initialize do
-    Bullet.enable        = true
+    Bullet.enable = true
     Bullet.bullet_logger = true
-    Bullet.raise         = false # don't raise an error if n+1 query occurs
+    Bullet.raise = false # don't raise an error if n+1 query occurs
   end
 
-  # Settings specified here will take precedence over those in
-  # config/application.rb.
+  # Settings specified here will take precedence over those in config/application.rb.
 
+  # While tests run files are not watched, reloading is not necessary.
   config.enable_reloading = false
 
   # Eager loading loads your entire application. When running a single test locally,
@@ -23,18 +23,16 @@ Rails.application.configure do
   # loading is working properly before deploying your code.
   config.eager_load = ENV["CI"].present?
 
-  # Configure public file server for tests with Cache-Control for performance.
-  config.public_file_server.enabled = true
+  # Configure public file server for tests with cache-control for performance.
   config.public_file_server.headers = {
-    "Cache-Control" => "public, max-age=#{1.hour.to_i}"
+    "cache-control" => "public, max-age=3600"
   }
 
-  # Show full error reports and disable caching.
-  config.consider_all_requests_local       = true
-  config.action_controller.perform_caching = false
+  # Show full error reports.
+  config.consider_all_requests_local = true
   config.cache_store = :null_store
 
-  # Render exception templates for rescuable exceptions and raise for other exceptions.
+  # Rails for all exceptions (default: render exception templates for rescuable exceptions).
   config.action_dispatch.show_exceptions = :none
 
   # Disable request forgery protection in test environment.
@@ -53,6 +51,7 @@ Rails.application.configure do
     from: "mail@bops.services"
   }
 
+  # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = {host: ENV["DOMAIN"] || "bops.services"}
 
   # Print deprecation notices to the stderr.
@@ -71,6 +70,9 @@ Rails.application.configure do
   # config.action_view.annotate_rendered_view_with_filenames = true
 
   ActiveJob::Base.queue_adapter = :test
+
+  # Raise error when a before_action's only/except options reference missing actions.
+  config.action_controller.raise_on_missing_callback_actions = true
 
   config.active_record.encryption.primary_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY", "notasecret")
   config.active_record.encryption.deterministic_key = ENV.fetch("ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY", "notasecret")
