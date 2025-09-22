@@ -23,24 +23,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def render(options = {}, locals = {}, &)
-    flash_options = (Hash === options) ? options : locals
-
-    self.class._flash_types.each do |flash_type|
-      if (value = flash_options.delete(flash_type))
-        flash.now[flash_type] = value
-      end
-    end
-
-    if (other_flashes = flash_options.delete(:flash))
-      other_flashes.each do |key, value|
-        flash.now[key] = value
-      end
-    end
-
-    super
-  end
-
   protected
 
   def get_planning_application(param)
