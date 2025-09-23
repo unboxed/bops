@@ -1019,7 +1019,14 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       planning_application.consultation
     end
 
-    let(:site_notice) { create(:site_notice, planning_application:) }
+    let!(:site_notice) do
+      create(
+        :site_notice,
+        planning_application:,
+        quantity: 3,
+        location_instructions: "Corner of the High Street by the substation"
+      )
+    end
 
     let(:site_notice_mail) do
       described_class.site_notice_mail(planning_application, planning_application.applicant_email)
@@ -1047,7 +1054,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application number PlanX-22-00100-PA1A"
+        "Application number #{planning_application.reference_in_full}"
       )
     end
 
@@ -1089,7 +1096,14 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       planning_application.consultation
     end
 
-    let(:site_notice) { create(:site_notice, planning_application:) }
+    let!(:site_notice) do
+      create(
+        :site_notice,
+        planning_application:,
+        quantity: 3,
+        location_instructions: "Corner of the High Street by the substation"
+      )
+    end
 
     let(:internal_team_site_notice_mail) do
       described_class.internal_team_site_notice_mail(planning_application, planning_application.applicant_email)
@@ -1117,7 +1131,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the reference" do
       expect(mail_body).to include(
-        "Application number PlanX-22-00100-PA1A"
+        "Application number #{planning_application.reference_in_full}"
       )
     end
 
@@ -1127,6 +1141,13 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
       expect(mail_body).to include(
         "https://planx.bops-applicants.services/planning_applications/#{planning_application.reference}/site_notice"
+      )
+    end
+
+    it "includes the requested quantity and location instructions" do
+      expect(mail_body).to include("Number of site notices requested: 3")
+      expect(mail_body).to include(
+        "Location instructions: Corner of the High Street by the substation"
       )
     end
   end

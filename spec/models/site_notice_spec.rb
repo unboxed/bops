@@ -18,6 +18,37 @@ RSpec.describe SiteNotice do
       end
     end
 
+    describe "#quantity" do
+      subject(:site_notice) { build(:site_notice, quantity:) }
+
+      context "when blank" do
+        let(:quantity) { nil }
+
+        it "validates presence" do
+          expect { site_notice.valid? }.to change { site_notice.errors[:quantity] }
+            .to(include("Enter the number of site notices required"))
+        end
+      end
+
+      context "when not an integer" do
+        let(:quantity) { 1.5 }
+
+        it "validates integer value" do
+          expect { site_notice.valid? }.to change { site_notice.errors[:quantity] }
+            .to(["Enter the number of site notices as a whole number"])
+        end
+      end
+
+      context "when less than 1" do
+        let(:quantity) { 0 }
+
+        it "validates minimum value" do
+          expect { site_notice.valid? }.to change { site_notice.errors[:quantity] }
+            .to(["Number of site notices must be 1 or more"])
+        end
+      end
+    end
+
     describe "#displayed_at" do
       let(:planning_application) { create(:planning_application, consultation:) }
       let(:consultation) { create(:consultation) }

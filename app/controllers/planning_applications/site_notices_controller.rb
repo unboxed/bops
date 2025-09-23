@@ -80,7 +80,7 @@ module PlanningApplications
     end
 
     def site_notice_params
-      params.require(:site_notice).permit(:required, :displayed_at, :method, :internal_team_email, documents: [])
+      params.require(:site_notice).permit(:required, :displayed_at, :method, :internal_team_email, :quantity, :location_instructions, documents: [])
     end
 
     def send_mail
