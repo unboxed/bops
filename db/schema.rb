@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_09_09_153407) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_22_141123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -1150,6 +1150,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_09_09_153407) do
     t.datetime "updated_at", null: false
     t.date "expiry_date"
     t.string "internal_team_email"
+    t.integer "quantity", default: 1, null: false
+    t.text "location_instructions"
     t.index ["planning_application_id"], name: "ix_site_notices_on_planning_application_id"
   end
 

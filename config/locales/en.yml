@@ -522,6 +522,12 @@ en:
               date_not_on_or_before: The date the site notice was displayed must be on or before today
             documents:
               blank: Provide documentary evidence that the site notice was displayed
+            quantity:
+              blank: Enter the number of site notices required
+              greater_than_or_equal_to: Number of site notices must be 1 or more
+              less_than_or_equal_to: Number of site notices must be 100 or less
+              not_a_number: Enter the number of site notices as a whole number
+              not_an_integer: Enter the number of site notices as a whole number
             required:
               inclusion: Choose 'Yes' or 'No'
         site_visit:
@@ -2052,6 +2058,11 @@ en:
         assign_user_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">assigned to an officer</a> before you can create a site notice.
         make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BOPS Public Portal</a> before you can create a site notice.
         success: Site notice was successfully %{action}
+      location_instructions:
+        hint: Optional. Anything you add here may be shared with the recipient (including the applicant).
+        label: Where should notices be displayed?
+      quantity:
+        label: Number of site notices
       update:
         success: Site notice was successfully updated
     steps:

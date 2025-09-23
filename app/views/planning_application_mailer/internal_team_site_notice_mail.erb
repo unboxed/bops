@@ -6,6 +6,12 @@ Description: <%= @planning_application.description %>
 
 The site notice for this application is ready for display.
 
+Number of site notices requested: <%= @site_notice.quantity %>
+
+<% if @site_notice.location_instructions.present? %>
+Location instructions: <%= @site_notice.location_instructions %>
+<% end -%>
+
 To print the site notice, go to:
 <%= @planning_application.site_notice_link %>
 

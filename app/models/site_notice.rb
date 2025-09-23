@@ -15,6 +15,9 @@ class SiteNotice < ApplicationRecord
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
   validates :required, inclusion: {in: [true, false]}
+  validates :quantity,
+    presence: true,
+    numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100}
 
   with_options on: :confirmation do
     validates :displayed_at,

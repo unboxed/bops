@@ -15,7 +15,13 @@ Download the site notice as a printable PDF at <%= @planning_application.site_no
 You can use a clear plastic bag or sticky polythene film to protect it from bad weather.
 
 3. Display the site notice
+Number of site notices requested: <%= @site_notice.quantity %>
+
+<% if @site_notice.location_instructions.present? %>
+Location instructions: <%= @site_notice.location_instructions %>
+<% else %>
 This must be in a public place at or near the location of your proposed development. It must be visible by people using public roads and footpaths. For example, you could attach the notice to a lamppost or wall outside the property. Make sure the site notice is securely fixed.
+<% end -%>
 
 4. Tell us when you put it up
 Send an email to <%= @planning_application.user.email %> including:

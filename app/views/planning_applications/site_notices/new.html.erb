@@ -39,6 +39,15 @@
     <% end %>
 
     <%= tag.div(id: "site-notice-options", class: class_names("govuk-!-display-none": @site_notice.errors.blank?)) do %>
+      <%= form.govuk_number_field :quantity,
+            label: {text: t("planning_applications.site_notices.quantity.label")},
+            width: "one-quarter",
+            min: 1 %>
+
+      <%= form.govuk_text_area :location_instructions,
+            label: {text: t("planning_applications.site_notices.location_instructions.label")}, hint: {text: t("planning_applications.site_notices.location_instructions.hint")},
+            rows: 5 %>
+
       <div class="grey-box" id="email-site-notice">
         <%= form.govuk_radio_buttons_fieldset(
               :method,

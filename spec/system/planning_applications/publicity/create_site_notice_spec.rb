@@ -40,6 +40,11 @@ RSpec.describe "Create a site notice", js: true do
 
     choose "Yes"
 
+    expect(page).to have_field("Number of site notices", with: 1)
+
+    fill_in "Number of site notices", with: "2"
+    fill_in "Where should notices be displayed?", with: "Display on both entrances"
+
     expect(page).to have_content("Print the site notice")
 
     fill_in "Day", with: "1"
@@ -52,7 +57,10 @@ RSpec.describe "Create a site notice", js: true do
     expect(page).to have_content("Site notice was successfully created")
     expect(page).to have_link("Download site notice PDF", href: "#")
 
-    expect(planning_application.site_notice.content).not_to include "This application is subject to an Environmental Impact Assessment (EIA)."
+    site_notice = planning_application.reload.site_notice
+    expect(site_notice.quantity).to eq(2)
+    expect(site_notice.location_instructions).to eq("Display on both entrances")
+    expect(site_notice.content).not_to include "This application is subject to an Environmental Impact Assessment (EIA)."
   end
 
   it "allows officers to create a site notice and email it to the agent" do
@@ -60,6 +68,12 @@ RSpec.describe "Create a site notice", js: true do
     expect(page).to have_content("Send site notice")
 
     choose "Yes"
+
+    expect(page).to have_field("Number of site notices", with: 1)
+    expect(page).to have_content("Optional. Anything you add here may be shared with the recipient (including the applicant).")
+
+    fill_in "Number of site notices", with: "4"
+    fill_in "Where should notices be displayed?", with: "Attach near the front gate and rear alley"
 
     expect(page).to have_content("Email the site notice")
 
@@ -83,6 +97,11 @@ RSpec.describe "Create a site notice", js: true do
 
     choose "Yes"
 
+    expect(page).to have_field("Number of site notices", with: 1)
+
+    fill_in "Number of site notices", with: "4"
+    fill_in "Where should notices be displayed?", with: "Attach near the front gate and rear alley"
+
     choose "Send it by email to applicant"
 
     click_button "Email site notice and mark as complete"
@@ -101,6 +120,11 @@ RSpec.describe "Create a site notice", js: true do
     expect(page).to have_content("Send site notice")
 
     choose "Yes"
+
+    expect(page).to have_field("Number of site notices", with: 1)
+
+    fill_in "Number of site notices", with: "3"
+    fill_in "Where should notices be displayed?", with: "Corner by the substation and rear alley"
 
     expect(page).to have_content("Email the site notice")
 
@@ -122,6 +146,9 @@ RSpec.describe "Create a site notice", js: true do
 
     expect(email_notification.to).to contain_exactly("internal@email.com")
     expect(email_notification.subject).to eq("Site notice for application number 23-00100-PA1A")
+    expect(email_notification.body.encoded).to include("Number of site notices requested: 3")
+    expect(email_notification.body.encoded)
+      .to include("Location instructions: Corner by the substation and rear alley")
   end
 
   it "allows officers to confirm site notice is not needed" do
