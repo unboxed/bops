@@ -8,11 +8,7 @@ BopsAdmin::Engine.routes.draw do
   resource :accessibility, only: %i[edit update], controller: "accessibility"
 
   resource :notify, only: %i[show edit update], controller: "notify" do
-    get :send_test, action: :send_test_new
-    post :send_test, action: :send_test_create
-
-    get :preview_letter, action: :preview_letter
-    post :preview_letter, action: :generate_preview
+    resource :email, :sms, :letter, only: %i[new create], module: "notify"
   end
 
   resources :consultees, except: %i[show]

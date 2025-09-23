@@ -1,2 +1,31 @@
 ---
 en:
+  activemodel:
+    errors:
+      models:
+        bops_core/notify/email_form:
+          attributes:
+            body:
+              blank: Enter the body of the test message
+            email_address:
+              blank: Enter an email address for the test message
+              invalid: Enter a valid email address for the test message
+            subject:
+              blank: Enter a subject for the test message
+        bops_core/notify/letter_form:
+          attributes:
+            address:
+              blank: Enter an address for the test letter
+              too_long: Enter seven lines at most for an address
+              too_short: Enter at least three lines for an address
+            heading:
+              blank: Enter the heading of the test letter
+            message:
+              blank: Enter the message of the test letter
+        bops_core/notify/sms_form:
+          attributes:
+            body:
+              blank: Enter the body of the test message
+            phone_number:
+              blank: Enter a phone number for the test message
+              invalid: Enter a valid phone number for the test message
