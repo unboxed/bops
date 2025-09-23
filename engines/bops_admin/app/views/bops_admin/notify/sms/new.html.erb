@@ -1,0 +1,51 @@
+<% content_for :page_title do %>
+  <%= t(".check_sms_settings") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_notify_path %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-l">
+      <%= t(".check_sms_settings") %>
+    </h1>
+
+    <div class="govuk-warning-text">
+      <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+      <strong class="govuk-warning-text__text">
+        <span class="govuk-visually-hidden">
+          <%= t(".warning.heading") %>
+        </span>
+        <%= t(".warning.message") %>
+      </strong>
+    </div>
+
+    <%= form_with(model: @sms_form, url: notify_sms_path, id: "notify-form") do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <%= form.govuk_text_field(
+            :phone_number,
+            label: {text: t(".labels.phone_number")},
+            hint: {text: t(".hints.phone_number")}
+          ) %>
+
+      <%= form.govuk_text_area(
+            :body, rows: 7,
+            label: {text: t(".labels.body")}
+          ) %>
+
+      <% if @sms_form.checked? %>
+        <%= form.govuk_submit(t(".buttons.continue"), name: "continue", value: "true") do %>
+          <%= form.govuk_submit(t(".buttons.send_again"), secondary: true) %>
+          <%= govuk_button_link_to t(".buttons.back"), new_notify_email_path, secondary: true %>
+        <% end %>
+      <% else %>
+        <%= form.govuk_submit(t(".buttons.send")) do %>
+          <%= form.govuk_submit(t(".buttons.skip"), name: "continue", value: "true", secondary: true) %>
+          <%= govuk_button_link_to t(".buttons.back"), new_notify_email_path, secondary: true %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

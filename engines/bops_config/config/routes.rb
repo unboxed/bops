@@ -50,6 +50,7 @@ BopsConfig::Engine.routes.draw do
   resources :local_authorities, param: :name, except: %i[destroy] do
     scope module: "local_authorities" do
       resource :notify, controller: "notify", only: %i[edit update] do
+        resource :email, :sms, :letter, only: %i[new create], module: "notify"
       end
     end
   end

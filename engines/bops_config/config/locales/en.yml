@@ -443,6 +443,21 @@ en:
       notify:
         edit:
           notify: Update GOV.UK Notify settings
+        emails:
+          create:
+            success: 'Email sent successfully (ref: %{reference})'
+          new:
+            buttons:
+              back: Back
+              continue: Continue
+              send: Send email
+              send_again: Send email again
+              skip: Skip this check
+            check_email_settings: Check email settings
+            labels:
+              body: Body
+              email_address: Email address
+              subject: Subject
         form:
           email_reply_to_id: Reply-to email address
           email_reply_to_id_hint: |
@@ -457,6 +472,45 @@ en:
           sms_template_id: SMS template
           submit: Submit
           templates: Templates
+        letters:
+          create:
+            success: 'Letter created successfully (ref: %{reference})'
+          new:
+            buttons:
+              back: Back
+              continue: Continue
+              create: Create letter
+              create_again: Create letter again
+              skip: Skip this check
+            check_letter_settings: Check letter settings
+            hints:
+              address: Enter at least three lines and at most seven with the postcode as the last line
+            labels:
+              address: Address
+              heading: Heading
+              message: Message
+            warning:
+              heading: Warning
+              message: This will create a real letter - if you don’t log into GOV.UK Notify and cancel it before 5pm the letter will be sent and postage costs will be incurred.
+        sms:
+          create:
+            success: 'SMS sent successfully (ref: %{reference})'
+          new:
+            buttons:
+              back: Back
+              continue: Continue
+              send: Send SMS
+              send_again: Send SMS again
+              skip: Skip this check
+            check_sms_settings: Check SMS settings
+            hints:
+              phone_number: Use the international dialling format, e.g. +447123456789
+            labels:
+              body: Body
+              phone_number: Phone number
+            warning:
+              heading: Warning
+              message: This may incur a charge if your GOV.UK Notify service has used up its free SMS allowance.
         update:
           success: GOV.UK Notify settings successfully updated
       update:

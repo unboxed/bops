@@ -32,6 +32,7 @@
   <% end %>
 
   <%= form.govuk_submit(t(".submit")) do %>
-    <%= back_link %>
+    <%= form.govuk_submit("Submit and check settings", name: "check_settings", value: "true", secondary: true) %>
+    <%= govuk_button_link_to "Back", local_authorities_path, secondary: true %>
   <% end %>
 <% end %>
