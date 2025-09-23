@@ -28,6 +28,7 @@ module BopsCore
       end
 
       def pre_app_status_tag
+        return if in_assessment? || not_started?
         classes = ["govuk-tag govuk-tag--#{pre_app_status_tag_colour}"]
 
         tag.span class: classes do

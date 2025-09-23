@@ -107,5 +107,14 @@ RSpec.describe "Summary of Advice", type: :system, capybara: true do
       expect(page).to have_content("Summary tag can't be blank")
       expect(page).to have_content("Entry can't be blank")
     end
+
+    it "does not show summary status tag when in assessment" do
+      click_link "Summary of advice"
+      fill_in "Enter summary of planning considerations and advice. This should summarise any changes the applicant needs to make before they make an application.", with: "Updated summary of advice."
+      choose "Likely to be supported with changes"
+      click_button "Save and mark as complete"
+
+      expect(page).to have_no_content("Likely to be supported with changes")
+    end
   end
 end
