@@ -32,6 +32,7 @@ module BopsApi
         name = URI.decode_uri_component(File.basename(URI.parse(url).path))
 
         planning_application.documents.create! do |document|
+          document.api_user = user
           document.tags = tags
           document.applicant_description = description
           document.file.attach(io: file.open, filename: name)
