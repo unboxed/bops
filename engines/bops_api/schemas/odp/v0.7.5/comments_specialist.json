@@ -1,61 +1,154 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "required": [
+    "pagination",
+    "data"
+  ],
   "properties": {
     "pagination": {
       "$ref": "#/definitions/PostSubmissionPagination"
     },
-    "summary": {
+    "data": {
       "type": "object",
+      "required": [
+        "summary",
+        "comments"
+      ],
       "properties": {
-        "totalComments": {
-          "type": "integer"
-        },
-        "totalConsulted": {
-          "type": "integer"
-        },
-        "sentiment": {
+        "summary": {
           "type": "object",
+          "required": [
+            "totalComments",
+            "totalConsulted",
+            "sentiment"
+          ],
           "properties": {
-            "approved": {
+            "totalComments": {
               "type": "integer"
             },
-            "amendmentsNeeded": {
-              "type": "integer"
-            },
-            "objected": {
-              "type": "integer"
-            }
-          }
-        }
-      },
-      "required": ["totalComments", "totalConsulted", "sentiment"]
-    },
-    "comments": {
-      "type": "array",
-      "items": [
-        {
-          "type": "object",
-          "properties": {
-            "id": {
+            "totalConsulted": {
               "type": "integer"
             },
             "sentiment": {
-              "enum": ["approved", "amendmentsNeeded", "objected"],
-              "type": "string"
-            },
-            "comment": {
-              "type": "string"
-            },
-            "receivedAt": {
-              "format": "datetime",
-              "type": ["string", "null"]
+              "type": "object",
+              "properties": {
+                "approved": {
+                  "type": "integer"
+                },
+                "amendmentsNeeded": {
+                  "type": "integer"
+                },
+                "objected": {
+                  "type": "integer"
+                }
+              }
             }
-          },
-          "required": ["id", "sentiment", "comment", "receivedAt"]
+          }
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "firstConsultedAt",
+              "comments"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "organisationSpecialism": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "jobTitle": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "reason": {
+                "type": "string"
+              },
+              "firstConsultedAt": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "format": "date-time"
+              },
+              "constraints": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                }
+              },
+              "comments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "id",
+                    "sentiment",
+                    "commentRedacted",
+                    "metadata"
+                  ],
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "sentiment": {
+                      "type": "string"
+                    },
+                    "commentRedacted": {
+                      "type": "string"
+                    },
+                    "files": {
+                      "type": "array",
+                      "items": {
+                        "type": "object"
+                      }
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "required": [
+                        "submittedAt"
+                      ],
+                      "properties": {
+                        "submittedAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "validatedAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        },
+                        "publishedAt": {
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "date-time"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
         }
-      ]
+      }
     }
-  },
-  "required": ["pagination", "summary", "comments"]
+  }
 }

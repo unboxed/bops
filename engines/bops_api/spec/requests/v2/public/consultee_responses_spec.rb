@@ -6,30 +6,55 @@ RSpec.describe "BOPS public API Specialist comments" do
   let(:local_authority) { create(:local_authority, :default) }
 
   def validate_pagination(data, results_per_page:, current_page:, total_results:, total_available_items:)
-    expect(data["pagination"]["resultsPerPage"]).to eq(results_per_page)
-    expect(data["pagination"]["currentPage"]).to eq(current_page)
-    expect(data["pagination"]["totalPages"]).to eq((total_results.to_f / results_per_page).ceil)
-    expect(data["pagination"]["totalResults"]).to eq(total_results)
-    expect(data["pagination"]["totalAvailableItems"]).to eq(total_available_items)
+    pagination = data["pagination"]
+    expect(pagination["resultsPerPage"]).to eq(results_per_page)
+    expect(pagination["currentPage"]).to eq(current_page)
+    expect(pagination["totalPages"]).to eq((total_results.to_f / results_per_page).ceil)
+    expect(pagination["totalResults"]).to eq(total_results)
+    expect(pagination["totalAvailableItems"]).to eq(total_available_items)
   end
 
-  def validate_comment_summary(data, total_comments: 50, total_consulted: 50, approved: 50, objected: 0, amendments_needed: 0)
-    expect(data["summary"]["totalComments"]).to eq(total_comments)
-    expect(data["summary"]["totalConsulted"]).to eq(total_consulted)
+  def validate_comment_summary(data, total_comments:, total_consulted:, approved:, objected:, amendments_needed:)
+    summary = data.dig("data", "summary")
+    expect(summary["totalComments"]).to eq(total_comments)
+    expect(summary["totalConsulted"]).to eq(total_consulted)
 
-    sentiment = data.dig("summary", "sentiment")
+    sentiment = summary["sentiment"]
     expect(sentiment["approved"]).to eq(approved)
     expect(sentiment["objected"]).to eq(objected)
     expect(sentiment["amendmentsNeeded"]).to eq(amendments_needed)
   end
 
+  def validate_specialist_details(data)
+    specialists = data.dig("data", "comments")
+    expect(specialists).to be_an(Array)
+    specialists.each do |specialist|
+      expect(specialist["id"]).to be_present
+      expect(specialist["organisationSpecialism"]).to be_a(String) if specialist["organisationSpecialism"].present?
+      expect { DateTime.iso8601(specialist["firstConsultedAt"]) }.not_to raise_error
+      expect(specialist["jobTitle"]).to be_a(String) if specialist["jobTitle"].present?
+      expect(specialist["reason"]).to be_in(%w[Constraint Other])
+      if specialist["constraints"].present?
+        expect(specialist["constraints"]).to be_an(Array)
+        specialist["constraints"].each do |constraint|
+          expect(constraint["value"]).to be_present
+        end
+      end
+    end
+  end
+
   def validate_comments(data, count:)
-    expect(data["comments"].size).to eq(count)
-    data["comments"].each do |c|
-      expect(c["id"]).to be_a(Integer)
+    specialists = data.dig("data", "comments")
+    expect(specialists).to be_an(Array)
+    expect(specialists.size).to eq(count)
+
+    comments = specialists.flat_map { |s| s["comments"] }
+    expect(comments.size).to be >= count
+
+    comments.each do |c|
       expect(c["sentiment"]).to be_in(%w[approved objected amendmentsNeeded])
-      expect(c["comment"]).to include("*****")
-      expect { DateTime.iso8601(c["receivedAt"]) }.not_to raise_error
+      expect(c["commentRedacted"]).to include("*****")
+      expect { DateTime.iso8601(c.dig("metadata", "submittedAt")) }.not_to raise_error
     end
   end
 
@@ -38,43 +63,35 @@ RSpec.describe "BOPS public API Specialist comments" do
       tags "Planning applications"
       produces "application/json"
 
-      # add parameters here
-
       parameter name: :reference, in: :path, schema: {
         type: :string,
         description: "The planning application reference"
       }
-
       parameter name: :sortBy, in: :query, schema: {
         type: :string,
         enum: ["id", "receivedAt"],
         default: "receivedAt",
         description: "The sort type for the comments"
       }, required: false
-
       parameter name: :orderBy, in: :query, schema: {
         type: :string,
         enum: ["asc", "desc"],
         default: "desc",
         description: "The order for the comments"
       }, required: false
-
       parameter name: :resultsPerPage, in: :query, schema: {
         type: :integer,
         default: 10,
         description: "Max result for page"
       }, required: false
-
       parameter name: :page, in: :query, schema: {
         type: :integer,
         default: 1
       }, required: false
-
       parameter name: :query, in: :query, schema: {
         type: :string,
         description: "Search by redacted comment content"
       }, required: false
-
       parameter name: :sentiment, in: :query,
         description: "Filter by sentiment",
         schema: {
@@ -104,65 +121,56 @@ RSpec.describe "BOPS public API Specialist comments" do
       end
 
       context "When running tests on the comments specialist endpoint" do
-        let(:planning_application) { create(:planning_application, :published, :in_assessment, :with_boundary_geojson, :planning_permission, local_authority:) }
+        let!(:planning_application) { create(:planning_application, :published, :in_assessment, :with_boundary_geojson, :planning_permission, local_authority:) }
+        let(:consultation) { planning_application.consultation }
 
         context "Query params" do
           before do
             25.times do
-              create(:consultee, :internal, :consulted, responses: build_list(:consultee_response, 1, :with_redaction), consultation: planning_application.consultation)
+              create(:consultee, :internal, :consulted, responses: build_list(:consultee_response, 1, :with_redaction), consultation: consultation)
             end
-
             25.times do
-              create(:consultee, :external, :consulted, responses: build_list(:consultee_response, 1, :with_redaction), consultation: planning_application.consultation)
+              create(:consultee, :external, :consulted, responses: build_list(:consultee_response, 1, :with_redaction), consultation: consultation)
             end
-
             25.times do
-              create(:consultee, :internal, consultation: planning_application.consultation)
+              create(:consultee, :internal, consultation: consultation)
             end
-
             25.times do
-              create(:consultee, :external, consultation: planning_application.consultation)
+              create(:consultee, :external, consultation: consultation)
             end
           end
 
-          # no params
           response "200", "Passing no parameters should return correct pagination, summary, and comments", document: false do
             let(:reference) { planning_application.reference }
 
             run_test! do |response|
               data = JSON.parse(response.body)
-
-              # pagination
               validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_results: 50, total_available_items: 50)
-              # comment summary
-              validate_comment_summary(data)
-              # comments
+              validate_comment_summary(data, total_comments: 50, total_consulted: 50, approved: 50, objected: 0, amendments_needed: 0)
+              validate_specialist_details(data)
               validate_comments(data, count: 10)
             end
           end
 
-          # page, resultsPerPage
-          response "200", "Passing page and resultsPerPage params should return correct pagination, summary, and comments", document: false do
+          response "200", "Passing page and resultsPerPage returns correct pagination, summary, and comments", document: false do
             let(:reference) { planning_application.reference }
             let(:page) { 2 }
             let(:resultsPerPage) { 2 }
 
             run_test! do |response|
               data = JSON.parse(response.body)
-
-              # pagination
               validate_pagination(data, results_per_page: 2, current_page: 2, total_results: 50, total_available_items: 50)
-              # comment summary
-              validate_comment_summary(data)
-              # comments
+              validate_comment_summary(data, total_comments: 50, total_consulted: 50, approved: 50, objected: 0, amendments_needed: 0)
+              validate_specialist_details(data)
               validate_comments(data, count: 2)
             end
           end
 
-          # query
           response "200", "Passing query should return correct pagination, summary, and comments", document: false do
             before do
-              create(:consultee, :external, :consulted, responses: build_list(:consultee_response, 1, :with_redaction, response: "rude word not like the other comments", redacted_response: "***** not like the other comments"), consultation: planning_application.consultation)
+              create(:consultee, :external, :consulted, consultation: consultation) do |consultee|
+                create(:consultee_response, :with_redaction, consultee: consultee, redacted_response: "***** not like the other comments")
+              end
             end
 
             let(:reference) { planning_application.reference }
@@ -170,26 +178,21 @@ RSpec.describe "BOPS public API Specialist comments" do
 
             run_test! do |response|
               data = JSON.parse(response.body)
-
-              # pagination
               validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_results: 1, total_available_items: 51)
-              # comment summary
               validate_comment_summary(data, total_comments: 51, total_consulted: 51, approved: 51, objected: 0, amendments_needed: 0)
-              # comments
               validate_comments(data, count: 1)
-              expect(data["comments"].first["comment"]).to include("***** not like the other comments")
+              validate_specialist_details(data)
             end
           end
 
-          # sortBy, orderBy
-          response "200", "Passing sortBy and orderBy should return correct pagination, summary, and comments", document: false do
+          response "200", "Passing sortBy and orderBy returns correctly sorted comments", document: false do
             let(:reference) { planning_application.reference }
 
             context "when sortBy is not set and orderBy is not set" do
               run_test! do |response|
                 data = JSON.parse(response.body)
-                sorted_values = data["comments"].pluck("receivedAt")
-                expect(sorted_values).to eq(sorted_values.sort.reverse) # Descending order
+                values = data.dig("data", "comments").map { |s| Time.zone.parse(s["comments"].first["metadata"]["submittedAt"]) }
+                expect(values).to eq(values.sort.reverse)
               end
             end
 
@@ -199,8 +202,11 @@ RSpec.describe "BOPS public API Specialist comments" do
 
               run_test! do |response|
                 data = JSON.parse(response.body)
-                sorted_values = data["comments"].pluck(field)
-
+                specs = data.dig("data", "comments")
+                sorted_values = specs.map do |s|
+                  c = s["comments"].first
+                  (field == "receivedAt") ? Time.zone.parse(c["metadata"]["submittedAt"]) : c[field]
+                end
                 expected_order = (order_by == "asc") ? sorted_values.sort : sorted_values.sort.reverse
                 expect(sorted_values).to eq(expected_order)
               end
@@ -221,53 +227,50 @@ RSpec.describe "BOPS public API Specialist comments" do
                 let(:sortBy) { "receivedAt" }
                 run_test! do |response|
                   data = JSON.parse(response.body)
-                  sorted_values = data["comments"].pluck("receivedAt")
-                  expect(sorted_values).to eq(sorted_values.sort.reverse) # Descending order
+                  values = data.dig("data", "comments").map { |s| Time.zone.parse(s["comments"].first["metadata"]["submittedAt"]) }
+                  expect(values).to eq(values.sort.reverse)
                 end
               end
 
-              context "sortBy is id orderBy defaults to asc" do
+              context "sortBy is id, orderBy defaults to asc" do
                 let(:sortBy) { "id" }
                 run_test! do |response|
                   data = JSON.parse(response.body)
-                  sorted_values = data["comments"].pluck("id")
-                  expect(sorted_values).to eq(sorted_values.sort) # Ascending order
+                  values = data.dig("data", "comments").map { |s| s["comments"].first["id"] }
+                  expect(values).to eq(values.sort)
                 end
               end
             end
 
-            context "only orderBy is set" do
-              context "orderBy is asc sortBy defaults to receivedAt" do
+            context "when only orderBy is set" do
+              context "orderBy is asc, sortBy defaults to receivedAt" do
                 let(:orderBy) { "asc" }
                 run_test! do |response|
                   data = JSON.parse(response.body)
-                  sorted_values = data["comments"].pluck("receivedAt")
-                  expect(sorted_values).to eq(sorted_values.sort) # Ascending order
+                  values = data.dig("data", "comments").map { |s| Time.zone.parse(s["comments"].first["metadata"]["submittedAt"]) }
+                  expect(values).to eq(values.sort)
                 end
               end
 
-              context "orderBy is desc sortBy defaults to receivedAt" do
+              context "orderBy is desc, sortBy defaults to receivedAt" do
                 let(:orderBy) { "desc" }
                 run_test! do |response|
                   data = JSON.parse(response.body)
-                  sorted_values = data["comments"].pluck("receivedAt")
-                  expect(sorted_values).to eq(sorted_values.sort.reverse) # Descending order
+                  values = data.dig("data", "comments").map { |s| Time.zone.parse(s["comments"].first["metadata"]["submittedAt"]) }
+                  expect(values).to eq(values.sort.reverse)
                 end
               end
             end
           end
         end
 
-        # sentiment
         context "Query params: sentiment" do
-          # Helper method to count sentiments in comments
-          # This method takes an array of comments and returns a hash with sentiment counts
-          def sentiment_counts(comments)
+          def sentiment_counts(specialist_comments)
+            comments = specialist_comments.flat_map { |s| s["comments"] }
             comments.pluck("sentiment").each_with_object(Hash.new(0)) { |s, h| h[s] += 1 }
           end
 
           before do
-            # create a consultee with a response for each sentiment
             Consultee::Response.summary_tags.keys.each do |sentiment|
               create(:consultee, :consulted, responses: build_list(:consultee_response, 1, :with_redaction, summary_tag: sentiment), consultation: planning_application.consultation)
             end
@@ -275,44 +278,42 @@ RSpec.describe "BOPS public API Specialist comments" do
 
           response "200", "Singular sentiment", document: false do
             let(:reference) { planning_application.reference }
-            let(:sentiment) { ["approved"] }
+            let(:sentiment) { ["amendmentsNeeded"] }
 
             run_test! do |response|
               data = JSON.parse(response.body)
-
-              # pagination
+              specialists = data.dig("data", "comments")
               validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_PAGE, total_results: 1, total_available_items: 3)
-              # comment summary
               validate_comment_summary(data, total_comments: 3, total_consulted: 3, approved: 1, objected: 1, amendments_needed: 1)
-              # comments
               validate_comments(data, count: 1)
-
-              # Check that only comments with the specified sentiment are returned
-              expect(sentiment_counts(data["comments"])).to match_array([["approved", 1]])
+              sentiment_counts = sentiment_counts(specialists)
+              expect(sentiment_counts).to eq("amendmentsNeeded" => 1)
             end
           end
 
-          # ?sentiment=a,b
-          response "200", "Multiple sentiments", document: false do
+          response "200", "filters correctly for multiple sentiments", document: false do
             let(:reference) { planning_application.reference }
             let(:sentiment) { ["approved", "objected"] }
 
             run_test! do |response|
               data = JSON.parse(response.body)
-              expect(sentiment_counts(data["comments"])).to match_array([["approved", 1], ["objected", 1]])
+              specialists = data.dig("data", "comments")
+              validate_pagination(data, results_per_page: BopsApi::Postsubmission::PostsubmissionPagination::DEFAULT_MAXRESULTS, current_page: 1, total_results: 2, total_available_items: 3)
+              validate_comment_summary(data, total_comments: 3, total_consulted: 3, approved: 1, objected: 1, amendments_needed: 1)
+              validate_comments(data, count: 2)
+              sentiment_counts = sentiment_counts(specialists)
+              expect(sentiment_counts).to eq("approved" => 1, "objected" => 1)
             end
           end
 
-          # ?sentiment=invalid
           response "500", "Invalid sentiments", document: false do
             let(:reference) { planning_application.reference }
             let(:sentiment) { ["amendments_needed", "invalid"] }
 
             run_test! do |response|
               data = JSON.parse(response.body)
-
-              expect(data["error"]["code"]).to match(500)
-              expect(data["error"]["message"]).to match("Internal Server Error")
+              expect(data["error"]["code"]).to eq(500)
+              expect(data["error"]["message"]).to eq("Internal Server Error")
               expect(data["error"]["detail"]).to match("Invalid sentiment(s): amendments_needed, invalid. Allowed values: approved, amendmentsNeeded, objected")
             end
           end
@@ -321,78 +322,62 @@ RSpec.describe "BOPS public API Specialist comments" do
         context "Comment summary" do
           response "200", "no redacted responses gives a count of zero", document: false do
             before do
-              first_consultee = create(:consultee, :consulted, consultation: planning_application.consultation)
-              create(:consultee_response, consultee: first_consultee, redacted_response: nil)
-
-              second_consultee = create(:consultee, :consulted, consultation: planning_application.consultation)
-              create(:consultee_response, consultee: second_consultee, redacted_response: nil)
+              create(:consultee, :consulted, responses: [build(:consultee_response)], consultation: consultation)
+              create(:consultee, :consulted, responses: [build(:consultee_response)], consultation: consultation)
             end
 
             let(:reference) { planning_application.reference }
 
             run_test! do |response|
               data = JSON.parse(response.body)
-
-              expect(data["summary"]["totalConsulted"]).to eq(2)
-              expect(data["summary"]["totalComments"]).to eq(0)
-              expect(data["summary"]["sentiment"].values).to all(eq(0))
-              expect(data["comments"]).to eq([])
+              summary = data.dig("data", "summary")
+              expect(summary["totalConsulted"]).to eq(2)
+              expect(summary["totalComments"]).to eq(0)
+              expect(summary["sentiment"].values).to all(eq(0))
+              expect(data.dig("data", "comments")).to eq([])
             end
           end
 
           response "200", "only consultees with redacted responses are counted", document: false do
             before do
-              third_consultee = create(:consultee, :consulted, consultation: planning_application.consultation)
-              create(:consultee_response, :with_redaction, consultee: third_consultee)
-
-              fourth_consultee = create(:consultee, :consulted, consultation: planning_application.consultation)
-              create(:consultee_response, consultee: fourth_consultee, redacted_response: nil)
+              create(:consultee, :consulted, responses: [build(:consultee_response, :with_redaction)], consultation: consultation)
+              create(:consultee, :consulted, responses: [build(:consultee_response)], consultation: consultation)
             end
 
             let(:reference) { planning_application.reference }
 
             run_test! do |response|
               data = JSON.parse(response.body)
-
-              expect(data["summary"]["totalConsulted"]).to eq(2)
-              expect(data["summary"]["totalComments"]).to eq(1)
-              expect(data["summary"]["sentiment"].values.sum).to eq(1)
-              expect(data["comments"].count).to eq(1)
+              summary = data.dig("data", "summary")
+              expect(summary["totalConsulted"]).to eq(2)
+              expect(summary["totalComments"]).to eq(1)
+              expect(summary["sentiment"].values.sum).to eq(1)
+              expect(data.dig("data", "comments").size).to eq(1)
             end
           end
 
-          response "200", "latest response only for multiple redacted comments", document: false do
+          response "200", "latest response sentiment is used for multiple redacted comments", document: false do
             before do
-              fifth_consultee = create(:consultee, :consulted, consultation: planning_application.consultation)
-              # Older redacted response:
-              create(
-                :consultee_response,
-                :with_redaction,
-                consultee: fifth_consultee,
-                summary_tag: "objected",
-                received_at: 2.days.ago
-              )
-              # Newer redacted response:
-              create(
-                :consultee_response,
-                :with_redaction,
-                consultee: fifth_consultee,
-                summary_tag: "approved",
-                received_at: 1.hour.ago
-              )
+              create(:consultee, :consulted, consultation: consultation) do |c|
+                # Older redacted response:
+                create(:consultee_response, :with_redaction, consultee: c, summary_tag: "objected", received_at: 2.days.ago)
+                # Newer redacted response:
+                create(:consultee_response, :with_redaction, consultee: c, summary_tag: "approved", received_at: 1.hour.ago)
+              end
             end
 
             let(:reference) { planning_application.reference }
 
             run_test! do |response|
               data = JSON.parse(response.body)
-
-              expect(data["summary"]["totalConsulted"]).to eq(1)
-              expect(data["summary"]["totalComments"]).to eq(1)
-              expect(data["summary"]["sentiment"]["approved"]).to eq(1)
-              expect(data["summary"]["sentiment"]["objected"]).to eq(0)
-              expect(data["comments"].count).to eq(2)
-              expect(data["comments"].first["sentiment"]).to eq("approved")
+              summary = data.dig("data", "summary")
+              expect(summary["totalConsulted"]).to eq(1)
+              expect(summary["totalComments"]).to eq(1)
+              expect(summary["sentiment"]["approved"]).to eq(1)
+              expect(summary["sentiment"]["objected"]).to eq(0)
+              comments = data.dig("data", "comments").flat_map { |s| s["comments"] }
+              expect(comments.count).to eq(2)
+              expect(comments.max_by { |c| c.dig("metadata", "submittedAt") }["sentiment"]).to eq("approved")
             end
           end
         end
