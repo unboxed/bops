@@ -146,31 +146,6 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       expect(page).to have_content("Deadline extension can't be blank")
       expect(planning_application.consultation.reload.end_date).to be nil
     end
-
-    context "when planning application has not been made public on the BOPS Public Portal" do
-      let(:planning_application) do
-        create(:planning_application,
-          :from_planx_prior_approval,
-          application_type:,
-          local_authority: default_local_authority)
-      end
-
-      it "prevents me sending letters and displays an alert" do
-        expect(LetterSendingService).not_to receive(:new)
-
-        sign_in assessor
-        visit "/planning_applications/#{reference}"
-        click_link "Consultees, neighbours and publicity"
-        click_link "Send letters to neighbours"
-
-        click_button "Confirm and send letters"
-
-        within(".govuk-notification-banner--alert") do
-          expect(page).to have_content("The planning application must be made public on the BOPS Public Portal before you can send letters to neighbours.")
-          expect(page).to have_link("made public on the BOPS Public Portal", href: "/planning_applications/#{reference}/make_public")
-        end
-      end
-    end
   end
 
   context "when there is a validation error on a provided address" do

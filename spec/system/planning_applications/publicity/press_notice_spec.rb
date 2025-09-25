@@ -7,7 +7,7 @@ RSpec.describe "Press notice" do
   let!(:assessor) { create(:user, :assessor, local_authority:) }
 
   let!(:planning_application) do
-    create(:planning_application, :prior_approval, local_authority:, postcode: "")
+    create(:planning_application, :published, :prior_approval, local_authority:, postcode: "")
   end
 
   before do

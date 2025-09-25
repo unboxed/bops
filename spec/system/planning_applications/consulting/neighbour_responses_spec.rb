@@ -11,7 +11,7 @@ RSpec.describe "View neighbour responses", type: :system, js: true do
   let!(:application_type) { create(:application_type, :prior_approval) }
 
   let!(:planning_application) do
-    create(:planning_application, :from_planx_prior_approval,
+    create(:planning_application, :published, :from_planx_prior_approval,
       application_type:, local_authority: default_local_authority, api_user:)
   end
 

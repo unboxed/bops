@@ -7,7 +7,7 @@ RSpec.describe "Consultation" do
   let!(:assessor) { create(:user, :assessor, local_authority:) }
   let!(:application_type) { create(:application_type, :prior_approval) }
   let!(:planning_application) do
-    create(:planning_application, application_type:, local_authority:)
+    create(:planning_application, :published, application_type:, local_authority:)
   end
 
   before do

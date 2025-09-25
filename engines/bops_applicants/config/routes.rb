@@ -20,7 +20,10 @@ BopsApplicants::Engine.routes.draw do
       resource :site_notice, only: %i[show]
 
       resources :neighbour_responses, only: %i[new create] do
-        get :start, :thank_you, on: :collection
+        collection do
+          get :start
+          get :thank_you
+        end
       end
     end
 
