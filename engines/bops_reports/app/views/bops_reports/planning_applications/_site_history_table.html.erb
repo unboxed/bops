@@ -1,35 +1,33 @@
-<% if @planning_application.site_histories.any? %>
-  <% @planning_application.site_histories.each do |site_history| %>
-    <div class="govuk-summary-card">
-      <div class="govuk-summary-card__title-wrapper">
-        <div class="display-flex govuk-!-padding-bottom-2">
-          <h2 class="govuk-summary-card__title">
-            <%= site_history.application_number %>
-          </h2>
-          <%= govuk_tag(text: site_history.decision_label, colour: t(site_history.decision_type, scope: :planning_application_tags), html_attributes: {class: "govuk-!-padding-top-2"}) %>
-        </div>
-        <p class="govuk-!-font-size-16  govuk-secondary-text-colour">
-          Decided on <%= site_history.date %>
-        </p>
+<% @planning_application.site_histories.each do |site_history| %>
+  <div class="govuk-summary-card">
+    <div class="govuk-summary-card__title-wrapper">
+      <div class="display-flex govuk-!-padding-bottom-2">
+        <h2 class="govuk-summary-card__title">
+          <%= site_history.application_number %>
+        </h2>
+        <%= govuk_tag(text: site_history.decision_label, colour: t(site_history.decision_type, scope: :planning_application_tags), html_attributes: {class: "govuk-!-padding-top-2"}) %>
       </div>
-      <div class="govuk-summary-card__content">
-        <dl class="govuk-summary-list">
-          <div class="govuk-summary-list__row">
-            <dd class="govuk-summary-list__value">
-              <strong>Description: </strong><%= site_history.description %>
-              <div class="govuk-!-margin-top-2">
-                <% if site_history.comment %>
-                <strong>Officer comment:</strong> <%= site_history.comment %>
-                <% else %>
-                  <p class="govuk-!-font-size-16  govuk-secondary-text-colour">
-                    No comment added
-                  </p>
-                <% end %>
-              </div>
-            </dd>
-          </div>
-        </dl>
-      </div>
+      <p class="govuk-!-font-size-16  govuk-secondary-text-colour">
+        Decided on <%= site_history.date.to_fs(:day_month_year_slashes) %>
+      </p>
     </div>
-  <% end %>
+    <div class="govuk-summary-card__content">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dd class="govuk-summary-list__value">
+            <strong>Description: </strong><%= site_history.description %>
+            <div class="govuk-!-margin-top-2">
+              <% if site_history.comment %>
+              <strong>Officer comment:</strong> <%= site_history.comment %>
+              <% else %>
+                <p class="govuk-!-font-size-16  govuk-secondary-text-colour">
+                  No comment added
+                </p>
+              <% end %>
+            </div>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
 <% end %>

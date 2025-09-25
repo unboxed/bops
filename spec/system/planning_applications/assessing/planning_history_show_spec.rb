@@ -14,111 +14,57 @@ RSpec.describe "Planning History" do
     let!(:planning_application) do
       create(:planning_application, :in_assessment, uprn: "100081043511", local_authority: default_local_authority)
     end
+    let!(:site_history) { create(:site_history, planning_application:) }
+    let!(:refused_site_history) { create(:site_history, :refused, planning_application:) }
 
     before do
-      paapi_data("100081043511").each do |record|
-        create(
-          :site_history,
-          planning_application:,
-          reference: record["reference"],
-          date: record["decision_issued_at"],
-          description: record["description"],
-          decision: record["decision"],
-          comment: "A comment that is relevant to the proposal"
-        )
-      end
-
       visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
       click_link "Check site history"
     end
 
-    it "displays a table with relevants planning historical applications" do
-      within(".planning-history-table") do
-        within(".govuk-table__head") do
-          within(all(".govuk-table__row").first) do
-            expect(page).to have_content("Application number")
-            expect(page).to have_content("Decision")
-            expect(page).to have_content("Description")
-            expect(page).to have_content("Relevance to proposal")
-            expect(page).to have_content("Date")
-            expect(page).to have_content("Action")
-          end
+    it "displays relevant planning historical applications", :capybara do
+      within("##{site_history.reference}") do
+        within(".govuk-summary-card__title-wrapper") do
+          expect(page).to have_content(site_history.reference)
+          expect(page).to have_selector(".govuk-tag--green", text: "Granted")
+          expect(page).to have_content("Decided on #{site_history.date.to_fs(:day_month_year_slashes)}")
         end
 
-        within(".govuk-table__body") do
-          rows = page.all(".govuk-table__row")
+        within(".govuk-summary-card__content") do
+          expect(page).to have_content("Address: No address given")
+          expect(page).to have_content("Description: #{site_history.description}")
+        end
+      end
 
-          within(rows[0]) do
-            cells = page.all(".govuk-table__cell")
+      within("##{refused_site_history.reference}") do
+        within(".govuk-summary-card__title-wrapper") do
+          expect(page).to have_content(refused_site_history.application_number)
+          expect(page).to have_selector(".govuk-tag--red", text: "Refused")
+          expect(page).to have_content("Decided on #{refused_site_history.date.to_fs(:day_month_year_slashes)}")
+        end
 
-            within(cells[0]) do
-              expect(page).to have_content("22/06601/FUL")
-            end
-            within(cells[1]) do
-              expect(page).to have_content("Application Refused")
-            end
-            within(cells[2]) do
-              expect(page).to have_content("Householder application for construction of detached two storey double garage with external staircase")
-            end
-            within(cells[3]) do
-              expect(page).to have_content("A comment that is relevant to the proposal")
-            end
-            within(cells[4]) do
-              expect(page).to have_content("16/09/2022")
-            end
-            within(cells[5]) do
-              expect(page).to have_link("Edit")
-              expect(page).to have_link("Remove")
-            end
-          end
+        within(".govuk-summary-card__content") do
+          expect(page).to have_content("Address: No address given")
+          expect(page).to have_content("Description: #{refused_site_history.description}")
+        end
+      end
+    end
 
-          within(rows[1]) do
-            cells = page.all(".govuk-table__cell")
+    it "allows me to edit a site history", :capybara do
+      within("##{site_history.reference}") do
+        within(".govuk-summary-card__content") do
+          click_link "Edit"
+        end
+      end
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/assessment/site_histories/#{site_history.id}/edit")
 
-            within(cells[0]) do
-              expect(page).to have_content("PL/22/2428/SA")
-            end
-            within(cells[1]) do
-              expect(page).to have_content("Cert of law for proposed dev/use refused")
-            end
-            within(cells[2]) do
-              expect(page).to have_content("Certificate of lawfulness for proposed loft conversion including hip to gable roof extensions to both sides, rear dormer window, 3 front and 1 rear rooflights and 4 side windows")
-            end
-            within(cells[3]) do
-              expect(page).to have_content("A comment that is relevant to the proposal")
-            end
-            within(cells[4]) do
-              expect(page).to have_content("16/09/2022")
-            end
-            within(cells[5]) do
-              expect(page).to have_link("Edit")
-              expect(page).to have_link("Remove")
-            end
-          end
+      fill_in "Address", with: "12 New Street SE1 1AA"
+      click_button "Update site history"
+      expect(page).to have_content("Site history was successfully updated")
 
-          within(rows[2]) do
-            cells = page.all(".govuk-table__cell")
-
-            within(cells[0]) do
-              expect(page).to have_content("PL/22/2883/KA")
-            end
-            within(cells[1]) do
-              expect(page).to have_content("TPO shall not be made")
-            end
-            within(cells[2]) do
-              expect(page).to have_content("T1 English oak - crown reduction by approx 4.5m, T2 sycamore - crown reduction by approx 2.5m (Chesham Bois Conservation Area)")
-            end
-            within(cells[3]) do
-              expect(page).to have_content("A comment that is relevant to the proposal")
-            end
-            within(cells[4]) do
-              expect(page).to have_content("16/09/2022")
-            end
-            within(cells[5]) do
-              expect(page).to have_link("Edit")
-              expect(page).to have_link("Remove")
-            end
-          end
+      within("##{site_history.reference}") do
+        within(".govuk-summary-card__content") do
+          expect(page).to have_content("Address: 12 New Street SE1 1AA")
         end
       end
     end

@@ -319,7 +319,6 @@ RSpec.describe "Pre-application report" do
   it "displays site history" do
     within("#site-history") do
       expect(page).to have_content("Relevant site history")
-      expect(page).to have_content("No relevant site history at this site or nearby locations.")
 
       within(".govuk-summary-card") do
         expect(page).to have_content("REF123")
@@ -335,10 +334,8 @@ RSpec.describe "Pre-application report" do
 
     expect(page).to have_current_path("/planning_applications/#{reference}/assessment/site_histories?return_to=report")
 
-    within(".planning-history-table") do
-      within(row_with_content("REF123")) do
-        click_link "Edit"
-      end
+    within("#REF123") do
+      click_link "Edit"
     end
 
     fill_in "site-history-comment-field", with: "An amended entry for planning history"
