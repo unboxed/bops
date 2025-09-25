@@ -1461,6 +1461,12 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
 
+    it "includes the description" do
+      expect(mail_body).to include(
+        "Description: Add a chimney stack"
+      )
+    end
+
     it "includes the main text body" do
       expect(mail_body).to include(
         "This application requires a press notice with the following reasons:"

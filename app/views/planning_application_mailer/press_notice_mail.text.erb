@@ -2,6 +2,8 @@ Application reference number: <%= @planning_application.reference_in_full %>
 
 Address: <%= @planning_application.full_address %>
 
+Description: <%= @planning_application.description %>
+
 This application requires a press notice with the following reasons:
 
 <% @press_notice.reasons.each do |reason| %>
