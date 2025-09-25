@@ -776,23 +776,6 @@ en:
 
       {{local_authority}}
     subject: Comments requested for {{reference}}
-  consultee_overview_component:
-    chase_outstanding_consultees: Chase outstanding consultees
-    consulted: Date last consulted
-    expires: Date of expiry
-    header: Consultee overview
-    name: Consultee name
-    no_consultees: No reasons or constraints have been identified, so there are no consultees.
-    reconsult_existing_consultees: Reconsult existing consultees
-    status: Status
-  consultee_overview_row_component:
-    amendments_needed: Amendments needed
-    approved: Approved
-    awaiting_response: Awaiting response
-    failed: Failed
-    not_consulted: Not consulted
-    objected: Objected
-    sending: Sending
   consultee_response:
     summary_tags:
       amendments_needed: Amendments needed
@@ -1681,6 +1664,9 @@ en:
           success: Response was successfully uploaded.
         index:
           make_public: The planning application must be made public on the BOPS Public Portal before you can send emails to consultees.
+        last_contacted: Last contacted on %{date}
+        last_received: Last received on %{date}
+        no_responses: No responses received yet.
         update:
           success: Response was successfully published.
     consultees:

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Consultation", type: :system, js: true do
+RSpec.describe "View consultee responses", type: :system, js: true do
   let(:api_user) { create(:api_user, :planx) }
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
@@ -59,7 +59,7 @@ RSpec.describe "Consultation", type: :system, js: true do
   end
 
   context "when emails have been sent" do
-    before do
+    let!(:external_consultee) do
       create(
         :consultee, :external,
         consultation: consultation,
@@ -74,7 +74,9 @@ RSpec.describe "Consultation", type: :system, js: true do
         last_email_delivered_at: email_delivered_at,
         expires_at: expires_at
       )
+    end
 
+    let!(:internal_consultee) do
       create(
         :consultee, :internal,
         consultation: consultation,
@@ -118,31 +120,25 @@ RSpec.describe "Consultation", type: :system, js: true do
 
       click_link "View consultee responses"
       expect(page).to have_selector("h1", text: "View consultee responses")
-      expect(page).to have_selector("h2", text: "Consultee overview")
-      expect(page).to have_selector("h2", text: "External consultees (1)")
-      expect(page).to have_selector("h2", text: "Internal consultees (1)")
-
-      within "#consultee-overview" do
-        within "table tbody tr:first-child" do
-          expect(page).to have_selector("td:nth-child(1)", text: "Consultations Planning Department, GLA")
-          expect(page).to have_selector("td:nth-child(2)", text: start_date.to_fs(:day_month_year_slashes))
-          expect(page).to have_selector("td:nth-child(3)", text: end_date.to_fs(:day_month_year_slashes))
-          expect(page).to have_selector("td:nth-child(4)", text: "Awaiting response")
-        end
-
-        within "table tbody tr:last-child" do
-          expect(page).to have_selector("td:nth-child(1)", text: "Chris Wood Tree Officer, PlanX Council")
-          expect(page).to have_selector("td:nth-child(2)", text: start_date.to_fs(:day_month_year_slashes))
-          expect(page).to have_selector("td:nth-child(3)", text: end_date.to_fs(:day_month_year_slashes))
-          expect(page).to have_selector("td:nth-child(4)", text: "Awaiting response")
-        end
+      within ".govuk-tabs__list" do
+        expect(page).to have_selector(".govuk-tabs__tab", count: 1)
+        expect(page).to have_selector("a", text: "All (2)")
       end
 
-      within "#external-consultee-responses" do
-        within ".consultee-responses:first-of-type" do
-          expect(page).to have_selector("h3", text: "Consultations (Planning Department, GLA)")
-          expect(page).to have_selector("p time", text: "Last consulted on #{start_date.to_fs}")
-          expect(page).to have_selector("p span", text: "Awaiting response")
+      within "#consultee-tab-all" do
+        panel_names = all(".consultee-panel h4").map(&:text)
+        expect(panel_names).to eq(["Chris Wood", "Consultations"])
+
+        within all(".consultee-panel", minimum: 1).find { |panel| panel.has_selector?("h4", text: "Chris Wood") } do
+          expect(page).to have_selector(".consultee-panel__type .govuk-tag", text: "Internal")
+        end
+
+        within(".consultee-panel:nth-of-type(2)") do
+          expect(page).to have_selector(".consultee-panel__type", text: "External")
+          expect(page).to have_selector(".govuk-body-s", text: "Planning Department, GLA")
+          expect(page).to have_selector(".consultee-panel__status .govuk-tag", text: "Awaiting response")
+          expect(page).to have_text("Last contacted on #{start_date.to_fs(:day_month_year)}")
+          expect(page).to have_text("No responses received yet.")
 
           click_link "Upload new response"
         end
@@ -157,24 +153,25 @@ RSpec.describe "Consultation", type: :system, js: true do
       click_button "Save response"
       expect(page).to have_text("Response was successfully uploaded.")
 
-      within "#consultee-overview" do
-        within "table tbody tr:first-child" do
-          expect(page).to have_selector("td:nth-child(1)", text: "Consultations Planning Department, GLA")
-          expect(page).to have_selector("td:nth-child(2)", text: start_date.to_fs(:day_month_year_slashes))
-          expect(page).to have_selector("td:nth-child(3)", text: end_date.to_fs(:day_month_year_slashes))
-          expect(page).to have_selector("td:nth-child(4)", text: "Approved")
+      within ".govuk-tabs__list" do
+        expect(page).to have_selector("a", text: "No objection (1)")
+      end
+
+      within "#consultee-tab-all" do
+        within(".consultee-panel:nth-of-type(2)") do
+          expect(page).to have_selector(".consultee-panel__status .govuk-tag", text: "No objection")
+          expect(page).to have_text("Last received on #{today.to_fs(:day_month_year)}")
+          expect(page).to have_text("We are happy for this application to proceed")
+          expect(page).to have_link("View all responses (1)")
         end
       end
 
-      within "#external-consultee-responses" do
-        within ".consultee-responses:first-of-type" do
-          expect(page).to have_selector("h3", text: "Consultations (Planning Department, GLA)")
-          expect(page).to have_selector("p time", text: "Last received on #{today.to_fs}")
-          expect(page).to have_selector("p span", text: "Approved")
-          expect(page).to have_selector("p", text: "We are happy for this application to proceed")
+      within "#consultee-tab-approved" do
+        expect(page).to have_selector(".consultee-panel__status .govuk-tag", text: "No objection")
+      end
 
-          click_link "View all responses (1)"
-        end
+      within(".consultee-panel:nth-of-type(2)") do
+        click_link "View all responses (1)"
       end
 
       expect(page).to have_selector("h1", text: "View consultee response")
@@ -259,7 +256,7 @@ RSpec.describe "Consultation", type: :system, js: true do
   end
 
   context "when emails have not been sent" do
-    before do
+    let!(:external_consultee) do
       create(
         :consultee, :external,
         consultation: consultation,
@@ -274,7 +271,9 @@ RSpec.describe "Consultation", type: :system, js: true do
         last_email_delivered_at: nil,
         expires_at: nil
       )
+    end
 
+    let!(:internal_consultee) do
       create(
         :consultee, :internal,
         consultation: consultation,
@@ -318,31 +317,24 @@ RSpec.describe "Consultation", type: :system, js: true do
 
       click_link "View consultee responses"
       expect(page).to have_selector("h1", text: "View consultee responses")
-      expect(page).to have_selector("h2", text: "Consultee overview")
-      expect(page).to have_selector("h2", text: "External consultees (1)")
-      expect(page).to have_selector("h2", text: "Internal consultees (1)")
-
-      within "#consultee-overview" do
-        within "table tbody tr:first-child" do
-          expect(page).to have_selector("td:nth-child(1)", text: "Consultations Planning Department, GLA")
-          expect(page).to have_selector("td:nth-child(2)", text: "–")
-          expect(page).to have_selector("td:nth-child(3)", text: "–")
-          expect(page).to have_selector("td:nth-child(4)", text: "Not consulted")
-        end
-
-        within "table tbody tr:last-child" do
-          expect(page).to have_selector("td:nth-child(1)", text: "Chris Wood Tree Officer, PlanX Council")
-          expect(page).to have_selector("td:nth-child(2)", text: "–")
-          expect(page).to have_selector("td:nth-child(3)", text: "–")
-          expect(page).to have_selector("td:nth-child(4)", text: "Not consulted")
-        end
+      within ".govuk-tabs__list" do
+        expect(page).to have_selector(".govuk-tabs__tab", count: 1)
+        expect(page).to have_selector("a", text: "All (2)")
       end
 
-      within "#external-consultee-responses" do
-        within ".consultee-responses:first-of-type" do
-          expect(page).to have_selector("h3", text: "Consultations (Planning Department, GLA)")
-          expect(page).not_to have_selector("p time")
-          expect(page).to have_selector("p span", text: "Not consulted")
+      within "#consultee-tab-all" do
+        expect(page).to have_selector("h2", text: "All responses")
+        panel_names = all(".consultee-panel h4").map(&:text)
+        expect(panel_names).to eq(["Chris Wood", "Consultations"])
+
+        within all(".consultee-panel", minimum: 1).find { |panel| panel.has_selector?("h4", text: "Chris Wood") } do
+          expect(page).to have_selector(".consultee-panel__type .govuk-tag", text: "Internal")
+        end
+
+        within(".consultee-panel:nth-of-type(2)") do
+          expect(page).to have_selector(".consultee-panel__type .govuk-tag", text: "External")
+          expect(page).to have_selector(".consultee-panel__status .govuk-tag", text: "Not consulted")
+          expect(page).to have_text("No responses received yet.")
 
           click_link "Upload new response"
         end
@@ -358,24 +350,25 @@ RSpec.describe "Consultation", type: :system, js: true do
       click_button "Save response"
       expect(page).to have_text("Response was successfully uploaded.")
 
-      within "#consultee-overview" do
-        within "table tbody tr:first-child" do
-          expect(page).to have_selector("td:nth-child(1)", text: "Consultations Planning Department, GLA")
-          expect(page).to have_selector("td:nth-child(2)", text: "–")
-          expect(page).to have_selector("td:nth-child(3)", text: "–")
-          expect(page).to have_selector("td:nth-child(4)", text: "Approved")
+      within ".govuk-tabs__list" do
+        expect(page).to have_selector("a", text: "No objection (1)")
+      end
+
+      within "#consultee-tab-all" do
+        within(".consultee-panel:nth-of-type(2)") do
+          expect(page).to have_selector(".consultee-panel__status .govuk-tag", text: "No objection")
+          expect(page).to have_text("Last received on #{today.to_fs(:day_month_year)}")
+          expect(page).to have_text("We are happy for this application to proceed")
+          expect(page).to have_link("View all responses (1)")
         end
       end
 
-      within "#external-consultee-responses" do
-        within ".consultee-responses:first-of-type" do
-          expect(page).to have_selector("h3", text: "Consultations (Planning Department, GLA)")
-          expect(page).to have_selector("p time", text: "Last received on #{today.to_fs}")
-          expect(page).to have_selector("p span", text: "Approved")
-          expect(page).to have_selector("p", text: "We are happy for this application to proceed")
+      within "#consultee-tab-approved" do
+        expect(page).to have_selector(".consultee-panel__status .govuk-tag", text: "No objection")
+      end
 
-          click_link "View all responses (1)"
-        end
+      within(".consultee-panel:nth-of-type(2)") do
+        click_link "View all responses (1)"
       end
 
       expect(page).to have_selector("h1", text: "View consultee response")
