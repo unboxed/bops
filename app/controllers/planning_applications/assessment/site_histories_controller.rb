@@ -90,7 +90,7 @@ module PlanningApplications
       end
 
       def planning_history_params
-        params.require(:site_history).permit(:reference, :description, :decision, :other_decision, :date, :comment)
+        params.require(:site_history).permit(:reference, :description, :decision, :other_decision, :date, :comment, :address)
       end
 
       def redirect_path
