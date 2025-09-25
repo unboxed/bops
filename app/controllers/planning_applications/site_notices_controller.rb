@@ -5,6 +5,8 @@ module PlanningApplications
     include PublicityPermittable
 
     before_action :set_planning_application
+    before_action :redirect_to_application_page, unless: :public_or_preapp?
+
     before_action :ensure_publicity_is_permitted
     before_action :build_site_notice, only: %i[new create]
     before_action :set_site_notice, except: %i[new create]
@@ -127,6 +129,14 @@ module PlanningApplications
 
     def site_notice_not_required?
       site_notice_params[:required] == "No"
+    end
+
+    def redirect_to_application_page
+      redirect_to make_public_planning_application_path(@planning_application), alert: t(".make_public")
+    end
+
+    def public_or_preapp?
+      @planning_application.make_public? || @planning_application.pre_application?
     end
   end
 end

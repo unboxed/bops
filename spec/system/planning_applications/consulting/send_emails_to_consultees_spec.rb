@@ -470,54 +470,6 @@ RSpec.describe "Consultation", type: :system, js: true do
     end
   end
 
-  context "when the application has not been made public" do
-    let(:planning_application) do
-      create(
-        :planning_application,
-        :from_planx_prior_approval,
-        :with_boundary_geojson,
-        application_type:,
-        local_authority:,
-        api_user:,
-        agent_email: "agent@example.com",
-        applicant_email: "applicant@example.com"
-      )
-    end
-
-    it "doesn't send emails to consultees" do
-      sign_in assessor
-
-      visit "/planning_applications/#{planning_application.reference}"
-      expect(page).to have_selector("h1", text: "Application")
-
-      within "#consultation-section" do
-        expect(page).to have_selector("li:first-child a", text: "Consultees, neighbours and publicity")
-        expect(page).to have_selector("li:first-child .govuk-tag", text: "Not started")
-      end
-
-      click_link "Consultees, neighbours and publicity"
-      expect(page).to have_selector("h1", text: "Consultation")
-
-      within "#consultation-end-date" do
-        expect(page).to have_text("Consultation end Not yet started")
-      end
-
-      within "#consultee-tasks" do
-        expect(page).to have_selector("li:nth-child(2) a", text: "Send emails to consultees")
-        expect(page).to have_selector("li:nth-child(2) .govuk-tag", text: "Not started")
-      end
-
-      click_link "Send emails to consultees"
-      expect(page).to have_selector("h1", text: "Send emails to consultees")
-
-      accept_confirm(text: "Send emails to consultees?") do
-        click_button "Send emails to consultees"
-      end
-
-      expect(page).to have_selector("[role=alert] li", text: "Emails can’t be sent out when a planning application has not been made public")
-    end
-  end
-
   context "when the application has been invalidated" do
     let(:planning_application) do
       create(

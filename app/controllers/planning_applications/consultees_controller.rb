@@ -3,6 +3,8 @@
 module PlanningApplications
   class ConsulteesController < AuthenticationController
     before_action :set_planning_application
+    before_action :redirect_to_application_page, unless: :public_or_preapp?
+
     before_action :set_consultation
     before_action :set_consultees
 
@@ -60,6 +62,14 @@ module PlanningApplications
 
     def consultee_attributes
       %i[origin name email_address role organisation constraint]
+    end
+
+    def redirect_to_application_page
+      redirect_to make_public_planning_application_path(@planning_application), alert: t(".make_public")
+    end
+
+    def public_or_preapp?
+      @planning_application.make_public? || @planning_application.pre_application?
     end
   end
 end

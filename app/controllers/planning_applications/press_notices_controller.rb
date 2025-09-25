@@ -5,6 +5,8 @@ module PlanningApplications
     include PublicityPermittable
 
     before_action :set_planning_application
+    before_action :redirect_to_application_page, unless: :public_or_preapp?
+
     before_action :ensure_publicity_is_permitted
     before_action :build_press_notice, only: [:new, :create]
     before_action :set_press_notice, only: [:show, :update]
@@ -68,6 +70,14 @@ module PlanningApplications
 
     def enqueue_send_press_notice_email_job
       SendPressNoticeEmailJob.perform_later(@press_notice, current_user)
+    end
+
+    def redirect_to_application_page
+      redirect_to make_public_planning_application_path(@planning_application), alert: t(".make_public")
+    end
+
+    def public_or_preapp?
+      @planning_application.make_public? || @planning_application.pre_application?
     end
   end
 end

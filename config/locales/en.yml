@@ -1665,19 +1665,27 @@ en:
     confirm_validation:
       validate_application: Validate application
     consultations:
+      show:
+        make_public: The planning application must be made public on the BOPS Public Portal before you can send letters to neighbours.
       update:
         success: Consultation was successfully updated.
     consultee:
       emails:
         index:
+          make_public: The planning application must be made public on the BOPS Public Portal before you can send emails to consultees.
           please_search_for_a_consultee: Please search for a consultee first
           send_emails_to_consultees: Send emails to consultees?
           unable_to_add_consultee: 'Error: Unable to add the consultee to the list'
       responses:
         create:
           success: Response was successfully uploaded.
+        index:
+          make_public: The planning application must be made public on the BOPS Public Portal before you can send emails to consultees.
         update:
           success: Response was successfully published.
+    consultees:
+      index:
+        make_public: The planning application must be made public on the BOPS Public Portal before you can send emails to consultees.
     create:
       success: Planning application was successfully created.
     days_from:
@@ -1713,6 +1721,8 @@ en:
       create:
         failure: 'Error adding neighbour addresses with message: %{message}'
         success: Addresses have been successfully added.
+      index:
+        make_public: The planning application must be made public on the BOPS Public Portal before you can send letters to neighbours.
       send_letters:
         add_neighbours: Add some neighbours before sending letters
         make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BOPS Public Portal</a> before you can send letters to neighbours.
@@ -1725,6 +1735,8 @@ en:
     neighbours:
       create:
         success: Addresses have been successfully added.
+      index:
+        make_public: The planning application must be made public on the BOPS Public Portal before you can send letters to neighbours.
     notes:
       create:
         success: Note was successfully created.
@@ -1780,6 +1792,7 @@ en:
         published_on: Press notice published on %-d %B %Y
         requested_on: Press notice requested on %-d %B %Y
       show:
+        make_public: The planning application must be made public on the BOPS Public Portal before you can create press notices.
         published_on: Press notice published on %-d %B %Y
       update:
         success: Press notice response has been successfully updated
@@ -2061,6 +2074,8 @@ en:
       location_instructions:
         hint: Optional. Anything you add here may be shared with the recipient (including the applicant).
         label: Where should notices be displayed?
+      new:
+        make_public: The planning application must be made public on the BOPS Public Portal before you can create site notices.
       quantity:
         label: Number of site notices
       update:
