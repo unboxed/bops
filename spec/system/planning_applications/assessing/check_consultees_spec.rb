@@ -34,15 +34,23 @@ RSpec.describe "checking consultees", js: true do
     click_link("Check consultees consulted")
 
     within ".govuk-table" do
-      expect(page).to have_selector("tr:nth-child(1)", text: "Tree preservation zone")
-      expect(page).to have_selector("tr:nth-child(1)", text: "Assign consultee")
-      expect(page).to have_selector("tr:nth-child(1)", text: "Not assigned")
-      expect(page).to have_selector("tr:nth-child(2)", text: "Listed building outline")
-      expect(page).to have_selector("tr:nth-child(2)", text: "Harriet Historian")
-      expect(page).to have_selector("tr:nth-child(2)", text: "Not consulted")
-      expect(page).to have_selector("tr:nth-child(3)", text: "Conservation area")
-      expect(page).to have_selector("tr:nth-child(3)", text: "Chris Wood")
-      expect(page).to have_selector("tr:nth-child(3)", text: "Not consulted")
+      within "tr:nth-child(1)" do
+        expect(page).to have_content("Tree preservation zone")
+        expect(page).to have_link("Assign consultees")
+        expect(page).to have_selector(".govuk-tag", text: "Not assigned")
+      end
+
+      within "tr:nth-child(2)" do
+        expect(page).to have_content("Listed building outline")
+        expect(page).to have_selector("li", text: "Harriet Historian")
+        expect(page).to have_selector(".govuk-tag", text: "Not consulted")
+      end
+
+      within "tr:nth-child(3)" do
+        expect(page).to have_content("Conservation area")
+        expect(page).to have_selector("li", text: "Chris Wood")
+        expect(page).to have_selector(".govuk-tag", text: "Not consulted")
+      end
     end
   end
 

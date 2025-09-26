@@ -8,8 +8,10 @@ module PlanningApplications
 
       def create
         respond_to do |format|
-          if planning_application_constraint.update(consultee_id: consultee_id,
-            consultation_required: consultation_required)
+          if planning_application_constraint.update(
+            consultee_ids: consultee_ids,
+            consultation_required: consultation_required
+          )
             format.html do
               redirect_to planning_application_consultees_url(@planning_application)
             end
@@ -31,12 +33,12 @@ module PlanningApplications
         raise ActionController::BadRequest, "Invalid constraint id: #{permitted_params[:constraint].inspect}"
       end
 
-      def consultee_id
-        return if permitted_params[:consultee].blank?
-
-        Integer(permitted_params[:consultee])
-      rescue ArgumentError
-        raise ActionController::BadRequest, "Invalid consultee id: #{permitted_params[:consultee].inspect}"
+      def consultee_ids
+        Array(permitted_params[:consultee_ids]).compact_blank.map do |id|
+          Integer(id)
+        rescue ArgumentError
+          raise ActionController::BadRequest, "Invalid consultee id: #{id.inspect}"
+        end
       end
 
       def consultation_required
@@ -44,7 +46,8 @@ module PlanningApplications
       end
 
       def permitted_params
-        params.require(:planning_application_constraint).permit([:constraint, :consultee, consultation_required: []])
+        params.require(:planning_application_constraint)
+          .permit(:constraint, consultee_ids: [], consultation_required: [])
       end
     end
   end

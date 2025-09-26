@@ -18,3 +18,41 @@
     margin-bottom: 0;
   }
 }
+
+.consultee-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.consultee-list__item {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.consultee-list__item:last-child {
+  margin-bottom: 0;
+}
+
+.consultee-status-cell {
+  vertical-align: top;
+}
+
+.consultee-status-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.consultee-status-list__item {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.consultee-status-list__item:last-child {
+  margin-bottom: 0;
+}
+
+.consultee-status-list__constraint-status {
+  margin-top: 0.5rem;
+}

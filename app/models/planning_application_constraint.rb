@@ -14,7 +14,12 @@ class PlanningApplicationConstraint < ApplicationRecord
   belongs_to :planning_application
   belongs_to :planning_application_constraints_query, optional: true
   belongs_to :constraint
-  belongs_to :consultee, optional: true
+
+  has_many :planning_application_constraint_consultees, dependent: :destroy,
+    inverse_of: :planning_application_constraint
+  has_many :consultees, through: :planning_application_constraint_consultees
+
+  accepts_nested_attributes_for :planning_application_constraint_consultees, allow_destroy: true
 
   after_create :audit_constraint_added!
   after_update :audit_constraint_removed!, if: :identified_and_removed?
