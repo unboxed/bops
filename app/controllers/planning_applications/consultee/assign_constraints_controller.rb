@@ -8,10 +8,7 @@ module PlanningApplications
 
       def create
         respond_to do |format|
-          if planning_application_constraint.update(
-            consultee_ids: consultee_ids,
-            consultation_required: consultation_required
-          )
+          if planning_application_constraint.update(update_attributes)
             format.html do
               redirect_to planning_application_consultees_url(@planning_application)
             end
@@ -48,6 +45,17 @@ module PlanningApplications
       def permitted_params
         params.require(:planning_application_constraint)
           .permit(:constraint, consultee_ids: [], consultation_required: [])
+      end
+
+      def update_attributes
+        attributes = {consultation_required: consultation_required}
+        attributes[:consultee_ids] = consultee_ids if consultee_ids_param_present?
+        attributes
+      end
+
+      def consultee_ids_param_present?
+        raw_params = params[:planning_application_constraint]
+        raw_params&.key?(:consultee_ids) || raw_params&.key?("consultee_ids")
       end
     end
   end

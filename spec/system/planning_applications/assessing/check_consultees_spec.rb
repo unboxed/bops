@@ -34,23 +34,18 @@ RSpec.describe "checking consultees", js: true do
     click_link("Check consultees consulted")
 
     within ".govuk-table" do
-      within "tr:nth-child(1)" do
-        expect(page).to have_content("Tree preservation zone")
-        expect(page).to have_link("Assign consultees")
-        expect(page).to have_selector(".govuk-tag", text: "Not assigned")
-      end
+      row1 = find("tbody tr", text: "Tree preservation zone")
+      expect(row1).to have_link("Assign consultee")
+      expect(row1).to have_selector(".govuk-tag", text: "Not assigned")
 
-      within "tr:nth-child(2)" do
-        expect(page).to have_content("Listed building outline")
-        expect(page).to have_selector("li", text: "Harriet Historian")
-        expect(page).to have_selector(".govuk-tag", text: "Not consulted")
-      end
+      row2 = find("tbody tr", text: "Listed building outline")
+      expect(row2).to have_selector("li", text: "Harriet Historian")
+      expect(row2).to have_selector(".govuk-tag", text: "Not consulted")
 
-      within "tr:nth-child(3)" do
-        expect(page).to have_content("Conservation area")
-        expect(page).to have_selector("li", text: "Chris Wood")
-        expect(page).to have_selector(".govuk-tag", text: "Not consulted")
-      end
+      row3 = find("tbody tr", text: "Conservation area")
+      expect(row3).to have_selector("li", text: "Chris Wood")
+      expect(row3).to have_selector(".govuk-tag", text: "Not consulted")
+      expect(row3).to have_link("Remove")
     end
   end
 
@@ -72,11 +67,11 @@ RSpec.describe "checking consultees", js: true do
     click_link "Check consultees consulted"
 
     within ".govuk-table" do
-      expect(page).to have_selector("tr:nth-child(2)", text: "Listed building outline")
+      expect(page).to have_selector("tbody tr", text: "Listed building outline")
     end
 
     click_link "Add consultees"
 
-    expect(page).to have_content("Select and add consultees")
+    expect(page).to have_content("Add and assign consultees")
   end
 end
