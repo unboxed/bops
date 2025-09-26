@@ -101,7 +101,7 @@ module PlanningApplications
 
       def redirect_path
         if current_user.reviewer?
-          planning_application_review_tasks_path(@planning_application)
+          @back_path
         else
           planning_application_assessment_conditions_path(@planning_application)
         end

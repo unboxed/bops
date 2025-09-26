@@ -4,6 +4,7 @@
       scope: :condition do |form| %>
 
     <%= form.govuk_error_summary if @condition.present? %>
+    <%= form.hidden_field(:return_to, value: @back_path) %>
 
   <%= content_tag :div, class: "govuk-!-margin-bottom-5" do %>
     <%= form.hidden_field :id %>
