@@ -100,6 +100,38 @@
   }
 }
 
+.consultee-panel {
+  margin-bottom: govuk-spacing(4);
+
+  &__heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: govuk-spacing(3);
+    margin-bottom: govuk-spacing(2);
+  }
+
+  &__title {
+    flex: 1 1 auto;
+  }
+
+  &__type {
+    flex: 0 0 auto;
+  }
+
+  &__status {
+    margin-bottom: govuk-spacing(2);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: govuk-spacing(3);
+    margin-top: govuk-spacing(3);
+  }
+}
+
 @keyframes hilite-added-row {
   0% {
     background: govuk-tint($govuk-success-colour, 90%);
