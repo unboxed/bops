@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_24_153729) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_26_132504) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -822,6 +822,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_24_153729) do
     t.index ["reviewer_id"], name: "ix_permitted_development_rights_on_reviewer_id"
   end
 
+  create_table "planning_application_constraint_consultees", force: :cascade do |t|
+    t.bigint "planning_application_constraint_id", null: false
+    t.bigint "consultee_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["consultee_id"], name: "ix_pacc_on_consultee_id"
+    t.index ["planning_application_constraint_id", "consultee_id"], name: "ix_pacc_on_constraint_id_and_consultee_id", unique: true
+  end
+
   create_table "planning_application_constraints", force: :cascade do |t|
     t.bigint "planning_application_id"
     t.bigint "planning_application_constraints_query_id"
@@ -1351,6 +1360,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_24_153729) do
   add_foreign_key "permitted_development_rights", "planning_applications"
   add_foreign_key "permitted_development_rights", "users", column: "assessor_id"
   add_foreign_key "permitted_development_rights", "users", column: "reviewer_id"
+  add_foreign_key "planning_application_constraint_consultees", "consultees", on_delete: :cascade
+  add_foreign_key "planning_application_constraint_consultees", "planning_application_constraints", on_delete: :cascade
   add_foreign_key "planning_application_constraints", "constraints"
   add_foreign_key "planning_application_constraints", "consultees"
   add_foreign_key "planning_application_constraints", "planning_application_constraints_queries"
