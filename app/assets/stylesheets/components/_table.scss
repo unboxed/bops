@@ -19,34 +19,10 @@
   }
 }
 
-.consultee-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.consultee-list__item {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
-.consultee-list__item:last-child {
-  margin-bottom: 0;
-}
-
-.consultee-status-cell {
-  vertical-align: top;
-}
-
 .consultee-status-list {
   list-style: none;
   margin: 0;
   padding: 0;
-}
-
-.consultee-status-list__item {
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
 }
 
 .consultee-status-list__item:last-child {
@@ -55,4 +31,75 @@
 
 .consultee-status-list__constraint-status {
   margin-top: 0.5rem;
+}
+
+.consultee-table__constraint {
+  font-weight: 600;
+}
+
+.consultee-table__consultee-list,
+.consultee-table__action-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.consultee-status-list__item,
+.consultee-table__consultee-item,
+.consultee-table__action-item {
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.consultee-table__secondary-link {
+  margin-top: 0.5rem;
+}
+
+.consultee-table__status-cell,
+.consultee-table__action-cell {
+  vertical-align: top;
+}
+
+.consultee-table__action-form {
+  display: inline;
+  margin: 0;
+}
+
+.consultee-table__action-button {
+  background: transparent;
+  border: 0;
+  color: #1d70b8;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.consultee-table__action-button:hover,
+.consultee-table__action-button:focus {
+  text-decoration-thickness: 0.2rem;
+}
+
+.consultee-table__action-button:focus {
+  background-color: #ffdd00;
+  box-shadow:
+    0 -2px #ffdd00,
+    0 4px #0b0c0c;
+  color: #0b0c0c;
+  outline: 3px solid transparent;
+}
+
+.consultee-selection__list {
+  margin-top: 1rem;
+}
+
+.consultee-selection__form {
+  display: block;
+}
+
+.consultee-selection__form:not(:last-child) {
+  margin-bottom: 0.5rem;
+}
+
+.consultee-selection__form .govuk-checkboxes__item {
+  margin-bottom: 0;
 }

@@ -560,7 +560,7 @@ en:
             reason:
               blank: Provide a reason for changes
   add_consultee_component:
-    add_additional_consultees: Add additional consultees
+    add_additional_consultees: Manually add a consultee
     add_consultee: Add consultee
     search_for_consultees: Search for consultees
     start_typing: Start typing name, organisation or role
@@ -741,6 +741,9 @@ en:
     period: Period
     status: Status
     toggle_selection: Toggle selection
+  consultee_constraint_consultees:
+    destroy:
+      success: Consultee was removed from this constraint
   consultee_email_component:
     formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <code>{{name}}</code> will be substituted when the email is sent.
     header: Send email to selected consultees
@@ -2570,7 +2573,7 @@ en:
       permitted_development_right_component:
         review_permitted_development_rights: Review permitted development rights
     select_consultees_component:
-      select_consultees: Select and add consultees
+      select_consultees: Add and assign consultees
     select_neighbours_component:
       select_neighbours: Select and add neighbours
     send_letters_to_neighbours_component:

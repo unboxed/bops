@@ -62,7 +62,7 @@ class Consultee < ApplicationRecord
     end
   end
 
-  scope :unassigned, lambda {
+  scope :unassigned, -> {
     where.missing(:planning_application_constraint_consultees)
   }
 

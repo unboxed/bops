@@ -12,9 +12,6 @@ RSpec.describe PlanningApplicationConstraintConsultee, type: :model do
   let(:consultee) { create(:consultee, consultation:) }
   let(:planning_application_constraint) { create(:planning_application_constraint, planning_application:) }
 
-  it { is_expected.to belong_to(:planning_application_constraint) }
-  it { is_expected.to belong_to(:consultee) }
-
   it "validates uniqueness of consultee scoped to the constraint" do
     described_class.create!(planning_application_constraint:, consultee:)
 

@@ -44,18 +44,18 @@ RSpec.describe "Consultation", type: :system, js: true do
   end
 
   it "lists constraints on the selection page" do
-    click_link "Select and add consultees"
+    click_link "Add and assign consultees"
 
     within ".govuk-table" do
       expect(page).to have_selector("tr:nth-child(1)", text: "Conservation area")
-      expect(page).to have_selector("tr:nth-child(1)", text: "Assign consultees")
+      expect(page).to have_selector("tr:nth-child(1)", text: "Assign consultee")
       expect(page).to have_selector("tr:nth-child(2)", text: "Listed building outline")
-      expect(page).to have_selector("tr:nth-child(2)", text: "Assign consultees")
+      expect(page).to have_selector("tr:nth-child(2)", text: "Assign consultee")
     end
   end
 
   it "allows adding a consultee" do
-    click_link "Select and add consultees"
+    click_link "Add and assign consultees"
     fill_in "Search for consultees", with: "Tree Officer"
     expect(page).to have_selector("#add-consultee__listbox li:first-child", text: "Chris Wood (Tree Officer, PlanX Council)")
 
@@ -68,14 +68,14 @@ RSpec.describe "Consultation", type: :system, js: true do
   end
 
   it "allows associating a consultee with a constraint" do
-    click_link "Select and add consultees"
+    click_link "Add and assign consultees"
 
     fill_in "Search for consultees", with: "Tree Officer"
     pick "Chris Wood (Tree Officer, PlanX Council)", from: "#add-consultee"
     click_button "Add consultee"
 
     within "tbody tr:first-child" do
-      click_link "Assign consultees"
+      click_link "Assign consultee"
     end
     check "Chris Wood"
     click_button "Assign consultees"
@@ -85,8 +85,39 @@ RSpec.describe "Consultation", type: :system, js: true do
     expect(row).to have_selector(".govuk-tag", text: "Not consulted")
   end
 
+  it "keeps existing consultees when toggling consultation required from the overview" do
+    click_link "Add and assign consultees"
+
+    fill_in "Search for consultees", with: "Tree Officer"
+    pick "Chris Wood (Tree Officer, PlanX Council)", from: "#add-consultee"
+    click_button "Add consultee"
+
+    within "tbody tr:first-child" do
+      click_link "Assign consultee"
+    end
+    check "Chris Wood"
+    click_button "Assign consultees"
+
+    expect(page).to have_selector("tbody tr", text: "Chris Wood")
+
+    within ".consultee-selection" do
+      uncheck "Conservation area", allow_label_click: true
+    end
+
+    row = find("tbody tr", text: "Conservation area")
+    expect(row).to have_text("Chris Wood")
+    expect(row).to have_selector(".govuk-tag", text: "Not required")
+
+    within ".consultee-selection" do
+      check "Conservation area", allow_label_click: true
+    end
+
+    row = find("tbody tr", text: "Conservation area")
+    expect(row).to have_text("Chris Wood")
+  end
+
   it "allows assigning multiple consultees and removing one" do
-    click_link "Select and add consultees"
+    click_link "Add and assign consultees"
 
     fill_in "Search for consultees", with: "Tree Officer"
     pick "Chris Wood (Tree Officer, PlanX Council)", from: "#add-consultee"
@@ -97,34 +128,35 @@ RSpec.describe "Consultation", type: :system, js: true do
     click_button "Add consultee"
 
     within "tbody tr:first-child" do
-      click_link "Assign consultees"
+      click_link "Assign consultee"
     end
 
     check "Chris Wood"
     check "Consultations"
     click_button "Assign consultees"
 
-    expect(page).to have_selector("tbody tr", text: "Chris Wood")
-    expect(page).to have_selector("tbody tr", text: "Consultations")
+    row = find("tbody tr", text: "Conservation area")
+    expect(row).to have_content("Chris Wood")
+    expect(row).to have_content("Consultations")
 
-    click_link "Manage consultees"
+    constraint_consultee = planning_application.consultation.consultees.find_by(name: "Chris Wood").planning_application_constraint_consultees.first
+    within("#remove-consultee-#{constraint_consultee.id}") do
+      click_link "Remove"
+    end
 
-    uncheck "Consultations"
-    click_button "Assign consultees"
-
-    expect(page).to have_selector("tbody tr", text: "Chris Wood")
-    expect(page).not_to have_selector("tbody tr", text: "Consultations")
+    expect(row).not_to have_content("Chris Wood")
+    expect(row).to have_content("Consultations")
   end
 
   it "allows marking a constraint as requiring consultation" do
-    click_link "Select and add consultees"
+    click_link "Add and assign consultees"
 
     fill_in "Search for consultees", with: "Tree Officer"
     pick "Chris Wood (Tree Officer, PlanX Council)", from: "#add-consultee"
     click_button "Add consultee"
 
     within "tbody tr:first-child" do
-      click_link "Assign consultees"
+      click_link "Assign consultee"
     end
 
     check "Consultation required?"
@@ -134,36 +166,37 @@ RSpec.describe "Consultation", type: :system, js: true do
   end
 
   it "allows marking a constraint as not requiring consultation" do
-    click_link "Select and add consultees"
+    click_link "Add and assign consultees"
 
     fill_in "Search for consultees", with: "Tree Officer"
     pick "Chris Wood (Tree Officer, PlanX Council)", from: "#add-consultee"
     click_button "Add consultee"
 
     within "tbody tr:first-child" do
-      click_link "Assign consultees"
+      click_link "Assign consultee"
     end
 
     uncheck "Consultation required?"
     click_button "Assign consultees"
 
-    within "tbody tr", text: "Assign consultees" do
-      expect(page).to have_link("Assign consultees")
+    within(row_with_content("Conservation area")) do
+      expect(page).to have_link("Assign consultee")
       expect(page).to have_selector(".govuk-tag", text: "Not assigned")
       expect(page).to have_selector(".govuk-tag", text: "Not required")
     end
   end
 
   it "allows marking a constraint as not requiring consultation even with a consultee associated" do
-    click_link "Select and add consultees"
+    click_link "Add and assign consultees"
 
     fill_in "Search for consultees", with: "Tree Officer"
     pick "Chris Wood (Tree Officer, PlanX Council)", from: "#add-consultee"
     click_button "Add consultee"
 
     within "tbody tr:first-child" do
-      click_link "Assign consultees"
+      click_link "Assign consultee"
     end
+    sleep 1
     check "Chris Wood"
     uncheck "Consultation required?"
     click_button "Assign consultees"
@@ -184,7 +217,7 @@ RSpec.describe "Consultation", type: :system, js: true do
 
       within "#consultee-tasks" do
         within "li:nth-child(1)" do
-          expect(page).to have_selector("a", text: "Select and add consultees")
+          expect(page).to have_selector("a", text: "Add and assign consultees")
           expect(page).to have_selector("strong", text: "Not started")
         end
 
@@ -199,7 +232,7 @@ RSpec.describe "Consultation", type: :system, js: true do
         end
       end
 
-      click_link "Select and add consultees"
+      click_link "Add and assign consultees"
       expect(page).to have_content("No reasons or constraints have been identified, so there are no suggested consultees.")
 
       click_button "Mark consultees as not required"
@@ -207,7 +240,7 @@ RSpec.describe "Consultation", type: :system, js: true do
 
       within "#consultee-tasks" do
         within "li:nth-child(1)" do
-          expect(page).to have_selector("a", text: "Select and add consultees")
+          expect(page).to have_selector("a", text: "Add and assign consultees")
           expect(page).to have_selector("strong", text: "Complete")
         end
 
