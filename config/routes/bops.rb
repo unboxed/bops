@@ -199,6 +199,7 @@ local_authority_subdomain do
         resources :emails, only: %i[index create]
         resources :responses, only: %i[index]
         resource :assign_constraint, only: %i[create]
+        resources :constraint_consultees, only: %i[destroy]
       end
 
       resource :consultation, only: %i[show edit update] do
