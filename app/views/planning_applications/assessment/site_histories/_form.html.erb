@@ -4,6 +4,7 @@
       <%= form.govuk_error_summary %>
 
       <%= form.govuk_text_field :reference, width: "one-half" %>
+      <%= form.govuk_text_field :address %>
       <%= form.govuk_text_area :description, rows: 3 %>
 
       <%= form.govuk_radio_buttons_fieldset(:decision, legend: {text: "What was the decision?", size: "s"}) do %>

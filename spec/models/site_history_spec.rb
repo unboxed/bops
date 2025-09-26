@@ -20,8 +20,12 @@ RSpec.describe SiteHistory do
       expect(build(:site_history, decision: nil)).to be_invalid
     end
 
-    it "doesn't validate the presence of a date" do
-      expect(build(:site_history, date: nil)).to be_valid
+    it "validates the presence of a date" do
+      expect(build(:site_history, date: nil)).to be_invalid
+    end
+
+    it "does not validate the presence of an address" do
+      expect(build(:site_history, address: nil)).to be_valid
     end
 
     it "allows dates in the past" do

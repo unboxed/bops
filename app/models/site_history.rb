@@ -7,7 +7,7 @@ class SiteHistory < ApplicationRecord
 
   alias_attribute :reference, :application_number
 
-  validates :reference, :description, :decision, presence: true
+  validates :reference, :description, :decision, :comment, :date, presence: true
   validates :date, date: {on_or_before: :current}
 
   def decision_label
