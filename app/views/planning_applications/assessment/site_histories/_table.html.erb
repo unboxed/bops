@@ -1,46 +1,52 @@
 <% if site_histories.blank? %>
-  <p class="govuk-!-padding-6 govuk-!-margin-bottom-6 background-light-grey">
-    <strong>There is no site history for this property.</strong>
-  </p>
+  <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
+    <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-3"><strong>There is no site history for this property.</strong></p>
+    <p> Add new site history that's relevant to the proposal</p>
+  </div>
 <% else %>
-  <%= govuk_table(classes: "planning-history-table") do |table| %>
-    <% table.with_head do |head| %>
-      <% head.with_row do |row| %>
-        <% row.with_cell(text: "Application number") %>
-        <% row.with_cell(text: "Decision") %>
-        <% row.with_cell(text: "Description") %>
-        <% row.with_cell(text: "Relevance to proposal") %>
-        <% row.with_cell(text: "Date") %>
+  <% site_histories.each do |site_history| %>
+    <div class="govuk-summary-card" id="<%= site_history.reference %>">
+      <div class="govuk-summary-card__title-wrapper">
+        <div class="flex-between">
+            <h2 class="govuk-summary-card__title govuk-!-display-inline-block">
+              <%= site_history.reference %>
+            </h2>
+
+            <%= govuk_tag(
+                  text: site_history.decision_label,
+                  colour: t(site_history.decision_type, scope: :planning_application_tags),
+                  classes: "govuk-!-margin-top-1 govuk-!-margin-bottom-2 govuk-!-display-inline-block"
+                ) %>
+        </div>
+
+          <p class="govuk-body-s govuk-!-padding-top-2">
+            Decided on <%= site_history.date.to_fs(:day_month_year_slashes) %>
+          </p>
+      </div>
+      <div class="govuk-summary-card__content">
+        <p class="govuk-body govuk-!-margin-bottom-2">
+          <strong>Address: </strong>
+          <%= site_history.address.presence || "No address given" %>
+        </p>
+        <p class="govuk-body govuk-!-margin-bottom-2">
+          <strong>Description: </strong>
+          <%= site_history.description %>
+        </p>
+        <p class="govuk-body govuk-!-margin-bottom-2">
+          <strong>Relevance of application: </strong>
+          <%= site_history.comment.presence || "No comment provided" %>
+        </p>
         <% if show_action %>
-          <% row.with_cell(text: "Action") %>
+          <%= govuk_link_to "Edit",
+                edit_planning_application_assessment_site_history_path(@planning_application, site_history),
+                class: "govuk-!-display-inline-block" %>
+          <p class="govuk-!-display-inline-block">|</p>
+          <%= govuk_link_to "Remove",
+                planning_application_assessment_site_history_path(@planning_application, site_history),
+                method: :delete, class: "govuk-!-display-inline-block govuk-!-margin-bottom-1",
+                data: {confirm: "This action cannot be undone.\nAre you sure you want to remove this site history?"} %>
         <% end %>
-      <% end %>
-    <% end %>
-
-    <% table.with_body do |body| %>
-      <% site_histories.each do |site_history| %>
-        <% body.with_row do |row| %>
-          <% row.with_cell(text: site_history.reference) %>
-          <% row.with_cell do %>
-            <%= govuk_tag(text: site_history.decision_label, colour: t(site_history.decision_type, scope: :planning_application_tags)) %>
-          <% end %>
-          <% row.with_cell(text: site_history.description) %>
-          <% row.with_cell(text: site_history.comment) %>
-          <% row.with_cell(text: site_history.date? ? site_history.date.to_fs(:day_month_year_slashes) : "–") %>
-          <% if show_action %>
-            <% row.with_cell do %>
-                <%= govuk_link_to "Edit",
-                      edit_planning_application_assessment_site_history_path(@planning_application, site_history),
-                      class: "govuk-!-display-inline-block" %>
-
-                <%= govuk_link_to "Remove",
-                      planning_application_assessment_site_history_path(@planning_application, site_history),
-                      method: :delete, class: "govuk-!-display-inline-block govuk-!-margin-left-1",
-                      data: {confirm: "This action cannot be undone.\nAre you sure you want to remove this site history?"} %>
-            <% end %>
-          <% end %>
-        <% end %>
-      <% end %>
-    <% end %>
+      </div>
+    </div>
   <% end %>
 <% end %>

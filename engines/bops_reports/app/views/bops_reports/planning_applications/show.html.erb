@@ -280,10 +280,13 @@
           ) %>
     <% end %>
   </div>
-  <p>
-    No relevant site history at this site or nearby locations.
-  </p>
-  <%= render "bops_reports/planning_applications/site_history_table" %>
+  <% if @planning_application.site_histories.any? %>
+    <%= render "bops_reports/planning_applications/site_history_table" %>
+  <% else %>
+    <p>
+      No relevant site history at this site or nearby locations.
+    </p>
+  <% end %>
 </section>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
