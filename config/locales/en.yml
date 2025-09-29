@@ -779,12 +779,12 @@ en:
   consultee_response:
     summary_tags:
       amendments_needed: Amendments needed
-      approved: Approved
-      objected: Objected
+      approved: No objection
+      objected: Objection
   consultee_response_component:
     amendments_needed: Amendments needed
-    approved: Approved
-    objected: Objected
+    approved: No objection
+    objected: Objection
     private: Private
     published: Published
     received_on: Received on %-d %B %Y
@@ -798,13 +798,13 @@ en:
     heading: Responses
   consultee_responses_component:
     amendments_needed: Amendments needed
-    approved: Approved
+    approved: No objection
     awaiting_response: Awaiting response
     failed: Failed
     last_email_delivered_at: Last consulted on %-d %B %Y
     last_received_at: Last received on %-d %B %Y
     not_consulted: Not consulted
-    objected: Objected
+    objected: Objection
     sending: Sending
     upload_new_response: Upload new response
     view_all_responses: View all responses (%{count})
@@ -818,7 +818,7 @@ en:
     sending: Sending
   consultee_summary_component:
     amendments_needed: Amendments needed
-    approved: Approved
+    approved: No objection
     awaiting_response: Awaiting response
     consulted_on: Consulted on
     email_address: Email address
@@ -826,7 +826,7 @@ en:
     heading: Consultee
     last_received_on: Last received on
     name: Name
-    objected: Objected
+    objected: Objection
     organisation: Organisation
     role: Role
     sending: Sending
