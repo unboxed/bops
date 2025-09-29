@@ -12,11 +12,11 @@ class Consultee
 
     attr_readonly :response
 
-    enum :summary_tag, {
-      approved: "approved",
-      amendments_needed: "amendments_needed",
-      objected: "objected"
-    }, scopes: false
+    enum :summary_tag, %i[
+      approved
+      amendments_needed
+      objected
+    ].index_with(&:to_s), scopes: false
 
     validates :name, :response, :summary_tag, :received_at, presence: true
 
