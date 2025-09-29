@@ -2,6 +2,7 @@
 
 class ConsistencyChecklist < ApplicationRecord
   include Memoizable
+
   belongs_to :planning_application
 
   CHECKS = %i[

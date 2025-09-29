@@ -8,6 +8,7 @@ RSpec.describe UrlValidator do
   let :model do
     Class.new do
       include ActiveModel::Model
+
       attr_accessor :link
 
       validates :link, url: true

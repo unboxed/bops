@@ -2,6 +2,7 @@
 
 module EmailConfirmable
   extend ActiveSupport::Concern
+
   def send_confirmation_instructions
     token = set_reset_password_token
     send_reset_password_instructions_notification(token)
