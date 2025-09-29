@@ -26,7 +26,7 @@ module DocumentHelper
   end
 
   def document_name_and_reference(document)
-    "#{document.name}#{document.numbers? ? " - #{document.numbers}" : ""}"
+    "#{document.name}#{" - #{document.numbers}" if document.numbers?}"
   end
 
   def document_thumbnail_link(document, thumbnail_args: {}, image_args: {})

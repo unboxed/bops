@@ -28,7 +28,7 @@ module Api
       def send_failed_response(error)
         Appsignal.report_error(error)
 
-        render json: {message: error.message.to_s || "Unable to create response"},
+        render json: {message: error.message.to_s},
           status: :bad_request
       end
 

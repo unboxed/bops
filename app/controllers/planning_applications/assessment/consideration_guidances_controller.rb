@@ -4,6 +4,7 @@ module PlanningApplications
   module Assessment
     class ConsiderationGuidancesController < BaseController
       include ReturnToReport
+
       before_action :set_consideration_set
       before_action :set_considerations
       before_action :set_review

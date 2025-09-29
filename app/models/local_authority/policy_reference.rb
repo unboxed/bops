@@ -44,7 +44,7 @@ class LocalAuthority < ApplicationRecord
 
       def search_param(query)
         query.to_s
-          .scan(/-?[\w][-\w]*/)
+          .scan(/-?\w[-\w]*/)
           .map { |word| word.gsub(/^-/, "!") }
           .map { |word| word.gsub(/-$/, "") }
           .map { |word| word.gsub(/.+/, "\\0:*") }

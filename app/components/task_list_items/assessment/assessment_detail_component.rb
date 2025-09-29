@@ -4,6 +4,7 @@ module TaskListItems
   module Assessment
     class AssessmentDetailComponent < TaskListItems::BaseComponent
       include AssessmentDetailable
+
       OPTIONAL = ["site_description", "summary_of_work"].freeze
 
       def initialize(planning_application:, category:)

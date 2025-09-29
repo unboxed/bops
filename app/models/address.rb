@@ -7,7 +7,6 @@ class Address < Struct.new(
   :county,
   :postcode
 )
-
   def to_s
     [
       line_1,

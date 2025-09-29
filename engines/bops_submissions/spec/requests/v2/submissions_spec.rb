@@ -71,7 +71,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
 
           run_test! do |response|
             body = JSON.parse(response.body)
-            expect(body["uuid"]).to match(/[0-9a-f\-]{36}/)
+            expect(body["uuid"]).to match(/[0-9a-f-]{36}/)
           end
         end
 
@@ -80,7 +80,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
             let(:event) { valid_planx_submission_event }
             run_test! do |response|
               body = JSON.parse(response.body)
-              expect(body["uuid"]).to match(/[0-9a-f\-]{36}/)
+              expect(body["uuid"]).to match(/[0-9a-f-]{36}/)
             end
           end
 
@@ -88,7 +88,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
             let(:event) { valid_enforcement_submission_event }
             run_test! do |response|
               body = JSON.parse(response.body)
-              expect(body["uuid"]).to match(/[0-9a-f\-]{36}/)
+              expect(body["uuid"]).to match(/[0-9a-f-]{36}/)
             end
           end
 
@@ -96,7 +96,7 @@ RSpec.describe "BOPS Submissions API", type: :request do
             let(:event) { valid_enforcement_with_documents_submission_event }
             run_test! do |response|
               body = JSON.parse(response.body)
-              expect(body["uuid"]).to match(/[0-9a-f\-]{36}/)
+              expect(body["uuid"]).to match(/[0-9a-f-]{36}/)
             end
           end
         end
