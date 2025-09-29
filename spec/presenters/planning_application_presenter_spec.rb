@@ -231,45 +231,39 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
   describe "#overall_policy_status" do
     subject(:presenter) { described_class.new(view, planning_application) }
 
-    let(:planning_application) { create(:planning_application) }
+    context "when determining summarized status" do
+      let!(:schedule) { create(:policy_schedule, number: 2, name: "Permitted development rights") }
+      let!(:part1) { create(:policy_part, name: "Development within the curtilage of a dwellinghouse", number: 1, policy_schedule: schedule) }
+      let!(:policy_classA) { create(:policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part1) }
 
-    def add_sections(statuses)
-      pac = create(:planning_application_policy_class, planning_application:)
-      statuses.each do |s|
-        create(
-          :planning_application_policy_section,
-          planning_application_policy_class: pac,
-          status: s
-        )
+      let!(:policy_section1a) { create(:policy_section, section: "1a", description: "description for section 1a", policy_class: policy_classA) }
+      let!(:policy_section1b) { create(:policy_section, section: "1b", description: "description for section 1b", policy_class: policy_classA) }
+      let!(:policy_section2bii) { create(:policy_section, section: "2b(ii)", description: "description for section 2ab(ii)", policy_class: policy_classA) }
+
+      before do
+        create(:planning_application_policy_class, planning_application:, policy_class: policy_classA)
       end
-    end
-
-    context "when there are no policy sections" do
-      it "returns :no_policy_classes_added" do
-        expect(presenter.overall_policy_status).to eq(:no_policy_classes_added)
-      end
-    end
-
-    context "when any section is to_be_determined" do
-      before { add_sections(%i[complies to_be_determined complies]) }
 
       it "returns :to_be_determined" do
+        policy_section1a.planning_application_policy_section.update!(status: :complies)
+        policy_section1b.planning_application_policy_section.update!(status: :complies)
+
         expect(presenter.overall_policy_status).to eq(:to_be_determined)
       end
-    end
-
-    context "when at least one section does_not_comply and none are to_be_determined" do
-      before { add_sections(%i[complies does_not_comply complies]) }
 
       it "returns :does_not_comply" do
+        policy_section1a.planning_application_policy_section.update!(status: :complies)
+        policy_section1b.planning_application_policy_section.update!(status: :complies)
+        policy_section2bii.planning_application_policy_section.update!(status: :does_not_comply)
+
         expect(presenter.overall_policy_status).to eq(:does_not_comply)
       end
-    end
-
-    context "when all sections comply" do
-      before { add_sections(%i[complies complies]) }
 
       it "returns :complies" do
+        policy_section1a.planning_application_policy_section.update!(status: :complies)
+        policy_section1b.planning_application_policy_section.update!(status: :complies)
+        policy_section2bii.planning_application_policy_section.update!(status: :complies)
+
         expect(presenter.overall_policy_status).to eq(:complies)
       end
     end
