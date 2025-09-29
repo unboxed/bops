@@ -1,0 +1,23 @@
+<% content_for :page_title do %>
+  <%= t("planning_applications.consultation_requirements.page_title") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", planning_application_consultation_path(@planning_application) %>
+<% content_for :title, t("planning_applications.consultation_requirements.heading") %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: t("planning_applications.consultation_requirements.heading")}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <% if @planning_application.consultation_required? && @consultation&.consultees&.exists? %>
+      <%= govuk_warning_text(text: t("planning_applications.consultation_requirements.warning")) %>
+    <% end %>
+
+    <%= render "form" %>
+  </div>
+</div>

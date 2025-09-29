@@ -130,6 +130,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   validates :section_55_development, inclusion: [true, false], on: :require_section_55_development
+  validates :consultation_required, inclusion: [true, false], on: :require_consultation
 
   delegate :lodged?, :validated?, :started?, :determined?, :display_status, to: :appeal, allow_nil: true, prefix: true
 
