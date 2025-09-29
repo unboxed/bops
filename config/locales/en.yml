@@ -1021,7 +1021,7 @@ en:
         reviewer_comment: Add a comment
       planning_application:
         closed_or_cancellation_comment: Provide a reason
-        public_comment: This information will appear on the decision notice.
+        public_comment: This information will appear on the decision notice and the officer report.
       recommendation:
         reviewer_comment: Explain to the officer why the case is being returned
       red_line_boundary_change_validation_request:

@@ -227,4 +227,51 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       end
     end
   end
+
+  describe "#overall_policy_status" do
+    subject(:presenter) { described_class.new(view, planning_application) }
+
+    let(:planning_application) { create(:planning_application) }
+
+    def add_sections(statuses)
+      pac = create(:planning_application_policy_class, planning_application:)
+      statuses.each do |s|
+        create(
+          :planning_application_policy_section,
+          planning_application_policy_class: pac,
+          status: s
+        )
+      end
+    end
+
+    context "when there are no policy sections" do
+      it "returns :no_policy_classes_added" do
+        expect(presenter.overall_policy_status).to eq(:no_policy_classes_added)
+      end
+    end
+
+    context "when any section is to_be_determined" do
+      before { add_sections(%i[complies to_be_determined complies]) }
+
+      it "returns :to_be_determined" do
+        expect(presenter.overall_policy_status).to eq(:to_be_determined)
+      end
+    end
+
+    context "when at least one section does_not_comply and none are to_be_determined" do
+      before { add_sections(%i[complies does_not_comply complies]) }
+
+      it "returns :does_not_comply" do
+        expect(presenter.overall_policy_status).to eq(:does_not_comply)
+      end
+    end
+
+    context "when all sections comply" do
+      before { add_sections(%i[complies complies]) }
+
+      it "returns :complies" do
+        expect(presenter.overall_policy_status).to eq(:complies)
+      end
+    end
+  end
 end
