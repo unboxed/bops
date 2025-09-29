@@ -12,11 +12,42 @@
       locals: {heading: "View consultee responses"}
     ) %>
 
+<% presenters = consultee_presenters(@consultees.sorted, @planning_application) %>
+<% tabs = consultee_tabs(presenters) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= render ConsulteeOverviewComponent.new(consultation: @consultation, consultees: @consultees.sorted) %>
-    <%= render ConsulteeResponseGroupComponent.new(consultees: @consultees.external, group: "external") %>
-    <%= render ConsulteeResponseGroupComponent.new(consultees: @consultees.internal, group: "internal") %>
+    <div class="govuk-tabs" data-module="govuk-tabs">
+      <h2 class="govuk-tabs__title">Responses</h2>
+
+      <ul class="govuk-tabs__list">
+        <% tabs.each_with_index do |tab, index| %>
+          <li class="govuk-tabs__list-item <%= "govuk-tabs__list-item--selected" if index.zero? %>">
+            <a class="govuk-tabs__tab" href="#consultee-tab-<%= tab.key %>">
+              <%= tab.title %>
+            </a>
+          </li>
+        <% end %>
+      </ul>
+
+      <% tabs.each_with_index do |tab, index| %>
+        <div class="govuk-tabs__panel <%= "govuk-tabs__panel--hidden" unless index.zero? %>" id="consultee-tab-<%= tab.key %>">
+          <% consultee_list = tab.consultees.sort_by { |presenter| presenter.name.to_s.downcase } %>
+          <h2 class="govuk-heading-m"><%= tab.heading %></h2>
+          <% if consultee_list.empty? %>
+            <p class="govuk-body">No consultees to show.</p>
+          <% else %>
+            <% consultee_list.each_with_index do |consultee_presenter, presenter_index| %>
+              <%= render partial: "planning_applications/consultees/consultee_panel",
+                    locals: {
+                      consultee: consultee_presenter,
+                      show_divider: presenter_index < consultee_list.size - 1
+                    } %>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
 
     <div class="govuk-button-group">
       <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true %>
