@@ -53,6 +53,17 @@
   }
 }
 
+.app-task-list__name-and-hint {
+  display: table-cell;
+  vertical-align: top;
+  @include govuk-text-colour;
+}
+
+.app-task-list__hint {
+  margin-top: govuk-spacing(1);
+  color: $govuk-secondary-text-colour;
+}
+
 .app-task-list__task-tag {
   margin-top: govuk-spacing(2);
   margin-bottom: govuk-spacing(1);
