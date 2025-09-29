@@ -164,8 +164,6 @@
           </dl>
         </div>
       <% end %>
-      <h3 class="govuk-heading-m">Conclusion based on considerations</h3>
-      <%= render(FormattedContentComponent.new(text: planning_application.consideration_set.suggested_outcome)) %>
     <% else %>
       <p class="govuk-!-padding-6 govuk-!-margin-bottom-6 background-light-grey">
         <strong><%= t(".no_considerations_assessed") %></strong>

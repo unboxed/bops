@@ -2450,6 +2450,7 @@ en:
     needs_changes: Needs Changes
     neutral: Neutral
     new: New
+    no_policy_classes_added: No policy classes added
     no_response: No response
     none: None
     not_assigned: Not assigned
