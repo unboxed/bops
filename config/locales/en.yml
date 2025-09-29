@@ -1238,6 +1238,7 @@ en:
             reasons_for_press_notice: Reasons for press notice
             site_notice: Site notice
             site_notice_incomplete: Site notice task incomplete.
+            site_notice_not_required: Site notice marked as not required for this application.
             title: Site notice and press notice
             uploaded_by: Uploaded by
             view_in_new_window: View in new window

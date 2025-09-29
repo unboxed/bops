@@ -57,4 +57,34 @@ module ApplicationHelper
       planning_application_assessment_consistency_checklist_path
     end
   end
+
+  def feature_enabled?(name, default: true)
+    env_key = "FEATURE_#{name.to_s.upcase}"
+    value = ENV[env_key]
+
+    return default if value.nil?
+
+    ActiveModel::Type::Boolean.new.cast(value)
+  end
+
+  def assessment_sidebar_enabled?
+    feature_enabled?(:assessment_sidebar)
+  end
+
+  def render_assessment_sidebar?
+    sidebar_flag = !instance_variable_defined?(:@render_assessment_sidebar) || @render_assessment_sidebar
+
+    sidebar_flag &&
+      assessment_sidebar_enabled? &&
+      respond_to?(:controller_path) &&
+      controller_path.start_with?("planning_applications/assessment/") &&
+      defined?(@planning_application) &&
+      @planning_application.present?
+  end
+
+  def assessment_sidebar_sections
+    return [] unless defined?(@planning_application) && @planning_application
+
+    AssessmentSidebarPresenter.new(self, @planning_application).sections
+  end
 end

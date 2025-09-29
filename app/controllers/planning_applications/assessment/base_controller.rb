@@ -7,6 +7,7 @@ module PlanningApplications
 
       before_action :set_planning_application
       before_action :ensure_planning_application_is_validated
+      before_action :enable_assessment_sidebar
 
       def index
         redirect_to planning_application_assessment_tasks_url(@planning_application)
@@ -23,6 +24,10 @@ module PlanningApplications
 
       def ensure_can_assess_planning_application
         render plain: "forbidden", status: :forbidden and return unless @planning_application.can_assess?
+      end
+
+      def enable_assessment_sidebar
+        @render_assessment_sidebar = true
       end
     end
   end

@@ -1,0 +1,29 @@
+<% section_id_prefix = local_assigns[:section_id_prefix] %>
+
+<%= render(
+      partial: "planning_applications/assessment/tasks/check_consistency",
+      locals: {
+        consistency_checklist: @planning_application.consistency_checklist,
+        id_prefix: section_id_prefix
+      }
+    ) %>
+
+<% if @planning_application.pre_application? %>
+  <%= render "planning_applications/assessment/tasks/additional_services", id_prefix: section_id_prefix %>
+<% end %>
+
+<%= render "planning_applications/assessment/tasks/assessment_information", id_prefix: section_id_prefix %>
+
+<% if @planning_application.possibly_immune? %>
+  <%= render "planning_applications/assessment/tasks/assess_immunity", id_prefix: section_id_prefix %>
+<% end %>
+
+<% if @planning_application.considerations? && !@planning_application.pre_application? %>
+  <%= render "planning_applications/assessment/tasks/assess_against_policies_and_guidance", id_prefix: section_id_prefix %>
+<% end %>
+
+<% if @planning_application.assess_against_policies? && !@planning_application.pre_application? %>
+  <%= render "planning_applications/assessment/tasks/assess_against_legislation", id_prefix: section_id_prefix %>
+<% end %>
+
+<%= render "planning_applications/assessment/tasks/complete_assessment", id_prefix: section_id_prefix %>

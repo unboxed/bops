@@ -1,0 +1,104 @@
+<% panel_id = dom_id(@planning_application, :assessment_tasks_panel)
+   summary_id = "#{panel_id}-summary"
+   min_width = 240
+   max_width = 520
+   default_width = 320
+   storage_key = "assessmentSidebarWidth"
+   sections = assessment_sidebar_sections %>
+
+<aside
+  class="app-assessment-sidebar"
+  aria-label="Assessment tasks"
+  data-controller="assessment-sidebar"
+  data-assessment-sidebar-default-width-value="<%= default_width %>"
+  data-assessment-sidebar-min-width-value="<%= min_width %>"
+  data-assessment-sidebar-max-width-value="<%= max_width %>"
+  data-assessment-sidebar-storage-key-value="<%= storage_key %>">
+  <div class="app-assessment-sidebar__panel" id="<%= panel_id %>" data-assessment-sidebar-target="panel">
+    <div class="app-assessment-sidebar__summary" data-assessment-sidebar-target="summary">
+      <button
+        type="button"
+        class="app-assessment-sidebar__summary-toggle"
+        data-assessment-sidebar-target="summaryToggle"
+        data-action="assessment-sidebar#toggleSummary"
+        aria-expanded="true"
+        aria-controls="<%= summary_id %>">
+        <span class="app-assessment-sidebar__summary-title">Application details</span>
+        <svg class="app-assessment-sidebar__summary-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 15.5 5 8.5l1.4-1.4L12 12.7l5.6-5.6L19 8.5z" fill="currentColor" />
+        </svg>
+      </button>
+      <div class="app-assessment-sidebar__summary-body" id="<%= summary_id %>" data-assessment-sidebar-target="summaryBody">
+        <dl class="app-assessment-sidebar__meta">
+          <div class="app-assessment-sidebar__meta-row">
+            <dt>Reference</dt>
+            <dd><%= @planning_application.reference %></dd>
+          </div>
+          <% if @planning_application.address.present? %>
+            <div class="app-assessment-sidebar__meta-row">
+              <dt>Address</dt>
+              <dd><%= @planning_application.address %></dd>
+            </div>
+          <% end %>
+          <% if @planning_application.description.present? %>
+            <div class="app-assessment-sidebar__meta-row">
+              <dt>Description</dt>
+              <dd><%= @planning_application.description %></dd>
+            </div>
+          <% end %>
+          <div class="app-assessment-sidebar__meta-row">
+            <dt>Status</dt>
+            <dd><%= @planning_application.status.to_s.humanize %></dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+
+    <h2 class="app-assessment-sidebar__title govuk-heading-s">Assessment tasks</h2>
+
+    <nav class="app-assessment-sidebar__nav" aria-label="Navigate between assessment tasks">
+      <% sections.each do |section| %>
+        <section class="app-assessment-sidebar__section" id="sidebar-<%= section.id %>">
+          <h3 class="app-assessment-sidebar__section-title govuk-heading-s"><%= section.title %></h3>
+          <ul class="app-assessment-sidebar__tasks" role="list">
+            <% section.items.each do |item| %>
+              <% next if item.nil? %>
+              <% clickable = item.path.present? && item.available != false %>
+              <% active = clickable && current_page?(item.path) %>
+              <li class="app-assessment-sidebar__task <%= "app-assessment-sidebar__task--active" if active %>">
+                <% if clickable %>
+                  <%= link_to item.label,
+                        item.path,
+                        class: "app-assessment-sidebar__task-link",
+                        aria: {current: (active ? "page" : nil)}.compact %>
+                <% else %>
+                  <span class="app-assessment-sidebar__task-link app-assessment-sidebar__task-link--disabled" aria-disabled="true">
+                    <%= item.label %>
+                  </span>
+                <% end %>
+                <% if item.hint.present? %>
+                  <span class="app-assessment-sidebar__task-hint"><%= item.hint %></span>
+                <% end %>
+              </li>
+            <% end %>
+          </ul>
+        </section>
+      <% end %>
+    </nav>
+  </div>
+
+  <div
+    class="app-assessment-sidebar__resize"
+    role="separator"
+    tabindex="0"
+    aria-orientation="vertical"
+    aria-label="Resize assessment task panel"
+    aria-controls="<%= panel_id %>"
+    aria-valuemin="<%= min_width %>"
+    aria-valuemax="<%= max_width %>"
+    aria-valuenow="<%= default_width %>"
+    data-assessment-sidebar-target="handle"
+    data-action="pointerdown->assessment-sidebar#startResize keydown->assessment-sidebar#handleKeydown">
+    <span class="app-assessment-sidebar__resize-grip" aria-hidden="true"></span>
+  </div>
+</aside>

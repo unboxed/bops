@@ -26,7 +26,10 @@
       <%= render "application/header" %>
     <% end %>
 
-    <div class="govuk-width-container app-width-container--wide">
+    <% container_classes = ["govuk-width-container", "app-width-container--wide"] %>
+    <% container_classes << "app-width-container--full" if render_assessment_sidebar? %>
+
+    <div class="<%= container_classes.join(" ") %>">
       <div class="govuk-phase-banner">
         <p class="govuk-phase-banner__content">
           <strong class="govuk-tag govuk-phase-banner__content__tag">
@@ -48,29 +51,59 @@
 
       <%= render_navigation unless @blank_layout == true %>
 
-      <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class" id="main-content" role="main">
-        <%= render "application/flash_content" %>
+      <% if render_assessment_sidebar? %>
+        <div class="app-main-container app-main-container--with-sidebar">
+          <%= render "planning_applications/assessment/shared/task_sidebar" %>
 
-        <% if current_user %>
-          <% if @planning_application.try(:pre_application?) %>
-            <% if @planning_application.determined? %>
-              <%= render "shared/notification_banner",
-                    banner_class: "govuk-notification-banner",
-                    title: "Important",
-                    heading: "This report has been sent to the applicant." %>
+          <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class" id="main-content" role="main">
+            <%= render "application/flash_content" %>
+
+            <% if current_user %>
+              <% if @planning_application.try(:pre_application?) %>
+                <% if @planning_application.determined? %>
+                  <%= render "shared/notification_banner",
+                        banner_class: "govuk-notification-banner",
+                        title: "Important",
+                        heading: "This report has been sent to the applicant." %>
+                <% end %>
+              <% else %>
+                <% if @planning_application.try(:closed_or_cancelled?) %>
+                  <%= render "shared/notification_banner",
+                        banner_class: "govuk-notification-banner",
+                        title: "Important",
+                        heading: "This application has been #{@planning_application.status}." %>
+                <% end %>
+              <% end %>
             <% end %>
-          <% else %>
-            <% if @planning_application.try(:closed_or_cancelled?) %>
-              <%= render "shared/notification_banner",
-                    banner_class: "govuk-notification-banner",
-                    title: "Important",
-                    heading: "This application has been #{@planning_application.status}." %>
+
+            <%= yield %>
+          </main>
+        </div>
+      <% else %>
+        <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class" id="main-content" role="main">
+          <%= render "application/flash_content" %>
+
+          <% if current_user %>
+            <% if @planning_application.try(:pre_application?) %>
+              <% if @planning_application.determined? %>
+                <%= render "shared/notification_banner",
+                      banner_class: "govuk-notification-banner",
+                      title: "Important",
+                      heading: "This report has been sent to the applicant." %>
+              <% end %>
+            <% else %>
+              <% if @planning_application.try(:closed_or_cancelled?) %>
+                <%= render "shared/notification_banner",
+                      banner_class: "govuk-notification-banner",
+                      title: "Important",
+                      heading: "This application has been #{@planning_application.status}." %>
+              <% end %>
             <% end %>
           <% end %>
-        <% end %>
 
-        <%= yield %>
-      </main>
+          <%= yield %>
+        </main>
+      <% end %>
     </div>
     <%= render "application/footer" %>
     <%= javascript_include_tag "govuk", nonce: true %>

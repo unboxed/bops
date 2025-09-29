@@ -1,4 +1,7 @@
-<li id="assessment-information-tasks">
+<% base_id = "assessment-information-tasks" %>
+<% list_id = local_assigns[:id_prefix].present? ? "#{local_assigns[:id_prefix]}-#{base_id}" : base_id %>
+
+<li id="<%= list_id %>">
   <h2 class="app-task-list__section">
     Assessment summaries
   </h2>

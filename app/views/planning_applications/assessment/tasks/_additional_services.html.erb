@@ -1,4 +1,7 @@
-<li id="additional-services-tasks">
+<% base_id = "additional-services-tasks" %>
+<% list_id = local_assigns[:id_prefix].present? ? "#{local_assigns[:id_prefix]}-#{base_id}" : base_id %>
+
+<li id="<%= list_id %>">
   <h2 class="app-task-list__section">Additional services</h2>
   <ul class="app-task-list__items">
     <% if @planning_application.site_visits? %>

@@ -1,4 +1,7 @@
-<li id="check-consistency-assessment-tasks">
+<% base_id = "check-consistency-assessment-tasks" %>
+<% list_id = local_assigns[:id_prefix].present? ? "#{local_assigns[:id_prefix]}-#{base_id}" : base_id %>
+
+<li id="<%= list_id %>">
   <h2 class="app-task-list__section">
     <%= t(".check_application") %>
   </h2>

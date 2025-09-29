@@ -1,4 +1,7 @@
-<li id="assess-immunity-tasks">
+<% base_id = "assess-immunity-tasks" %>
+<% list_id = local_assigns[:id_prefix].present? ? "#{local_assigns[:id_prefix]}-#{base_id}" : base_id %>
+
+<li id="<%= list_id %>">
   <h2 class="app-task-list__section">Assess immunity</h2>
   <ul class="app-task-list__items">
     <%= render(

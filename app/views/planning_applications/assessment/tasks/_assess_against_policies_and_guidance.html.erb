@@ -1,4 +1,7 @@
-<li id="assess-against-policies-tasks">
+<% base_id = "assess-against-policies-tasks" %>
+<% list_id = local_assigns[:id_prefix].present? ? "#{local_assigns[:id_prefix]}-#{base_id}" : base_id %>
+
+<li id="<%= list_id %>">
   <h2 class="app-task-list__section">
     Assess against policies and guidance
   </h2>
