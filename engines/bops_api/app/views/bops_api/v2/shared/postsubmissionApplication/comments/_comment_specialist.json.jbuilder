@@ -1,37 +1,51 @@
 # frozen_string_literal: true
 
-# DprComment
+json.array! @specialists do |specialist|
+  json.id specialist.id.to_s
+  json.organisationSpecialism specialist.organisation if specialist.organisation.present?
+  json.jobTitle specialist.role if specialist.role.present?
+  json.reason specialist.reason
 
-json.id comment.id
-json.sentiment comment.summary_tag.camelize(:lower)
-json.comment comment.redacted_response
-json.receivedAt format_postsubmission_datetime(comment.received_at)
+  # Constraints Information
+  if specialist.active_constraints.any?
+    json.constraints specialist.active_constraints do |planning_app_constraint|
+      # Skip if the constraint itself is missing
+      next unless planning_app_constraint.constraint
+      constraint = planning_app_constraint.constraint
 
-# SpecialistComment
+      json.child! do
+        json.value constraint.type
+        json.category constraint.category
+        json.description constraint.type_code
+        json.intersects planning_app_constraint.identified?
 
-# json.id comment.id
-# json.sentiment comment.summary_tag
-# json.comment comment.redacted_response
-# json.constraints "PlanningConstraint[]"
-# json.reason "string"
-# json.comment "string"
-# json.author "SpecialistCommentAuthor"
-# json.consultedAt "DateTime"
-# json.respondedAt "DateTime"
-# json.files "PostSubmissionFile[]"
-# json.responses "SpecialistComment[]"
+        # Include entities if present. Only including name for now but will expand to show source
+        if planning_app_constraint.data&.any?
+          json.entities planning_app_constraint.data do |item|
+            json.name item["name"]
+          end
+        end
+      end
+    end
+  end
 
-# json.author do
-#   json.name do
-#     json.singleLine comment.name
-#   end
-# #   json.organisation "string;"
-# #   json.specialism "string;"
-# #   json.jobTitle "string;"
-# end
+  json.firstConsultedAt format_postsubmission_datetime(specialist.email_sent_at) if specialist.email_sent_at
+  # Comments
+  json.comments specialist.comments do |resp|
+    json.id resp.id.to_s
+    json.sentiment resp.summary_tag.camelize(:lower)
+    json.commentRedacted resp.redacted_response
 
-# json.metadata do
-#   json.submittedAt format_postsubmission_datetime(comment.created_at)
-#   # json.publishedAt format_postsubmission_datetime(comment.received_at)
-#   json.validAt format_postsubmission_datetime(comment.updated_at)
-# end
+    if resp.documents.any?
+      json.files resp.documents do |document|
+        json.partial! "bops_api/v2/shared/document", document: document
+      end
+    end
+
+    json.metadata do
+      json.submittedAt format_postsubmission_datetime(resp.created_at)
+      # json.validatedAt format_postsubmission_datetime(resp.redacted_at)
+      json.publishedAt format_postsubmission_datetime(resp.updated_at)
+    end
+  end
+end

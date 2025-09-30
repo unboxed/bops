@@ -15,7 +15,6 @@ module BopsApi
           end
 
           consultation_consultees = @consultation.consultees.includes(:responses)
-          redacted_responses = @consultation.consultee_responses.redacted
 
           latest_redacted_responses = consultation_consultees
             .map { |consultee| consultee.responses.redacted.max_by(&:id) }
@@ -31,6 +30,7 @@ module BopsApi
             objected: summary_counts["objected"] || 0,
             amendments_needed: summary_counts["amendments_needed"] || 0
           }
+          redacted_responses = @consultation.consultee_responses.redacted.includes(consultee: {planning_application_constraints: :constraint})
 
           @total_available_items = redacted_responses.count
           @total_consulted ||= consultation_consultees.consulted.count
@@ -39,6 +39,11 @@ module BopsApi
             redacted_responses,
             pagination_params
           ).call
+
+          grouped_comments = @comments.group_by(&:consultee)
+          @specialists = grouped_comments.map do |consultee, responses|
+            BopsApi::V2::Public::Postsubmission::SpecialistCommentPresenter.new(consultee, responses)
+          end
 
           respond_to do |format|
             format.json
