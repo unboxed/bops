@@ -255,17 +255,17 @@ RSpec.describe "Reviewing sign-off", type: :system do
 
       expect(page).to have_content("Edit the information appearing on the decision notice")
       expect(page).to have_content("The planning officer recommends that the application is granted")
-      expect(page).to have_content("This information will appear on the decision notice.")
+      expect(page).to have_content("This information will appear on the decision notice and the officer report.")
 
       # Attempt to save without any text input
-      fill_in "This information will appear on the decision notice.", with: ""
+      fill_in "This information will appear on the decision notice and the officer report.", with: ""
       click_button "Save"
 
       within(".govuk-form-group--error") do
         expect(page).to have_content("Please state the reasons for your recommendation")
       end
 
-      fill_in "This information will appear on the decision notice.", with: "This text will appear on the decision notice."
+      fill_in "This information will appear on the decision notice and the officer report.", with: "This text will appear on the decision notice."
       click_button "Save"
       expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/tasks")
       expect(page).to have_content("The information appearing on the decision notice was successfully updated.")

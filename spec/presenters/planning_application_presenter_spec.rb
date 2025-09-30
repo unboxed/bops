@@ -227,4 +227,45 @@ RSpec.describe PlanningApplicationPresenter, type: :presenter do
       end
     end
   end
+
+  describe "#overall_policy_status" do
+    subject(:presenter) { described_class.new(view, planning_application) }
+
+    context "when determining summarized status" do
+      let!(:schedule) { create(:policy_schedule, number: 2, name: "Permitted development rights") }
+      let!(:part1) { create(:policy_part, name: "Development within the curtilage of a dwellinghouse", number: 1, policy_schedule: schedule) }
+      let!(:policy_classA) { create(:policy_class, section: "A", name: "enlargement, improvement or other alteration of a dwellinghouse", policy_part: part1) }
+
+      let!(:policy_section1a) { create(:policy_section, section: "1a", description: "description for section 1a", policy_class: policy_classA) }
+      let!(:policy_section1b) { create(:policy_section, section: "1b", description: "description for section 1b", policy_class: policy_classA) }
+      let!(:policy_section2bii) { create(:policy_section, section: "2b(ii)", description: "description for section 2ab(ii)", policy_class: policy_classA) }
+
+      before do
+        create(:planning_application_policy_class, planning_application:, policy_class: policy_classA)
+      end
+
+      it "returns :to_be_determined" do
+        policy_section1a.planning_application_policy_section.update!(status: :complies)
+        policy_section1b.planning_application_policy_section.update!(status: :complies)
+
+        expect(presenter.overall_policy_status).to eq(:to_be_determined)
+      end
+
+      it "returns :does_not_comply" do
+        policy_section1a.planning_application_policy_section.update!(status: :complies)
+        policy_section1b.planning_application_policy_section.update!(status: :complies)
+        policy_section2bii.planning_application_policy_section.update!(status: :does_not_comply)
+
+        expect(presenter.overall_policy_status).to eq(:does_not_comply)
+      end
+
+      it "returns :complies" do
+        policy_section1a.planning_application_policy_section.update!(status: :complies)
+        policy_section1b.planning_application_policy_section.update!(status: :complies)
+        policy_section2bii.planning_application_policy_section.update!(status: :complies)
+
+        expect(presenter.overall_policy_status).to eq(:complies)
+      end
+    end
+  end
 end

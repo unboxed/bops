@@ -24,7 +24,8 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
       local_authority:,
       decision: :granted,
       api_user:,
-      user: assessor
+      user: assessor,
+      public_comment: "We are in agreement"
     )
   end
 
@@ -225,6 +226,7 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
     within("#policy-classes-section") do
       expect(page).to have_selector("h3", text: "Assessment against legislation")
       expect(page).to have_link(policy_class.description, href: policy_class.url)
+      expect(page).to have_content("Conclusion: assessment against policies")
 
       within ".bops-assessment-list" do
         within ".bops-assessment-list__row:nth-of-type(4)" do
@@ -287,6 +289,11 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
           end
         end
       end
+
+      within("#policy-classes-summary") do
+        expect(page).to have_selector("h3", text: "Conclusion: assessment against policies")
+        expect(page).to have_content("To be determined")
+      end
     end
 
     expect(page).to have_content("Conservation area")
@@ -297,7 +304,7 @@ RSpec.describe "viewing assessment report", type: :system, capybara: true do
     expect(page).to have_content("Alice Smith (external)")
     expect(page).to have_content("This is the consultation summary.")
     expect(page).to have_content(document.name)
-
+    expect(page).to have_content("We are in agreement")
     expect(page).not_to have_content("This is the additional evidence.")
 
     expect(page).to have_link(

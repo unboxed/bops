@@ -34,4 +34,19 @@ class PlanningApplicationPresenter
       "Not specified"
     end
   end
+
+  def overall_policy_status
+    sections = @planning_application.planning_application_policy_sections.reorder(nil)
+    statuses = sections.pluck(:status).uniq
+
+    if statuses.empty?
+      :no_policy_classes_added
+    elsif statuses.include?("to_be_determined")
+      :to_be_determined
+    elsif statuses.include?("does_not_comply")
+      :does_not_comply
+    else
+      :complies
+    end
+  end
 end

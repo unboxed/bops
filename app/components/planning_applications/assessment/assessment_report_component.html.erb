@@ -10,7 +10,7 @@
           "Site address" => planning_application.full_address,
           "Use/development" => planning_application.description,
           "Assigned officer" => planning_application.user&.name || "Unassigned",
-          "Recommendation agreed by" => planning_application.recommendation.reviewer&.name || "TBD"
+          "Recommendation agreed by" => planning_application.recommendation&.reviewer&.name || "TBD"
         }.each do |pair|
           summary_list.with_row do |row|
             row.with_key { pair[0] }
@@ -39,7 +39,6 @@
           }
         ) %>
   <% end %>
-
   <% if show_edit_links && current_user.assessor? %>
     <p class="govuk-body-s">
       <%= govuk_link_to("Edit constraints", planning_application_validation_constraints_path(@planning_application)) %>
@@ -170,7 +169,6 @@
         <strong><%= t(".no_considerations_assessed") %></strong>
       </p>
     <% end %>
-
     <% if show_edit_links && current_user.assessor? %>
       <p class="govuk-body-s">
         <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_considerations_path(@planning_application)) %>
@@ -225,7 +223,16 @@
         </p>
       <% end %>
     <% end %>
+    <div id="policy-classes-summary">
+      <h3 class="govuk-heading-m">Conclusion: assessment against policies</h3>
+      <%= render(StatusTags::BaseComponent.new(status: @planning_application.overall_policy_status)) %>
+    </div>
   </section>
+<% end %>
+
+<% if @planning_application.determined? || @planning_application.awaiting_determination? %>
+  <h3 class="govuk-heading-m"><%= t("recommendation.body", decision: planning_application.decision) %></h3>
+  <%= render(FormattedContentComponent.new(text: planning_application.public_comment)) %>
 <% end %>
 
 <%= render "planning_applications/assessment/recommendations/documents", planning_application: planning_application, documents: documents %>
