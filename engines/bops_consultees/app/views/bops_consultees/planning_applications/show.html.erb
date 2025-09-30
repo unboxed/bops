@@ -87,7 +87,7 @@
     <p class="govuk-body-s govuk-!-margin-bottom-2"><strong>Planning Officer</strong></p>
     <% if @planning_application.user %>
       <p class="govuk-body-s govuk-!-margin-bottom-2"> <%= @planning_application.user.name %></p>
-      <%= mail_to @planning_application.user.email, @planning_application.user.email, class: "govuk-link govuk-link--no-visited-state govuk-!-margin-top-1" %>
+      <%= mail_to @planning_application.user.email, @planning_application.user.email, class: govuk_link_classes(no_visited_state: true) << " govuk-!-margin-top-1" %>
     <% else %>
       <p class="govuk-body-s govuk-!-margin-bottom-2"> No planning officer assigned</p>
     <% end %>
