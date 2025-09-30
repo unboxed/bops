@@ -6,6 +6,7 @@ module BopsApi
       module Postsubmission
         class SpecialistCommentPresenter
           extend Forwardable
+
           def_delegators :@consultee, :id, :organisation, :role, :email_sent_at, :planning_application_constraints
 
           def initialize(consultee, responses)
