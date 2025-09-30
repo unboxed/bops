@@ -26,7 +26,7 @@ module PlanningApplications
       def create
         @condition = @condition_set.conditions.new
         if @condition.update(condition_params)
-          redirect_to redirect_path, notice: I18n.t("conditions.update.success")
+          redirect_to planning_application_assessment_conditions_path(@planning_application), notice: I18n.t("conditions.update.success")
         else
           render :index
         end
@@ -37,7 +37,7 @@ module PlanningApplications
           format.html do
             @condition = @condition_set.conditions.find(condition_id)
             if @condition.update(condition_params)
-              redirect_to redirect_path, notice: I18n.t("conditions.update.success")
+              redirect_to planning_application_assessment_conditions_path(@planning_application), notice: I18n.t("conditions.update.success")
             else
               render :edit
             end
@@ -51,9 +51,9 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @condition.destroy
-              redirect_to redirect_path, notice: I18n.t("conditions.destroy.success")
+              redirect_to planning_application_assessment_conditions_path(@planning_application), notice: I18n.t("conditions.destroy.success")
             else
-              redirect_to redirect_path, notice: I18n.t("conditions.destroy.failure")
+              redirect_to planning_application_assessment_conditions_path(@planning_application), notice: I18n.t("conditions.destroy.failure")
             end
           end
         end
@@ -96,14 +96,6 @@ module PlanningApplications
           end
         else
           "in_progress"
-        end
-      end
-
-      def redirect_path
-        if current_user.reviewer?
-          @back_path
-        else
-          planning_application_assessment_conditions_path(@planning_application)
         end
       end
     end
