@@ -1,15 +1,15 @@
 <% content_for :page_title do %>
-  Select and add consultees - <%= t("page_title") %>
+  Assign consultees - <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% add_parent_breadcrumb_link "Consultation", planning_application_consultation_path(@planning_application) %>
-<% content_for :title, "Add consultee for constraint" %>
+<% content_for :title, "Assign consultees" %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: {heading: "Add consultee for constraint"}
+      locals: {heading: "Assign consultees"}
     ) %>
 
 <div class="govuk-grid-row">
@@ -23,14 +23,17 @@
           class: "govuk-!-margin-top-7" do |form| %>
       <%= form.govuk_error_summary %>
 
-      <%= form.label "Select consultee for #{@constraint.type_code}", class: "govuk-label" %>
       <%= form.hidden_field :constraint, value: @constraint.id %>
-      <%= form.govuk_select :consultee, options_for_select([nil, nil] + @consultation.consultees.map { |c| [c.name, c.id] }) %>
+      <%= form.govuk_collection_check_boxes :consultee_ids,
+            @consultation.consultees,
+            :id,
+            :name,
+            legend: {text: "Select consultees for #{@constraint.type_code}", size: "s"} %>
 
-      <%= form.govuk_check_box :consultation_required, true, false, label: {text: "Consultation required?"}, selected: true %>
+      <%= form.govuk_check_box :consultation_required, true, false, label: {text: "Consultation required?"} %>
 
       <div class="govuk-button-group">
-        <%= form.submit "Assign consultee", class: "govuk-button", data: {module: "govuk-button"} %>
+        <%= form.submit "Assign consultees", class: "govuk-button", data: {module: "govuk-button"} %>
         <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true %>
       </div>
     <% end %>

@@ -36,7 +36,8 @@ class Consultee < ApplicationRecord
 
   belongs_to :consultation
   has_many :emails, dependent: :destroy
-  has_many :planning_application_constraints, dependent: :destroy
+  has_many :planning_application_constraint_consultees, dependent: :destroy
+  has_many :planning_application_constraints, through: :planning_application_constraint_consultees
   has_many :responses, dependent: :destroy
 
   validates :name, presence: true
@@ -61,7 +62,9 @@ class Consultee < ApplicationRecord
     end
   end
 
-  scope :unassigned, -> { where.not(id: PlanningApplicationConstraint.pluck(:consultee_id)) } # rubocop:disable Rails/PluckInWhere
+  scope :unassigned, -> {
+    where.missing(:planning_application_constraint_consultees)
+  }
 
   def suffix?
     role? || organisation?

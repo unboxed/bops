@@ -14,6 +14,9 @@ application.register("address-search", AddressSearchController)
 import AutocompleteSelectController from "./autocomplete_select.js"
 application.register("autocomplete-select", AutocompleteSelectController)
 
+import AutoSubmitController from "./auto_submit_controller.js"
+application.register("auto-submit", AutoSubmitController)
+
 import ClearFormController from "./clear_form_controller.js"
 application.register("clear-form", ClearFormController)
 
