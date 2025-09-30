@@ -229,21 +229,29 @@ class Consultation < ApplicationRecord
   end
 
   def consultee_emails_status
-    if consultees.failed?
+    if planning_application.pre_application? && planning_application.consultation_required.nil?
+      "cannot_start_yet"
+    elsif planning_application.pre_application? && planning_application.consultation_required == false
+      "not_required"
+    elsif consultees.failed?
       "failed"
-    elsif consultees.complete? || consultees_not_required?
-      "complete"
     elsif consultees.awaiting_responses?
       "awaiting_responses"
     elsif consultees.present?
       "in_progress"
+    elsif consultees.complete? || consultees_not_required?
+      "complete"
     else
       "not_started"
     end
   end
 
   def consultee_responses_status
-    if consultees.complete? || consultees_not_required?
+    if planning_application.pre_application? && planning_application.consultation_required.nil?
+      "cannot_start_yet"
+    elsif planning_application.pre_application? && planning_application.consultation_required == false
+      "not_required"
+    elsif consultees.complete? || consultees_not_required?
       "complete"
     elsif consultees.responded?
       "in_progress"

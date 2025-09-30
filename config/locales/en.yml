@@ -1650,6 +1650,21 @@ en:
           success: Head of terms was successfully updated
     confirm_validation:
       validate_application: Validate application
+    consultation_requirements:
+      back: Back
+      feature_disabled: Consultation is not available for this application type.
+      heading: Determine if consultation is required
+      hint: Select "Yes" to unlock consultation tasks or "No" to skip them for this case.
+      options:
+        'no': 'No'
+        'yes': 'Yes'
+      page_title: Consultation requirement
+      pre_application_only: Consultation requirements can only be set for pre-application cases.
+      question: Is consultation required?
+      required_before_tasks: Decide if consultation is required before completing these tasks.
+      update:
+        success: Consultation requirement was successfully updated.
+      warning: Changing this answer to "No" will remove all consultees and any responses you have recorded.
     consultations:
       show:
         make_public: The planning application must be made public on the BOPS Public Portal before you can send letters to neighbours.
@@ -2535,6 +2550,8 @@ en:
       link_text: CIL Liability
     confirm_site_notice_component:
       link_text: Confirm site notice
+    consultation_requirement_component:
+      determine_requirement: Determine if consultation is required
     consultee_responses_component:
       consultee_responses: View consultee responses
     description_change:

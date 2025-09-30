@@ -213,9 +213,16 @@ p {
 }
 
 .govuk-tag--status-complete,
+.govuk-tag--status-cannot_start_yet,
+.govuk-tag--status-not_required,
 .govuk-tag--status-review_complete,
 .govuk-tag--status-checked {
   background-color: transparent;
+}
+
+.govuk-tag--status-cannot_start_yet,
+.govuk-tag--status-not_required {
+  color: $govuk-secondary-text-colour;
 }
 
 .header-session-info {

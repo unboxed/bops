@@ -214,6 +214,8 @@ local_authority_subdomain do
         resources :redact_neighbour_responses, only: %i[edit update]
       end
 
+      resource :consultation_requirement, only: %i[edit update]
+
       namespace :validation do
         root to: "base#index"
 

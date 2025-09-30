@@ -35,7 +35,7 @@ module StatusTags
         "yellow"
       when :refused, :removed, :invalid, :rejected, :objection, :failed, :refused_legal_agreement, :cancelled, :does_not_comply
         "red"
-      when :cannot_start_yet, :optional
+      when :optional
         "grey"
       end
     end

@@ -19,7 +19,11 @@ module TaskListItems
     end
 
     def link_active?
-      true
+      if planning_application.pre_application?
+        planning_application.consultation_required?
+      else
+        true
+      end
     end
 
     def link_path

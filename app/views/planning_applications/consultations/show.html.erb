@@ -61,6 +61,13 @@
         <li id="consultee-tasks">
           <h2 class="govuk-heading-m">Consultees</h2>
           <ul class="app-task-list__items" id="consultation-section">
+            <% if @planning_application.pre_application? %>
+              <%= render(
+                    TaskListItems::ConsultationRequirementComponent.new(
+                      planning_application: @planning_application
+                    )
+                  ) %>
+            <% end %>
             <%= render(
                   TaskListItems::SelectConsulteesComponent.new(
                     planning_application: @planning_application

@@ -9,6 +9,7 @@ module PlanningApplications
       before_action :set_consultation
       before_action :set_consultees
       before_action :set_email_reason, only: %i[index]
+      before_action :ensure_consultation_required
 
       def index
         respond_to do |format|
@@ -80,6 +81,14 @@ module PlanningApplications
 
       def public_or_preapp?
         @planning_application.make_public? || @planning_application.pre_application?
+      end
+
+      def ensure_consultation_required
+        return unless @planning_application.pre_application?
+        return if @planning_application.consultation_required?
+
+        redirect_to edit_planning_application_consultation_requirement_path(@planning_application),
+          alert: t("planning_applications.consultation_requirements.required_before_tasks")
       end
     end
   end

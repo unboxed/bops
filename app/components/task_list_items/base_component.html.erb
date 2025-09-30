@@ -1,5 +1,5 @@
 <li class="app-task-list__item" id="<%= link_text.parameterize %>">
-  <span class="app-task-list__task-name">
+  <span class="<%= link_active? ? "app-task-list__name" : "app-task-list__hint" %>">
     <%= link_to_if(link_active?, link_text, link_path, class: "govuk-link") %>
   </span>
   <div class="govuk-task-list__status app-task-list__task-tag" id="<%= link_text.parameterize %>-status">

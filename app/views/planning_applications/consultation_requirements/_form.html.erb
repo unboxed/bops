@@ -1,0 +1,24 @@
+<%= form_with model: @planning_application,
+      local: true,
+      url: planning_application_consultation_requirement_path(@planning_application) do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_radio_buttons_fieldset(
+        :consultation_required,
+        legend: {text: t("planning_applications.consultation_requirements.question"), size: "m"},
+        hint: {text: t("planning_applications.consultation_requirements.hint")}
+      ) do %>
+    <% if @planning_application.consultation_required.nil? %>
+      <%= form.govuk_radio_button(:consultation_required, true, label: {text: t("planning_applications.consultation_requirements.options.yes")}) %>
+      <%= form.govuk_radio_button(:consultation_required, false, label: {text: t("planning_applications.consultation_requirements.options.no")}) %>
+    <% else %>
+      <%= form.govuk_radio_button(:consultation_required, true, checked: @planning_application.consultation_required?, label: {text: t("planning_applications.consultation_requirements.options.yes")}) %>
+      <%= form.govuk_radio_button(:consultation_required, false, checked: !@planning_application.consultation_required?, label: {text: t("planning_applications.consultation_requirements.options.no")}) %>
+    <% end %>
+  <% end %>
+
+  <div class="govuk-button-group">
+    <%= form.govuk_submit t("form_actions.save_and_mark_as_complete") %>
+    <%= govuk_button_link_to t("planning_applications.consultation_requirements.back"), planning_application_consultation_path(@planning_application), secondary: true %>
+  </div>
+<% end %>

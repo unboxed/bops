@@ -198,6 +198,14 @@ FactoryBot.define do
       end
     end
 
+    trait :consultation_required do
+      consultation_required { true }
+    end
+
+    trait :consultation_not_required do
+      consultation_required { false }
+    end
+
     trait :with_boundary_geojson_features do
       boundary_geojson do
         {
