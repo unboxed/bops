@@ -147,7 +147,7 @@ RSpec.describe "View consultee responses", type: :system, js: true do
       expect(page).to have_selector("h1", text: "Upload consultee response")
       expect(page).to have_selector("h2", text: "Add a new response")
 
-      choose "Approved"
+      choose "No objection"
       fill_in "Response", with: "We are happy for this application to proceed"
 
       click_button "Save response"
@@ -211,7 +211,7 @@ RSpec.describe "View consultee responses", type: :system, js: true do
 
         within ".govuk-summary-list__row:nth-of-type(7)" do
           expect(page).to have_selector("dt", text: "Status")
-          expect(page).to have_selector("dd", text: "Approved")
+          expect(page).to have_selector("dd", text: "No objection")
         end
       end
 
@@ -220,7 +220,7 @@ RSpec.describe "View consultee responses", type: :system, js: true do
 
         within ".consultee-response:first-of-type" do
           expect(page).to have_selector("p time", text: "Received on #{today.to_fs}")
-          expect(page).to have_selector("p span", text: "Approved")
+          expect(page).to have_selector("p span", text: "No objection")
           expect(page).to have_selector("p span", text: "Private")
           expect(page).to have_selector("p", text: "We are happy for this application to proceed")
 
@@ -343,7 +343,7 @@ RSpec.describe "View consultee responses", type: :system, js: true do
       expect(page).to have_selector("h1", text: "Upload consultee response")
       expect(page).to have_selector("h2", text: "Add a new response")
 
-      choose "Approved"
+      choose "No objection"
       fill_in "Response", with: "We are happy for this application to proceed"
       attach_file("Upload documents", "spec/fixtures/files/images/proposed-floorplan.png")
 
@@ -408,7 +408,7 @@ RSpec.describe "View consultee responses", type: :system, js: true do
 
         within ".govuk-summary-list__row:nth-of-type(7)" do
           expect(page).to have_selector("dt", text: "Status")
-          expect(page).to have_selector("dd", text: "Approved")
+          expect(page).to have_selector("dd", text: "No objection")
         end
       end
 
@@ -417,7 +417,7 @@ RSpec.describe "View consultee responses", type: :system, js: true do
 
         within ".consultee-response:first-of-type" do
           expect(page).to have_selector("p time", text: "Received on #{today.to_fs}")
-          expect(page).to have_selector("p span", text: "Approved")
+          expect(page).to have_selector("p span", text: "No objection")
           expect(page).to have_selector("p span", text: "Private")
           expect(page).to have_selector("p", text: "We are happy for this application to proceed")
 
