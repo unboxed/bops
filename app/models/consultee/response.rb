@@ -18,7 +18,8 @@ class Consultee
       objected
     ].index_with(&:to_s), scopes: false
 
-    validates :name, :response, :summary_tag, :received_at, presence: true
+    validates :name, :response, :email, :summary_tag, :received_at, presence: true
+    validate :email_domain_matches_consultee
 
     with_options on: :redaction do
       validates :redacted_by, presence: true
@@ -64,6 +65,15 @@ class Consultee
     def documents=(files)
       files.compact_blank.each do |file|
         documents.new(file: file)
+      end
+    end
+
+    def email_domain_matches_consultee
+      submitted_domain = email.split("@").last
+      consultee_domain = consultee.email_address.split("@").last
+
+      if submitted_domain != consultee_domain
+        errors.add(:email, "Email must be a [#{consultee_domain}] email address.")
       end
     end
 

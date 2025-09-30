@@ -9,8 +9,8 @@ RSpec.describe BopsCore::MagicLinkMailerJob, type: :job do
 
   it "enqueues the job" do
     expect {
-      BopsCore::MagicLinkMailerJob.perform_later(resource: consultee, planning_application:)
-    }.to have_enqueued_job(BopsCore::MagicLinkMailerJob).with(resource: consultee, planning_application:)
+      BopsCore::MagicLinkMailerJob.perform_later(resource: consultee, planning_application:, email: consultee.email_address)
+    }.to have_enqueued_job(BopsCore::MagicLinkMailerJob).with(resource: consultee, planning_application:, email: consultee.email_address)
   end
 
   it "updates the magic link last sent at time" do
@@ -18,7 +18,7 @@ RSpec.describe BopsCore::MagicLinkMailerJob, type: :job do
 
     expect {
       perform_enqueued_jobs do
-        BopsCore::MagicLinkMailerJob.perform_now(resource: consultee, planning_application:)
+        BopsCore::MagicLinkMailerJob.perform_now(resource: consultee, planning_application:, email: consultee.email_address)
       end
     }.to change { consultee.magic_link_last_sent_at }.from(nil).to("2025-01-30".to_datetime)
   end
@@ -26,7 +26,7 @@ RSpec.describe BopsCore::MagicLinkMailerJob, type: :job do
   it "sends the email" do
     expect {
       perform_enqueued_jobs do
-        BopsCore::MagicLinkMailerJob.perform_now(resource: consultee, planning_application:)
+        BopsCore::MagicLinkMailerJob.perform_now(resource: consultee, planning_application:, email: consultee.email_address)
       end
     }.to change { ActionMailer::Base.deliveries.count }.by(1)
   end

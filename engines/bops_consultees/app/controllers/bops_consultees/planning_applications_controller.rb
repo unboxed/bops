@@ -2,9 +2,9 @@
 
 module BopsConsultees
   class PlanningApplicationsController < ApplicationController
-    before_action :authenticate_with_sgid!, only: :show
     before_action :set_planning_application, only: %i[show resend_link]
     before_action :set_consultee, only: %i[show resend_link]
+    before_action :authenticate_with_sgid!, only: :show
     before_action :set_consultee_response, only: :show
     before_action :ensure_magic_link_resend_allowed, only: :resend_link
 
@@ -21,13 +21,23 @@ module BopsConsultees
     end
 
     def resend_link
-      BopsCore::MagicLinkMailerJob.perform_later(
-        resource: @consultee,
-        planning_application: @planning_application.presented
+      @form = BopsCore::MagicLink::ExpiredMagicLinkForm.new(
+        email: params.dig(:magic_link_expired_magic_link_form, :email),
+        consultee: @consultee
       )
 
-      respond_to do |format|
-        format.html { redirect_to root_url, notice: t(".success", email: @consultee.email_address) }
+      if @form.valid?
+        BopsCore::MagicLinkMailerJob.perform_later(
+          resource: @consultee,
+          planning_application: @planning_application.presented,
+          email: params.dig(:magic_link_expired_magic_link_form, :email)
+        )
+        respond_to do |format|
+          format.html { redirect_to root_url, notice: t(".success", email: params.dig(:magic_link_expired_magic_link_form, :email)) }
+        end
+      else
+        @expired_resource = @consultee
+        render_expired
       end
     end
 
@@ -35,6 +45,10 @@ module BopsConsultees
 
     def set_consultee
       expired_resource = BopsCore::SgidAuthenticationService.new(sgid).expired_resource
+      if expired_resource.nil?
+        render_not_found and return
+      end
+
       @consultee = @planning_application.consultation.consultees.find(expired_resource.id)
     rescue ActiveRecord::RecordNotFound
       render_not_found
@@ -45,6 +59,10 @@ module BopsConsultees
     end
 
     def render_expired
+      @form ||= BopsCore::MagicLink::ExpiredMagicLinkForm.new(
+        email: @consultee.email_address,
+        consultee: @consultee
+      )
       render "bops_consultees/planning_applications/index"
     end
 
