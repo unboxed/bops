@@ -246,7 +246,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
       expect(page).to have_content("Sign off recommendation")
       expect(page).to have_content("To grant")
       within(".govuk-warning-text") do
-        expect(page).to have_content("This information will appear on the decision notice.")
+        expect(page).to have_content("This information will appear on the decision notice and the officer report.")
       end
       expect(page).to have_content(planning_application.public_comment)
 

@@ -1590,7 +1590,7 @@ en:
           refer_to_the: Refer to specific development or local plan policies or permitted development legislation to support your recommendation.
           state_the_reason: State the reasons for your recommendation.
           there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href="%{href}">View all requests</a>.
-          this_information_will: This information will appear on the decision notice.
+          this_information_will: This information will appear on the decision notice and the officer report.
           this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
           update_assessment: Update assessment
         update:
@@ -1989,7 +1989,7 @@ en:
             sign_off_recommendation: Sign off recommendation
           recommendation: Recommendation
           review_changes: Review changes
-          this_information_will: This information will appear on the decision notice.
+          this_information_will: This information will appear on the decision notice and the officer report.
           you_have_not: You haven't suggested changes to be made by the officer.
           you_have_suggested: You have suggested changes to be made by the officer.
         events:
