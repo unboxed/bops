@@ -593,7 +593,7 @@ FactoryBot.define do
           "cil" => false,
           "description_change_requires_validation" => false,
           "eia" => false,
-          "heads_of_terms" => false,
+          "heads_of_terms" => true,
           "immunity" => false,
           "informatives" => false,
           "legislative_requirements" => false,

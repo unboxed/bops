@@ -46,12 +46,12 @@ module PlanningApplications
       end
 
       def confirm
-        @heads_of_term.confirm_pending_requests!
+        @heads_of_term.confirm_pending_requests! unless @planning_application.pre_application?
 
         respond_to do |format|
           format.html do
             if @heads_of_term.current_review.update(status: :complete)
-              redirect_to planning_application_assessment_terms_path(@planning_application), notice: t(".success")
+              redirect_to planning_application_assessment_terms_path(@planning_application), notice: created_notice
             else
               render :index
             end
@@ -102,6 +102,14 @@ module PlanningApplications
 
       def term_attributes
         %i[title text]
+      end
+
+      def created_notice
+        if @planning_application.pre_application?
+          t("planning_applications.assessment.terms.confirm.preapp_success")
+        else
+          t("planning_applications.assessment.terms.confirm.success")
+        end
       end
     end
   end

@@ -35,6 +35,9 @@
 
     </ol>
     <p><%= t(".drag_and_drop") %></p>
+    <% if @planning_application.pre_application? %>
+      <p><%= t(".preapp_reminder") %></p>
+    <% end %>
   </div>
 
   <div class="govuk-grid-column-two-thirds">
@@ -54,7 +57,11 @@
 
     <div class="govuk-button-group">
       <%= form_with model: @term, url: confirm_planning_application_assessment_terms_path(@planning_application) do |form| %>
-        <%= form.submit t("form_actions.term.confirm"), class: "govuk-button" %>
+        <% if @planning_application.pre_application? %>
+          <%= form.submit t("form_actions.term.confirm_without_sending"), class: "govuk-button" %>
+        <% else %>
+          <%= form.submit t("form_actions.term.confirm"), class: "govuk-button" %>
+        <% end %>
         <%= govuk_button_link_to("Back", planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
       <% end %>
     </div>
