@@ -23,14 +23,12 @@ RSpec.describe "Consultation", type: :system, js: true do
   end
 
   def choose_consultee(search_term:, option_text:)
-    field = find_field("Search for consultees", wait: Capybara.default_max_wait_time)
+    field = find_field("Search for consultees")
     field.click
     fill_in "Search for consultees", with: search_term, fill_options: {clear: :backspace}
     expect(page).to have_selector(
       "#add-consultee__listbox li[role='option']",
-      text: option_text,
-      match: :prefer_exact,
-      wait: Capybara.default_max_wait_time
+      text: option_text
     )
     pick option_text, from: "#add-consultee"
     expected_value = option_text.split(" (").first

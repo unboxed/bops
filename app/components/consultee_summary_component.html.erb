@@ -28,12 +28,12 @@
         row.with_value { email_address }
       end
       summary_list.with_row do |row|
-        row.with_key { t(".consulted_on") }
-        row.with_value { consulted_on }
+        row.with_key { t(".consulted_at") }
+        row.with_value { consulted_at }
       end
       summary_list.with_row do |row|
-        row.with_key { t(".last_received_on") }
-        row.with_value { last_received_on }
+        row.with_key { t(".last_received_at") }
+        row.with_value { latest_received_at }
       end
       summary_list.with_row do |row|
         row.with_key { t(".status") }
