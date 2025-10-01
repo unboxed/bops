@@ -82,6 +82,19 @@
         <%= @planning_application.application_type.description %>
       </p>
     </div>
+
+    <div id="constraints">
+      <p class="govuk-heading-s govuk-!-margin-bottom-2">Constraints</p>
+      <% if @planning_application.constraints %>
+        <ul>
+          <% @planning_application.constraints.each do |constraint| %>
+            <li><%= constraint.type_code %></li>
+          <% end %>
+        </ul>
+      <% else %>
+        <p>None</p>
+      <% end %>
+    </div>
   </div>
   <div class="govuk-grid-column-one-third">
     <p class="govuk-body-s govuk-!-margin-bottom-2"><strong>Planning Officer</strong></p>
