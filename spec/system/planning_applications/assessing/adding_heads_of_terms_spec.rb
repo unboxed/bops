@@ -25,23 +25,6 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     expect(page).to have_selector("h1", text: "Assess the application")
   end
 
-  context "when planning application is a pre-application" do
-    let!(:planning_application) do
-      create(:planning_application, :pre_application, :in_assessment, local_authority: default_local_authority, api_user:)
-    end
-
-    it "doesn't show the 'Add heads of terms' link" do
-      expect(page).not_to have_link("Add heads of terms", href: "/planning_applications/#{reference}/assessment/terms")
-    end
-
-    it "it doesn't allow visiting the heads of terms page" do
-      visit "/planning_applications/#{reference}/assessment/terms"
-
-      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-      expect(page).to have_selector("h1", text: "Assess the application")
-    end
-  end
-
   context "when planning application is an LDC" do
     let!(:planning_application) do
       create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority, api_user:)
@@ -350,6 +333,163 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
         expect(page).to have_selector("span", text: "Heads of term 3")
         expect(page).to have_selector("h2", text: "Title 1")
       end
+    end
+  end
+
+  context "when planning application is a pre-application" do
+    let!(:planning_application) do
+      create(:planning_application, :pre_application, :in_assessment, local_authority: default_local_authority, api_user:)
+    end
+
+    it "you can add new heads of terms" do
+      within("#add-heads-of-terms") do
+        expect(page).to have_content "Not started"
+        click_link "Add heads of terms"
+      end
+
+      expect(page).to have_selector("h1", text: "Add heads of terms")
+      find("span", text: "Add a new heads of terms").click
+      expect(page).to have_selector("h2", text: "Add a new heads of term")
+
+      click_button "Add term"
+      expect(page).to have_selector("[role=alert] li", text: "Enter the title of this term")
+      expect(page).to have_selector("[role=alert] li", text: "Enter the detail of this term")
+
+      fill_in "Enter title", with: "Title 1"
+      fill_in "Enter details", with: "Custom details 1"
+      click_button "Add term"
+
+      expect(page).to have_selector("[role=alert] p", text: "Head of terms has been successfully added")
+
+      find("span", text: "Add a new heads of terms").click
+      fill_in "Enter title", with: "Title 2"
+      fill_in "Enter details", with: "Custom details 2"
+      click_button "Add term"
+
+      within("#term_#{Term.first.id}") do
+        expect(page).to have_selector("span", text: "Heads of term 1")
+        expect(page).to have_selector("h2", text: "Title 1")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_selector("p", text: "Custom details 1")
+
+        expect(page).to have_link("Remove")
+        expect(page).to have_link("Edit")
+      end
+
+      within("#term_#{Term.second.id}") do
+        expect(page).to have_selector("span", text: "Heads of term 2")
+        expect(page).to have_selector("h2", text: "Title 2")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_selector("p", text: "Custom details 2")
+      end
+
+      click_button "Confirm and send to applicant"
+      expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed and sent to the applicant")
+
+      within("#term_#{Term.first.id}") do
+        expect(page).to have_selector(".govuk-tag", text: "Awaiting response")
+        expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
+        expect(page).to have_link("Cancel")
+
+        expect(page).not_to have_link("Edit")
+        expect(page).not_to have_link("Remove")
+      end
+
+      within("#term_#{Term.second.id}") do
+        expect(page).to have_selector(".govuk-tag", text: "Awaiting response")
+        expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
+      end
+
+      click_link "Back"
+      within("#add-heads-of-terms") do
+        expect(page).to have_content "Completed"
+      end
+    end
+
+    it "you can edit terms" do
+      term1 = create(:term, title: "Title 1", heads_of_term: planning_application.heads_of_term)
+      travel_to(Time.zone.local(2024, 4, 17, 13, 30)) do
+        create(:heads_of_terms_validation_request, owner: term1, planning_application:, state: "closed", approved: false, rejection_reason: "Typo", notified_at: 1.day.ago)
+      end
+      create(:review, owner: term1.heads_of_term)
+
+      term2 = create(:term, title: "Title 2", heads_of_term: term1.heads_of_term)
+      travel_to(Time.zone.local(2024, 4, 17, 13, 30)) do
+        create(:heads_of_terms_validation_request, owner: term2, planning_application:, state: "closed", approved: true, notified_at: 1.day.ago)
+      end
+      create(:review, owner: term2.heads_of_term)
+
+      travel_to(Time.zone.local(2024, 4, 17, 14, 30))
+      visit "/planning_applications/#{reference}"
+      click_link "Check and assess"
+      click_link "Add heads of terms"
+
+      within("#term_#{term1.id}") do
+        expect(page).to have_selector("p strong.govuk-tag", text: "Rejected")
+        expect(page).to have_selector("p", text: "Typo")
+        expect(page).to have_selector("p", text: "Sent on: 17 April 2024 13:30")
+        expect(page).to have_link(
+                          "Edit",
+                          href: "/planning_applications/#{reference}/assessment/terms/#{term1.id}/edit"
+                        )
+      end
+
+      within("#term_#{term2.id}") do
+        expect(page).to have_selector(".govuk-tag", text: "Accepted")
+        expect(page).to have_link(
+                          "Edit",
+                          href: "/planning_applications/#{reference}/assessment/terms/#{term2.id}/edit"
+                        )
+      end
+
+      within("#term_#{term1.id}") do
+        click_link "Edit"
+      end
+
+      fill_in "Enter title", with: "New title"
+      fill_in "Enter details", with: "New detail"
+      click_button "Update term"
+
+      expect(page).to have_selector("[role=alert] p", text: "Head of terms was successfully updated")
+
+      within("#term_#{term1.id}") do
+        expect(page).to have_selector("h2", text: "New title")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_selector("p", text: "New detail")
+      end
+
+      click_button "Confirm and send to applicant"
+      expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed and sent to the applicant")
+    end
+
+    it "you can cancel terms" do
+      term1 = create(:term, title: "Title 1", heads_of_term: planning_application.heads_of_term)
+      travel_to(Time.zone.local(2024, 4, 17, 13, 30)) do
+        create(:heads_of_terms_validation_request, owner: term1, planning_application:, state: "open", notified_at: 1.day.ago)
+      end
+      create(:review, owner: planning_application.heads_of_term)
+
+      visit "/planning_applications/#{reference}"
+      click_link "Check and assess"
+
+      click_link "Add heads of terms"
+
+      within("#term_#{term1.id}") do
+        expect(page).to have_selector("h2", text: "Title 1")
+        expect(page).to have_selector(".govuk-tag", text: "Awaiting response")
+        click_link "Cancel"
+      end
+
+      fill_in "Explain to the applicant why this request is being cancelled", with: "Made a typo"
+
+      click_button "Confirm cancellation"
+      expect(page).to have_content "Heads of term request successfully cancelled"
+
+      click_link "Application"
+      click_link "Check and assess"
+      click_link "Add heads of term"
+
+      expect(page).not_to have_selector("p strong.govuk-tag", text: "Cancelled")
     end
   end
 end
