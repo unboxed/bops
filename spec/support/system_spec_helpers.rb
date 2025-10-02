@@ -39,9 +39,9 @@ module SystemSpecHelpers
 
   def pick(value, from:)
     listbox = "ul[@id='#{from.delete_prefix("#")}__listbox']"
-    option = "li[@role='option' and normalize-space(.)='#{value}']"
+    option = "li[@role='option' and contains(normalize-space(.), \"#{value}\")]"
 
-    with_retry do
+    with_retry(delay: 0.2, count: 10) do
       find(:xpath, "//#{listbox}/#{option}").click
     end
 
