@@ -31,14 +31,12 @@ class UpdateConsulteeEmailStatusJob < ApplicationJob
 
       if consultee_email.delivered?
         consultee.with_lock do
-          last_resp_at = consultee.last_response_at
-
           attrs = {
             email_delivered_at: consultee.email_delivered_at || current_time,
             last_email_delivered_at: current_time
           }
 
-          if last_resp_at.nil? || last_resp_at < current_time
+          if consultee.sending? || consultee.failed?
             attrs[:status] = :awaiting_response
           end
 
