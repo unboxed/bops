@@ -39,24 +39,15 @@ module SystemSpecHelpers
 
   def pick(value, from:)
     listbox = "ul[@id='#{from.delete_prefix("#")}__listbox']"
-    option = "li[@role='option' and contains(normalize-space(.), #{xpath_literal(value)})]"
+    option = "li[@role='option' and contains(normalize-space(.), \"#{value}\")]"
 
-    with_retry do
+    with_retry(delay: 0.2, count: 10) do
       find(:xpath, "//#{listbox}/#{option}").click
     end
 
     # The autocomplete javascript has some setTimeout handlers
     # to work around bugs with event order so we need to wait
     sleep 0.1
-  end
-
-  def xpath_literal(value)
-    return "'#{value}'" unless value.include?("'")
-
-    parts = value.split("'").map { |part| "'#{part}'" }
-    inner = parts.join(%(, "'", ))
-
-    "concat(#{inner})"
   end
 
   def toggle(title)
