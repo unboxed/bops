@@ -25,9 +25,7 @@ class Consultee
       validates :redacted_response, presence: true
     end
 
-    after_create do
-      consultee.update!(status: "responded", last_response_at: Time.current)
-    end
+    after_commit :mark_consultee_responded!, on: :create
 
     class << self
       def default_scope
@@ -67,6 +65,12 @@ class Consultee
       files.compact_blank.each do |file|
         documents.new(file: file)
       end
+    end
+
+    private
+
+    def mark_consultee_responded!
+      consultee.update!(status: :responded, last_response_at: Time.current)
     end
   end
 end

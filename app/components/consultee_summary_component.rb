@@ -37,11 +37,11 @@ class ConsulteeSummaryComponent < ViewComponent::Base
     end
   end
 
-  def consulted_on
-    email_delivered_at && time_tag(email_delivered_at, format: "%-d %B %Y") || "–"
+  def consulted_at
+    email_delivered_at && time_tag(email_delivered_at, format: "%-d %B %Y %H:%M") || "–"
   end
 
-  def last_received_on
-    last_received_at && time_tag(last_received_at, format: "%-d %B %Y") || "–"
+  def latest_received_at
+    last_received_at && time_tag(last_received_at, format: "%-d %B %Y %H:%M") || "–"
   end
 end
