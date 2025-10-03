@@ -1,10 +1,14 @@
 <% content_for :page_title do %>
-  Send emails to consultees - <%= t("page_title") %>
+  Send emails to consultees -
+  <%= t("page_title") %>
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
+
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+
 <% add_parent_breadcrumb_link "Consultation", planning_application_consultation_path(@planning_application) %>
+
 <% content_for :title, "Send emails to consultees" %>
 
 <%= render(
@@ -31,17 +35,22 @@
       <%= render ConsulteesComponent.new(consultees: @consultees, form: form) %>
       <%= render ConsulteeEmailComponent.new(form: form) %>
       <% if @consultees.consulted? %>
-        <%= render ReconsultConsulteesComponent.new(form: form) %>
-        <h3 class="govuk-heading-s">Do you want to ask the applicant to extend the planning application expiry date?</h3>
+        <h3 class="govuk-heading-s">
+          Do you want to ask the applicant to extend the planning application
+          expiry date?
+        </h3>
         <%= govuk_link_to "Request extension", new_planning_application_validation_validation_request_path(@planning_application, type: "time_extension") %>
-       <% end %>
+      <% end %>
+
       <div class="govuk-form-group" id="response-period">
         <h2 class="govuk-heading-m">
-          <div class="govuk-hint govuk-!-margin-bottom-0">Step <%= @consultees.consulted? ? "4" : "3" %></div>
+          <div class="govuk-hint govuk-!-margin-bottom-0">Step 3</div>
           <%= form.govuk_label :consultee_response_period, text: "Set response period", size: "m" %>
         </h2>
 
-        <p class="govuk-hint">Enter the number of days that consultees have to respond.</p>
+        <p class="govuk-hint">
+          Enter the number of days that consultees have to respond.
+        </p>
 
         <div class="govuk-input__wrapper">
           <%= form.govuk_text_field :consultee_response_period, placeholder: "", class: "govuk-input", label: -> {}, required: true %>
