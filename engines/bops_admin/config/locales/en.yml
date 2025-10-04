@@ -132,6 +132,11 @@ en:
       edit:
         edit_consultee: Edit consultee
       form:
+        constraints:
+          description: Select the constraints associated with this consultee.
+          heading: Suggested constraints
+          more_details: More details
+          none_selected: No constraints selected yet.
         hints:
           origin: What type of consultee is this?
         labels:

@@ -24,9 +24,10 @@ class PlanningApplicationConstraint < ApplicationRecord
   after_create :audit_constraint_added!
   after_update :audit_constraint_removed!, if: :identified_and_removed?
   before_destroy :audit_constraint_removed!
+  after_commit :enqueue_consultee_sync, on: :create
 
   delegate :type, :category, :type_code, to: :constraint
-  delegate :audits, to: :planning_application
+  delegate :audits, :local_authority, :consultation, to: :planning_application
 
   scope :active, -> { where({removed_at: nil}) }
   scope :identified_by_planx, -> { where({identified_by: "PlanX"}) }
@@ -63,7 +64,36 @@ class PlanningApplicationConstraint < ApplicationRecord
     planning_data_geojson.dig(:properties, :dataset)
   end
 
+  def sync_consultees!
+    return if consultation.blank? || constraint.blank?
+
+    contacts_for_constraint = constraint.consultee_contacts.where(local_authority_id: local_authority.id)
+
+    consultee_ids = contacts_for_constraint.map { |contact| find_or_create_consultee!(contact).id }.uniq
+
+    existing_consultee_ids = planning_application_constraint_consultees.pluck(:consultee_id)
+    additions = consultee_ids - existing_consultee_ids
+
+    additions.each do |consultee_id|
+      planning_application_constraint_consultees.find_or_create_by!(consultee_id: consultee_id)
+    end
+  end
+
   private
+
+  def find_or_create_consultee!(contact)
+    email = contact.email_address.strip.downcase
+
+    attrs = {
+      email_address: email,
+      name: contact.name,
+      origin: contact.origin,
+      role: contact.role,
+      organisation: contact.organisation
+    }
+
+    consultation.consultees.find_or_create_by!(attrs)
+  end
 
   def identified_and_removed?
     identified? && removed_at?
@@ -85,5 +115,11 @@ class PlanningApplicationConstraint < ApplicationRecord
     return if entity.blank?
 
     @planning_data_geojson ||= Apis::PlanningData::Query.new.get_entity_geojson(entity)
+  end
+
+  def enqueue_consultee_sync
+    return if constraint_id.blank?
+
+    SyncConstraintConsulteesJob.perform_later(id)
   end
 end
