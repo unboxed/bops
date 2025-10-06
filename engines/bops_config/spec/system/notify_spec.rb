@@ -39,23 +39,16 @@ RSpec.describe "GOV.UK Notify settings", type: :system do
   before do
     sign_in(user)
 
-    allow(Rails.configuration).to receive(:default_notify_api_key)
-      .and_return("test-dc7c299a-bf1a-4890-ad05-c1a47b524c8e-e30ecdbb-329a-4833-bc28-43666d160729")
-
-    allow(Rails.configuration).to receive(:default_letter_template_id)
-      .and_return("aa09dc93-75cd-4862-a0aa-1494bde65a72")
-
     allow(SecureRandom).to receive(:base36).and_return("xcp86uyv6aylzz1p")
   end
 
   it "allows the administrator to update and check the GOV.UK Notify settings" do
-    # TODO: change these to `nil` when we stop using the default account
     expect(local_authority).to have_attributes(
-      notify_api_key: "test-dc7c299a-bf1a-4890-ad05-c1a47b524c8e-e30ecdbb-329a-4833-bc28-43666d160729",
+      notify_api_key: nil,
       email_reply_to_id: nil,
       email_template_id: nil,
       sms_template_id: nil,
-      letter_template_id: "aa09dc93-75cd-4862-a0aa-1494bde65a72"
+      letter_template_id: nil
     )
 
     visit "/local_authorities"

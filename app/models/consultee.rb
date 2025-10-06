@@ -42,6 +42,8 @@ class Consultee < ApplicationRecord
 
   validates :name, presence: true
 
+  delegate :local_authority, to: :consultation
+
   enum :origin, {
     internal: "internal",
     external: "external"

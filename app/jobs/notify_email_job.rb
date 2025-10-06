@@ -5,8 +5,6 @@ require "notifications/client"
 class NotifyEmailJob < ApplicationJob
   class NotConfiguredError < RuntimeError; end
 
-  NOTIFY_TEMPLATE_ID = "7cb31359-e913-4590-a458-3d0cefd0d283"
-
   DELAY_FOR_24_HOURS = [
     Notifications::Client::BadRequestError,
     Notifications::Client::AuthError,
@@ -61,19 +59,22 @@ class NotifyEmailJob < ApplicationJob
   end
 
   before_perform :set_appsignal_namespace
+  before_perform :set_local_authority
+
+  attr_reader :local_authority
+
+  with_options to: :local_authority, allow_nil: true do
+    delegate :notify_api_key, :email_template_id, :email_reply_to_id
+  end
 
   private
 
   def api_key
-    Rails.configuration.default_notify_api_key.presence || (raise NotifyEmailJob::NotConfiguredError, "Notify API key not found")
+    notify_api_key.presence || (raise NotifyEmailJob::NotConfiguredError, "Notify API key not found")
   end
 
   def client
     @client ||= Notifications::Client.new(api_key)
-  end
-
-  def template_id
-    NOTIFY_TEMPLATE_ID
   end
 
   def log_exception(exception)
@@ -86,6 +87,10 @@ class NotifyEmailJob < ApplicationJob
 
   def set_appsignal_namespace
     Appsignal.set_namespace("email")
+  end
+
+  def set_local_authority
+    @local_authority = arguments.first.local_authority
   end
 
   def reschedule_job(time = 1.hour.from_now)

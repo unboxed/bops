@@ -113,26 +113,6 @@ class LocalAuthority < ApplicationRecord
     "#{signatory_name}, #{signatory_job_title}"
   end
 
-  def notify_api_key
-    super || Rails.configuration.default_notify_api_key
-  end
-
-  def shared_email_reply_to_id
-    I18n.t(subdomain, scope: :"email_reply_to_ids.#{Bops.env}", default: nil)
-  end
-
-  def letter_template_id
-    super || Rails.configuration.default_letter_template_id
-  end
-
-  def notify_api_key_for_letters
-    if Bops.env.production?
-      notify_api_key
-    else
-      Rails.configuration.notify_letter_api_key
-    end
-  end
-
   def applicants_url
     if Bops.env.production?
       super.presence || "https://#{subdomain}.applicants.bops.services"

@@ -244,10 +244,10 @@ RSpec.describe User do
 
       let(:expected_args) do
         {
-          template_id: "701e32b3-2c8c-4c16-9a1b-c883ef6aedee",
+          template_id: "296467e7-6723-465a-86b9-eb8c81a9199c",
           phone_number: "07717456456",
           personalisation: {
-            otp: user.current_otp
+            body: "#{user.current_otp} is your Back Office Planning System verification code."
           }
         }
       end
@@ -267,10 +267,10 @@ RSpec.describe User do
 
         let(:expected_args) do
           {
-            template_id: "701e32b3-2c8c-4c16-9a1b-c883ef6aedee",
+            template_id: "296467e7-6723-465a-86b9-eb8c81a9199c",
             phone_number: "07717123123",
             personalisation: {
-              otp: user.current_otp
+              body: "#{user.current_otp} is your Back Office Planning System verification code."
             }
           }
         end

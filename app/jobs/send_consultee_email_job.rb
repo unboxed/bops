@@ -17,7 +17,7 @@ class SendConsulteeEmailJob < NotifyEmailJob
       begin
         response = client.send_email(
           email_address: consultee_email.email_address,
-          template_id: template_id,
+          template_id: email_template_id,
           email_reply_to_id: consultation.consultee_email_reply_to_id,
           personalisation: {
             subject: consultee_email.subject,
