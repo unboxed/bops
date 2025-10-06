@@ -17,7 +17,7 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
       notify_api_key: "api_key",
       press_notice_email: "press@lambeth.gov.uk")
   }
-  let!(:local_authority2) { create(:local_authority, :southwark, active: false) }
+  let!(:local_authority2) { create(:local_authority, :southwark, :unconfigured, active: false) }
   let!(:local_authority3) {
     create(:local_authority,
       notify_api_key: "api_key",
@@ -67,7 +67,7 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
       expect(page).to have_selector("tr:nth-child(1)", text: "12 of 17")
 
       expect(page).to have_selector("tr:nth-child(2)", text: "Southwark")
-      expect(page).to have_selector("tr:nth-child(2)", text: "11 of 17")
+      expect(page).to have_selector("tr:nth-child(2)", text: "10 of 17")
 
       expect(page).not_to have_content("Buckinghamshire")
     end

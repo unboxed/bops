@@ -78,7 +78,7 @@ class User < ApplicationRecord
   def send_otp(session_mobile_number)
     if send_otp_by_sms?
       number = mobile_number.presence || session_mobile_number
-      TwoFactor::SmsNotification.new(number, current_otp).deliver!
+      TwoFactor::SmsNotification.new(self, number).deliver!
     else
       UserMailer.otp_mail(self).deliver_now
     end

@@ -15,23 +15,6 @@ module NotifyHelper
     {status:, body:}
   end
 
-  def stub_post_sms_notification(phone_number:, otp:, status:)
-    stub_request(:post, SMS_URL)
-      .with(
-        body: {
-          template_id: "701e32b3-2c8c-4c16-9a1b-c883ef6aedee",
-          phone_number:,
-          personalisation: {
-            otp:
-          }
-        }.to_json
-      )
-      .to_return(
-        status:,
-        body: "{}"
-      )
-  end
-
   def stub_send_letter(status:)
     body = {status_code: status}
     body[:errors] = [{error: "Exception", message: "Internal server error"}] if status >= 400
@@ -39,7 +22,7 @@ module NotifyHelper
     stub_request(:post, LETTER_URL)
       .with do |request|
       body = JSON.parse(request.body, symbolize_names: true)
-      body[:template_id] == "7a7c541e-be0a-490b-8165-8e44dc9d13ad" &&
+      body[:template_id] == local_authority.letter_template_id &&
         body[:personalisation][:address_line_1] == "The Occupier"
     end
       .to_return(
