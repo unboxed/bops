@@ -8,8 +8,8 @@ class SendCommitteeDecisionEmailJob < NotifyEmailJob
 
     client.send_email(
       email_address: email,
-      template_id: template_id,
-      email_reply_to_id: planning_application.local_authority.email_reply_to_id,
+      template_id: email_template_id,
+      email_reply_to_id: email_reply_to_id,
       personalisation: {
         subject: "Notification of Planning Committee Meeting",
         body: planning_application.committee_decision.notification_content

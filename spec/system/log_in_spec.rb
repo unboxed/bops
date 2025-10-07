@@ -156,7 +156,7 @@ RSpec.describe "Sign in" do
 
         fill_in "Mobile number", with: "07722865843"
 
-        expect(TwoFactor::SmsNotification).to receive(:new).with("07722865843", user.current_otp).and_call_original
+        expect(TwoFactor::SmsNotification).to receive(:new).with(user, "07722865843").and_call_original
         click_button "Send code"
 
         # mobile number saved to session rather than db at this point
@@ -276,7 +276,7 @@ RSpec.describe "Sign in" do
       let!(:user) { create(:user, local_authority: default_local_authority, mobile_number: "07765445412") }
 
       it "immediately send me my OTP" do
-        expect(TwoFactor::SmsNotification).to receive(:new).with("07765445412", user.current_otp).and_call_original
+        expect(TwoFactor::SmsNotification).to receive(:new).with(user, "07765445412").and_call_original
         click_button "Log in"
 
         expect(page).not_to have_content("Enter your phone number")
@@ -298,7 +298,7 @@ RSpec.describe "Sign in" do
 
         # After a minute has passed you are able to resend code
         travel 2.minutes
-        expect(TwoFactor::SmsNotification).to receive(:new).with("07765445412", user.current_otp).and_call_original
+        expect(TwoFactor::SmsNotification).to receive(:new).with(user, "07765445412").and_call_original
         click_link "Resend code"
         expect(page).to have_content("You have been sent another verification code.")
 

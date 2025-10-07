@@ -77,7 +77,7 @@ RSpec.describe "Profile", type: :system do
   end
 
   context "when there are notify errors" do
-    let(:local_authority) { create(:local_authority, :default, :with_api_user, notify_error_status: "bad_notify_api_key") }
+    let(:local_authority) { create(:local_authority, :default, :unconfigured, :with_api_user, notify_error_status: "bad_notify_api_key") }
 
     it "shows the notify error status" do
       visit "/admin/profile/edit"
