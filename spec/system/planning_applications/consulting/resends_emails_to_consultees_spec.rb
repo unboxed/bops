@@ -143,7 +143,6 @@ RSpec.describe "Consultation", type: :system, js: true do
     expect(page).to have_selector("h1", text: "Send emails to consultees")
     expect(page).to have_selector("h2", text: "Step 1 Select the consultees to consult")
     expect(page).to have_selector("h2", text: "Step 2 Send email to selected consultees")
-    expect(page).to have_selector("h2", text: "Step 3 Is this a reconsultation?")
 
     within "#external-consultees" do
       within "table tbody tr:first-child" do
@@ -179,21 +178,18 @@ RSpec.describe "Consultation", type: :system, js: true do
       end
     end
 
-    within "#resend-consultees" do
-      choose "No, I’m chasing existing consultees"
+    select "Resending to existing consultees"
 
-      fill_in "Additional message to include in the email", with: "Please respond to the message below by {{close_date}}"
-    end
+    find("summary", text: "View/edit email template").click
+    fill_in "Message body", with: "Please respond to the message below by {{close_date}}\n\n" + find("textarea").text
 
     accept_confirm(text: "Send emails to consultees?") do
       click_button "Send emails to consultees"
     end
 
-    expect(page).to have_selector("[role=alert] li", text: "The additional message contains an invalid placeholder '{{close_date}}'")
+    expect(page).to have_selector("[role=alert] li", text: "The message body contains an invalid placeholder '{{close_date}}'")
 
-    within "#resend-consultees" do
-      fill_in "Additional message to include in the email", with: "Please respond to the message below by #{consultee_response_date}"
-    end
+    fill_in "Message body", with: find("textarea").text.gsub("{{close_date}}", consultee_response_date)
 
     within "#response-period" do
       fill_in "consultation[consultee_response_period]", with: 5

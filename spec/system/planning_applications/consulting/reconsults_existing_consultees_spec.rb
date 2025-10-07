@@ -143,8 +143,7 @@ RSpec.describe "Consultation", type: :system, js: true do
     expect(page).to have_selector("h1", text: "Send emails to consultees")
     expect(page).to have_selector("h2", text: "Step 1 Select the consultees to consult")
     expect(page).to have_selector("h2", text: "Step 2 Send email to selected consultees")
-    expect(page).to have_selector("h2", text: "Step 3 Is this a reconsultation?")
-    expect(page).to have_selector("h2", text: "Step 4 Set response period")
+    expect(page).to have_selector("h2", text: "Step 3 Set response period")
 
     within "#external-consultees" do
       within "table tbody tr:first-child" do
@@ -180,9 +179,8 @@ RSpec.describe "Consultation", type: :system, js: true do
       end
     end
 
-    within "#resend-consultees" do
-      choose "Yes, I’m reconsulting existing consultees"
-    end
+    select "Reconsultation"
+
     within "#response-period" do
       fill_in "consultation[consultee_response_period]", with: 100
     end
@@ -191,12 +189,11 @@ RSpec.describe "Consultation", type: :system, js: true do
       click_button "Send emails to consultees"
     end
 
-    expect(page).to have_selector("[role=alert] li", text: "Please enter the reasons for the reconsultation")
     expect(page).to have_selector("[role=alert] li", text: "Consultee response period must be less than or equal to 99")
 
-    within "#resend-consultees" do
-      fill_in "Reasons for reconsultation", with: "Application has changes - please respond by {{close_date}}"
-    end
+    find("summary", text: "View/edit email template").click
+    fill_in "Message body", with: "Application has changes - please respond by {{close_date}}\n\n" + find("textarea").text
+
     within "#response-period" do
       fill_in "consultation[consultee_response_period]", with: "not an integer"
     end
@@ -205,12 +202,10 @@ RSpec.describe "Consultation", type: :system, js: true do
       click_button "Send emails to consultees"
     end
 
-    expect(page).to have_selector("[role=alert] li", text: "The reasons for reconsultation contains an invalid placeholder '{{close_date}}'")
+    expect(page).to have_selector("[role=alert] li", text: "The message body contains an invalid placeholder '{{close_date}}'")
     expect(page).to have_selector("[role=alert] li", text: "Consultee response period is not a number")
 
-    within "#resend-consultees" do
-      fill_in "Reasons for reconsultation", with: "Application has changes - please respond by {{closing_date}}"
-    end
+    fill_in "Message body", with: find("textarea").text.gsub("{{close_date}}", "{{closing_date}}")
 
     within "#response-period" do
       fill_in "consultation[consultee_response_period]", with: 14

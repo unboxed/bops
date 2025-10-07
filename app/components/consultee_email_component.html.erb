@@ -3,6 +3,10 @@
   <%= t(".header") %>
 </h2>
 
+<%= form.govuk_select :email_reason,
+      Consultation::EMAIL_REASONS.index_by { t(it, scope: "consultee_email_component.email_reason") },
+      label: {text: "Email type"} %>
+
 <%= details_tag do %>
   <%= summary_tag do %>
     <%= t(".view_or_edit_email_template") %>

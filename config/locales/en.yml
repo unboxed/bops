@@ -745,6 +745,10 @@ en:
     destroy:
       success: Consultee was removed from this constraint
   consultee_email_component:
+    email_reason:
+      reconsult: Reconsultation
+      resend: Resending to existing consultees
+      send: Initial consultation
     formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <code>{{name}}</code> will be substituted when the email is sent.
     header: Send email to selected consultees
     message_body_label: Message body
