@@ -6,8 +6,6 @@ module PlanningApplications
       class PositionsController < BaseController
         include BopsCore::PositionsController
 
-        before_action :ensure_planning_application_is_not_preapp
-
         private
 
         def set_collection

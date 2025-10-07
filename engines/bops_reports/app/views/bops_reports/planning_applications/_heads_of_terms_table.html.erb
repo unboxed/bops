@@ -1,0 +1,18 @@
+<% @planning_application.heads_of_term.terms.each do |term| %>
+  <div class="govuk-summary-card">
+    <div class="govuk-summary-card__content">
+      <dl class="govuk-summary-list">
+        <div class="govuk-summary-list__row">
+          <dd class="govuk-summary-list__value">
+            <p class="govuk-!-font-size-18  govuk-secondary-text-colour">
+              <strong><%= term.title %></strong>
+            </p>
+              <p class="govuk-!-font-size-18  govuk-secondary-text-colour">
+              <strong>Description: </strong><%= term.text %>
+            </p>
+          </dd>
+        </div>
+      </dl>
+    </div>
+  </div>
+<% end %>

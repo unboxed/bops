@@ -162,7 +162,6 @@ RSpec.describe "Assessment tasks", type: :system do
             expect(page).to have_content("Choose application type")
             expect(page).not_to have_content("Add informatives")
             expect(page).to have_content("Check and add requirements")
-            expect(page).not_to have_content("Add heads of terms")
             expect(page).not_to have_content("Review and submit recommendation")
           end
         end

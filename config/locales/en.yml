@@ -973,12 +973,13 @@ en:
     term:
       add: Add term
       confirm: Confirm and send to applicant
+      confirm_without_sending: Save and mark as complete
       update: Update term
   granted: Granted
   heads_of_terms:
     update:
       public:
-        success: Heads of terms successfully updated and sent to applicant
+        success: Heads of terms successfully updated and sent to the applicant
       saved:
         success: Heads of terms successfully saved
   helpers:
@@ -1639,6 +1640,7 @@ en:
           application_details: Application details
       terms:
         confirm:
+          preapp_success: Head of terms have been confirmed
           success: Head of terms have been confirmed and sent to the applicant
         create:
           success: Head of terms has been successfully added
@@ -1646,6 +1648,7 @@ en:
           success: Head of terms was successfully removed
         index:
           drag_and_drop: Drag and drop heads of terms to change the order that they appear in the decision notice.
+          preapp_reminder: Heads of terms can be added for pre-applications, but no email will be sent to the applicant.
         update:
           success: Head of terms was successfully updated
     confirm_validation:

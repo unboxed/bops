@@ -25,23 +25,6 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     expect(page).to have_selector("h1", text: "Assess the application")
   end
 
-  context "when planning application is a pre-application" do
-    let!(:planning_application) do
-      create(:planning_application, :pre_application, :in_assessment, local_authority: default_local_authority, api_user:)
-    end
-
-    it "doesn't show the 'Add heads of terms' link" do
-      expect(page).not_to have_link("Add heads of terms", href: "/planning_applications/#{reference}/assessment/terms")
-    end
-
-    it "it doesn't allow visiting the heads of terms page" do
-      visit "/planning_applications/#{reference}/assessment/terms"
-
-      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-      expect(page).to have_selector("h1", text: "Assess the application")
-    end
-  end
-
   context "when planning application is an LDC" do
     let!(:planning_application) do
       create(:planning_application, :ldc_proposed, :in_assessment, local_authority: default_local_authority, api_user:)
@@ -349,6 +332,78 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       within("li.sortable-list:nth-of-type(3)") do
         expect(page).to have_selector("span", text: "Heads of term 3")
         expect(page).to have_selector("h2", text: "Title 1")
+      end
+    end
+  end
+
+  context "when planning application is a pre-application" do
+    let!(:planning_application) do
+      create(:planning_application, :pre_application, :in_assessment, local_authority: default_local_authority, api_user:)
+    end
+
+    it "you can add new heads of terms" do
+      within("#add-heads-of-terms") do
+        expect(page).to have_content "Optional"
+        click_link "Add heads of terms"
+      end
+
+      expect(page).to have_content("Heads of terms can be added for pre-applications, but no email will be sent to the applicant.")
+      expect(page).to have_selector("h1", text: "Add heads of terms")
+      find("span", text: "Add a new heads of terms").click
+      expect(page).to have_selector("h2", text: "Add a new heads of term")
+
+      click_button "Add term"
+      expect(page).to have_selector("[role=alert] li", text: "Enter the title of this term")
+      expect(page).to have_selector("[role=alert] li", text: "Enter the detail of this term")
+
+      fill_in "Enter title", with: "Title 1"
+      fill_in "Enter details", with: "Custom details 1"
+      click_button "Add term"
+
+      expect(page).to have_selector("[role=alert] p", text: "Head of terms has been successfully added")
+
+      find("span", text: "Add a new heads of terms").click
+      fill_in "Enter title", with: "Title 2"
+      fill_in "Enter details", with: "Custom details 2"
+      click_button "Add term"
+
+      within("#term_#{Term.first.id}") do
+        expect(page).to have_selector("span", text: "Heads of term 1")
+        expect(page).to have_selector("h2", text: "Title 1")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_selector("p", text: "Custom details 1")
+
+        expect(page).to have_link("Remove")
+        expect(page).to have_link("Edit")
+      end
+
+      within("#term_#{Term.second.id}") do
+        expect(page).to have_selector("span", text: "Heads of term 2")
+        expect(page).to have_selector("h2", text: "Title 2")
+        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_selector("p", text: "Custom details 2")
+      end
+
+      click_button "Save and mark as complete"
+      expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed")
+
+      within("#term_#{Term.first.id}") do
+        expect(page).to have_selector(".govuk-tag", text: "Not sent")
+
+        expect(page).to have_link("Edit")
+        expect(page).to have_link("Remove")
+      end
+
+      within("#term_#{Term.second.id}") do
+        expect(page).to have_selector(".govuk-tag", text: "Not sent")
+
+        expect(page).to have_link("Edit")
+        expect(page).to have_link("Remove")
+      end
+
+      click_link "Back"
+      within("#add-heads-of-terms") do
+        expect(page).to have_content "Completed"
       end
     end
   end
