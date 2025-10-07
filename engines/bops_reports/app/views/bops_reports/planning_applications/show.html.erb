@@ -62,6 +62,7 @@
         ["Site history", "#site-history"],
         ["Site and surroundings", "#site-and-surroundings"],
         ["Considerations and advice", "#considerations-advice"],
+        ["Heads of terms", "#heads-of-terms"],
         ["Policies and guidance", "#policies-guidance"],
         ["Requirements", "#requirements"],
         ["Next steps", "#next-steps"],
@@ -427,6 +428,25 @@
         <%= @summary_of_advice.entry %>
       </p>
     </section>
+  <% end %>
+</section>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<section id="heads-of-terms">
+  <div class="govuk-!-margin-bottom-2 flex-between">
+    <h2 class="govuk-heading-m">Heads of terms</h2>
+    <% if editing_enabled? %>
+      <%= govuk_link_to "Edit", main_app.planning_application_assessment_terms_path(@planning_application, return_to: "report") %>
+    <% end %>
+  </div>
+  <% if @heads_of_term.present? %>
+    <% if applicant_view? %>
+      <p>
+        These terms are an outline of the key planning obligations that the council may seek if a planning application is submitted. They help you understand the likely costs and requirements upfront. These terms are a starting point for negotiation and are subject to change as the formal planning application process moves forward.
+      </p>
+    <% end %>
+    <%= render "bops_reports/planning_applications/heads_of_terms_table" %>
   <% end %>
 </section>
 

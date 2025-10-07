@@ -13,7 +13,9 @@ module StatusTags
 
     def status
       if heads_of_term.current_review.present?
-        if heads_of_term.any_new_updated_validation_requests? && !heads_of_term.current_review.complete?
+        if heads_of_term.planning_application.pre_application? && !heads_of_term.current_review.complete?
+          :optional
+        elsif heads_of_term.any_new_updated_validation_requests? && !heads_of_term.current_review.complete?
           "updated"
         else
           heads_of_term.current_review.status.to_sym

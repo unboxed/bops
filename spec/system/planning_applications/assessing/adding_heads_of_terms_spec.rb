@@ -343,7 +343,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
 
     it "you can add new heads of terms" do
       within("#add-heads-of-terms") do
-        expect(page).to have_content "Not started"
+        expect(page).to have_content "Optional"
         click_link "Add heads of terms"
       end
 

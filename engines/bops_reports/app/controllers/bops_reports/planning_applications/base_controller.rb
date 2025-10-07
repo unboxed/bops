@@ -11,6 +11,7 @@ module BopsReports
       before_action :set_constraints
       before_action :set_recommendation
       before_action :set_considerations
+      before_action :set_heads_of_term
 
       delegate :pre_application?, to: :@planning_application
 
@@ -61,6 +62,10 @@ module BopsReports
 
       def set_considerations
         @considerations = @planning_application.considerations.active
+      end
+
+      def set_heads_of_term
+        @heads_of_term = @planning_application.heads_of_term
       end
 
       def build_or_find_recommendation
