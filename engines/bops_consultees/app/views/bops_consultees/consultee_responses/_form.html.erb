@@ -21,6 +21,11 @@
         hint: {text: "Add any relevant documents."},
         multiple: true %>
 
+  <%= form.govuk_text_field :email,
+        label: {text: "Officer submitting comment"},
+        hint: {text: "Ensure your email address is correct to receive any further correspondence or consultations."},
+        value: @consultee.email_address %>
+
   <div class="govuk-button-group">
     <%= form.submit "Submit Response", class: "govuk-button govuk-button--primary govuk-!-margin-top-5" %>
   </div>

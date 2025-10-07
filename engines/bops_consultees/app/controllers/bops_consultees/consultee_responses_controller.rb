@@ -30,7 +30,7 @@ module BopsConsultees
     end
 
     def consultee_response_params
-      params.require(:consultee_response).permit(:summary_tag, :response, documents: [])
+      params.require(:consultee_response).permit(:summary_tag, :response, :email, documents: [])
     end
 
     def render_expired

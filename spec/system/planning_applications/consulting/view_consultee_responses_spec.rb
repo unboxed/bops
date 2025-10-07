@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "View consultee responses", type: :system, js: true do
+RSpec.describe "View consultee responses", type: :system, capybara: true, js: true do
   let(:api_user) { create(:api_user, :planx) }
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
@@ -160,7 +160,7 @@ RSpec.describe "View consultee responses", type: :system, js: true do
       within "#consultee-tab-all" do
         within(".consultee-panel:nth-of-type(2)") do
           expect(page).to have_selector(".consultee-panel__status .govuk-tag", text: "No objection")
-          expect(page).to have_text("Last received on #{today.to_fs(:day_month_year)}")
+          expect(page).to have_text("Submitted by #{external_consultee.email_address} on #{today.to_fs(:day_month_year)}")
           expect(page).to have_text("We are happy for this application to proceed")
           expect(page).to have_link("View all responses (1)")
         end
@@ -357,7 +357,7 @@ RSpec.describe "View consultee responses", type: :system, js: true do
       within "#consultee-tab-all" do
         within(".consultee-panel:nth-of-type(2)") do
           expect(page).to have_selector(".consultee-panel__status .govuk-tag", text: "No objection")
-          expect(page).to have_text("Last received on #{today.to_fs(:day_month_year)}")
+          expect(page).to have_text("Submitted by #{external_consultee.email_address} on #{today.to_fs(:day_month_year)}")
           expect(page).to have_text("We are happy for this application to proceed")
           expect(page).to have_link("View all responses (1)")
         end

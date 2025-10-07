@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Planning applications", type: :system do
   let!(:local_authority) { create(:local_authority, :default) }
-  let(:consultee) { create(:consultee, consultation: planning_application.consultation) }
+  let(:consultee) { create(:consultee, :external, email_address: "james.consultee@council.gov.uk", consultation: planning_application.consultation) }
   let(:sgid) { consultee.sgid(expires_in: 1.day, for: "magic_link") }
   let(:reference) { planning_application.reference }
   let(:user) { create(:user) }
@@ -53,7 +53,12 @@ RSpec.describe "Planning applications", type: :system do
         expect(page).to have_content("Response can't be blank")
 
         fill_in "Response", with: "We are happy for this application to proceed"
+        fill_in "Officer submitting comment", with: "tom@gmail.com"
 
+        click_button "Submit Response"
+        expect(page).to have_content("Email must be a [council.gov.uk] email address.")
+
+        fill_in "Officer submitting comment", with: "tom@council.gov.uk"
         click_button "Submit Response"
 
         expect(page).to have_content("Your response has been updated")
@@ -96,23 +101,36 @@ RSpec.describe "Planning applications", type: :system do
       it "I can see that the link has expired and can resend link" do
         expect(page).not_to have_content(planning_application.full_address)
         expect(page).not_to have_content(reference)
-        expect(page).to have_content("Your magic link has expired")
+        expect(page).to have_content("Magic link expired")
+        expect(page).to have_content("The email must be a [council.gov.uk] address.")
         expect(page).to have_content("Contact #{local_authority.feedback_email} if you think there's a problem.")
 
+        fill_in "Request a new email for", with: "tom@gmail.com"
+
         delivered_emails = mail.count
-        click_button("Send a new magic link")
-        expect(page).to have_content("A magic link has been sent to: #{consultee.email_address}")
+        click_button("Request a new magic link")
+        expect(page).to have_content("Email must be a [council.gov.uk] address.")
+
+        fill_in "Request a new email for", with: "tom@council.gov.uk"
+        click_button("Request a new magic link")
+
+        expect(page).to have_content("A magic link has been sent to: tom@council.gov.uk")
+
         perform_enqueued_jobs
         expect(mail.count).to eql(delivered_emails + 1)
 
+        sent_email_address = mail.last.to[0]
+        expect(sent_email_address).to eql("tom@council.gov.uk")
+
         url = mail.last.body.raw_source.match(/http[^\s]+/)
+
         visit url
         expect(page).to have_content(reference)
       end
 
       it "does not resend the link if attempted within 1 minute" do
         delivered_emails = mail.count
-        click_button("Send a new magic link")
+        click_button("Request a new magic link")
         expect(page).to have_content("A magic link has been sent to: #{consultee.email_address}")
         perform_enqueued_jobs
         expect(mail.count).to eql(delivered_emails + 1)
@@ -120,13 +138,13 @@ RSpec.describe "Planning applications", type: :system do
         # Attempt to resend immediately
         delivered_emails = mail.count
         visit "/consultees/planning_applications/#{reference}?sgid=#{sgid}"
-        click_button("Send a new magic link")
+        click_button("Request a new magic link")
         expect(page).to have_content("A magic link was sent recently. Please wait at least 1 minute before requesting another.")
         expect(mail.count).to eql(delivered_emails)
 
         # Wait for 1 minute and try again
         travel 1.minute
-        click_button("Send a new magic link")
+        click_button("Request a new magic link")
         expect(page).to have_content("A magic link has been sent to: #{consultee.email_address}")
         perform_enqueued_jobs
         expect(mail.count).to eql(delivered_emails + 1)

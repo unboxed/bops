@@ -805,7 +805,7 @@ en:
     awaiting_response: Awaiting response
     failed: Failed
     last_email_delivered_at: Last consulted on %-d %B %Y
-    last_received_at: Last received on %-d %B %Y
+    last_received_at: Submitted by %{@co} %-d %B %Y
     not_consulted: Not consulted
     objected: Objection
     sending: Sending
@@ -1683,7 +1683,7 @@ en:
         index:
           make_public: The planning application must be made public on the BOPS Public Portal before you can send emails to consultees.
         last_contacted: Last contacted on %{date}
-        last_received: Last received on %{date}
+        last_received: Submitted by %{email} on %{date}
         no_responses: No responses received yet.
         update:
           success: Response was successfully published.

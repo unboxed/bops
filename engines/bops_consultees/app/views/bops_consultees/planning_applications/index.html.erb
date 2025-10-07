@@ -11,11 +11,28 @@
     </h1>
 
     <% if @expired_resource %>
-      <h2 class="govuk-heading-s">Your magic link has expired</h2>
-      <p>
-        Contact <%= govuk_mail_to(current_local_authority.feedback_email) %> if you think there's a problem.
-      </p>
-      <%= govuk_button_to "Send a new magic link", resend_link_planning_application_path(params[:reference], sgid: params[:sgid]) %>
+      <h2 class="govuk-heading-s">Magic link expired</h2>
+      <%= form_with model: @form,
+            url: resend_link_planning_application_path(params[:reference], sgid: params[:sgid]),
+            method: :post,
+            class: "govuk-!-margin-top-5" do |form| %>
+
+        <%= form.govuk_error_summary %>
+
+        <%= form.govuk_text_field :email,
+              label: {text: "Request a new email for"},
+              hint: {text: "The email must be a [#{@consultee.email_address.split("@").last}] address."} %>
+
+        <p>
+          Contact <%= govuk_mail_to(current_local_authority.feedback_email) %> if you think there's a problem.
+        </p>
+
+        <div class="govuk-button-group">
+          <%= form.submit "Request a new magic link",
+                class: "govuk-button govuk-button--primary govuk-!-margin-top-5" %>
+        </div>
+      <% end %>
+
     <% elsif params[:sgid].blank? %>
       <h2 class="govuk-heading-s">You are not authenticated</h2>
       <p>

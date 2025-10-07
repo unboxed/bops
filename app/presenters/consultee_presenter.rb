@@ -125,7 +125,7 @@ class ConsulteePresenter
 
   def last_corresponded_at
     if last_received_at.present?
-      I18n.t("planning_applications.consultee.responses.last_received", date: format_date(last_received_at))
+      I18n.t("planning_applications.consultee.responses.last_received", date: format_date(last_received_at), email: consultee.responses.last.email)
     elsif last_contacted_at.present?
       I18n.t("planning_applications.consultee.responses.last_contacted", date: format_date(last_contacted_at))
     end

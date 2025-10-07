@@ -7,7 +7,7 @@ RSpec.describe BopsCore::MagicLinkMailer, type: :mailer do
     let(:consultation) { create(:consultation) }
     let(:consultee) { create(:consultee, consultation:, email_address: "consultee@example.com", name: "Bops Consultee") }
     let(:planning_application) { consultation.planning_application }
-    let(:mail) { described_class.magic_link_mail(resource: consultee, planning_application:, subject: "Your magic link") }
+    let(:mail) { described_class.magic_link_mail(resource: consultee, planning_application:, email: consultee.email_address, subject: "Your magic link") }
 
     before do
       allow(consultee).to receive(:sgid).and_return("123456789")
