@@ -1,4 +1,4 @@
-FROM debian:bookworm-slim
+FROM debian:trixie-slim
 
 # Run security updates and install packages
 RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
