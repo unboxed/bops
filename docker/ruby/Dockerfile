@@ -15,10 +15,10 @@ RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
 RUN bash -c "apt-get install -y --no-install-recommends libvips-dev poppler-utils"
 
 # Install PostgreSQL client
-RUN bash -c "echo 'deb http://apt.postgresql.org/pub/repos/apt/ trixie-pgdg main' \
+RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/postgresql.gpg] http://apt.postgresql.org/pub/repos/apt/ trixie-pgdg main' \
     > /etc/apt/sources.list.d/pgdg.list && \
     wget -q -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc \
-    | apt-key add - && apt-get update && \
+    | gpg --dearmor -o /usr/share/keyrings/postgresql.gpg && apt-get update && \
     apt-get install -y --no-install-recommends postgresql-client-16"
 
 # Install NodeJS
