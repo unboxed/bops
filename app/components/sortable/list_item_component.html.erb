@@ -14,7 +14,7 @@
       <h2 class="govuk-heading-m"><%= record.title %></h2>
     <% end %>
 
-    <% if current_request %>
+    <% if current_request && show_status_tag %>
       <p style="float: none">
         <%= render(StatusTags::BaseComponent.new(status: status(record))) %>
       </p>

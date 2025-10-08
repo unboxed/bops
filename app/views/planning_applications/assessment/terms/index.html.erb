@@ -7,14 +7,18 @@
       locals: {planning_application: @planning_application}
     ) %>
 
-<% content_for :title, "Add heads of terms" %>
+<% content_for :title, heads_of_terms_task_header(@planning_application) %>
 
 <%= render(
       partial: "shared/proposal_header",
-      locals: {heading: "Add heads of terms"}
+      locals: {heading: heads_of_terms_task_header(@planning_application)}
     ) %>
 
 <%= render(ReviewerCommentComponent.new(comment: @heads_of_term.current_review)) %>
+
+<% if @planning_application.pre_application? %>
+  <p><%= t(".preapp_reminder") %></p>
+<% end %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
@@ -29,15 +33,13 @@
               record_sortable_url: planning_application_assessment_term_position_path(@planning_application, term),
               edit_record_url: edit_planning_application_assessment_term_path(@planning_application, term),
               remove_record_url: planning_application_assessment_term_path(@planning_application, term),
-              current_request: term.current_validation_request
+              current_request: term.current_validation_request,
+              show_status_tag: !@planning_application.pre_application?
             )) %>
       <% end %>
 
     </ol>
     <p><%= t(".drag_and_drop") %></p>
-    <% if @planning_application.pre_application? %>
-      <p><%= t(".preapp_reminder") %></p>
-    <% end %>
   </div>
 
   <div class="govuk-grid-column-two-thirds">

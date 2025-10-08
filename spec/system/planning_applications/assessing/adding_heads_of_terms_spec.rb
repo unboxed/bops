@@ -342,13 +342,13 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     end
 
     it "you can add new heads of terms" do
-      within("#add-heads-of-terms") do
+      within("#suggest-heads-of-terms") do
         expect(page).to have_content "Optional"
-        click_link "Add heads of terms"
+        click_link "Suggest heads of terms"
       end
 
       expect(page).to have_content("Heads of terms can be added for pre-applications, but no email will be sent to the applicant.")
-      expect(page).to have_selector("h1", text: "Add heads of terms")
+      expect(page).to have_selector("h1", text: "Suggest heads of terms")
       find("span", text: "Add a new heads of terms").click
       expect(page).to have_selector("h2", text: "Add a new heads of term")
 
@@ -370,7 +370,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       within("#term_#{Term.first.id}") do
         expect(page).to have_selector("span", text: "Heads of term 1")
         expect(page).to have_selector("h2", text: "Title 1")
-        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_no_content("Not sent")
         expect(page).to have_selector("p", text: "Custom details 1")
 
         expect(page).to have_link("Remove")
@@ -380,7 +380,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       within("#term_#{Term.second.id}") do
         expect(page).to have_selector("span", text: "Heads of term 2")
         expect(page).to have_selector("h2", text: "Title 2")
-        expect(page).to have_selector("p strong.govuk-tag", text: "Not sent")
+        expect(page).to have_no_content("Not sent")
         expect(page).to have_selector("p", text: "Custom details 2")
       end
 
@@ -388,21 +388,21 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed")
 
       within("#term_#{Term.first.id}") do
-        expect(page).to have_selector(".govuk-tag", text: "Not sent")
+        expect(page).to have_no_content("Not sent")
 
         expect(page).to have_link("Edit")
         expect(page).to have_link("Remove")
       end
 
       within("#term_#{Term.second.id}") do
-        expect(page).to have_selector(".govuk-tag", text: "Not sent")
+        expect(page).to have_no_content("Not sent")
 
         expect(page).to have_link("Edit")
         expect(page).to have_link("Remove")
       end
 
       click_link "Back"
-      within("#add-heads-of-terms") do
+      within("#suggest-heads-of-terms") do
         expect(page).to have_content "Completed"
       end
     end

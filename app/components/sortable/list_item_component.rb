@@ -4,7 +4,7 @@ module Sortable
   class ListItemComponent < ViewComponent::Base
     include ConditionsHelper
 
-    def initialize(record:, record_class:, record_controller:, record_sortable_url:, edit_record_url:, remove_record_url: nil, current_request: nil)
+    def initialize(record:, record_class:, record_controller:, record_sortable_url:, edit_record_url:, remove_record_url: nil, current_request: nil, show_status_tag: true)
       @record = record
       @record_class = record_class
       @record_controller = record_controller
@@ -12,7 +12,10 @@ module Sortable
       @edit_record_url = edit_record_url
       @remove_record_url = remove_record_url
       @current_request = current_request
+      @show_status_tag = show_status_tag
     end
+
+    attr_reader :show_status_tag
 
     private
 
