@@ -809,7 +809,7 @@ en:
     awaiting_response: Awaiting response
     failed: Failed
     last_email_delivered_at: Last consulted on %-d %B %Y
-    last_received_at: Submitted by %{@co} %-d %B %Y
+    last_received_at: Last received on %-d %B %Y
     not_consulted: Not consulted
     objected: Objection
     sending: Sending

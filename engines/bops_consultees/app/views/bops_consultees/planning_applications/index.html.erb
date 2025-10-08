@@ -21,7 +21,7 @@
 
         <%= form.govuk_text_field :email,
               label: {text: "Request a new email for"},
-              hint: {text: "The email must be a [#{@consultee.email_address.split("@").last}] address."} %>
+              hint: {text: "The email must be a #{@consultee.email_address.split("@").last} address."} %>
 
         <p>
           Contact <%= govuk_mail_to(current_local_authority.feedback_email) %> if you think there's a problem.
