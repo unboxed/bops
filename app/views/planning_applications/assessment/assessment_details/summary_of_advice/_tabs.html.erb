@@ -37,7 +37,7 @@
               id: "consultee-response-#{consultee_response.id}"
             ) do |component| %>
           <% component.with_title { consultee_response.name } %>
-          <% component.with_body { consultee_response.comment } %>
+          <% component.with_body { consultee_response.response } %>
           <% component.with_status do %>
             <% case consultee_response.summary_tag %>
             <% when "amendments_needed" %>
