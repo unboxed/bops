@@ -18,7 +18,7 @@ module BopsCore
         consultee_domain = consultee.email_address.split("@").last
 
         if submitted_domain != consultee_domain
-          errors.add(:email, "Email must be a [#{consultee_domain}] address.")
+          errors.add(:email, "Email must be a #{consultee_domain} address.")
         end
       end
     end

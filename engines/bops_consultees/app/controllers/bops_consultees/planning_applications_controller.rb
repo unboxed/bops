@@ -6,6 +6,7 @@ module BopsConsultees
     before_action :set_consultee, only: %i[show resend_link]
     before_action :authenticate_with_sgid!, only: :show
     before_action :set_consultee_response, only: :show
+    before_action :set_consultee_response_form_email, only: :show
     before_action :ensure_magic_link_resend_allowed, only: :resend_link
 
     def index
@@ -56,6 +57,11 @@ module BopsConsultees
 
     def set_consultee_response
       @consultee_response = @consultee.responses.new
+    end
+
+    def set_consultee_response_form_email
+      last_consultee_response = @consultee.responses.where.not(received_at: nil).order(received_at: :desc).last
+      @response_form_email = last_consultee_response&.email.presence || @consultee.email_address
     end
 
     def render_expired

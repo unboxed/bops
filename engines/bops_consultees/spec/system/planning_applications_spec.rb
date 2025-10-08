@@ -53,12 +53,12 @@ RSpec.describe "Planning applications", type: :system do
         expect(page).to have_content("Response can't be blank")
 
         fill_in "Response", with: "We are happy for this application to proceed"
-        fill_in "Officer submitting comment", with: "tom@gmail.com"
+        fill_in "Your email address", with: "tom@gmail.com"
 
         click_button "Submit Response"
-        expect(page).to have_content("Email must be a [council.gov.uk] email address.")
+        expect(page).to have_content("Email must be a council.gov.uk email address.")
 
-        fill_in "Officer submitting comment", with: "tom@council.gov.uk"
+        fill_in "Your email address", with: "tom@council.gov.uk"
         click_button "Submit Response"
 
         expect(page).to have_content("Your response has been updated")
@@ -102,14 +102,14 @@ RSpec.describe "Planning applications", type: :system do
         expect(page).not_to have_content(planning_application.full_address)
         expect(page).not_to have_content(reference)
         expect(page).to have_content("Magic link expired")
-        expect(page).to have_content("The email must be a [council.gov.uk] address.")
+        expect(page).to have_content("The email must be a council.gov.uk address.")
         expect(page).to have_content("Contact #{local_authority.feedback_email} if you think there's a problem.")
 
         fill_in "Request a new email for", with: "tom@gmail.com"
 
         delivered_emails = mail.count
         click_button("Request a new magic link")
-        expect(page).to have_content("Email must be a [council.gov.uk] address.")
+        expect(page).to have_content("Email must be a council.gov.uk address.")
 
         fill_in "Request a new email for", with: "tom@council.gov.uk"
         click_button("Request a new magic link")
