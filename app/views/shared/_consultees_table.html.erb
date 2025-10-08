@@ -48,13 +48,11 @@
 
               <% if can_manage_consultees %>
                 <div class="consultee-table__secondary-link">
-                  <%= govuk_link_to "Assign another consultee",
-                        new_planning_application_consultee_path(planning_application, constraint: constraint) %>
+                  <%= govuk_link_to "Assign another consultee", main_app.new_planning_application_consultee_path(planning_application, constraint: constraint) %>
                 </div>
               <% end %>
             <% elsif can_manage_consultees %>
-              <%= govuk_link_to "Assign consultee",
-                    new_planning_application_consultee_path(planning_application, constraint: constraint) %>
+              <%= govuk_link_to "Assign consultee", main_app.new_planning_application_consultee_path(planning_application, constraint: constraint) %>
             <% else %>
               &ndash;
             <% end %>
@@ -91,7 +89,7 @@
                   <% constraint_consultee = constraint_consultees_by_consultee[consultee.id] %>
                   <li class="consultee-table__action-item" id="remove-consultee-<%= constraint_consultee.id %>">
                     <%= govuk_link_to "Remove",
-                          planning_application_consultees_constraint_consultee_path(planning_application, constraint_consultee),
+                          main_app.planning_application_consultees_constraint_consultee_path(planning_application, constraint_consultee),
                           method: :delete,
                           class: "consultee-table__action-button",
                           form: {class: "consultee-table__action-form"} %>
