@@ -30,5 +30,13 @@
             )
           ) %>
     <% end %>
+
+    <% if @planning_application.heads_of_terms? && @planning_application.pre_application? %>
+      <%= render(
+            TaskListItems::Assessment::HeadsOfTermsComponent.new(
+              planning_application: @planning_application
+            )
+          ) %>
+    <% end %>
   </ul>
 </li>

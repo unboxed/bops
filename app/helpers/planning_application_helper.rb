@@ -71,4 +71,8 @@ module PlanningApplicationHelper
       "Consultees"
     end
   end
+
+  def heads_of_terms_task_header(planning_application)
+    planning_application.pre_application? ? "Suggest heads of terms" : "Add heads of terms"
+  end
 end
