@@ -27,8 +27,6 @@ class Consultation < ApplicationRecord
 
   attribute :deadline_extension, :integer
   attribute :email_reason, :string, default: "send"
-  attribute :resend_message, :string
-  attribute :reconsult_message, :string
   attribute :consultee_response_period, :integer, default: DEFAULT_PERIOD
 
   belongs_to :planning_application
@@ -78,10 +76,6 @@ class Consultation < ApplicationRecord
     validates :consultee_response_period, numericality: {greater_than_or_equal_to: 1, less_than_or_equal_to: 99}
     validates :email_reason, inclusion: {in: EMAIL_REASONS}
 
-    with_options if: :reconsult? do
-      validates :reconsult_message, presence: true
-    end
-
     validate do
       errors.add(:planning_application, :invalidated) if planning_application.invalidated?
       errors.add(:planning_application, :not_started) if planning_application.not_started?
@@ -94,18 +88,6 @@ class Consultation < ApplicationRecord
 
       unknown_placeholders(consultee_message_body) do |placeholder|
         errors.add(:consultee_message_body, :invalid, placeholder: placeholder)
-      end
-
-      if resend?
-        unknown_placeholders(resend_message) do |placeholder|
-          errors.add(:resend_message, :invalid, placeholder: placeholder)
-        end
-      end
-
-      if reconsult?
-        unknown_placeholders(reconsult_message) do |placeholder|
-          errors.add(:reconsult_message, :invalid, placeholder: placeholder)
-        end
       end
     end
   end
@@ -431,13 +413,9 @@ class Consultation < ApplicationRecord
 
     subject = consultee_message_subject
     body = consultee_message_body
-    divider = "\n\n---\n\n"
 
     if reconsult?
-      body = reconsult_message + divider + body
       defaults[:closing_date] = consultee_response_required_by.to_fs
-    elsif resend? && resend_message.present?
-      body = resend_message + divider + body
     end
 
     consultees.selected.each do |consultee|
