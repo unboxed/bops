@@ -395,6 +395,9 @@ en:
               blank: Enter your GOV.UK Notify API key
             sms_template_id:
               blank: Enter the ID of the SMS template you will be using
+            subdomain:
+              blank: Enter a subdomain for your local authority
+              invalid: Subdomain can only contain lowercase letters and hyphens"
         meeting:
           attributes:
             occurred_at:

@@ -116,12 +116,16 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
     fill_in "Short name", with: "Coventry"
     fill_in "Council name", with: "Coventry City Council"
     fill_in "Council code", with: "COV"
-    fill_in "Subdomain", with: "coventry"
+    fill_in "Subdomain", with: "cov.bops.services"
     fill_in "Applicants URL", with: "https://planningapplications.coventry.gov.uk"
 
     fill_in "Full name", with: "Lady Godiva"
     fill_in "Email address", with: "lady.godiva@example.com"
 
+    click_button "Save"
+    expect(page).to have_selector("[role=alert] li", text: "Subdomain can only contain lowercase letters and hyphens")
+
+    fill_in "Subdomain", with: "coventry"
     click_button "Save"
     expect(page).to have_content("Local authority successfully created")
 

@@ -40,7 +40,8 @@ class LocalAuthority < ApplicationRecord
     ]
 
   with_options presence: true do
-    validates :council_code, :subdomain
+    validates :council_code
+    validates :subdomain, format: {with: /\A[a-z](?:[a-z-]{0,61}[a-z])?\z/}
     validates :short_name, :council_name
     validates :applicants_url
   end
