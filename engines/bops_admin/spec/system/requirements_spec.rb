@@ -111,7 +111,12 @@ RSpec.describe "Requirement" do
     expect(page).to have_current_path("/admin/requirements")
     expect(page).to have_content("Requirement successfully created")
 
-    within "tbody tr:nth-child(2)" do
+    within "tbody tr:nth-child(1)" do
+      expect(page).to have_selector("td:nth-child(1)", text: "Other requirements")
+      expect(page).to have_selector("td:nth-child(2)", text: "Community Infrastructure Levy (CIL) (opens in new tab)")
+    end
+
+    within "tbody tr:nth-child(3)" do
       expect(page).to have_selector("td:nth-child(1)", text: "Drawings")
       expect(page).to have_selector("td:nth-child(2)", text: "Floor plans - proposed")
     end
@@ -123,7 +128,7 @@ RSpec.describe "Requirement" do
     visit "/admin/requirements"
     expect(page).to have_selector("h1", text: "Manage requirements")
 
-    within "tbody tr:nth-child(1)" do
+    within "tbody tr:nth-child(2)" do
       expect(page).to have_selector("td:nth-child(1)", text: "Drawings")
       expect(page).to have_selector("td:nth-child(2)", text: "Floor plans - existing")
 
@@ -138,7 +143,7 @@ RSpec.describe "Requirement" do
     expect(page).to have_current_path("/admin/requirements")
     expect(page).to have_content("Requirement successfully updated")
 
-    within "tbody tr:nth-child(1)" do
+    within "tbody tr:nth-child(2)" do
       expect(page).to have_selector("td:nth-child(1)", text: "Drawings")
       expect(page).to have_selector("td:nth-child(2)", text: "Floor plans")
     end
@@ -149,6 +154,16 @@ RSpec.describe "Requirement" do
 
     visit "/admin/requirements"
     expect(page).to have_selector("h1", text: "Manage requirements")
+
+    within "tbody tr:nth-child(1)" do
+      expect(page).to have_selector("td:nth-child(2)", text: "Community Infrastructure Levy (CIL) (opens in new tab)")
+
+      accept_confirm do
+        click_link("Delete")
+      end
+    end
+
+    expect(page).to have_content("Requirement successfully deleted")
 
     within "tbody tr:nth-child(1)" do
       expect(page).to have_selector("td:nth-child(2)", text: "Floor plans - existing")

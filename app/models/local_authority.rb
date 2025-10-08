@@ -83,6 +83,7 @@ class LocalAuthority < ApplicationRecord
 
   before_save :clear_notify_error_status
   before_update :set_active
+  after_commit :ensure_default_requirements, on: :create
 
   class << self
     def by_short_name
@@ -196,6 +197,10 @@ class LocalAuthority < ApplicationRecord
     return true unless council_code_changed?
 
     errors.add(:council_code, "Please enter a valid council code") unless council_code == planning_data
+  end
+
+  def ensure_default_requirements
+    LocalAuthority::Requirement.ensure_cil_requirement_for!(self)
   end
 
   def plan_x?
