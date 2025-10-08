@@ -1,6 +1,6 @@
 ARG RUBY_VERSION=3.4.5
 
-FROM ruby:$RUBY_VERSION-bookworm
+FROM ruby:$RUBY_VERSION-trixie
 
 ENV BUNDLE_PATH=/home/rails/bundle
 
@@ -15,7 +15,7 @@ RUN bash -c "export DEBIAN_FRONTEND=noninteractive && \
 RUN bash -c "apt-get install -y --no-install-recommends libvips-dev poppler-utils"
 
 # Install PostgreSQL client
-RUN bash -c "echo 'deb http://apt.postgresql.org/pub/repos/apt/ bookworm-pgdg main' \
+RUN bash -c "echo 'deb http://apt.postgresql.org/pub/repos/apt/ trixie-pgdg main' \
     > /etc/apt/sources.list.d/pgdg.list && \
     wget -q -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc \
     | apt-key add - && apt-get update && \

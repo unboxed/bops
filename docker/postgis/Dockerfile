@@ -1,4 +1,4 @@
-FROM postgres:16-bookworm
+FROM postgres:16-trixie
 
 ENV POSTGIS_MAJOR 3
 
