@@ -7,6 +7,8 @@ json.extract! planning_application,
   :agent_email,
   :applicant_first_name,
   :applicant_last_name,
+  :applicant_phone,
+  :applicant_email,
   :user_role,
   :awaiting_determination_at,
   :to_be_reviewed_at,
@@ -36,6 +38,9 @@ end
 if planning_application.user
   json.assigned_user_name planning_application.user.name
   json.assigned_user_role planning_application.user.role
+end
+if planning_application.ownership_certificate.present?
+  json.ownership_certificate planning_application.ownership_certificate.certificate_type
 end
 json.application_type planning_application.application_type.name
 json.reference planning_application.reference
