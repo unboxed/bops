@@ -188,4 +188,19 @@ RSpec.describe LocalAuthority do
       end
     end
   end
+
+  describe "default requirements" do
+    it "creates the CIL requirement" do
+      attributes = LocalAuthority::Requirement.cil_requirement_attributes
+
+      local_authority = create(:local_authority)
+
+      requirement = local_authority.requirements.find_by(description: attributes[:description])
+
+      expect(requirement).to be_present
+      expect(requirement.url).to eq(attributes[:url])
+      expect(requirement.guidelines).to eq(attributes[:guidelines])
+      expect(requirement.category).to eq(attributes[:category])
+    end
+  end
 end

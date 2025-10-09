@@ -1055,6 +1055,17 @@ en:
       does_not_comply: Does Not Comply
       needs_changes: Needs Changes
       unknown: Unknown
+  local_authority:
+    requirements:
+      cil:
+        category: other
+        description: Community Infrastructure Levy (CIL)
+        guidelines: |-
+          Your application may be liable for the Community Infrastructure Levy (CIL).
+          This is a charge councils can apply to new developments to help fund infrastructure like schools, roads, and healthcare facilities.
+
+          You can find more information about CIL on both the Planning Portal website or local council website.
+        url: https://www.planningportal.co.uk/permission/common-projects/community-infrastructure-levy
   local_policies:
     custom_areas:
     - Design
