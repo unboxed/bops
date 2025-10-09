@@ -35,7 +35,8 @@
           partial: "planning_applications/validation/constraints/info",
           locals: {
             planning_application: @planning_application,
-            planning_application_constraints: @planning_application.planning_application_constraints.active
+            planning_application_constraints: @planning_application.planning_application_constraints.active,
+            show_update_button: false
           }
         ) %>
   <% end %>
