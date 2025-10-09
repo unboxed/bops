@@ -7,10 +7,6 @@ export default class extends Controller {
     "form",
     "accordion",
     "allConsultees",
-    "externalConsultees",
-    "externalCount",
-    "internalConsultees",
-    "internalCount",
     "noConsultees",
     "container",
     "addConsultee",
@@ -100,18 +96,10 @@ export default class extends Controller {
     }
   }
 
-  toggleExternalConsultees(event) {
+  toggleConsultees(event) {
     const checked = event.srcElement.checked
 
-    for (const checkbox of this.externalConsulteeCheckboxes) {
-      checkbox.checked = checked
-    }
-  }
-
-  toggleInternalConsultees(event) {
-    const checked = event.srcElement.checked
-
-    for (const checkbox of this.internalConsulteeCheckboxes) {
+    for (const checkbox of this.consulteeCheckboxes) {
       checkbox.checked = checked
     }
   }
@@ -155,29 +143,9 @@ export default class extends Controller {
 
   appendConsultee(data) {
     const consultee = this.buildConsultee(data)
-    let consulteesTarget = null
-    if (data.origin === "external" && this.hasExternalConsulteesTarget) {
-      consulteesTarget = this.externalConsulteesTarget
-    } else if (data.origin === "internal" && this.hasInternalConsulteesTarget) {
-      consulteesTarget = this.internalConsulteesTarget
-    } else {
-      consulteesTarget = this.allConsulteesTarget
-    }
 
-    let countTarget = null
-    if (data.origin === "external" && this.hasExternalCountTarget) {
-      countTarget = this.externalCountTarget
-    } else if (data.origin === "internal" && this.hasInternalCountTarget) {
-      countTarget = this.internalCountTarget
-    }
-
-    const tableBody = consulteesTarget.querySelector("tbody")
+    const tableBody = this.allConsulteesTarget.querySelector("tbody")
     tableBody.appendChild(consultee)
-
-    const newCount = tableBody.querySelectorAll("tr").length
-    if (countTarget !== null) {
-      countTarget.textContent = newCount
-    }
 
     if (this.hasNoConsulteesTarget) {
       this.noConsulteesTarget.style.display = "none"
@@ -187,11 +155,13 @@ export default class extends Controller {
       this.accordionTarget.style.display = ""
     }
 
-    consulteesTarget.style.display = ""
+    this.allConsulteesTarget.style.display = ""
   }
 
   buildConsultee(data) {
     const consultee = this.templateTarget.content.cloneNode(true)
+    const consulteeRow = consultee.querySelector("tr")
+    consulteeRow.classList.add(`${data.origin}-consultee`)
 
     const idInput = consultee.querySelector(
       "td:first-child input[type=hidden]:first-child",
@@ -206,7 +176,8 @@ export default class extends Controller {
     )
 
     const inputLabel = consultee.querySelector(".govuk-checkboxes__item label")
-    const nameCell = consultee.querySelector("td:nth-child(2)")
+    const nameCell = consultee.querySelector(".consultee-name")
+    const originCell = consultee.querySelector(".consultee-origin")
     const fieldName = `consultation[consultees_attributes][${data.id}][selected]`
     const domId = `consultation_consultees_attributes_${data.id}_selected`
 
@@ -250,6 +221,10 @@ export default class extends Controller {
 
     nameCell.appendChild(consulteeWrapper)
 
+    if (originCell !== null) {
+      originCell.textContent = data.origin
+    }
+
     return consultee
   }
 
@@ -278,18 +253,8 @@ export default class extends Controller {
     return this.data.get("prompt-message")
   }
 
-  get externalConsulteeCheckboxes() {
-    const element = this.hasExternalConsulteesTarget
-      ? this.externalConsulteesTarget
-      : this.allConsulteesTarget
-    return element.querySelectorAll("input[type=checkbox]")
-  }
-
-  get internalConsulteeCheckboxes() {
-    const element = this.hasInternalConsulteesTarget
-      ? this.internalConsulteesTarget
-      : this.allConsulteesTarget
-    return element.querySelectorAll("input[type=checkbox]")
+  get consulteeCheckboxes() {
+    return this.allConsulteesTarget.querySelectorAll("input[type=checkbox]")
   }
 
   get autocompleteInput() {

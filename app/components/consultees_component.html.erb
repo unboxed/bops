@@ -3,28 +3,38 @@
   <%= t(".header") %>
 </h2>
 
-<%= render ConsulteeAccordionComponent.new(consultees: consultees) %>
+<%= render ConsulteesTableComponent.new(consultees: consultees) %>
+
 <%= render NoConsulteesComponent.new(consultees: consultees) %>
+
 <%= render AddConsulteeComponent.new(consultees: consultees, form: form) %>
 
 <template data-consultees-target="template">
   <tr class="govuk-table__row just-added">
     <td class="govuk-table__cell govuk-!-padding-0">
       <input autocomplete="off" type="hidden">
-      <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+      <div
+        class="govuk-checkboxes govuk-checkboxes--small"
+        data-module="govuk-checkboxes">
         <div class="govuk-checkboxes__item">
           <input type="hidden" value="0" autocomplete="off">
-          <input class="govuk-checkboxes__input" type="checkbox" value="1" checked>
+
+          <input
+            class="govuk-checkboxes__input"
+            type="checkbox"
+            value="1"
+            checked>
           <label class="govuk-label govuk-checkboxes__label">
             <span class="govuk-visually-hidden"><%= t(".select_consultee") %></span>
           </label>
         </div>
       </div>
     </td>
-    <td class="govuk-table__cell govuk-!-width-one-third"></td>
-    <td class="govuk-table__cell govuk-table__cell--centred">&ndash;</td>
-    <td class="govuk-table__cell govuk-table__cell--centred">&ndash;</td>
-    <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-width-one-quarter">
+    <td class="govuk-table__cell govuk-!-width-one-third consultee-name"></td>
+    <td class="govuk-table__cell govuk-table__cell--centred consultee-constraint">&ndash;</td>
+    <td class="govuk-table__cell govuk-table__cell--centred consultee-origin">&ndash;</td>
+    <td class="govuk-table__cell govuk-table__cell--centred consultee-last-contacted">&ndash;</td>
+    <td class="govuk-table__cell govuk-table__cell--numeric govuk-!-width-one-quarter consultee-status">
       <span class="govuk-tag govuk-tag--grey"><%= t(".not_consulted") %></span>
     </td>
   </tr>
