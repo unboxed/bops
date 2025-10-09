@@ -32,7 +32,8 @@ module PlanningApplications
       private
 
       def set_consultees
-        @consultees = @consultation.consultees
+        # TODO why are there consultees with a nil id?
+        @consultees = @consultation.consultees.where.not(id: nil)
       end
 
       def permitted_params
