@@ -88,6 +88,8 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       click_button "Confirm and send to applicant"
       expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed and sent to the applicant")
 
+      click_link "Add heads of terms"
+
       within("#term_#{Term.first.id}") do
         expect(page).to have_selector(".govuk-tag", text: "Awaiting response")
         expect(page).to have_selector("p", text: "Sent on 17 April 2024 12:30")
@@ -230,6 +232,8 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
 
     click_button "Confirm and send to applicant"
     expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed and sent to the applicant")
+
+    click_link "Add heads of terms"
 
     within("#heads-of-terms-list li:last-child") do
       expect(page).to have_selector("h2", text: "Another title")
@@ -386,6 +390,8 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
 
       click_button "Save and mark as complete"
       expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed")
+
+      click_link "Suggest heads of terms"
 
       within("#term_#{Term.first.id}") do
         expect(page).to have_no_content("Not sent")
