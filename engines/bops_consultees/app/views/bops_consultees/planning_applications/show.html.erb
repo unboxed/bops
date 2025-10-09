@@ -85,14 +85,22 @@
 
     <div id="constraints">
       <p class="govuk-heading-s govuk-!-margin-bottom-2">Constraints</p>
-      <% if @planning_application.constraints %>
-        <ul>
-          <% @planning_application.constraints.each do |constraint| %>
-            <li><%= constraint.type_code %></li>
-          <% end %>
-        </ul>
+      <% if @planning_application.planning_application_constraints.active.empty? %>
+        <p class="govuk-!-padding-6 govuk-!-margin-bottom-6 background-light-grey">
+          <strong>There are no planning constraints on the application site.</strong>
+        </p>
       <% else %>
-        <p>None</p>
+        <p>
+          The application site has these constraints:
+        </p>
+        <%= render(
+              partial: "planning_applications/validation/constraints/info",
+              locals: {
+                planning_application: @planning_application,
+                planning_application_constraints: @planning_application.planning_application_constraints.active,
+                show_update_button: false
+              }
+            ) %>
       <% end %>
     </div>
   </div>
