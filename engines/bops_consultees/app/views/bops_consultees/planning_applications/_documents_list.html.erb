@@ -2,12 +2,14 @@
   Review the documents submitted by the applicant
 </p>
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row" data-controller="download" data-application-reference-value="<%= @planning_application.reference %>">
   <div class="govuk-grid-column-full">
-    <table class="govuk-table current-documents">
+    <table class="govuk-table current-documents govuk-!-margin-bottom-3" data-download-target="documentsElement">
       <tbody class="govuk-table__body">
         <% @planning_application.documents.for_consultees.each do |document| %>
-          <tr class="govuk-table__row" id="<%= dom_id(document) %>">
+          <tr class="govuk-table__row" id="<%= dom_id(document) %>"
+              data-document-title-value="<%= document.file.filename %>"
+              data-document-url-value="<%= url_for_document(document) %>">
             <td class="govuk-table__cell govuk-!-width-one-quarter">
               <% if document.representable? %>
                 <%= image_tag(main_app.uploaded_file_url(document.representation(resize_to_fill: [360, 240, gravity: "North"]))) %>
@@ -36,5 +38,9 @@
         <% end %>
       </tbody>
     </table>
+      <div data-download-target="button" class="govuk-body govuk-!-margin-top-3 govuk-!-margin-bottom-6 display-flex">
+        <%= govuk_link_to "Download all documents", data: {action: "click->download#submit"} %>
+      </div>
+    <hr>
   </div>
 </div>
