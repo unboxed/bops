@@ -85,25 +85,35 @@
 
     <div id="constraints">
       <p class="govuk-heading-s govuk-!-margin-bottom-2">Constraints</p>
-      <% if @planning_application.constraints %>
-        <ul>
-          <% @planning_application.constraints.each do |constraint| %>
-            <li><%= constraint.type_code %></li>
-          <% end %>
-        </ul>
+      <% if @planning_application.planning_application_constraints.active.empty? %>
+        <p class="govuk-!-padding-6 govuk-!-margin-bottom-6 background-light-grey">
+          <strong>There are no planning constraints on the application site.</strong>
+        </p>
       <% else %>
-        <p>None</p>
+        <p>
+          The application site has these constraints:
+        </p>
+        <%= render(
+              partial: "planning_applications/validation/constraints/info",
+              locals: {
+                planning_application: @planning_application,
+                planning_application_constraints: @planning_application.planning_application_constraints.active,
+                show_update_button: false
+              }
+            ) %>
       <% end %>
     </div>
   </div>
   <div class="govuk-grid-column-one-third">
-    <p class="govuk-body-s govuk-!-margin-bottom-2"><strong>Planning Officer</strong></p>
-    <% if @planning_application.user %>
-      <p class="govuk-body-s govuk-!-margin-bottom-2"> <%= @planning_application.user.name %></p>
-      <%= mail_to @planning_application.user.email, @planning_application.user.email, class: govuk_link_classes(no_visited_state: true) << " govuk-!-margin-top-1" %>
-    <% else %>
-      <p class="govuk-body-s govuk-!-margin-bottom-2"> No planning officer assigned</p>
-    <% end %>
+    <div id="planning-officer">
+      <p class="govuk-heading-s govuk-!-margin-bottom-2">Planning Officer</p>
+      <% if @planning_application.user %>
+        <p class="govuk-body-s govuk-!-margin-bottom-2"> <%= @planning_application.user.name %></p>
+        <%= mail_to @planning_application.user.email, @planning_application.user.email, class: govuk_link_classes(no_visited_state: true) << " govuk-!-margin-top-1" %>
+      <% else %>
+        <p class="govuk-body-s govuk-!-margin-bottom-2"> No planning officer assigned</p>
+      <% end %>
+    </div>
   </div>
 </div>
 
