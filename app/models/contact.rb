@@ -3,6 +3,9 @@
 class Contact < ApplicationRecord
   belongs_to :local_authority, optional: true
 
+  has_many :consultee_constraints, dependent: :destroy, foreign_key: :consultee_id, inverse_of: :consultee, autosave: true
+  has_many :constraints, through: :consultee_constraints
+
   validates :name, presence: true
   validates :origin, presence: true, if: :consultee?
   validates :email_address, presence: true, if: :consultee?
@@ -18,7 +21,7 @@ class Contact < ApplicationRecord
 
   enum :category, {
     consultee: "consultee"
-  }, scopes: false, validate: true
+  }, validate: true
 
   class << self
     def search(query, local_authority: nil, category: nil)

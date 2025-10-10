@@ -17,7 +17,7 @@
     </h1>
 
     <%= form_with model: @consultee, url: consultees_path, scope: :consultee do |form| %>
-      <%= render "form", form: form %>
+      <%= render "form", form:, constraints: @constraints %>
     <% end %>
   </div>
 </div>

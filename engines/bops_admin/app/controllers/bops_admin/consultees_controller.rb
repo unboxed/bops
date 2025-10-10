@@ -4,6 +4,7 @@ module BopsAdmin
   class ConsulteesController < ApplicationController
     before_action :set_consultees, only: %i[index]
     before_action :build_consultee, only: %i[new create]
+    before_action :set_constraints, only: %i[new edit create update]
     before_action :set_consultee, only: %i[edit update destroy]
 
     rescue_from Pagy::OverflowError do
@@ -69,7 +70,7 @@ module BopsAdmin
     private
 
     def set_consultees
-      @pagy, @consultees = pagy(current_local_authority.contacts.consultees(search_param), limit: 10)
+      @pagy, @consultees = pagy(contacts.consultees(search_param), limit: 10)
     end
 
     def search_param
@@ -77,11 +78,13 @@ module BopsAdmin
     end
 
     def build_consultee
-      @consultee = current_local_authority.contacts.build_consultee(consultee_params)
+      @consultee = contacts.build_consultee(consultee_params)
     end
 
     def set_consultee
-      @consultee = current_local_authority.contacts.find_consultee(params[:id])
+      @consultee = contacts.consultee
+        .includes(:constraints)
+        .find(params[:id])
     end
 
     def consultee_params
@@ -93,7 +96,24 @@ module BopsAdmin
     end
 
     def consultee_attributes
-      %i[origin name role organisation email_address]
+      [
+        :origin,
+        :name,
+        :role,
+        :organisation,
+        :email_address,
+        {constraint_ids: []}
+      ]
+    end
+
+    def set_constraints
+      @constraints = Constraint
+        .options_for_local_authority(current_local_authority.id)
+        .order(:category, :type)
+    end
+
+    def contacts
+      current_local_authority.contacts
     end
   end
 end

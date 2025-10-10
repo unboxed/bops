@@ -9,6 +9,8 @@ class Constraint < ApplicationRecord
   belongs_to :local_authority, optional: true
 
   has_many :planning_application_constraints, dependent: :destroy
+  has_many :consultee_constraints, dependent: :destroy
+  has_many :consultee_contacts, through: :consultee_constraints, source: :consultee
 
   scope :options_for_local_authority, ->(local_authority_id) { where(local_authority_id: [local_authority_id, nil]) }
 
