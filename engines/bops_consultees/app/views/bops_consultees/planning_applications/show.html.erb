@@ -105,13 +105,15 @@
     </div>
   </div>
   <div class="govuk-grid-column-one-third">
-    <p class="govuk-body-s govuk-!-margin-bottom-2"><strong>Planning Officer</strong></p>
-    <% if @planning_application.user %>
-      <p class="govuk-body-s govuk-!-margin-bottom-2"> <%= @planning_application.user.name %></p>
-      <%= mail_to @planning_application.user.email, @planning_application.user.email, class: govuk_link_classes(no_visited_state: true) << " govuk-!-margin-top-1" %>
-    <% else %>
-      <p class="govuk-body-s govuk-!-margin-bottom-2"> No planning officer assigned</p>
-    <% end %>
+    <div id="planning-officer">
+      <p class="govuk-heading-s govuk-!-margin-bottom-2">Planning Officer</p>
+      <% if @planning_application.user %>
+        <p class="govuk-body-s govuk-!-margin-bottom-2"> <%= @planning_application.user.name %></p>
+        <%= mail_to @planning_application.user.email, @planning_application.user.email, class: govuk_link_classes(no_visited_state: true) << " govuk-!-margin-top-1" %>
+      <% else %>
+        <p class="govuk-body-s govuk-!-margin-bottom-2"> No planning officer assigned</p>
+      <% end %>
+    </div>
   </div>
 </div>
 
