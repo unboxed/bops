@@ -433,7 +433,7 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<% if @heads_of_term.present? %>
+<% if @heads_of_term.terms.present? %>
   <section id="heads-of-terms">
     <div class="govuk-!-margin-bottom-2 flex-between">
       <h2 class="govuk-heading-m">Heads of terms</h2>
@@ -448,9 +448,9 @@
     <% end %>
     <%= render "bops_reports/planning_applications/heads_of_terms_table" %>
   </section>
-<% end %>
 
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<% end %>
 
 <section id="policies-guidance">
   <div class="govuk-!-margin-bottom-2 flex-between">
