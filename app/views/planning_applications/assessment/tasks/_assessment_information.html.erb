@@ -4,16 +4,13 @@
   </h2>
 
   <ul class="app-task-list__items">
-    <% @planning_application.application_type.assessor_remarks.each do |category| %>
+    <% if @planning_application.pre_application? %>
       <%= render(
             TaskListItems::Assessment::AssessmentDetailComponent.new(
               planning_application: @planning_application,
-              category:
+              category: "site_description"
             )
           ) %>
-    <% end %>
-
-    <% if @planning_application.pre_application? %>
       <%= render(
             TaskListItems::Assessment::ConsiderationsComponent.new(
               planning_application: @planning_application,
@@ -21,22 +18,37 @@
               link_path: planning_application_assessment_consideration_guidances_path(@planning_application)
             )
           ) %>
-    <% end %>
-
-    <% if @planning_application.site_visits? && !@planning_application.pre_application? %>
+      <% if @planning_application.heads_of_terms? %>
+        <%= render(
+              TaskListItems::Assessment::HeadsOfTermsComponent.new(
+                planning_application: @planning_application
+              )
+            ) %>
+      <% end %>
       <%= render(
-            TaskListItems::Assessment::SiteVisitComponent.new(
-              planning_application: @planning_application
+            TaskListItems::Assessment::AssessmentDetailComponent.new(
+              planning_application: @planning_application,
+              category: "summary_of_advice"
             )
           ) %>
+    <% else %>
+      <% @planning_application.application_type.assessor_remarks.each do |category| %>
+        <%= render(
+              TaskListItems::Assessment::AssessmentDetailComponent.new(
+                planning_application: @planning_application,
+                category:
+              )
+            ) %>
+      <% end %>
+
+      <% if @planning_application.site_visits? %>
+        <%= render(
+              TaskListItems::Assessment::SiteVisitComponent.new(
+                planning_application: @planning_application
+              )
+            ) %>
+      <% end %>
     <% end %>
 
-    <% if @planning_application.heads_of_terms? && @planning_application.pre_application? %>
-      <%= render(
-            TaskListItems::Assessment::HeadsOfTermsComponent.new(
-              planning_application: @planning_application
-            )
-          ) %>
-    <% end %>
   </ul>
 </li>
