@@ -53,6 +53,10 @@
           <strong><%= service.name.to_s.humanize %></strong><% end %>
         <%= govuk_link_to "Change", edit_planning_application_additional_services_path(@planning_application) %>
       </p>
+      <p id="service-charges">
+        Service charges:
+        <%= govuk_link_to "Edit", planning_application_charges_path(@planning_application) %>
+      </p>
     <% end %>
   </div>
 </div>

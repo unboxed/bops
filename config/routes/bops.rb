@@ -100,6 +100,8 @@ local_authority_subdomain do
 
       resource :additional_services, only: %i[edit update], on: :collection
 
+      resources :charges
+
       resource :press_notice, only: %i[new show create update] do
         resource :confirmation, only: %i[show edit update], controller: "press_notices/confirmations"
         resources :confirmation_requests, only: %i[create], controller: "press_notices/confirmation_requests"

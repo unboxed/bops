@@ -1,0 +1,45 @@
+<div id="fee-calculation" class="govuk-!-width-two-thirds">
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row" id="initial-fees">
+      <dt class="govuk-summary-list__key">
+        Initial fees
+      </dt>
+      <dd class="govuk-summary-list__value govuk-!-text-align-right">
+          <%= number_to_currency(@planning_application.fee_calculation.requested_fee, unit: "£", precision: 2) || "-" %>
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row" id="additional-charges">
+      <dt class="govuk-summary-list__key">
+        Additional charges
+      </dt>
+      <dd class="govuk-summary-list__value govuk-!-text-align-right">
+        <%= number_to_currency(@planning_application.total_charges, unit: "£", precision: 2) || "-" %>
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row" id="amount-paid">
+      <dt class="govuk-summary-list__key">
+        Amount paid
+      </dt>
+      <dd class="govuk-summary-list__value govuk-!-text-align-right">
+        <%= number_to_currency(@planning_application.total_payments, unit: "£", precision: 2) || "-" %>
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row" id="refunds">
+      <dt class="govuk-summary-list__key">
+        Refunds<br>
+        <%= govuk_link_to("Add a refund", "#", class: "govuk-body-s") %>
+      </dt>
+      <dd class="govuk-summary-list__value govuk-!-text-align-right">
+        -
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row" id="balance-due">
+      <dt class="govuk-summary-list__key">
+        Balance due
+      </dt>
+      <dd class="govuk-summary-list__value govuk-heading-m govuk-!-text-align-right">
+        <%= number_to_currency(@planning_application.balance_due, unit: "£", precision: 2) || "-" %>
+      </dd>
+    </div>
+  </dl>
+</div>

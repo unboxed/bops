@@ -1,0 +1,41 @@
+<%= form_with(model: [@planning_application, @charge]) do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <div>
+    <h2 class="govuk-heading-m">Add a new charge</h2>
+    <%= form.govuk_text_field(
+          :description,
+          width: "one-half",
+          label: {text: "Service description"}
+        ) %>
+
+    <%= form.govuk_text_field :amount,
+          width: "one-quarter",
+          label: {text: "Amount due"},
+          prefix_text: "£",
+          value: form.object.amount.present? ? "%.2f" % form.object.amount : nil %>
+
+    <%= form.govuk_date_field :payment_due_date,
+          legend: {text: "Payment due date (optional)", size: "s"}, id: "payment-due-date" %>
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <h2 class="govuk-heading-m">Record payment (optional)</h2>
+
+    <%= form.fields_for :payment do |payment_form| %>
+      <%= payment_form.hidden_field :id %>
+      <%= payment_form.govuk_number_field :amount, width: "one-quarter", label: {text: "Amount paid"}, prefix_text: "£", value: payment_form.object.amount.present? ? "%.2f" % payment_form.object.amount : nil %>
+      <%= payment_form.govuk_date_field :payment_date, legend: {text: "Date received", size: "s"}, value: payment_form.object.payment_date, id: "payment-date-received" %>
+      <%= payment_form.govuk_text_field :payment_type, width: "one-half", label: {text: "Payment type", size: "s"} %>
+      <%= payment_form.govuk_text_field :reference, width: "one-half", label: {text: "Reference", size: "s"} %>
+    <% end %>
+  </div>
+
+  <div class="govuk-form-group">
+    <%= form.submit @charge.persisted? ? "Save changes" : "Create charge", class: "govuk-button" %>
+
+    <% if @charge.persisted? %>
+      <%= govuk_button_link_to "Delete charge", planning_application_charge_path(@planning_application, @charge), warning: true, method: :delete, data: {confirm: "Are you sure you want to delete this charge?"} %>
+    <% end %>
+    <%= back_link %>
+  </div>
+<% end %>

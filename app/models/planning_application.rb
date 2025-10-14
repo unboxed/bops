@@ -65,6 +65,8 @@ class PlanningApplication < ApplicationRecord
     has_many :planning_application_policy_sections, -> { by_id }
     has_many :policy_sections, through: :planning_application_policy_sections
     has_many :additional_services
+    has_many :charges
+    has_many :payments, through: :charges
     has_many :requirements, extend: RequirementsExtension
 
     with_options required: false do
@@ -962,6 +964,18 @@ class PlanningApplication < ApplicationRecord
     end
 
     save!
+  end
+
+  def total_charges
+    charges.sum(:amount)
+  end
+
+  def total_payments
+    payments.sum(:amount) + payment_amount
+  end
+
+  def balance_due
+    total_charges + payment_amount - total_payments
   end
 
   def reporting_type_status
