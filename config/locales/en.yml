@@ -733,14 +733,6 @@ en:
     nature_sssi: Site of special scientific interest
     registeredpark: Historic parks and gardens
     tpo: Tree preservation zone
-  consultee_accordion_section_component:
-    consultee: Consultee
-    date_consulted: Date consulted
-    external_header_html: External (<span data-consultees-target="externalCount">%{count}</span>)
-    internal_header_html: Internal (<span data-consultees-target="internalCount">%{count}</span>)
-    period: Period
-    status: Status
-    toggle_selection: Toggle selection
   consultee_constraint_consultees:
     destroy:
       success: Consultee was removed from this constraint
@@ -816,13 +808,6 @@ en:
     upload_new_response: Upload new response
     view_all_responses: View all responses (%{count})
     view_previous_responses: View previous responses (%{count})
-  consultee_row_component:
-    awaiting_response: Awaiting response
-    failed: Failed
-    not_consulted: Not consulted
-    responded: Responded
-    select_consultee: Select consultee
-    sending: Sending
   consultee_summary_component:
     amendments_needed: Amendments needed
     approved: No objection
@@ -845,6 +830,14 @@ en:
     header: Select the consultees to consult
     not_consulted: Not consulted
     select_consultee: Select consultee
+  consultees_table_component:
+    awaiting_response: Awaiting response
+    failed: Failed
+    not_consulted: Not consulted
+    responded: Responded
+    select_consultee: Select consultee
+    sending: Sending
+    toggle_selection: Toggle selection
   council_addresses:
     planx: n/a
   date:

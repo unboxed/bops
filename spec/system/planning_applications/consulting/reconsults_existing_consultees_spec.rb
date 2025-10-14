@@ -145,25 +145,21 @@ RSpec.describe "Consultation", type: :system, js: true do
     expect(page).to have_selector("h2", text: "Step 2 Send email to selected consultees")
     expect(page).to have_selector("h2", text: "Step 3 Set response period")
 
-    within "#external-consultees" do
-      within "table tbody tr:first-child" do
+    within "#consultees" do
+      within "table tbody tr.external-consultee" do
         expect(page).to have_unchecked_field("Select consultee")
-        expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
-        expect(page).to have_selector("td:nth-child(2)", text: "Planning Department, GLA")
-        expect(page).to have_selector("td:nth-child(3)", text: "7 days")
-        expect(page).to have_selector("td:nth-child(4)", text: start_date)
-        expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
+        expect(page).to have_selector("td.consultee-name", text: "Consultations")
+        expect(page).to have_selector("td.consultee-name", text: "Planning Department, GLA")
+        expect(page).to have_selector("td.consultee-last-contacted", text: start_date)
+        expect(page).to have_selector("td.consultee-status", text: "Awaiting response")
       end
-    end
 
-    within "#internal-consultees" do
-      within "table tbody tr:first-child" do
+      within "table tbody tr.internal-consultee" do
         expect(page).to have_unchecked_field("Select consultee")
-        expect(page).to have_selector("td:nth-child(2)", text: "Chris Wood")
-        expect(page).to have_selector("td:nth-child(2)", text: "Tree Officer, PlanX Council")
-        expect(page).to have_selector("td:nth-child(3)", text: "7 days")
-        expect(page).to have_selector("td:nth-child(4)", text: start_date)
-        expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
+        expect(page).to have_selector("td.consultee-name", text: "Chris Wood")
+        expect(page).to have_selector("td.consultee-name", text: "Tree Officer, PlanX Council")
+        expect(page).to have_selector("td.consultee-last-contacted", text: start_date)
+        expect(page).to have_selector("td.consultee-status", text: "Awaiting response")
       end
     end
 
@@ -173,7 +169,7 @@ RSpec.describe "Consultation", type: :system, js: true do
 
     expect(page).to have_selector("[role=alert] li", text: "Please select at least one consultee")
 
-    within "#external-consultees" do
+    within "#consultees" do
       within "table tbody tr:first-child" do
         check "Select consultee"
       end
@@ -260,14 +256,13 @@ RSpec.describe "Consultation", type: :system, js: true do
     click_link "Send emails to consultees"
     expect(page).to have_selector("h1", text: "Send emails to consultees")
 
-    within "#external-consultees" do
-      within "table tbody tr:first-child" do
+    within "#consultees" do
+      within "tbody tr.external-consultee" do
         expect(page).to have_unchecked_field("Select consultee")
-        expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
-        expect(page).to have_selector("td:nth-child(2)", text: "Planning Department, GLA")
-        expect(page).to have_selector("td:nth-child(3)", text: "14 days")
-        expect(page).to have_selector("td:nth-child(4)", text: start_date)
-        expect(page).to have_selector("td:nth-child(5)", text: "Sending")
+        expect(page).to have_selector("td.consultee-name", text: "Consultations")
+        expect(page).to have_selector("td.consultee-name", text: "Planning Department, GLA")
+        expect(page).to have_selector("td.consultee-last-contacted", text: start_date)
+        expect(page).to have_selector("td.consultee-status", text: "Sending")
       end
     end
 
@@ -305,25 +300,21 @@ RSpec.describe "Consultation", type: :system, js: true do
     click_link "Send emails to consultees"
     expect(page).to have_selector("h1", text: "Send emails to consultees")
 
-    within "#external-consultees" do
-      within "table tbody tr:first-child" do
+    within "#consultees" do
+      within "tbody tr.external-consultee" do
         expect(page).to have_unchecked_field("Select consultee")
-        expect(page).to have_selector("td:nth-child(2)", text: "Consultations")
-        expect(page).to have_selector("td:nth-child(2)", text: "Planning Department, GLA")
-        expect(page).to have_selector("td:nth-child(3)", text: "14 days")
-        expect(page).to have_selector("td:nth-child(4)", text: start_date)
-        expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
+        expect(page).to have_selector("td.consultee-name", text: "Consultations")
+        expect(page).to have_selector("td.consultee-name", text: "Planning Department, GLA")
+        expect(page).to have_selector("td.consultee-last-contacted", text: start_date)
+        expect(page).to have_selector("td.consultee-status", text: "Awaiting response")
       end
-    end
 
-    within "#internal-consultees" do
-      within "table tbody tr:first-child" do
+      within "tbody tr.internal-consultee" do
         expect(page).to have_unchecked_field("Select consultee")
-        expect(page).to have_selector("td:nth-child(2)", text: "Chris Wood")
-        expect(page).to have_selector("td:nth-child(2)", text: "Tree Officer, PlanX Council")
-        expect(page).to have_selector("td:nth-child(3)", text: "7 days")
-        expect(page).to have_selector("td:nth-child(4)", text: start_date)
-        expect(page).to have_selector("td:nth-child(5)", text: "Awaiting response")
+        expect(page).to have_selector("td.consultee-name", text: "Chris Wood")
+        expect(page).to have_selector("td.consultee-name", text: "Tree Officer, PlanX Council")
+        expect(page).to have_selector("td.consultee-last-contacted", text: start_date)
+        expect(page).to have_selector("td.consultee-status", text: "Awaiting response")
       end
     end
   end
