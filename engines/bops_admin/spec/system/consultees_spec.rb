@@ -99,7 +99,39 @@ RSpec.describe "Consultees" do
     expect(page).to have_content("Consultee successfully created")
   end
 
+  it "allows associating constraints with a consultee" do
+    listed_constraint = create(:constraint, :listed)
+    trees_constraint = create(:constraint, :tpo)
+
+    visit "/admin/consultees"
+    click_link("Add consultee")
+
+    fill_in "Name", with: "Historic England"
+    fill_in "Email address", with: "planning@historicengland.org.uk"
+    choose "External"
+
+    find("summary", text: "More details").click
+    check listed_constraint.type_code
+    check trees_constraint.type_code
+
+    click_button("Submit")
+    expect(page).to have_current_path("/admin/consultees")
+    expect(page).to have_content("Consultee successfully created")
+
+    within "tbody tr:nth-child(1)" do
+      click_link("Edit")
+    end
+
+    expect(page).to have_selector("[data-testid='consultee-constraint-tags']", text: listed_constraint.type_code)
+    expect(page).to have_selector("[data-testid='consultee-constraint-tags']", text: trees_constraint.type_code)
+
+    find("summary", text: "More details").click
+    expect(page).to have_checked_field(listed_constraint.type_code)
+    expect(page).to have_checked_field(trees_constraint.type_code)
+  end
+
   it "allows editing a consultee" do
+    listed_constraint = create(:constraint, :listed)
     create(:contact, :internal, local_authority:, name: "Planning Officer", role: nil, organisation: "London Fire Brigade")
 
     visit "/admin/consultees"
@@ -118,6 +150,9 @@ RSpec.describe "Consultees" do
 
     choose "External"
 
+    find("summary", text: "More details").click
+    check listed_constraint.type_code
+
     click_button("Submit")
     expect(page).to have_current_path("/admin/consultees")
     expect(page).to have_content("Consultee successfully updated")
@@ -128,6 +163,15 @@ RSpec.describe "Consultees" do
       expect(page).to have_selector("td:nth-child(3)", text: "London Fire Brigade")
       expect(page).to have_selector("td:nth-child(4)", text: "External")
     end
+
+    within "tbody tr:nth-child(1)" do
+      click_link("Edit")
+    end
+
+    expect(page).to have_selector("[data-testid='consultee-constraint-tags']", text: listed_constraint.type_code)
+
+    find("summary", text: "More details").click
+    expect(page).to have_checked_field(listed_constraint.type_code)
   end
 
   it "allows deleting a consultee", :capybara do

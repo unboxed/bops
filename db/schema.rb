@@ -309,6 +309,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
     t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id", unique: true
   end
 
+  create_table "consultee_constraints", force: :cascade do |t|
+    t.bigint "consultee_id", null: false
+    t.bigint "constraint_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["constraint_id"], name: "ix_consultee_constraints_on_constraint_id"
+    t.index ["consultee_id", "constraint_id"], name: "index_consultee_constraints_on_consultee_and_constraint", unique: true
+    t.index ["consultee_id"], name: "ix_consultee_constraints_on_consultee_id"
+  end
+
   create_table "consultee_emails", force: :cascade do |t|
     t.bigint "consultee_id", null: false
     t.string "subject"
@@ -1318,6 +1328,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
   add_foreign_key "consistency_checklists", "planning_applications"
   add_foreign_key "constraints", "local_authorities"
   add_foreign_key "consultations", "planning_applications"
+  add_foreign_key "consultee_constraints", "constraints", on_delete: :cascade
+  add_foreign_key "consultee_constraints", "contacts", column: "consultee_id", on_delete: :cascade
   add_foreign_key "consultee_emails", "consultees"
   add_foreign_key "consultee_responses", "consultees"
   add_foreign_key "consultee_responses", "users", column: "redacted_by_id"

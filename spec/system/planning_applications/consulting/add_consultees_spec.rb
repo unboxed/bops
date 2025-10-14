@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe "Consultation", type: :system, js: true do
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
+  let(:administrator) { create(:user, :administrator, local_authority:) }
   let(:application_type) { create(:application_type, :planning_permission) }
   let(:api_user) { create(:api_user, :planx) }
   let(:planning_application) do
@@ -76,6 +77,59 @@ RSpec.describe "Consultation", type: :system, js: true do
     click_button "Add consultee"
 
     expect(page).to have_selector(".govuk-table__row", text: "Other Chris Wood")
+  end
+
+  it "auto assigns consultees mapped to constraints" do
+    suggested_contact = create(
+      :contact,
+      :external,
+      local_authority:,
+      name: "Historic England",
+      email_address: "heritage@example.com"
+    )
+
+    constraint = planning_application.planning_application_constraints.first.constraint
+
+    create(:consultee_constraint, consultee: suggested_contact, constraint:)
+
+    perform_enqueued_jobs do
+      create(:planning_application_constraint, planning_application:, constraint:)
+    end
+
+    click_link "Add and assign consultees"
+
+    row = row_with_content("Historic England")
+    expect(row).to have_text("Conservation area Historic England")
+  end
+
+  it "shows consultees linked to constraints via the admin interface" do
+    constraint = planning_application.planning_application_constraints.first.constraint
+    consultee = create(
+      :contact,
+      :external,
+      local_authority:,
+      name: "Historic England",
+      email_address: "heritage@example.com"
+    )
+
+    sign_in(administrator)
+    visit "/admin/consultees/#{consultee.id}/edit"
+    find("summary", text: "More details").click
+    check constraint.type_code
+    click_button "Submit"
+    expect(page).to have_content("Consultee successfully updated")
+
+    perform_enqueued_jobs do
+      create(:planning_application_constraint, planning_application:, constraint:)
+    end
+
+    sign_in assessor
+    visit "/planning_applications/#{planning_application.reference}/consultation"
+
+    click_link "Add and assign consultees"
+
+    row = row_with_content("Historic England")
+    expect(row).to have_text("Conservation area Historic England")
   end
 
   it "allows associating a consultee with a constraint" do

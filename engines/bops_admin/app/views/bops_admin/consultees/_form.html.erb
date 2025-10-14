@@ -1,3 +1,5 @@
+<% constraints ||= [] %>
+
 <%= form.govuk_error_summary %>
 <%= form.govuk_fieldset(legend: {text: nil}) do %>
   <%= form.govuk_text_field :name, width: "two-thirds", label: {text: t(".labels.name")} %>
@@ -9,6 +11,41 @@
 <%= form.govuk_radio_buttons_fieldset(:origin, inline: true, legend: {size: "s", text: t(".hints.origin")}) do %>
   <%= form.govuk_radio_button :origin, "internal", label: {text: t(".labels.internal")} %>
   <%= form.govuk_radio_button :origin, "external", label: {text: t(".labels.external")} %>
+<% end %>
+
+<% if constraints.any? %>
+  <div class="govuk-!-margin-top-6">
+    <h2 class="govuk-heading-m"><%= t(".constraints.heading") %></h2>
+
+    <% if form.object.constraints.any? %>
+      <div class="govuk-!-margin-bottom-4" data-testid="consultee-constraint-tags">
+        <% form.object.constraints.each do |constraint| %>
+          <%= govuk_tag(
+                text: constraint.type_code,
+                colour: "grey",
+                html_attributes: {class: "govuk-!-margin-bottom-1 govuk-!-margin-right-1"}
+              ) %>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="govuk-body govuk-body-s govuk-!-margin-bottom-4"><%= t(".constraints.none_selected") %></p>
+    <% end %>
+
+    <%= govuk_details(summary_text: t(".constraints.more_details")) do %>
+      <p class="govuk-body"><%= t(".constraints.description") %></p>
+
+      <% constraints.group_by(&:category).each do |category, grouped_constraints| %>
+        <%= form.govuk_collection_check_boxes(
+              :constraint_ids,
+              grouped_constraints,
+              :id,
+              ->(constraint) { constraint.type_code },
+              legend: {text: category.to_s.humanize, size: "s"},
+              small: true
+            ) %>
+      <% end %>
+    <% end %>
+  </div>
 <% end %>
 
 <div class="govuk-button-group">

@@ -97,4 +97,20 @@ RSpec.describe Contact do
       end
     end
   end
+
+  it "creates consultee with constraints in one save" do
+    la = create(:local_authority)
+    c1 = create(:constraint, :listed)
+    c2 = create(:constraint, :tpo)
+
+    consultee = la.contacts.build_consultee(
+      name: "Historic England",
+      origin: "external",
+      email_address: "planning@historicengland.org.uk",
+      constraint_ids: [c1.id, c2.id]
+    )
+
+    expect(consultee.save).to be(true)
+    expect(consultee.constraints.pluck(:id)).to match_array([c1.id, c2.id])
+  end
 end
