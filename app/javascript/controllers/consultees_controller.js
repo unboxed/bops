@@ -17,29 +17,41 @@ export default class extends Controller {
   connect() {
     this.selected = null
 
-    accessibleAutocomplete({
-      element: this.containerTarget,
-      id: "add-consultee",
-      name: null,
-      source: (query, populateResults) => {
-        this.source(query, populateResults)
-      },
-      displayMenu: "overlay",
-      minLength: 3,
-      onConfirm: (selected) => {
-        this.onConfirm(selected)
-      },
-      autoselect: false,
-      confirmOnBlur: false,
-      templates: {
-        inputValue: (value) => {
-          return this.inputValue(value)
+    if (this.hasContainerTarget) {
+      accessibleAutocomplete({
+        element: this.containerTarget,
+        id: "add-consultee",
+        name: null,
+        source: (query, populateResults) => {
+          this.source(query, populateResults)
         },
-        suggestion: (value) => {
-          return this.suggestion(value)
+        displayMenu: "overlay",
+        minLength: 3,
+        onConfirm: (selected) => {
+          this.onConfirm(selected)
         },
-      },
-    })
+        autoselect: false,
+        confirmOnBlur: false,
+        templates: {
+          inputValue: (value) => {
+            return this.inputValue(value)
+          },
+          suggestion: (value) => {
+            return this.suggestion(value)
+          },
+        },
+      })
+
+      this.autocompleteInput.addEventListener("keydown", (event) => {
+        if (event.keyCode === 13) {
+          event.preventDefault()
+
+          if (this.selected) {
+            this.addConsultee()
+          }
+        }
+      })
+    }
 
     // Confirm that the user wants to send the emails
     if (this.hasSubmitTarget) {
@@ -54,16 +66,6 @@ export default class extends Controller {
         }
       })
     }
-
-    this.autocompleteInput.addEventListener("keydown", (event) => {
-      if (event.keyCode === 13) {
-        event.preventDefault()
-
-        if (this.selected) {
-          this.addConsultee()
-        }
-      }
-    })
   }
 
   source(query, populateResults) {
