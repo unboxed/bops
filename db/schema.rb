@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_16_151829) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -187,6 +187,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
     t.index ["local_authority_id"], name: "ix_case_records_on_local_authority_id"
     t.index ["submission_id"], name: "ix_case_records_on_submission_id"
     t.index ["user_id"], name: "ix_case_records_on_user_id"
+  end
+
+  create_table "charges", force: :cascade do |t|
+    t.string "description"
+    t.decimal "amount"
+    t.date "payment_due_date"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_charges_on_planning_application_id"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -813,6 +823,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
     t.index ["planning_application_id"], name: "ix_ownership_certificates_on_planning_application_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.decimal "amount"
+    t.date "payment_date"
+    t.string "payment_type"
+    t.string "reference"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "charge_id", null: false
+    t.index ["charge_id"], name: "ix_payments_on_charge_id"
+  end
+
   create_table "permitted_development_rights", force: :cascade do |t|
     t.string "status", null: false
     t.boolean "removed"
@@ -1115,6 +1136,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
   end
 
+  create_table "refunds", force: :cascade do |t|
+    t.decimal "amount"
+    t.date "refund_date"
+    t.string "payment_type"
+    t.string "reference"
+    t.string "reason"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_refunds_on_planning_application_id"
+  end
+
   create_table "reporting_types", force: :cascade do |t|
     t.string "code", null: false
     t.string "description", null: false
@@ -1317,8 +1350,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
   add_foreign_key "case_records", "local_authorities"
-  add_foreign_key "case_records", "users"
   add_foreign_key "case_records", "submissions"
+  add_foreign_key "case_records", "users"
+  add_foreign_key "charges", "planning_applications"
   add_foreign_key "comments", "users"
   add_foreign_key "condition_sets", "planning_applications"
   add_foreign_key "conditions", "condition_sets"
@@ -1345,6 +1379,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
   add_foreign_key "documents", "site_notices"
   add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "submissions"
+  add_foreign_key "documents", "users"
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "heads_of_terms", "planning_applications"
@@ -1402,6 +1437,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
   add_foreign_key "recommendations", "users", column: "reviewer_id"
+  add_foreign_key "refunds", "planning_applications"
   add_foreign_key "reviews", "users", column: "assessor_id"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "site_histories", "planning_applications"
