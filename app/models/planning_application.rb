@@ -216,6 +216,7 @@ class PlanningApplication < ApplicationRecord
   after_update :audit_updated!
   after_update :update_constraints
   after_update :address_or_boundary_geojson_updated?
+  after_update :update_consultation_status, if: :saved_change_to_consultation_required?
 
   accepts_nested_attributes_for :recommendations
   accepts_nested_attributes_for :documents, reject_if: proc { |attributes| attributes["file"].blank? }
@@ -601,6 +602,16 @@ class PlanningApplication < ApplicationRecord
     transaction do
       update!(constraints_checked: true, updated_address_or_boundary_geojson: true)
       audit!(activity_type: "constraints_checked")
+    end
+  end
+
+  def update_consultation_status
+    return unless consultation
+
+    if consultation_required == false
+      consultation.complete!
+    elsif consultation_required == true
+      consultation.in_progress!
     end
   end
 
