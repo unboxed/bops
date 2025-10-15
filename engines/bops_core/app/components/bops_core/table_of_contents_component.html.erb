@@ -1,20 +1,21 @@
-<% unless items.empty? %>
+<% unless sections.empty? %>
   <aside class="bops-table-of-contents-container" role="complementary">
     <a class="bops-skip-to-content govuk-visually-hidden" href="#0">Skip to guide content</a>
     <nav class="bops-table-of-contents" aria-label="Links to page sections">
       <h2 class="govuk-heading-s bops-table-of-contents__title">Contents</h2>
-      <% items.each do |section| %>
-        <% if section[:links].is_a?(Array) && section[:links][0].is_a?(Array) %>
-          <% if section[:title].present? %>
-            <h3 class="govuk-heading-xs"><%= section[:title] %>:</h3>
-          <% end %>
+      <% sections.each do |section| %>
+        <% next if section[:links].blank? %>
 
-          <ol class="govuk-list govuk-list--dashed">
-            <% section[:links].each do |text, href| %>
-              <li><%= govuk_link_to text, href %></li>
-            <% end %>
-          </ol>
+        <% if section[:title].present? %>
+          <h3 class="govuk-heading-xs"><%= section[:title] %>:</h3>
         <% end %>
+
+        <ol class="govuk-list govuk-list--dashed">
+          <% section[:links].each do |link| %>
+            <% next if link.has_key?(:visible) && !link[:visible] %>
+            <li><%= govuk_link_to link[:text], link[:href] %></li>
+          <% end %>
+        </ol>
       <% end %>
     </nav>
   </aside>
