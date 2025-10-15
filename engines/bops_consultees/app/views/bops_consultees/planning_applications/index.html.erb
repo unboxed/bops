@@ -10,7 +10,14 @@
       BOPS Consultees
     </h1>
 
-    <% if @expired_resource %>
+    <% if @not_required %>
+      <p><strong>Your comments are no longer required</strong></p>
+      <p>This consultation has now closed and comments are no longer required.</p>
+      <p>
+        Contact <%= govuk_mail_to(current_local_authority.feedback_email) %> if you think there's a problem.
+      </p>
+
+    <% elsif @expired_resource %>
       <h2 class="govuk-heading-s">Magic link expired</h2>
       <%= form_with model: @form,
             url: resend_link_planning_application_path(params[:reference], sgid: params[:sgid]),

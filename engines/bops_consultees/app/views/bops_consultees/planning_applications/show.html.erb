@@ -44,8 +44,8 @@
             <a class="govuk-notification-banner__link" href="#comments-form">comments section</a>.
           </p>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 
   <div class="govuk-grid-column-full">
@@ -128,7 +128,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full" id="comments-form">
-    <% unless @planning_application.consultation.complete? %>
+    <% unless @planning_application.consultee_responses_closed? %>
       <%= render "bops_consultees/consultee_responses/form", planning_application: @planning_application, consultee_response: @consultee_response, sgid: params[:sgid] %>
       <hr class="govuk-!-margin-top-5 govuk-!-margin-bottom-5">
       <%= render ConsulteeResponseListComponent.new(responses: @consultee.responses, redact_and_publish: false) %>
