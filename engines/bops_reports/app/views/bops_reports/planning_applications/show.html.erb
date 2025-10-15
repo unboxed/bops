@@ -52,21 +52,21 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<%= render BopsCore::TableOfContentsComponent.new(items: [
+<%= render BopsCore::TableOfContentsComponent.new(sections: [
       {links: [
-        ["Pre-application outcome", "#pre-application-outcome"],
-        ["Officer contact details", "#contact-details"],
-        ["Your pre-application details", "#pre-application-details"],
-        ["Site map", "#site-map"],
-        ["Site constraints", "#site-constraints"],
-        ["Site history", "#site-history"],
-        ["Site and surroundings", "#site-and-surroundings"],
-        ["Considerations and advice", "#considerations-advice"],
-        ["Heads of terms", "#heads-of-terms"],
-        ["Policies and guidance", "#policies-guidance"],
-        ["Requirements", "#requirements"],
-        ["Next steps", "#next-steps"],
-        ["Disclaimer", "#disclaimer"]
+        {text: "Pre-application outcome", href: "#pre-application-outcome"},
+        {text: "Officer contact details", href: "#contact-details"},
+        {text: "Your pre-application details", href: "#pre-application-details"},
+        {text: "Site map", href: "#site-map"},
+        {text: "Site constraints", href: "#site-constraints"},
+        {text: "Site history", href: "#site-history"},
+        {text: "Site and surroundings", href: "#site-and-surroundings"},
+        {text: "Considerations and advice", href: "#considerations-advice"},
+        {text: "Heads of terms", href: "#heads-of-terms", visible: @heads_of_term.terms.present?},
+        {text: "Policies and guidance", href: "#policies-guidance"},
+        {text: "Requirements", href: "#requirements"},
+        {text: "Next steps", href: "#next-steps"},
+        {text: "Disclaimer", href: "#disclaimer"}
       ]}
     ]) %>
 

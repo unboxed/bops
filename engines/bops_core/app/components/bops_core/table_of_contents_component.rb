@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 class BopsCore::TableOfContentsComponent < ViewComponent::Base
-  def initialize(items:)
-    @items = items
+  def initialize(sections:)
+    @sections = sections
   end
 
-  attr_reader :items
+  attr_reader :sections
 end
