@@ -87,6 +87,38 @@ RSpec.describe "Planning applications", type: :system do
           end
         end
       end
+
+      context "when the consultation has completed" do
+        before do
+          travel 30.days
+          visit "/consultees/planning_applications/#{reference}?sgid=#{sgid}"
+        end
+
+        it "shows that comments are no longer required" do
+          expect(page).to have_current_path("/consultees/planning_applications/#{reference}?sgid=#{sgid}")
+          expect(page).to have_content("Your comments are no longer required")
+          expect(page).to have_content("This consultation has now closed and comments are no longer required.")
+          expect(page).not_to have_content(planning_application.full_address)
+          expect(page).not_to have_content("Submit your comments by")
+          expect(page).not_to have_selector("#comments-form")
+        end
+      end
+
+      context "when consultation is marked as not required" do
+        before do
+          planning_application.update!(consultation_required: false)
+          visit "/consultees/planning_applications/#{reference}?sgid=#{sgid}"
+        end
+
+        it "shows that comments are no longer required" do
+          expect(page).to have_current_path("/consultees/planning_applications/#{reference}?sgid=#{sgid}")
+          expect(page).to have_content("Your comments are no longer required")
+          expect(page).to have_content("This consultation has now closed and comments are no longer required.")
+          expect(page).not_to have_content(planning_application.full_address)
+          expect(page).not_to have_content("Submit your comments by")
+          expect(page).not_to have_selector("#comments-form")
+        end
+      end
     end
 
     context "with expired magic link" do
@@ -149,6 +181,15 @@ RSpec.describe "Planning applications", type: :system do
         perform_enqueued_jobs
         expect(mail.count).to eql(delivered_emails + 1)
       end
+
+      context "when consultee responses have been closed" do
+        it "shows me the consultation has expired when consultee responses are closed" do
+          travel 30.days
+          visit "/consultees/planning_applications/#{reference}?sgid=#{sgid}"
+          expect(page).to have_content("Your comments are no longer required")
+          expect(page).to have_content("This consultation has now closed and comments are no longer required.")
+        end
+      end
     end
 
     context "with expired magic link for other sgid purpose" do
@@ -169,6 +210,14 @@ RSpec.describe "Planning applications", type: :system do
       it "I can't view the planning application" do
         expect(page).not_to have_content(reference)
         expect(page).to have_content("Not found")
+      end
+
+      context "when consultee responses have been closed" do
+        it "I can't view the planning application" do
+          travel 30.days
+          expect(page).not_to have_content(reference)
+          expect(page).to have_content("Not found")
+        end
       end
     end
 

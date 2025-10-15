@@ -64,6 +64,11 @@ module BopsConsultees
       @response_form_email = last_consultee_response&.email.presence || @consultee.email_address
     end
 
+    def render_consultee_responses_closed
+      @not_required = true
+      render "bops_consultees/planning_applications/index"
+    end
+
     def render_expired
       @form ||= BopsCore::MagicLink::ExpiredMagicLinkForm.new(
         email: @consultee.email_address,

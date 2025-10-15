@@ -11,9 +11,15 @@ module BopsCore
     end
 
     def authenticate_with_sgid!
-      @resource = sgid_authentication_service.locate_resource
-
-      handle_expired_or_invalid_sgid if @resource.nil?
+      closed = @planning_application.consultee_responses_closed?
+      if (@resource = sgid_authentication_service.locate_resource)
+        render_consultee_responses_closed if closed
+      elsif (@expired_resource = sgid_authentication_service.expired_resource)
+        return render_consultee_responses_closed if closed
+        render_expired
+      else
+        render_not_found
+      end
     end
 
     private
@@ -24,14 +30,6 @@ module BopsCore
 
     def sgid
       params.require(:sgid)
-    end
-
-    def handle_expired_or_invalid_sgid
-      if (@expired_resource = sgid_authentication_service.expired_resource)
-        render_expired
-      else
-        render_not_found
-      end
     end
 
     def render_not_found
