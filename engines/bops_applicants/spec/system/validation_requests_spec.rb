@@ -37,7 +37,6 @@ RSpec.describe "Validation requests" do
     expect(page).to have_selector("h1", text: "Your planning application")
     expect(page).to have_content("At: 60-62 Commercial Street, London, E1 6LT")
     expect(page).to have_content("Date received: 23 May 2025")
-    expect(page).to have_content("Application number: #{reference}")
   end
 
   context "when the application has a request to change the description" do

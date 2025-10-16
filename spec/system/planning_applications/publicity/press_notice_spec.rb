@@ -35,8 +35,6 @@ RSpec.describe "Press notice" do
 
       within("#planning-application-details") do
         expect(page).to have_content("Press notice")
-        expect(page).to have_content(planning_application.reference)
-        expect(page).to have_content(planning_application.full_address)
         expect(page).to have_content(planning_application.description)
       end
 
@@ -435,8 +433,6 @@ RSpec.describe "Press notice" do
 
         within("#planning-application-details") do
           expect(page).to have_selector("h1", text: "Confirm press notice")
-          expect(page).to have_content(planning_application.reference)
-          expect(page).to have_content(planning_application.full_address)
           expect(page).to have_content(planning_application.description)
         end
 
