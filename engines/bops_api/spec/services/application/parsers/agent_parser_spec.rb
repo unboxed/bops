@@ -12,7 +12,7 @@ RSpec.describe BopsApi::Application::Parsers::AgentParser do
 
     context "with valid params" do
       let(:params) {
-        JSON.parse(file_fixture("v2/valid_planning_permission.json").read).with_indifferent_access[:data][:applicant][:agent]
+        JSON.parse(file_fixture("v2/preapp_submission.json").read).with_indifferent_access[:data][:applicant][:agent]
       }
 
       it "returns a correctly formatted agent hash" do
@@ -20,7 +20,8 @@ RSpec.describe BopsApi::Application::Parsers::AgentParser do
           agent_first_name: "Ziggy",
           agent_last_name: "Stardust",
           agent_email: "ziggy@example.com",
-          agent_phone: "01100 0110 0011"
+          agent_phone: "01100 0110 0011",
+          agent_business_name: "Test business"
         )
       end
     end

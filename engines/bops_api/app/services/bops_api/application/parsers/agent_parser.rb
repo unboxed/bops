@@ -11,7 +11,8 @@ module BopsApi
             agent_first_name: params.dig("name", "first"),
             agent_last_name: params.dig("name", "last"),
             agent_email: params[:email],
-            agent_phone: params.dig("phone", "primary")
+            agent_phone: params.dig("phone", "primary"),
+            agent_business_name: params.dig("company", "name")
           }
         end
       end
