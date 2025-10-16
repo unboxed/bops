@@ -33,9 +33,6 @@ json.extract! planning_application,
   :boundary_geojson,
   :regulation_3,
   :regulation_4
-if planning_application.site_notices.any?
-  json.site_notice_content planning_application.site_notices.order(:created_at).last.content
-end
 if planning_application.user
   json.assigned_user_name planning_application.user.name
   json.assigned_user_role planning_application.user.role
