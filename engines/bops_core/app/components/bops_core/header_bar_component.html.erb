@@ -1,31 +1,21 @@
 <div class="<%= container_classes %>">
   <div class="<%= inner_classes %>">
     <div class="<%= left_stack_classes %>">
-      <% left_items.each_with_index do |item, idx| %>
-        <% text = item[:text].to_s %>
-        <% bold = item[:bold].present? %>
-        <% extra = item[:class].to_s %>
-        <% text_classes = ["bops-header-bar__text", (bold ? "govuk-!-font-weight-bold" : nil), extra.presence].compact.join(" ") %>
-
-       <span class="<%= text_classes %>"><%= text %></span>
-
-        <% if idx < left_items.size - 1 %>
-          <div class="<%= divider_classes %>"></div>
-        <% end %>
-      <% end %>
+      <%= render_left_items %>
     </div>
 
     <div class="<%= right_stack_classes %>">
       <% right_items.each do |item| %>
-        <% label = item[:label].to_s %>
-        <% extra = item[:class].to_s.presence || base_link_classes %>
-
-        <% if item[:href].present? %>
-          <%= govuk_link_to label, item[:href], class: extra, new_tab: "", method: item[:method], data: item[:data] %>
+        <% if right_is_link?(item) %>
+          <%= govuk_link_to item[:label].to_s, item[:href],
+                class: link_classes(item),
+                new_tab: "",
+                method: item[:method],
+                data: item[:data] %>
         <% else %>
-          <%= button_tag label,
+          <%= button_tag item[:label].to_s,
                 type: item[:type] || "button",
-                class: "button-as-link #{extra}",
+                class: class_names("button-as-link", link_classes(item)),
                 data: item[:data] %>
         <% end %>
       <% end %>
