@@ -38,6 +38,21 @@
   </div>
 </header>
 
-<%= govuk_service_navigation do |nav| %>
-  <% nav_items.each { |item| nav.with_navigation_item(**item) } %>
+<% if current_page?(root_path) %>
+  <%= govuk_service_navigation do |nav| %>
+    <% nav_items.each { |item| nav.with_navigation_item(**item) } %>
+  <% end %>
+<% end %>
+
+<% if @planning_application %>
+  <%= render BopsCore::HeaderBarComponent.new(
+        left: [
+          {text: @planning_application.reference, bold: true},
+          {text: @planning_application.full_address}
+        ],
+        right: [
+          {label: "Application information", href: edit_planning_application_path(@planning_application)},
+          {label: "Documents", href: planning_application_documents_path(@planning_application)}
+        ]
+      ) %>
 <% end %>
