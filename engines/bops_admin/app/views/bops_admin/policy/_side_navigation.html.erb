@@ -1,0 +1,15 @@
+<%= bops_side_navigation(title: "Policies") do |nav| %>
+  <% nav.with_section(title: "Considerations", index: 1) do |section| %>
+    <% section.with_navigation_item(text: "Manage policy areas", href: policy_areas_path, current: (current == "policy_areas")) %>
+    <% section.with_navigation_item(text: "Manage policy guidance", href: policy_guidances_path, current: (current == "policy_guidance")) %>
+    <% section.with_navigation_item(text: "Manage policy references", href: policy_references_path, current: (current == "policy_references")) %>
+  <% end %>
+
+  <% nav.with_section(title: "Informatives", index: 2) do |section| %>
+    <% section.with_navigation_item(text: "Manage informatives", href: informatives_path, current: (current == "informatives")) %>
+  <% end %>
+
+  <% nav.with_section(title: "Requirements", index: 3) do |section| %>
+    <% section.with_navigation_item(text: "Manage requirements", href: requirements_path, current: (current == "requirements")) %>
+  <% end %>
+<% end %>

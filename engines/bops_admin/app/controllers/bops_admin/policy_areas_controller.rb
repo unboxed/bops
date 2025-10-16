@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsAdmin
-  class PolicyAreasController < ApplicationController
+  class PolicyAreasController < PolicyController
     before_action :set_policy_areas, only: %i[index]
     before_action :build_policy_area, only: %i[new create]
     before_action :set_policy_area, only: %i[edit update destroy]

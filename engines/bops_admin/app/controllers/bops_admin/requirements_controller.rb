@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsAdmin
-  class RequirementsController < ApplicationController
+  class RequirementsController < PolicyController
     before_action :set_requirements, only: %i[index]
     before_action :build_requirement, only: %i[new create]
     before_action :set_requirement, only: %i[edit update destroy]

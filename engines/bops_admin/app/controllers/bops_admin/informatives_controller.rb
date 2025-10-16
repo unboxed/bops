@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsAdmin
-  class InformativesController < ApplicationController
+  class InformativesController < PolicyController
     before_action :set_informatives, only: %i[index]
     before_action :build_informative, only: %i[new create]
     before_action :set_informative, only: %i[edit update destroy]
