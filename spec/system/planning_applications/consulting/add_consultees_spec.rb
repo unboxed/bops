@@ -320,7 +320,7 @@ RSpec.describe "Consultation", type: :system, js: true do
       click_link "Add and assign consultees"
       expect(page).to have_content("No reasons or constraints have been identified, so there are no suggested consultees.")
 
-      click_button "Mark consultees as not required"
+      click_button "Save"
       expect(page).to have_content("Consultation was successfully updated")
 
       within "#consultee-tasks" do

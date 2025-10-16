@@ -76,12 +76,8 @@
 
       <%= form.hidden_field :consultees_not_required, value: true %>
 
-      <% if @consultation.consultees_not_required? %>
+      <%= form.govuk_submit "Save" do %>
         <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true, class: "back-button" %>
-      <% else %>
-        <%= form.govuk_submit "Mark consultees as not required" do %>
-          <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true, class: "back-button" %>
-        <% end %>
       <% end %>
     <% end %>
   <% end %>
