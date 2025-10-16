@@ -2,7 +2,7 @@
 
 module BopsAdmin
   module Notify
-    class BaseController < ApplicationController
+    class BaseController < SettingsController
       before_action :build_form
 
       def new

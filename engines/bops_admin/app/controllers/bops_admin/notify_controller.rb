@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsAdmin
-  class NotifyController < ApplicationController
+  class NotifyController < SettingsController
     def edit
       respond_to do |format|
         format.html

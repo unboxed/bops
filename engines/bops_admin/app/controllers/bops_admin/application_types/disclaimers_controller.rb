@@ -2,7 +2,7 @@
 
 module BopsAdmin
   module ApplicationTypes
-    class DisclaimersController < ApplicationController
+    class DisclaimersController < SettingsController
       before_action :set_application_type
 
       def edit

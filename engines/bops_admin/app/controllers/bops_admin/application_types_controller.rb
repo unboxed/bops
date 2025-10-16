@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsAdmin
-  class ApplicationTypesController < ApplicationController
+  class ApplicationTypesController < SettingsController
     before_action :set_application_types, only: %i[index]
     before_action :set_application_type, only: %i[show]
     before_action :set_application_type_requirements, only: %i[show]
