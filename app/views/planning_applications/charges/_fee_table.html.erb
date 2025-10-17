@@ -1,0 +1,45 @@
+<div id="fee-calculation" class="govuk-!-width-one-half">
+  <dl class="govuk-summary-list">
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Initial fees
+      </dt>
+      <dd class="govuk-summary-list__value">
+        £<%= @planning_application.fee_calculation.requested_fee || "-" %>
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Additional charges
+      </dt>
+      <dd class="govuk-summary-list__value">
+        £<%= @planning_application.total_charges %>
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Amount paid
+      </dt>
+      <dd class="govuk-summary-list__value">
+        £<%= @planning_application.total_payments %>
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Refunds<br>
+        <%= govuk_link_to("Add a refund", "#", class: "govuk-body-s") %>
+      </dt>
+      <dd class="govuk-summary-list__value">
+        xxxxx
+      </dd>
+    </div>
+    <div class="govuk-summary-list__row">
+      <dt class="govuk-summary-list__key">
+        Balance due
+      </dt>
+      <dd class="govuk-summary-list__value govuk-heading-m">
+        £<%= @planning_application.balance_due %>
+      </dd>
+    </div>
+  </dl>
+</div>
