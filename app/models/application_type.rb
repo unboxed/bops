@@ -12,20 +12,6 @@ class ApplicationType < ApplicationRecord
     inverse_of: :recommended_application_type,
     dependent: :nullify
 
-  self.ignored_columns += %i[
-    part
-    section
-    assessment_details
-    steps
-    consistency_checklist
-    document_tags
-    features
-    status
-    configured
-    category
-    reporting_types
-    decisions
-  ]
 
   with_options on: :determination_period do
     validates :determination_period_days, presence: true
