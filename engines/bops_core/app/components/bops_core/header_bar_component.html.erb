@@ -1,0 +1,24 @@
+<div class="<%= container_classes %>">
+  <div class="<%= inner_classes %>">
+    <div class="<%= left_stack_classes %>">
+      <%= render_left_items %>
+    </div>
+
+    <div class="<%= right_stack_classes %>">
+      <% right_items.each do |item| %>
+        <% if right_is_link?(item) %>
+          <%= govuk_link_to item[:label].to_s, item[:href],
+                class: link_classes(item),
+                new_tab: "",
+                method: item[:method],
+                data: item[:data] %>
+        <% else %>
+          <%= button_tag item[:label].to_s,
+                type: item[:type] || "button",
+                class: class_names("button-as-link", link_classes(item)),
+                data: item[:data] %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

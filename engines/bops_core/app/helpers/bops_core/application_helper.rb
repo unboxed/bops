@@ -92,6 +92,7 @@ module BopsCore
 
     def nav_items
       return [] unless current_user
+      return [] unless current_page?(main_app.root_path)
 
       [
         {text: "Planning", href: main_app.planning_applications_path, active: active_page_key?("planning_applications")},

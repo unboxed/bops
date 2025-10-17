@@ -104,7 +104,9 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
         expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
         expect(page).to have_content("Review immunity details was successfully updated")
 
-        click_link "Application"
+        within(".govuk-breadcrumbs") do
+          click_link "Application"
+        end
         click_link "Check and assess"
 
         expect(page).to have_list_item_for(

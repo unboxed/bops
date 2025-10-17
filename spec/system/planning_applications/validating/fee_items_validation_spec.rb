@@ -175,7 +175,6 @@ RSpec.describe "FeeItemsValidation", type: :system do
         "/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=fee_change"
       )
       expect(page).to have_content("Request other validation change (fee)")
-      expect(page).to have_content("Application number: #{planning_application.reference}")
 
       within(".govuk-details__summary") do
         expect(page).to have_content(
@@ -253,7 +252,6 @@ RSpec.describe "FeeItemsValidation", type: :system do
         )
 
         expect(page).to have_content("Request other validation change (fee)")
-        expect(page).to have_content("Application number: #{planning_application.reference}")
 
         # Display fee item table
         expect(page).to have_css(".fee-table")
