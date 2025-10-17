@@ -18,10 +18,13 @@
                   classes: "govuk-!-margin-top-1 govuk-!-margin-bottom-2 govuk-!-display-inline-block"
                 ) %>
         </div>
-
-          <p class="govuk-body-s govuk-!-padding-top-2">
+        <p class="govuk-body-s govuk-!-padding-top-2">
+          <% if site_history.date %>
             Decided on <%= site_history.date.to_fs(:day_month_year_slashes) %>
-          </p>
+          <% else %>
+            Decision date not recorded
+          <% end %>
+        </p>
       </div>
       <div class="govuk-summary-card__content">
         <p class="govuk-body govuk-!-margin-bottom-2">
