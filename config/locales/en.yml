@@ -742,7 +742,7 @@ en:
       resend: Resending to existing consultees
       send: Initial consultation
     formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <code>{{name}}</code> will be substituted when the email is sent.
-    header: Send email to selected consultees
+    header: Select consultation type
     message_body_label: Message body
     message_subject_label: Message subject
     reset_message_to_default: Reset message to default content

@@ -142,7 +142,7 @@ RSpec.describe "Consultation", type: :system, js: true do
     click_link "Send emails to consultees"
     expect(page).to have_selector("h1", text: "Send emails to consultees")
     expect(page).to have_selector("h2", text: "Step 1 Select the consultees to consult")
-    expect(page).to have_selector("h2", text: "Step 2 Send email to selected consultees")
+    expect(page).to have_selector("h2", text: "Step 2 Select consultation type")
     expect(page).to have_selector("h2", text: "Step 3 Set response period")
 
     within "#consultees" do
