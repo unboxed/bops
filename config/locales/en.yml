@@ -742,7 +742,7 @@ en:
       resend: Resending to existing consultees
       send: Initial consultation
     formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <code>{{name}}</code> will be substituted when the email is sent.
-    header: Send email to selected consultees
+    header: Select consultation type
     message_body_label: Message body
     message_subject_label: Message subject
     reset_message_to_default: Reset message to default content
@@ -826,10 +826,6 @@ en:
   consultees:
     update:
       success: Consultee response has been updated
-  consultees_component:
-    header: Select the consultees to consult
-    not_consulted: Not consulted
-    select_consultee: Select consultee
   consultees_table_component:
     awaiting_response: Awaiting response
     failed: Failed
@@ -1684,8 +1680,11 @@ en:
     consultee:
       emails:
         index:
+          header: Select the consultees to consult
           make_public: The planning application must be made public on the BOPS Public Portal before you can send emails to consultees.
+          not_consulted: Not consulted
           please_search_for_a_consultee: Please search for a consultee first
+          select_consultee: Select consultee
           send_emails_to_consultees: Send emails to consultees?
           unable_to_add_consultee: 'Error: Unable to add the consultee to the list'
       responses:
