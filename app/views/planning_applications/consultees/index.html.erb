@@ -74,8 +74,6 @@
         <%= render AddConsulteeComponent.new(consultees: @consultees, form: form) %>
       </section>
 
-      <%= form.hidden_field :consultees_not_required, value: true %>
-
       <%= form.govuk_submit "Save" do %>
         <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true, class: "back-button" %>
       <% end %>
