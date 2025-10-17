@@ -7,8 +7,12 @@
         </h2>
         <%= govuk_tag(text: site_history.decision_label, colour: t(site_history.decision_type, scope: :planning_application_tags), html_attributes: {class: "govuk-!-padding-top-2"}) %>
       </div>
-      <p class="govuk-!-font-size-16  govuk-secondary-text-colour">
-        Decided on <%= site_history.date.to_fs(:day_month_year_slashes) %>
+      <p class="govuk-!-font-size-16 govuk-secondary-text-colour">
+        <% if site_history.date %>
+          Decided on <%= site_history.date.to_fs(:day_month_year_slashes) %>
+        <% else %>
+          Decision date not recorded
+        <% end %>
       </p>
     </div>
     <div class="govuk-summary-card__content">

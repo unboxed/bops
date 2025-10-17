@@ -66,7 +66,6 @@ RSpec.describe "Pre-application report" do
 
   let(:summary_of_advice) { planning_application.summary_of_advice }
 
-  let(:report_url) { "/reports/planning_applications/#{reference}" }
   let!(:site_history) { create(:site_history, planning_application:) }
 
   let!(:site_description) do
@@ -80,8 +79,6 @@ RSpec.describe "Pre-application report" do
   let!(:designated_conservation_area) do
     create(:planning_application_constraint, planning_application:)
   end
-
-  let(:report_url) { "/planning_applications/#{reference}" }
 
   let(:reference) { planning_application.reference }
 
@@ -323,6 +320,22 @@ RSpec.describe "Pre-application report" do
       within(".govuk-summary-card") do
         expect(page).to have_content("REF123")
         expect(page).to have_content("An entry for planning history")
+        expect(page).to have_content(site_history.date.to_fs(:day_month_year_slashes))
+      end
+    end
+  end
+
+  it "displays site history without a recorded date" do
+    site_history.update_column(:date, nil)
+    visit "/reports/planning_applications/#{reference}"
+
+    within("#site-history") do
+      expect(page).to have_content("Relevant site history")
+
+      within(".govuk-summary-card") do
+        expect(page).to have_content("REF123")
+        expect(page).to have_content("An entry for planning history")
+        expect(page).to have_content("Decision date not recorded")
       end
     end
   end
@@ -350,6 +363,7 @@ RSpec.describe "Pre-application report" do
 
     within("#site-history") do
       expect(page).to have_content("Officer comment: An amended entry for planning history")
+      expect(page).to have_content(site_history.date.to_fs(:day_month_year_slashes))
     end
   end
 
