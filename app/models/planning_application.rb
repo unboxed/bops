@@ -154,6 +154,14 @@ class PlanningApplication < ApplicationRecord
       postcode: :postcode
     }
 
+  composed_of :applicant_address,
+    mapping: {
+      address_1: :applicant_address_1,
+      address_2: :applicant_address_1,
+      town: :applicant_town,
+      postcode: :applicant_postcode
+    }
+
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :by_determined_at_desc, -> { order(determined_at: :desc) }
   scope :by_latest_received_and_created, -> { order(received_at: :desc, created_at: :desc) }

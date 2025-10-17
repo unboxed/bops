@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_15_134848) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "plpgsql"
@@ -1002,6 +1002,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
     t.string "map_north"
     t.boolean "section_55_development"
     t.boolean "consultation_required"
+    t.string "agent_business_name"
+    t.string "applicant_address_1"
+    t.string "applicant_address_2"
+    t.string "applicant_town"
+    t.string "applicant_postcode"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "lower(replace((postcode)::text, ' '::text, ''::text))", name: "ix_planning_applications_on_LOWER_replace_postcode"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
