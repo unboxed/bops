@@ -24,6 +24,7 @@ module PlanningApplications
       respond_to do |format|
         format.html do
           if @planning_application.update(consultation_requirement_params, :require_consultation)
+            update_consultation_status
             redirect_to planning_application_consultation_path(@planning_application), notice: t(".success")
           else
             render :edit
@@ -58,6 +59,14 @@ module PlanningApplications
     def destroy_consultation_if_no_consultation_required
       if params.dig(:planning_application, :consultation_required) == "false"
         @consultation.consultees.destroy_all
+      end
+    end
+
+    def update_consultation_status
+      if @planning_application.consultation_required == false
+        @consultation.complete!
+      elsif @planning_application.consultation_required == true
+        @consultation.in_progress!
       end
     end
   end

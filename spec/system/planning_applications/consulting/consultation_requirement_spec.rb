@@ -18,8 +18,11 @@ RSpec.describe "Consultation requirement", type: :system, js: true do
       )
     end
 
-    before do
+    let!(:consultation) do
       planning_application.consultation || planning_application.create_consultation!
+    end
+
+    before do
       sign_in assessor
     end
 
@@ -53,6 +56,7 @@ RSpec.describe "Consultation requirement", type: :system, js: true do
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Consultation requirement was successfully updated")
+      expect(consultation.reload).to be_in_progress
 
       within "#consultee-tasks" do
         within "li:nth-child(2)" do
@@ -73,21 +77,33 @@ RSpec.describe "Consultation requirement", type: :system, js: true do
       expect(page).to have_content("Consultation requirement was successfully updated")
 
       within "#consultee-tasks" do
+        within "li:nth-child(1)" do
+          expect(page).to have_selector(".govuk-tag", text: "Complete")
+          expect(page).to have_link("Determine if consultation is required")
+        end
+
         within "li:nth-child(2)" do
+          expect(page).to have_text("Add and assign consultees")
           expect(page).to have_selector(".govuk-tag", text: "Not required")
           expect(page).not_to have_link("Add and assign consultees")
         end
 
         within "li:nth-child(3)" do
+          expect(page).to have_text("Send emails to consultees")
           expect(page).to have_selector(".govuk-tag", text: "Not required")
           expect(page).not_to have_link("Send emails to consultees")
+        end
+
+        within "li:nth-child(4)" do
+          expect(page).to have_text("View consultee responses")
+          expect(page).to have_selector(".govuk-tag", text: "Not required")
+          expect(page).not_to have_link("View consultee responses")
         end
       end
     end
 
     it "warns and removes consultees when changing to not required" do
       planning_application.update!(consultation_required: true)
-      consultation = planning_application.consultation
       create(:consultee, consultation:)
 
       visit "/planning_applications/#{planning_application.reference}/consultation_requirement/edit"
