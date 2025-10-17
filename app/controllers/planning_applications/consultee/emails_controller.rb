@@ -44,7 +44,6 @@ module PlanningApplications
           :consultee_message_subject,
           :consultee_message_body,
           :consultee_response_period,
-          :consultees_not_required,
           :email_reason,
           :resend_message,
           :reconsult_message,

@@ -6,7 +6,6 @@ module PlanningApplications
     before_action :set_consultation
     before_action :ensure_consultee_consultation_feature
     before_action :ensure_pre_application
-    before_action :destroy_consultation_if_no_consultation_required, only: :update
 
     def show
       respond_to do |format|
@@ -53,12 +52,6 @@ module PlanningApplications
 
     def set_consultation
       @consultation = @planning_application.consultation || @planning_application.create_consultation!
-    end
-
-    def destroy_consultation_if_no_consultation_required
-      if params.dig(:planning_application, :consultation_required) == "false"
-        @consultation.consultees.destroy_all
-      end
     end
   end
 end
