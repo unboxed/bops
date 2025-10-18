@@ -5,37 +5,30 @@ module PlanningApplications
     class RequirementsController < BaseController
       include ReturnToReport
 
+      before_action :set_local_authority_requirements, only: %i[index create]
+      before_action :set_application_type, only: %i[index create]
       before_action :set_requirements, only: %i[index create]
+      before_action :set_new_requirements, only: %i[create]
       before_action :set_requirement, only: %i[update edit destroy]
       before_action :store_return_to_report_path, only: %i[index]
 
       def index
-        @categories = LocalAuthority::Requirement.categories
-        @existing_requirements = @planning_application.requirements.pluck(:description)
-        @application_type_requirements = ApplicationTypeRequirement.includes(:local_authority_requirement).where(
-          local_authority_requirement: {local_authority_id: @planning_application.local_authority.id},
-          application_type_id: @planning_application.recommended_application_type_id
-        ).pluck(:description)
         respond_to do |format|
           format.html
         end
       end
 
       def create
-        @categories = LocalAuthority::Requirement.categories
-        @requirements.where(id: params[:requirement_ids]).find_each do |requirement|
-          application_requirement = @planning_application.requirements.new(
-            description: requirement.description,
-            guidelines: requirement.guidelines,
-            url: requirement.url,
-            category: requirement.category
-          )
-          application_requirement.save!
-        end
-        redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
-
         respond_to do |format|
-          format.html
+          if @planning_application.add_requirements(@new_requirements)
+            format.html do
+              redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
+            end
+          else
+            format.html do
+              redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".failure")
+            end
+          end
         end
       end
 
@@ -46,37 +39,63 @@ module PlanningApplications
       end
 
       def update
-        @requirement.update!(planning_application_requirement_params)
-        redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
-
         respond_to do |format|
-          format.html
+          if @requirement.update(requirement_params)
+            format.html do
+              redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
+            end
+          else
+            format.html { render :edit }
+          end
         end
       end
 
       def destroy
-        if @requirement.destroy
-          redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
-        else
-          redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".failure")
-        end
         respond_to do |format|
-          format.html
+          if @requirement.destroy
+            format.html do
+              redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
+            end
+          else
+            format.html do
+              redirect_to planning_application_assessment_requirements_path(@planning_application), alert: t(".failure")
+            end
+          end
         end
       end
 
       private
 
+      def set_local_authority_requirements
+        @local_authority_requirements = current_local_authority.requirements
+      end
+
+      def set_application_type
+        @application_type = @planning_application.recommended_application_type
+      end
+
       def set_requirements
-        @requirements = @planning_application.local_authority.requirements
+        @requirements = @planning_application.requirements
       end
 
       def set_requirement
         @requirement = @planning_application.requirements.find(params[:id])
       end
 
-      def planning_application_requirement_params
-        params.require(:planning_application_requirement).permit(:url, :guidelines)
+      def requirement_params
+        params.require(:requirement).permit(:url, :guidelines)
+      end
+
+      def new_requirement_ids
+        params.fetch(:new_requirement_ids, []).compact_blank
+      end
+
+      def set_new_requirements
+        @new_requirements = current_local_authority.requirements.find(new_requirement_ids)
+
+        if @new_requirements.empty?
+          redirect_to planning_application_assessment_requirements_path(@planning_application), alert: t(".missing")
+        end
       end
     end
   end

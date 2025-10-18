@@ -65,7 +65,7 @@ class PlanningApplication < ApplicationRecord
     has_many :planning_application_policy_sections, -> { by_id }
     has_many :policy_sections, through: :planning_application_policy_sections
     has_many :additional_services
-    has_many :requirements, class_name: "PlanningApplication::Requirement"
+    has_many :requirements, extend: RequirementsExtension
 
     with_options required: false do
       has_one :appeal
@@ -1075,6 +1075,19 @@ class PlanningApplication < ApplicationRecord
     return unless consultation
 
     consultation_required == false || consultation.complete?
+  end
+
+  def add_requirements(new_requirements)
+    new_requirements.each do |requirement|
+      requirements.new do |r|
+        r.category = requirement.category
+        r.description = requirement.description
+        r.url = requirement.url
+        r.guidelines = requirement.guidelines
+      end
+    end
+
+    save
   end
 
   private

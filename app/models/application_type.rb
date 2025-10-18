@@ -5,13 +5,17 @@ class ApplicationType < ApplicationRecord
   belongs_to :config, autosave: true
 
   has_many :planning_applications, -> { kept }, dependent: :restrict_with_exception
-  has_many :application_type_requirements, dependent: :destroy
   has_many :recommended_planning_applications,
     class_name: "PlanningApplication",
     foreign_key: :recommended_application_type_id,
     inverse_of: :recommended_application_type,
     dependent: :nullify
 
+  # rubocop:disable Rails/HasAndBelongsToMany
+  has_and_belongs_to_many :requirements,
+    class_name: "LocalAuthority::Requirement",
+    extend: RequirementsExtension
+  # rubocop:enable Rails/HasAndBelongsToMany
 
   with_options on: :determination_period do
     validates :determination_period_days, presence: true

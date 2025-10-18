@@ -91,11 +91,15 @@
             summary_list.with_row do |row|
               row.with_key { t(".groups.#{group}") }
               row.with_value { %>
-                <p class="max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
-                  <% group.translated_tags.each do |tag| %>
-                    <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
-                  <% end %>
-                </p>
+                <% if group.translated_tags.empty? %>
+                  N/A
+                <% else %>
+                  <p class="max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
+                    <% group.translated_tags.each do |tag| %>
+                      <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
+                    <% end %>
+                  </p>
+                <% end %>
               <% }
             end
           end
@@ -113,16 +117,18 @@
           summary_list.with_row do |row|
             row.with_key { t(".requirements") }
             row.with_value { %>
-              <ul class="govuk-list govuk-list--bullet">
-                <% @requirements.each do |requirement| %>
-                  <li><%= requirement.description %></li>
-                <% end %>
-              </ul>
+              <% if @requirements.empty? %>
+                N/A
+              <% else %>
+                <ul class="govuk-list govuk-list--bullet">
+                  <% @requirements.each do |requirement| %>
+                    <li><%= requirement.description %></li>
+                  <% end %>
+                </ul>
+              <% end %>
             <% }
             row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :requirements]), visually_hidden_text: t(".requirements"))
-
           end
-
         end %>
     <div class="govuk-button-group">
       <%= govuk_button_link_to t(".back"), :application_types %>

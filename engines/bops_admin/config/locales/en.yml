@@ -19,14 +19,6 @@ en:
         consultees: Consultees
         profile: Profile
         users: Users
-    application_type_requirements:
-      create:
-        failure: Unable to save application type requirements
-        success: Application type requirements successfully updated
-      edit:
-        requirements: Application type requirements
-      update:
-        success: Requirements successully updated
     application_types:
       determination_periods:
         edit:
@@ -70,6 +62,20 @@ en:
           inactive: Inactive
           retired: Retired
         title: Application Types
+      requirements:
+        create:
+          failure: Unable to save application type requirements
+          success: Application type requirements successfully updated
+        edit:
+          requirements: Application type requirements
+        tabs:
+          categories:
+            drawings: Drawings
+            evidence: Evidence
+            other: Other
+            supporting_documents: Supporting documents
+        update:
+          success: Requirements successully updated
       show:
         back: Back
         categories:

@@ -2,29 +2,25 @@
   Check and add requirements - <%= t("page_title") %>
 <% end %>
 
-<%= render(
-      partial: "shared/assessment_task_breadcrumbs",
-      locals: {planning_application: @planning_application}
-    ) %>
+<%= render "shared/assessment_task_breadcrumbs", planning_application: @planning_application %>
 
 <% content_for :title, "Check and add requirements" %>
 
-<%= render(
-      partial: "shared/proposal_header",
-      locals: {heading: "Check and add requirements"}
-    ) %>
+<%= render "shared/proposal_header", heading: "Check and add requirements" %>
 
-<% if @planning_application.requirements.length > 0 %>
-  <% @categories.each do |category| %>
-    <div id="<%= category %>-card" class="govuk-summary-card">
+<% if @requirements.any? %>
+  <% @requirements.by_category do |category, requirements| %>
+    <%= tag.div(id: "#{category}-card", class: "govuk-summary-card") do %>
       <div class="govuk-summary-card__title-wrapper">
         <h2 class="govuk-summary-card__title">
-          <%= category.humanize %>
+          <%= t(".categories.#{category}") %>
         </h2>
       </div>
-          <%= render("table", requirements: @planning_application.requirements.where(category: category)) %>
-    </div>
+
+      <%= render("table", requirements: requirements) %>
+    <% end %>
   <% end %>
+
   <% unless @planning_application.determined? %>
     <hr>
     <details class="govuk-details govuk-!-margin-top-5">
@@ -37,9 +33,11 @@
         <%= render("tabs") %>
       </div>
     </details>
+
     <div class="govuk-button-group">
       <%= govuk_button_link_to "Save and mark as complete", planning_application_assessment_tasks_path(@planning_application) %>
-      <% if @existing_requirements.any? %>
+
+      <% if @requirements.any? %>
         <%= govuk_button_link_to t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true %>
       <% end %>
     </div>

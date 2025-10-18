@@ -1,0 +1,23 @@
+<p>
+  This section is to select requirements to add to the application type.
+</p>
+
+<%= form_with model: @application_type, url: application_type_requirements_path(@application_type), method: :patch do |form| %>
+  <%= govuk_tabs do |tabs| %>
+    <% @requirements.by_category do |category, requirements| %>
+      <% tabs.with_tab(label: t(".categories.#{category}")) do %>
+        <% if requirements.empty? %>
+          <p>There are no requirements of this type available.</p>
+        <% else %>
+          <%= form.govuk_collection_check_boxes :requirement_ids, requirements, :id, :description, small: true, legend: nil %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <div class="govuk-!-margin-top-4">
+    <%= form.govuk_submit("Update requirements") do %>
+      <%= govuk_button_link_to t("back"), application_type_path(@application_type), secondary: true %>
+    <% end %>
+  </div>
+<% end %>

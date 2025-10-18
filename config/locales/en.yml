@@ -1612,10 +1612,23 @@ en:
       requirements:
         create:
           failure: Requirement already added
+          missing: No requirements were selected
           success: Requirements successfully added
         destroy:
           failure: Unable to remove requirement
           success: Requirement successfully removed
+        index:
+          categories:
+            drawings: Drawings
+            evidence: Evidence
+            other: Other
+            supporting_documents: Supporting documents
+        tabs:
+          categories:
+            drawings: Drawings
+            evidence: Evidence
+            other: Other
+            supporting_documents: Supporting documents
         update:
           failure: Unable to update requirement
           success: Requirement successfully updated

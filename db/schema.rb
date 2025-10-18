@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_17_092631) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -143,6 +143,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
     t.index ["local_authority_id", "config_id"], name: "ix_application_types_on_local_authority_id__config_id", unique: true
     t.index ["local_authority_id", "suffix"], name: "ix_application_types_on_local_authority_id__suffix", unique: true
     t.index ["local_authority_id"], name: "ix_application_types_on_local_authority_id"
+  end
+
+  create_table "application_types_local_authority_requirements", id: false, force: :cascade do |t|
+    t.bigint "application_type_id", null: false
+    t.bigint "requirement_id", null: false
+    t.index ["application_type_id", "requirement_id"], name: "ix_application_types_local_authority_requirements_on_applicatio", unique: true
+    t.index ["requirement_id"], name: "ix_application_types_local_authority_requirements_on_requiremen"
   end
 
   create_table "assessment_details", force: :cascade do |t|
@@ -1311,6 +1318,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_06_174502) do
   add_foreign_key "application_type_requirements", "local_authority_requirements"
   add_foreign_key "application_types", "application_type_configs", column: "config_id"
   add_foreign_key "application_types", "local_authorities"
+  add_foreign_key "application_types_local_authority_requirements", "application_types"
+  add_foreign_key "application_types_local_authority_requirements", "local_authority_requirements", column: "requirement_id"
   add_foreign_key "assessment_details", "planning_applications"
   add_foreign_key "assessment_details", "users"
   add_foreign_key "audits", "api_users"

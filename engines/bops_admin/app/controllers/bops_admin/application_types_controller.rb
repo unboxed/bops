@@ -33,10 +33,7 @@ module BopsAdmin
     end
 
     def set_application_type_requirements
-      @requirements = ApplicationTypeRequirement.includes(:local_authority_requirement).where(
-        local_authority_requirement: {local_authority_id: current_local_authority.id},
-        application_type_id: application_type_id
-      )
+      @requirements = @application_type.requirements
     end
   end
 end

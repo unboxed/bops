@@ -5,7 +5,7 @@ class LocalAuthority < ApplicationRecord
     enum :category, %i[drawings evidence supporting_documents other].index_with(&:to_s)
 
     belongs_to :local_authority
-    has_many :application_type_requirements, dependent: :destroy, inverse_of: :local_authority_requirement
+    has_and_belongs_to_many :application_types # rubocop:disable Rails/HasAndBelongsToMany
 
     validates :category, presence: true
 
@@ -22,7 +22,7 @@ class LocalAuthority < ApplicationRecord
 
     class << self
       def search(query)
-        scope = by_description
+        scope = order(:description)
 
         if query.blank?
           scope
@@ -31,16 +31,8 @@ class LocalAuthority < ApplicationRecord
         end
       end
 
-      def by_description
-        order(:description)
-      end
-
       def categories
         CATEGORIES
-      end
-
-      def by_category(category)
-        where(category: category)
       end
 
       def cil_requirement_attributes
