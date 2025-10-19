@@ -30,6 +30,7 @@ class LocalAuthority < ApplicationRecord
   has_many :enforcements, through: :case_records, source: :caseable, source_type: "Enforcement"
 
   class Accessibility < Struct.new(:postal_address, :phone_number, :email_address); end
+  class SiteNotice < Struct.new(:logo, :phone_number, :email_address, :show_assigned_officer); end
 
   composed_of :accessibility,
     class_name: "LocalAuthority::Accessibility",
@@ -38,6 +39,18 @@ class LocalAuthority < ApplicationRecord
       %w[accessibility_phone_number phone_number],
       %w[accessibility_email_address email_address]
     ]
+
+  composed_of :site_notice,
+    class_name: "LocalAuthority::SiteNotice",
+    allow_nil: true, mapping: [
+      %w[site_notice_logo logo],
+      %w[site_notice_phone_number phone_number],
+      %w[site_notice_email_address email_address],
+      %w[site_notice_show_assigned_officer show_assigned_officer]
+    ]
+
+  normalizes :site_notice_logo,
+    with: ->(svg) { svg.encode(svg.encoding, universal_newline: true) }
 
   with_options presence: true do
     validates :council_code, :subdomain
@@ -65,7 +78,7 @@ class LocalAuthority < ApplicationRecord
   with_options on: :accessibility do
     validates :accessibility_postal_address, presence: true
     validates :accessibility_phone_number, presence: true
-    validates :accessibility_email_address, presence: true
+    validates :accessibility_email_address, email: true, presence: true
   end
 
   with_options on: :notify do
@@ -73,6 +86,11 @@ class LocalAuthority < ApplicationRecord
     validates :email_template_id, presence: true
     validates :sms_template_id, presence: true
     validates :letter_template_id, presence: true
+  end
+
+  with_options on: :site_notices, allow_blank: true do
+    validates :site_notice_logo, svg: true
+    validates :site_notice_email_address, email: true
   end
 
   before_validation do

@@ -508,6 +508,32 @@ en:
         requirement: Requirement
       update:
         successfully_updated: Requirement successfully updated
+    site_notices:
+      edit:
+        about_site_notices: This information is used to manage the appearance of physical site notices
+        site_notices: Manage site notice appearance
+        svg_preparation_html: |
+          <p class="govuk-hint">
+            To prepare your SVG logo remove any width and height attributes from the &lt;svg&gt; element and ensure
+            it has a viewBox attribute which will allow it to scale correctly to fill the space.
+          </p>
+          <p class="govuk-hint">
+            The SVG logo should be flattened into a single &lt;path&gt; element – you can use an online tool like
+            <a class="govuk-link govuk-link--no-visited-state" href="https://jakearchibald.github.io/svgomg/" target="_blank">SVGOMG</a> to do this.
+          </p>
+          <p class="govuk-hint">
+            Also ensure the logo is monochrome (i.e. black on a white/transparent background) so that it will print correctly.
+          </p>
+      form:
+        email_address: Email address
+        logo: Logo
+        logo_hint: Copy and paste in the text of your SVG logo
+        phone_number: Phone number
+        show_assigned_officer: Show assigned officer on the site notice?
+        site_notice: Site notice details
+        submit: Submit
+      update:
+        success: Site notice appearance successfully updated
     submissions:
       actions:
         view: View

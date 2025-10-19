@@ -631,6 +631,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_24_112438) do
     t.string "accessibility_email_address"
     t.uuid "email_template_id"
     t.uuid "sms_template_id"
+    t.string "site_notice_logo"
+    t.string "site_notice_phone_number"
+    t.string "site_notice_email_address"
+    t.boolean "site_notice_show_assigned_officer", default: false, null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
