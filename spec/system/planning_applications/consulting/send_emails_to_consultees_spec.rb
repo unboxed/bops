@@ -107,7 +107,7 @@ RSpec.describe "Consultation", type: :system, js: true do
     click_link "Send emails to consultees"
     expect(page).to have_selector("h1", text: "Send emails to consultees")
     expect(page).to have_selector("h2", text: "Step 1 Select the consultees to consult")
-    expect(page).to have_selector("h2", text: "Step 2 Send email to selected consultees")
+    expect(page).to have_selector("h2", text: "Step 2 Select consultation type")
     expect(page).to have_selector("h2", text: "Step 3 Set response period")
     expect(page).not_to have_selector("h2", text: "Step 3 Is this a reconsultation?")
 
@@ -117,6 +117,8 @@ RSpec.describe "Consultation", type: :system, js: true do
 
     expect(page).to have_selector("[role=alert] li", text: "Please select at least one consultee")
 
+    visit "/planning_applications/#{planning_application.reference}/consultees"
+
     fill_in "Search for consultees", with: "GLA"
     expect(page).to have_selector("#add-consultee__listbox li:first-child", text: "Consultations (Planning Department, GLA)")
 
@@ -124,18 +126,6 @@ RSpec.describe "Consultation", type: :system, js: true do
     expect(page).to have_field("Search for consultees", with: "Consultations")
 
     click_button "Add consultee"
-
-    within "#consultees" do
-      within "tbody tr.external-consultee" do
-        expect(page).to have_checked_field("Select consultee")
-        expect(page).to have_selector("td.consultee-name", text: "Consultations")
-        expect(page).to have_selector("td.consultee-name", text: "Planning Department, GLA")
-        expect(page).to have_selector("td.consultee-constraint", text: "–")
-        expect(page).to have_selector("td.consultee-origin", text: "external")
-        expect(page).to have_selector("td.consultee-last-contacted", text: "–")
-        expect(page).to have_selector("td.consultee-status", text: "Not consulted")
-      end
-    end
 
     fill_in "Search for consultees", with: "Tree Officer"
     expect(page).to have_selector("#add-consultee__listbox li:first-child", text: "Chris Wood (Tree Officer, PlanX Council)")
@@ -145,15 +135,27 @@ RSpec.describe "Consultation", type: :system, js: true do
 
     click_button "Add consultee"
 
+    visit "/planning_applications/#{planning_application.reference}/consultee/emails"
+
     within "#consultees" do
+      within "tbody tr.external-consultee" do
+        expect(page).to have_selector("td.consultee-name", text: "Consultations")
+        expect(page).to have_selector("td.consultee-name", text: "Planning Department, GLA")
+        expect(page).to have_selector("td.consultee-constraint", text: "–")
+        expect(page).to have_selector("td.consultee-origin", text: "external")
+        expect(page).to have_selector("td.consultee-last-contacted", text: "–")
+        expect(page).to have_selector("td.consultee-status", text: "Not consulted")
+        check "Select consultee"
+      end
+
       within "tbody tr.internal-consultee" do
-        expect(page).to have_checked_field("Select consultee")
         expect(page).to have_selector("td.consultee-name", text: "Chris Wood")
         expect(page).to have_selector("td.consultee-name", text: "Tree Officer, PlanX Council")
         expect(page).to have_selector("td.consultee-constraint", text: "–")
         expect(page).to have_selector("td.consultee-origin", text: "internal")
         expect(page).to have_selector("td.consultee-last-contacted", text: "–")
         expect(page).to have_selector("td.consultee-status", text: "Not consulted")
+        check "Select consultee"
       end
     end
 
@@ -546,8 +548,8 @@ RSpec.describe "Consultation", type: :system, js: true do
         end
       end
 
-      click_link "Send emails to consultees"
-      expect(page).to have_selector("h1", text: "Send emails to consultees")
+      click_link "Add and assign consultees"
+      expect(page).to have_selector("h1", text: "Add and assign consultees")
 
       fill_in "Search for consultees", with: "GLA"
       expect(page).to have_selector("#add-consultee__listbox li:first-child", text: "Consultations (Planning Department, GLA)")
@@ -557,15 +559,24 @@ RSpec.describe "Consultation", type: :system, js: true do
 
       click_button "Add consultee"
 
+      within ".consultee-table tbody" do
+        expect(page).to have_content("Planning Department, GLA")
+      end
+
+      click_link "Back"
+
+      click_link "Send emails to consultees"
+      expect(page).to have_selector("h1", text: "Send emails to consultees")
+
       within "#consultees" do
         within "tbody tr.external-consultee" do
-          expect(page).to have_checked_field("Select consultee")
           expect(page).to have_selector("td.consultee-name", text: "Consultations")
           expect(page).to have_selector("td.consultee-name", text: "Planning Department, GLA")
           expect(page).to have_selector("td.consultee-constraint", text: "–")
           expect(page).to have_selector("td.consultee-origin", text: "external")
           expect(page).to have_selector("td.consultee-last-contacted", text: "–")
           expect(page).to have_selector("td.consultee-status", text: "Not consulted")
+          check "Select consultee"
         end
       end
 
