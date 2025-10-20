@@ -5,6 +5,7 @@ module BopsConsultees
     before_action :set_planning_application, only: %i[show resend_link]
     before_action :set_consultee, only: %i[show resend_link]
     before_action :authenticate_with_sgid!, only: :show
+    before_action :ensure_consultee_responses_allowed, only: :show
     before_action :set_consultee_response, only: :show
     before_action :set_consultee_response_form_email, only: :show
     before_action :ensure_magic_link_resend_allowed, only: :resend_link
@@ -64,6 +65,11 @@ module BopsConsultees
       @response_form_email = last_consultee_response&.email.presence || @consultee.email_address
     end
 
+    def render_consultee_responses_closed
+      @not_required = true
+      render "bops_consultees/planning_applications/index"
+    end
+
     def render_expired
       @form ||= BopsCore::MagicLink::ExpiredMagicLinkForm.new(
         email: @consultee.email_address,
@@ -78,6 +84,14 @@ module BopsConsultees
       flash.now[:alert] = t(".failure")
       @expired_resource = @consultee
       render_expired
+    end
+
+    def ensure_consultee_responses_allowed
+      if @planning_application.consultee_responses_closed?
+        render_consultee_responses_closed
+      elsif @expired_resource.present?
+        render_expired
+      end
     end
   end
 end

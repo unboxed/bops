@@ -1060,6 +1060,12 @@ class PlanningApplication < ApplicationRecord
     application_type_name
   end
 
+  def consultee_responses_closed?
+    return unless consultation
+
+    consultation_required == false || consultation.complete?
+  end
+
   private
 
   def create_fee_calculation
