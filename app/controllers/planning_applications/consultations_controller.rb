@@ -33,7 +33,7 @@ module PlanningApplications
     private
 
     def consultation_params
-      params.require(:consultation).permit(:neighbour_letter_text, :resend_existing, :resend_reason, :end_date, :consultees_not_required)
+      params.fetch(:consultation, {}).permit(:neighbour_letter_text, :resend_existing, :resend_reason, :end_date)
     end
 
     def redirect_to_application_page

@@ -116,7 +116,6 @@ RSpec.describe "Consultation requirement", type: :system, js: true do
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Consultation requirement was successfully updated")
-      expect(consultation.reload.consultees).to be_empty
     end
   end
 

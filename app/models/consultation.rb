@@ -5,6 +5,8 @@ class Consultation < ApplicationRecord
 
   include DateValidateable
 
+  self.ignored_columns += %i[consultees_not_required]
+
   EMAIL_REASONS = %w[send resend reconsult].freeze
   EMAIL_PLACEHOLDER = /\{\{\s*([a-z][_a-z0-9]+)\s*\}\}/
   EMAIL_PLACEHOLDERS = %w[
@@ -221,7 +223,7 @@ class Consultation < ApplicationRecord
       "awaiting_responses"
     elsif consultees.present?
       "in_progress"
-    elsif consultees.complete? || consultees_not_required?
+    elsif consultees.complete?
       "complete"
     else
       "not_started"
@@ -233,7 +235,7 @@ class Consultation < ApplicationRecord
       "cannot_start_yet"
     elsif planning_application.pre_application? && planning_application.consultation_required == false
       "not_required"
-    elsif consultees.complete? || consultees_not_required?
+    elsif consultees.complete?
       "complete"
     elsif consultees.responded?
       "in_progress"
