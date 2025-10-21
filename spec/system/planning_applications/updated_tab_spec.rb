@@ -37,7 +37,7 @@ RSpec.describe "Planning application updated tab spec", type: :system do
     click_link "Updated"
   end
 
-  it "lists the applications with the latest audit log entry", :capybara do
+  it "lists the applications with the latest audit log entry" do
     expect(page).to have_content("This list shows applications which have been recently updated by a user other than the assigned officer.")
 
     within("#updated") do
@@ -85,13 +85,14 @@ RSpec.describe "Planning application updated tab spec", type: :system do
 
     click_button("Save")
     visit "/"
+
     click_link "Updated"
 
     last_audit = Audit.last
     within("#audit_#{last_audit.id}") do
       within(".govuk-inset-text") do
         expect(page).to have_content(
-          "Update: Agent email updated Changed from: #{planning_application2.agent_email} Changed to: new_agent_email@example.com"
+          "Update: Agent email updated Changed from: #{planning_application2.agent_email} \r Changed to: new_agent_email@example.com"
         )
       end
     end
@@ -112,7 +113,7 @@ RSpec.describe "Planning application updated tab spec", type: :system do
 
     within("#audit_#{Audit.last.id}") do
       within(".govuk-inset-text") do
-        expect(page).to have_content("Update: Requested fee updated Changed from: £0.00 Changed to: £105.00")
+        expect(page).to have_content("Update: Requested fee updated Changed from: £0.00 \r Changed to: £105.00")
       end
     end
 

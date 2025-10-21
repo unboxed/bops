@@ -92,11 +92,20 @@ module BopsCore
 
     def nav_items
       return [] unless current_user
+      return [] unless current_page?(home_path) || current_page?(enforcements_home_path)
 
       [
-        {text: "Planning", href: main_app.planning_applications_path, active: active_page_key?("planning_applications")},
-        {text: "Enforcement", href: bops_enforcements.enforcements_path, active: active_page_key?("enforcements")}
+        {text: "Planning", href: home_path, active: active_page_key?("planning_applications")},
+        {text: "Enforcement", href: enforcements_home_path, active: active_page_key?("enforcements")}
       ]
+    end
+
+    def home_path
+      main_app.root_path
+    end
+
+    def enforcements_home_path
+      bops_enforcements.enforcements_path
     end
   end
 end
