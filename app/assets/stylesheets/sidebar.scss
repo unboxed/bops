@@ -1,0 +1,87 @@
+.bops-fullwidth-container {
+  --sidebar-width: 300px;
+
+  display: grid;
+  grid-template-columns: 300px auto;
+
+  main {
+    grid-column: 1 / span 2;
+  }
+
+  .bops-sidebar {
+    grid-column: 1;
+
+    padding: 15px;
+    border-right: 1px solid $govuk-border-colour;
+
+    max-height: 100vh;
+    overflow-y: auto;
+
+    top: var(--header-height);
+    position: sticky;
+    align-self: start;
+  }
+
+  .govuk-notification-banner,
+  .govuk-breadcrumbs {
+    grid-column: 1 / span 2;
+  }
+
+  .govuk-breadcrumbs {
+    padding: 15px;
+    margin: 0;
+    border-bottom: 1px solid $govuk-border-colour;
+    background-color: white;
+  }
+
+  .status-bar-container {
+    // TODO this is causing overflow and needs to be fixed more generally
+    // but for now this fixes it in the grid layout
+    max-width: inherit;
+    margin-left: calc(-1 * (100vw - 100%) / 2 + var(--sidebar-width));
+  }
+}
+
+.bops-fullwidth-container:has(.bops-sidebar) {
+  main {
+    grid-column: 2;
+  }
+}
+
+html:has(.bops-fullwidth-container) {
+  --govuk-header-height: 62.5px;
+  --breadcrumbs-height: 56px;
+  --environment-banner-height: 0px;
+  --header-height: calc(
+    var(--govuk-header-height) + var(--breadcrumbs-height) +
+      var(--environment-banner-height)
+  );
+
+  .environment-banner,
+  .govuk-header,
+  .govuk-breadcrumbs {
+    top: 0;
+    position: sticky;
+    z-index: 2;
+  }
+
+  .govuk-header {
+    top: var(--environment-banner-height);
+  }
+
+  .govuk-breadcrumbs {
+    top: calc(var(--environment-banner-height) + var(--govuk-header-height));
+  }
+
+  .govuk-service-navigation {
+    display: none;
+  }
+
+  .govuk-service-navigation:has(li) {
+    display: reset;
+  }
+}
+
+html:has(.environment-banner) {
+  --environment-banner-height: 35px;
+}

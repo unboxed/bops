@@ -7,7 +7,9 @@ module PlanningApplications
 
       def index
         respond_to do |format|
-          format.html
+          format.html do
+            render layout: "sidebar"
+          end
         end
       end
     end

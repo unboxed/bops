@@ -36,6 +36,7 @@ $govuk-page-width: 1100px;
 @import "fonts";
 @import "map-constraints";
 @import "proposal";
+@import "sidebar";
 
 p {
   @extend .govuk-body;
