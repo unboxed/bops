@@ -2,7 +2,7 @@
 
 module BopsAdmin
   module ApplicationTypes
-    class DeterminationPeriodsController < ApplicationController
+    class DeterminationPeriodsController < SettingsController
       before_action :set_application_type
 
       def edit

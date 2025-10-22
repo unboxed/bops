@@ -6,7 +6,10 @@
 <% add_parent_breadcrumb_link "GOV.UK Notify settings", edit_notify_path %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation", current: "notify" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
     <h1 class="govuk-heading-l">
       <%= t(".check_sms_settings") %>
     </h1>

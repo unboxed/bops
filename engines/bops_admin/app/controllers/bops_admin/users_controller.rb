@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsAdmin
-  class UsersController < ApplicationController
+  class UsersController < AccessController
     before_action :set_users, only: %i[index]
     before_action :build_user, only: %i[new create]
     before_action :set_user, only: %i[edit update resend_invite destroy reactivate]

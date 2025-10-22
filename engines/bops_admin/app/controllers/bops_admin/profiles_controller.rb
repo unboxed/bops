@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsAdmin
-  class ProfilesController < ApplicationController
+  class ProfilesController < SettingsController
     def show
       respond_to do |format|
         format.html

@@ -21957,25 +21957,21 @@ components:
       - comments
       type: object
     CommentsSpecialistResponse:
-      type: object
-      required:
-      - pagination
-      - data 
       properties:
         pagination:
           "$ref": "#/components/definitions/PostSubmissionPagination"
         data:
           type: object
           required:
-            - summary
-            - comments
+          - summary
+          - comments
           properties:
             summary:
               type: object
               required:
-                - totalComments
-                - totalConsulted
-                - sentiment
+              - totalComments
+              - totalConsulted
+              - sentiment
               properties:
                 totalComments:
                   type: integer
@@ -21994,17 +21990,27 @@ components:
               type: array
               items:
                 type: object
+                required:
+                - id
+                - firstConsultedAt
+                - comments
                 properties:
                   id:
                     type: string
                   organisationSpecialism:
-                    type: [string, "null"]
+                    type:
+                    - string
+                    - 'null'
                   jobTitle:
-                    type: [string, "null"]
+                    type:
+                    - string
+                    - 'null'
                   reason:
                     type: string
                   firstConsultedAt:
-                    type: [string, "null"]
+                    type:
+                    - string
+                    - 'null'
                     format: date-time
                   constraints:
                     type: array
@@ -22015,19 +22021,15 @@ components:
                     items:
                       type: object
                       required:
-                        - id
-                        - sentiment
-                        - commentRedacted
-                        - metadata
+                      - id
+                      - sentiment
+                      - commentRedacted
+                      - metadata
                       properties:
                         id:
                           type: string
                         sentiment:
                           type: string
-                          enum:
-                            - approved
-                            - amendmentsNeeded
-                            - objected
                         commentRedacted:
                           type: string
                         files:
@@ -22036,18 +22038,28 @@ components:
                             type: object
                         metadata:
                           type: object
+                          required:
+                          - submittedAt
                           properties:
                             submittedAt:
-                              type: [string, "null"]
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
                             validatedAt:
-                              type: [string, "null"]
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
                             publishedAt:
-                              type: [string, "null"]
+                              type:
+                              - string
+                              - 'null'
                               format: date-time
-
-
+      required:
+      - pagination
+      - data
+      type: object
     Healthcheck:
       type: object
       properties:
@@ -34727,34 +34739,6 @@ paths:
                               - - -0.06490596313800803
                                 - 51.48755549852538
                           properties:
-                      site_notice_content: |-
-                        <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;">
-                        <div style="width: 420px; text-align: center">
-                          <h1 style="margin-bottom: 5px;">Planning notice</h1>
-                          <h2 style="margin-bottom: 5px;">Southwark Council</h2>
-                          <h3>Town and country Planning Act 1990</h3>
-                          <p>We have received an application for the following development:</p>
-                        </div>
-                        <h3>Application number 23-00108-LDCP</h3>
-                        <h3>Proposed development</h3>
-                        <p>Add a chimney stack</p>
-                        <h3>Location</h3>
-                        <p>11 Abbey Gardens, London, SE16 3RQ</p>
-                        <h3>Applicant name</h3>
-                        <p>Albert Manteras</p>
-                        <hr style="border-top: 1px solid #B1B4B6; border-bottom: none;">
-                        <h2>View and comment on this application</h2>
-                        <p>Use this link to:</p>
-                        <ul>
-                        <li>view the application documents</li>
-                        <li>submit a comment about the application</li>
-                        </ul>
-                        <p>https://southwark.bops-applicants.services/planning_applications/9</p>
-                        <p>Your comments will be published on our website. If the Council’s decision is appealed, all comments will be shared with the Planning Inspectorate. You will not be able to make any further comments.</p>
-                        <p>Comment by post to Planning department Southwark Council PO BOX 64529 London SE1P 5LX.</p>
-                        <h2>Submit your comments by 4 November 2023</h2>
-                        <h3>Site notice displayed on 12 October 2023</h3>
-                        </div>
                       assigned_user_name: Bradford Reynolds
                       assigned_user_role: assessor
                       application_type: prior_approval
@@ -34859,34 +34843,6 @@ paths:
                               - - -0.06490596313800803
                                 - 51.48755549852538
                           properties:
-                      site_notice_content: |-
-                        <div style="font-size: 10px; padding-left: 20px; padding-right: 20px; letter-spacing: 0.02px;">
-                        <div style="width: 420px; text-align: center">
-                          <h1 style="margin-bottom: 5px;">Planning notice</h1>
-                          <h2 style="margin-bottom: 5px;">Southwark Council</h2>
-                          <h3>Town and country Planning Act 1990</h3>
-                          <p>We have received an application for the following development:</p>
-                        </div>
-                        <h3>Application number 23-00108-LDCP</h3>
-                        <h3>Proposed development</h3>
-                        <p>Add a chimney stack</p>
-                        <h3>Location</h3>
-                        <p>11 Abbey Gardens, London, SE16 3RQ</p>
-                        <h3>Applicant name</h3>
-                        <p>Albert Manteras</p>
-                        <hr style="border-top: 1px solid #B1B4B6; border-bottom: none;">
-                        <h2>View and comment on this application</h2>
-                        <p>Use this link to:</p>
-                        <ul>
-                        <li>view the application documents</li>
-                        <li>submit a comment about the application</li>
-                        </ul>
-                        <p>https://southwark.bops-applicants.services/planning_applications/9</p>
-                        <p>Your comments will be published on our website. If the Council’s decision is appealed, all comments will be shared with the Planning Inspectorate. You will not be able to make any further comments.</p>
-                        <p>Comment by post to Planning department Southwark Council PO BOX 64529 London SE1P 5LX.</p>
-                        <h2>Submit your comments by 4 November 2023</h2>
-                        <h3>Site notice displayed on 12 October 2023</h3>
-                        </div>
                       assigned_user_name: Bradford Reynolds
                       assigned_user_role: assessor
                       application_type: prior_approval
@@ -34963,6 +34919,8 @@ paths:
                     agent_email: agent@example.coms
                     applicant_first_name: Albert
                     applicant_last_name: Manteras
+                    applicant_email: albert@example.com
+                    applicant_phone: '01232223333'
                     user_role: agent
                     awaiting_determination_at:
                     to_be_reviewed_at:
@@ -34979,6 +34937,7 @@ paths:
                     in_assessment_at:
                     payment_reference: PAY1
                     payment_amount: '0.0'
+                    ownership_certificate: A
                     result_flag: Planning permission / Permission needed
                     result_heading: It looks like these changes will need planning
                       permission
@@ -35846,50 +35805,30 @@ paths:
                       totalPages: 1
                       totalResults: 4
                       totalAvailableItems: 4
-                    data:
-                      summary:
-                        totalConsulted: 2
-                        totalComments: 2
-                        sentiment:
-                          approved: 2
-                          amendmentsNeeded: 0
-                          objected: 0
-                      specialists: 
-                        - id: "39"
-                          organisationSpecialism: "Lorem Ipsum Dolor"
-                          reason: "constraint"
-                          constraints: []
-                          firstConsultedAt: "2025-03-12T10:00:00Z"
-                          comments:
-                            - id: "1"
-                              sentiment: "approved"
-                              commentRedacted: "Qui eos impedit. In nostrum nam. Qui odit non. *****"
-                              files: []
-                              metadata:
-                                submittedAt: "2025-03-13T10:49:10Z"
-                                validatedAt: "2025-03-13T11:00:00Z"
-                                publishedAt: "2025-03-13T11:00:00Z"
-                        - id: "77"
-                          organisationSpecialism: "Consectetur Adipiscing"
-                          jobTitle: "Elit Sed Do"
-                          reason: "Eiusmod Tempor"
-                          firstConsultedAt: "2025-03-12T11:00:00Z"
-                          comments:
-                            - id: "2"
-                              sentiment: "approved"
-                              commentRedacted: "Etiam porta sem malesuada magna mollis euismod. *****"
-                              metadata:
-                                submittedAt: "2025-03-13T10:49:22Z"
-                            - id: "3"
-                              sentiment: "approved"
-                              commentRedacted: "Cras mattis consectetur purus sit amet fermentum. *****"
-                              metadata:
-                                submittedAt: "2025-03-13T10:49:24Z"
-                            - id: "4"
-                              sentiment: "approved"
-                              commentRedacted: "Nullam id dolor id nibh ultricies vehicula ut id elit. *****"
-                              metadata:
-                                submittedAt: "2025-03-13T10:49:25Z"
+                    summary:
+                      totalConsulted: 4
+                      totalComments: 4
+                      sentiment:
+                        approved: 4
+                        amendmentsNeeded: 0
+                        objected: 0
+                    comments:
+                    - id: 1
+                      sentiment: approved
+                      comment: Qui eos impedit. In nostrum nam. Qui odit non.
+                      receivedAt: '2025-03-13T10:49:10Z'
+                    - id: 2
+                      sentiment: approved
+                      comment: Etiam porta sem malesuada magna mollis euismod.
+                      receivedAt: '2025-03-13T10:49:22Z'
+                    - id: 3
+                      sentiment: approved
+                      comment: Cras mattis consectetur purus sit amet fermentum.
+                      receivedAt: '2025-03-13T10:49:24Z'
+                    - id: 4
+                      sentiment: approved
+                      comment: Nullam id dolor id nibh ultricies vehicula ut id elit.
+                      receivedAt: '2025-03-13T10:49:25Z'
               schema:
                 "$ref": "#/components/schemas/CommentsSpecialistResponse"
         '404':

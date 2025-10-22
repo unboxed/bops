@@ -12,7 +12,7 @@ class LocalAuthority < ApplicationRecord
     has_many :policy_areas
     has_many :policy_guidances
     has_many :policy_references
-    has_many :requirements
+    has_many :requirements, extend: RequirementsExtension
     has_many :api_users
     has_many :application_types
     has_many :submissions

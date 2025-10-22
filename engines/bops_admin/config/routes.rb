@@ -18,9 +18,9 @@ BopsAdmin::Engine.routes.draw do
       with_options only: %i[edit update] do
         resource :determination_period
         resource :disclaimer
+        resource :requirements
       end
     end
-    resource :application_type_requirements, only: %i[edit update], as: :requirements
   end
 
   with_options except: %i[show] do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsAdmin
-  class ApplicationTypesController < ApplicationController
+  class ApplicationTypesController < SettingsController
     before_action :set_application_types, only: %i[index]
     before_action :set_application_type, only: %i[show]
     before_action :set_application_type_requirements, only: %i[show]
@@ -33,10 +33,7 @@ module BopsAdmin
     end
 
     def set_application_type_requirements
-      @requirements = ApplicationTypeRequirement.includes(:local_authority_requirement).where(
-        local_authority_requirement: {local_authority_id: current_local_authority.id},
-        application_type_id: application_type_id
-      )
+      @requirements = @application_type.requirements
     end
   end
 end

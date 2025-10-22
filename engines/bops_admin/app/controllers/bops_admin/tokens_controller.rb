@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsAdmin
-  class TokensController < ApplicationController
+  class TokensController < AccessController
     before_action :set_tokens, only: %i[index]
     before_action :build_token, only: %i[new create]
     before_action :set_token, only: %i[edit update destroy]

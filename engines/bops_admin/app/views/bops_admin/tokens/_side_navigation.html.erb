@@ -1,9 +1,0 @@
-<%= bops_side_navigation(title: "Users & Access") do |nav| %>
-  <% nav.with_section(title: "Users", index: 1) do |section| %>
-    <% section.with_navigation_item(text: "Manage users", href: users_path) %>
-  <% end %>
-
-  <% nav.with_section(title: "API tokens", index: 2) do |section| %>
-    <% section.with_navigation_item(text: "Manage API tokens", href: tokens_path, current: true) %>
-  <% end %>
-<% end %>

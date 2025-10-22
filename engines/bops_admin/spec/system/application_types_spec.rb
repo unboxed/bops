@@ -231,7 +231,7 @@ RSpec.describe "Profile", type: :system do
       click_link "Change"
     end
 
-    expect(page).to have_current_path("/admin/application_types/#{application_type.id}/application_type_requirements/edit")
+    expect(page).to have_current_path("/admin/application_types/#{application_type.id}/requirements/edit")
 
     expect(page).to have_selector("h1", text: "Update requirements")
     expect(page).to have_selector("h1 > span", text: "Pre-application Advice")

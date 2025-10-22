@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsAdmin
-  class AccessibilityController < ApplicationController
+  class AccessibilityController < SettingsController
     def edit
       respond_to do |format|
         format.html

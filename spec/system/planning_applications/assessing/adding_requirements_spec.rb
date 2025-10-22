@@ -9,8 +9,7 @@ RSpec.describe "Add requirements", type: :system, capybara: true do
   let!(:requirement2) { create(:local_authority_requirement, local_authority:, category: "supporting_documents", description: "Parking plan") }
   let!(:requirement3) { create(:local_authority_requirement, local_authority:, category: "evidence", description: "Design statement") }
   let!(:requirement4) { create(:local_authority_requirement, local_authority:, category: "other", description: "Other") }
-  let!(:recommended_application_type) { create(:application_type, :householder) }
-  let!(:application_type_requirement) { create(:application_type_requirement, local_authority_requirement: requirement, application_type: recommended_application_type) }
+  let!(:recommended_application_type) { create(:application_type, :householder, requirements: [requirement]) }
 
   let(:planning_application) do
     create(
@@ -42,7 +41,7 @@ RSpec.describe "Add requirements", type: :system, capybara: true do
 
     it "shows pre-configured application type requirements" do
       expect(page).to have_content("The recommended application type is: #{recommended_application_type.description}")
-      expect(page).to have_content("Any pre-configured requirements for #{recommended_application_type.description} have been pre-selected.")
+      expect(page).to have_content("Any pre-configured requirements for this application type have been pre-selected.")
       expect(page).to have_field("Floor plans – existing", type: "checkbox", checked: true)
     end
   end

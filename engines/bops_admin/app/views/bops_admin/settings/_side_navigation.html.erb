@@ -1,0 +1,10 @@
+<%= bops_side_navigation(title: "Settings") do |nav| %>
+  <% nav.with_section(title: "Profile", index: 1) do |section| %>
+    <% section.with_navigation_item(text: "Manage profile", href: profile_path, current: (current == "profile")) %>
+    <% section.with_navigation_item(text: "Manage accessibility info", href: edit_accessibility_path, current: (current == "accessibility")) %>
+    <% section.with_navigation_item(text: "Manage GOV.UK Notify", href: edit_notify_path, current: (current == "notify")) %>
+  <% end %>
+  <% nav.with_section(title: "Application Types", index: 2) do |section| %>
+    <% section.with_navigation_item(text: "Manage application types", href: application_types_path, current: (current == "application_types")) %>
+  <% end %>
+<% end %>
