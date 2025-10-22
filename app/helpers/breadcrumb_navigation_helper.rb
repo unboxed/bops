@@ -6,6 +6,8 @@ module BreadcrumbNavigationHelper
   end
 
   def render_navigation
+    return if navigation.blank?
+
     render GovukComponent::BreadcrumbsComponent.new(breadcrumbs: navigation)
   end
 
