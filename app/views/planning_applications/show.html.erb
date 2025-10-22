@@ -2,6 +2,8 @@
   Planning Application - <%= t("page_title") %>
 <% end %>
 
+<%= planning_application_notification_banner(@planning_application) %>
+
 <%= render "shared/assessment_dashboard" do %>
   <% if @planning_application.in_progress? %>
     <h2 class="govuk-heading-m govuk-!-margin-bottom-0 govuk-!-margin-top-3">

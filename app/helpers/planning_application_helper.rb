@@ -1,6 +1,26 @@
 # frozen_string_literal: true
 
 module PlanningApplicationHelper
+  def planning_application_notification_banner(planning_application)
+    return unless current_user
+
+    heading =
+      if planning_application.pre_application? && planning_application.determined?
+        "This report has been sent to the applicant."
+      elsif planning_application.closed_or_cancelled?
+        "This application has been #{planning_application.status}."
+      end
+
+    return unless heading
+
+    render(
+      "shared/notification_banner",
+      banner_class: "govuk-notification-banner",
+      title: "Important",
+      heading: heading
+    )
+  end
+
   def validation_request_summary(validation_requests, planning_application)
     if planning_application.invalidated?
       "This application has #{pluralize(validation_requests.count(&:open?),
