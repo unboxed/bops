@@ -2,6 +2,7 @@
 
 module ApplicationHelper
   include BopsCore::ApplicationHelper
+  include BopsCore::StimulusHelper
 
   attr_reader :back_path
 

@@ -135,16 +135,18 @@ class LocalAuthority < ApplicationRecord
 
   def applicants_url
     if Bops.env.production?
-      super
+      super.presence || "https://#{subdomain}.applicants.bops.services"
     else
-      "https://#{subdomain}.#{Rails.configuration.applicants_base_url}"
+      "#{protocol}://#{subdomain}.#{applicants_base_url}"
     end
   end
 
   def public_register_base_url
-    return super if super.present? && Bops.env.production?
-
-    "https://#{subdomain}.#{Rails.configuration.applicants_base_url}"
+    if Bops.env.production?
+      super.presence || "https://#{subdomain}.applicants.bops.services/planning_applications"
+    else
+      "#{protocol}://#{subdomain}.#{applicants_base_url}/planning_applications"
+    end
   end
 
   def inactive?
@@ -213,6 +215,14 @@ class LocalAuthority < ApplicationRecord
   end
 
   private
+
+  def protocol
+    Bops.env.development? ? "http" : "https"
+  end
+
+  def applicants_base_url
+    Rails.configuration.applicants_base_url
+  end
 
   def council_code_exists
     return true if plan_x?

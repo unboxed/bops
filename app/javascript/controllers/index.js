@@ -77,6 +77,9 @@ application.register("show-hide-form", ShowHideFormController)
 import ShowMoreTextController from "./show_more_text_controller.js"
 application.register("show-more-text", ShowMoreTextController)
 
+import SiteNoticeController from "@/bops_core/controllers/site_notice_controller.js"
+application.register("site-notice", SiteNoticeController)
+
 import Sortable from "./sortable_controller.js"
 application.register("sortable", Sortable)
 

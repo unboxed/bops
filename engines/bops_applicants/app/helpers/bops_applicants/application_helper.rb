@@ -3,6 +3,7 @@
 module BopsApplicants
   module ApplicationHelper
     include BopsCore::ApplicationHelper
+    include BopsCore::StimulusHelper
 
     def applicants_host
       "#{current_local_authority.subdomain}.#{Rails.application.config.applicants_domain}"
@@ -39,10 +40,6 @@ module BopsApplicants
       BopsApplicants.env.staging?
     end
 
-    def stimulus_tag(controller, values: {}, &)
-      tag.div(data: {controller:}.merge(stimulus_values(controller, values)), &)
-    end
-
     def tag_colour(status)
       case status
       when "supportive"
@@ -60,12 +57,6 @@ module BopsApplicants
 
     def url_for_representation(document, transformations)
       main_app.uploaded_file_url(document.representation(transformations), access_control_params)
-    end
-
-    private
-
-    def stimulus_values(controller, hash)
-      hash.transform_keys { |key| :"#{controller}_#{key}_value" }
     end
   end
 end
