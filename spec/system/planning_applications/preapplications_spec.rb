@@ -78,6 +78,19 @@ RSpec.describe "assigning planning application" do
     end
   end
 
+  context "when pre-app is determined" do
+    let(:planning_application) { create(:planning_application, :pre_application, :determined, local_authority:) }
+
+    it "displays that the report has been sent to the applicant" do
+      sign_in(reviewer)
+      visit "/planning_applications/#{planning_application.reference}/"
+
+      within(".govuk-notification-banner") do
+        expect(page).to have_content("This report has been sent to the applicant.")
+      end
+    end
+  end
+
   context "when application is not a preapp" do
     let(:planning_application) { create(:planning_application, :ldc_proposed, local_authority:) }
 
