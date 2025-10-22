@@ -1,21 +1,26 @@
 <!DOCTYPE html>
+
 <html lang="en" class="govuk-template app-html-class">
   <%= render "application/head" %>
 
-  <body class="govuk-template__body app-body-class" data-test="My value" data-other="report:details">
+  <body
+    class="govuk-template__body app-body-class"
+    data-test="My value"
+    data-other="report:details">
     <%= javascript_tag nonce: true do %>
-      document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
+      document.body.className += ' js-enabled' + ('noModule' in
+      HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
     <% end %>
 
     <% if gtmid = Rails.configuration.google_tag_manager_id %>
       <!-- Google Tag Manager (noscript) -->
       <noscript>
-        <iframe src="https://www.googletagmanager.com/ns.html?id=<%= gtmid %>"
-                title="Google Tag Manager"
-                height="0"
-                width="0"
-                style="display:none;visibility:hidden">
-        </iframe>
+        <iframe
+          src="https://www.googletagmanager.com/ns.html?id=<%= gtmid %>"
+          title="Google Tag Manager"
+          height="0"
+          width="0"
+          style="display:none;visibility:hidden"></iframe>
       </noscript>
       <!-- End Google Tag Manager (noscript) -->
     <% end %>
@@ -26,20 +31,17 @@
       <%= render "application/header" %>
     <% end %>
 
-    <div class="govuk-width-container app-width-container--wide">
+    <div class="<% if local_assigns[:sidebar] %> bops-fullwidth-container <% else %> govuk-width-container app-width-container--wide <% end %>">
       <div class="govuk-phase-banner">
         <p class="govuk-phase-banner__content">
-          <strong class="govuk-tag govuk-phase-banner__content__tag">
-            Beta
-          </strong>
+          <strong class="govuk-tag govuk-phase-banner__content__tag">Beta</strong>
 
           <% if current_local_authority.present? %>
             <span class="govuk-phase-banner__text">
               This is a new service – your
               <%= tag.a href: "mailto:#{current_local_authority.feedback_email}", class: "govuk-link" do %>
                 feedback
-            <% end %>
-
+              <% end %>
               will help us to improve it.
             </span>
           <% end %>
@@ -48,13 +50,32 @@
 
       <%= render_navigation unless @blank_layout == true %>
 
-      <main class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class" id="main-content" role="main">
+      <% if local_assigns[:sidebar] %>
+        <!--
+  <nav aria-label="Application tasks" class="bops-sidebar">
+  <ul class="govuk-list"></ul>
+  </nav>
+        -->
+      <% end %>
+
+      <main
+        class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class"
+        id="main-content"
+        role="main">
         <%= render "application/flash_content" %>
 
-        <%= yield %>
+        <% if local_assigns[:sidebar] %>
+          <div class="govuk-width-container"><%= yield %></div>
+        <% else %>
+          <%= yield %>
+        <% end %>
       </main>
     </div>
-    <%= render "application/footer" %>
+
+    <% unless local_assigns[:sidebar] %>
+      <%= render "application/footer" %>
+    <% end %>
+
     <%= javascript_include_tag "govuk", nonce: true %>
   </body>
 </html>
