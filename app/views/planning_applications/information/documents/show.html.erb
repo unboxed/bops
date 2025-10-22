@@ -1,0 +1,22 @@
+<% content_for :page_title do %>
+  Documents - Application information - <%= @planning_application.reference %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">Documents</h1>
+
+    <%= govuk_tabs do |tabs| %>
+      <% Document::DEFAULT_TABS.each do |tab| %>
+        <% documents = @planning_application.documents_for(tab) %>
+        <% tabs.with_tab(label: "#{tab} (#{documents.size})", id: tab.parameterize) do %>
+          <h2 class="govuk-heading-m"><%= tab %></h2>
+          <%= render(partial: "documents/active_documents_table", locals: {documents: documents}) %>
+        <% end %>
+      <% end %>
+    <% end %>
+    <p>
+      <%= govuk_link_to "Show details", main_app.planning_application_documents_path(@planning_application) %>
+    </p>
+  </div>
+</div>
