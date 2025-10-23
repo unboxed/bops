@@ -31,10 +31,20 @@ module BopsApi
           record.applicant_last_name = ANONYMISATION_TEXT
           record.applicant_phone = ANONYMISATION_TEXT
           record.applicant_email = "applicant@example.com"
+          record.applicant_address_1 = ANONYMISATION_TEXT
+          record.applicant_address_2 = ANONYMISATION_TEXT
+          record.applicant_town = ANONYMISATION_TEXT
+          record.applicant_county = ANONYMISATION_TEXT
+          record.applicant_postcode = ANONYMISATION_TEXT
           record.agent_first_name = ANONYMISATION_TEXT
           record.agent_last_name = ANONYMISATION_TEXT
           record.agent_phone = ANONYMISATION_TEXT
           record.agent_email = "agent@example.com"
+          record.agent_address_1 = ANONYMISATION_TEXT
+          record.agent_address_2 = ANONYMISATION_TEXT
+          record.agent_town = ANONYMISATION_TEXT
+          record.agent_county = ANONYMISATION_TEXT
+          record.agent_postcode = ANONYMISATION_TEXT
         end
       end
     end

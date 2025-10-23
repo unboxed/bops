@@ -5,10 +5,21 @@ json.extract! planning_application,
   :agent_last_name,
   :agent_phone,
   :agent_email,
+  :agent_company_name,
+  :agent_address_1,
+  :agent_address_2,
+  :agent_town,
+  :agent_county,
+  :agent_postcode,
   :applicant_first_name,
   :applicant_last_name,
   :applicant_phone,
   :applicant_email,
+  :applicant_address_1,
+  :applicant_address_2,
+  :applicant_town,
+  :applicant_county,
+  :applicant_postcode,
   :user_role,
   :awaiting_determination_at,
   :to_be_reviewed_at,
@@ -36,6 +47,14 @@ if planning_application.user
   json.assigned_user_name planning_application.user.name
   json.assigned_user_role planning_application.user.role
 end
+if planning_application.applicant_address_1.present?
+  json.applicant_address_1 planning_application.applicant_address_1
+  json.applicant_address_2 planning_application.applicant_address_2
+  json.applicant_town planning_application.applicant_town
+  json.applicant_postcode planning_application.applicant_postcode
+end
+json.applicant_phone planning_application.applicant_phone
+json.applicant_email planning_application.applicant_email
 if planning_application.ownership_certificate.present?
   json.ownership_certificate planning_application.ownership_certificate.certificate_type
 end
