@@ -26,6 +26,9 @@ export default class extends Controller {
     this.buttonTarget.textContent = visibility
       ? this.expandedTextValue
       : this.condensedTextValue
+    if (this.buttonTarget.hasAttribute("aria-expanded")) {
+      this.buttonTarget.setAttribute("aria-expanded", visibility)
+    }
   }
 
   get isVisible() {

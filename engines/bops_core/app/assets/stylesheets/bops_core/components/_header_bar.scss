@@ -6,9 +6,8 @@
 
 .bops-header-bar--sticky {
   position: sticky;
-  top: 0;
-  z-index: 30;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
+  top: var(--header-height, 0);
+  z-index: 2;
 }
 
 .bops-header-bar--static {
@@ -46,4 +45,26 @@
   font-size: 1rem;
   line-height: 1.5;
   @include govuk-font(19);
+}
+
+.bops-header-bar__toggle-button {
+  padding: 0;
+}
+
+.bops-header-bar__toggle-panel {
+  padding: 0 2rem 1rem;
+  color: govuk-colour("dark-grey");
+  background-color: govuk-colour("white");
+}
+
+.bops-header-bar__toggle-panel > *:first-child {
+  margin-top: 1rem;
+}
+
+.bops-header-bar__toggle-panel > *:last-child {
+  margin-bottom: 0;
+}
+
+.bops-fullwidth-container .bops-header-bar {
+  grid-column: 1 / span 2;
 }

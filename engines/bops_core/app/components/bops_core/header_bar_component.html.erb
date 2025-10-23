@@ -1,7 +1,8 @@
-<div class="<%= container_classes %>">
+<%= tag.div class: container_classes, data: container_data_attributes do %>
   <div class="<%= inner_classes %>">
     <div class="<%= left_stack_classes %>">
       <%= render_left_items %>
+      <%= render_toggle_button %>
     </div>
 
     <div class="<%= right_stack_classes %>">
@@ -21,4 +22,5 @@
       <% end %>
     </div>
   </div>
-</div>
+  <%= render_toggle_content %>
+<% end %>

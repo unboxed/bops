@@ -18,8 +18,8 @@ RSpec.describe BopsCore::HeaderBarComponent, type: :component do
     ]
   end
 
-  def render_component(sticky: true, left: left_items, right: right_items)
-    render_inline(described_class.new(left: left, right: right, sticky: sticky))
+  def render_component(sticky: true, left: left_items, right: right_items, toggle: nil)
+    render_inline(described_class.new(left: left, right: right, sticky: sticky, toggle: toggle))
   end
 
   it "renders the container with sticky modifier by default" do
@@ -82,6 +82,35 @@ RSpec.describe BopsCore::HeaderBarComponent, type: :component do
       render_component(left: {text: "Only item"}, right: [])
       expect(page).to have_css(".bops-header-bar__left .bops-header-bar__text", text: "Only item")
       expect(page).not_to have_css(".bops-header-bar__divider")
+    end
+  end
+
+  context "when a toggle is provided" do
+    let(:toggle_options) do
+      {
+        condensed_text: "Show proposal description",
+        expanded_text: "Hide proposal description",
+        content: "Proposal details go here"
+      }
+    end
+
+    it "renders a toggle button and hidden panel" do
+      render_component(toggle: toggle_options)
+
+      container = page.find(".bops-header-bar")
+      expect(container["data-controller"]).to eq("toggle")
+      expect(container["data-toggle-condensed-text-value"]).to eq("Show proposal description")
+      expect(container["data-toggle-expanded-text-value"]).to eq("Hide proposal description")
+      expect(container["data-toggle-class-name-value"]).to eq("govuk-!-display-none")
+
+      toggle_button = page.find("button.bops-header-bar__toggle-button", visible: :all)
+      expect(toggle_button.text).to eq("Show proposal description")
+      expect(toggle_button["data-action"]).to eq("toggle#click")
+      expect(toggle_button["aria-expanded"]).to eq("false")
+
+      panel = page.find(".bops-header-bar__toggle-panel", visible: :all)
+      expect(panel[:class]).to include("govuk-!-display-none")
+      expect(panel.text).to include("Proposal details go here")
     end
   end
 end

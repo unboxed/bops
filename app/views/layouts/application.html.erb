@@ -40,6 +40,27 @@
     <% end %>
 
     <div class="<% if local_assigns[:sidebar] %> bops-fullwidth-container <% else %> govuk-width-container app-width-container--wide <% end %>">
+      <%= render_navigation unless @blank_layout == true %>
+
+      <% if local_assigns[:sidebar] && @planning_application.persisted? %>
+        <%= render BopsCore::HeaderBarComponent.new(
+              left: [
+                {text: @planning_application.reference, bold: true},
+                {text: @planning_application.full_address}
+              ],
+              right: [
+                {label: "Application information", href: main_app.edit_planning_application_path(@planning_application)}
+              ],
+              toggle: (
+                {
+                  condensed_text: "Show proposal description",
+                  expanded_text: "Hide proposal description",
+                  content: content_tag(:p, @planning_application.description, class: "govuk-body govuk-!-margin-bottom-0")
+                }
+              )
+            ) %>
+      <% end %>
+
       <% if local_assigns[:sidebar] %>
         <!--
   <nav aria-label="Application tasks" class="bops-sidebar">
