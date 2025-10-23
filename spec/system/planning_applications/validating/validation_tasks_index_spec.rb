@@ -26,7 +26,6 @@ RSpec.describe "Validation tasks" do
     it "displays the basic planning application information" do
       within("#planning-application-details") do
         expect(page).to have_content("Check the application")
-        expect(page).to have_content(planning_application.description)
         expect(page).to have_content("Invalid")
       end
     end

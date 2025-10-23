@@ -99,12 +99,11 @@ RSpec.describe "Send letters to neighbours", :js, type: :system do
 
       expect(page).to have_content("Choose which letter to send")
 
-      # Rspec doesn't like govuk-details, doesn't think it's a link. This is the "View/edit template" link
-      page.find(:xpath, "//form/details/summary/span").click
+      page.find("summary", text: /View\/edit letter template/).click
       fill_in "Neighbour letter", with: "This is some content I'm putting in"
 
       # Toggle the govuk-details so that the submit button is on-screen
-      page.find(:xpath, "//form/details/summary/span").click
+      page.find("summary", text: /View\/edit letter template/).click
 
       click_button "Confirm and send letters"
       expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")

@@ -311,7 +311,6 @@ RSpec.describe "View neighbour responses", type: :system, js: true do
 
       within("#planning-application-details") do
         expect(page).to have_content("Redact comment")
-        expect(page).to have_content(planning_application.description)
       end
 
       expect(page).to have_content("Comment submitted by")

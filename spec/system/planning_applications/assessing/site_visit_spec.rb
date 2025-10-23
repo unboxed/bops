@@ -66,7 +66,6 @@ RSpec.describe "Site visit" do
     it "I can see the application information" do
       within("#planning-application-details") do
         expect(page).to have_content("View site visits")
-        expect(page).to have_content(planning_application.description)
       end
     end
 

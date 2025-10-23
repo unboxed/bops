@@ -18,20 +18,8 @@ RSpec.describe BopsCore::HeaderBarComponent, type: :component do
     ]
   end
 
-  def render_component(sticky: true, left: left_items, right: right_items, toggle: nil)
-    render_inline(described_class.new(left: left, right: right, sticky: sticky, toggle: toggle))
-  end
-
-  it "renders the container with sticky modifier by default" do
-    render_component
-    expect(page).to have_css(".bops-header-bar.bops-header-bar--sticky")
-    expect(page).to have_css(".bops-header-bar__inner")
-  end
-
-  it "renders static modifier when sticky is false" do
-    render_component(sticky: false)
-    expect(page).to have_css(".bops-header-bar.bops-header-bar--static")
-    expect(page).not_to have_css(".bops-header-bar--sticky")
+  def render_component(left: left_items, right: right_items, toggle: nil)
+    render_inline(described_class.new(left: left, right: right, toggle: toggle))
   end
 
   it "renders left items with GOV.UK bold class when bold is true and merges extra classes" do
@@ -41,11 +29,6 @@ RSpec.describe BopsCore::HeaderBarComponent, type: :component do
 
     el = page.find(".bops-header-bar__left .bops-header-bar__text.u-ref", text: "REF/123")
     expect(el[:class].to_s.split).to include("govuk-!-font-weight-bold")
-  end
-
-  it "renders dividers between left items (count = n-1)" do
-    render_component
-    expect(page).to have_css(".bops-header-bar__divider", count: left_items.size - 1)
   end
 
   it "renders right items as links when href present (using govuk_link_to), and as a button otherwise" do
@@ -69,6 +52,13 @@ RSpec.describe BopsCore::HeaderBarComponent, type: :component do
     render_component
     docs_link = page.find("a", text: "Documents")
     expect(docs_link[:class].to_s).to include("u-docs")
+  end
+
+  it "renders left items inside a horizontal list with no divider elements" do
+    render_component
+
+    expect(page).to have_css("ul.bops-header-bar__left")
+    expect(page).to have_css("ul.bops-header-bar__left > li.bops-header-bar__item", count: left_items.size)
   end
 
   context "with minimal inputs" do

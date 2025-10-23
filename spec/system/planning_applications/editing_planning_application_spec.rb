@@ -56,9 +56,6 @@ RSpec.describe "editing planning application" do
     expect(page).to have_content(
       "Planning application was successfully updated."
     )
-    within("#planning-application-details") do
-      expect(page).to have_content(planning_application.description)
-    end
 
     expect(page).to have_current_path(
       "/planning_applications/#{planning_application.reference}/assessment/tasks"

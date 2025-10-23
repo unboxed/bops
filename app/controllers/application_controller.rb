@@ -38,6 +38,7 @@ class ApplicationController < ActionController::Base
     application = get_planning_application(param)
 
     @planning_application = PlanningApplicationPresenter.new(view_context, application)
+    @show_header_bar = true
   end
 
   def redirect_to_reference_url

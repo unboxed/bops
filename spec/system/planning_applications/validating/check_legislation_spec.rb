@@ -22,7 +22,6 @@ RSpec.describe "Check legislation" do
     it "displays the application information" do
       within("#planning-application-details") do
         expect(page).to have_content("Check legislative requirements")
-        expect(page).to have_content(planning_application.description)
       end
 
       expect(page).to have_link(

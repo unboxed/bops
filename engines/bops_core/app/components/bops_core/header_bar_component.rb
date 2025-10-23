@@ -2,20 +2,15 @@
 
 module BopsCore
   class HeaderBarComponent < ViewComponent::Base
-    def initialize(left:, right: [], sticky: true, toggle: nil)
+    def initialize(left:, right: [], toggle: nil)
       @left_items = Array.wrap(left)
       @right_items = Array.wrap(right)
-      @sticky = sticky
       @toggle = toggle
     end
 
     private
 
-    attr_reader :left_items, :right_items, :sticky, :toggle
-
-    def container_classes
-      class_names("bops-header-bar", sticky ? "bops-header-bar--sticky" : "bops-header-bar--static")
-    end
+    attr_reader :left_items, :right_items, :toggle
 
     def container_data_attributes
       return {} unless toggle_options
@@ -28,30 +23,31 @@ module BopsCore
       }
     end
 
-    def inner_classes = "bops-header-bar__inner"
-    def left_stack_classes = "bops-header-bar__left"
-    def right_stack_classes = "bops-header-bar__right"
-    def divider_classes = "bops-header-bar__divider"
-    def base_link_classes = "govuk-link"
-
     def render_left_items
-      nodes = []
-      left_items.each_with_index do |item, idx|
-        nodes << helpers.tag.span(left_item_text(item), class: left_item_class(item))
-        nodes << helpers.tag.div(nil, class: divider_classes) if idx < left_items.size - 1
+      helpers.content_tag(:ul, class: "bops-header-bar__left", role: "list") do
+        items = left_items.map { |item| render_left_text_item(item) }
+        items << render_left_toggle_item if toggle_options
+        safe_join(items)
       end
-      safe_join(nodes)
     end
 
-    def left_item_text(item)
-      item[:text].to_s
+    def render_left_text_item(item)
+      helpers.content_tag(:li, class: "bops-header-bar__item") do
+        helpers.tag.span(item[:text].to_s, class: left_item_class(item))
+      end
+    end
+
+    def render_left_toggle_item
+      helpers.content_tag(:li, class: "bops-header-bar__item--toggle") do
+        render_toggle_button
+      end
     end
 
     def left_item_class(item)
       class_names(
         "bops-header-bar__text",
         ("govuk-!-font-weight-bold" if item[:bold].present?),
-        item[:class].presence
+        item[:class]
       )
     end
 
@@ -78,16 +74,6 @@ module BopsCore
       )
     end
 
-    def link_classes(item)
-      class_names(base_link_classes, item[:class].presence)
-    end
-
-    def right_is_link?(item)
-      item[:href].present?
-    end
-
-    private
-
     def toggle_options
       @toggle_options ||= begin
         return nil if toggle.blank?
@@ -96,9 +82,9 @@ module BopsCore
         return nil if content.blank?
 
         {
-          class_name: toggle[:class_name].presence || "govuk-!-display-none",
-          condensed_text: toggle[:condensed_text].presence || "Show details",
-          expanded_text: toggle[:expanded_text].presence || "Hide details",
+          class_name: toggle[:class_name] || "govuk-!-display-none",
+          condensed_text: toggle[:condensed_text] || "Show details",
+          expanded_text: toggle[:expanded_text] || "Hide details",
           button_class: toggle[:button_class],
           content_class: toggle[:content_class],
           content: content

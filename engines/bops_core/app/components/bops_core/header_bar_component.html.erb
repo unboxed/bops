@@ -1,22 +1,19 @@
-<%= tag.div class: container_classes, data: container_data_attributes do %>
-  <div class="<%= inner_classes %>">
-    <div class="<%= left_stack_classes %>">
-      <%= render_left_items %>
-      <%= render_toggle_button %>
-    </div>
+<%= tag.div class: "bops-header-bar", data: container_data_attributes do %>
+  <div class="bops-header-bar__inner">
+    <%= render_left_items %>
 
-    <div class="<%= right_stack_classes %>">
+    <div class="bops-header-bar__right">
       <% right_items.each do |item| %>
-        <% if right_is_link?(item) %>
+        <% if item[:href].present? %>
           <%= govuk_link_to item[:label].to_s, item[:href],
-                class: link_classes(item),
+                class: class_names(govuk_link_classes, item[:class]),
                 new_tab: "",
                 method: item[:method],
                 data: item[:data] %>
         <% else %>
           <%= button_tag item[:label].to_s,
                 type: item[:type] || "button",
-                class: class_names("button-as-link", link_classes(item)),
+                class: class_names("button-as-link", govuk_link_classes, item[:class]),
                 data: item[:data] %>
         <% end %>
       <% end %>
