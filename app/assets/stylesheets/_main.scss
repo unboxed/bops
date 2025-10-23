@@ -36,6 +36,7 @@ $govuk-page-width: 1100px;
 @import "fonts";
 @import "map-constraints";
 @import "proposal";
+@import "sidebar";
 
 p {
   @extend .govuk-body;
@@ -588,6 +589,17 @@ body {
     list-style: none;
     padding-left: 0;
   }
+
+  .map-data-toggle {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    background: #fff;
+    border: 1px solid govuk-colour("mid-grey");
+    border-radius: 999px;
+    padding: govuk-spacing(2) govuk-spacing(3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  }
 }
 
 .neighbour-letter-export {
@@ -629,20 +641,5 @@ body {
   .govuk-table__header,
   .govuk-table__cell {
     border-bottom: none;
-  }
-}
-
-#map-container {
-  position: relative;
-
-  .map-data-toggle {
-    position: absolute;
-    top: 0.75rem;
-    right: 0.75rem;
-    background: #fff;
-    border: 1px solid govuk-colour("mid-grey");
-    border-radius: 999px;
-    padding: govuk-spacing(2) govuk-spacing(3);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   }
 }
