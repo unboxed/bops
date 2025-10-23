@@ -32,22 +32,6 @@
     <% end %>
 
     <div class="<% if local_assigns[:sidebar] %> bops-fullwidth-container <% else %> govuk-width-container app-width-container--wide <% end %>">
-      <div class="govuk-phase-banner">
-        <p class="govuk-phase-banner__content">
-          <strong class="govuk-tag govuk-phase-banner__content__tag">Beta</strong>
-
-          <% if current_local_authority.present? %>
-            <span class="govuk-phase-banner__text">
-              This is a new service – your
-              <%= tag.a href: "mailto:#{current_local_authority.feedback_email}", class: "govuk-link" do %>
-                feedback
-              <% end %>
-              will help us to improve it.
-            </span>
-          <% end %>
-        </p>
-      </div>
-
       <%= render_navigation unless @blank_layout == true %>
 
       <% if local_assigns[:sidebar] %>
