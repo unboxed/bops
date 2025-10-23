@@ -39,6 +39,7 @@ class ApplicationController < ActionController::Base
 
     @planning_application = PlanningApplicationPresenter.new(view_context, application)
     @show_header_bar = true
+    @show_sidebar = false
   end
 
   def redirect_to_reference_url

@@ -4,5 +4,42 @@
   section: "Consultation"
 - name: "Check and assess"
   section: "Assessment"
+  tasks:
+    - name: Check application
+      section: Check application
+      tasks:
+        - name: Check application details
+          legacy_url: planning_application_assessment_consistency_checklist
+        - name: Check consultees consulted
+          legacy_url: planning_application_assessment_consultees
+        - name: Check site history
+          legacy_url: planning_application_assessment_site_histories
+    - name: Additional services
+      section: Additional services
+      tasks:
+        - name: Site visit
+          legacy_url: planning_application_assessment_site_visits
+        - name: Meeting
+          legacy_url: planning_application_assessment_meetings
+    - name: Assessment summaries
+      section: Assessment summaries
+      tasks:
+        - name: Site description
+          legacy_url: planning_application_assessment_site_description
+        - name: Planning considerations and advice
+          legacy_url: planning_application_assessment_considerations
+        - name: Suggest heads of terms
+          legacy_url: planning_application_assessment_terms
+        - name: Summary of advice
+          legacy_url: planning_application_assessment_summary_of_advice
+    - name: Complete assessment
+      section: Complete assessment
+      tasks:
+        - name: Choose application type
+          legacy_url: planning_application_assessment_recommended_application_type
+        - name: Check and add requirements
+          legacy_url: planning_application_assessment_requirements
+        - name: Review and submit pre-application
+          legacy_url: submit_recommendation_planning_application
 - name: "View recommendation"
   section: "Review"

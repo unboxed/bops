@@ -27,7 +27,9 @@ RSpec.describe "Add requirements", type: :system, capybara: true do
     sign_in assessor
     visit "/planning_applications/#{reference}"
     click_link("Check and assess")
-    click_link("Check and add requirements")
+    within "main" do
+      click_link "Check and add requirements"
+    end
   end
 
   context "when a pre-app has no requirements added" do

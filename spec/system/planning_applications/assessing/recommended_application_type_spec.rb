@@ -39,7 +39,9 @@ RSpec.describe "Recommended application type assessment task" do
         "Choose application type",
         href: "/planning_applications/#{planning_application.reference}/assessment/recommended_application_type/edit"
       )
-      click_link "Choose application type"
+      within "main" do
+        click_link "Choose application type"
+      end
 
       expect(page).to have_content("Choose application type")
 
@@ -51,7 +53,9 @@ RSpec.describe "Recommended application type assessment task" do
     end
 
     it "I can choose the recommended application type" do
-      click_link "Choose application type"
+      within "main" do
+        click_link "Choose application type"
+      end
 
       expect(page).to have_content("Choose application type")
 
@@ -72,13 +76,17 @@ RSpec.describe "Recommended application type assessment task" do
         href: "/planning_applications/#{planning_application.reference}/assessment/recommended_application_type"
       )
 
-      click_link "Choose application type"
+      within "main" do
+        click_link "Choose application type"
+      end
 
       expect(page).to have_content "Prior Approval - Larger extension to a house"
     end
 
     it "shows errors when a recommended application type is not selected" do
-      click_link "Choose application type"
+      within "main" do
+        click_link "Choose application type"
+      end
 
       click_button "Save and mark as complete"
 

@@ -263,7 +263,9 @@ RSpec.describe "checking consistency" do
       it "when site map is correct" do
         expect(list_item("Check and assess")).to have_content("Not started")
         click_link("Check and assess")
-        click_link("Check application details")
+        within "main" do
+          click_link("Check application details")
+        end
         click_button("Save and mark as complete")
 
         expect(page).to have_content(
@@ -301,7 +303,9 @@ RSpec.describe "checking consistency" do
 
         expect(task_list_item).to have_content("In progress")
 
-        click_link("Check application details")
+        within "main" do
+          click_link("Check application details")
+        end
 
         form_group4 = form_group_with_legend(
           "Are the proposal details consistent with the plans?"
@@ -315,7 +319,9 @@ RSpec.describe "checking consistency" do
 
         expect(task_list_item).to have_content("Completed")
 
-        click_link("Check application details")
+        within "main" do
+          click_link("Check application details")
+        end
 
         field1 = find_by_id(
           "consistency-checklist-description-matches-documents-yes-field"
@@ -348,7 +354,9 @@ RSpec.describe "checking consistency" do
       it "when site map is wrong leave a comment" do
         expect(list_item("Check and assess")).to have_content("Not started")
         click_link("Check and assess")
-        click_link("Check application details")
+        within "main" do
+          click_link("Check application details")
+        end
         click_button("Save and mark as complete")
 
         expect(page).to have_content(
@@ -391,7 +399,9 @@ RSpec.describe "checking consistency" do
 
         expect(task_list_item).to have_content("In progress")
 
-        click_link("Check application details")
+        within "main" do
+          click_link("Check application details")
+        end
 
         form_group4 = form_group_with_legend(
           "Are the proposal details consistent with the plans?"
@@ -401,7 +411,7 @@ RSpec.describe "checking consistency" do
 
         fill_in(
           "How are the proposal details inconsistent?",
-          with: "Reason for inconsistencty"
+          with: "Reason for inconsistency"
         )
 
         click_button("Save and mark as complete")
@@ -410,7 +420,9 @@ RSpec.describe "checking consistency" do
 
         expect(task_list_item).to have_content("Completed")
 
-        click_link("Check application details")
+        within "main" do
+          click_link("Check application details")
+        end
 
         field1 = find_by_id(
           "consistency-checklist-description-matches-documents-yes-field"
@@ -441,7 +453,7 @@ RSpec.describe "checking consistency" do
         )
 
         expect(page).to have_content("How are the proposal details inconsistent?")
-        expect(page).to have_content("Reason for inconsistencty")
+        expect(page).to have_content("Reason for inconsistency")
 
         expect(page).to have_content("Comment")
         expect(page).to have_content("Site map is wrong")
