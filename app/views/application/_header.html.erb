@@ -38,6 +38,8 @@
   </div>
 </header>
 
-<%= govuk_service_navigation do |nav| %>
-  <% nav_items.each { |item| nav.with_navigation_item(**item) } %>
+<% if nav_items.any? %>
+  <%= govuk_service_navigation do |nav| %>
+    <% nav_items.each { |item| nav.with_navigation_item(**item) } %>
+  <% end %>
 <% end %>
