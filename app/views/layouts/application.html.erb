@@ -55,7 +55,7 @@
       </div>
     <% end %>
 
-    <div class="<% if @show_header_bar %> bops-fullwidth-container <% else %> govuk-width-container app-width-container--wide <% end %>">
+    <div class="<% if local_assigns[:sidebar] %> bops-fullwidth-container <% else %> govuk-width-container app-width-container--wide <% end %>">
       <% if local_assigns[:sidebar] %>
         <!--
   <nav aria-label="Application tasks" class="bops-sidebar">

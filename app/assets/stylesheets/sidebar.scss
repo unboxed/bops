@@ -29,16 +29,16 @@ body:has(.bops-fullwidth-container) {
     }
   }
 
-  .govuk-breadcrumbs {
-    padding: 15px;
-    margin: 0;
-    border-bottom: 1px solid $govuk-border-colour;
-    background-color: white;
-  }
-
   .bops-fullwidth-container:has(.bops-sidebar) {
     main {
       grid-column: 2;
     }
   }
+}
+
+.govuk-breadcrumbs {
+  padding: 15px;
+  margin: 0;
+  border-bottom: 1px solid $govuk-border-colour;
+  background-color: white;
 }
