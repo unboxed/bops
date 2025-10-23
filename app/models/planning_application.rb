@@ -133,8 +133,7 @@ class PlanningApplication < ApplicationRecord
   validates :consultation_required, inclusion: [true, false], on: :require_consultation
 
   delegate :lodged?, :validated?, :started?, :determined?, :display_status, to: :appeal, allow_nil: true, prefix: true
-
-  delegate :code, to: :reporting_type, prefix: true
+  delegate :code, to: :reporting_type, allow_nil: true, prefix: true
 
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
@@ -145,22 +144,21 @@ class PlanningApplication < ApplicationRecord
   belongs_to :reporting_type, optional: true
   belongs_to :submission, optional: true
 
-  composed_of :address,
-    mapping: {
-      address_1: :line_1,
-      address_2: :line_2,
-      town: :town,
-      county: :county,
-      postcode: :postcode
-    }
-
-  composed_of :applicant_address,
-    mapping: {
-      address_1: :applicant_address_1,
-      address_2: :applicant_address_1,
-      town: :applicant_town,
-      postcode: :applicant_postcode
-    }
+  [
+    [:address, ""],
+    [:agent_address, "agent_"],
+    [:applicant_address, "applicant_"]
+  ].each do |name, prefix|
+    composed_of name,
+      class_name: "Address",
+      mapping: {
+        "#{prefix}address_1": :line_1,
+        "#{prefix}address_2": :line_2,
+        "#{prefix}town": :town,
+        "#{prefix}county": :county,
+        "#{prefix}postcode": :postcode
+      }
+  end
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
   scope :by_determined_at_desc, -> { order(determined_at: :desc) }
@@ -784,10 +782,6 @@ class PlanningApplication < ApplicationRecord
 
   def press_notice_needs_published_at?
     press_notice_required? && press_notice.published_at.nil?
-  end
-
-  def address
-    [address_1, address_2, town, county, postcode].compact_blank.join(", ")
   end
 
   delegate :name, to: :application_type, prefix: true, allow_nil: true

@@ -37,9 +37,11 @@ RSpec.describe BopsApi::Application::Parsers::ApplicantParser do
           applicant_email: "ziggy@example.com",
           applicant_phone: "0740 2222222",
           applicant_address_1: "Applicant Test Street",
-          applicant_address_2: "Applicant Address 2",
+          applicant_address_2: "Applicant Test Borough",
           applicant_town: "Applicant Test Town",
-          applicant_postcode: "N7 8AL"
+          applicant_county: "Applicant Test County",
+          applicant_postcode: "N7 8AL",
+          applicant_country: "United Kingdom"
         )
       end
     end

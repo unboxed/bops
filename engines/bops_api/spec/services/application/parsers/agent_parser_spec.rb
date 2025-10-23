@@ -21,7 +21,13 @@ RSpec.describe BopsApi::Application::Parsers::AgentParser do
           agent_last_name: "Stardust",
           agent_email: "ziggy@example.com",
           agent_phone: "01100 0110 0011",
-          agent_business_name: "Test business"
+          agent_company_name: "Test Business",
+          agent_address_1: "1 Test Street",
+          agent_address_2: "Test Borough",
+          agent_town: "Test Town",
+          agent_county: "Testingshire",
+          agent_postcode: "N8 8AL",
+          agent_country: "United Kingdom"
         )
       end
     end

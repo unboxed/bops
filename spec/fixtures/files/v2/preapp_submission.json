@@ -520,17 +520,17 @@
         "name": { "last": "Stardust", "first": "Ziggy" },
         "email": "ziggy@example.com",
         "phone": { "primary": "01100 0110 0011" },
-        "address": { "town": "Test Town", "line1": "1 Test Street", "line2": "", "county": "", "country": "", "postcode": "N8 8AL" },
-        "company": { "name": "Test business" }
+        "address": { "town": "Test Town", "line1": "1 Test Street", "line2": "Test Borough", "county": "Testingshire", "country": "United Kingdom", "postcode": "N8 8AL" },
+        "company": { "name": "Test Business" }
       },
       "email": "ziggy@example.com",
       "phone": { "primary": "0740 2222222" },
       "address": {
         "town": "Applicant Test Town",
         "line1": "Applicant Test Street",
-        "line2": "Applicant Address 2",
+        "line2": "Applicant Test Borough",
         "county": "Applicant Test County",
-        "country": "",
+        "country": "United Kingdom",
         "postcode": "N7 8AL",
         "sameAsSiteAddress": false
       },
