@@ -99,6 +99,10 @@ class LocalAuthority < ApplicationRecord
     super || Rails.configuration.default_notify_api_key
   end
 
+  def shared_email_reply_to_id
+    I18n.t(subdomain, scope: :"email_reply_to_ids.#{Bops.env}", default: nil)
+  end
+
   def letter_template_id
     super || Rails.configuration.default_letter_template_id
   end

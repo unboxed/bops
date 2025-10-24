@@ -16,7 +16,7 @@ module BopsCore
         NOTIFY_TEMPLATE_ID,
         to: email,
         subject:,
-        reply_to_id: planning_application.local_authority.email_reply_to_id
+        reply_to_id: planning_application.local_authority.shared_email_reply_to_id
       )
     end
 

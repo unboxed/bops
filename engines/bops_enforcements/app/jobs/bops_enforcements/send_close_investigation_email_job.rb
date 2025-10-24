@@ -8,7 +8,7 @@ module BopsEnforcements
       client.send_email(
         email_address: enforcement.complainant.email,
         template_id: template_id,
-        email_reply_to_id: enforcement.local_authority.email_reply_to_id,
+        email_reply_to_id: enforcement.local_authority.shared_email_reply_to_id,
         personalisation: EnforcementPresenter.new(enforcement).close_investigation_email(closed_reason:, other_reason:, additional_comment:)
       )
     end
