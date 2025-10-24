@@ -1,0 +1,58 @@
+<% content_for :page_title do %>
+  Additional services charges - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% content_for :title, "Additional service charges" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Additional service charges"}
+    ) %>
+<% if @planning_application.payment_amount || @planning_application.charges.any? %>
+  <%= govuk_table(classes: "govuk-!-margin-top-4", id: "charges-table") do |table| %>
+    <% table.with_caption(size: "m", text: "Service charges") %>
+
+    <% table.with_head do |head| %>
+      <% head.with_row do |row| %>
+        <% row.with_cell(text: "Details", classes: "govuk-!-width-one-third") %>
+        <% row.with_cell(text: "Amount due") %>
+        <% row.with_cell(text: "Amount paid") %>
+        <% row.with_cell(text: "Date paid") %>
+        <% row.with_cell(text: "Actions") %>
+      <% end %>
+    <% end %>
+
+    <% table.with_body do |body| %>
+      <% if @planning_application.payment_amount %>
+        <% body.with_row(classes: "govuk-table__row--highlight") do |row| %>
+          <% row.with_cell(text: "Written advice (initial submission)") %>
+          <% row.with_cell(text: number_to_currency(@planning_application.payment_amount, unit: "£")) %>
+          <% row.with_cell(text: number_to_currency(@planning_application.payment_amount, unit: "£")) %>
+          <% row.with_cell(text: "-") %>
+          <% row.with_cell(text: "-", classes: "govuk-!-text-align-right") %>
+        <% end %>
+      <% end %>
+
+      <% if @planning_application.charges.any? %>
+        <% @planning_application.charges.each do |charge| %>
+          <% body.with_row do |row| %>
+            <%= row.with_cell(text: charge.description) %>
+            <%= row.with_cell(text: number_to_currency(charge.amount, unit: "£")) %>
+            <%= row.with_cell(text: charge.payment.presence ? number_to_currency(charge.payment.amount, unit: "£", precision: 2) : "-") %>
+            <%= row.with_cell(text: charge.payment.presence ? charge.payment.payment_date.to_fs(:day_month_year_slashes) : "-") %>
+            <%= row.with_cell(text: govuk_link_to("Update", edit_planning_application_charge_path(@planning_application, charge)), classes: "govuk-!-text-align-right") %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+<p class="govuk-body">There are no charges or payments for this application</p>
+<% end %>
+
+<%= govuk_link_to "Add new charge or record payment", new_planning_application_charge_path(@planning_application) %>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-5">Fee calculation</h2>
+<%= render "fee_table" %>

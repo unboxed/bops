@@ -196,6 +196,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_082238) do
     t.index ["user_id"], name: "ix_case_records_on_user_id"
   end
 
+  create_table "charges", force: :cascade do |t|
+    t.string "description"
+    t.decimal "amount"
+    t.date "payment_due_date"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_charges_on_planning_application_id"
+  end
+
   create_table "comments", force: :cascade do |t|
     t.text "text", null: false
     t.bigint "user_id"
@@ -820,6 +830,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_082238) do
     t.index ["planning_application_id"], name: "ix_ownership_certificates_on_planning_application_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.decimal "amount"
+    t.date "payment_date"
+    t.string "payment_type"
+    t.string "reference"
+    t.bigint "charge_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["charge_id"], name: "ix_payments_on_charge_id"
+  end
+
   create_table "permitted_development_rights", force: :cascade do |t|
     t.string "status", null: false
     t.boolean "removed"
@@ -1339,8 +1360,9 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_082238) do
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
   add_foreign_key "case_records", "local_authorities"
-  add_foreign_key "case_records", "users"
   add_foreign_key "case_records", "submissions"
+  add_foreign_key "case_records", "users"
+  add_foreign_key "charges", "planning_applications"
   add_foreign_key "comments", "users"
   add_foreign_key "condition_sets", "planning_applications"
   add_foreign_key "conditions", "condition_sets"
@@ -1393,6 +1415,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_082238) do
   add_foreign_key "notes", "users"
   add_foreign_key "old_policies", "old_policy_classes", column: "policy_class_id"
   add_foreign_key "old_policy_classes", "planning_applications"
+  add_foreign_key "payments", "charges"
   add_foreign_key "permitted_development_rights", "planning_applications"
   add_foreign_key "permitted_development_rights", "users", column: "assessor_id"
   add_foreign_key "permitted_development_rights", "users", column: "reviewer_id"

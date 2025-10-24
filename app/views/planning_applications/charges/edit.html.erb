@@ -1,0 +1,9 @@
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Update charges"}
+    ) %>
+
+<%= render "form" %>
