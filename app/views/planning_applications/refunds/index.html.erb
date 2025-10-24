@@ -1,0 +1,61 @@
+<% content_for :page_title do %>
+  Refunds - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Charges", planning_application_charges_path(@planning_application) %>
+
+<% if @planning_application.refunds.exists? %>
+  <% content_for :title, "Refunds" %>
+
+  <%= render(
+        partial: "shared/proposal_header",
+        locals: {heading: "Refunds"}
+      ) %>
+  <%= govuk_table(classes: "govuk-!-margin-top-4", id: "refunds-table") do |table| %>
+    <% table.with_caption(size: "m", text: "Refund history") %>
+
+    <% table.with_head do |head| %>
+      <% head.with_row do |row| %>
+        <% row.with_cell(text: "Reason for refund", classes: "govuk-!-width-one-third") %>
+        <% row.with_cell(text: "Amount refunded") %>
+        <% row.with_cell(text: "Date refunded") %>
+        <% row.with_cell(text: "Reference") %>
+        <% row.with_cell(text: "Actions") %>
+      <% end %>
+    <% end %>
+
+    <% table.with_body do |body| %>
+      <% @refunds.select(&:persisted?).each do |refund| %>
+        <% body.with_row do |row| %>
+          <%= row.with_cell(text: refund.reason) %>
+          <%= row.with_cell(text: number_to_currency(refund.amount, unit: "£")) %>
+          <%= row.with_cell(text: refund.date.to_fs(:day_month_year_slashes)) %>
+          <%= row.with_cell(text: refund.reference.presence ? refund.reference : "-") %>
+          <%= row.with_cell(text: govuk_link_to("Remove", planning_application_refund_path(@planning_application, refund), warning: true, method: :delete, data: {confirm: "Are you sure you want to delete this refund?"}), classes: "govuk-!-text-align-right") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+  <details class="govuk-details" id="refund-toggle">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Add new refund
+      </span>
+    </summary>
+    <%= render("form") %>
+  </details>
+  <div class="govuk-button-group">
+    <%= govuk_button_link_to("Save", planning_application_charges_path(@planning_application)) %>
+    <%= back_link %>
+  </div>
+<% else %>
+  <% content_for :title, "Add new refund" %>
+
+  <%= render(
+        partial: "shared/proposal_header",
+        locals: {heading: "Add new refund"}
+      ) %>
+  <%= render("form") %>
+<% end %>

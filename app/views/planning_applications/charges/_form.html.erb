@@ -30,7 +30,7 @@
     <% end %>
   </div>
 
-  <div class="govuk-form-group">
+  <div class="govuk-form-group govuk-button-group">
     <%= form.submit @charge.persisted? ? "Save changes" : "Create charge", class: "govuk-button" %>
 
     <% if @charge.persisted? %>
