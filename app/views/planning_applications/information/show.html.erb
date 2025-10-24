@@ -95,3 +95,14 @@
     </table>
   </div>
 </div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render(
+          SiteMapComponent.new(
+            planning_application: @planning_application,
+            show_change_request_link: false
+          )
+        ) %>
+  </div>
+</div>
