@@ -5,11 +5,12 @@ class SendCommitteeDecisionEmailJob < NotifyEmailJob
 
   def perform(user, planning_application)
     email = user.neighbour_responses.where.not(email: nil).last.email
+    local_authority = planning_application.local_authority
 
     client.send_email(
       email_address: email,
       template_id: template_id,
-      email_reply_to_id: planning_application.local_authority.email_reply_to_id,
+      email_reply_to_id: local_authority.shared_email_reply_to_id,
       personalisation: {
         subject: "Notification of Planning Committee Meeting",
         body: planning_application.committee_decision.notification_content

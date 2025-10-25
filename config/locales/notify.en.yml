@@ -1,0 +1,29 @@
+---
+en:
+  email_reply_to_ids:
+    production:
+      barnet: d3d1e5a2-f037-4e2b-87da-e4bcc2c4ebc7
+      buckinghamshire: 4896bb50-4f4c-4b4d-ad67-2caddddde125
+      camden: 1830665c-240d-4626-9d84-cc376a9b00c7
+      epsom-ewell: 33caa40e-33f4-48d6-af22-d4e0be624729
+      gloucester: 36c935a5-26bb-49b0-80b0-a48477298e35
+      great-yarmouth: 9abcd118-e33d-4cff-b128-1ed754f14e7f
+      lambeth: 5fe1d483-9bbe-4b56-8e71-8ce193fef723
+      medway: 531012a8-e9c1-4fac-adc0-cf6dd12939f4
+      newcastle: 17d71fea-42c8-40a5-a696-480f311c5eea
+      southglos: fafff93d-4ad9-4c72-aa18-51ecff8cf973
+      southwark: f755c178-b01a-4323-a756-d669e9350c33
+    staging:
+      barnet: d3d1e5a2-f037-4e2b-87da-e4bcc2c4ebc7
+      buckinghamshire: 4896bb50-4f4c-4b4d-ad67-2caddddde125
+      camden: 1830665c-240d-4626-9d84-cc376a9b00c7
+      epsom-ewell: 33caa40e-33f4-48d6-af22-d4e0be624729
+      gloucester: 36c935a5-26bb-49b0-80b0-a48477298e35
+      great-yarmouth: 9abcd118-e33d-4cff-b128-1ed754f14e7f
+      lambeth: 5fe1d483-9bbe-4b56-8e71-8ce193fef723
+      medway: 531012a8-e9c1-4fac-adc0-cf6dd12939f4
+      newcastle: 17d71fea-42c8-40a5-a696-480f311c5eea
+      southglos: fafff93d-4ad9-4c72-aa18-51ecff8cf973
+      southwark: 47de5588-2e37-4c1c-ae56-e80a5de0f9c6
+    test:
+      planx: 4485df6f-a728-41ed-bc46-cdb2fc6789aa
