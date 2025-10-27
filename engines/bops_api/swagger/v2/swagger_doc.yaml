@@ -163,7 +163,6 @@ components:
       - email
       - name
       - phone
-      - siteContact
       - type
       type: object
     AnyProviderMetadata:
@@ -1622,7 +1621,6 @@ components:
       - email
       - name
       - phone
-      - siteContact
       - type
       type: object
     BaseApplicationData:
@@ -2942,6 +2940,18 @@ components:
             type: string
           value:
             const: bioaerosolAssessment
+            type: string
+        required:
+        - value
+        - description
+        type: object
+      - additionalProperties: false
+        properties:
+          description:
+            const: Biodiversity Net Gain (BNG) information
+            type: string
+          value:
+            const: biodiversityNetGainInformation
             type: string
         required:
         - value
@@ -20081,6 +20091,8 @@ components:
       properties:
         autoAnswered:
           type: boolean
+        id:
+          type: string
         policyRefs:
           items:
             additionalProperties: false
@@ -20095,6 +20107,10 @@ components:
           type: array
         sectionName:
           type: string
+        tags:
+          items:
+            type: string
+          type: array
       type: object
     Region:
       description: The region in England that contains this address sourced from planning.data.gov.uk/dataset/region,
@@ -23392,7 +23408,7 @@ paths:
                       fee:
                         calculated: []
                         payable: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               listed:
                 summary: Consent to do works to a Listed Building
                 value:
@@ -24071,7 +24087,7 @@ paths:
                           description: Visualisations
                       fee:
                         notApplicable: true
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               ldc.existing:
                 summary: Lawful Development Certificate - Existing use
                 value:
@@ -24770,7 +24786,9 @@ paths:
                   - question: Your contact details
                     responses:
                     - value: Mr F Fox 0234 567 8910 f.fox@boggischickenshed.com
-                    metadata: {}
+                    metadata:
+                      tags:
+                      - Sensitive data
                   - question: Did you already provide the applicant's email address?
                     responses:
                     - value: 'No'
@@ -24779,7 +24797,9 @@ paths:
                   - question: Applicant's email address
                     responses:
                     - value: r.dahl@example.com
-                    metadata: {}
+                    metadata:
+                      tags:
+                      - Sensitive data
                   - question: Did you already provide the applicant's telephone number?
                     responses:
                     - value: 'No'
@@ -24788,7 +24808,9 @@ paths:
                   - question: Applicant's telephone number
                     responses:
                     - value: '01098 765 432'
-                    metadata: {}
+                    metadata:
+                      tags:
+                      - Sensitive data
                   - question: Which of these best describes you?
                     responses:
                     - value: Agent acting on the applicant's behalf
@@ -24823,12 +24845,16 @@ paths:
                   - question: Full name of Owner 2
                     responses:
                     - value: William Wonka
-                    metadata: {}
+                    metadata:
+                      tags:
+                      - Sensitive data
                   - question: Address of Owner 2
                     responses:
                     - value: The Factory, 10, Scrumdiddlyumptious Avenue, Oomaph upon
                         Ouse, CH0C0L8
-                    metadata: {}
+                    metadata:
+                      tags:
+                      - Sensitive data
                   - question: Have you already notified the other owners?
                     responses:
                     - value: 'Yes'
@@ -24841,11 +24867,15 @@ paths:
                   - question: Full name of Owner 3
                     responses:
                     - value: Matilda Wormwood
-                    metadata: {}
+                    metadata:
+                      tags:
+                      - Sensitive data
                   - question: Address of Owner 3
                     responses:
                     - value: 9, Library Way, Reading, L1T3R8Y
-                    metadata: {}
+                    metadata:
+                      tags:
+                      - Sensitive data
                   - question: Have you already notified the other owners?
                     responses:
                     - value: 'Yes'
@@ -25141,7 +25171,7 @@ paths:
                           - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: 2023-10-02t00:00:00z
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               ldc.proposed:
                 summary: Lawful Development Certificate - Proposed use
                 value:
@@ -25697,7 +25727,7 @@ paths:
                     - value: Within the last 12 months
                     metadata:
                       policyRefs:
-                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 8
+                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 8
                         url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8/made
                   - question: Does the application qualify for a disability exemption?
                     responses:
@@ -25831,7 +25861,7 @@ paths:
                               8
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8/made
                     submittedAt: '2023-10-02T00:00:00+01:00'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               pp.full.householder:
                 summary: Planning Permission - Full householder
                 value:
@@ -26864,7 +26894,7 @@ paths:
                           - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: '2023-10-02T00:00:00.00Z'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               pp.full.major:
                 summary: Planning Permission - Major application
                 value:
@@ -28189,7 +28219,7 @@ paths:
                       fee:
                         calculated: []
                         payable: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               pp.full.minor:
                 summary: Planning Permission - Minor application
                 value:
@@ -29131,7 +29161,7 @@ paths:
                             two: []
                           thirteen: []
                           fourteen: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               pa.part20.classAB:
                 summary: Prior Approval - Build homes on an adjoining commercial or
                   mixed use building
@@ -30231,7 +30261,7 @@ paths:
                               Deemed Applications, Requests and Site Visits) (England)
                               Regulations 2012, Regulation 14
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               pa.part3.classMA:
                 summary: Prior Approval - Convert a commercial building into a home
                   or homes
@@ -31203,7 +31233,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               pa.part7.classM:
                 summary: Prior Approval - Extend a school, college, university, prison
                   or hospital
@@ -32218,7 +32248,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               pa.part1.classA:
                 summary: Prior Approval - Larger extension to a house
                 value:
@@ -33090,7 +33120,7 @@ paths:
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
                           - text: Regulation 4
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               pa.part14.classJ:
                 summary: Prior Approval - Install or change solar panels
                 value:
@@ -33936,7 +33966,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
               preApp:
                 summary: Pre-application
                 value:
@@ -34326,7 +34356,7 @@ paths:
                       fee:
                         payable: []
                         calculated: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.5/schemas/preApplication.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/preApplication.json
     get:
       summary: Retrieves planning applications
       tags:
@@ -35378,7 +35408,7 @@ paths:
                               - text: UK Statutory Instruments 2023 No. 1197
                                 url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         submittedAt: '2023-10-02T00:00:00.00Z'
-                        schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.0/schema.json
+                        schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schema.json
               schema:
                 "$ref": "#/components/schemas/ApplicationSubmission"
         '401':

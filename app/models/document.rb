@@ -105,6 +105,7 @@ class Document < ApplicationRecord
     arboriculturistReport
     basementImpactStatement
     bioaerosolAssessment
+    biodiversityNetGainInformation
     birdstrikeRiskManagementPlan
     boreholeOrTrialPitAnalysis
     conditionSurvey
