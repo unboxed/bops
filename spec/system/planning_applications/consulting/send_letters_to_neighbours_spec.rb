@@ -3,7 +3,7 @@
 require "rails_helper"
 require "faraday"
 
-RSpec.describe "Send letters to neighbours", type: :system, js: true do
+RSpec.describe "Send letters to neighbours", :js, type: :system do
   let(:api_user) { create(:api_user, :planx) }
   let(:default_local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -100,11 +100,11 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       expect(page).to have_content("Choose which letter to send")
 
       # Rspec doesn't like govuk-details, doesn't think it's a link. This is the "View/edit template" link
-      page.find(:xpath, "//*[@id='main-content']/div[2]/div/form/details/summary/span").click
+      page.find(:xpath, "//form/details/summary/span").click
       fill_in "Neighbour letter", with: "This is some content I'm putting in"
 
       # Toggle the govuk-details so that the submit button is on-screen
-      page.find(:xpath, "//*[@id='main-content']/div[2]/div/form/details/summary/span").click
+      page.find(:xpath, "//form/details/summary/span").click
 
       click_button "Confirm and send letters"
       expect(page).to have_content("Letters have been sent to neighbours and a copy of the letter has been sent to the applicant.")
@@ -144,7 +144,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       fill_in "consultation-deadline-extension-field", with: " "
       click_button "Confirm and send letters"
       expect(page).to have_content("Deadline extension can't be blank")
-      expect(planning_application.consultation.reload.end_date).to be nil
+      expect(planning_application.consultation.reload.end_date).to be_nil
     end
   end
 

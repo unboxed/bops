@@ -3,7 +3,7 @@
 require "rails_helper"
 require "faraday"
 
-RSpec.describe "Send letters to neighbours", type: :system, js: true do
+RSpec.describe "Send letters to neighbours", :js, type: :system do
   let(:api_user) { create(:api_user, :planx) }
   let(:default_local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -56,7 +56,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     click_link "Select and add neighbours"
 
     # Rspec doesn't like the govuk design extra details link, so this is clicking "Manually add addresses"
-    page.find(:xpath, "//*[@id='main-content']/div[2]/div/details[2]/summary/span").click
+    page.find(:xpath, "//details[2]/summary/span").click
 
     allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).with("60-").and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, E16LT"}}]}))
 
@@ -95,7 +95,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     click_link "Select and add neighbours"
 
     # Rspec doesn't like the govuk design extra details link, so this is clicking "Manually add addresses"
-    page.find(:xpath, "//*[@id='main-content']/div[2]/div/details[2]/summary/span").click
+    page.find(:xpath, "//details[2]/summary/span").click
 
     allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).with("60-").and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, E16LT"}}]}))
     fill_in "Search neighbours by address", with: "60-"
@@ -171,7 +171,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
     it "shows the relevant content for searching by polygon" do
       expect(page).to have_content("Select neighbours using the map")
 
-      page.find(:xpath, "//*[@id='main-content']/div[2]/div/details[1]/summary/span").click
+      page.find(:xpath, "//details[1]/summary/span").click
       expect(page).to have_content("Selected addresses will appear in a list in the next step. You can check the list before sending letters.")
       expect(page).to have_content("Click and drag your cursor to draw a line around all the neighbours you want to select. Draw around a whole property to select it.")
       expect(page).to have_content("If you want to change your selection, use the reset button to start again.")
@@ -473,7 +473,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       end
 
       # Rspec doesn't like the govuk design extra details link, so this is clicking "Manually add addresses"
-      page.find(:xpath, "//*[@id='main-content']/div[2]/div/details[2]/summary/span").click
+      page.find(:xpath, "//details[2]/summary/span").click
 
       allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).with("60-").and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, E16LT"}}]}))
       fill_in "Search neighbours by address", with: "60-"
@@ -497,7 +497,7 @@ RSpec.describe "Send letters to neighbours", type: :system, js: true do
       click_link "Consultation"
       click_link "Select and add neighbours"
       # Rspec doesn't like the govuk design extra details link, so this is clicking "Manually add addresses"
-      page.find(:xpath, "//*[@id='main-content']/div[2]/div/details[2]/summary/span").click
+      page.find(:xpath, "//details[2]/summary/span").click
 
       allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).with("60-").and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, E16LT"}}]}))
 
