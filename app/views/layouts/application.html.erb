@@ -46,7 +46,9 @@
         class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class"
         id="main-content"
         role="main">
-        <%= render "application/flash_content" %>
+        <div class="govuk-width-container">
+          <%= render "application/flash_content" %>
+        </div>
 
         <% if local_assigns[:sidebar] %>
           <div class="govuk-width-container"><%= yield %></div>
