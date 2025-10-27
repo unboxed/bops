@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "application": {
+      "$ref": "#/definitions/ApplicationOverview"
+    },
+    "submission": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "data": {
+              "type": "object"
+            },
+            "preAssessment": {
+              "type": "array"
+            },
+            "responses": {
+              "type": "array"
+            },
+            "files": {
+              "type": "array"
+            },
+            "metadata": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "data"    
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    }
+  },
+  "required": [
+    "application",
+    "submission"
+  ]
+}
