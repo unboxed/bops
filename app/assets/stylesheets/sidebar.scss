@@ -36,17 +36,14 @@ body:has(.bops-fullwidth-container) {
     background-color: white;
   }
 
-  .status-bar-container {
-    // TODO this is causing overflow and needs to be fixed more generally
-    // but for now this fixes it in the grid layout
-    max-width: inherit;
-    margin-left: calc(-1 * (100vw - 100%) / 2 + var(--sidebar-width));
-  }
-}
-
   .bops-fullwidth-container:has(.bops-sidebar) {
     main {
       grid-column: 2;
+    }
+
+    .status-bar-container {
+      width: calc(99dvw - var(--sidebar-width));
+      margin-left: calc(-1 * ((100dvw - 100% - var(--sidebar-width)) / 2));
     }
   }
 }
