@@ -67,6 +67,7 @@ class PlanningApplication < ApplicationRecord
     has_many :additional_services
     has_many :charges
     has_many :payments, through: :charges
+    has_many :refunds
     has_many :requirements, extend: RequirementsExtension
 
     with_options required: false do
@@ -974,8 +975,12 @@ class PlanningApplication < ApplicationRecord
     payments.sum(:amount) + payment_amount
   end
 
+  def total_refunds
+    refunds.sum(:amount)
+  end
+
   def balance_due
-    total_charges + payment_amount - total_payments
+    total_charges + payment_amount - total_payments + total_refunds
   end
 
   def reporting_type_status

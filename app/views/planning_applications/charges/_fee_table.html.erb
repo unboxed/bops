@@ -27,15 +27,15 @@
     <div class="govuk-summary-list__row" id="refunds">
       <dt class="govuk-summary-list__key">
         Refunds<br>
-        <%= govuk_link_to("Add a refund", "#", class: "govuk-body-s") %>
+        <%= govuk_link_to("Add a refund", planning_application_refunds_path(@planning_application), class: "govuk-body-s") %>
       </dt>
       <dd class="govuk-summary-list__value govuk-!-text-align-right">
-        -
+        <%= number_to_currency(@planning_application.total_refunds, unit: "£", precision: 2) || "-" %>
       </dd>
     </div>
     <div class="govuk-summary-list__row" id="balance-due">
       <dt class="govuk-summary-list__key">
-        Balance due
+        Outstanding balance
       </dt>
       <dd class="govuk-summary-list__value govuk-heading-m govuk-!-text-align-right">
         <%= number_to_currency(@planning_application.balance_due, unit: "£", precision: 2) || "-" %>

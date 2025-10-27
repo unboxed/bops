@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_18_082238) do
+ActiveRecord::Schema[8.0].define(version: 2025_10_24_112438) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -1156,6 +1156,18 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_082238) do
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
   end
 
+  create_table "refunds", force: :cascade do |t|
+    t.decimal "amount"
+    t.date "date"
+    t.string "payment_type"
+    t.string "reference"
+    t.string "reason"
+    t.bigint "planning_application_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["planning_application_id"], name: "ix_refunds_on_planning_application_id"
+  end
+
   create_table "reporting_types", force: :cascade do |t|
     t.string "code", null: false
     t.string "description", null: false
@@ -1448,6 +1460,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_18_082238) do
   add_foreign_key "recommendations", "planning_applications"
   add_foreign_key "recommendations", "users", column: "assessor_id"
   add_foreign_key "recommendations", "users", column: "reviewer_id"
+  add_foreign_key "refunds", "planning_applications"
   add_foreign_key "reviews", "users", column: "assessor_id"
   add_foreign_key "reviews", "users", column: "reviewer_id"
   add_foreign_key "site_histories", "planning_applications"

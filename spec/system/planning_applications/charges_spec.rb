@@ -44,7 +44,7 @@ RSpec.describe "Charges", type: :system, capybara: true do
       end
 
       within("#balance-due") do
-        expect(page).to have_content("Balance due")
+        expect(page).to have_content("Outstanding balance")
         expect(page).to have_content("£0.00")
       end
     end
@@ -122,7 +122,7 @@ RSpec.describe "Charges", type: :system, capybara: true do
     end
 
     within("#balance-due") do
-      expect(page).to have_content("Balance due")
+      expect(page).to have_content("Outstanding balance")
       expect(page).to have_content("£50.00")
     end
   end
