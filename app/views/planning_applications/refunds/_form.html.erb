@@ -27,7 +27,7 @@
           ) %>
 </div>
   <div class="govuk-form-group govuk-button-group">
-    <%= form.submit((@refund.persisted? ? "Save changes" : "Add refund"), class: (@planning_application.refunds.any? ? "govuk-button govuk-button--secondary" : "govuk-button govuk-!-padding-right-2")) %>
-    <%= back_link if !@planning_application.refunds.any? %>
+    <%= form.submit((@refund.persisted? ? "Save changes" : "Add refund"), class: (@refund.persisted? ? "govuk-button govuk-button--secondary" : "govuk-button govuk-!-padding-right-2")) %>
+    <%= back_link if !@refund.persisted? %>
   </div>
 <% end %>
