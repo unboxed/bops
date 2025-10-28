@@ -40,10 +40,5 @@ body:has(.bops-fullwidth-container) {
     main {
       grid-column: 2;
     }
-
-    .status-bar-container {
-      width: calc(99dvw - var(--sidebar-width));
-      margin-left: calc(-1 * ((100dvw - 100% - var(--sidebar-width)) / 2));
-    }
   }
 }
