@@ -979,8 +979,12 @@ class PlanningApplication < ApplicationRecord
     refunds.sum(:amount)
   end
 
+  def payment_due
+    payment_amount
+  end
+
   def balance_due
-    total_charges + payment_amount - total_payments + total_refunds
+    (total_charges + payment_due) - total_payments - total_refunds
   end
 
   def reporting_type_status
