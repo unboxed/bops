@@ -27,13 +27,19 @@
 
     <% unless @blank_layout == true %>
       <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", "data-module": "govuk-skip-link" %>
-      <%= render(EnvironmentBannerComponent.new(display: !Bops.env.production?)) %>
-      <%= render "application/header" %>
+      <div class="bops-headers">
+        <%= render(EnvironmentBannerComponent.new(display: !Bops.env.production?)) %>
+        <%= render "application/header" %>
+
+        <% unless local_assigns[:sidebar] %>
+          <div class="govuk-width-container"><%= render_navigation %></div>
+        <% else %>
+          <%= render_navigation %>
+        <% end %>
+      </div>
     <% end %>
 
     <div class="<% if local_assigns[:sidebar] %> bops-fullwidth-container <% else %> govuk-width-container app-width-container--wide <% end %>">
-      <%= render_navigation unless @blank_layout == true %>
-
       <% if local_assigns[:sidebar] %>
         <!--
   <nav aria-label="Application tasks" class="bops-sidebar">
@@ -46,7 +52,9 @@
         class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class"
         id="main-content"
         role="main">
-        <%= render "application/flash_content" %>
+        <div class="govuk-width-container">
+          <%= render "application/flash_content" %>
+        </div>
 
         <% if local_assigns[:sidebar] %>
           <div class="govuk-width-container"><%= yield %></div>
