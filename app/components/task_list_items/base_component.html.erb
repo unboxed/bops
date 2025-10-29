@@ -1,4 +1,5 @@
 <li class="app-task-list__item" id="<%= link_text.parameterize %>">
+  <span class="icon icon--<%= status_tag_component.send(:status).to_s.dasherize %>"></span>
   <span class="<%= link_active? ? "app-task-list__name" : "app-task-list__hint" %>">
     <%= link_to_if(link_active?, link_text, link_path, class: "govuk-link") %>
   </span>

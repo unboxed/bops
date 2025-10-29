@@ -1,0 +1,92 @@
+$icon-size: 20px;
+$stroke: 2px;
+
+$blue-bg: #eaf2fb;
+$blue-stroke: #a0c4e8;
+$blue-ink: #2c6ebd;
+
+$green-bg: #e6f4ea;
+$green-ink: #1e7d3d;
+
+$grey-ink: #d1d5db;
+
+.icon {
+  position: relative;
+  display: inline-block;
+  width: $icon-size;
+  height: $icon-size;
+  border-radius: 50%;
+  box-sizing: border-box;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+  }
+
+  /* default = in progress */
+  background: $blue-bg;
+  border: $stroke solid $blue-stroke;
+
+  &::before {
+    left: 50%;
+    top: 50%;
+    width: $icon-size * 0.55;
+    height: $stroke;
+    background: $blue-ink;
+    transform: translate(-50%, -50%);
+    border-radius: $stroke;
+  }
+
+  &--not-started {
+    background: transparent;
+    border: $stroke dotted $grey-ink;
+
+    &::before {
+      display: none;
+    }
+  }
+
+  &--complete {
+    background: $green-bg;
+    border: $stroke solid $green-bg;
+
+    &::before {
+      width: $icon-size * 0.3;
+      height: $icon-size * 0.5;
+      border-right: $stroke solid $green-ink;
+      border-bottom: $stroke solid $green-ink;
+      background: transparent;
+      transform: translate(-50%, -60%) rotate(45deg);
+      border-radius: 0;
+    }
+  }
+
+  &--cannot-start {
+    background: transparent;
+    border: none;
+
+    &::before {
+      bottom: 18%;
+      left: 50%;
+      width: 70%;
+      height: 45%;
+      background: $grey-ink;
+      transform: translateX(-50%);
+      border-radius: 3px;
+    }
+
+    &::after {
+      top: 5%;
+      left: 50%;
+      width: 55%;
+      height: 50%;
+      border: $stroke solid $grey-ink;
+      border-bottom: none;
+      transform: translateX(-50%);
+      border-radius: 50% 50% 0 0;
+      background: transparent;
+      box-sizing: border-box;
+    }
+  }
+}
