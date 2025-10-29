@@ -46,3 +46,19 @@ body:has(.bops-fullwidth-container) {
 #preview-report-button-link {
   width: 100%;
 }
+
+.bops-sidebar__task {
+  display: flex;
+  align-items: center;
+  gap: govuk-spacing(2);
+}
+
+.bops-sidebar__task-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  line-height: 0;
+}
