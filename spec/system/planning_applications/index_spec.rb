@@ -358,7 +358,7 @@ RSpec.describe "Planning Application index page", type: :system do
       end
 
       it "Breadcrumbs are not displayed" do
-        expect(find(".govuk-breadcrumbs__list").text).to be_empty
+        expect(page).not_to have_css(".govuk-breadcrumbs")
       end
 
       it "User can log out from index page" do
@@ -572,7 +572,7 @@ RSpec.describe "Planning Application index page", type: :system do
     end
 
     it "Breadcrumbs are not displayed" do
-      expect(find(".govuk-breadcrumbs__list").text).to be_empty
+      expect(page).not_to have_css(".govuk-breadcrumbs__list")
     end
   end
 end

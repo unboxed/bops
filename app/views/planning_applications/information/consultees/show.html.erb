@@ -1,0 +1,27 @@
+<% content_for :page_title do %>
+  Consultees - Application information - <%= @planning_application.reference %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <% consultation = @planning_application.consultation %>
+    <h1 class="govuk-heading-l">Consultees</h1>
+
+    <%= render "shared/consultees_table", planning_application: @planning_application, consultation:, show_assign: false %>
+
+    <p>
+      <%= govuk_link_to "Show details", main_app.planning_application_consultees_path(@planning_application) %>
+    </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render(
+          SiteMapComponent.new(
+            planning_application: @planning_application,
+            show_change_request_link: false
+          )
+        ) %>
+  </div>
+</div>

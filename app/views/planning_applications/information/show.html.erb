@@ -1,0 +1,108 @@
+<% content_for :page_title do %>
+  Application information - <%= @planning_application.reference %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">Overview</h1>
+    <h2 class="govuk-heading-m">Application details</h2>
+
+    <table class="govuk-table">
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <strong><%= t("shared.overview_tabs.description") %></strong>
+          </td>
+          <td class="govuk-table__cell">
+            <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <strong><%= t("shared.overview_tabs.type_description") %></strong>
+          </td>
+          <td class="govuk-table__cell"><%= @planning_application.type_description %></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <strong><%= t("shared.overview_tabs.full_address") %></strong>
+          </td>
+          <td class="govuk-table__cell"><%= @planning_application.full_address %></td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <strong><%= t("shared.overview_tabs.location") %></strong>
+          </td>
+          <td class="govuk-table__cell">
+            <%= govuk_link_to(
+                  t("shared.overview_tabs.view_site_on"),
+                  map_link(@planning_application.full_address),
+                  new_tab: true
+                ) %>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <strong><%= t("shared.overview_tabs.valid_from") %></strong>
+          </td>
+          <td class="govuk-table__cell">
+            <% if @planning_application.valid_from.respond_to?(:to_fs) %>
+              <%= time_tag @planning_application.valid_from %>
+            <% else %>
+              <%= @planning_application.valid_from %>
+            <% end %>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <strong><%= t("shared.overview_tabs.expiry_date") %></strong>
+          </td>
+          <td class="govuk-table__cell">
+            <%= time_tag @planning_application.expiry_date %>
+          </td>
+        </tr>
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell">
+            <strong><%= t("shared.overview_tabs.consultation_end_date") %></strong>
+          </td>
+          <td class="govuk-table__cell">
+            <% if @planning_application.consultation.present? && @planning_application.consultation.end_date.present? %>
+              <%= time_tag @planning_application.consultation.end_date %>
+            <% else %>
+              <%= t("shared.overview_tabs.consultation_not_started") %>
+            <% end %>
+          </td>
+        </tr>
+        <% unless @planning_application.pre_application? %>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <strong><%= t("shared.overview_tabs.press_notice_date") %></strong>
+            </td>
+            <td class="govuk-table__cell">
+              <%= @planning_application.press_notice&.published_at.present? ? time_tag(@planning_application.press_notice.published_at) : "-" %>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell">
+              <strong><%= t("shared.overview_tabs.site_notice_date") %></strong>
+            </td>
+            <td class="govuk-table__cell">
+              <%= @planning_application.site_notices.last&.displayed_at.present? ? time_tag(@planning_application.site_notices.last.displayed_at) : "-" %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render(
+          SiteMapComponent.new(
+            planning_application: @planning_application,
+            show_change_request_link: false
+          )
+        ) %>
+  </div>
+</div>

@@ -1,0 +1,32 @@
+<% content_for :page_title do %>
+  Constraints - Application information - <%= @planning_application.reference %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">Constraints</h1>
+
+    <%= render(
+          partial: "planning_applications/validation/constraints/table",
+          locals: {
+            title: "Identified constraints",
+            identifier: "identified",
+            planning_application_constraints: @planning_application_constraints,
+            show_source: true,
+            show_entity: true,
+            show_action: false
+          }
+        ) %>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render(
+          SiteMapComponent.new(
+            planning_application: @planning_application,
+            show_change_request_link: false
+          )
+        ) %>
+  </div>
+</div>

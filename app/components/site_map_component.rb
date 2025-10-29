@@ -1,15 +1,22 @@
 # frozen_string_literal: true
 
 class SiteMapComponent < ViewComponent::Base
-  def initialize(planning_application:)
+  def initialize(planning_application:, show_change_request_link: nil)
     @planning_application = planning_application
+    @show_change_request_link = show_change_request_link
   end
 
   private
 
-  attr_reader :planning_application
+  attr_reader :planning_application, :show_change_request_link
 
   private
+
+  def show_change_request_link?
+    return show_change_request_link unless show_change_request_link.nil?
+
+    planning_application.validated? && planning_application.in_progress?
+  end
 
   def site_map_drawn_by
     planning_application.boundary_created_by&.name || t(".applicant")

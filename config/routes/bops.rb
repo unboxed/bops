@@ -88,6 +88,16 @@ local_authority_subdomain do
     resources :audits, only: :index
 
     scope module: :planning_applications do
+      resource :information, only: :show, controller: :information
+
+      namespace :information, module: :information do
+        resource :documents, only: :show
+        resource :constraints, only: :show
+        resource :site_history, only: :show
+        resource :consultees, only: :show
+        resource :neighbours, only: :show
+      end
+
       resource :appeal, only: %i[new show create update] do
         resource :validate, only: %i[edit update], controller: "appeals/validates"
         resource :start, only: %i[edit update], controller: "appeals/starts"

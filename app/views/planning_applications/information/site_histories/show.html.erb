@@ -1,0 +1,26 @@
+<% content_for :page_title do %>
+  Site history - Application information - <%= @planning_application.reference %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <h1 class="govuk-heading-l">Site history</h1>
+
+    <%= render "planning_applications/assessment/site_histories/table", site_histories: @site_histories, show_action: false %>
+
+    <p>
+      <%= govuk_link_to "Show details", main_app.planning_application_assessment_site_histories_path(@planning_application) %>
+    </p>
+  </div>
+</div>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= render(
+          SiteMapComponent.new(
+            planning_application: @planning_application,
+            show_change_request_link: false
+          )
+        ) %>
+  </div>
+</div>

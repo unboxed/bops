@@ -1,4 +1,4 @@
-<% if planning_application.validated? && planning_application.in_progress? %>
+<% if show_change_request_link? %>
   <p>
     <%= govuk_link_to change_request_link_text, change_request_link_path %>
   </p>
