@@ -54,6 +54,7 @@ module PlanningApplications
       end
 
       def render_review_tasks
+        @show_header_bar = false
         render "planning_applications/review/tasks/index"
       end
 

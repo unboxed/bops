@@ -43,7 +43,6 @@ RSpec.describe "Review documents for recommendation" do
       within(".govuk-heading-l") do
         expect(page).to have_content("Review documents for recommendation")
       end
-      expect(page).to have_content("Application number: #{planning_application.reference}")
       expect(page).to have_content(planning_application.full_address)
       expect(page).to have_content(planning_application.description)
       expect(page).to have_content("Check document details")

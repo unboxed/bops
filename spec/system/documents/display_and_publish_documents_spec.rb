@@ -79,7 +79,9 @@ RSpec.describe "Edit document numbers page" do
         expect(page).to have_selector("h1", text: "Edit supplied document")
         expect(page).to have_field("Drawing number", with: "new_number_1, new_number_2")
 
-        click_link "Documents"
+        within(".govuk-breadcrumbs") do
+          click_link "Documents"
+        end
         expect(page).to have_selector("h1", text: "Documents")
 
         within(".current-documents tr:first-child") do
@@ -127,7 +129,9 @@ RSpec.describe "Edit document numbers page" do
         expect(page).to have_selector("h1", text: "Edit supplied document")
         expect(page).to have_field("Drawing number", with: "new_number_1, new_number_2")
 
-        click_link "Documents"
+        within(".govuk-breadcrumbs") do
+          click_link "Documents"
+        end
         expect(page).to have_selector("h1", text: "Documents")
 
         within(".current-documents tr:first-child") do

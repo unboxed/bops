@@ -49,7 +49,6 @@ RSpec.describe "Evidence of immunity", type: :system do
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/immunity_details/new")
         expect(page).to have_selector("h1", text: "Evidence of immunity")
 
-        expect(page).to have_content("Application number: #{reference}")
         expect(page).to have_content(planning_application.full_address)
 
         expect(page).to have_content("Were the works carried out more than 4 years ago? Yes")

@@ -43,7 +43,9 @@ RSpec.describe "Documents index page", type: :system do
     end
 
     it "Document management page does not contain accordion" do
-      expect(page).not_to have_text("Application information")
+      within(".govuk-main-wrapper") do
+        expect(page).not_to have_text("Application information")
+      end
     end
 
     it "File image is downloaded", :capybara do

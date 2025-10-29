@@ -21,6 +21,7 @@ module PlanningApplications
             if @review.update(review_params)
               redirect_to tasks_url(anchor: "review-informatives", next: true), notice: t(".success")
             else
+              @show_header_bar = false
               render :tasks, alert: t(".failure_html")
             end
           end

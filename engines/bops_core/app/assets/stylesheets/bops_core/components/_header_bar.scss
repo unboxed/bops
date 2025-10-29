@@ -1,0 +1,61 @@
+.bops-header-bar {
+  width: 100%;
+  background-color: govuk-colour("white");
+  border-bottom: 1px solid $govuk-border-colour;
+}
+
+.bops-header-bar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 20px 0;
+}
+
+.bops-header-bar__left {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bops-header-bar__item {
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 15px;
+}
+
+.bops-header-bar__item + .bops-header-bar__item {
+  border-inline-start: 1px solid $govuk-border-colour;
+}
+
+.bops-header-bar__right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: 16px;
+  padding-left: 16px;
+  border-left: 1px solid $govuk-border-colour;
+}
+
+.bops-header-bar__text {
+  font-size: 1rem;
+  line-height: 1.5;
+  @include govuk-font(19);
+  display: inline-block;
+}
+
+.bops-header-bar__toggle-button {
+  padding: 0;
+}
+
+.bops-header-bar__toggle-panel {
+  padding: 0 0 15px 15px;
+  color: govuk-colour("dark-grey");
+  background-color: govuk-colour("white");
+}
+
+.bops-header-bar__toggle-panel > *:last-child {
+  margin-bottom: 0;
+}

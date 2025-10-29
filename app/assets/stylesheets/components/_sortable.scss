@@ -20,7 +20,7 @@
     a + span,
     span + span,
     span + a {
-      border-left: 1px solid govuk-colour("mid-grey");
+      border-left: 1px solid $govuk-border-colour;
       padding-left: 0.5rem;
     }
   }
@@ -28,7 +28,7 @@
 
 .sortable-list li {
   padding-bottom: 2rem;
-  border-bottom: 1px solid govuk-colour("mid-grey");
+  border-bottom: 1px solid $govuk-border-colour;
 }
 
 .sortable-container {

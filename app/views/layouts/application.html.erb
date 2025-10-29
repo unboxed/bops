@@ -31,15 +31,31 @@
         <%= render(EnvironmentBannerComponent.new(display: !Bops.env.production?)) %>
         <%= render "application/header" %>
 
-        <% unless local_assigns[:sidebar] %>
-          <div class="govuk-width-container"><%= render_navigation %></div>
-        <% else %>
+        <% if @show_header_bar %>
           <%= render_navigation %>
+          <%= render BopsCore::HeaderBarComponent.new(
+                left: [
+                  {text: @planning_application.reference, bold: true},
+                  {text: @planning_application.full_address}
+                ],
+                right: [
+                  {label: "Application information", href: main_app.edit_planning_application_path(@planning_application)}
+                ],
+                toggle: (
+                  {
+                    condensed_text: "Show proposal description",
+                    expanded_text: "Hide proposal description",
+                    content: content_tag(:p, @planning_application.description, class: "govuk-body govuk-!-margin-bottom-0")
+                  }
+                )
+              ) %>
+        <% else %>
+          <div class="govuk-width-container"><%= render_navigation %></div>
         <% end %>
       </div>
     <% end %>
 
-    <div class="<% if local_assigns[:sidebar] %> bops-fullwidth-container <% else %> govuk-width-container app-width-container--wide <% end %>">
+    <div class="<% if @show_header_bar %> bops-fullwidth-container <% else %> govuk-width-container app-width-container--wide <% end %>">
       <% if local_assigns[:sidebar] %>
         <!--
   <nav aria-label="Application tasks" class="bops-sidebar">
@@ -56,11 +72,7 @@
           <%= render "application/flash_content" %>
         </div>
 
-        <% if local_assigns[:sidebar] %>
-          <div class="govuk-width-container"><%= yield %></div>
-        <% else %>
-          <%= yield %>
-        <% end %>
+        <div class="govuk-width-container"><%= yield %></div>
       </main>
     </div>
 

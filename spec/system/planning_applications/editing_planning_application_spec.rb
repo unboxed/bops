@@ -28,8 +28,6 @@ RSpec.describe "editing planning application" do
     find("span", text: "Application information")
     click_link("Edit details")
 
-    expect(page).to have_content("Application number: 23-00100-LDC")
-
     within(find(:fieldset, text: "Agent information")) do
       fill_in("Email address", with: "")
     end
@@ -58,9 +56,6 @@ RSpec.describe "editing planning application" do
     expect(page).to have_content(
       "Planning application was successfully updated."
     )
-    within("#planning-application-details") do
-      expect(page).to have_content(planning_application.description)
-    end
 
     expect(page).to have_current_path(
       "/planning_applications/#{planning_application.reference}/assessment/tasks"
@@ -70,7 +65,7 @@ RSpec.describe "editing planning application" do
     find("span", text: "Application information")
     click_link("Edit details")
 
-    expect(page).to have_content("Application number: 23-00100-LDCE (Previously: 23-00100-LDCP)")
+    expect(page).to have_content("(Previously: 23-00100-LDCP)")
     expect(page).to have_select("planning-application-application-type-id-field", selected: "Lawful Development Certificate - Existing use")
     fill_in("Address 1", with: "125 High Street")
     click_button("Save")

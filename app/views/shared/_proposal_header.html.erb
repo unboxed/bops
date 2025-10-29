@@ -8,16 +8,10 @@
         </p>
       <% end %>
       <p>
-        <strong><%= @planning_application.full_address %></strong>
-        <br>
-        <%= t(".application_number") %> <strong><%= @planning_application.reference %></strong>
         <% if @planning_application.previous_references&.any? %>
           (<%= t(".previously") %>: <strong><%= @planning_application.previous_references.join(", ") %></strong>)
         <% end %>
       </p>
-    <% else %>
-      <span class="govuk-caption-l"><%= t(".application_number") %><%= @planning_application.reference %></span>
-      <h1 class="govuk-heading-l"><%= @planning_application.full_address %></h1>
     <% end %>
 
     <div id="planning-application-statuses-tags">
@@ -53,9 +47,5 @@
         <%= render(FormattedContentComponent.new(text: @planning_application.closed_or_cancellation_comment)) %>
       </p>
     <% end %>
-
-    <p>
-      <%= @planning_application.description %>
-    </p>
   </div>
 </div>

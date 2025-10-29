@@ -43,7 +43,6 @@ RSpec.describe "Permitted development right" do
         within(".govuk-heading-l") do
           expect(page).to have_content("Permitted development rights")
         end
-        expect(page).to have_content("Application number: #{planning_application.reference}")
         expect(page).to have_content(planning_application.full_address)
 
         within(".govuk-warning-text") do
@@ -292,8 +291,6 @@ RSpec.describe "Permitted development right" do
         within(".govuk-heading-l") do
           expect(page).to have_content("Assess immunity")
         end
-        expect(page).to have_content("Application number: #{planning_application.reference}")
-        expect(page).to have_content(planning_application.full_address)
 
         expect(page).to have_content("Immunity from enforcement")
         expect(page).to have_content("Were the works carried out more than 4 years ago? Yes")

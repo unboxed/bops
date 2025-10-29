@@ -88,7 +88,6 @@ RSpec.describe "DescriptionChangesValidation" do
         "/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=description_change"
       )
       expect(page).to have_content("Description change")
-      expect(page).to have_content("Application number: #{planning_application.reference}")
 
       fill_in(
         "Enter an amended description",
@@ -247,7 +246,6 @@ RSpec.describe "DescriptionChangesValidation" do
         "/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=description_change"
       )
       expect(page).to have_content("Description change")
-      expect(page).to have_content("Application number: #{planning_application.reference}")
 
       fill_in(
         "Enter an amended description",
