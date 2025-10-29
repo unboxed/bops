@@ -6,12 +6,6 @@ module PlanningApplications
       def show
         @consultees = @planning_application.consultation&.consultees || []
       end
-
-      private
-
-      def current_section
-        :consultees
-      end
     end
   end
 end

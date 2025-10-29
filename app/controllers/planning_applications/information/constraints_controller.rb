@@ -6,12 +6,6 @@ module PlanningApplications
       def show
         @planning_application_constraints = @planning_application.planning_application_constraints
       end
-
-      private
-
-      def current_section
-        :constraints
-      end
     end
   end
 end

@@ -6,12 +6,6 @@ module PlanningApplications
       def show
         @documents = @planning_application.documents.active
       end
-
-      private
-
-      def current_section
-        :documents
-      end
     end
   end
 end

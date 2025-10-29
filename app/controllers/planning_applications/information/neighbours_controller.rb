@@ -6,12 +6,6 @@ module PlanningApplications
       def show
         @neighbours = @planning_application.consultation&.neighbours || []
       end
-
-      private
-
-      def current_section
-        :neighbours
-      end
     end
   end
 end
