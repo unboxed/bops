@@ -6,11 +6,11 @@ module PlanningApplications
       include InformationHelper
 
       before_action :set_planning_application
-      helper_method :nav_items
+      helper_method :information_navigation_items
 
       private
 
-      def nav_items
+      def information_navigation_items
         information_nav_items(@planning_application)
       end
     end
