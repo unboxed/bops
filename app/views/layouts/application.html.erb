@@ -49,7 +49,7 @@
                   }
                 )
               ) %>
-          <% if information_navigation_items.any? %>
+          <% if defined?(information_navigation_items) && information_navigation_items.any? %>
             <%= govuk_service_navigation do |nav| %>
               <% information_navigation_items.each { |item| nav.with_navigation_item(**item) } %>
             <% end %>
