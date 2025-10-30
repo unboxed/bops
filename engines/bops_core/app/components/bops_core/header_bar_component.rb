@@ -8,6 +8,10 @@ module BopsCore
       @toggle = toggle
     end
 
+    def before_render
+      @right_items = hide_header_links? ? [] : @right_items
+    end
+
     private
 
     attr_reader :left_items, :right_items, :toggle
@@ -72,6 +76,10 @@ module BopsCore
         data: {toggle_target: "content"},
         "aria-live": "polite"
       )
+    end
+
+    def hide_header_links?
+      helpers.instance_variable_get(:@hide_application_information_link)
     end
 
     def toggle_options
