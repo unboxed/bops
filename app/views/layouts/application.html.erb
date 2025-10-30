@@ -49,6 +49,11 @@
                   }
                 )
               ) %>
+          <% if defined?(information_navigation_items) && information_navigation_items.any? %>
+            <%= govuk_service_navigation do |nav| %>
+              <% information_navigation_items.each { |item| nav.with_navigation_item(**item) } %>
+            <% end %>
+          <% end %>
         <% else %>
           <div class="govuk-width-container"><%= render_navigation %></div>
         <% end %>
