@@ -135,5 +135,28 @@ RSpec.describe BopsApi::Application::Parsers::AddressParser do
         )
       end
     end
+
+    context "when address is proposed by the applicant" do
+      let(:params) do
+        {
+          title: "31-32 Proposed Address Avenue, London",
+          latitude: 51.4656522,
+          longitude: -0.1185926,
+          source: "Proposed by applicant"
+        }
+      end
+
+      it "returns a hash with the proposed address" do
+        expect(parse_address).to eq(
+          address_1: "31-32 Proposed Address Avenue, London",
+          address_2: nil,
+          postcode: nil,
+          town: nil,
+          uprn: nil,
+          longitude: -0.1185926,
+          latitude: 51.4656522
+        )
+      end
+    end
   end
 end

@@ -7,7 +7,6 @@ module AccordionSections
     delegate(
       :uprn,
       :type_description,
-      :full_address,
       :session_id,
       to: :planning_application
     )
@@ -46,6 +45,17 @@ module AccordionSections
 
     def postcode
       planning_application.postcode.gsub(/\s+/, "").upcase
+    end
+
+    def full_address
+      address = planning_application.full_address
+      return address unless (source = planning_application.address_source)
+
+      safe_join([
+        helpers.content_tag(:p, address),
+        "Address source: ",
+        helpers.content_tag(:strong, source)
+      ])
     end
   end
 end

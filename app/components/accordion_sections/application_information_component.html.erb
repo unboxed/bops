@@ -15,7 +15,9 @@
         <td class="govuk-table__cell">
           <strong><%= t(".#{attribute}") %></strong>
         </td>
-        <td class="govuk-table__cell"><%= send(attribute) %></td>
+        <td class="govuk-table__cell">
+          <%= send(attribute) %>
+        </td>
       </tr>
     <% end %>
     <tr class="govuk-table__row">
