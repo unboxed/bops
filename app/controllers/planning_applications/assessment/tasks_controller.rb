@@ -6,7 +6,7 @@ module PlanningApplications
       before_action :redirect_to_reference_url
 
       def index
-        @show_sidebar = if @planning_application.pre_application?
+        @show_sidebar = if @planning_application.pre_application? && !Bops.env.production?
           @planning_application.case_record.tasks.find_by(section: "Assessment")
         end
 
