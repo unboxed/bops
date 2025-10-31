@@ -2,7 +2,14 @@
 
 module AccordionSections
   class ApplicationInformationComponent < AccordionSections::BaseComponent
+    def initialize(planning_application:, show_edit_link: true)
+      @planning_application = planning_application
+      @show_edit_link = show_edit_link
+    end
+
     private
+
+    attr_reader :planning_application, :show_edit_link
 
     delegate(
       :uprn,
