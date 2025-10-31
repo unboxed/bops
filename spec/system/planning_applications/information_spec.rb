@@ -17,6 +17,7 @@ RSpec.describe "Application information", type: :system do
   end
   let(:reference) { planning_application.reference }
   let!(:document) { create(:document, planning_application:) }
+  let!(:document2) { create(:document, :archived, :with_other_file, planning_application:) }
   let!(:site_history) { create(:site_history, planning_application:) }
   let!(:planning_application_constraint) { create(:planning_application_constraint, planning_application:) }
 
@@ -64,6 +65,27 @@ RSpec.describe "Application information", type: :system do
 
     expect(page).to have_current_path("/planning_applications/#{reference}/information/site_history")
     expect(page).to have_selector("h1", text: "Site history")
+  end
+
+  it "displays the documents content" do
+    visit "/planning_applications/#{reference}/information/documents"
+
+    expect(page).to have_selector(".govuk-button", text: "Download all documents")
+
+    within(".govuk-tabs") do
+      within("#all") do
+        within(".govuk-table") do
+          expect(page).to have_content("File name: #{document.name}")
+          expect(page).not_to have_content("File name: #{document2.name}")
+        end
+      end
+    end
+
+    expect(page).to have_selector("h2", text: "Archived documents")
+    within(".archived-documents") do
+      expect(page).not_to have_content(document.name.to_s)
+      expect(page).to have_content(document2.name.to_s)
+    end
   end
 
   context "when the application is pre-application" do
