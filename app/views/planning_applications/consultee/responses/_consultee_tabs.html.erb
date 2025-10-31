@@ -1,0 +1,34 @@
+<% show_action = local_assigns.fetch(:show_action, true) %>
+
+<div class="govuk-tabs" data-module="govuk-tabs">
+  <h2 class="govuk-tabs__title">Responses</h2>
+
+  <ul class="govuk-tabs__list">
+    <% tabs.each_with_index do |tab, index| %>
+      <li class="govuk-tabs__list-item <%= "govuk-tabs__list-item--selected" if index.zero? %>">
+        <a class="govuk-tabs__tab" href="#consultee-tab-<%= tab.key %>">
+          <%= tab.title %>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+
+  <% tabs.each_with_index do |tab, index| %>
+    <div class="govuk-tabs__panel <%= "govuk-tabs__panel--hidden" unless index.zero? %>" id="consultee-tab-<%= tab.key %>">
+      <% consultee_list = tab.consultees.sort_by { |presenter| presenter.name.to_s.downcase } %>
+      <h2 class="govuk-heading-m"><%= tab.heading %></h2>
+      <% if consultee_list.empty? %>
+        <p class="govuk-body">No consultees to show.</p>
+      <% else %>
+        <% consultee_list.each_with_index do |consultee_presenter, presenter_index| %>
+          <%= render partial: "planning_applications/consultees/consultee_panel",
+                locals: {
+                  consultee: consultee_presenter,
+                  show_divider: presenter_index < consultee_list.size - 1,
+                  show_action: show_action
+                } %>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+</div>

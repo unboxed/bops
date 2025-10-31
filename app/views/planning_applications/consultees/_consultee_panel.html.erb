@@ -1,3 +1,5 @@
+<% show_action = local_assigns.fetch(:show_action, true) %>
+
 <article class="consultee-panel">
   <div class="consultee-panel__heading">
     <div class="consultee-panel__title">
@@ -23,16 +25,18 @@
     <%= consultee.response_snippet || consultee.fallback_response_text %>
   </p>
 
-  <div class="consultee-panel__actions">
-    <% if consultee.has_responses? %>
+  <% if show_action %>
+    <div class="consultee-panel__actions">
+      <% if consultee.has_responses? %>
+        <div class="consultee-panel__action">
+          <%= govuk_link_to consultee.view_all_responses_label, consultee.view_all_responses_path %>
+        </div>
+      <% end %>
       <div class="consultee-panel__action">
-        <%= govuk_link_to consultee.view_all_responses_label, consultee.view_all_responses_path %>
+        <%= govuk_link_to consultee.upload_new_response_label, consultee.upload_new_response_path %>
       </div>
-    <% end %>
-    <div class="consultee-panel__action">
-      <%= govuk_link_to consultee.upload_new_response_label, consultee.upload_new_response_path %>
     </div>
-  </div>
+  <% end %>
 </article>
 
 <% if show_divider %>
