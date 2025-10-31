@@ -3,11 +3,6 @@
 module DateValidateable
   extend ActiveSupport::Concern
 
-  included do
-    class_attribute :invalid_dates_before_type_cast, instance_writer: false
-    self.invalid_dates_before_type_cast = ({})
-  end
-
   DateBeforeTypeCast = Struct.new(:year, :month, :day) do
     def blank?
       true
@@ -72,5 +67,9 @@ module DateValidateable
     else
       invalid_dates_before_type_cast[attribute.to_s] = value
     end
+  end
+
+  def invalid_dates_before_type_cast
+    @invalid_dates_before_type_cast ||= {}
   end
 end

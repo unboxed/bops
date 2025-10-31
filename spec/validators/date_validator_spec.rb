@@ -384,4 +384,29 @@ RSpec.describe DateValidator do
       end
     end
   end
+
+  describe "isolating validations" do
+    let(:model) do
+      Class.new(base) do
+        validates :consultation_date, date: {after: "2023-11-25"}
+      end
+    end
+
+    let(:other_attributes) do
+      {
+        "consultation_date(3i)" => "25",
+        "consultation_date(2i)" => "13",
+        "consultation_date(1i)" => "2023"
+      }
+    end
+
+    let(:date) { "2023-11-26" }
+    let(:other_record) { model.new(other_attributes) }
+
+    it "doesn't leak validations between instances of the model" do
+      expect(subject).to be_valid
+      expect(other_record).not_to be_valid
+      expect(subject).to be_valid
+    end
+  end
 end
