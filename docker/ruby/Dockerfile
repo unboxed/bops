@@ -22,8 +22,8 @@ RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/postgresql.gpg] http://apt
     apt-get install -y --no-install-recommends postgresql-client-16"
 
 # Install NodeJS
-ARG NODE_VERSION=20.11.0
-ARG YARN_VERSION=1.22.19
+ARG NODE_VERSION=22.20.0
+ARG YARN_VERSION=1.22.22
 ARG SWAGGER_CLI_VERSION=4.0.4
 ENV PATH=/usr/local/node/bin:$PATH
 RUN bash -c "curl --retry 5 --retry-delay 5 --retry-max-time 60 -sL https://github.com/nodenv/node-build/archive/master.tar.gz | tar xz -C /tmp/ && \

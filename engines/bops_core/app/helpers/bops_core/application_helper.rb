@@ -3,6 +3,7 @@
 module BopsCore
   module ApplicationHelper
     include ApplicationTypeHelper
+    include AssetsHelper
     include TasksHelper
     include GOVUKDesignSystemFormBuilder::BuilderHelper
 

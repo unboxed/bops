@@ -383,6 +383,7 @@ en:
           attributes:
             accessibility_email_address:
               blank: Enter an email address for the applicants accessibility page
+              invalid: Enter a valid email address for the applicants accessibility page
             accessibility_phone_number:
               blank: Enter a phone number for the applicants accessibility page
             accessibility_postal_address:
@@ -393,6 +394,10 @@ en:
               blank: Enter the ID of the letter template you will be using
             notify_api_key:
               blank: Enter your GOV.UK Notify API key
+            site_notice_email_address:
+              invalid: Enter a valid email address for site notices
+            site_notice_logo:
+              invalid: Couldn't recognise the contents as a valid SVG file
             sms_template_id:
               blank: Enter the ID of the SMS template you will be using
         meeting:

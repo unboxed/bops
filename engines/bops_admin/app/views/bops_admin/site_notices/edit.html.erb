@@ -1,0 +1,27 @@
+<% content_for :page_title do %>
+  <%= t(".site_notices") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Site notices", edit_site_notices_path %>
+
+<% content_for :title, t(".site_notices") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation", current: "site_notices" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1 class="govuk-heading-l">
+      <%= t(".site_notices") %>
+    </h1>
+
+    <p>
+      <%= t(".about_site_notices") %>
+    </p>
+
+    <%= t(".svg_preparation_html") %>
+
+    <%= render "form" %>
+  </div>
+</div>

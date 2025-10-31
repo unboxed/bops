@@ -19,6 +19,7 @@
     "leaflet": "^1.9.4",
     "leaflet-css": "^0.1.0",
     "puppeteer": "^23.8.0",
+    "qrcode": "^1.5.4",
     "sortablejs": "^1.15.2",
     "stimulus": "^1.1.1",
     "toastr": "^2.1.4",

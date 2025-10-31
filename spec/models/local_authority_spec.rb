@@ -127,7 +127,7 @@ RSpec.describe LocalAuthority do
       end
 
       it "returns the configured value" do
-        expect(local_authority.applicants_url).to eq("https://#{local_authority.subdomain}.bops-applicants.services")
+        expect(local_authority.applicants_url).to eq("http://#{local_authority.subdomain}.bops-applicants.services")
       end
     end
   end
@@ -171,7 +171,7 @@ RSpec.describe LocalAuthority do
       it "returns the configured value" do
         # nb. because this is set at startup time, it won't get the staging version from the production
         # config; instead it gets the test version.
-        expect(local_authority.public_register_base_url).to eq("https://#{local_authority.subdomain}.bops-applicants.services")
+        expect(local_authority.public_register_base_url).to eq("https://#{local_authority.subdomain}.bops-applicants.services/planning_applications")
       end
     end
 
@@ -184,7 +184,7 @@ RSpec.describe LocalAuthority do
       end
 
       it "returns the configured value" do
-        expect(local_authority.public_register_base_url).to eq("https://#{local_authority.subdomain}.bops-applicants.services")
+        expect(local_authority.public_register_base_url).to eq("http://#{local_authority.subdomain}.bops-applicants.services/planning_applications")
       end
     end
   end

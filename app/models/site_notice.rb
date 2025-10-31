@@ -12,6 +12,8 @@ class SiteNotice < ApplicationRecord
   belongs_to :planning_application
   has_many :documents, as: :owner, dependent: :destroy, autosave: true
 
+  delegate :local_authority, to: :planning_application
+
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
   validates :required, inclusion: {in: [true, false]}
@@ -78,6 +80,24 @@ class SiteNotice < ApplicationRecord
 
   def sanitized_content
     sanitizer.sanitize(content, tags: SAFE_TAGS, attributes: SAFE_ATTRIBUTES)&.html_safe
+  end
+
+  def config
+    local_authority.site_notice
+  end
+
+  def pdf_context
+    {
+      localAuthority: local_authority.short_name,
+      reference: planning_application.reference,
+      proposal: planning_application.description,
+      location: planning_application.address.to_a,
+      url: consultation.public_register_url,
+      date: consultation_end_date.to_date.to_fs,
+      caseOfficer: config.show_assigned_officer && planning_application.user&.name,
+      emailAddress: config.email_address.presence || local_authority.feedback_email,
+      phoneNumber: config.phone_number || local_authority.telephone_number
+    }
   end
 
   def incomplete?

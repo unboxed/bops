@@ -18,14 +18,26 @@
   </h2>
 </div>
 
-<div class="govuk-!-display-none">
-  <div id="site-notice-content">
-    <div style="width: 430px; font-family: Arial;">
-      <%= @site_notice.sanitized_content %>
-    </div>
+<%= stimulus_tag("site-notice", values: {context: @site_notice.pdf_context}) do %>
+  <div style="width: 0px; height: 0px; overflow: hidden;" aria-hidden="true">
+    <% if @config.logo.present? %>
+      <%= tag.img \
+            src: data_uri("image/svg+xml", @config.logo),
+            style: "height: 120px;",
+            data: {site_notice_target: "logo"} %>
+    <% end %>
   </div>
-</div>
 
-<%= stimulus_tag("site-notice", values: {reference: @planning_application.reference}) do %>
+  <div style="width: 0px; height: 0px; overflow: hidden;" aria-hidden="true">
+    <%= tag.my_map \
+          osProxyEndpoint: main_app.applicants_os_proxy_url,
+          latitude: @planning_application.latitude,
+          longitude: @planning_application.longitude,
+          geojsonData: @planning_application.boundary_geojson.to_json,
+          staticMode: true, hideResetControl: true,
+          style: "width: 550px; height: 400px;",
+          data: {site_notice_target: "map"} %>
+  </div>
+
   <%= govuk_button "Download printable PDF", data: {action: "click->site-notice#downloadPdf"} %>
 <% end %>

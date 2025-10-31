@@ -3,6 +3,7 @@
     <% section.with_navigation_item(text: "Manage profile", href: profile_path, current: (current == "profile")) %>
     <% section.with_navigation_item(text: "Manage accessibility info", href: edit_accessibility_path, current: (current == "accessibility")) %>
     <% section.with_navigation_item(text: "Manage GOV.UK Notify", href: edit_notify_path, current: (current == "notify")) %>
+    <% section.with_navigation_item(text: "Manage site notices", href: edit_site_notices_path, current: (current == "site_notices")) %>
   <% end %>
   <% nav.with_section(title: "Application Types", index: 2) do |section| %>
     <% section.with_navigation_item(text: "Manage application types", href: application_types_path, current: (current == "application_types")) %>

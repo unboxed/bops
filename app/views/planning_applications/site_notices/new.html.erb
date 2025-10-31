@@ -19,7 +19,10 @@
 <% end %>
 
 <% if @planning_application.site_notices.exists? %>
-  <%= render "status", planning_application: @planning_application %>
+  <%= render "status",
+        planning_application: @planning_application,
+        site_notice: @planning_application.last_site_notice,
+        config: current_local_authority.site_notice %>
 <% end %>
 
 <%= form_with(

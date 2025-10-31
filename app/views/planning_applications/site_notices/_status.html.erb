@@ -1,12 +1,32 @@
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-7">
 <div class="flex-between govuk-!-margin-top-3 govuk-!-margin-bottom-3" data-controller="pdf">
-  <p class="govuk-!-margin-top-1">
-    <%= @planning_application.last_site_notice_audit&.audit_comment %><br>
-    <%= govuk_link_to "Download site notice PDF", "#",
-          "data-action": "click->pdf#handleClick",
-          "data-pdf-element-selector-param": "#site-notice-content",
-          "data-pdf-filename-param": "site-notice-#{@planning_application.reference}.pdf" %>
-  </p>
+  <%= stimulus_tag("site-notice", values: {context: site_notice.pdf_context}) do %>
+    <p class="govuk-!-margin-top-1">
+      <%= @planning_application.last_site_notice_audit&.audit_comment %><br>
+      <%= govuk_link_to "Download site notice PDF", "#", data: {action: "click->site-notice#downloadPdf"} %>
+    </p>
+
+    <div style="width: 0px; height: 0px; overflow: hidden;" aria-hidden="true">
+      <% if config.logo.present? %>
+        <%= tag.img \
+              src: data_uri("image/svg+xml", config.logo),
+              style: "height: 120px;",
+              data: {site_notice_target: "logo"} %>
+      <% end %>
+    </div>
+
+    <div style="width: 0px; height: 0px; overflow: hidden;" aria-hidden="true">
+      <%= tag.my_map \
+            osProxyEndpoint: applicants_os_proxy_url,
+            latitude: planning_application.latitude,
+            longitude: planning_application.longitude,
+            geojsonData: planning_application.boundary_geojson.to_json,
+            staticMode: true, hideResetControl: true,
+            style: "width: 550px; height: 400px;",
+            data: {site_notice_target: "map"} %>
+    </div>
+  <% end %>
+
   <div class="consultation-letter-status">
     <div>
       <%= render(StatusTags::BaseComponent.new(status: :complete)) %>
@@ -17,10 +37,3 @@
   </div>
 </div>
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-7">
-<div class="govuk-!-display-none">
-  <div id="site-notice-content">
-    <div style="width: 430px; font-family: Arial;">
-      <%= raw @planning_application.last_site_notice.preview_content %> <%# erblint:disable ErbSafety %>
-    </div>
-  </div>
-</div>

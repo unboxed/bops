@@ -1,0 +1,18 @@
+<%= form_with(model: current_local_authority, url: site_notices_path, id: "site-notices-form") do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_fieldset(legend: {text: t(".site_notice")}) do %>
+    <%= form.govuk_text_area(:site_notice_logo, rows: 6, label: {text: t(".logo")}, hint: {text: t(".logo_hint")}) %>
+    <%= form.govuk_text_field(:site_notice_phone_number, label: {text: t(".phone_number")}) %>
+    <%= form.govuk_text_field(:site_notice_email_address, label: {text: t(".email_address")}) %>
+
+    <%= form.govuk_radio_buttons_fieldset(:site_notice_show_assigned_officer, inline: true, legend: {text: t(".show_assigned_officer")}) do %>
+      <%= form.govuk_radio_button :site_notice_show_assigned_officer, "true", label: {text: "Yes"} %>
+      <%= form.govuk_radio_button :site_notice_show_assigned_officer, "false", label: {text: "No"} %>
+    <% end %>
+  <% end %>
+
+  <%= form.govuk_submit(t(".submit")) do %>
+    <%= back_link %>
+  <% end %>
+<% end %>

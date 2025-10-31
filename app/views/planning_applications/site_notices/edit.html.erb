@@ -19,7 +19,10 @@
     ) do |form| %>
   <%= form.govuk_error_summary %>
 
-  <%= render "status", planning_application: @planning_application %>
+  <%= render "status",
+        planning_application: @planning_application,
+        site_notice: @planning_application.last_site_notice,
+        config: current_local_authority.site_notice %>
 
   <%= form.govuk_date_field :displayed_at, legend: {text: "1. What date was the site notice displayed?"} %>
 

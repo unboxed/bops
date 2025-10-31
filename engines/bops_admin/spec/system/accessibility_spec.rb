@@ -24,7 +24,7 @@ RSpec.describe "Accessibility", type: :system do
     click_button "Submit"
     expect(page).to have_content("Enter a postal address for the applicants accessibility page")
     expect(page).to have_content("Enter a phone number for the applicants accessibility page")
-    expect(page).to have_content("Enter an email address for the applicants accessibility page")
+    expect(page).to have_content("Enter a valid email address for the applicants accessibility page")
 
     fill_in "Postal address", with: "60-62 Commercial Street\nLondon\nE1 6LT"
     fill_in "Phone number", with: "020 7250 1250"

@@ -15,7 +15,9 @@
     <%= favicon_link_tag("b-mask-icon.svg", rel: "mask-icon") %>
 
     <%= stylesheet_link_tag "applicants", media: "all" %>
-    <%= javascript_include_tag "applicants", nonce: true %>
+    <%= javascript_include_tag "applicants" %>
+
+    <%= yield(:head) %>
   </head>
 
   <body class="govuk-template__body">

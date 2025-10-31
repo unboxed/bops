@@ -11,8 +11,12 @@ class Address < Struct.new(
     attributes.none?(&:present?)
   end
 
+  def to_a
+    attributes.compact_blank
+  end
+
   def to_s
-    attributes.compact_blank.join(", ")
+    to_a.join(", ")
   end
 
   def as_json(*)
