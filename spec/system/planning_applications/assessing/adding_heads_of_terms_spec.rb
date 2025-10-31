@@ -391,7 +391,9 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       click_button "Save and mark as complete"
       expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed")
 
-      click_link "Suggest heads of terms"
+      within "main" do
+        click_link "Suggest heads of terms"
+      end
 
       within("#term_#{Term.first.id}") do
         expect(page).to have_no_content("Not sent")

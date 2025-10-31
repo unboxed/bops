@@ -37,7 +37,9 @@ RSpec.describe "Meeting" do
 
     it "I can add a new meeting record" do
       click_link "Check and assess"
-      click_link "Meeting"
+      within "main" do
+        click_link "Meeting"
+      end
       expect(page).to have_selector("h1", text: "Add a meeting")
 
       fill_in "Day", with: "12"
@@ -59,7 +61,9 @@ RSpec.describe "Meeting" do
         href: "/planning_applications/#{planning_application.reference}/assessment/meetings"
       )
 
-      click_link "Meeting"
+      within "main" do
+        click_link "Meeting"
+      end
 
       within(".govuk-table") do
         expect(page).to have_selector("caption", text: "Meeting history")
@@ -72,7 +76,9 @@ RSpec.describe "Meeting" do
     context "when there are validation errors" do
       before do
         click_link "Check and assess"
-        click_link "Meeting"
+        within "main" do
+          click_link "Meeting"
+        end
       end
 
       it "there is a validation error when no date is entered" do
@@ -106,7 +112,9 @@ RSpec.describe "Meeting" do
 
       before do
         click_link "Check and assess"
-        click_link "Meeting"
+        within "main" do
+          click_link "Meeting"
+        end
       end
 
       it "I can see an existing meeting record" do

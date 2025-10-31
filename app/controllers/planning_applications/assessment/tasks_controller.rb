@@ -6,10 +6,12 @@ module PlanningApplications
       before_action :redirect_to_reference_url
 
       def index
+        @show_sidebar = if @planning_application.pre_application?
+          @planning_application.case_record.tasks.find_by(section: "Assessment")
+        end
+
         respond_to do |format|
-          format.html do
-            render locals: {sidebar: true}
-          end
+          format.html
         end
       end
     end

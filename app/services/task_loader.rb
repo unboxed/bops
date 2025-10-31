@@ -41,14 +41,10 @@ class TaskLoader
 
   def build_tasks_for(parent, nodes)
     Array(nodes).each_with_index do |node, index|
-      task = parent.tasks.build(
-        name: node["name"],
-        slug: node["slug"],
-        optional: node.key?("optional") ? node["optional"] : false,
-        section: node["section"],
-        status: node["status"],
-        position: index
-      )
+      params = node.except("tasks", "hidden").merge("position" => index)
+      params["optional"] ||= false
+
+      task = parent.tasks.build(**params)
 
       build_tasks_for(task, node["tasks"]) if node["tasks"].present?
     end

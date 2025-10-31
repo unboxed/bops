@@ -33,7 +33,9 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
     click_link "Check and assess"
     expect(page).to have_selector("h1", text: "Assess the application")
 
-    click_link "Planning considerations and advice"
+    within "main" do
+      click_link "Planning considerations and advice"
+    end
     expect(page).to have_selector("h1", text: "Add planning considerations and advice")
   end
 
