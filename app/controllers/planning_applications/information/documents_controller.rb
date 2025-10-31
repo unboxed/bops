@@ -4,7 +4,7 @@ module PlanningApplications
   module Information
     class DocumentsController < BaseController
       def show
-        @documents = @planning_application.documents.active
+        @documents = @planning_application.documents
       end
     end
   end

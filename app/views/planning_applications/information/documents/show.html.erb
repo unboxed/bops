@@ -3,20 +3,93 @@
 <% end %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
+  <div class="govuk-grid-column-full" data-controller="download" data-application-reference-value="<%= @planning_application.reference %>">
     <h1 class="govuk-heading-l">Documents</h1>
+      <div data-download-target="button" class="display-flex">
+        <%= govuk_button_link_to "Download all documents", data: {action: "click->download#submit"}, secondary: true %>
+      </div>
 
-    <%= govuk_tabs do |tabs| %>
-      <% Document::DEFAULT_TABS.each do |tab| %>
-        <% documents = @planning_application.documents_for(tab) %>
-        <% tabs.with_tab(label: "#{tab} (#{documents.size})", id: tab.parameterize) do %>
-          <h2 class="govuk-heading-m"><%= tab %></h2>
-          <%= render(partial: "documents/active_documents_table", locals: {documents: documents}) %>
+      <%= govuk_tabs do |tabs| %>
+        <% Document::DEFAULT_TABS.each do |tab| %>
+          <% documents = @planning_application.documents_for(tab) %>
+          <% tabs.with_tab(label: "#{tab} (#{documents.size})", id: tab.parameterize) do %>
+            <% if tab == "All" %>
+              <div data-download-target="documentsElement">
+                <h2 class="govuk-heading-m"><%= tab %></h2>
+                <%= render(partial: "documents/active_documents_table", locals: {documents: documents}) %>
+              </div>
+            <% else %>
+              <h2 class="govuk-heading-m"><%= tab %></h2>
+              <%= render(partial: "documents/active_documents_table", locals: {documents: documents}) %>
+            <% end %>
+          <% end %>
         <% end %>
       <% end %>
+  </div>
+  <div class="govuk-grid-column-full">
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <h2 class="govuk-heading-m"> Archived documents</h2>
+
+    <% if filter_archived(@documents).present? %>
+      <table class="govuk-table archived-documents">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Document</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Tags</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date uploaded</th>
+            <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Officer's comment</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% filter_archived(@documents).each do |document| %>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell govuk-!-width-one-quarter">
+                <p class="govuk-!-margin-bottom-1">
+                  <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
+                </p>
+                <p>
+                  <%= document.name %><br>
+                  <%= link_to_document "View in new window", document %>
+                </p>
+                <p>
+                  <%= form_for document, url: planning_application_document_unarchive_path(document_id: document.id), class: "restore" do |form| %>
+                      <%= form.submit "Restore document", class: "govuk-body btn-link govuk-link" %>
+                  <% end %>
+                </p>
+              </td>
+              <td class="govuk-table__cell govuk-!-width-one-quarter">
+                <% if document.tags.present? %>
+                  <% document.tags.each do |tag| %>
+                    <strong class="govuk-tag govuk-tag--turquoise document-tag"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
+                  <% end %>
+                <% else %>
+                  <p class="govuk govuk-!-margin-bottom-1">
+                    <em>No tags added</em>
+                  </p>
+                <% end %>
+              </td>
+              <td class="govuk-table__cell govuk-!-width-one-quarter">
+                <p class="govuk-!-margin-bottom-1">
+                  <%= document.created_at.to_date.to_fs %>
+                </p>
+              </td>
+              <td class="govuk-table__cell govuk-!-width-one-quarter">
+                <p>
+                  <% if document.archive_reason.present? %>
+                    <%= document.archive_reason %>
+                  <% else %>
+                    <em>No reason provided</em>
+                  <% end %>
+                </p>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <p>
+        <strong>No documents archived</strong>
+      </p>
     <% end %>
-    <p>
-      <%= govuk_link_to "Show details", main_app.planning_application_documents_path(@planning_application) %>
-    </p>
   </div>
 </div>
