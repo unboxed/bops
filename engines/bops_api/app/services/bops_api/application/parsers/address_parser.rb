@@ -27,7 +27,7 @@ module BopsApi
         end
 
         def address_1
-          [sao, pao, street].compact_blank.join(", ")
+          [sao, pao, street].compact_blank.join(", ").presence || title
         end
 
         def address_2
@@ -48,6 +48,10 @@ module BopsApi
 
         def latitude
           params[:latitude]
+        end
+
+        def title
+          params[:title]
         end
       end
     end

@@ -1115,6 +1115,10 @@ class PlanningApplication < ApplicationRecord
     save
   end
 
+  def address_source
+    params_v2&.dig(:data, :property, :address, :source)
+  end
+
   private
 
   def create_fee_calculation
