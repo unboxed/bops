@@ -1,4 +1,6 @@
-<%= govuk_link_to t(".edit_details"), edit_planning_application_path(planning_application), class: "govuk-body" %>
+<% if show_edit_link %>
+  <%= govuk_link_to t(".edit_details"), edit_planning_application_path(planning_application), class: "govuk-body" %>
+<% end %>
 <hr>
 <table class="govuk-table">
   <tbody class="govuk-table__body">
@@ -58,13 +60,13 @@
       </td>
     </tr>
     <% %i[
+         case_officer
          ward_type
          uprn
          work_already_started
          payment_reference
          payment_amount
          session_id
-         case_officer
        ].each do |attribute| %>
       <tr class="govuk-table__row accordion-tr">
         <td class="govuk-table__cell">
