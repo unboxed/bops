@@ -60,7 +60,13 @@ class PlanningApplicationSearch
   end
 
   def closed_planning_applications
-    all_applications.closed_or_cancelled.for_current_user
+    scope = all_applications.closed_or_cancelled.for_current_user.by_created_at_desc
+
+    if valid? && query
+      scope = records_matching_query(scope)
+    end
+
+    sorted_scope(scope, sort_key, direction)
   end
 
   def unstarted_prior_approvals

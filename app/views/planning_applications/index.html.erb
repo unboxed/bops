@@ -60,7 +60,8 @@
             tabs.with_tab(label: "Closed") {
               render PlanningApplications::PanelComponent.new(
                 planning_applications: @search.closed_planning_applications,
-                type: :closed
+                type: :closed,
+                search: @search
               )
             }
             tabs.with_tab(label: "Updated") {
