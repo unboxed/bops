@@ -41,7 +41,7 @@ class SidebarComponent < ViewComponent::Base
     elements = []
     elements << helpers.tag.h3(section.section, class: "govuk-heading-s")
     tasks = section.tasks.map { |task| render_task(task) }
-    elements << helpers.tag.ul(safe_join(tasks), class: "govuk-list")
+    elements << helpers.tag.ul(safe_join(tasks), class: "govuk-list govuk-list--spaced")
 
     safe_join(elements)
   end

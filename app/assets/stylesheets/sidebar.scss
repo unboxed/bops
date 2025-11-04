@@ -42,3 +42,7 @@ body:has(.bops-fullwidth-container) {
   border-bottom: 1px solid $govuk-border-colour;
   background-color: white;
 }
+
+#preview-report-button-link {
+  width: 100%;
+}

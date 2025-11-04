@@ -1,4 +1,8 @@
 <nav aria-label="Application tasks" class="bops-sidebar">
+  <% if planning_application.pre_application? %>
+    <%= govuk_button_link_to "Preview report", bops_reports.planning_application_path(planning_application, view_as: "applicant"), new_tab: "", secondary: true, id: "preview-report-button-link" %>
+  <% end %>
+
   <% tasks.each do |task| %>
     <%= render_task(task) %>
   <% end %>

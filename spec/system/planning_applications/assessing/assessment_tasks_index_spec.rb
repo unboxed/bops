@@ -166,6 +166,12 @@ RSpec.describe "Assessment tasks", type: :system do
           end
         end
       end
+
+      it "displays the preview report button link" do
+        within(".bops-sidebar") do
+          expect(page).to have_link("Preview report", href: bops_reports.planning_application_path(planning_application, view_as: "applicant"))
+        end
+      end
     end
   end
 
