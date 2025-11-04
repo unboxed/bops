@@ -37,6 +37,11 @@ class TaskLoader
     build_tasks_for(case_record, workflow)
   end
 
+  def reload!
+    workflow = self.class.load_workflow(workflow_key)
+    rebuild_tasks_for(case_record, workflow)
+  end
+
   private
 
   def build_tasks_for(parent, nodes)
@@ -47,6 +52,18 @@ class TaskLoader
       task = parent.tasks.build(**params)
 
       build_tasks_for(task, node["tasks"]) if node["tasks"].present?
+    end
+  end
+
+  def rebuild_tasks_for(parent, nodes)
+    Array(nodes).each_with_index do |node, index|
+      params = node.except("tasks", "hidden").merge("position" => index)
+      params["optional"] ||= false
+
+      task = parent.tasks.find_or_create_by!(name: params["name"])
+      task.update!(params)
+
+      rebuild_tasks_for(task, node["tasks"]) if node["tasks"].present?
     end
   end
 end

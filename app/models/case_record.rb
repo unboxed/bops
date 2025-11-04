@@ -47,4 +47,11 @@ class CaseRecord < ApplicationRecord
     errors.add(:base, "Couldn’t create case record tasks workflow: #{e.message}")
     throw(:abort)
   end
+
+  def reload_tasks!
+    return unless tasks.exists?
+    return if planning_application? && !planning_application.pre_application?
+
+    TaskLoader.new(self, caseable.task_workflow).reload!
+  end
 end
