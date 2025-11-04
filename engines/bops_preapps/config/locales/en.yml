@@ -4,3 +4,15 @@ en:
     pre_applications:
       index:
         title: Preapps
+    tasks:
+      check-and-assess:
+        assessment-summaries:
+          site-description:
+            show:
+              heading: Description of the site
+              view_site_on_map: View site on Google Maps
+              warning: This information WILL be made publicly available.
+      update:
+        site-description:
+          failure: Failed to save site description
+          success: Site description was successfully updated

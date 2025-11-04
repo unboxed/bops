@@ -113,5 +113,9 @@ module BopsCore
     def preapp_home_path
       bops_preapps.pre_applications_path
     end
+
+    def map_link(full_address)
+      "https://google.co.uk/maps/place/#{CGI.escape(full_address)}"
+    end
   end
 end

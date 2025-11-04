@@ -8,6 +8,7 @@ BopsPreapps::Engine.routes.draw do
 
   scope "/:reference" do
     get "/*slug/edit", to: "tasks#edit", as: :edit_task
+    post "/*slug", to: "tasks#update"
     patch "/*slug", to: "tasks#update"
     get "/*slug", to: "tasks#show", as: :task
   end

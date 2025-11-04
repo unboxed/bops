@@ -46,10 +46,6 @@ module PlanningApplicationHelper
     (data[:geojson].blank? || data[:invalid_red_line_boundary].present?) && planning_application.lonlat.present?
   end
 
-  def map_link(full_address)
-    "https://google.co.uk/maps/place/#{CGI.escape(full_address)}"
-  end
-
   def filter_enabled_uniquely?(**args)
     filter = args.keys.first
     value = args[filter]

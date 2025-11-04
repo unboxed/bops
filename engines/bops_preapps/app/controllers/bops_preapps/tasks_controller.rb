@@ -4,9 +4,8 @@ module BopsPreapps
   class TasksController < AuthenticationController
     include BopsCore::TasksController
 
-    before_action :set_planning_application, only: %i[show]
-    before_action :build_form, only: %i[edit update]
-    # before_action :ensure_case_is_not_closed, only: %i[show edit update]
+    before_action :set_planning_application
+    before_action :build_form
 
     private
 
