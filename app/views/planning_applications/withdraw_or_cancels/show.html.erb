@@ -26,7 +26,7 @@
               This application has been determined and cannot be withdrawn or cancelled.
             </p>
             <%= form.hidden_field :status, value: :deleted %>
-            <h2 class="govuk-heading-m">Delete application entirely (caution!)</h2>
+            <h2>Delete application entirely (caution!)</h2>
             <div class="govuk-hint">
               Do not use this for live data
             </div>
@@ -39,12 +39,12 @@
             </p>
 
             <%= form.hidden_field :status, value: :deleted %>
-            <h2 class="govuk-heading-m">Delete application entirely (caution!)</h2>
+            <h2>Delete application entirely (caution!)</h2>
             <div class="govuk-hint">
               Do not use this for live data
             </div>
           <% else %>
-            <h2 class="govuk-heading-m">How should this application be finally disposed of?</h2>
+            <h2>How should this application be finally disposed of?</h2>
             <span class="govuk-hint">The application status will change based on your selection</span>
             <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
               <% if form.object.errors.any? %>

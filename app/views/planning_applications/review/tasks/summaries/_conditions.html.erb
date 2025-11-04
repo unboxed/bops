@@ -17,13 +17,13 @@
           <%= content_tag :li, id: dom_id(condition) do %>
             <div class="govuk-!-margin-bottom-6">
               <span class="govuk-caption-m">Condition <%= condition.position %></span>
-              <h2 class="govuk-heading-m govuk-!-margin-bottom-1"><%= condition.title %></h2>
+              <h2 class="govuk-!-margin-bottom-1"><%= condition.title %></h2>
 
               <div data-controller="summary">
                 <div class="bops-summary" data-summary-target="content">
                   <%= render(FormattedContentComponent.new(text: condition.text)) %>
 
-                  <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Reason</h3>
+                  <h3 class="govuk-!-margin-bottom-1">Reason</h3>
                   <%= render(FormattedContentComponent.new(text: condition.reason)) %>
                 </div>
 

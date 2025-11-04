@@ -23,7 +23,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Officer request</h2>
+    <h2>Officer request</h2>
 
     <div class="govuk-inset-text govuk-!-margin-bottom-3">
       <p>
@@ -45,7 +45,7 @@
     <% end %>
 
     <% if @validation_request.closed? && @planning_application.invalidated? %>
-      <h2 class="govuk-heading-m">Applicant response</h2>
+      <h2>Applicant response</h2>
       <div class="govuk-inset-text">
         <p>
           <%= @validation_request.response %>
@@ -57,7 +57,7 @@
 
       <%= form_with model: @planning_application do |form| %>
         <div class="govuk-form-group">
-          <h2 class="govuk-heading-m">
+          <h2>
             Confirm total fee paid
           </h2>
           <ul class="govuk-list govuk-list--bullet">
@@ -79,7 +79,7 @@
       <% end %>
     <% else %>
       <% if @planning_application.invalidated? %>
-        <h2 class="govuk-heading-m">Applicant has not responded to the latest request</h2>
+        <h2>Applicant has not responded to the latest request</h2>
       <% end %>
 
       <%= render "shared/validation_request_show_actions",

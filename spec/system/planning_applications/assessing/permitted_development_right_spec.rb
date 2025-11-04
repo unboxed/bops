@@ -40,7 +40,7 @@ RSpec.describe "Permitted development right" do
           "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/edit"
         )
 
-        within(".govuk-heading-l") do
+        within("h1") do
           expect(page).to have_content("Permitted development rights")
         end
         expect(page).to have_content(planning_application.full_address)
@@ -288,7 +288,7 @@ RSpec.describe "Permitted development right" do
           "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"
         )
 
-        within(".govuk-heading-l") do
+        within("h1") do
           expect(page).to have_content("Assess immunity")
         end
 

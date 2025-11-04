@@ -2,7 +2,7 @@
   <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
 <% end %>
 
-<h1 class="govuk-heading-l">
+<h1>
   Confirm the new expiry date for your application
 </h1>
 
@@ -10,7 +10,7 @@
   Your case officer has proposed a new expiry date for your planning application.
 </p>
 
-<h2 class="govuk-heading-m">
+<h2>
   What you need to do:
 </h2>
 
@@ -27,17 +27,17 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <div id="time-extension-current">
-  <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Current expiry date</h3>
+  <h3 class="govuk-!-margin-bottom-1">Current expiry date</h3>
   <%= render(FormattedContentComponent.new(text: @planning_application.expiry_date.to_fs)) %>
 </div>
 
 <div id="time-extension-proposed">
-  <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Proposed expiry date</h3>
+  <h3 class="govuk-!-margin-bottom-1">Proposed expiry date</h3>
   <%= render(FormattedContentComponent.new(text: @validation_request.proposed_expiry_date.to_fs)) %>
 </div>
 
 <div id="time-extension-reason">
-  <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Reason given by case officer:</h3>
+  <h3 class="govuk-!-margin-bottom-1">Reason given by case officer:</h3>
   <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
 </div>
 

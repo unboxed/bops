@@ -2,7 +2,7 @@
   <%= t(".page_title", id: @planning_application.id) %> - <%= page_title %>
 <% end %>
 
-<h1 class="govuk-heading-l">
+<h1>
   Confirm changes to your application description
 </h1>
 
@@ -11,7 +11,7 @@
   a change to your application’s description.
 </p>
 
-<h2 class="govuk-heading-m">
+<h2>
   What you need to do:
 </h2>
 
@@ -29,12 +29,12 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <div id="description-change-previous">
-  <h3 class="govuk-heading-s govuk-!-margin-bottom-1">Previous description</h3>
+  <h3 class="govuk-!-margin-bottom-1">Previous description</h3>
   <%= render(FormattedContentComponent.new(text: @validation_request.previous_description)) %>
 </div>
 
 <div id="description-change-proposed">
-  <h3 class="govuk-heading-s govuk-!-margin-bottom-1">New description</h3>
+  <h3 class="govuk-!-margin-bottom-1">New description</h3>
   <%= render(FormattedContentComponent.new(text: @validation_request.proposed_description)) %>
 </div>
 

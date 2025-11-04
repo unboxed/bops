@@ -2,7 +2,7 @@
   <%= form.govuk_error_summary %>
 
   <div>
-    <h2 class="govuk-heading-m">Add a new charge</h2>
+    <h2>Add a new charge</h2>
     <%= form.govuk_text_field(
           :description,
           width: "one-half",
@@ -19,7 +19,7 @@
           legend: {text: "Payment due date (optional)", size: "s"}, id: "payment-due-date" %>
 
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-    <h2 class="govuk-heading-m">Record payment (optional)</h2>
+    <h2>Record payment (optional)</h2>
 
     <%= form.fields_for :payment do |payment_form| %>
       <%= payment_form.hidden_field :id %>

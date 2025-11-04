@@ -1,6 +1,6 @@
 <%= render(ReviewerCommentComponent.new(comment: @condition_set.current_review)) %>
 
-<h2 class="govuk-heading-m govuk-!-margin-bottom-0">Add, edit and sort conditions</h2>
+<h2 class="govuk-!-margin-bottom-0">Add, edit and sort conditions</h2>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 <ol id="conditions-list" class="govuk-list sortable-list" data-controller="sortable">
@@ -23,7 +23,7 @@
 <%= govuk_details(summary_text: "Add condition",
       open: @conditions.count(&:persisted?).zero?,
       classes: "govuk-details--borderless") do %>
-  <h3 class="govuk-heading-s">Add a new condition</h3>
+  <h3>Add a new condition</h3>
   <%= render partial: "form", locals: {submit_button_is_secondary: true} %>
 <% end %>
 

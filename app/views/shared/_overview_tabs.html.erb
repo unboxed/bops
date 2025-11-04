@@ -1,6 +1,6 @@
 <%= govuk_tabs do |tabs| %>
   <% tabs.with_tab(label: "Application details", id: "application_details")  do %>
-    <h2 class="govuk-heading-m">Application details</h2>
+    <h2>Application details</h2>
     <table class="govuk-table">
       <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
@@ -89,7 +89,7 @@
     </table>
   <% end %>
   <% tabs.with_tab(label: @planning_application.constraints_checked? ? "Constraints (#{planning_application_constraints.count})" : "Constraints (0)", id: "constraints")  do %>
-    <h2 class="govuk-heading-m"><%= @planning_application.constraints_checked? ? "Constraints (#{planning_application_constraints.count})" : "Constraints (0)" %></h2>
+    <h2><%= @planning_application.constraints_checked? ? "Constraints (#{planning_application_constraints.count})" : "Constraints (0)" %></h2>
     <%= render(
           partial: "planning_applications/validation/constraints/table",
           locals: {
@@ -105,12 +105,12 @@
   <% if @planning_application.application_type.consultation? %>
     <% if @planning_application.neighbour_consultation_feature? %>
       <% tabs.with_tab(label: (@planning_application.consultation.neighbours&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbours.count})" : "Neighbours (0)", id: "neighbours")  do %>
-        <h2 class="govuk-heading-m"><%= (@planning_application.consultation.neighbours&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbours.count})" : "Neighbours (0)" %></h2>
+        <h2><%= (@planning_application.consultation.neighbours&.count.to_i > 0) ? "Neighbours (#{@planning_application.consultation.neighbours.count})" : "Neighbours (0)" %></h2>
         <%= render "shared/neighbours_table", planning_application: @planning_application, neighbours: @planning_application.consultation.neighbours %>
       <% end %>
     <% end %>
     <% tabs.with_tab(label: (@planning_application.consultation&.consultees&.count.to_i > 0) ? "Consultees (#{@planning_application.consultation.consultees.count})" : "Consultees (0)", id: "consultees")  do %>
-      <h2 class="govuk-heading-m"><%= (@planning_application.consultation&.consultees&.count.to_i > 0) ? "Consultees (#{@planning_application.consultation.consultees.count})" : "Consultees (0)" %></h2>
+      <h2><%= (@planning_application.consultation&.consultees&.count.to_i > 0) ? "Consultees (#{@planning_application.consultation.consultees.count})" : "Consultees (0)" %></h2>
       <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @planning_application&.consultation, show_assign: false %>
       <p>
         <%= govuk_link_to "Show details", main_app.planning_application_consultees_path(@planning_application) %>
@@ -118,14 +118,14 @@
     <% end %>
   <% end %>
   <% tabs.with_tab(label: (@planning_application.site_histories.count.to_i > 0) ? "Site history (#{@planning_application.site_histories.count})" : "Site history (0)", id: "site_history")  do %>
-    <h2 class="govuk-heading-m"><%= (@planning_application.site_histories.count.to_i > 0) ? "Site history (#{@planning_application.site_histories.count})" : "Site history (0)" %></h2>
+    <h2><%= (@planning_application.site_histories.count.to_i > 0) ? "Site history (#{@planning_application.site_histories.count})" : "Site history (0)" %></h2>
     <%= render "planning_applications/assessment/site_histories/table", site_histories: @planning_application.site_histories, show_action: false %>
     <p>
       <%= govuk_link_to "Show details", main_app.planning_application_assessment_site_histories_path(@planning_application) %>
     </p>
   <% end %>
   <% tabs.with_tab(label: (@planning_application&.documents&.active&.count.to_i > 0) ? "Documents (#{@planning_application.documents.count})" : "Documents (0)", id: "documents")  do %>
-    <h2 class="govuk-heading-m"><%= (@planning_application&.documents&.active&.count.to_i > 0) ? "Documents (#{@planning_application.documents.count})" : "Documents (0)" %></h2>
+    <h2><%= (@planning_application&.documents&.active&.count.to_i > 0) ? "Documents (#{@planning_application.documents.count})" : "Documents (0)" %></h2>
     <%= render "shared/documents_table", documents: @planning_application&.documents&.active %>
     <p>
       <%= govuk_link_to "Show details", main_app.planning_application_documents_path(@planning_application) %>

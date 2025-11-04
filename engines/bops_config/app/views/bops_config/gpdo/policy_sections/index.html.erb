@@ -9,7 +9,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <span class="govuk-caption-m">Class <%= @policy_class.section %></span>
-    <h1 class="govuk-heading-l"><%= @policy_class.name %></h1>
+    <h1><%= @policy_class.name %></h1>
 
     <p>
       <%= govuk_button_link_to t(".create_new"), new_gpdo_policy_schedule_policy_part_policy_class_policy_section_path(@schedule.number, @part.number, @policy_class.section) %>

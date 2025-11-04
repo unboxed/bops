@@ -1,7 +1,7 @@
 <div class="govuk-!-width-two-thirds govuk-!-margin-top-5" id="refund-form">
   <%= form_with(model: [@planning_application, @refund]) do |form| %>
     <%= form.govuk_error_summary %>
-      <h2 class="govuk-heading-m">Add a new refund</h2>
+      <h2>Add a new refund</h2>
       <%= form.govuk_text_field :amount,
             width: "one-quarter",
             label: {text: "Amount refunded", size: "s"},

@@ -16,7 +16,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">
+    <h2>
       Application going to committee
     </h2>
 
@@ -25,7 +25,7 @@
     </p>
 
     <div class="grey-box">
-      <h3 class="govuk-heading-s">
+      <h3>
         Reasons selected:
       </h3>
 
@@ -42,34 +42,34 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">Committee meeting details</h2>
+    <h2>Committee meeting details</h2>
     <div class="govuk-!-margin-bottom-3">
       <span class="govuk-hint">Updated on <%= @planning_application.in_committee_at.to_fs %></span>
     </div>
 
     <div class="govuk-inset-text">
-      <h3 class="govuk-heading-s">
+      <h3>
         Date of meeting
       </h3>
       <p>
         <%= @committee_decision.date_of_committee.to_date.to_fs %>
       </p>
 
-      <h3 class="govuk-heading-s">
+      <h3>
         Location
       </h3>
       <p>
         <%= @committee_decision.location %>
       </p>
 
-      <h3 class="govuk-heading-s">
+      <h3>
         Time
       </h3>
       <p>
         <%= @committee_decision.time %>
       </p>
 
-      <h3 class="govuk-heading-s">
+      <h3>
         Link to more information
       </h3>
       <p>

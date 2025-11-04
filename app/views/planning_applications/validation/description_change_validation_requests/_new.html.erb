@@ -17,12 +17,12 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <% if @planning_application.application_type.description_change_requires_validation? %>
-      <h3 class="govuk-heading-s govuk-!-margin-top-3">
+      <h3 class="govuk-!-margin-top-3">
        Update the description or suggest a new description to the applicant
       </h3>
 
     <% else %>
-      <h2 class="govuk-heading-m govuk-!-margin-top-3">
+      <h2 class="govuk-!-margin-top-3">
         Update description
       </h2>
 
@@ -32,7 +32,7 @@
     <% end %>
 
     <div class="govuk-inset-text">
-      <h3 class="govuk-heading-s">
+      <h3>
         Existing description
       </h3>
       <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>

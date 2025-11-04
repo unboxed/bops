@@ -36,7 +36,7 @@
     <ol class="app-task-list govuk-!-margin-top-8">
       <% if @planning_application.neighbour_consultation_feature? %>
         <li id="neighbour-tasks">
-          <h2 class="govuk-heading-m">Neighbours</h2>
+          <h2>Neighbours</h2>
           <ul class="app-task-list__items" id="neighbour-section">
             <%= render(
                   TaskListItems::SelectNeighboursComponent.new(
@@ -59,7 +59,7 @@
 
       <% if @planning_application.consultee_consultation_feature? %>
         <li id="consultee-tasks">
-          <h2 class="govuk-heading-m">Manage consultees</h2>
+          <h2>Manage consultees</h2>
           <ul class="app-task-list__items" id="consultation-section">
             <% if @planning_application.pre_application? %>
               <%= render(
@@ -89,7 +89,7 @@
 
       <% if @planning_application.publicity_consultation_feature? %>
         <li id="publicity-tasks">
-          <h2 class="govuk-heading-m">Publicity</h2>
+          <h2>Publicity</h2>
           <ul class="app-task-list__items" id="publicity-section">
             <%= render(
                   TaskListItems::SiteNoticeComponent.new(
@@ -121,7 +121,7 @@
       <% end %>
     </ol>
 
-    <h2 class="govuk-heading-m">Details</h2>
+    <h2>Details</h2>
     <%= govuk_accordion do |accordion|
           accordion.with_section(heading_text: "Consultation audit log") { govuk_link_to "View copy of neighbour letters", planning_application_consultation_neighbour_letter_batches_path(@planning_application) }
         end %>

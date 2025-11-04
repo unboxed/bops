@@ -162,7 +162,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
       click_link("Check red line boundary")
       expect(page).to have_content("Coordinates look wrong")
 
-      within(".govuk-heading-l") do
+      within("h1") do
         expect(page).to have_text("Proposed red line boundary change")
       end
 

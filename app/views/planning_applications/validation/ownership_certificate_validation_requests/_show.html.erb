@@ -20,7 +20,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <p>Certificate type: <%= @planning_application.ownership_certificate.present? ? @planning_application.ownership_certificate.certificate_type.upcase : "Not specified" %></p>
-    <h2 class="govuk-heading-m">Officer request</h2>
+    <h2>Officer request</h2>
     <div class="govuk-inset-text">
       <p>
         <strong>Reason it is invalid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
@@ -31,7 +31,7 @@
     </div>
 
     <% if @validation_request.closed? %>
-      <h2 class="govuk-heading-m">Applicant response</h2>
+      <h2>Applicant response</h2>
       <% if @validation_request.approved? %>
         <p>The applicant provided this information:</p>
         <table class="govuk-table">
@@ -84,7 +84,7 @@
       <% end %>
     <% else %>
       <% if @planning_application.invalidated? %>
-        <h2 class="govuk-heading-m">Applicant has not responded yet</h2>
+        <h2>Applicant has not responded yet</h2>
       <% end %>
 
       <%= render "shared/validation_request_show_actions", planning_application: @planning_application, validation_request: @validation_request, form: nil %>

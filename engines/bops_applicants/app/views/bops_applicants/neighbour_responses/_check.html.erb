@@ -2,7 +2,7 @@
   <%= t(".page_title") %> - <%= page_title %>
 <% end %>
 
-<h1 class="govuk-heading-l">
+<h1>
   Check your comments before sending
 </h1>
 
@@ -12,13 +12,13 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<h2 class="govuk-heading-m">
+<h2>
   Personal details
 </h2>
 
 <ul class="govuk-list">
   <li>
-    <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+    <h3 class="govuk-!-margin-bottom-1">
       Name
     </h3>
     <p>
@@ -28,7 +28,7 @@
 
   <% if @neighbour_response.email.present? %>
     <li>
-      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+      <h3 class="govuk-!-margin-bottom-1">
         Email
       </h3>
       <p>
@@ -39,7 +39,7 @@
 
   <% if @neighbour_response.address.present? %>
     <li>
-      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+      <h3 class="govuk-!-margin-bottom-1">
         Address
       </h3>
       <p>
@@ -51,11 +51,11 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<h2 class="govuk-heading-m">
+<h2>
   Your comments
 </h2>
 
-<h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+<h3 class="govuk-!-margin-bottom-1">
   Summary
 </h3>
 
@@ -66,7 +66,7 @@
 <ul class="govuk-list">
   <% @neighbour_response.tags.each do |tag| %>
     <li>
-      <h3 class="govuk-heading-s govuk-!-margin-bottom-1">
+      <h3 class="govuk-!-margin-bottom-1">
         <%= t(:".headings.#{tag}") %>
       </h3>
 

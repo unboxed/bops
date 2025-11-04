@@ -3,7 +3,7 @@
       locals: {heading: "Draw a digital red line boundary"}
     ) %>
 
-<h3 class="govuk-heading-s">Red line site boundary on submission</h3>
+<h3>Red line site boundary on submission</h3>
 
 <%- sitemap_documents = @planning_application.documents.with_siteplan_tags %>
 <% if sitemap_documents.none? %>
@@ -20,7 +20,7 @@
   <% end %>
 <% end %>
 
-<h3 class="govuk-heading-s">Draw the red line site boundary</h3>
+<h3>Draw the red line site boundary</h3>
 
 <%= form_with model: @planning_application, url: planning_application_validation_sitemap_path(@planning_application) do |form| %>
   <%= form.hidden_field :boundary_geojson, value: @planning_application.boundary_geojson.to_json %>

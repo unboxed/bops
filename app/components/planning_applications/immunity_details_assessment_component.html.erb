@@ -5,9 +5,9 @@
 
   <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: planning_application.immune_proposal_details)) %>
 
-  <h3 class="govuk-heading-s govuk-!-margin-top-5 govuk-!-margin-bottom-1">Consideration of evidence</h3>
+  <h3 class="govuk-!-margin-top-5 govuk-!-margin-bottom-1">Consideration of evidence</h3>
 
-  <h3 class="govuk-heading-s govuk-!-margin-top-5 govuk-!-margin-bottom-1">Assessment summary — Evidence of immunity</h3>
+  <h3 class="govuk-!-margin-top-5 govuk-!-margin-bottom-1">Assessment summary — Evidence of immunity</h3>
   <ul class="govuk-body immunity-details-sub-list">
     <li><strong>Evidence cover:</strong>
       <% if  planning_application.immunity_detail.earliest_evidence_cover.present? %>
