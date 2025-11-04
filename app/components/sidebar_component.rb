@@ -30,7 +30,7 @@ class SidebarComponent < ViewComponent::Base
         route_for(task.legacy_url, planning_application)
       else
         BopsPreapps::Engine.routes.url_helpers.task_path(@case_record,
-          slug: subsubtask.slug, reference: planning_application_reference)
+          slug: task.slug, reference: planning_application_reference)
       end
       link = helpers.govuk_link_to(task.name, target)
       helpers.tag.li(link)
