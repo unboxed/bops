@@ -6,7 +6,7 @@ module BopsPreapps
       include ActiveModel::Model
       include BopsPreapps::Engine.routes.url_helpers
 
-      attr_reader :task, :case_record
+      attr_reader :task, :case_record, :planning_application
       delegate :parent, to: :task
 
       def initialize(task)
@@ -24,7 +24,7 @@ module BopsPreapps
       end
 
       def redirect_url
-        enforcement_path(@case_record)
+        task_path(planning_application, task)
       end
     end
   end
