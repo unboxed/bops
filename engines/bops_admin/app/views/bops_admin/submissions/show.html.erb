@@ -9,7 +9,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h1 class="govuk-heading-l">Submission</h1>
+    <h1>Submission</h1>
 
     <%= govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list| %>
       <% {
@@ -30,7 +30,7 @@
     <% end %>
 
     <% if @submission.documents.any? %>
-      <h3 class="govuk-heading-s">Submission documents</h3>
+      <h3>Submission documents</h3>
       <%= govuk_table(
             head: ["Filename", "Uploaded At", "View"],
             rows: @submission.documents.order(:created_at).map do |document|
@@ -74,7 +74,7 @@
     <% if @planning_application %>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
-          <h2 class="govuk-heading-m">Planning Application</h2>
+          <h2>Planning Application</h2>
 
           <%= govuk_summary_list(actions: false, classes: "planning-applications-summary-list") do |pa_list| %>
             <% {
@@ -92,7 +92,7 @@
           <% end %>
 
           <% if @planning_application.documents.any? %>
-            <h3 class="govuk-heading-s">Planning Application documents</h3>
+            <h3>Planning Application documents</h3>
             <%= govuk_table(
                   id: "planning-application-documents-table",
                   head: ["Filename", "Uploaded At", "View"],

@@ -25,7 +25,7 @@ RSpec.describe "Constraints" do
 
   context "when application is not started or invalidated" do
     it "displays the constraints" do
-      within(".govuk-heading-l") do
+      within("h1") do
         expect(page).to have_text("Check the constraints")
       end
 

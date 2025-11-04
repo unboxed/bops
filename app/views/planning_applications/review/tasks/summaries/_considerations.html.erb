@@ -25,11 +25,11 @@
           <%= content_tag :li, id: dom_id(consideration) do %>
             <div class="govuk-!-margin-bottom-6">
               <span class="govuk-caption-m">Consideration <%= consideration.position %></span>
-              <h2 class="govuk-heading-m govuk-!-margin-bottom-3"><%= consideration.policy_area %></h2>
+              <h2 class="govuk-!-margin-bottom-3"><%= consideration.policy_area %></h2>
 
               <div data-controller="summary">
                 <div class="bops-summary" data-summary-target="content">
-                  <h3 class="govuk-heading-s">
+                  <h3>
                     Policy
                   </h3>
 
@@ -38,7 +38,7 @@
                   </p>
 
                   <% if consideration.policy_guidance.present? %>
-                    <h3 class="govuk-heading-s">
+                    <h3>
                       Guidance
                     </h3>
                     <p>
@@ -46,12 +46,12 @@
                     </p>
                   <% end %>
 
-                  <h3 class="govuk-heading-s">
+                  <h3>
                     Assessment
                   </h3>
                   <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
 
-                  <h3 class="govuk-heading-s">
+                  <h3>
                     Conclusion
                   </h3>
                   <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>

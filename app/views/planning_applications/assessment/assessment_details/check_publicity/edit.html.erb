@@ -46,7 +46,7 @@
   <div class="govuk-grid-column-full">
     <%= render(ReviewerCommentComponent.new(comment: @rejected_assessment_detail&.comment)) %>
     <div class="govuk-!-margin-top-5" id="site-notice-check">
-      <h2 class="govuk-heading-m"><%= t(".check_site_notice") %></h2>
+      <h2><%= t(".check_site_notice") %></h2>
 
       <% if @site_notice.nil? %>
         <p>
@@ -77,7 +77,7 @@
           </tbody>
         </table>
 
-        <h3 class="govuk-heading-s"><%= t(".evidence_of_site_notice") %></h3>
+        <h3><%= t(".evidence_of_site_notice") %></h3>
 
         <% if document = @site_notice.last_document %>
           <div class="govuk-grid-row">
@@ -125,7 +125,7 @@
     <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
     <div class="govuk-!-margin-bottom-7" id="press-notice-check">
-      <h2 class="govuk-heading-m"><%= t(".check_press_notice") %></h2>
+      <h2><%= t(".check_press_notice") %></h2>
 
       <% if @press_notice.nil? %>
         <p>
@@ -159,7 +159,7 @@
             </tr>
           </tbody>
         </table>
-        <h3 class="govuk-heading-s"><%= t(".evidence_of_press_notice") %></h3>
+        <h3><%= t(".evidence_of_press_notice") %></h3>
         <% if document = @press_notice.last_document %>
           <div class="govuk-grid-row">
             <div class="govuk-grid-column-one-third">

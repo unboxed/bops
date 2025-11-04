@@ -31,7 +31,7 @@
     <%= form.govuk_date_field :received_at %>
   </div>
   <div class="govuk-form-group govuk-!-margin-top-8">
-    <h2 class="govuk-heading-m">
+    <h2>
       Site Details
     </h2>
     <% if @planning_application.persisted? %>
@@ -105,7 +105,7 @@
   <% end %>
 
   <div class="govuk-form-group govuk-!-margin-top-8">
-    <h2 class="govuk-heading-m">
+    <h2>
       Fee information
     </h2>
     <%= form.label :payment_reference, class: "govuk-label" %>

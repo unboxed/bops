@@ -1,5 +1,5 @@
 <div class="govuk-!-margin-top-5">
-  <h2 class="govuk-heading-m"><%= t(".check_site_notice") %></h2>
+  <h2><%= t(".check_site_notice") %></h2>
   <% if @planning_application.site_notice.nil? %>
     <p>
       <%= t(".site_notice_incomplete") %>
@@ -28,7 +28,7 @@
       </tbody>
     </table>
 
-    <h3 class="govuk-heading-s"><%= t(".evidence_of_site_notice") %></h3>
+    <h3><%= t(".evidence_of_site_notice") %></h3>
 
     <% if document = @planning_application.site_notice.last_document %>
       <div class="govuk-grid-row">

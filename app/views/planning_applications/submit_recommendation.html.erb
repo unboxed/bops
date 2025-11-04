@@ -18,10 +18,10 @@
           partial: "submit_recommendation_accordion",
           locals: {planning_application: @planning_application}
         ) %>
-    <h2 class="govuk-heading-m"><%= t(".decision_notice") %></h2>
+    <h2><%= t(".decision_notice") %></h2>
     <p><%= t(".the_following_decision", report_or_notice: report_or_notice?(@planning_application)) %></p>
     <%= render "decision_notice", planning_application: @planning_application %>
-    <h2 class="govuk-heading-m"><%= t(".submit_recommendation") %></h2>
+    <h2><%= t(".submit_recommendation") %></h2>
     <p><%= t(".if_you_agree", report_or_notice: report_or_notice?(@planning_application)) %></p>
     <p><%= t(".if_your_manager") %></p>
     <div class="govuk-button-group">

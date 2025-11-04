@@ -9,10 +9,10 @@
       <%= planning_application.local_authority.council_name %>
     </span>
     <br>
-    <h3 class="govuk-heading-s">
+    <h3>
       <%= planning_application.application_type.legislation_title %>
     </h3>
-    <h2 class="govuk-heading-m">
+    <h2>
       <strong>
         <%= t("recommendation.title", application_type: planning_application.application_type.description, decision: planning_application.decision.humanize) %>
       </strong>
@@ -57,7 +57,7 @@
       </p>
     <% end %>
     <% if @planning_application.granted? && @planning_application.planning_conditions? %>
-      <h3 class="govuk-heading-s">
+      <h3>
         Conditions:
       </h3>
       <ol class="govuk-list govuk-list--number" id="conditions-list">
@@ -78,7 +78,7 @@
     <% end %>
     <% if @planning_application.application_type.informatives? %>
       <% if @planning_application.informative_set.informatives.any? %>
-        <h3 class="govuk-heading-s">
+        <h3>
           Informatives:
         </h3>
         <ol class="govuk-list govuk-list--number" id="informatives-list">
@@ -92,7 +92,7 @@
       <% end %>
     <% end %>
     <% if @planning_application.committee_decision&.recommend? %>
-      <h3 class="govuk-heading-s">
+      <h3>
         Committee recommendation
       </h3>
       <p>
@@ -106,7 +106,7 @@
         <% end %>
       </ol>
     <% end %>
-    <h3 class="govuk-heading-s">
+    <h3>
       This decision is based on the following approved plans:
     </h3>
     <% if planning_application.documents_for_decision_notice.any? %>
@@ -143,7 +143,7 @@
   </div>
 
   <div class="decision-notice-map-section govuk-!-padding-bottom-3">
-    <h3 class="govuk-heading-s">
+    <h3>
       Site location
     </h3>
 
@@ -154,19 +154,19 @@
     <% end %>
   </div>
 
-  <h3 class="govuk-heading-s">
+  <h3>
     Notes:
   </h3>
   <p>
     Enquiries regarding this document should include the application number and be sent to:
   </p>
-  <h3 class="govuk-heading-s">
+  <h3>
     Email
   </h3>
   <p>
     <%= mail_to planning_application.local_authority.email_address, nil, class: "govuk-link" %>
   </p>
-  <h3 class="govuk-heading-s">
+  <h3>
     Post
   </h3>
   <p>
@@ -175,7 +175,7 @@
     <%= planning_application.local_authority.enquiries_paragraph %>
   </p>
   <% if @planning_application.refused? %>
-    <h3 class="govuk-heading-s">
+    <h3>
       Appeals to the Secretary of State
     </h3>
     <p>

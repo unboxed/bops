@@ -1,6 +1,6 @@
 <% if planning_application.result_present? %>
   <% if planning_application.result_flag.present? %>
-    <h3 class="govuk-heading-s">
+    <h3>
       <%= planning_application.result_flag %>
     </h3>
   <% end %>
@@ -41,7 +41,7 @@
   <ol class="govuk-list">
     <li>
       <% proposal_details.each do |proposal_detail| %>
-      <h3 class="govuk-heading-s">
+      <h3>
         <%= proposal_detail.index %>.
         <%= proposal_detail.question %>
       </h3>

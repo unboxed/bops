@@ -1,4 +1,4 @@
-<h2 class="govuk-heading-m govuk-!-margin-top-9 application-step-heading">Review</h2>
+<h2 class="govuk-!-margin-top-9 application-step-heading">Review</h2>
 <%= govuk_task_list(id_prefix: "review-section", html_attributes: {id: "review-section"}) do |task_list| %>
   <% if @planning_application.pre_application? %>
     <% if current_user.reviewer? && @planning_application.validated? %>

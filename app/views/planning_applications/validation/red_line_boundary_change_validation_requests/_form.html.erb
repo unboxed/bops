@@ -24,13 +24,13 @@
           ) %>
 
       <% if action_name.eql?("edit") %>
-        <h2 class="govuk-heading-m govuk-!-padding-top-6">
+        <h2 class="govuk-!-padding-top-6">
           Proposed red line boundary
         </h2>
         <%= render "shared/location_map", locals: {geojson: @validation_request.new_geojson} %>
       <% end %>
 
-      <h3 class="govuk-heading-s govuk-!-padding-top-6">
+      <h3 class="govuk-!-padding-top-6">
         Red line drawings shown on map
       </h3>
       <div class="govuk-grid-row govuk-!-padding-bottom-2">

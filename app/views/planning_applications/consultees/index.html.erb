@@ -24,7 +24,7 @@
       } do %>
 
     <section class="consultee-selection govuk-!-margin-top-6">
-      <h2 class="govuk-heading-m">Select constraints that require consultation</h2>
+      <h2>Select constraints that require consultation</h2>
       <p class="govuk-body">Review the planning constraints and select which ones require consultation.</p>
 
       <div class="govuk-checkboxes consultee-selection__list" data-module="govuk-checkboxes">
@@ -69,7 +69,7 @@
           }) do |form| %>
 
       <section class="govuk-!-margin-top-7">
-        <h2 class="govuk-heading-m">Assign consultees to each constraint</h2>
+        <h2>Assign consultees to each constraint</h2>
         <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @consultation, show_assign: true %>
         <%= render AddConsulteeComponent.new(consultees: @consultees, form: form) %>
       </section>

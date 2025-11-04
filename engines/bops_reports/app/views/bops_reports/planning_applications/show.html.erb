@@ -37,7 +37,7 @@
     <% unless applicant_view? %>
       <p class="govuk-caption-m">Preview and submit</p>
     <% end %>
-    <h1 class="govuk-heading-l">Pre-application report</h1>
+    <h1>Pre-application report</h1>
     <p>
       This report gives clear guidance on your proposal, helping you to
       understand what to expect when submitting your formal planning
@@ -76,7 +76,7 @@
 
 <section id="pre-application-outcome">
   <div class="flex-between govuk-!-margin-bottom-2">
-    <h2 class="govuk-heading-m">Pre-application outcome</h2>
+    <h2>Pre-application outcome</h2>
     <% if editing_enabled? %>
       <p class="govuk-body-m">
         <% if @summary_of_advice&.summary_tag %>
@@ -106,7 +106,7 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <section id="contact-details">
-  <h3 class="govuk-heading-s">
+  <h3>
     Officer contact details
   </h3>
 
@@ -126,7 +126,7 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <section id="pre-application-details">
-  <h3 class="govuk-heading-s">
+  <h3>
     Your pre-application details
   </h3>
 
@@ -190,7 +190,7 @@
 
   <div id="proposal-description">
     <div class="flex-between govuk-!-margin-bottom-2">
-      <h3 class="govuk-heading-s">Description of your proposal</h3>
+      <h3>Description of your proposal</h3>
       <% if editing_enabled? %>
         <p class="govuk-body-m">
           <%= govuk_link_to "Edit", main_app.new_planning_application_validation_validation_request_path(
@@ -216,7 +216,7 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <section id="site-map">
-  <h2 class="govuk-heading-m">
+  <h2>
     Site map
   </h2>
   <p>
@@ -233,7 +233,7 @@
   <div class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
     <div class="grey-border-box" id="officer-map-comments">
       <div class="flex-between">
-        <h3 class="govuk-heading-s">
+        <h3>
           Officer comments
         </h3>
         <% if editing_enabled? %>
@@ -259,7 +259,7 @@
 
 <section id="site-constraints">
   <div class="flex-between govuk-!-margin-bottom-2">
-    <h2 class="govuk-heading-m">Relevant site constraints</h2>
+    <h2>Relevant site constraints</h2>
     <% if editing_enabled? %>
       <%= govuk_link_to "Edit", main_app.planning_application_validation_constraints_path(
             @planning_application,
@@ -277,7 +277,7 @@
 
 <section id="site-history">
   <div class="flex-between govuk-!-margin-bottom-2">
-    <h2 class="govuk-heading-m">Relevant site history</h2>
+    <h2>Relevant site history</h2>
     <% if editing_enabled? %>
       <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_histories_path(
             @planning_application,
@@ -299,7 +299,7 @@
 <% if @site_description&.entry || editing_enabled? %>
   <section id="site-and-surroundings">
     <div class="govuk-!-margin-bottom-2 flex-between">
-      <h2 class="govuk-heading-m">Site and surroundings</h2>
+      <h2>Site and surroundings</h2>
 
       <% if editing_enabled? %>
         <% if @site_description %>
@@ -328,7 +328,7 @@
 
 <section id="considerations-advice">
   <div class="flex-between govuk-!-margin-bottom-2">
-    <h2 class="govuk-heading-m">Planning considerations and advice</h2>
+    <h2>Planning considerations and advice</h2>
     <% if editing_enabled? %>
       <%= govuk_link_to "Edit", main_app.planning_application_assessment_consideration_guidances_path(
             @planning_application,
@@ -419,7 +419,7 @@
 
     <section id="summary-advice">
       <div class="flex-between">
-        <h2 class="govuk-heading-m">Summary</h2>
+        <h2>Summary</h2>
         <% if editing_enabled? %>
           <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
                 @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
@@ -440,7 +440,7 @@
 <% if @heads_of_term.terms.present? %>
   <section id="heads-of-terms">
     <div class="govuk-!-margin-bottom-2 flex-between">
-      <h2 class="govuk-heading-m">Heads of terms</h2>
+      <h2>Heads of terms</h2>
       <% if editing_enabled? %>
         <%= govuk_link_to "Edit", main_app.planning_application_assessment_terms_path(@planning_application, return_to: "report") %>
       <% end %>
@@ -458,7 +458,7 @@
 
 <section id="policies-guidance">
   <div class="govuk-!-margin-bottom-2 flex-between">
-    <h2 class="govuk-heading-m">List of relevant policies and guidance</h2>
+    <h2>List of relevant policies and guidance</h2>
 
     <% if editing_enabled? %>
       <%= govuk_link_to "Edit", main_app.planning_application_assessment_consideration_guidances_path(@planning_application) %>
@@ -490,7 +490,7 @@
 
 <section id="requirements">
   <div class="flex-between">
-    <h2 class="govuk-heading-m">Requirements</h2>
+    <h2>Requirements</h2>
     <% if editing_enabled? %>
       <%= govuk_link_to "Edit", main_app.planning_application_assessment_requirements_path(@planning_application, return_to: "report") %>
     <% end %>
@@ -520,7 +520,7 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <section id="next-steps">
-  <h2 class="govuk-heading-m"><%= t(".next_steps_heading") %></h2>
+  <h2><%= t(".next_steps_heading") %></h2>
 
   <% if @current_local_authority.submission_url && @current_local_authority.submission_guidance_url %>
     <% if @planning_application.recommended_application_type %>
@@ -549,7 +549,7 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <section id="disclaimer">
-  <h2 class="govuk-heading-m"><%= t(".disclaimer_heading") %></h2>
+  <h2><%= t(".disclaimer_heading") %></h2>
   <%= govuk_warning_text do %>
     <%= @planning_application.disclaimer %>
   <% end %>

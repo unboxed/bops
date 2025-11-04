@@ -2,7 +2,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds" id="case-details">
-    <h1 class="govuk-heading-l">
+    <h1>
       <%= title %>
     </h1>
     <p class="govuk-body">
@@ -44,7 +44,7 @@
         <p class="govuk-body">
           Received
         </p>
-        <h3 class="govuk-heading-s">
+        <h3>
           <%= @enforcement.received_at.to_date.to_fs %>
         </h3>
       </div>
@@ -52,7 +52,7 @@
         <p class="govuk-body">
           Started
         </p>
-        <h3 class="govuk-heading-s">
+        <h3>
           <% if @enforcement.under_investigation? %>
             <%= @enforcement.under_investigation_at.to_date.to_fs %>
           <% elsif @enforcement.started_at %>
@@ -66,7 +66,7 @@
         <p class="govuk-body">
           Notice served
         </p>
-        <h3 class="govuk-heading-s">
+        <h3>
           <% if @enforcement.notice_served_at %>
             <%= @enforcement.notice_served_at_at.to_date.to_fs %>
           <% else %>

@@ -16,7 +16,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2 class="govuk-heading-m">
+    <h2>
       Assessor recommendation
     </h2>
 
@@ -26,7 +26,7 @@
       </p>
 
       <div class="grey-box">
-        <h3 class="govuk-heading-s">
+        <h3>
           Reasons selected:
         </h3>
 
@@ -42,7 +42,7 @@
       </p>
     <% end %>
 
-    <h3 class="govuk-heading-s">
+    <h3>
       Submitted recommendation
     </h3>
     <p>
@@ -54,7 +54,7 @@
 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
 <div class="govuk-!-margin-bottom-8">
-    <h3 class="govuk-heading-s">Reviewer decision:</h3>
+    <h3>Reviewer decision:</h3>
   <% if (!@committee_decision.recommend? && @committee_decision.current_review.to_be_reviewed?) || (@committee_decision.recommend? && @committee_decision.current_review.complete?) %>
     <p>The application should go to committee</p>
   <% else %>

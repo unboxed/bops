@@ -1,5 +1,5 @@
 <% if @planning_application.neighbour_addresses_inline.any? %>
-  <h3 class="govuk-heading-s govuk-!-margin-top-5">Neighbours submitted by applicant</h3>
+  <h3 class="govuk-!-margin-top-5">Neighbours submitted by applicant</h3>
   <ul class="govuk-list">
     <% @planning_application.neighbour_addresses_inline.each do |address| %>
       <li><%= address %></li>

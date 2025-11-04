@@ -11,7 +11,7 @@
   <div class="sortable-list-item">
     <span class="govuk-caption-m"><%= full_caption_text %></span>
     <% if record.respond_to?(:title) && record.title.present? %>
-      <h2 class="govuk-heading-m"><%= record.title %></h2>
+      <h2><%= record.title %></h2>
     <% end %>
 
     <% if current_request && show_status_tag %>

@@ -22,11 +22,11 @@
       <ul id="notes" class="govuk-list">
         <% @notes.each_with_index do |note, i| %>
           <% if i == 0 %>
-            <h2 class="govuk-heading-m">Latest note</h2>
+            <h2>Latest note</h2>
           <% end %>
           <% if i == 1 %>
             <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-            <h2 class="govuk-heading-m">Previous notes</h2>
+            <h2>Previous notes</h2>
           <% end %>
           <%= content_tag(:li, id: dom_id(note), class: "govuk-!-margin-bottom-7") do %>
             <p>

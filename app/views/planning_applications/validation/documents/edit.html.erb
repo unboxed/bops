@@ -12,7 +12,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h2 class="govuk-heading-m">Check for missing documents</h2>
+    <h2>Check for missing documents</h2>
     <p class="govuk-body-m">
       Check all necessary documents have been provided and add requests for any missing documents.
     </p>
@@ -35,7 +35,7 @@
       <% Document::DEFAULT_TABS.each do |tab| %>
         <% documents = @planning_application.documents_for(tab) %>
         <% tabs.with_tab(label: "#{tab} (#{documents.size})", id: tab.parameterize) do %>
-          <h2 class="govuk-heading-m"><%= tab %></h2>
+          <h2><%= tab %></h2>
           <%= render(partial: "documents/active_documents_table", locals: {documents: documents}) %>
         <% end %>
       <% end %>

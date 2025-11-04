@@ -1,5 +1,5 @@
 <div class="govuk-!-margin-bottom-7">
-  <h2 class="govuk-heading-m"><%= t(".check_press_notice") %></h2>
+  <h2><%= t(".check_press_notice") %></h2>
 
   <% if @planning_application.press_notice.nil? %>
     <p>
@@ -32,7 +32,7 @@
         </tr>
       </tbody>
     </table>
-    <h3 class="govuk-heading-s"><%= t(".evidence_of_press_notice") %></h3>
+    <h3><%= t(".evidence_of_press_notice") %></h3>
     <% if document = @planning_application.press_notice.last_document %>
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">

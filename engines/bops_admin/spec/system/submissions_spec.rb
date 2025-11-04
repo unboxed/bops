@@ -15,7 +15,7 @@ RSpec.describe "Submissions", type: :system do
     submissions = local_authority.submissions.by_created_at_desc
     visit "/admin/submissions"
 
-    expect(page).to have_selector("h1.govuk-heading-l", text: "Submissions")
+    expect(page).to have_selector("h1", text: "Submissions")
 
     within("#submissions thead tr") do
       %w[Reference Source Status Created\ at Started\ at Completed\ at Failed\ at Actions].each do |heading|
@@ -91,7 +91,7 @@ RSpec.describe "Submissions", type: :system do
         click_link "View"
       end
 
-      expect(page).to have_selector("h1.govuk-heading-l", text: "Submission")
+      expect(page).to have_selector("h1", text: "Submission")
 
       within(".govuk-summary-list") do
         {
@@ -148,7 +148,7 @@ RSpec.describe "Submissions", type: :system do
         expect(page).to have_content("Application.xml")
       end
 
-      expect(page).to have_selector("h3.govuk-heading-s", text: "Submission documents")
+      expect(page).to have_selector("h3", text: "Submission documents")
 
       docs = submission.documents.order(:created_at)
       expect(docs.length).to eq(9)
@@ -211,11 +211,11 @@ RSpec.describe "Submissions", type: :system do
         click_link "View"
       end
 
-      expect(page).to have_selector("h1.govuk-heading-l", text: "Submission")
+      expect(page).to have_selector("h1", text: "Submission")
       expect(page).to have_selector("hr.govuk-section-break--visible")
 
       planning_application = submission.planning_application
-      expect(page).to have_selector("h2.govuk-heading-m", text: "Planning Application")
+      expect(page).to have_selector("h2", text: "Planning Application")
 
       within(".planning-applications-summary-list") do
         expect(page).to have_selector("dt", text: "Reference")
@@ -234,7 +234,7 @@ RSpec.describe "Submissions", type: :system do
         expect(page).to have_selector("dd", text: planning_application.application_type.human_name)
       end
 
-      expect(page).to have_selector("h3.govuk-heading-s", text: "Planning Application documents")
+      expect(page).to have_selector("h3", text: "Planning Application documents")
 
       documents = planning_application.documents.order(:created_at)
 

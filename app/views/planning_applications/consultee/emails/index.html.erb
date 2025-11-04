@@ -32,7 +32,7 @@
         ) do |form| %>
       <%= form.govuk_error_summary %>
 
-      <h2 class="govuk-heading-m">
+      <h2>
         <div class="govuk-hint govuk-!-margin-bottom-0">Step 1</div>
         <%= t(".header") %>
       </h2>
@@ -44,7 +44,7 @@
       <%= render ConsulteeEmailComponent.new(form: form) %>
 
       <div class="govuk-form-group" id="response-period">
-        <h2 class="govuk-heading-m">
+        <h2>
           <div class="govuk-hint govuk-!-margin-bottom-0">Step 3</div>
           <%= form.govuk_label :consultee_response_period, text: "Set response period", size: "m" %>
         </h2>

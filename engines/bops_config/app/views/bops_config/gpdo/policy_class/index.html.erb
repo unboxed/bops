@@ -8,7 +8,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <span class="govuk-caption-m">Part <%= @part.number %></span>
-    <h1 class="govuk-heading-l"><%= @part.name %></h1>
+    <h1><%= @part.name %></h1>
 
     <p>
       <%= govuk_button_link_to t(".create_new"), new_gpdo_policy_schedule_policy_part_policy_class_path(@schedule.number, @part.number) %>

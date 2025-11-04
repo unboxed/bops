@@ -40,7 +40,7 @@ RSpec.describe "Review documents for recommendation" do
         "/planning_applications/#{planning_application.reference}/review/documents"
       )
 
-      within(".govuk-heading-l") do
+      within("h1") do
         expect(page).to have_content("Review documents for recommendation")
       end
       expect(page).to have_content(planning_application.full_address)
