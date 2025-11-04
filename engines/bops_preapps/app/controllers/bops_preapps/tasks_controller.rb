@@ -11,7 +11,7 @@ module BopsPreapps
     private
 
     def set_planning_application
-      @planning_application = @case_record.caseable
+      @planning_application = PlanningApplicationPresenter.new(view_context, @case_record.caseable)
     end
 
     def template_for(action)
