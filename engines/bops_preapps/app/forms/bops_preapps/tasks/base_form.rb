@@ -16,7 +16,7 @@ module BopsPreapps
       end
 
       def update(params)
-        task.update(permitted_fields(params))
+        task.update(params)
       end
 
       def permitted_fields(params)
