@@ -24,7 +24,7 @@
         ) %>
   </div>
 
-  <% if panel_type != :closed %>
+  <% unless panel_type.in? [:closed, :updated] %>
     <%= govuk_accordion do |accordion| %>
       <% accordion.with_section(heading_text: "Filters") do %>
         <div class="govuk-accordion__section-content govuk-!-padding-bottom-0">

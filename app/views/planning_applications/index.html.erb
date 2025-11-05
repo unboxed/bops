@@ -66,7 +66,8 @@
             }
             tabs.with_tab(label: "Updated") {
               render PlanningApplications::UpdatedPanelComponent.new(
-                audits: current_local_authority.audits.most_recent_for_planning_applications.limit(20)
+                audits: @search.updated_planning_application_audits,
+                search: @search
               )
             }
             tabs.with_tab(label: "All cases", id: "all") {
