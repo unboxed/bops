@@ -14,6 +14,18 @@ p {
   @extend .govuk-body;
 }
 
+h1 {
+  @extend .govuk-heading-l;
+}
+
+h2 {
+  @extend .govuk-heading-m;
+}
+
+h3 {
+  @extend .govuk-heading-s;
+}
+
 .autocomplete__input {
   font-family: $govuk-font-family;
 
