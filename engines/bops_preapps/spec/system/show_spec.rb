@@ -9,11 +9,11 @@ RSpec.describe "Show page", type: :system do
 
   before do
     sign_in(user)
-    visit "/preapps/cases/#{planning_application.reference}"
+    visit "/preapps/pre_applications/#{planning_application.reference}"
   end
 
   it "I can view the show page" do
-    expect(page).to have_current_path("/preapps/cases/#{planning_application.reference}")
+    expect(page).to have_current_path("/preapps/pre_applications/#{planning_application.reference}")
     expect(page).to have_content("Application")
   end
 
