@@ -3,10 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "Show page", type: :system do
-  let!(:local_authority) { create(:local_authority, :default) }
-  let!(:planning_application) { create(:planning_application, :pre_application, local_authority: local_authority) }
+  let(:local_authority) { create(:local_authority, :default) }
+  let(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
+  let(:user) { create(:user, local_authority:) }
 
   before do
+    sign_in(user)
     visit "/preapps/cases/#{planning_application.reference}"
   end
 

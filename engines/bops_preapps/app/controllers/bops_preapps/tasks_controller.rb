@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module BopsPreapps
-  class TasksController < ApplicationController
+  class TasksController < AuthenticationController
     include BopsCore::TasksController
 
     before_action :set_planning_application, only: %i[show]
