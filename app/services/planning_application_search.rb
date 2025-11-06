@@ -33,9 +33,9 @@ class PlanningApplicationSearch
     end
   end
 
-  def filtered_planning_applications
-    scope = filtered_scope(all_applications)
-
+  def filtered_planning_applications(default_scope = :all_applications)
+    applications = send(default_scope)
+    scope = filtered_scope(applications)
     if valid? && query
       scope = records_matching_query(scope)
     end
@@ -88,6 +88,10 @@ class PlanningApplicationSearch
 
   def unstarted_prior_approvals
     all_applications.prior_approvals.not_started.for_current_user
+  end
+
+  def pre_applications
+    @pre_applications ||= all_applications.pre_applications
   end
 
   private

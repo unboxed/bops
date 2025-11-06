@@ -84,6 +84,7 @@ module BopsCore
 
     def active_page_key
       page_keys = {
+        "pre_applications" => "pre_applications",
         "planning_applications" => "planning_applications",
         "enforcements" => "enforcements"
       }
@@ -93,9 +94,9 @@ module BopsCore
 
     def nav_items
       return [] unless current_user
-      return [] unless current_page?(home_path) || current_page?(enforcements_home_path)
-
+      return [] unless current_page?(home_path) || current_page?(enforcements_home_path) || current_page?(preapp_home_path)
       [
+        {text: "Pre-application", href: preapp_home_path, active: active_page_key?("pre_applications")},
         {text: "Planning", href: home_path, active: active_page_key?("planning_applications")},
         {text: "Enforcement", href: enforcements_home_path, active: active_page_key?("enforcements")}
       ]
@@ -107,6 +108,10 @@ module BopsCore
 
     def enforcements_home_path
       bops_enforcements.enforcements_path
+    end
+
+    def preapp_home_path
+      bops_preapps.pre_applications_path
     end
   end
 end

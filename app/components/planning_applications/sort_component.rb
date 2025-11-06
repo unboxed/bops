@@ -9,7 +9,14 @@ module PlanningApplications
 
     def sort_link(column)
       new_direction = determine_new_direction(column)
-      url_for(params.to_unsafe_hash.merge(sort_key: column, direction: new_direction)) + "#all"
+      query = request.query_parameters.merge(
+        sort_key: column,
+        direction: new_direction
+      )
+      helpers.url_for(
+        params: query,
+        anchor: "all"
+      )
     end
 
     def sort_class(column, current_sort)
