@@ -17,7 +17,6 @@
     "jspdf": "^3.0.2",
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
-    "leaflet-css": "^0.1.0",
     "puppeteer": "^23.8.0",
     "qrcode": "^1.5.4",
     "sortablejs": "^1.15.2",

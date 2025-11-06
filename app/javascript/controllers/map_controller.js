@@ -1,6 +1,5 @@
 import { Controller } from "@hotwired/stimulus"
 import "leaflet"
-import "leaflet-css"
 
 export default class extends Controller {
   connect() {
