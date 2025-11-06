@@ -6,6 +6,7 @@ module BopsPreapps
 
     before_action :set_planning_application
     before_action :build_form
+    before_action :show_sidebar
 
     private
 
@@ -22,6 +23,10 @@ module BopsPreapps
       klass = BopsPreapps::Tasks.form_for(@task.slug)
 
       @form = klass.new(@task)
+    end
+
+    def show_sidebar
+      @show_sidebar ||= @planning_application.case_record.tasks.find_by(section: "Assessment")
     end
   end
 end
