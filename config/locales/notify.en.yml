@@ -11,7 +11,7 @@ en:
       lambeth: 5fe1d483-9bbe-4b56-8e71-8ce193fef723
       medway: 531012a8-e9c1-4fac-adc0-cf6dd12939f4
       newcastle: 17d71fea-42c8-40a5-a696-480f311c5eea
-      southglos: fafff93d-4ad9-4c72-aa18-51ecff8cf973
+      southglos: be625da1-f6eb-4a22-b523-ea11210a2319
       southwark: f755c178-b01a-4323-a756-d669e9350c33
     staging:
       barnet: d3d1e5a2-f037-4e2b-87da-e4bcc2c4ebc7
@@ -23,7 +23,7 @@ en:
       lambeth: 5fe1d483-9bbe-4b56-8e71-8ce193fef723
       medway: 531012a8-e9c1-4fac-adc0-cf6dd12939f4
       newcastle: 17d71fea-42c8-40a5-a696-480f311c5eea
-      southglos: fafff93d-4ad9-4c72-aa18-51ecff8cf973
+      southglos: be625da1-f6eb-4a22-b523-ea11210a2319
       southwark: 47de5588-2e37-4c1c-ae56-e80a5de0f9c6
     test:
       planx: 4485df6f-a728-41ed-bc46-cdb2fc6789aa
