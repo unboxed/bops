@@ -675,3 +675,57 @@ svg.leaflet-image-layer.leaflet-interactive path {
     print-color-adjust: exact;
   }
 }
+
+/* Leaflet Gesture Handling */
+.leaflet-gesture-handling {
+  &::after {
+    background: rgba(0, 0, 0, 0.5);
+    color: #ffffff;
+    content: "";
+    font-family: open-sans, sans-serif;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 15px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 461;
+    pointer-events: none;
+    visibility: hidden;
+    opacity: 0;
+    transition:
+      content 0s linear 300ms,
+      visibility 0s linear 300ms,
+      opacity 300ms;
+  }
+
+  &--scroll-warning,
+  &--touch-warning {
+    &::after {
+      visibility: visible;
+      opacity: 1;
+      transition:
+        content 0s linear 0s,
+        visibility 0s linear 0s,
+        opacity 300ms;
+    }
+  }
+
+  &--scroll-warning {
+    &::after {
+      content: attr(data-gesture-handling-scroll-content);
+    }
+  }
+
+  &--touch-warning {
+    &::after {
+      content: attr(data-gesture-handling-touch-content);
+    }
+  }
+}
