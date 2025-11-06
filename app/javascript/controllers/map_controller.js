@@ -1,6 +1,249 @@
 import { Controller } from "@hotwired/stimulus"
-import "leaflet"
-import "leaflet-css"
+import L from "leaflet"
+
+L.Map.mergeOptions({
+  gestureHandlingOptions: {
+    text: {
+      touch: "Use two fingers to move the map",
+      scroll: "Use ctrl + scroll to zoom the map",
+      scrollMac: "Use \u2318 + scroll to zoom the map",
+    },
+    duration: 1500,
+  },
+})
+
+const _nativeEvents = [
+  "touchstart",
+  "touchmove",
+  "touchend",
+  "touchcancel",
+  "click",
+]
+
+let draggingMap = false
+
+const GestureHandling = L.Handler.extend({
+  addHooks: function () {
+    const map = this._map
+    const container = map._container
+
+    this._handleTouch = this._handleTouch.bind(this)
+
+    this._setLanguageContent()
+    this._disableInteractions()
+
+    L.DomUtil.addClass(container, "leaflet-gesture-handling")
+
+    // Uses native event listeners instead of L.DomEvent due to issues with Android touch events turning into pointer events.
+    for (const _nativeEvent of _nativeEvents) {
+      container.addEventListener(_nativeEvents, this._handleTouch)
+    }
+
+    L.DomEvent.on(container, "wheel", this._handleScroll, this)
+    L.DomEvent.on(map, "mouseover", this._handleMouseOver, this)
+    L.DomEvent.on(map, "mouseout", this._handleMouseOut, this)
+
+    // Listen to these events so will not disable dragging if the user moves the mouse out the boundary of the map container whilst actively dragging the map.
+    L.DomEvent.on(map, "movestart", this._handleDragging, this)
+    L.DomEvent.on(map, "move", this._handleDragging, this)
+    L.DomEvent.on(map, "moveend", this._handleDragging, this)
+  },
+
+  removeHooks: function () {
+    const map = this._map
+    const container = map._container
+
+    this._enableInteractions()
+
+    L.DomUtil.removeClass(container, "leaflet-gesture-handling")
+
+    for (const _nativeEvent of _nativeEvents) {
+      container.removeEventListener(_nativeEvent, this._handleTouch)
+    }
+
+    L.DomEvent.off(container, "wheel", this._handleScroll, this)
+    L.DomEvent.off(this._map, "mouseover", this._handleMouseOver, this)
+    L.DomEvent.off(this._map, "mouseout", this._handleMouseOut, this)
+
+    L.DomEvent.off(this._map, "movestart", this._handleDragging, this)
+    L.DomEvent.off(this._map, "move", this._handleDragging, this)
+    L.DomEvent.off(this._map, "moveend", this._handleDragging, this)
+  },
+
+  _handleDragging: (e) => {
+    if (e.type === "movestart" || e.type === "move") {
+      draggingMap = true
+    } else if (e.type === "moveend") {
+      draggingMap = false
+    }
+  },
+
+  _disableInteractions: function () {
+    const map = this._map
+
+    map.dragging.disable()
+    map.scrollWheelZoom.disable()
+
+    if (map.tap) {
+      map.tap.disable()
+    }
+  },
+
+  _enableInteractions: function () {
+    const map = this._map
+
+    map.dragging.enable()
+    map.scrollWheelZoom.enable()
+
+    if (map.tap) {
+      map.tap.enable()
+    }
+  },
+
+  _setLanguageContent: function () {
+    const map = this._map
+    const container = map._container
+    const languageContent = this._map.options.gestureHandlingOptions.text
+
+    let mac = false
+
+    if (navigator.platform.toUpperCase().indexOf("MAC") >= 0) {
+      mac = true
+    }
+
+    let scrollContent = languageContent.scroll
+
+    if (mac) {
+      scrollContent = languageContent.scrollMac
+    }
+
+    container.setAttribute(
+      "data-gesture-handling-touch-content",
+      languageContent.touch,
+    )
+
+    container.setAttribute(
+      "data-gesture-handling-scroll-content",
+      scrollContent,
+    )
+  },
+
+  _handleTouch: function (e) {
+    const map = this._map
+    const container = map._container
+
+    // Disregard touch events on the minimap if present
+    const ignoreList = [
+      "leaflet-control-minimap",
+      "leaflet-interactive",
+      "leaflet-popup-content",
+      "leaflet-popup-content-wrapper",
+      "leaflet-popup-close-button",
+      "leaflet-control-zoom-in",
+      "leaflet-control-zoom-out",
+    ]
+
+    let ignoreElement = false
+
+    for (let i = 0; i < ignoreList.length; i++) {
+      if (L.DomUtil.hasClass(e.target, ignoreList[i])) {
+        ignoreElement = true
+      }
+    }
+
+    if (ignoreElement) {
+      if (
+        L.DomUtil.hasClass(e.target, "leaflet-interactive") &&
+        e.type === "touchmove" &&
+        e.touches.length === 1
+      ) {
+        L.DomUtil.addClass(container, "leaflet-gesture-handling--touch-warning")
+
+        this._disableInteractions()
+      } else {
+        L.DomUtil.removeClass(
+          container,
+          "leaflet-gesture-handling--touch-warning",
+        )
+      }
+
+      return
+    }
+
+    // screenLog(e.type+' '+e.touches.length)
+    if (e.type !== "touchmove" && e.type !== "touchstart") {
+      L.DomUtil.removeClass(
+        container,
+        "leaflet-gesture-handling--touch-warning",
+      )
+
+      return
+    }
+
+    if (e.touches.length === 1) {
+      L.DomUtil.addClass(container, "leaflet-gesture-handling--touch-warning")
+
+      this._disableInteractions()
+    } else {
+      e.preventDefault()
+      this._enableInteractions()
+
+      L.DomUtil.removeClass(
+        container,
+        "leaflet-gesture-handling--touch-warning",
+      )
+    }
+  },
+
+  _isScrolling: false,
+
+  _handleScroll: function (e) {
+    const map = this._map
+    const container = map._container
+
+    if (e.metaKey || e.ctrlKey) {
+      e.preventDefault()
+      L.DomUtil.removeClass(
+        container,
+        "leaflet-gesture-handling--scroll-warning",
+      )
+
+      map.scrollWheelZoom.enable()
+    } else {
+      L.DomUtil.addClass(container, "leaflet-gesture-handling--scroll-warning")
+      map.scrollWheelZoom.disable()
+
+      clearTimeout(this._isScrolling)
+
+      // Set a timeout to run after scrolling ends
+      this._isScrolling = setTimeout(() => {
+        // Run the callback
+        const warnings = document.getElementsByClassName(
+          "leaflet-gesture-handling--scroll-warning",
+        )
+
+        for (let i = 0; i < warnings.length; i++) {
+          L.DomUtil.removeClass(
+            warnings[i],
+            "leaflet-gesture-handling--scroll-warning",
+          )
+        }
+      }, map.options.gestureHandlingOptions.duration)
+    }
+  },
+
+  _handleMouseOver: function () {
+    this._enableInteractions()
+  },
+
+  _handleMouseOut: function () {
+    if (!draggingMap) {
+      this._disableInteractions()
+    }
+  },
+})
+
+L.Map.addInitHook("addHandler", "gestureHandling", GestureHandling)
 
 export default class extends Controller {
   connect() {
@@ -36,6 +279,7 @@ export default class extends Controller {
     this.map = L.map(this.mapElement.id, {
       center: [lat, long],
       zoom: 17,
+      gestureHandling: true,
     })
 
     L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {

@@ -37,7 +37,6 @@ module BopsCore
       {
         role: "region",
         "aria-labelledby": "govuk-notification-banner-title",
-        "data-module": "govuk-notification-banner",
         "data-govuk-notification-banner-init": "",
         class: ["govuk-notification-banner", colour_class]
       }
