@@ -11,6 +11,10 @@ RSpec.describe PlanningApplicationSearch do
     create(:user, :assessor, local_authority:)
   end
 
+  let!(:other_assessor) do
+    create(:user, :assessor, local_authority:)
+  end
+
   let!(:application_type_ldc_proposed) { create(:application_type, :ldc_proposed, local_authority:) }
   let!(:application_type_prior_approval) { create(:application_type, :prior_approval, local_authority:) }
   let!(:application_type_householder) { create(:application_type, :householder, local_authority:) }
@@ -100,6 +104,38 @@ RSpec.describe PlanningApplicationSearch do
       local_authority:,
       received_at: nil,
       application_type: application_type_pre_application
+    )
+  end
+
+  let!(:closed_planning_application) do
+    create(
+      :planning_application,
+      :closed,
+      :ldc_proposed,
+      local_authority:,
+      user: assessor,
+      received_at: nil,
+      application_type: application_type_ldc_proposed
+    )
+  end
+
+  let!(:audit_for_updated_application) do
+    create(
+      :audit,
+      planning_application: ldc_in_assessment_2,
+      user: other_assessor,
+      activity_type: :updated,
+      created_at: 1.minute.from_now
+    )
+  end
+
+  let!(:another_audit_for_updated_application) do
+    create(
+      :audit,
+      planning_application: prior_approval_in_assessment,
+      user: assessor,
+      activity_type: :updated,
+      created_at: 2.minutes.from_now
     )
   end
 
@@ -392,6 +428,51 @@ RSpec.describe PlanningApplicationSearch do
         it "returns correct planning applications" do
           expect(search.filtered_planning_applications).to eq([])
         end
+      end
+    end
+  end
+
+  describe "#closed_planning_applications" do
+    context "when searching by reference" do
+      let(:params) do
+        ActionController::Parameters.new(
+          {
+            query: closed_planning_application.reference,
+            submit: "search"
+          }
+        )
+      end
+
+      it "returns closed planning applications that match the query" do
+        expect(search.closed_planning_applications).to contain_exactly(closed_planning_application)
+      end
+    end
+  end
+
+  describe "#updated_planning_application_audits" do
+    context "when no search params are provided" do
+      let(:params) { ActionController::Parameters.new }
+
+      it "includes audits that were not made by the assigned officer" do
+        expect(search.updated_planning_application_audits).to include(
+          audit_for_updated_application,
+          another_audit_for_updated_application
+        )
+      end
+    end
+
+    context "when searching by reference" do
+      let(:params) do
+        ActionController::Parameters.new(
+          {
+            query: ldc_in_assessment_2.reference,
+            submit: "search"
+          }
+        )
+      end
+
+      it "returns audits for planning applications that match the query" do
+        expect(search.updated_planning_application_audits).to contain_exactly(audit_for_updated_application)
       end
     end
   end

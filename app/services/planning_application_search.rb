@@ -60,7 +60,30 @@ class PlanningApplicationSearch
   end
 
   def closed_planning_applications
-    all_applications.closed_or_cancelled.for_current_user
+    scope = all_applications.closed_or_cancelled.for_current_user.by_created_at_desc
+
+    if valid? && query
+      scope = records_matching_query(scope)
+    end
+
+    sorted_scope(scope, sort_key, direction)
+  end
+
+  def updated_planning_application_audits(limit: 20)
+    audited_applications = filtered_scope(all_applications)
+
+    audits_scope = local_authority.audits
+      .most_recent_for_planning_applications
+      .where(planning_application_id: audited_applications.select(:id))
+
+    if valid? && query
+      matching_planning_applications = records_matching_query(audited_applications)
+        .unscope(:select, :order)
+        .select(:id)
+      audits_scope = audits_scope.where(planning_application_id: matching_planning_applications)
+    end
+
+    audits_scope.limit(limit)
   end
 
   def unstarted_prior_approvals

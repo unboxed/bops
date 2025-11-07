@@ -2145,6 +2145,8 @@ en:
       edit_public_comment: The information appearing on the decision notice was successfully updated.
       save_and_mark_complete_html: Please save and mark as complete the <a class="govuk-notification-banner__link" href="%{href}">draft recommendation</a> before updating application fields.
       success: Planning application was successfully updated.
+    updated_panel_component:
+      no_planning_applications: No planning applications match your search
     validate:
       success: Application is ready for assessment and an email notification has been sent.
     validation:
