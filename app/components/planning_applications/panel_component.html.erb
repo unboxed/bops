@@ -16,7 +16,11 @@
         <% attributes.each do |attribute| %>
           <th scope="col" class="govuk-table__header">
             <% if attribute == :formatted_expiry_date %>
-              <%= render(PlanningApplications::SortComponent.new(attribute: "expiry_date", direction: params[:direction])) %>
+              <% if type.to_s.include?("pre_apps") %>
+                <%= render(PlanningApplications::SortComponent.new(attribute: "target_date", direction: params[:direction])) %>
+              <% else %>
+                <%= render(PlanningApplications::SortComponent.new(attribute: "expiry_date", direction: params[:direction])) %>
+              <% end %>
             <% else %>
               <%= t(".#{attribute}") %>
             <% end %>

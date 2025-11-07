@@ -60,6 +60,18 @@ module PlanningApplications
       %i[reference outcome formatted_outcome_date full_address description]
     end
 
+    def all_pre_apps_attributes
+      %i[reference full_address description days_status_tag status_tag formatted_expiry_date user_name]
+    end
+
+    def closed_pre_apps_attributes
+      %i[reference outcome formatted_outcome_date full_address description]
+    end
+
+    def my_pre_apps_attributes
+      %i[reference full_address formatted_expiry_date days_status_tag status_tag]
+    end
+
     def awaiting_determination_attributes
       default_attributes.tap do |array|
         array[5] = :formatted_awaiting_determination_at
