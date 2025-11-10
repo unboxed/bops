@@ -5,7 +5,6 @@ module PlanningApplications
     class ConstraintsController < BaseController
       include ReturnToReport
 
-      before_action :ensure_constraint_edits_unlocked, only: %i[index update]
       before_action :set_planning_application_constraints, only: %i[update index create]
       before_action :set_other_constraints, only: %i[index]
       before_action :store_return_to_report_path, only: %i[index create destroy update]
@@ -57,10 +56,6 @@ module PlanningApplications
       end
 
       private
-
-      def ensure_constraint_edits_unlocked
-        render plain: "forbidden", status: :forbidden and return unless @planning_application.can_validate?
-      end
 
       def set_planning_application_constraints
         @planning_application_constraints = @planning_application.planning_application_constraints
