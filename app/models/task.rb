@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 class Task < ApplicationRecord
-  enum :status, %i[not_started in_progress completed].index_with(&:to_s)
+  STATUSES = %w[not_started in_progress completed cannot_start_yet action_required]
+  enum :status, STATUSES.index_by(&:to_sym)
 
   belongs_to :parent, polymorphic: true
   has_many :tasks, -> { order(:position) }, as: :parent, dependent: :destroy, autosave: true
 
   validates :slug, :name, presence: true, strict: true
+  validates :status, inclusion: STATUSES
 
   after_initialize do
     self.slug ||= name.to_s.parameterize
