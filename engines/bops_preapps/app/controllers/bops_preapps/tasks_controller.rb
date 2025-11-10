@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 module BopsPreapps
-  class TasksController < ApplicationController
+  class TasksController < AuthenticationController
     include BopsCore::TasksController
 
-    before_action :set_planning_application, only: %i[show]
-    before_action :build_form, only: %i[edit update]
-    # before_action :ensure_case_is_not_closed, only: %i[show edit update]
+    before_action :set_planning_application
+    before_action :build_form
+    before_action :show_sidebar
 
     private
 
     def set_planning_application
-      @planning_application = @case_record.caseable
+      @planning_application = PlanningApplicationPresenter.new(view_context, @case_record.caseable)
     end
 
     def template_for(action)
@@ -23,6 +23,10 @@ module BopsPreapps
       klass = BopsPreapps::Tasks.form_for(@task.slug)
 
       @form = klass.new(@task)
+    end
+
+    def show_sidebar
+      @show_sidebar ||= @planning_application.case_record.tasks.find_by(section: "Assessment")
     end
   end
 end

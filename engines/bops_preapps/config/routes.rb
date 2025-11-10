@@ -1,17 +1,14 @@
 # frozen_string_literal: true
 
 BopsPreapps::Engine.routes.draw do
-  root to: redirect("cases")
+  root to: "pre_applications#index"
 
-  resources :pre_applications, only: %i[index show], path: "/cases"
+  resources :pre_applications, only: %i[index show]
   get "/planning_applications", to: "pre_applications#index"
 
-  scope "/cases/:reference" do
-    resources :assign_users, only: %i[index] do
-      patch :update, on: :collection
-    end
-
+  scope "/:reference" do
     get "/*slug/edit", to: "tasks#edit", as: :edit_task
+    post "/*slug", to: "tasks#update"
     patch "/*slug", to: "tasks#update"
     get "/*slug", to: "tasks#show", as: :task
   end

@@ -25,7 +25,7 @@
       section: Assessment summaries
       tasks:
         - name: Site description
-          legacy_url: planning_application_assessment_site_description
+          legacy_url: ""
         - name: Planning considerations and advice
           legacy_url: planning_application_assessment_considerations
         - name: Suggest heads of terms
