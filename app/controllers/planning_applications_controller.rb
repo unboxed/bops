@@ -30,6 +30,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def show
+    @show_header_bar = false
     respond_to do |format|
       format.html
     end
