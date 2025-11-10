@@ -117,5 +117,9 @@ module BopsCore
     def map_link(full_address)
       "https://google.co.uk/maps/place/#{CGI.escape(full_address)}"
     end
+
+    def show_map_pin?(caseable, data)
+      (data[:geojson].blank? || data[:invalid_red_line_boundary].present?) && caseable.lonlat.present?
+    end
   end
 end
