@@ -8,10 +8,20 @@
         </p>
       <% end %>
       <p>
+        <% if !@show_header_bar %>
+          <strong><%= @planning_application.full_address %></strong>
+          <br>
+          <%= t(".application_number") %> <strong><%= @planning_application.reference %></strong>
+        <% end %>
         <% if @planning_application.previous_references&.any? %>
           (<%= t(".previously") %>: <strong><%= @planning_application.previous_references.join(", ") %></strong>)
         <% end %>
       </p>
+      <% else %>
+        <% if !@show_header_bar %>
+          <span class="govuk-caption-l"><%= t(".application_number") %><%= @planning_application.reference %></span>
+          <h1 class="govuk-heading-l"><%= @planning_application.full_address %></h1>
+      <% end %>
     <% end %>
 
     <div id="planning-application-statuses-tags">
@@ -45,6 +55,11 @@
       <p>
         <strong>Reason for being closed:</strong>
         <%= render(FormattedContentComponent.new(text: @planning_application.closed_or_cancellation_comment)) %>
+      </p>
+    <% end %>
+    <% if !@show_header_bar %>
+      <p>
+        <%= @planning_application.description %>
       </p>
     <% end %>
   </div>

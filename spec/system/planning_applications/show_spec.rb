@@ -60,17 +60,12 @@ RSpec.describe "Planning Application show page" do
       visit "/planning_applications/#{planning_application.reference}"
     end
 
-    it "shows the application reference and address in the header bar" do
-      within(".bops-header-bar__left") do
-        expect(page).to have_selector(
-          ".bops-header-bar__text",
-          text: "#{planning_application.created_at.year % 100}-00100-LDCP"
-        )
-        expect(page).to have_selector(
-          ".bops-header-bar__text",
-          text: "7 Elm Grove, London, SE15 6UT"
-        )
-      end
+    it "site address is present" do
+      expect(page).to have_text("7 Elm Grove, London, SE15 6UT")
+    end
+
+    it "planning application code is correct" do
+      expect(page).to have_text("#{planning_application.created_at.year % 100}-00100-LDCP")
     end
 
     it "Target date is correct and label is light blue" do
@@ -120,7 +115,7 @@ RSpec.describe "Planning Application show page" do
 
       it "Displays previous application reference numbers" do
         expect(page).to have_text(
-          "(Previously: #{planning_application.created_at.year % 100}-00100-LDCP)"
+          "Application number: #{planning_application.created_at.year % 100}-00100-LDCE (Previously: #{planning_application.created_at.year % 100}-00100-LDCP)"
         )
       end
     end
