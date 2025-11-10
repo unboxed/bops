@@ -9,7 +9,7 @@
       section: Check application
       tasks:
         - name: Check application details
-          legacy_url: planning_application_assessment_consistency_checklist
+          legacy_url: ""
         - name: Check consultees consulted
           legacy_url: planning_application_assessment_consultees
         - name: Check site history

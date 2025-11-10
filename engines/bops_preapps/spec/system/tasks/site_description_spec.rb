@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Show page", type: :system do
+RSpec.describe "Site description task", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
   let(:user) { create(:user, local_authority:) }
@@ -12,7 +12,7 @@ RSpec.describe "Show page", type: :system do
     visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
   end
 
-  it "Shows the top level tasks" do
+  it "Can complete and submit the form" do
     within ".bops-sidebar" do
       click_link "Site description"
     end

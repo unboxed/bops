@@ -2,30 +2,31 @@
       :site_map_correct,
       legend: {text: t(".is_the_red"), size: "s", id: "site-map-title-field"}
     ) do %>
-    <%= render "shared/location_map", locals: {in_accordion: true, geojson: @planning_application.boundary_geojson} %>
-    <br>
+  <%= render "shared/location_map", locals: {in_accordion: true, geojson: @planning_application.boundary_geojson} %>
+  <br>
+
   <% if can_edit %>
     <%= form.govuk_radio_button(
           :site_map_correct,
           :yes,
           label: {text: t(".yes")},
           link_errors: true,
-          disabled: form.object.open_red_line_boundary_change_requests?
+          disabled: consistency_checklist.open_red_line_boundary_change_requests?
         ) %>
     <%= form.govuk_radio_button(
           :site_map_correct,
           :no,
           label: {text: t(".no")},
-          checked: form.object.default_site_map_correct_to_no?
+          checked: consistency_checklist.default_site_map_correct_to_no?
         ) do %>
-        <% if planning_application.pre_application? %>
-          <%= form.govuk_text_area :site_map_correct_comment, label: {text: "Add a comment"} %>
-        <% elsif !form.object.open_red_line_boundary_change_requests? && !planning_application.pre_application? %>
-          <%= govuk_link_to t(".request_red_line_boundary_change"), new_planning_application_validation_validation_request_path(
-                planning_application,
-                type: "red_line_boundary_change"
-              ) %>
-        <% end %>
+      <% if planning_application.pre_application? %>
+        <%= form.govuk_text_area :site_map_correct_comment, label: {text: "Add a comment"} %>
+      <% elsif !consistency_checklist.open_red_line_boundary_change_requests? && !planning_application.pre_application? %>
+        <%= govuk_link_to t(".request_red_line_boundary_change"), new_planning_application_validation_validation_request_path(
+              planning_application,
+              type: "red_line_boundary_change"
+            ) %>
+      <% end %>
     <% end %>
   <% else %>
     <%= form.govuk_radio_button(
@@ -35,14 +36,18 @@
           disabled: true
         ) %>
   <% end %>
-  <%= render(
-        partial: "red_line_boundary_change_validation_request",
-        locals: {
-          request: planning_application.red_line_boundary_change_validation_request,
-          planning_application: planning_application
-        }
-      ) %>
+
+  <% if !planning_application.pre_application? %>
+    <%= render(
+          partial: "red_line_boundary_change_validation_request",
+          locals: {
+            request: planning_application.red_line_boundary_change_validation_request,
+            planning_application: planning_application
+          }
+        ) %>
+  <% end %>
 <% end %>
+
 <% if !can_edit && consistency_checklist.site_map_correct_comment %>
   <h4 class="govuk-heading-s">Comment</h4>
   <p>
