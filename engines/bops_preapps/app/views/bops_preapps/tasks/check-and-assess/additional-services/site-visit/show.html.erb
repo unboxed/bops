@@ -1,0 +1,120 @@
+<% content_for :page_title do %>
+  Site visit - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", main_app.root_path %>
+<% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Assessment", main_app.planning_application_assessment_tasks_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Site visit", "" %>
+
+<h1>Site visits</h1>
+<%= render "shared/proposal_header" %>
+
+<% if @planning_application.site_visits.by_created_at_desc.includes(:created_by).any? %>
+  <table class="govuk-table" id="site-visit-history">
+    <caption class="govuk-table__caption govuk-table__caption--m">Site visit history</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Site visit date</th>
+        <th scope="col" class="govuk-table__header">Address visited</th>
+        <th scope="col" class="govuk-table__header">Created by</th>
+        <th scope="col" class="govuk-table__header">Comment</th>
+      </tr>
+    </thead>
+    <% @planning_application.site_visits.by_created_at_desc.includes(:created_by).find_each do |site_visit| %>
+      <% if site_visit.persisted? %>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              <%= site_visit.visited_at&.to_date&.to_fs %>
+            </th>
+            <td class="govuk-table__cell">
+              <% if site_visit.neighbour.present? %>
+                <%= site_visit.neighbour.address %>
+              <% elsif site_visit.address.present? %>
+                <%= site_visit.address %>
+              <% end %>
+            </td>
+            <td class="govuk-table__cell">
+              <%= site_visit.created_by.name %>
+            </td>
+            <td class="govuk-table__cell">
+              <%= site_visit.comment %>
+            </td>
+          </tr>
+        </tbody>
+      <% end %>
+    <% end %>
+  </table>
+  <% unless @planning_application.determined? %>
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          Add new site visit
+        </span>
+      </summary>
+      <div class="govuk-details__text" id="new-site-visit-form">
+        <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
+          <%= form.govuk_error_summary %>
+          <div class="govuk-form-group">
+            <%= form.govuk_date_field(:visited_at, rows: 6, legend: {text: "Date of site visit", size: "s"}) %>
+            <%= content_tag :div, data: {
+                  controller: "address-search",
+                  address_search_url: main_app.os_places_api_index_path,
+                  address_search_id: "address",
+                  address_search_default_address_value: form.object.case_record.planning_application.address.presence || @planning_application.address
+                } do %>
+              <label for="address" class="govuk-heading-s govuk-!-margin-bottom-1">Search for address</label>
+              <span id="address-hint" class="govuk-hint">
+                Start typing address or postcode
+              </span>
+              <div id="address-container" class="govuk-input--width-50 govuk-!-margin-bottom-3"></div>
+              <%= form.hidden_field :address, id: "address-hidden-field", value: form.object.case_record.planning_application.address.presence || @planning_application.address %>
+            <% end %>
+            <%= form.hidden_field :decision, value: true %>
+            <%= form.govuk_file_field :documents,
+                  label: {size: "s", text: t(".upload_photos")},
+                  accept: acceptable_file_mime_types,
+                  multiple: true %>
+            <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Comment", class: "govuk-!-font-weight-bold"}) %>
+          </div>
+          <%= form.govuk_submit "Save" %>
+        <% end %>
+      </div>
+    </details>
+  <% end %>
+<% else %>
+  <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
+    <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-3"><strong>No site visits have been recorded yet.</strong></p>
+    <p> Add new site visit to start recording site visit history.</p>
+  </div>
+  <h2>Add a new site visit</h2>
+  <div id="new-site-visit-form">
+    <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
+      <%= form.govuk_error_summary %>
+      <div class="govuk-form-group">
+        <%= form.govuk_date_field(:visited_at, rows: 6, legend: {text: "Date of site visit", size: "s"}) %>
+        <%= content_tag :div, data: {
+              controller: "address-search",
+              address_search_url: main_app.os_places_api_index_path,
+              address_search_id: "address",
+              address_search_default_address_value: form.object.case_record.planning_application.address.presence || @planning_application.address
+            } do %>
+          <label for="address" class="govuk-heading-s govuk-!-margin-bottom-1">Search for address</label>
+          <span id="address-hint" class="govuk-hint">
+            Start typing address or postcode
+          </span>
+          <div id="address-container" class="govuk-input--width-50 govuk-!-margin-bottom-3"></div>
+          <%= form.hidden_field :address, id: "address-hidden-field", value: form.object.case_record.planning_application.address.presence || @planning_application.address %>
+        <% end %>
+        <%= form.hidden_field :decision, value: true %>
+        <%= form.govuk_file_field :documents,
+              label: {size: "s", text: t(".upload_photos")},
+              accept: acceptable_file_mime_types,
+              multiple: true %>
+        <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Comment", class: "govuk-!-font-weight-bold"}) %>
+      </div>
+      <%= form.govuk_submit "Save" %>
+    <% end %>
+  </div>
+<% end %>

@@ -11,6 +11,7 @@ class SiteVisit < ApplicationRecord
   has_many :documents, as: :owner, dependent: :destroy, autosave: true
 
   validates :status, :comment, presence: true, if: -> { decision? }
+  attribute :decision, :boolean
   validates :decision, inclusion: {in: [true, false]}
 
   validates :visited_at,

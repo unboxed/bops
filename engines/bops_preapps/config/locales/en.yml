@@ -6,6 +6,11 @@ en:
         title: Preapps
     tasks:
       check-and-assess:
+        additional-services:
+          site-visit:
+            show:
+              heading: View site visits
+              upload_photos: Upload photo(s)
         assessment-summaries:
           site-description:
             show:
@@ -16,3 +21,5 @@ en:
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated
+        site-visit:
+          success: Site visit sucessfully recorded

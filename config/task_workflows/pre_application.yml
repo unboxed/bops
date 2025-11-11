@@ -18,7 +18,7 @@
       section: Additional services
       tasks:
         - name: Site visit
-          legacy_url: planning_application_assessment_site_visits
+          legacy_url: ""
         - name: Meeting
           legacy_url: planning_application_assessment_meetings
     - name: Assessment summaries
