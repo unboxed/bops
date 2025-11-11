@@ -7,6 +7,7 @@ module BopsPreapps
     before_action :set_planning_application
     before_action :build_form
     before_action :show_sidebar
+    before_action :show_header
 
     private
 
@@ -23,6 +24,10 @@ module BopsPreapps
       klass = BopsPreapps::Tasks.form_for(@task.slug)
 
       @form = klass.new(@task)
+    end
+
+    def show_header
+      @show_header_bar ||= true
     end
 
     def show_sidebar
