@@ -60,11 +60,7 @@ class SidebarComponent < ViewComponent::Base
   end
 
   def status_indicator_for(task)
-    icon_markup = helpers.render("shared/icons/#{icon_partial_for(task.status)}")
+    icon_markup = helpers.render("shared/icons/#{task.status}")
     helpers.content_tag(:span, icon_markup, class: "bops-sidebar__task-icon", aria: {hidden: true})
-  end
-
-  def icon_partial_for(status)
-    %w[not_started completed in_progress cannot_start_yet action_required].include?(status) ? status : "in_progress"
   end
 end
