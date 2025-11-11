@@ -1,11 +1,4 @@
-<% content_for :page_title do %>
-  Create a description of the site &mdash;
-  <%= t("page_title") %>
-<% end %>
-
-<h1>Create a description of the site</h1>
-
-<%= render "shared/proposal_header" %>
+<%= render "shared/task_header", task: @task %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">

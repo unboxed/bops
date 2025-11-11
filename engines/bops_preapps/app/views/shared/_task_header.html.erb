@@ -1,0 +1,11 @@
+<%# locals: (task:) %>
+
+<% content_for :page_title do %>
+  <%= task.title %>
+  &mdash;
+  <%= t("page_title") %>
+<% end %>
+
+<h1><%= task.title %></h1>
+
+<%= render "shared/proposal_header" %>
