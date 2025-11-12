@@ -1,0 +1,81 @@
+<%= render "shared/task_header", task: @task %>
+
+<% @requirements = @planning_application.requirements %>
+
+<% @requirements.by_category do |category, requirements| %>
+  <%= tag.div(id: "#{category}-card", class: "govuk-summary-card") do %>
+    <div class="govuk-summary-card__title-wrapper">
+      <h2 class="govuk-summary-card__title">
+        <%= t("planning_applications.assessment.requirements.index.categories.#{category}") %>
+      </h2>
+    </div>
+
+    <div class="govuk-summary-card__content">
+      <% if requirements.length != 0 %>
+        <dl class="govuk-summary-list">
+          <% requirements.each do |requirement| %>
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__value govuk-!-width-one-half">
+                <strong>
+                  <%= requirement.description %>
+                </strong>
+              </dt>
+              <dd class="govuk-summary-list__value govuk-!-padding-right-2 govuk-!-width-one-quarter govuk-secondary-text-colour">
+                Added by <%= requirement.source %>
+              </dd>
+              <dd class="govuk-summary-list__actions  govuk-!-padding-right-2 govuk-!-width-one-quarter">
+                <% unless @planning_application.determined? %>
+                  <div class="align-items-center justify-end gap-2">
+                    <%= govuk_link_to("Edit", main_app.edit_planning_application_assessment_requirement_path(@planning_application, requirement, redirect_to: task_path(@planning_application, @task)), no_visited_state: true, no_underline: true) %>
+                    <span>|</span>
+                    <%= govuk_link_to("Remove", main_app.planning_application_assessment_requirement_path(@planning_application, requirement, redirect_to: task_path(@planning_application, @task)),
+                          method: :delete,
+                          no_visited_state: true,
+                          no_underline: true,
+                          data: {confirm: "Are you sure you want to remove this requirement?"}) %>
+                  </div>
+                <% end %>
+              </dd>
+            </div>
+          <% end %>
+        </dl>
+      <% else %>
+        <p>No requirements of this type selected</p>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>
+
+<hr>
+
+<%= govuk_details(summary_text: "Add requirements") do %>
+  <%= form_with method: :post, url: main_app.planning_application_assessment_requirements_path(@planning_application, redirect_to: task_path(@planning_application, @task)) do |form| %>
+    <%= govuk_tabs do |tabs| %>
+      <% @planning_application.local_authority.requirements.by_category do |category, requirements| %>
+        <% tabs.with_tab(label: t("planning_applications.assessment.requirements.index.categories.#{category}")) do %>
+          <% if requirements.empty? %>
+            <p>There are no requirements of this type available.</p>
+          <% else %>
+            <%= form.govuk_check_boxes_fieldset :new_requirement_ids, small: true, legend: nil do %>
+              <% requirements.each do |requirement| %>
+                <% if @requirements.has?(requirement) %>
+                  <%= form.govuk_check_box :new_requirement_ids, requirement.id, label: {text: requirement.description}, disabled: true, checked: true %>
+                <% else %>
+                  <%= form.govuk_check_box :new_requirement_ids, requirement.id, label: {text: requirement.description}, checked: false %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= form.govuk_submit("Add requirements", secondary: true, class: "govuk-!-margin-bottom-2") %>
+  <% end %>
+<% end %>
+
+<% unless @planning_application.determined? %>
+  <%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
+    <%= form.govuk_submit "Save" %>
+  <% end %>
+<% end %>

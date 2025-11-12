@@ -38,7 +38,7 @@
         - name: Choose application type
           legacy_url: ""
         - name: Check and add requirements
-          legacy_url: planning_application_assessment_requirements
+          legacy_url: ""
         - name: Review and submit pre-application
           legacy_url: submit_recommendation_planning_application
 - name: "View recommendation"

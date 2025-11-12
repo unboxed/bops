@@ -16,7 +16,7 @@
       <%= @requirement.description %>
     </h2>
 
-    <%= form_with model: @requirement, scope: "requirement", url: planning_application_assessment_requirement_path(@planning_application, @requirement), method: :patch do |form| %>
+    <%= form_with model: @requirement, scope: "requirement", url: planning_application_assessment_requirement_path(@planning_application, @requirement, redirect_to: params[:redirect_to]), method: :patch do |form| %>
       <%= form.govuk_text_field :url,
             label: {text: "Guidelines URL"},
             placeholder: "No URL provided" %>
@@ -26,7 +26,7 @@
             hint: {text: "Change guidance for this application only"} %>
 
       <%= form.govuk_submit("Save") do %>
-        <%= govuk_button_link_to t("back"), planning_application_assessment_requirements_path, secondary: true %>
+        <%= govuk_button_link_to t("back"), params[:redirect_to].presence || planning_application_assessment_requirements_path(@planning_application), secondary: true %>
       <% end %>
     <% end %>
   </div>

@@ -30,6 +30,9 @@ en:
         choose-application-type:
           failure: Failed to save recommended application type
           success: Recommended application type was successfully chosen
+        check-and-add-requirements:
+          failure: Failed to save requirements
+          success: Requirements were successfully saved
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated
