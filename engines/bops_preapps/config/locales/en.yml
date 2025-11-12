@@ -24,8 +24,11 @@ en:
         check-consultees-consulted:
           failure: Failed to save consultee review
           success: Consultees were successfully marked as reviewed
+        check-site-history:
+          failure: Failed to save site history review
+          success: Site history was successfully marked as reviewed
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated
         site-visit:
-          success: Site visit sucessfully recorded
+          success: Site visit successfully recorded

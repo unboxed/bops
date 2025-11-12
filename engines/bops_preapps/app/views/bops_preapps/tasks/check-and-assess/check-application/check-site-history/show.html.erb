@@ -1,0 +1,17 @@
+<%= render "shared/task_header", task: @task %>
+
+<h2 class="govuk-!-margin-top-2">
+  Summary of the relevant historical applications
+</h2>
+
+<p class="govuk-body">
+  Past applications for this site or relevant nearby locations:
+</p>
+
+<%= render "planning_applications/assessment/site_histories/table",
+      site_histories: @planning_application.site_histories,
+      show_action: true %>
+
+<%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
+  <%= form.govuk_submit %>
+<% end %>

@@ -13,7 +13,7 @@
         - name: Check consultees consulted
           legacy_url: ""
         - name: Check site history
-          legacy_url: planning_application_assessment_site_histories
+          legacy_url: ""
     - name: Additional services
       section: Additional services
       tasks:
