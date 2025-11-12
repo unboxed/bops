@@ -36,7 +36,7 @@
       section: Complete assessment
       tasks:
         - name: Choose application type
-          legacy_url: planning_application_assessment_recommended_application_type
+          legacy_url: ""
         - name: Check and add requirements
           legacy_url: planning_application_assessment_requirements
         - name: Review and submit pre-application
