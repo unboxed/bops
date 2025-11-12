@@ -104,6 +104,11 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         expect(page).not_to have_content(planning_application3.reference)
       end
 
+      expect(page).to have_css(".govuk-service-navigation")
+      expect(page).to have_link("Pre-application")
+      expect(page).to have_link("Planning")
+      expect(page).to have_link("Enforcement")
+
       visit "/"
       visit "/planning_applications?#{query}#mine"
 

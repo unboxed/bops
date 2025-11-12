@@ -175,5 +175,26 @@ RSpec.describe "Dashboard", type: :system do
         end
       end
     end
+
+    context "when searching", :capybara do
+      before do
+        sign_in assessor
+        visit "/preapps"
+      end
+
+      it "displays section navigation after search" do
+        expect(page).to have_css(".govuk-service-navigation")
+
+        within(selected_govuk_tab) do
+          fill_in("Find an application", with: planning_application_1.reference)
+          click_button("Search")
+        end
+
+        expect(page).to have_css(".govuk-service-navigation")
+        expect(page).to have_link("Pre-application")
+        expect(page).to have_link("Planning")
+        expect(page).to have_link("Enforcement")
+      end
+    end
   end
 end
