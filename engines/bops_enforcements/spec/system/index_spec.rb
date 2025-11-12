@@ -107,4 +107,31 @@ RSpec.describe "Enforcement index page", type: :system do
     expect(page).to have_content(enforcement_1.to_s)
     expect(page).not_to have_content(enforcement.to_s)
   end
+
+  it "displays section navigation on index page", capybara: true do
+    visit "/enforcements"
+
+    expect(page).to have_css(".govuk-service-navigation")
+    expect(page).to have_link("Pre-application")
+    expect(page).to have_link("Planning")
+    expect(page).to have_link("Enforcement")
+  end
+
+  it "displays section navigation after filtering", capybara: true do
+    enforcement_1.update(urgent: true)
+
+    visit "/enforcements"
+    click_link "All cases"
+
+    within("#filters-section") do
+      click_on "Filters"
+      check "Urgent"
+      click_button "Apply filters"
+    end
+
+    expect(page).to have_css(".govuk-service-navigation")
+    expect(page).to have_link("Pre-application")
+    expect(page).to have_link("Planning")
+    expect(page).to have_link("Enforcement")
+  end
 end

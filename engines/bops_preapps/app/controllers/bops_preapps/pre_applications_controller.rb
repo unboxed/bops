@@ -7,6 +7,7 @@ module BopsPreapps
     before_action :set_grouped_tasks, only: %i[show]
 
     def index
+      @show_section_navigation = true
       @search ||= PlanningApplicationSearch.new(params)
       respond_to do |format|
         format.html

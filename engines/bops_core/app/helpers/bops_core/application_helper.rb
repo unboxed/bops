@@ -94,7 +94,7 @@ module BopsCore
 
     def nav_items
       return [] unless current_user
-      return [] unless current_page?(home_path) || current_page?(enforcements_home_path) || current_page?(preapp_home_path)
+      return [] unless @show_section_navigation
       [
         {text: "Pre-application", href: preapp_home_path, active: active_page_key?("pre_applications")},
         {text: "Planning", href: home_path, active: active_page_key?("planning_applications")},
