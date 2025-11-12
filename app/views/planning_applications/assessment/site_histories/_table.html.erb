@@ -41,11 +41,11 @@
         </p>
         <% if show_action %>
           <%= govuk_link_to "Edit",
-                edit_planning_application_assessment_site_history_path(@planning_application, site_history),
+                main_app.edit_planning_application_assessment_site_history_path(@planning_application, site_history),
                 class: "govuk-!-display-inline-block" %>
           <p class="govuk-!-display-inline-block">|</p>
           <%= govuk_link_to "Remove",
-                planning_application_assessment_site_history_path(@planning_application, site_history),
+                main_app.planning_application_assessment_site_history_path(@planning_application, site_history),
                 method: :delete, class: "govuk-!-display-inline-block govuk-!-margin-bottom-1",
                 data: {confirm: "This action cannot be undone.\nAre you sure you want to remove this site history?"} %>
         <% end %>
