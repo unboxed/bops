@@ -29,7 +29,7 @@ module BopsCore
           if @form.update(task_params)
             redirect_to @form.redirect_url, notice: t(".#{@task.slug}.success")
           else
-            render template_for(:edit), notice: t(".#{@task.slug}.failure")
+            render template_for(:show), alert: t(".#{@task.slug}.failure")
           end
         end
       end
