@@ -1,0 +1,16 @@
+<%= render "shared/task_header", task: @task %>
+
+<%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <div data-controller="autocomplete-select">
+    <%= form.govuk_select :recommended_application_type_id,
+          @planning_application.local_authority.application_types.menu,
+          label: {text: "What application type would the applicant need to apply for next?", tag: "h2", size: "m"},
+          options: {include_blank: true, selected: @planning_application.recommended_application_type_id} %>
+  </div>
+
+  <% unless @planning_application.determined? %>
+    <%= form.govuk_submit "Save" %>
+  <% end %>
+<% end %>

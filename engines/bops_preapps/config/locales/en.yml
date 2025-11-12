@@ -27,6 +27,9 @@ en:
         check-site-history:
           failure: Failed to save site history review
           success: Site history was successfully marked as reviewed
+        choose-application-type:
+          failure: Failed to save recommended application type
+          success: Recommended application type was successfully chosen
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated
