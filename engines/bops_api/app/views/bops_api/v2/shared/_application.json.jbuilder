@@ -15,6 +15,7 @@ json.application do
   json.determinedAt planning_application.determined_at
   json.decision planning_application.determined? ? planning_application.decision : nil
   json.status planning_application.appeal_display_status || planning_application.status
+  json.session_id planning_application.session_id
 
   if (consultation = planning_application.consultation)
     json.consultation do

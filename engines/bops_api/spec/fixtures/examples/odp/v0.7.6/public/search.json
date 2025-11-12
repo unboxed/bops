@@ -22,6 +22,7 @@
         "determinedAt": null,
         "decision": null,
         "status": "in_assessment",
+        "session_id": "abc123def456",
         "consultation": {
           "startDate": "2024-04-15",
           "endDate": "2024-05-07"
@@ -123,6 +124,7 @@
         "published_at": "2024-04-19T00:00:00.000+01:00",
         "determinedAt": "2024-04-20T00:00:00.000+01:00",
         "status": "determined",
+        "session_id": "xyz789ghi012",
         "decision": "granted",
         "consultation": {
           "startDate": "2024-03-12",
@@ -213,6 +215,7 @@
         "determinedAt": null,
         "decision": null,
         "status": "Appeal allowed",
+        "session_id": "jkl345mno678",
         "consultation": {
           "startDate": null,
           "endDate": null,
