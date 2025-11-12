@@ -8,18 +8,20 @@
           :yes,
           label: {text: t(".yes")},
           link_errors: true,
-          disabled: form.object.open_additional_document_requests?
+          disabled: consistency_checklist&.open_additional_document_requests?
         ) %>
     <%= form.govuk_radio_button(
           :documents_consistent,
           :no,
           label: {text: t(".no")},
-          checked: form.object.default_documents_consistent_to_no?
+          checked: consistency_checklist.default_documents_consistent_to_no?
         ) do %>
-      <%= govuk_link_to t(".request_additional_document"), new_planning_application_validation_validation_request_path(
-            planning_application,
-            type: "additional_document"
-          ) %>
+      <% unless planning_application.pre_application? %>
+        <%= govuk_link_to t(".request_additional_document"), new_planning_application_validation_validation_request_path(
+              planning_application,
+              type: "additional_document"
+            ) %>
+      <% end %>
     <% end %>
   <% else %>
     <%= form.govuk_radio_button(
@@ -29,10 +31,12 @@
           disabled: true
         ) %>
   <% end %>
-  <% planning_application.additional_document_validation_requests.order(:created_at).each do |request| %>
-    <%= render(
-          partial: "additional_document_validation_request",
-          locals: {request: request, planning_application: planning_application}
-        ) %>
+  <% unless planning_application.pre_application? %>
+    <% planning_application.additional_document_validation_requests.order(:created_at).each do |request| %>
+      <%= render(
+            partial: "additional_document_validation_request",
+            locals: {request: request, planning_application: planning_application}
+          ) %>
+    <% end %>
   <% end %>
 <% end %>

@@ -42,10 +42,6 @@ module PlanningApplicationHelper
     end
   end
 
-  def show_map_pin?(planning_application, data)
-    (data[:geojson].blank? || data[:invalid_red_line_boundary].present?) && planning_application.lonlat.present?
-  end
-
   def filter_enabled_uniquely?(**args)
     filter = args.keys.first
     value = args[filter]
