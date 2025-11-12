@@ -26,7 +26,11 @@
       </p>
     <% elsif @planning_application.determined? %>
       <p>
-        <%= govuk_link_to "View decision notice", decision_notice_planning_application_path(@planning_application) %>
+        <% if @planning_application.pre_application? %>
+          <%= govuk_link_to "View final report", bops_reports.planning_application_path(@planning_application, view_as: "applicant") %>
+        <% else %>
+          <%= govuk_link_to "View decision notice", decision_notice_planning_application_path(@planning_application) %>
+        <% end %>
       </p>
     <% end %>
 
