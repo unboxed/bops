@@ -8,6 +8,8 @@ module BopsPreapps
           planning_application.consultation.create_consultees_review!
           task.update!(status: :completed)
         end
+      rescue ActiveRecord::RecordInvalid
+        false
       end
 
       def permitted_fields(params)

@@ -10,6 +10,8 @@ module BopsPreapps
           assessment_detail.update!(params)
           task.update!(status: :completed)
         end
+      rescue ActiveRecord::RecordInvalid
+        false
       end
 
       def permitted_fields(params)

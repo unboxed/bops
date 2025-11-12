@@ -8,6 +8,8 @@ module BopsPreapps
           planning_application.update!(site_history_checked: true)
           task.update!(status: :completed)
         end
+      rescue ActiveRecord::RecordInvalid
+        false
       end
 
       def permitted_fields(params)
