@@ -31,4 +31,5 @@ en:
           failure: Failed to save site description
           success: Site description was successfully updated
         site-visit:
+          failure: Failed to save site visit
           success: Site visit successfully recorded
