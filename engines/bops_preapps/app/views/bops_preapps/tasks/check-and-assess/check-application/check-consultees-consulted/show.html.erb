@@ -1,0 +1,23 @@
+<%= render "shared/task_header", task: @task %>
+
+<% unless @planning_application.determined? %>
+  <%= render ErrorSummaryComponent.new(errors: @planning_application.consultation.errors) %>
+<% end %>
+
+<%= render "shared/consultees_table",
+      planning_application: @planning_application,
+      consultation: @planning_application.consultation,
+      show_assign: true %>
+
+<% if @planning_application.determined? %>
+  <%= govuk_button_link_to "Back", main_app.planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+<% else %>
+  <%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
+    <div class="govuk-button-group">
+      <%= form.submit "Confirm as checked", class: "govuk-button" %>
+      <%= govuk_button_link_to "Add consultees", main_app.planning_application_consultees_path(@planning_application), secondary: true %>
+
+      <%= govuk_button_link_to "Back", main_app.planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+    </div>
+  <% end %>
+<% end %>

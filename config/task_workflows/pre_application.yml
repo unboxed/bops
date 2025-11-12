@@ -11,7 +11,7 @@
         - name: Check application details
           legacy_url: ""
         - name: Check consultees consulted
-          legacy_url: planning_application_assessment_consultees
+          legacy_url: ""
         - name: Check site history
           legacy_url: planning_application_assessment_site_histories
     - name: Additional services

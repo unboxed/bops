@@ -21,6 +21,9 @@ en:
         check-application-details:
           failure: Failed to save application details
           success: Application details were successfully updated
+        check-consultees-consulted:
+          failure: Failed to save consultee review
+          success: Consultees were successfully marked as reviewed
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated
