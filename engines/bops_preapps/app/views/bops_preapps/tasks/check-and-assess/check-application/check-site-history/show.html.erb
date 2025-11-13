@@ -9,8 +9,37 @@
 </p>
 
 <%= render "planning_applications/assessment/site_histories/table",
-      site_histories: @planning_application.site_histories,
+      site_histories: @planning_application.site_histories.all,
       show_action: true %>
+
+<%= govuk_details(summary_text: "Add a new site history", open: @planning_application.site_histories.last&.errors&.any?) do %>
+  <%= form_with(model: @planning_application.site_histories.new,
+        url: main_app.planning_application_assessment_site_histories_path(@planning_application)) do |form| %>
+    <%= form.govuk_error_summary %>
+
+    <%= form.govuk_text_field :reference, width: "one-half" %>
+    <%= form.govuk_text_field :address, value: @planning_application.address %>
+    <%= form.govuk_text_area :description, rows: 3 %>
+
+    <%= form.govuk_radio_buttons_fieldset(:decision, legend: {text: "What was the decision?", size: "s"}) do %>
+      <% Decision.all_codes.each do |label, value| %>
+        <%= form.govuk_radio_button :decision, value, label: {text: label} %>
+      <% end %>
+
+      <%= form.govuk_radio_button :decision, "other", label: {text: "Other"} do %>
+        <%= form.govuk_text_field :other_decision, label: {text: "Description"} %>
+      <% end %>
+    <% end %>
+
+    <%= form.govuk_date_field :date, legend: {text: "Decision received on", size: "s", tag: nil} %>
+
+    <%= form.govuk_text_area :comment, rows: 4, label: {text: "Relevance to proposal"} %>
+
+    <%= form.hidden_field :return_to, value: task_path(@planning_application, @task) %>
+
+    <%= form.govuk_submit "Add site history", secondary: true, class: "govuk-!-margin-bottom-2" %>
+  <% end %>
+<% end %>
 
 <%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
   <%= form.govuk_submit %>
