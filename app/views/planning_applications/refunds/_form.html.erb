@@ -1,33 +1,33 @@
 <div class="govuk-!-width-two-thirds govuk-!-margin-top-5" id="refund-form">
   <%= form_with(model: [@planning_application, @refund]) do |form| %>
     <%= form.govuk_error_summary %>
-      <h2>Add a new refund</h2>
-      <%= form.govuk_text_field :amount,
-            width: "one-quarter",
-            label: {text: "Amount refunded", size: "s"},
-            prefix_text: "£",
-            id: "refund-amount" %>
+    <h2>Add a new refund</h2>
+    <%= form.govuk_text_field :amount,
+          width: "one-quarter",
+          label: {text: "Amount refunded", size: "s"},
+          prefix_text: "£",
+          id: "refund-amount" %>
 
-      <%= form.govuk_date_field :date,
-            legend: {text: "Date refunded", size: "s"}, id: "refund-date" %>
-      <%= form.govuk_text_field(
-            :payment_type,
-            label: {text: "Payment type", size: "s"},
-            id: "refund-payment-type"
-          ) %>
-      <%= form.govuk_text_field(
-            :reference,
-            label: {text: "Reference", size: "s"},
-            id: "refund-reference"
-          ) %>
-      <%= form.govuk_text_field(
-            :reason,
-            label: {text: "Reason for refund", size: "s"},
-            id: "refund-reason"
-          ) %>
+    <%= form.govuk_date_field :date,
+          legend: {text: "Date refunded", size: "s"}, id: "refund-date" %>
+    <%= form.govuk_text_field(
+          :payment_type,
+          label: {text: "Payment type", size: "s"},
+          id: "refund-payment-type"
+        ) %>
+    <%= form.govuk_text_field(
+          :reference,
+          label: {text: "Reference", size: "s"},
+          id: "refund-reference"
+        ) %>
+    <%= form.govuk_text_field(
+          :reason,
+          label: {text: "Reason for refund", size: "s"},
+          id: "refund-reason"
+        ) %>
+    <div class="govuk-form-group govuk-button-group">
+      <%= form.submit((@refund.persisted? ? "Save changes" : "Add refund"), class: (@refund.persisted? ? "govuk-button govuk-button--secondary" : "govuk-button govuk-!-padding-right-2")) %>
+      <%= back_link if !@refund.persisted? %>
+    </div>
+  <% end %>
 </div>
-  <div class="govuk-form-group govuk-button-group">
-    <%= form.submit((@refund.persisted? ? "Save changes" : "Add refund"), class: (@refund.persisted? ? "govuk-button govuk-button--secondary" : "govuk-button govuk-!-padding-right-2")) %>
-    <%= back_link if !@refund.persisted? %>
-  </div>
-<% end %>

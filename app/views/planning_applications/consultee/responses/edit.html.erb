@@ -36,11 +36,11 @@
         label: {size: "l", text: "Full comment"},
         data: {reset_text_target: "source"},
         readonly: true %>
-  <%= form.govuk_text_area :redacted_response, class: "govuk-textarea", rows: 8, data: {reset_text_target: "destination"}, label: -> do %>
-    <%= form.label :redacted_response, "Redacted comment", class: "govuk-label govuk-label--l" %>
-    <%= content_tag :span, "Replace text you want to redact with [redacted] then save to publish the comment.", class: "govuk-hint" %>
-    <%= button_tag "Reset comment", type: "button", class: "button-as-link govuk-!-margin-bottom-3", data: {action: "click->reset-text#reset"} %>
-  <% end %>
+  <%= form.govuk_text_area :redacted_response, class: "govuk-textarea", rows: 8, data: {reset_text_target: "destination"}, label: -> do
+        form.label(:redacted_response, "Redacted comment", class: "govuk-label govuk-label--l") +
+          content_tag(:span, "Replace text you want to redact with [redacted] then save to publish the comment.", class: "govuk-hint") +
+          button_tag("Reset comment", type: "button", class: "button-as-link govuk-!-margin-bottom-3", data: {action: "click->reset-text#reset"})
+      end %>
 
   <div class="govuk-button-group govuk-!-margin-top-5">
     <%= form.submit(
