@@ -63,7 +63,7 @@
           <%= review_form.govuk_radio_button(
                 :action, :rejected, checked: committee_decision.current_review.rejected?, label: {text: "Return with comments"}
               ) do %>
-            <div class="govuk-form-group <%= "govuk-form-group--error" if committee_decision.errors.any? %>">
+            <%= tag.div class: "govuk-form-group #{"govuk-form-group--error" if committee_decision.errors.any?}" do %>
               <% if committee_decision.errors.any? %>
                 <p class="govuk-error-message">
                   <span class="govuk-visually-hidden">Error:</span> <%= committee_decision.errors["reviews.comment"].first %>
@@ -76,8 +76,8 @@
                     label: {text: "Add a comment"},
                     class: "govuk-textarea #{"govuk-textarea--error" if committee_decision.errors.any?}"
                   ) %>
-              <% end %>
-            </div>
+            <% end %>
+          <% end %>
         <% end %>
       <% end %>
 

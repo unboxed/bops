@@ -74,11 +74,11 @@
               <p>The applicant will be notified of the new description.</p>
             <% end %>
           <% end %>
-      <% end %>
-        <div class="govuk-button-group">
-          <%= form.govuk_submit @planning_application.application_type.description_change_requires_validation? ? "Update description" : "Save and mark as complete" %>
-          <%= back_link %>
         </div>
+      <% end %>
+      <div class="govuk-button-group">
+        <%= form.govuk_submit @planning_application.application_type.description_change_requires_validation? ? "Update description" : "Save and mark as complete" %>
+        <%= back_link %>
       </div>
     <% end %>
   </div>

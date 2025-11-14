@@ -16,122 +16,124 @@
       <%= t(".review_application_type") %>
     </h1>
 
-    <%= govuk_summary_list(classes: "govuk-summary-list--no-border") do |summary_list|
-          summary_list.with_row do |row|
-            row.with_key { t(".name") }
-            row.with_value { @application_type.description }
-          end
+    <%= govuk_summary_list(classes: "govuk-summary-list--no-border") do |summary_list| %>
+      <% summary_list.with_row do |row|
+           row.with_key { t(".name") }
+           row.with_value { @application_type.description }
+         end %>
 
-          summary_list.with_row do |row|
-            row.with_key { t(".suffix") }
-            row.with_value { @application_type.suffix }
-          end
+      <% summary_list.with_row do |row|
+           row.with_key { t(".suffix") }
+           row.with_value { @application_type.suffix }
+         end %>
 
-          summary_list.with_row do |row|
-            row.with_key { t(".category") }
-            row.with_value { t(".categories.#{@application_type.category}") if @application_type.category? }
-          end
+      <% summary_list.with_row do |row|
+           row.with_key { t(".category") }
+           row.with_value { t(".categories.#{@application_type.category}") if @application_type.category? }
+         end %>
 
-          summary_list.with_row do |row|
-            row.with_key { t(".reporting") }
-            row.with_value { @application_type.reporting_types.join(", ")}
-          end
+      <% summary_list.with_row do |row|
+           row.with_key { t(".reporting") }
+           row.with_value { @application_type.reporting_types.join(", ") }
+         end %>
 
-          summary_list.with_row do |row|
-            row.with_key { t(".legislation") }
-            row.with_value { @application_type.legislation.title if @application_type.legislation }
-          end
+      <% summary_list.with_row do |row|
+           row.with_key { t(".legislation") }
+           row.with_value { @application_type.legislation&.title }
+         end %>
 
-          summary_list.with_row do |row|
-            row.with_key { t(".determination_period") }
-            row.with_value { t(".determination_period_including_bank_holidays", count: @application_type.determination_period_days) if @application_type.determination_period_days }
-            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :determination_period]), visually_hidden_text: t(".determination_period"))
-          end
+      <% summary_list.with_row do |row|
+           row.with_key { t(".determination_period") }
+           row.with_value { t(".determination_period_including_bank_holidays", count: @application_type.determination_period_days) if @application_type.determination_period_days }
+           row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :determination_period]), visually_hidden_text: t(".determination_period"))
+         end %>
 
-          summary_list.with_row do |row|
-            row.with_key { t(".disclaimer") }
-            row.with_value { markdown @application_type.disclaimer }
-            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :disclaimer]), visually_hidden_text: t(".disclaimer"))
-          end
+      <% summary_list.with_row do |row|
+           row.with_key { t(".disclaimer") }
+           row.with_value { markdown @application_type.disclaimer }
+           row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :disclaimer]), visually_hidden_text: t(".disclaimer"))
+         end %>
 
-          summary_list.with_row do |row|
-            row.with_key { t(".features") }
-            row.with_value { %>
-              <p><strong>Application details</strong></p>
-              <ul class="govuk-list govuk-list--bullet">
-                <% application_details_features.each do |field| %>
-                  <% if @application_type.public_send("#{field}?") %>
-                    <li><%= t("application_type_features.labels.#{field}") %></li>
-                  <% end %>
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t(".features") } %>
+        <% row.with_value do %>
+          <p><strong>Application details</strong></p>
+
+          <ul class="govuk-list govuk-list--bullet">
+            <% application_details_features.each do |field| %>
+              <% if @application_type.public_send("#{field}?") %>
+                <li><%= t("application_type_features.labels.#{field}") %></li>
+              <% end %>
+            <% end %>
+          </ul>
+
+          <% if @application_type.consultation? %>
+            <p><strong>Consultation</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+              <% @application_type.consultation_steps.each do |step| %>
+                <li><%= step.humanize %></li>
+              <% end %>
+              <% if @application_type.consultations_skip_bank_holidays? %>
+                <li><%= t("application_type_features.labels.consultations_skip_bank_holidays") %></li>
+              <% end %>
+            </ul>
+          <% end %>
+
+          <% if @application_type.appeals? %>
+            <p><strong>Appeals</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li><%= t("application_type_features.labels.appeals") %></li>
+            </ul>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% @application_type.document_tags.tag_groups.each do |group| %>
+        <% summary_list.with_row do |row| %>
+          <% row.with_key { t(".groups.#{group}") } %>
+          <% row.with_value do %>
+            <% if group.translated_tags.empty? %>
+              N/A
+            <% else %>
+              <p class="max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
+                <% group.translated_tags.each do |tag| %>
+                  <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
                 <% end %>
-              </ul>
+              </p>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
 
-              <% if @application_type.consultation? %>
-                <p><strong>Consultation</strong></p>
-                <ul class="govuk-list govuk-list--bullet">
-                  <% @application_type.consultation_steps.each do |step| %>
-                    <li><%= step.humanize %></li>
-                  <% end %>
-                  <% if @application_type.consultations_skip_bank_holidays? %>
-                    <li><%= t("application_type_features.labels.consultations_skip_bank_holidays") %></li>
-                  <% end %>
-                </ul>
+      <% summary_list.with_row do |row|
+           row.with_key { t(".decisions") }
+           row.with_value { @application_type.decisions.map(&:humanize).join(", ") }
+         end %>
+
+      <% summary_list.with_row do |row|
+           row.with_key { t(".status") }
+           row.with_value { govuk_tag(text: @application_type.status.humanize, colour: tag_colour(@application_type.status)) }
+         end %>
+
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t(".requirements") } %>
+        <% row.with_value do %>
+          <% if @requirements.empty? %>
+            N/A
+          <% else %>
+            <ul class="govuk-list govuk-list--bullet">
+              <% @requirements.each do |requirement| %>
+                <li><%= requirement.description %></li>
               <% end %>
+            </ul>
+          <% end %>
+        <% end %>
 
-              <% if @application_type.appeals? %>
-                <p><strong>Appeals</strong></p>
-                <ul class="govuk-list govuk-list--bullet">
-                  <li><%= t("application_type_features.labels.appeals") %></li>
-                </ul>
-              <% end %>
-            <% }
-          end
+        <% row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :requirements]), visually_hidden_text: t(".requirements")) %>
+      <% end %>
+    <% end %>
 
-          @application_type.document_tags.tag_groups.each do |group|
-            summary_list.with_row do |row|
-              row.with_key { t(".groups.#{group}") }
-              row.with_value { %>
-                <% if group.translated_tags.empty? %>
-                  N/A
-                <% else %>
-                  <p class="max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
-                    <% group.translated_tags.each do |tag| %>
-                      <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
-                    <% end %>
-                  </p>
-                <% end %>
-              <% }
-            end
-          end
-
-          summary_list.with_row do |row|
-            row.with_key { t(".decisions") }
-            row.with_value { @application_type.decisions.map(&:humanize).join(", ") }
-          end
-
-          summary_list.with_row do |row|
-            row.with_key { t(".status") }
-            row.with_value { govuk_tag(text: @application_type.status.humanize, colour: tag_colour(@application_type.status)) }
-          end
-
-          summary_list.with_row do |row|
-            row.with_key { t(".requirements") }
-            row.with_value { %>
-              <% if @requirements.empty? %>
-                N/A
-              <% else %>
-                <ul class="govuk-list govuk-list--bullet">
-                  <% @requirements.each do |requirement| %>
-                    <li><%= requirement.description %></li>
-                  <% end %>
-                </ul>
-              <% end %>
-            <% }
-            row.with_action(text: t(".change"), href: url_for([:edit, @application_type, :requirements]), visually_hidden_text: t(".requirements"))
-          end
-        end %>
     <div class="govuk-button-group">
-      <%= govuk_button_link_to t(".back"), :application_types %>
+      <%= govuk_button_link_to t(".back"), :application_types %></div>
     </div>
-  </div>
 </div>
