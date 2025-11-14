@@ -30,6 +30,9 @@ en:
         choose-application-type:
           failure: Failed to save recommended application type
           success: Recommended application type was successfully chosen
+        meeting:
+          failure: Failed to save meeting
+          success: Meeting successfully recorded
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated
