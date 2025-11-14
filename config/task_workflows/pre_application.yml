@@ -20,7 +20,7 @@
         - name: Site visit
           legacy_url: ""
         - name: Meeting
-          legacy_url: planning_application_assessment_meetings
+          legacy_url: ""
     - name: Assessment summaries
       section: Assessment summaries
       tasks:

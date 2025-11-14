@@ -1,0 +1,57 @@
+<%= render "shared/task_header", task: @task %>
+
+<% if @planning_application.meetings.present? %>
+  <table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--m">
+      Meeting history
+    </caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Meeting date</th>
+        <th scope="col" class="govuk-table__header">Case officer</th>
+        <th scope="col" class="govuk-table__header">Notes (optional)</th>
+      </tr>
+    </thead>
+    <% @planning_application.meetings.all.find_each do |meeting| %>
+      <% if meeting.persisted? %>
+        <%= render "planning_applications/assessment/meetings/overview", meeting: meeting %>
+      <% end %>
+    <% end %>
+  </table>
+<% end %>
+
+<% unless @planning_application.determined? %>
+  <details
+    class="govuk-details govuk-!-padding-top-5"
+    data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">Add a new meeting</span>
+    </summary>
+    <div class="govuk-details__text" id="add-meeting-details">
+      <%= form_with(
+            model: @planning_application.meetings.new,
+            class: "govuk-!-margin-top-5",
+            url: main_app.planning_application_assessment_meetings_path(@planning_application, @meeting),
+            method: :post
+          ) do |form| %>
+        <%= form.govuk_date_field(:occurred_at, rows: 6, legend: {text: "Meeting date"}) %>
+
+        <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Add notes (optional)"}) %>
+
+        <%= form.hidden_field :return_to, value: task_path(@planning_application, @task) %>
+
+        <div class="govuk-button-group">
+          <%= form.submit "Add meeting", class: "govuk-button govuk-button--secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </details>
+<% end %>
+
+<%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
+  <div class="govuk-button-group">
+    <%= form.submit "Save", class: "govuk-button" %>
+
+    <%= govuk_button_link_to "Back", main_app.planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+  </div>
+<% end %>
