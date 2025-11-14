@@ -22,11 +22,11 @@ module PlanningApplications
         respond_to do |format|
           if @planning_application.add_requirements(@new_requirements)
             format.html do
-              redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
+              redirect_to redirect_path, notice: t(".success")
             end
           else
             format.html do
-              redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".failure")
+              redirect_to redirect_path, notice: t(".failure")
             end
           end
         end
@@ -42,7 +42,7 @@ module PlanningApplications
         respond_to do |format|
           if @requirement.update(requirement_params)
             format.html do
-              redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
+              redirect_to redirect_path, notice: t(".success")
             end
           else
             format.html { render :edit }
@@ -54,11 +54,11 @@ module PlanningApplications
         respond_to do |format|
           if @requirement.destroy
             format.html do
-              redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
+              redirect_to redirect_path, notice: t(".success")
             end
           else
             format.html do
-              redirect_to planning_application_assessment_requirements_path(@planning_application), alert: t(".failure")
+              redirect_to redirect_path, alert: t(".failure")
             end
           end
         end
@@ -94,8 +94,12 @@ module PlanningApplications
         @new_requirements = current_local_authority.requirements.find(new_requirement_ids)
 
         if @new_requirements.empty?
-          redirect_to planning_application_assessment_requirements_path(@planning_application), alert: t(".missing")
+          redirect_to redirect_path, alert: t(".missing")
         end
+      end
+
+      def redirect_path
+        params[:redirect_to].presence || planning_application_assessment_requirements_path(@planning_application)
       end
     end
   end
