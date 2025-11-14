@@ -18,6 +18,9 @@ en:
               view_site_on_map: View site on Google Maps
               warning: This information WILL be made publicly available.
       update:
+        check-and-add-requirements:
+          failure: Failed to save requirements
+          success: Requirements were successfully saved
         check-application-details:
           failure: Failed to save application details
           success: Application details were successfully updated
@@ -30,9 +33,6 @@ en:
         choose-application-type:
           failure: Failed to save recommended application type
           success: Recommended application type was successfully chosen
-        check-and-add-requirements:
-          failure: Failed to save requirements
-          success: Requirements were successfully saved
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated

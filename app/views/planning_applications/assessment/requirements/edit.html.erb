@@ -16,7 +16,9 @@
       <%= @requirement.description %>
     </h2>
 
-    <%= form_with model: @requirement, scope: "requirement", url: planning_application_assessment_requirement_path(@planning_application, @requirement, redirect_to: params[:redirect_to]), method: :patch do |form| %>
+    <%= form_with model: @requirement, scope: "requirement", url: planning_application_assessment_requirement_path(@planning_application, @requirement), method: :patch do |form| %>
+      <%= hidden_field_tag :redirect_to, params[:redirect_to] if params[:redirect_to].present? %>
+
       <%= form.govuk_text_field :url,
             label: {text: "Guidelines URL"},
             placeholder: "No URL provided" %>
