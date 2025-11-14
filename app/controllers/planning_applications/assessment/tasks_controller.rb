@@ -3,10 +3,15 @@
 module PlanningApplications
   module Assessment
     class TasksController < BaseController
+      BLOCKED_SIDEBAR_EMAILS = %w[
+        martyn.evans+demo_southwark_assessor@unboxedconsulting.com
+        martyn.evans+demo_southwark_reviewer@unboxedconsulting.com
+      ].freeze
+
       before_action :redirect_to_reference_url
 
       def index
-        @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout
+        @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout && !BLOCKED_SIDEBAR_EMAILS.include?(current_user&.email)
           @planning_application.case_record.tasks.find_by(section: "Assessment")
         end
 
