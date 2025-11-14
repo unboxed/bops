@@ -57,7 +57,7 @@ lint:
 	$(DOCKER-RUN) console rake rubocop biome herb:lint erb_lint prettier
 
 lint-auto-correct:
-	$(DOCKER-RUN) console rake rubocop:fix biome:fix erb_lint:fix prettier:fix
+	$(DOCKER-RUN) console rake rubocop:fix biome:fix herb:lint:fix erb_lint:fix prettier:fix
 
 lint-locales:
 	$(DOCKER-RUN) console i18n-tasks normalize
