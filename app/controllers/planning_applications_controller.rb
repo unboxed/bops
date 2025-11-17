@@ -89,7 +89,10 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.update(validated_at: @planning_application.valid_from_date)
 
     if @planning_application.pre_application?
-      redirect_to planning_application_validation_tasks_path(@planning_application)
+      @planning_application.start!
+      @planning_application.send_validation_notice_mail
+
+      redirect_to @planning_application, notice: t(".success")
     else
       respond_to do |format|
         format.html

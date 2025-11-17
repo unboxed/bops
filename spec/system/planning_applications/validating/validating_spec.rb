@@ -191,7 +191,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link "Send validation decision"
         click_link "Mark the application as valid"
 
-        expect(page).to have_current_path("/planning_applications/#{pre_app_planning_application.reference}/validation/tasks")
+        expect(page).to have_current_path("/planning_applications/#{pre_app_planning_application.reference}")
+
+        expect(page).to have_content(
+          "Application is ready for assessment and an email notification has been sent."
+        )
       end
     end
   end
