@@ -178,6 +178,22 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(page).to have_content("Application is ready for assessment")
       end
     end
+
+    context "when is pre app" do
+      let!(:pre_app_planning_application) do
+        create(:planning_application, :pre_application, :not_started, local_authority: default_local_authority)
+      end
+
+      it "redirects to validation tasks after marking the application as valid" do
+        visit "/planning_applications/#{pre_app_planning_application.reference}"
+
+        click_link "Check and validate"
+        click_link "Send validation decision"
+        click_link "Mark the application as valid"
+
+        expect(page).to have_current_path("/planning_applications/#{pre_app_planning_application.reference}/validation/tasks")
+      end
+    end
   end
 
   context "when application has been invalidated" do

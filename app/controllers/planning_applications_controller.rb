@@ -87,6 +87,14 @@ class PlanningApplicationsController < AuthenticationController
 
   def confirm_validation
     @planning_application.update(validated_at: @planning_application.valid_from_date)
+
+    if @planning_application.pre_application?
+      redirect_to planning_application_validation_tasks_path(@planning_application)
+    else
+      respond_to do |format|
+        format.html
+      end
+    end
   end
 
   def validate
