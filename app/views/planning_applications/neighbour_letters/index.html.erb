@@ -57,16 +57,16 @@
 
       <div class="govuk-button-group govuk-!-margin-top-5 align-buttons">
         <%= form.submit "Confirm and send letters", class: "govuk-button govuk-button--primary", style: "margin-inline-end: 1rem;" %>
+      </div>
     <% end %>
 
-      <%= form_with(
-            model: @consultation,
-            url: planning_application_consultation_path(@planning_application)
-          ) do |form| %>
-        <%= form.hidden_field :neighbour_letter_text %>
-        <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: {module: "govuk-button"} %>
-        <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true %>
-      <% end %>
-    </div>
+    <%= form_with(
+          model: @consultation,
+          url: planning_application_consultation_path(@planning_application)
+        ) do |form| %>
+      <%= form.hidden_field :neighbour_letter_text %>
+      <%= form.submit "Save and come back later", class: "govuk-button govuk-button--secondary", data: {module: "govuk-button"} %>
+      <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true %>
+    <% end %>
   </div>
 </div>

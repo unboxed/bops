@@ -18,8 +18,7 @@
     <%= form_with model: [@planning_application, :assessment, @assessment_detail] do |form| %>
       <%= form.govuk_error_summary %>
 
-      <% NeighbourResponse::TAGS.each_with_index do |tag, index| %>
-        <% next if @neighbour_responses.select { |response| response.tags.include? tag.to_s }.none? %>
+      <% NeighbourResponse::TAGS.select { |tag| @neighbour_responses.any? { |response| response.tags.include? tag.to_s } }.each_with_index do |tag, index| %>
         <%= govuk_accordion(html_attributes: {id: "neighbour-response-accordion"}) do |accordion| %>
           <% accordion.with_section(heading_text: "#{tag.to_s.humanize} responses (#{@neighbour_responses.count { |response| response.tags.include? tag.to_s }})") do %>
             <% @neighbour_responses.select { |response| response.tags.include? tag.to_s }.group_by { |response| response.summary_tag }.each do |opinion, resp| %>
