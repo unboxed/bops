@@ -17,6 +17,23 @@ en:
               heading: Description of the site
               view_site_on_map: View site on Google Maps
               warning: This information WILL be made publicly available.
+          summary-of-advice:
+            edit:
+              complies: Likely to be supported
+              complies_recommended_html: Likely to be supported <strong>(recommended based on considerations)</strong>
+              does_not_comply: Unlikely to be supported
+              does_not_comply_recommended_html: Unlikely to be supported <strong>(recommended based on considerations)</strong>
+              label: Enter summary of planning considerations and advice. This should summarise any changes the applicant needs to make before they make an application.
+              needs_changes: Likely to be supported with changes
+              needs_changes_recommended_html: Likely to be supported with changes <strong>(recommended based on considerations)</strong>
+            show:
+              complies: Likely to be supported
+              complies_recommended_html: Likely to be supported <strong>(recommended based on considerations)</strong>
+              does_not_comply: Unlikely to be supported
+              does_not_comply_recommended_html: Unlikely to be supported <strong>(recommended based on considerations)</strong>
+              label: Enter summary of planning considerations and advice. This should summarise any changes the applicant needs to make before they make an application.
+              needs_changes: Likely to be supported with changes
+              needs_changes_recommended_html: Likely to be supported with changes <strong>(recommended based on considerations)</strong>
       update:
         check-and-add-requirements:
           failure: Failed to save requirements
@@ -42,3 +59,6 @@ en:
         site-visit:
           failure: Failed to save site visit
           success: Site visit successfully recorded
+        summary-of-advice:
+          failure: Failed to save summary of advice
+          success: Summary of advice successfully updated

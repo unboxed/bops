@@ -31,7 +31,7 @@
         - name: Suggest heads of terms
           legacy_url: planning_application_assessment_terms
         - name: Summary of advice
-          legacy_url: planning_application_assessment_summary_of_advice
+          legacy_url: ""
     - name: Complete assessment
       section: Complete assessment
       tasks:
