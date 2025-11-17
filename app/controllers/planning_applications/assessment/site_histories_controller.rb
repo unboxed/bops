@@ -44,6 +44,8 @@ module PlanningApplications
           format.html do
             if @site_history.save
               redirect_to submission_redirect_path, notice: t(".success")
+            elsif return_to
+              redirect_to return_to, alert: t(".failure")
             else
               render :index
             end
@@ -56,6 +58,8 @@ module PlanningApplications
           format.html do
             if @site_history.destroy
               redirect_to submission_redirect_path, notice: t(".success")
+            elsif return_to
+              redirect_to return_to, alert: t(".failure")
             else
               render :index
             end
@@ -68,6 +72,8 @@ module PlanningApplications
           format.html do
             if @site_history.update(planning_history_params)
               redirect_to submission_redirect_path, notice: t(".success")
+            elsif return_to
+              redirect_to return_to, alert: t(".failure")
             else
               render :edit
             end
@@ -98,7 +104,11 @@ module PlanningApplications
       end
 
       def submission_redirect_path
-        params[:return_to].presence || planning_application_assessment_site_histories_path(@planning_application)
+        return_to || planning_application_assessment_site_histories_path(@planning_application)
+      end
+
+      def return_to
+        @return_to ||= params[:return_to].presence
       end
     end
   end
