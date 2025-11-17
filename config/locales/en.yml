@@ -1674,6 +1674,7 @@ en:
         update:
           success: Head of terms was successfully updated
     confirm_validation:
+      success: Application is ready for assessment and an email notification has been sent.
       validate_application: Validate application
     consultation_requirements:
       back: Back
