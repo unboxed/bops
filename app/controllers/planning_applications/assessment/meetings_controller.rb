@@ -25,13 +25,15 @@ module PlanningApplications
 
       def create
         respond_to do |format|
-          if @meeting.update(meeting_params)
-            format.html do
+          format.html do
+            if @meeting.update(meeting_params)
               redirect_to redirect_path, notice: t(".success")
+            elsif return_to
+              redirect_to redirect_path, alert: t(".failure")
+            else
+              set_planning_application_meetings
+              render :index
             end
-          else
-            set_planning_application_meetings
-            format.html { render :index }
           end
         end
       end
@@ -53,7 +55,11 @@ module PlanningApplications
       end
 
       def redirect_path
-        params.dig(:meeting, :return_to).presence || report_path_or(planning_application_assessment_meetings_path)
+        return_to || report_path_or(planning_application_assessment_meetings_path)
+      end
+
+      def return_to
+        @return_to ||= params.dig(:meeting, :return_to).presence
       end
     end
   end
