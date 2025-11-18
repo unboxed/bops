@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Site description task", type: :system do
+RSpec.describe "Check consultees", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
   let(:user) { create(:user, local_authority:) }
