@@ -1,7 +1,12 @@
 <% if current_user.assessor_or_reviewer? %>
   <%= render(partial: "bops_reports/planning_applications/events", locals: {recommendations: @planning_application.recommendations.reviewed}) %>
 
-  <%= form_with(model: @recommendation, url: planning_application_recommendation_path(@planning_application), method: :post, id: "recommendation-review-form") do |form| %>
+  <%= form_with(
+        model: @recommendation,
+        url: planning_application_recommendation_path(@planning_application, origin: params[:origin]),
+        method: :post,
+        id: "recommendation-review-form"
+      ) do |form| %>
     <% if @planning_application.to_be_reviewed? %>
       <%= form.govuk_text_area(:assessor_comment, label: {text: t(".assessor_comment")}, hint: {text: t(".explanation")}) %>
     <% else %>

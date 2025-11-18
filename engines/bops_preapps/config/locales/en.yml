@@ -56,6 +56,9 @@ en:
         planning-considerations-and-advice:
           failure: Failed to save confirmation of considerations and advice
           success: Considerations and advice were successfully confirmed
+        review-and-submit-pre-application:
+          failure: Failed to submit pre-application
+          success: Pre-application was successfully submitted
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated
