@@ -3,7 +3,7 @@
 }
 
 body:has(.bops-fullwidth-container) {
-  --sidebar-width: 300px;
+  $sidebar-width: 300px;
 
   height: 100vh;
   margin: 0;
@@ -13,7 +13,7 @@ body:has(.bops-fullwidth-container) {
 
   .bops-fullwidth-container {
     display: grid;
-    grid-template-columns: var(--sidebar-width) 1fr;
+    grid-template-columns: $sidebar-width 1fr;
     overflow: hidden;
     height: 100%;
 
@@ -32,6 +32,27 @@ body:has(.bops-fullwidth-container) {
   .bops-fullwidth-container:has(.bops-sidebar) {
     main {
       grid-column: 2;
+    }
+  }
+
+  @media (min-width: 1160px) {
+    .govuk-width-container {
+      margin-right: 30px;
+      margin-left: 30px;
+    }
+
+    @supports (margin: max(calc(0px))) {
+      .govuk-width-container {
+        margin-right: max(30px, calc(15px + env(safe-area-inset-right)));
+        margin-left: max(30px, calc(15px + env(safe-area-inset-left)));
+      }
+    }
+  }
+
+  @media (min-width: calc($sidebar-width + 1160px)) {
+    .govuk-width-container {
+      margin-right: auto;
+      margin-left: auto;
     }
   }
 }
