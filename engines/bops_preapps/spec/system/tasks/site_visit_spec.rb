@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Site visit", type: :system, capybara: true do
+RSpec.describe "Site visit", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
   let(:user) { create(:user, local_authority:) }
