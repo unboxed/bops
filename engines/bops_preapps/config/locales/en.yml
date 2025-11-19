@@ -17,6 +17,10 @@ en:
               heading: Description of the site
               view_site_on_map: View site on Google Maps
               warning: This information WILL be made publicly available.
+          suggest-heads-of-terms:
+            show:
+              drag_and_drop: Drag and drop heads of terms to change the order that they appear in the decision notice.
+              preapp_reminder: Heads of terms can be added for pre-applications, but no email will be sent to the applicant.
           summary-of-advice:
             edit:
               complies: Likely to be supported
@@ -62,6 +66,8 @@ en:
         site-visit:
           failure: Failed to save site visit
           success: Site visit successfully recorded
+        suggest-heads-of-terms:
+          success: Head of terms have been confirmed
         summary-of-advice:
           failure: Failed to save summary of advice
           success: Summary of advice successfully updated

@@ -1,4 +1,6 @@
 <%= form_with model: [@planning_application, @term], url: url do |form| %>
+  <%= hidden_field_tag :redirect_to, params[:redirect_to] if params[:redirect_to].present? %>
+
   <fieldset class="govuk-fieldset govuk-!-margin-top-3">
     <legend class="govuk-fieldset__legend">
       <h2 class="govuk-heading-s">
@@ -19,7 +21,7 @@
       <%= form.govuk_submit(t("form_actions.term.add"), class: "govuk-button--secondary") %>
     <% else %>
       <%= form.govuk_submit(t("form_actions.term.update")) do %>
-        <%= govuk_button_link_to "Back", planning_application_assessment_terms_path, secondary: true %>
+        <%= govuk_button_link_to "Back", params[:redirect_to].presence || planning_application_assessment_terms_path(@planning_application), secondary: true %>
       <% end %>
     <% end %>
   </fieldset>
