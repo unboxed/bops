@@ -34,7 +34,7 @@
     <% else %>
       <% task_list.with_item(
            title: "View recommendation",
-           href: (@planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?) && view_recommendation_planning_application_path(@planning_application),
+           href: (@planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?) && planning_application_recommendation_path(@planning_application),
            html_attributes: {aria: {describedby: "review_assessment-completed"}}
          ) do |item| %>
         <% if @planning_application.awaiting_determination? || @planning_application.closed_or_cancelled? %>
@@ -47,7 +47,7 @@
 
     <% task_list.with_item(
          title: "Publish determination",
-         href: (@planning_application.ready_to_publish? || @planning_application.publish_complete?) && current_user.reviewer? && publish_planning_application_path(@planning_application),
+         href: (@planning_application.ready_to_publish? || @planning_application.publish_complete?) && current_user.reviewer? && planning_application_visibility_path(@planning_application),
          html_attributes: {aria: {describedby: "publish_completed"}}
        ) do |item| %>
       <% item.with_status(text: render(StatusTags::PublishDeterminationComponent.new(planning_application: @planning_application, user: current_user))) %>

@@ -42,7 +42,7 @@
 
     <% if @planning_application.can_publish? %>
       <p>
-        Public on BOPS Public Portal: <strong><%= @planning_application.make_public? ? "Yes" : "No" %></strong><span class="assignment_cta"><%= govuk_link_to "Change", make_public_planning_application_path(@planning_application) %></span>
+        Public on BOPS Public Portal: <strong><%= @planning_application.make_public? ? "Yes" : "No" %></strong><span class="assignment_cta"><%= govuk_link_to "Change", new_planning_application_visibility_path(@planning_application) %></span>
       </p>
     <% end %>
 

@@ -16,7 +16,7 @@
     <p>
       When all parts of the application have been checked and are correct, mark the application as valid.
     </p>
-    <%= form_with model: @planning_application, url: validate_planning_application_path(@planning_application), local: true do |form| %>
+    <%= form_with model: @planning_application, url: planning_application_validation_path(@planning_application), method: :post, local: true do |form| %>
       <%= render ErrorSummaryComponent.new(errors: @planning_application.errors) %>
 
       <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">Valid from</legend>

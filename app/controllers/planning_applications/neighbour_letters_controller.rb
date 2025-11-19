@@ -98,7 +98,7 @@ module PlanningApplications
     def ensure_public_portal_is_active
       return if @planning_application.make_public?
 
-      flash.now[:alert] = t(".make_public_html", href: make_public_planning_application_path(@planning_application))
+      flash.now[:alert] = t(".make_public_html", href: new_planning_application_visibility_path(@planning_application))
       render :index and return
     end
 
@@ -162,7 +162,7 @@ module PlanningApplications
     end
 
     def redirect_to_application_page
-      redirect_to make_public_planning_application_path(@planning_application), alert: t(".make_public")
+      redirect_to new_planning_application_visibility_path(@planning_application), alert: t(".make_public")
     end
 
     def public_or_preapp?

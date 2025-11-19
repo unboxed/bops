@@ -15,19 +15,20 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render(
-          partial: "submit_recommendation_accordion",
+          partial: "planning_applications/submit_recommendation_accordion",
           locals: {planning_application: @planning_application}
         ) %>
     <h2><%= t(".decision_notice") %></h2>
     <p><%= t(".the_following_decision", report_or_notice: report_or_notice?(@planning_application)) %></p>
-    <%= render "decision_notice", planning_application: @planning_application %>
+    <%= render "planning_applications/decision_notice", planning_application: @planning_application %>
     <h2><%= t(".submit_recommendation") %></h2>
     <p><%= t(".if_you_agree", report_or_notice: report_or_notice?(@planning_application)) %></p>
     <p><%= t(".if_your_manager") %></p>
     <div class="govuk-button-group">
       <%= form_with(
             model: @planning_application,
-            url: submit_planning_application_path(@planning_application)
+            url: planning_application_recommendation_path(@planning_application),
+            method: :post
           ) do |form| %>
         <%= form.govuk_error_summary %>
         <%= form.govuk_submit(t(".submit_recommendation")) %>
