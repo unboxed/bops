@@ -1,32 +1,38 @@
 <div data-controller="consideration-form">
-  <%= form_with model: @consideration, url: form_url, method: form_method do |form| %>
+  <%= form_with(
+        model: @form.consideration,
+        url: form_url,
+        method: form_method
+      ) do |form| %>
     <%= form.govuk_fieldset legend: {text: nil} do %>
       <div class="govuk-form-group">
-        <% if action_name.eql?("edit") %>
-          <p class="govuk-body-s"><strong><%= @consideration.proposal %></strong></p>
-        <% end %>
-
-        <% if params[:return_to].present? %>
-          <%= form.hidden_field :return_to, value: params[:return_to] %>
-        <% end %>
-
         <%= form.hidden_field :draft, value: false %>
         <%= form.hidden_field :policy_area, value: policy_area %>
+        <%= form.hidden_field :return_to, value: task_path(@planning_application, @task) %>
         <%= form.govuk_text_field :proposal, label: {text: "Enter element of proposal"} %>
+
         <%= form.govuk_text_field :policy_references,
               label: {text: "Enter policy references"},
               hint: {text: "Start typing to find an existing policy reference"},
               form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyReferencesContainer"}},
               data: {consideration_form_target: "policyReferencesInput"} %>
 
-        <ul class="govuk-list editable-list" data-consideration-form-target="policyReferences">
+        <ul
+          class="govuk-list editable-list"
+          data-consideration-form-target="policyReferences">
           <%= form.fields :policy_references do |fields| %>
             <li>
               <%= fields.hidden_field :code %>
               <%= fields.hidden_field :description %>
               <%= fields.hidden_field :url %>
               <span><%= fields.object.code %> - <%= fields.object.description %></span>
-              <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyReference">Remove</button>
+
+              <button
+                type="button"
+                class="button-as-link"
+                data-action="click->consideration-form#removePolicyReference">
+                Remove
+              </button>
             </li>
           <% end %>
         </ul>
@@ -34,10 +40,18 @@
         <template data-consideration-form-target="policyReferenceTemplate">
           <li>
             <input type="hidden" name="code" value="">
+
             <input type="hidden" name="description" value="">
+
             <input type="hidden" name="url" value="">
             <span>Code - Description</span>
-            <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyReference">Remove</button>
+
+            <button
+              type="button"
+              class="button-as-link"
+              data-action="click->consideration-form#removePolicyReference">
+              Remove
+            </button>
           </li>
         </template>
       </div>
@@ -45,23 +59,13 @@
 
     <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Status", size: "s"}, small: true do %>
       <% Consideration.summary_tags.each do |label, value| %>
-        <% input_id = index ? "consideration_#{index}_summary_tag_#{value}" : nil %>
+        <% input_id = (!index.nil?) ? "consideration_#{index}_summary_tag_#{value}" : nil %>
         <%= form.govuk_radio_button :summary_tag, value, id: input_id, label: {text: label.humanize, for: input_id} %>
       <% end %>
     <% end %>
 
     <%= form.govuk_rich_text_area :advice, input: "consideration_#{index}_advice" %>
 
-    <% if action_name.eql?("edit") %>
-      <%= form.govuk_submit("Save advice", class: "govuk-!-margin-bottom-2") do %>
-        <% if params[:return_to].present? %>
-          <%= govuk_button_link_to(t("back"), params[:return_to], secondary: true) %>
-        <% else %>
-          <%= govuk_button_link_to(t("back"), planning_application_assessment_consideration_guidances_path(@planning_application), secondary: true) %>
-        <% end %>
-      <% end %>
-    <% else %>
-      <%= form.govuk_submit("Save advice", secondary: true, class: "govuk-!-margin-bottom-2") %>
-    <% end %>
+    <%= form.govuk_submit("Save advice", secondary: true, class: "govuk-!-margin-bottom-2") %>
   <% end %>
 </div>

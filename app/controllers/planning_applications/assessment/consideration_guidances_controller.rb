@@ -31,7 +31,9 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @consideration.update(consideration_params, :advice)
-              redirect_to planning_application_assessment_consideration_guidances_path(@planning_application), notice: t(".success")
+              redirect_to return_path, notice: t(".success")
+            elsif param_return_to
+              redirect_to param_return_to, alert: t(".failure")
             else
               set_consultee_responses
               render :index
@@ -45,6 +47,8 @@ module PlanningApplications
           format.html do
             if @consideration.update(consideration_params, :advice)
               redirect_to return_path, notice: t(".success")
+            elsif param_return_to
+              redirect_to param_return_to, alert: t(".failure")
             else
               set_consultee_responses
               render :edit
@@ -57,7 +61,9 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @consideration.destroy
-              redirect_to planning_application_assessment_consideration_guidances_path(@planning_application), notice: t(".success")
+              redirect_to return_path, notice: t(".success")
+            elsif param_return_to
+              redirect_to param_return_to, alert: t(".failure")
             else
               set_consultee_responses
               render :index
@@ -102,8 +108,16 @@ module PlanningApplications
         )
       end
 
-      def return_path
+      def param_return_to
+        @param_return_to ||= params[:return_to].presence || params.dig(:consideration, :return_to).presence
+      end
+
+      def report_return_path
         report_path_or(planning_application_assessment_consideration_guidances_path(@planning_application))
+      end
+
+      def return_path
+        param_return_to || report_return_path
       end
     end
   end

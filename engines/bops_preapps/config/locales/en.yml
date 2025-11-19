@@ -53,6 +53,9 @@ en:
         meeting:
           failure: Failed to save meeting
           success: Meeting successfully recorded
+        planning-considerations-and-advice:
+          failure: Failed to save confirmation of considerations and advice
+          success: Considerations and advice were successfully confirmed
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated
