@@ -8,7 +8,7 @@ module BopsReports
 
     def editing_enabled?
       current_user.present? &&
-        !applicant_view? &&
+        !applicant_view? && params[:origin] != "review_and_submit_pre_application" &&
         !@planning_application.determined?
     end
   end

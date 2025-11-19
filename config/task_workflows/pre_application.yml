@@ -40,6 +40,6 @@
         - name: Check and add requirements
           legacy_url: ""
         - name: Review and submit pre-application
-          legacy_url: submit_recommendation_planning_application
+          legacy_url: ""
 - name: "View recommendation"
   section: "Review"
