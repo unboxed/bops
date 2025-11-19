@@ -251,7 +251,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
       expect(page).to have_content(planning_application.public_comment)
 
       click_link "Edit information on the decision notice"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/edit_public_comment")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/public_comment/edit")
 
       expect(page).to have_content("Edit the information appearing on the decision notice")
       expect(page).to have_content("The planning officer recommends that the application is granted")
@@ -289,7 +289,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
 
     it "as an assessor I am unable to edit" do
       sign_in assessor
-      visit "/planning_applications/#{planning_application.reference}/edit_public_comment"
+      visit "/planning_applications/#{planning_application.reference}/public_comment/edit"
 
       expect(page).to have_content("forbidden")
 

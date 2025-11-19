@@ -12,7 +12,7 @@ RSpec.describe Reviewing::Tasks::ButtonGroupComponent, type: :component do
     render_inline(described_class.new(planning_application: pa))
 
     expect(page).not_to have_link("Review and publish decision",
-      href: publish_planning_application_path(pa))
+      href: planning_application_publication_path(pa))
     expect(page).to have_link("Back",
       href: planning_application_path(pa))
   end
@@ -27,7 +27,7 @@ RSpec.describe Reviewing::Tasks::ButtonGroupComponent, type: :component do
     render_inline(described_class.new(planning_application: rec.planning_application))
 
     expect(page).not_to have_link("Review and publish decision",
-      href: publish_planning_application_path(rec.planning_application))
+      href: planning_application_publication_path(rec.planning_application))
     expect(page).to have_link("Back",
       href: planning_application_path(rec.planning_application))
   end
@@ -43,7 +43,7 @@ RSpec.describe Reviewing::Tasks::ButtonGroupComponent, type: :component do
     render_inline(described_class.new(planning_application: rec.planning_application))
 
     expect(page).to have_link("Review and publish decision",
-      href: publish_planning_application_path(rec.planning_application))
+      href: planning_application_publication_path(rec.planning_application))
     expect(page).to have_link("Back",
       href: planning_application_path(rec.planning_application))
   end

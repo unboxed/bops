@@ -7,7 +7,7 @@
       locals: {heading: t(".review_and_publish_determination")}
     ) do %>
   <%= render(
-        partial: "submit_recommendation_accordion",
+        partial: "planning_applications/submit_recommendation_accordion",
         locals: {planning_application: @planning_application}
       ) %>
   <% content_for :title, "Publish the recommendation" %>
@@ -15,13 +15,14 @@
   <h2>Decision notice</h2>
   <p>The following decision notice was created based on the planning officer's recommendation and comment. You can review and publish it.</p>
 
-  <%= render "decision_notice", planning_application: @planning_application %>
+  <%= render "planning_applications/decision_notice", planning_application: @planning_application %>
 
   <% if @planning_application.awaiting_determination? %>
     <p>By determining the application, the applicant will receive this decision notice. The decision notice will also be made publicly available. </p>
 
     <%= form_with model: @planning_application,
-          url: determine_planning_application_path(@planning_application) do |form| %>
+          url: planning_application_publication_path(@planning_application),
+          method: :post do |form| %>
 
       <%= form.govuk_error_summary %>
 

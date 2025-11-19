@@ -66,7 +66,7 @@ module PlanningApplications
     end
 
     def redirect_to_application_page
-      redirect_to make_public_planning_application_path(@planning_application), alert: t(".make_public")
+      redirect_to new_planning_application_publication_path(@planning_application), alert: t(".make_public")
     end
 
     def public_or_preapp?

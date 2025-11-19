@@ -60,23 +60,16 @@ local_authority_subdomain do
 
   resources :planning_applications, param: :reference, except: %i[destroy] do
     member do
-      get :confirm_validation
-      patch :validate
-      patch :invalidate
-      get :submit_recommendation
-      get :view_recommendation
-      patch :submit
-      patch :withdraw_recommendation
-      patch :assess
-      get :edit_public_comment
-      get :publish
-      patch :determine
       get :decision_notice
       get :validation_notice
       get :validation_decision
       get :supply_documents
-      get :make_public
     end
+
+    resource :validation, only: %i[show create destroy], controller: "planning_applications/validations"
+    resource :recommendation, only: %i[new show create destroy], controller: "planning_applications/recommendations"
+    resource :publication, only: %i[new show create], controller: "planning_applications/publications"
+    resource :public_comment, only: %i[edit update], controller: "planning_applications/public_comments"
 
     resources :documents, except: %i[destroy show] do
       get :archive
