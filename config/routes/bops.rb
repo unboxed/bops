@@ -60,22 +60,11 @@ local_authority_subdomain do
 
   resources :planning_applications, param: :reference, except: %i[destroy] do
     member do
-      get :confirm_validation
-      patch :validate
-      patch :invalidate
-      get :submit_recommendation
-      get :view_recommendation
-      patch :submit
-      patch :withdraw_recommendation
       patch :assess
-      get :edit_public_comment
-      get :publish
-      patch :determine
       get :decision_notice
       get :validation_notice
       get :validation_decision
       get :supply_documents
-      get :make_public
     end
 
     resources :documents, except: %i[destroy show] do
@@ -88,6 +77,11 @@ local_authority_subdomain do
     resources :audits, only: :index
 
     scope module: :planning_applications do
+      resource :validation, only: %i[show create destroy]
+      resource :recommendation, only: %i[new show create destroy]
+      resource :visibility, only: %i[new show create]
+      resource :public_comment, only: %i[edit update]
+
       resource :information, only: :show, controller: :information
 
       namespace :information, module: :information do

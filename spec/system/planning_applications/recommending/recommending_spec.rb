@@ -346,7 +346,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         end
         expect(planning_application.reload.status).to eq("awaiting_determination")
 
-        visit "/planning_applications/#{planning_application.reference}/submit_recommendation"
+        visit "/planning_applications/#{planning_application.reference}/recommendation/new"
         expect(page).to have_content("Not Found")
         visit "/planning_applications/#{planning_application.reference}"
 
@@ -543,7 +543,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         end
 
         expect(page).to have_content("Recommendation was successfully withdrawn.")
-        expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/submit_recommendation")
+        expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/recommendation/new")
         expect(page).to have_button("Submit recommendation")
         expect(page).not_to have_button("Withdraw recommendation")
         expect(planning_application.reload.status).to eq("in_assessment")
@@ -792,7 +792,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
         click_button "Save and mark as complete"
 
-        visit "/planning_applications/#{planning_application.reference}/submit_recommendation"
+        visit "/planning_applications/#{planning_application.reference}/recommendation/new"
         expect(page).to have_css("#constraints-section")
         expect(page).to have_css("#site-histories-section")
         expect(page).to have_css("#summary-of-works-section")

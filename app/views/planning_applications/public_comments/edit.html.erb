@@ -11,8 +11,7 @@
     The planning officer recommends that the application is <%= @planning_application.decision %>
   </p>
 
-  <%= form_with model: @planning_application do |form| %>
-    <%= hidden_field_tag(:edit_action, "edit_public_comment") %>
+  <%= form_with model: @planning_application, url: planning_application_public_comment_path(@planning_application), method: :patch do |form| %>
 
     <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
       <% if form.object.errors.any? %>

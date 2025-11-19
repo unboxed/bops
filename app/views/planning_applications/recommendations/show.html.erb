@@ -10,10 +10,10 @@
     Recommendations submitted by <%= @assessor_name %> on <%= @recommended_date %>
   </p>
 
-  <%= render "decision_notice", planning_application: @planning_application %>
+  <%= render "planning_applications/decision_notice", planning_application: @planning_application %>
 
   <div class="govuk-button-group govuk-!-padding-top-3">
-    <%= form_with model: @planning_application, url: withdraw_recommendation_planning_application_path(@planning_application) do |form| %>
+    <%= form_with model: @planning_application, url: planning_application_recommendation_path(@planning_application), method: :delete do |form| %>
       <% if @planning_application.may_withdraw_recommendation? %>
         <%= form.submit "Withdraw recommendation", data: {confirm: "Are you sure you want to withdraw this recommendation?"}, class: "govuk-button govuk-button--secondary" %>
       <% end %>

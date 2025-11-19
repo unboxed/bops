@@ -25,7 +25,7 @@
       <%= govuk_warning_text(text: t(".this_information_will")) %>
     </p>
     <%= render(FormattedContentComponent.new(text: @planning_application.public_comment)) %>
-    <%= govuk_link_to t(".edit_information_on"), edit_public_comment_planning_application_path(@planning_application), class: "govuk-body" %>
+    <%= govuk_link_to t(".edit_information_on"), edit_planning_application_public_comment_path(@planning_application), class: "govuk-body" %>
     <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
     <%= render(
           partial: "documents_table",

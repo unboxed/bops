@@ -21,7 +21,7 @@ RSpec.describe "making planning application public" do
     expect(page).to have_content("Public on BOPS Public Portal: No")
 
     expect {
-      visit "/planning_applications/#{reference}/make_public"
+      visit "/planning_applications/#{reference}/visibility/new"
       expect(page).to have_content("Make application public")
       expect(page).to have_checked_field("No")
 
@@ -34,7 +34,7 @@ RSpec.describe "making planning application public" do
     }.from([nil, nil]).to(["2022-01-01".in_time_zone, "2022-01-01".in_time_zone])
 
     expect {
-      visit "/planning_applications/#{reference}/make_public"
+      visit "/planning_applications/#{reference}/visibility/new"
       expect(page).to have_content("Make application public")
       expect(page).to have_checked_field("Yes")
 
@@ -54,9 +54,9 @@ RSpec.describe "making planning application public" do
       visit "/planning_applications/#{reference}"
       expect(page).not_to have_content("Public on BOPS Public Portal")
 
-      visit "/planning_applications/#{reference}/make_public"
+      visit "/planning_applications/#{reference}/visibility/new"
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-      expect(page).to have_selector("[role=alert] p", text: "You can’t publish Pre-application Advice on the public portal")
+      expect(page).to have_selector("[role=alert]", text: "You can't publish Pre-application Advice on the public portal")
     end
   end
 end

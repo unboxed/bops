@@ -105,7 +105,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "blocks validation until boundary geojson has been added", :capybara do
-        visit "/planning_applications/#{application.id}/confirm_validation"
+        visit "/planning_applications/#{application.id}/validation"
         click_button("Mark the application as valid")
 
         expect(page).to have_content(
