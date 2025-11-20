@@ -54,8 +54,8 @@
         </span>
       </summary>
       <div class="govuk-details__text" id="new-site-visit-form">
+        <%= govuk_error_summary(@form.site_visit) %>
         <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
-          <%= form.govuk_error_summary %>
           <div class="govuk-form-group">
             <%= form.govuk_date_field(:visited_at, rows: 6, legend: {text: "Date of site visit", size: "s"}) %>
             <%= content_tag :div, data: {
@@ -90,8 +90,10 @@
   </div>
   <h2>Add a new site visit</h2>
   <div id="new-site-visit-form">
-    <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
+    <%= form_with model: @form, url: task_path(@planning_application, @task), action: :patch do |form| %>
       <%= form.govuk_error_summary %>
+      # error summary is not showing errors that are for the site visit field as the model on the form is @task.
+      # when the error summary is moved outside of the form and passed @form.site_visit as a model the errors render correctly but above the form not inside the form attached to specific fields.
       <div class="govuk-form-group">
         <%= form.govuk_date_field(:visited_at, rows: 6, legend: {text: "Date of site visit", size: "s"}) %>
         <%= content_tag :div, data: {
