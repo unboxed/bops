@@ -169,8 +169,12 @@ module PlanningApplicationStatus
       true unless awaiting_determination? || closed_or_cancelled?
     end
 
+    def validated?
+      validation_complete? && validated_at.present? && !invalidated?
+    end
+
     def validation_complete?
-      !not_started?
+      !not_started? && !pending?
     end
 
     def can_assess?
