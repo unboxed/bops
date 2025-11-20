@@ -7,7 +7,6 @@ module BreadcrumbNavigationHelper
 
   def render_navigation
     return if navigation.blank?
-
     render GovukComponent::BreadcrumbsComponent.new(breadcrumbs: navigation)
   end
 
@@ -15,5 +14,11 @@ module BreadcrumbNavigationHelper
 
   def navigation
     @navigation ||= {}
+
+    if @planning_application&.pre_application?
+      @navigation["Home"] = bops_preapps.root_path
+    end
+
+    @navigation
   end
 end

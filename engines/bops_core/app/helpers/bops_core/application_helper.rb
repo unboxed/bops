@@ -111,7 +111,7 @@ module BopsCore
     end
 
     def preapp_home_path
-      bops_preapps.pre_applications_path
+      bops_preapps.root_path
     end
 
     def map_link(full_address)
