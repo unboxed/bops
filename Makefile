@@ -44,9 +44,6 @@ engine-specs: $(patsubst engines/bops_%/spec,%-specs,$(ENGINES))
 rspec:
 	$(DOCKER-RUN) console rspec
 
-cucumber:
-	$(DOCKER-RUN) console cucumber
-
 guard:
 	$(DOCKER-RUN) console $(BUNDLE-EXEC) guard
 
