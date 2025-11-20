@@ -3,6 +3,10 @@
     <%= form_with(model:, url:) do |form| %>
       <%= form.govuk_error_summary %>
 
+      <% if params[:return_to] %>
+        <%= form.hidden_field :return_to, value: params[:return_to] %>
+      <% end %>
+
       <%= form.govuk_text_field :reference, width: "one-half" %>
       <%= form.govuk_text_field :address, value: @planning_application.address %>
       <%= form.govuk_text_area :description, rows: 3 %>
@@ -23,7 +27,11 @@
 
       <% if model.persisted? %>
         <%= form.govuk_submit "Update site history", class: "govuk-!-margin-bottom-2" do %>
-          <%= govuk_button_link_to "Back", planning_application_assessment_site_histories_path(@planning_application), secondary: true %>
+          <% if params[:return_to] %>
+            <%= govuk_button_link_to "Back", params[:return_to], secondary: true %>
+          <% else %>
+            <%= govuk_button_link_to "Back", planning_application_assessment_site_histories_path(@planning_application), secondary: true %>
+          <% end %>
         <% end %>
       <% else %>
         <%= form.govuk_submit "Add site history", secondary: true, class: "govuk-!-margin-bottom-2" %>

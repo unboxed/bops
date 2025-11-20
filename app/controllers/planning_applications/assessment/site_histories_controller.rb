@@ -32,6 +32,10 @@ module PlanningApplications
       end
 
       def edit
+        @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout
+          @planning_application.case_record.find_task_by_path!("check-and-assess")
+        end
+
         respond_to do |format|
           format.html
         end
@@ -108,7 +112,7 @@ module PlanningApplications
       end
 
       def return_to
-        @return_to ||= params[:return_to].presence
+        @return_to ||= params[:return_to].presence || params.dig(:site_history, :return_to).presence
       end
     end
   end

@@ -10,7 +10,8 @@
 
 <%= render "planning_applications/assessment/site_histories/table",
       site_histories: @planning_application.site_histories.all,
-      show_action: true %>
+      show_action: true,
+      return_to: task_path(@planning_application, @task) %>
 
 <%= govuk_details(summary_text: "Add a new site history", open: @planning_application.site_histories.last&.errors&.any?) do %>
   <%= form_with(model: @planning_application.site_histories.new,
