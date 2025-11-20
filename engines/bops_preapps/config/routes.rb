@@ -7,6 +7,8 @@ BopsPreapps::Engine.routes.draw do
   get "/planning_applications", to: "pre_applications#index"
 
   scope "/:reference" do
+    get "/", to: redirect("/planning_applications/%{reference}")
+
     get "/*slug/edit", to: "tasks#edit", as: :edit_task
     post "/*slug", to: "tasks#update"
     patch "/*slug", to: "tasks#update"
