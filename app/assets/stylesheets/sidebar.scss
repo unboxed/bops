@@ -11,6 +11,10 @@ body:has(.bops-fullwidth-container) {
 
   display: grid;
 
+  .govuk-main-wrapper {
+    padding-top: 0;
+  }
+
   .bops-fullwidth-container {
     display: grid;
     grid-template-columns: $sidebar-width 1fr;
@@ -55,13 +59,11 @@ body:has(.bops-fullwidth-container) {
       margin-left: auto;
     }
   }
-}
 
-.govuk-breadcrumbs {
-  padding: 15px;
-  margin: 0;
-  border-bottom: 1px solid $govuk-border-colour;
-  background-color: white;
+  .govuk-breadcrumbs {
+    margin-block: 30px;
+    background-color: white;
+  }
 }
 
 #preview-report-button-link {
