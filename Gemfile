@@ -78,7 +78,6 @@ group :development, :test do
   gem "bullet"
   gem "erb_lint", require: false
   gem "guard", require: false
-  gem "guard-cucumber", require: false
   gem "guard-rspec", require: false
   gem "pry-byebug"
   gem "rails-controller-testing"
@@ -99,7 +98,6 @@ end
 
 group :test do
   gem "capybara"
-  gem "cucumber-rails", require: false
   gem "database_cleaner"
   gem "email_spec"
   gem "factory_bot_rails"
