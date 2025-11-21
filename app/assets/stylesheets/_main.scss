@@ -210,6 +210,13 @@ h3 {
   }
 }
 
+.govuk-breadcrumbs {
+  margin: 0;
+  padding: 15px;
+  border-bottom: 1px solid $govuk-border-colour;
+  background-color: white;
+}
+
 .audit_details {
   font-style: italic;
 }

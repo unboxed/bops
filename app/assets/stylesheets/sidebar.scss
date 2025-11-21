@@ -61,8 +61,10 @@ body:has(.bops-fullwidth-container) {
   }
 
   .govuk-breadcrumbs {
+    padding: 0;
     margin-block: 30px;
     background-color: white;
+    border: none;
   }
 }
 
