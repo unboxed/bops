@@ -14,6 +14,10 @@ module PlanningApplications
       end
 
       def edit
+        @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout
+          @planning_application.case_record.find_task_by_path!("check-and-assess")
+        end
+
         respond_to do |format|
           format.html
         end
@@ -25,7 +29,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @term.save
-              redirect_to planning_application_assessment_terms_path(@planning_application), notice: t(".success")
+              redirect_to redirect_path, notice: t(".success")
             else
               render :index
             end
@@ -37,7 +41,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @term.update(term_params)
-              redirect_to planning_application_assessment_terms_path(@planning_application), notice: t(".success")
+              redirect_to redirect_path, notice: t(".success")
             else
               render :edit
             end
@@ -58,15 +62,14 @@ module PlanningApplications
           end
         end
       rescue ActiveRecord::ActiveRecordError, AASM::InvalidTransition => e
-        redirect_to planning_application_assessment_terms_path(@planning_application),
-          alert: "Couldn't confirm requests with error: #{e.message}. Please contact support."
+        redirect_to redirect_path, alert: "Couldn't confirm requests with error: #{e.message}. Please contact support."
       end
 
       def destroy
         respond_to do |format|
           format.html do
             if @term.destroy
-              redirect_to planning_application_assessment_terms_path(@planning_application), notice: t(".success")
+              redirect_to redirect_path, notice: t(".success")
             else
               render :index
             end
@@ -78,6 +81,10 @@ module PlanningApplications
 
       def redirect_to_assessment_tasks
         redirect_to planning_application_assessment_tasks_path(@planning_application)
+      end
+
+      def redirect_path
+        params[:redirect_to].presence || planning_application_assessment_terms_path(@planning_application)
       end
 
       def heads_of_terms_enabled?
