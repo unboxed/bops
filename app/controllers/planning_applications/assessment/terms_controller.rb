@@ -24,6 +24,10 @@ module PlanningApplications
       end
 
       def create
+        @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout
+          @planning_application.case_record.find_task_by_path!("check-and-assess")
+        end
+
         @term.attributes = term_params
 
         respond_to do |format|
