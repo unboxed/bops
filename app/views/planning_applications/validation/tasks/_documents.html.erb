@@ -6,5 +6,5 @@
 
       render Validation::CheckMissingDocumentsTask.new(@planning_application, task_list:)
 
-      render Validation::RedactDocumentsTask.new(@planning_application, task_list:)
+      render Validation::RedactDocumentsTask.new(@planning_application, task_list:) unless @planning_application.pre_application?
     end %>
