@@ -417,10 +417,6 @@ class PlanningApplication < ApplicationRecord
     (awaiting_determination? && !pending_review?) || determined?
   end
 
-  def validated?
-    validated_at.present? && (invalidated_at.blank? || invalidated_at < validated_at)
-  end
-
   def can_publish?
     publishable? && validated?
   end
