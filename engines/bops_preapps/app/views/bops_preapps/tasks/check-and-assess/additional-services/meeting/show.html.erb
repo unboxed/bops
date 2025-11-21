@@ -18,32 +18,20 @@
       <% end %>
     <% end %>
   </table>
+<% else %>
+  <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
+    <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-3"><strong>No meetings have been recorded yet.</strong></p>
+    <p> Add new meeting to start recording meeting history.</p>
+  </div>
 <% end %>
 
 <% unless @planning_application.determined? %>
-  <details
-    class="govuk-details govuk-!-padding-top-5"
-    data-module="govuk-details">
+  <details class="govuk-details" data-module="govuk-details">
     <summary class="govuk-details__summary">
       <span class="govuk-details__summary-text">Add a new meeting</span>
     </summary>
     <div class="govuk-details__text" id="add-meeting-details">
-      <%= form_with(
-            model: @planning_application.meetings.new,
-            class: "govuk-!-margin-top-5",
-            url: main_app.planning_application_assessment_meetings_path(@planning_application, @meeting),
-            method: :post
-          ) do |form| %>
-        <%= form.govuk_date_field(:occurred_at, rows: 6, legend: {text: "Meeting date"}) %>
-
-        <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Add notes (optional)"}) %>
-
-        <%= form.hidden_field :return_to, value: task_path(@planning_application, @task) %>
-
-        <div class="govuk-button-group">
-          <%= form.submit "Add meeting", class: "govuk-button govuk-button--secondary" %>
-        </div>
-      <% end %>
+      <%= render "bops_preapps/tasks/check-and-assess/additional-services/meeting/form" %>
     </div>
   </details>
 <% end %>
