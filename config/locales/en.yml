@@ -1642,6 +1642,7 @@ en:
         confirm:
           success: Site history has been confirmed
         create:
+          failure: Failed to add site history
           success: Site history has been successfully added
         destroy:
           success: Site history was successfully removed
