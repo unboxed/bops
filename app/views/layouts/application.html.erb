@@ -27,7 +27,7 @@
 
     <% unless @blank_layout == true %>
       <%= link_to "Skip to main content", "#main-content", class: "govuk-skip-link", "data-module": "govuk-skip-link" %>
-      <div class="bops-headers">
+      <div class="bops-headers<% if @show_header_bar && !@show_sidebar %> bops-headers--sticky <% end %>">
         <%= render(EnvironmentBannerComponent.new(display: !Bops.env.production?)) %>
         <%= render "application/header" %>
 
