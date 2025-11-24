@@ -1,9 +1,4 @@
-<% content_for :page_title do %>
-  Site visit - <%= t("page_title") %>
-<% end %>
-
-<h1>Site visits</h1>
-<%= render "shared/proposal_header" %>
+<%= render "shared/task_header", task: @task %>
 
 <% if @planning_application.site_visits.by_created_at_desc.includes(:created_by).any? %>
   <table class="govuk-table" id="site-visit-history">
