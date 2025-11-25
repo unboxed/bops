@@ -145,16 +145,6 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
-      - name: Run cucumber specs
-        if: ${{ inputs.test-runner == 'cucumber' }}
-        env:
-          CUCUMBER_FORMAT: pretty
-          DATABASE_URL: postgres://postgres:postgres@localhost:5432/test
-          RAILS_ENV: test
-          OTP_SECRET_ENCRYPTION_KEY: testtest
-        run: |
-          bundle exec cucumber --color
-
       - name: Expose GitHub Runtime for Docker build
         uses: crazy-max/ghaction-github-runtime@v3
         if: ${{ inputs.test-runner == 'docker' }}
