@@ -1,8 +1,10 @@
 <%# locals: (task:) %>
 
-<% add_parent_breadcrumb_link "Home", main_app.planning_application_path(task.case_record.planning_application) %>
+<% add_parent_breadcrumb_link "Home", preapp_home_path %>
 
-<% if task.parent.parent.section == "Assessment" %>
+<% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
+
+<% if task.top_level_ancestor.section == "Assessment" %>
   <% add_parent_breadcrumb_link "Assessment",
        main_app.planning_application_assessment_tasks_path(task.case_record.planning_application) %>
 <% end %>

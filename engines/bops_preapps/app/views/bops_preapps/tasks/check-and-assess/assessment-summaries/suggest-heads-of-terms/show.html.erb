@@ -6,51 +6,45 @@
 
 <%= render(ReviewerCommentComponent.new(comment: @form.heads_of_term.current_review)) %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-    <ol data-controller="sortable" id="heads-of-terms-list" class="govuk-list sortable-list">
-      <% @form.heads_of_term.not_cancelled_terms.each do |term| %>
-        <% next unless term.persisted? %>
-        <%= render(Sortable::ListItemComponent.new(
-              record: term,
-              record_class: "term",
-              record_controller: "terms",
-              record_sortable_url: main_app.planning_application_assessment_term_position_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
-              edit_record_url: main_app.edit_planning_application_assessment_term_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
-              remove_record_url: main_app.planning_application_assessment_term_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
-              current_request: term.current_validation_request,
-              show_status_tag: !@planning_application.pre_application?
-            )) %>
-      <% end %>
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<ol data-controller="sortable" id="heads-of-terms-list" class="govuk-list sortable-list">
+  <% @form.heads_of_term.not_cancelled_terms.each do |term| %>
+    <% next unless term.persisted? %>
+    <%= render(Sortable::ListItemComponent.new(
+          record: term,
+          record_class: "term",
+          record_controller: "terms",
+          record_sortable_url: main_app.planning_application_assessment_term_position_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
+          edit_record_url: main_app.edit_planning_application_assessment_term_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
+          remove_record_url: main_app.planning_application_assessment_term_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
+          current_request: term.current_validation_request,
+          show_status_tag: !@planning_application.pre_application?
+        )) %>
+  <% end %>
 
-    </ol>
-    <p><%= t(".drag_and_drop") %></p>
-  </div>
+</ol>
+<p><%= t(".drag_and_drop") %></p>
 
-  <div class="govuk-grid-column-two-thirds">
-    <div class="govuk-!-margin-bottom-8">
-      <details class="govuk-details" <%= "open" if @form.term.errors.any? %>>
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            Add a new heads of terms
-          </span>
-        </summary>
-        <div>
-          <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/suggest-heads-of-terms/form", url: main_app.planning_application_assessment_terms_path(@planning_application, redirect_to: task_path(@planning_application, @task)) %>
-        </div>
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
-      </details>
+<div class="govuk-!-margin-bottom-8">
+  <details class="govuk-details" <%= "open" if @form.term.errors.any? %>>
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Add a new heads of terms
+      </span>
+    </summary>
+    <div>
+      <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/suggest-heads-of-terms/form", url: main_app.planning_application_assessment_terms_path(@planning_application, redirect_to: task_path(@planning_application, @task)) %>
     </div>
+    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+  </details>
+</div>
 
-    <div class="govuk-button-group">
-      <%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
-        <% if @planning_application.pre_application? %>
-          <%= form.submit t("form_actions.term.confirm_without_sending"), class: "govuk-button" %>
-        <% else %>
-          <%= form.submit t("form_actions.term.confirm"), class: "govuk-button" %>
-        <% end %>
-      <% end %>
-    </div>
-  </div>
+<div class="govuk-button-group">
+  <%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
+    <% if @planning_application.pre_application? %>
+      <%= form.submit t("form_actions.term.confirm_without_sending"), class: "govuk-button" %>
+    <% else %>
+      <%= form.submit t("form_actions.term.confirm"), class: "govuk-button" %>
+    <% end %>
+  <% end %>
 </div>

@@ -31,6 +31,10 @@ class Task < ApplicationRecord
     parent_type == "CaseRecord"
   end
 
+  def top_level_ancestor
+    top_level? ? self : parent.top_level_ancestor
+  end
+
   def task_for(slug)
     Task.find_by!(slug: slug)
   end
