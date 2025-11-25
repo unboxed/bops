@@ -13,12 +13,18 @@
   </div>
   <div class="govuk-grid-column-three-quarters">
     <%= govuk_panel(title_text: t(".new_token_title")) do %>
-      <%= t(".new_token_body_html", token: @token.value) %>
+      <% if @token.bearer_authentication? %>
+        <%= t(".new_bearer_token_body_html", token: @token.value) %>
+      <% else %>
+        <%= t(".new_hmac_token_body_html", url: bops_submissions.v2_submissions_url(@token.sqid, schema: "planning-portal")) %>
+      <% end %>
     <% end %>
 
-    <p>
-      <%= t(".new_token_warning") %>
-    </p>
+    <% if @token.bearer_authentication? %>
+      <p>
+        <%= t(".new_token_warning") %>
+      </p>
+    <% end %>
 
     <p>
       <%= govuk_link_to t(".back_to_token_list"), tokens_path %>

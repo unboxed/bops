@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_10_29_172431) do
+ActiveRecord::Schema[8.0].define(version: 2025_11_24_095616) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -74,6 +74,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_10_29_172431) do
     t.datetime "revoked_at"
     t.datetime "last_used_at"
     t.string "permissions", array: true
+    t.string "authentication_type", default: "bearer", null: false
+    t.string "product_id"
+    t.string "client_id"
+    t.string "client_secret"
     t.index ["local_authority_id", "name"], name: "ix_api_users_on_local_authority_id__name", unique: true, where: "(revoked_at IS NULL)"
     t.index ["local_authority_id", "token"], name: "ix_api_users_on_local_authority_id__token", unique: true
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"

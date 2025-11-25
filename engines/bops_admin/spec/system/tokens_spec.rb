@@ -107,7 +107,7 @@ RSpec.describe "API Tokens", :capybara do
       expect(page).to have_selector("h1", text: "Add API token")
 
       click_button "Save"
-      expect(page).to have_selector("[role=alert] li", text: "Please enter a name for this API token")
+      expect(page).to have_selector("[role=alert] li", text: "Enter a name for this API token")
 
       fill_in "Name", with: "Active Token"
 
@@ -159,8 +159,8 @@ RSpec.describe "API Tokens", :capybara do
       expect(page).to have_selector("[role=alert] li", text: "Document download authentication has problems")
 
       within_fieldset "Authentication for downloading documents" do
-        expect(page).to have_selector("p.govuk-error-message", text: "Please enter the username")
-        expect(page).to have_selector("p.govuk-error-message", text: "Please enter the password")
+        expect(page).to have_selector("p.govuk-error-message", text: "Enter the username")
+        expect(page).to have_selector("p.govuk-error-message", text: "Enter the password")
 
         fill_in "Username", with: "Username"
         fill_in "Password", with: "Password"
@@ -207,7 +207,7 @@ RSpec.describe "API Tokens", :capybara do
       expect(page).to have_selector("[role=alert] li", text: "Document download authentication has problems")
 
       within_fieldset "Authentication for downloading documents" do
-        expect(page).to have_selector("p.govuk-error-message", text: "Please enter the bearer token value")
+        expect(page).to have_selector("p.govuk-error-message", text: "Enter the bearer token value")
 
         fill_in "Token value", with: "thisisasecret"
       end
@@ -253,8 +253,8 @@ RSpec.describe "API Tokens", :capybara do
       expect(page).to have_selector("[role=alert] li", text: "Document download authentication has problems")
 
       within_fieldset "Authentication for downloading documents" do
-        expect(page).to have_selector("p.govuk-error-message", text: "Please enter the name of the custom header")
-        expect(page).to have_selector("p.govuk-error-message", text: "Please enter the value for the custom header")
+        expect(page).to have_selector("p.govuk-error-message", text: "Enter the name of the custom header")
+        expect(page).to have_selector("p.govuk-error-message", text: "Enter the value for the custom header")
 
         fill_in "Header name", with: "api-key"
         fill_in "Header value", with: "thisisasecret"
@@ -273,6 +273,56 @@ RSpec.describe "API Tokens", :capybara do
         within "tbody tr:nth-child(2)" do
           expect(page).to have_selector("td:nth-child(1)", text: "New Token")
           expect(page).to have_selector("td:nth-child(2)", text: "Service Name")
+          expect(page).to have_selector("td:nth-child(3)", text: "–")
+        end
+      end
+    end
+  end
+
+  context "with HMAC authentication" do
+    it "allows a token to be created" do
+      visit "/admin/tokens"
+
+      expect(page).to have_selector("h1", text: "API tokens")
+      expect(page).to have_selector("a[aria-selected=true]", text: "Active")
+
+      click_link "Add API token"
+      expect(page).to have_selector("h1", text: "Add API token")
+
+      fill_in "Name", with: "TerraQuest"
+      fill_in "Service", with: "Planning Portal"
+      check "planning_application:write"
+
+      within_fieldset "Select the type of authentication to use" do
+        choose "HMAC digest"
+      end
+
+      click_button "Save"
+      expect(page).to have_selector("[role=alert] h2", text: "There is a problem")
+
+      within_fieldset "Select the type of authentication to use" do
+        expect(page).to have_selector("p.govuk-error-message", text: "Enter the TerraQuest product ID - this is usually 'jsonconnector'")
+        expect(page).to have_selector("p.govuk-error-message", text: "Enter the client ID provided by TerraQuest")
+        expect(page).to have_selector("p.govuk-error-message", text: "Enter the client secret provided by TerraQuest")
+
+        fill_in "Product ID", with: "jsonconnector"
+        fill_in "Client ID", with: "fea41fbf-e169-4d03-9f6c-556a77840b4d"
+        fill_in "Client secret", with: "thisisasecret"
+      end
+
+      click_button "Save"
+      expect(page).to have_current_path("/admin/tokens")
+      expect(page).to have_selector("h1", text: "API token generated")
+      expect(page).to have_selector("div.govuk-panel__body strong", text: /\/api\/v2\/submissions\/[a-z0-9]{8}/)
+
+      click_link "Return to the list of API tokens"
+      expect(page).to have_selector("h1", text: "API tokens")
+      expect(page).to have_selector("a[aria-selected=true]", text: "Active")
+
+      within "#active table" do
+        within "tbody tr:nth-child(2)" do
+          expect(page).to have_selector("td:nth-child(1)", text: "TerraQuest")
+          expect(page).to have_selector("td:nth-child(2)", text: "Planning Portal")
           expect(page).to have_selector("td:nth-child(3)", text: "–")
         end
       end

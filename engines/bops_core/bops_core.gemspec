@@ -16,4 +16,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "govuk-components", "~> 5", ">= 5.8.0"
   spec.add_dependency "govuk_design_system_formbuilder", "~> 5", ">= 5.8.0"
   spec.add_dependency "pagy"
+  spec.add_dependency "sqids"
 end
