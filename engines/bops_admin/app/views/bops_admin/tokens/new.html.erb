@@ -23,12 +23,18 @@
         <%= form.govuk_text_field :service, hint: {text: t(".hints.service")} %>
       <% end %>
 
-      <%= form.govuk_check_boxes_fieldset(:permissions,
-            multiple: false,
-            legend: {text: "Permissions to be granted to this key"}) do %>
+      <%= form.govuk_radio_buttons_fieldset :authentication_type, legend: {text: t(".legends.authentication_type")}, hint: {text: t(".hints.authentication_type")} do %>
+        <%= form.govuk_radio_button(:authentication_type, "bearer", label: {text: t(".labels.bearer_token")}) %>
+        <%= form.govuk_radio_button(:authentication_type, "hmac", label: {text: t(".labels.hmac_digest")}) do %>
+          <%= form.govuk_text_field :product_id, label: {text: t(".labels.product_id")} %>
+          <%= form.govuk_text_field :client_id, label: {text: t(".labels.client_id")} %>
+          <%= form.govuk_password_field :client_secret, label: {text: t(".labels.client_secret")} %>
+        <% end %>
+      <% end %>
+
+      <%= form.govuk_check_boxes_fieldset(:permissions, multiple: false, legend: {text: t(".legends.permissions")}) do %>
         <% ApiUser::VALID_PERMISSIONS.each do |permission| %>
-          <%= form.govuk_check_box :permissions, permission,
-                label: {text: tag.code(permission)} %>
+          <%= form.govuk_check_box :permissions, permission, label: {text: tag.code(permission)} %>
         <% end %>
       <% end %>
 

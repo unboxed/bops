@@ -556,8 +556,18 @@ en:
         confirm: Are you sure you want to revoke this API token?
         edit_token: Edit API token
         hints:
+          authentication_type: If this API token is for Planning Portal choose HMAC digest
           name: A unique name for this token, typically the name of an individual or organisation
           service: A description for what is using this token - if it's for submission of planning applications it should be the name of the service, e.g. PlanX
+        labels:
+          bearer_token: Bearer token
+          client_id: Client ID
+          client_secret: Client secret
+          hmac_digest: HMAC digest
+          product_id: Product ID
+        legends:
+          authentication_type: Select the type of authentication to use
+          permissions: Permissions to be granted to this API token
         revoke: Revoke
         submit: Save
       file_downloader:
@@ -581,16 +591,31 @@ en:
       new:
         add_token: Add API token
         hints:
+          authentication_type: If this API token is for Planning Portal choose HMAC digest
           name: A unique name for this token, typically the name of an individual or organisation
           service: A description for what is using this token - if it's for submission of planning applications it should be the name of the service, e.g. PlanX
+        labels:
+          bearer_token: Bearer token
+          client_id: Client ID
+          client_secret: Client secret
+          hmac_digest: HMAC digest
+          product_id: Product ID
+        legends:
+          authentication_type: Select the type of authentication to use
+          permissions: Permissions to be granted to this API token
         submit: Save
       show:
         add_token: Add API token
         back_to_token_list: Return to the list of API tokens
-        new_token_body_html: |
+        new_bearer_token_body_html: |
           <small class="govuk-!-font-size-24">
             Your new API token secret is<br>
             <strong>%{token}</strong>
+          </small>
+        new_hmac_token_body_html: |
+          <small class="govuk-!-font-size-19">
+            Your submission endpoint for Planning Portal is<br>
+            <strong>%{url}</strong>
           </small>
         new_token_title: API token generated
         new_token_warning: The secret will only be visible on this page so please copy it before navigating away.

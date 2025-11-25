@@ -7,6 +7,7 @@ FactoryBot.define do
     end
     name { Faker::Name.name }
     service { "PlanX" }
+    authentication_type { "bearer" }
 
     file_downloader do
       {
@@ -22,6 +23,16 @@ FactoryBot.define do
         ["planning_application:read", "comment:read",
           "planning_application:write", "comment:write"]
       }
+    end
+
+    trait :planning_portal do
+      name { "TerraQuest" }
+      service { "Planning Portal" }
+      permissions { ["planning_application:write"] }
+      authentication_type { "hmac" }
+      product_id { "jsonconnector" }
+      client_id { "clientid" }
+      client_secret { "clientsecret" }
     end
 
     trait :planx do

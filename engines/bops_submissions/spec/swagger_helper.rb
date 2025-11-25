@@ -21,6 +21,11 @@ RSpec.configure do |config|
           bearerAuth: {
             type: :http,
             scheme: :bearer
+          },
+          terraquestAuth: {
+            type: :apiKey,
+            in: :header,
+            name: "Authorization"
           }
         },
         schemas: {

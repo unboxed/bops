@@ -42,18 +42,22 @@ $govuk-page-width: 1100px;
 
 p {
   @extend .govuk-body;
+  color: inherit;
 }
 
 h1 {
   @extend .govuk-heading-l;
+  color: inherit;
 }
 
 h2 {
   @extend .govuk-heading-m;
+  color: inherit;
 }
 
 h3 {
   @extend .govuk-heading-s;
+  color: inherit;
 }
 
 .accordion-tr:last-child > td {

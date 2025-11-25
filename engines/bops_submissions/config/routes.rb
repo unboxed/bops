@@ -7,7 +7,8 @@ BopsSubmissions::Engine.routes.draw do
   defaults format: "json" do
     namespace :v2 do
       get "/ping", to: "ping#index"
-      resources :submissions, only: %i[create]
+
+      post "/submissions(/:sqid)", to: "submissions#create", as: :submissions
     end
   end
 end

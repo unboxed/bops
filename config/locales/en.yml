@@ -104,19 +104,19 @@ en:
         file_downloaders/basic_authentication:
           attributes:
             password:
-              blank: Please enter the password
+              blank: Enter the password
             username:
-              blank: Please enter the username
+              blank: Enter the username
         file_downloaders/bearer_authentication:
           attributes:
             token:
-              blank: Please enter the bearer token value
+              blank: Enter the bearer token value
         file_downloaders/header_authentication:
           attributes:
             key:
-              blank: Please enter the name of the custom header
+              blank: Enter the name of the custom header
             value:
-              blank: Please enter the value for the custom header
+              blank: Enter the value for the custom header
         land_owner:
           attributes:
             address_1:
@@ -201,11 +201,19 @@ en:
       models:
         api_user:
           attributes:
+            client_id:
+              blank: Enter the client ID provided by TerraQuest
+            client_secret:
+              blank: Enter the client secret provided by TerraQuest
             file_downloader:
               invalid: Document download authentication has problems
             name:
-              blank: Please enter a name for this API token
+              blank: Enter a name for this API token
               taken: That name is already in use by an active token
+            permissions:
+              blank: Select the permissions to grant to this API token
+            product_id:
+              blank: Enter the TerraQuest product ID - this is usually 'jsonconnector'
         appeal:
           attributes:
             decision:
