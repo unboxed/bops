@@ -59,7 +59,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @heads_of_term.current_review.update(status: :complete)
-              redirect_to redirect_path, notice: created_notice
+              redirect_to (params[:redirect_to].presence || planning_application_assessment_tasks_path(@planning_application)), notice: created_notice
             else
               render :index
             end
