@@ -60,6 +60,7 @@
     <div class="govuk-button-group">
       <%= form_with model: @term, url: confirm_planning_application_assessment_terms_path(@planning_application) do |form| %>
         <% if @planning_application.pre_application? %>
+          <%= hidden_field_tag :redirect_to, params[:redirect_to] if params[:redirect_to].present? %>
           <%= form.submit t("form_actions.term.confirm_without_sending"), class: "govuk-button" %>
         <% else %>
           <%= form.submit t("form_actions.term.confirm"), class: "govuk-button" %>
