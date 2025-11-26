@@ -147,9 +147,11 @@ const drawLocation = (pdf, context, x, y) => {
 
 const drawMap = (pdf, x, y, map) => {
   const mapDOM = map.shadowRoot
-  const mapCanvas = mapDOM.querySelector("canvas")
+  const mapCanvasses = mapDOM.querySelectorAll("canvas")
 
-  pdf.addImage(mapCanvas, "PNG", x, y, 273, 200)
+  for (const mapCanvas of mapCanvasses) {
+    pdf.addImage(mapCanvas, "PNG", x, y, 273, 200)
+  }
 
   pdf.setFillColor("#000000")
   pdf.setDrawColor("#000000")
