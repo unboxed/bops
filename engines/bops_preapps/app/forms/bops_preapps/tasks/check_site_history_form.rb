@@ -4,16 +4,22 @@ module BopsPreapps
   module Tasks
     class CheckSiteHistoryForm < BaseForm
       def update(params)
-        ActiveRecord::Base.transaction do
-          planning_application.update!(site_history_checked: true)
-          task.update!(status: :completed)
+        if params[:button] == "save_draft"
+          task.start!
+        else
+          begin
+            ActiveRecord::Base.transaction do
+              planning_application.update!(site_history_checked: true)
+              task.complete! || raise(ActiveRecord::RecordInvalid)
+            end
+          rescue ActiveRecord::RecordInvalid
+            false
+          end
         end
-      rescue ActiveRecord::RecordInvalid
-        false
       end
 
       def permitted_fields(params)
-        {} # no params sent: just a submit button
+        params # no params sent: just a submit button
       end
     end
   end
