@@ -1,8 +1,10 @@
 <%= render "shared/task_header", task: @task %>
 
-<% if @planning_application.site_visits.by_created_at_desc.includes(:created_by).any? %>
+<% if @planning_application.site_visits.any? %>
   <table class="govuk-table" id="site-visit-history">
-    <caption class="govuk-table__caption govuk-table__caption--m">Site visit history</caption>
+    <caption class="govuk-table__caption govuk-table__caption--m">
+      Site visit history
+    </caption>
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header">Site visit date</th>
@@ -25,35 +27,26 @@
                 <%= site_visit.address %>
               <% end %>
             </td>
-            <td class="govuk-table__cell">
-              <%= site_visit.created_by.name %>
-            </td>
-            <td class="govuk-table__cell">
-              <%= site_visit.comment %>
-            </td>
+            <td class="govuk-table__cell"><%= site_visit.created_by.name %></td>
+            <td class="govuk-table__cell"><%= site_visit.comment %></td>
           </tr>
         </tbody>
       <% end %>
     <% end %>
   </table>
-  <% unless @planning_application.determined? %>
-    <details class="govuk-details">
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          Add new site visit
-        </span>
-      </summary>
-
-      <%= render "bops_preapps/tasks/check-and-assess/additional-services/site-visit/form" %>
-    </details>
-  <% end %>
 <% else %>
   <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
-    <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-3"><strong>No site visits have been recorded yet.</strong></p>
-    <p> Add new site visit to start recording site visit history.</p>
+    <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-3">
+      <strong>No site visits have been recorded yet.</strong>
+    </p>
+    <p>Add new site visit to start recording site visit history.</p>
   </div>
-  <h2>Add a new site visit</h2>
-  <%= render "bops_preapps/tasks/check-and-assess/additional-services/site-visit/form" %>
+<% end %>
+
+<% unless @planning_application.determined? %>
+  <%= govuk_details(summary_text: "Add new site visit", open: @planning_application.site_visits.none?) do %>
+    <%= render "bops_preapps/tasks/check-and-assess/additional-services/site-visit/form" %>
+  <% end %>
 <% end %>
 
 <%= render "shared/task_submit_buttons", save_draft: true %>
