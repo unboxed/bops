@@ -8,9 +8,10 @@ en:
       check-and-assess:
         additional-services:
           site-visit:
+            form:
+              upload_photos: Upload photo(s)
             show:
               heading: View site visits
-              upload_photos: Upload photo(s)
         assessment-summaries:
           site-description:
             show:
@@ -74,3 +75,7 @@ en:
         summary-of-advice:
           failure: Failed to save summary of advice
           success: Summary of advice successfully updated
+  shared:
+    task_submit_buttons:
+      save_draft: Save changes
+      submit: Save and mark as complete

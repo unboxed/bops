@@ -1,0 +1,32 @@
+<div class="govuk-details__text" id="new-site-visit-form">
+  <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
+    <%= form.govuk_error_summary %>
+    <div class="govuk-form-group">
+      <%= form.govuk_date_field(:visited_at, rows: 6, legend: {text: "Date of site visit", size: "s"}) %>
+      <%= content_tag :div, data: {
+            controller: "address-search",
+            address_search_url: main_app.os_places_api_index_path,
+            address_search_id: "address",
+            address_search_default_address_value: form.object.case_record.planning_application.address.presence || @planning_application.address
+          } do %>
+        <label for="address" class="govuk-heading-s govuk-!-margin-bottom-1">Search for address</label>
+        <span id="address-hint" class="govuk-hint"> Start typing address or postcode </span>
+
+        <div
+          id="address-container"
+          class="govuk-input--width-50 govuk-!-margin-bottom-3"></div>
+
+        <%= form.hidden_field :address, id: "address-hidden-field", value: form.object.case_record.planning_application.address.presence || @planning_application.address %>
+      <% end %>
+
+      <%= form.hidden_field :decision, value: true %>
+      <%= form.govuk_file_field :documents,
+            label: {size: "s", text: t(".upload_photos")},
+            accept: acceptable_file_mime_types,
+            multiple: true %>
+      <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Comment", class: "govuk-!-font-weight-bold"}) %>
+    </div>
+
+    <%= form.govuk_submit "Save" %>
+  <% end %>
+</div>

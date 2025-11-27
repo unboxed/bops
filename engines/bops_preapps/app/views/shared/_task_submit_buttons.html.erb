@@ -1,0 +1,9 @@
+<%# locals: (save_draft: false) %>
+
+<%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
+  <%= form.govuk_submit t(".submit") do %>
+    <% if save_draft && !@task.completed? %>
+      <%= form.button t(".save_draft"), class: "govuk-button govuk-button--secondary", value: :save_draft %>
+    <% end %>
+  <% end %>
+<% end %>
