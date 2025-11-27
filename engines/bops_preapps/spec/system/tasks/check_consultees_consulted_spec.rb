@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe "Check consultees", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
+  let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/check-application/check-consultees-consulted") }
   let(:user) { create(:user, local_authority:) }
 
   before do
@@ -16,7 +17,15 @@ RSpec.describe "Check consultees", type: :system do
     within ".bops-sidebar" do
       click_link "Check consultees consulted"
     end
-    click_button "Confirm as checked"
+
+    click_button "Save changes"
+
+    expect(task.reload).to be_in_progress
+    expect(planning_application.reload.consultation.current_review).to be_nil
+
+    click_button "Save and mark as complete"
+
+    expect(task.reload).to be_completed
 
     review = planning_application.reload.consultation.current_review
     expect(review.review_type).to eq("consultees_checked")
