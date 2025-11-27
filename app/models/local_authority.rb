@@ -103,6 +103,12 @@ class LocalAuthority < ApplicationRecord
   before_update :set_active
   after_commit :ensure_default_requirements, on: :create
 
+  delegate :configuration, to: :Rails, prefix: :rails
+  delegate :default_notify_api_key, to: :rails_configuration
+  delegate :default_email_reply_to_id, to: :rails_configuration
+  delegate :default_email_template_id, to: :rails_configuration
+  delegate :default_sms_template_id, to: :rails_configuration
+
   class << self
     def by_short_name
       order(short_name: :asc)
@@ -111,6 +117,35 @@ class LocalAuthority < ApplicationRecord
 
   def signatory
     "#{signatory_name}, #{signatory_job_title}"
+  end
+
+  def notify_api_key
+    enable_notify ? super : default_notify_api_key
+  end
+
+  def email_template_id
+    enable_notify ? super : default_email_template_id
+  end
+
+  def email_reply_to_id
+    enable_notify ? super : shared_email_reply_to_id
+  end
+
+  def shared_email_reply_to_id
+    I18n.t(subdomain, scope: :"email_reply_to_ids.#{Bops.env}", default: default_email_reply_to_id)
+  end
+
+  def sms_template_id
+    enable_notify ? super : default_sms_template_id
+  end
+
+  def with_notify_enabled(&block)
+    existing_value = enable_notify
+    self.enable_notify = true
+
+    yield
+  ensure
+    self.enable_notify = existing_value
   end
 
   def applicants_url

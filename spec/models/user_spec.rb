@@ -3,11 +3,6 @@
 require "rails_helper"
 
 RSpec.describe User do
-  let(:client) { double("Notifications::Client") }
-  before do
-    allow(Notifications::Client).to receive(:new).and_return(client)
-  end
-
   it_behaves_like("PhoneNumberValidator") do
     let(:record) { build(:user) }
     let(:attribute) { :mobile_number }
@@ -238,26 +233,72 @@ RSpec.describe User do
     end
 
     context "when otp_delivery_method is sms" do
+      let(:client) { double("Notifications::Client") }
+
       let(:user) do
         create(:user, otp_delivery_method: :sms, mobile_number: "07717456456")
       end
 
-      let(:expected_args) do
-        {
-          template_id: "296467e7-6723-465a-86b9-eb8c81a9199c",
-          phone_number: "07717456456",
-          personalisation: {
-            body: "#{user.current_otp} is your Back Office Planning System verification code."
+      let(:local_authority) { user.local_authority }
+
+      context "when the GOV.UK Notify account is enabled" do
+        let(:expected_args) do
+          {
+            template_id: "296467e7-6723-465a-86b9-eb8c81a9199c",
+            phone_number: "07717456456",
+            personalisation: {
+              body: "#{user.current_otp} is your Back Office Planning System verification code."
+            }
           }
-        }
+        end
+
+        let(:api_key) do
+          "fake-c2a32a67-f437-46cd-9364-483d2cc4c43f-523849d3-ca3b-4c12-b11a-09ed7d86de2e"
+        end
+
+        before do
+          allow(local_authority).to receive(:enable_notify).and_return(true)
+        end
+
+        it "sends sms with correct information to user mobile number" do
+          expect(Notifications::Client).to receive(:new).with(api_key).and_return(client)
+
+          expect(client)
+            .to receive(:send_sms)
+            .with(expected_args)
+
+          user.send_otp(session_mobile_number)
+        end
       end
 
-      it "sends sms with correct information to user mobile number" do
-        expect(client)
-          .to receive(:send_sms)
-          .with(expected_args)
+      context "when the GOV.UK Notify account is not enabled" do
+        let(:expected_args) do
+          {
+            template_id: "fe046e05-6a21-41a2-848e-422bf952e0d2",
+            phone_number: "07717456456",
+            personalisation: {
+              body: "#{user.current_otp} is your Back Office Planning System verification code."
+            }
+          }
+        end
 
-        user.send_otp(session_mobile_number)
+        let(:api_key) do
+          "testtest-8e9d49e4-ddf0-4b68-946f-f6c9554478f4-0b1c96fc-e505-4b58-98b0-a9d03838c700"
+        end
+
+        before do
+          allow(local_authority).to receive(:enable_notify).and_return(false)
+        end
+
+        it "sends sms with correct information to user mobile number" do
+          expect(Notifications::Client).to receive(:new).with(api_key).and_return(client)
+
+          expect(client)
+            .to receive(:send_sms)
+            .with(expected_args)
+
+          user.send_otp(session_mobile_number)
+        end
       end
 
       context "when mobile number is blank" do
@@ -276,6 +317,8 @@ RSpec.describe User do
         end
 
         it "returns sms with otp to session mobile number" do
+          expect(Notifications::Client).to receive(:new).and_return(client)
+
           expect(client)
             .to receive(:send_sms)
             .with(expected_args)
