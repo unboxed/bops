@@ -11,7 +11,5 @@
 
   <%= form.hidden_field :return_to, value: task_path(@planning_application, @task) %>
 
-  <div class="govuk-button-group">
-    <%= form.submit "Add meeting", class: "govuk-button govuk-button--secondary" %>
-  </div>
+  <%= form.govuk_submit "Add meeting", secondary: true, class: "govuk-!-margin-bottom-2" %>
 <% end %>
