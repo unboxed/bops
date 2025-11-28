@@ -21,9 +21,13 @@ RSpec.describe "Planning considerations and advice task", type: :system do
   end
 
   it "Can complete and submit the form" do
-    click_button "Confirm as checked"
+    click_button "Save changes"
 
-    expect(task.status).to eq "completed"
+    expect(task).to be_in_progress
+
+    click_button "Save and mark as complete"
+
+    expect(task.reload).to be_completed
   end
 
   it "Can add a consideration", :capybara do
@@ -43,10 +47,18 @@ RSpec.describe "Planning considerations and advice task", type: :system do
 
     expect(page).not_to have_text "Failed to add consideration"
 
-    click_button "Confirm as checked"
+    click_button "Save changes"
+
+    expect(page).to have_content "successfully confirmed"
 
     expect(planning_application.consideration_set.considerations).not_to be_empty
-    expect(task.status).to eq "completed"
+    expect(task.reload).to be_in_progress
+
+    click_button "Save and mark as complete"
+
+    expect(page).to have_content "successfully confirmed"
+    expect(task.reload).to be_completed
+
     consideration = planning_application.consideration_set.considerations.last
     expect(consideration.policy_area).to eq policy_area.description
     expect(consideration.policy_references.map(&:description)).to contain_exactly(policy_reference.description)
@@ -59,7 +71,7 @@ RSpec.describe "Planning considerations and advice task", type: :system do
     expect(page).to have_text "Failed to add consideration"
 
     expect(planning_application.consideration_set.considerations).to be_empty
-    expect(task.status).to eq "not_started"
+    expect(task).to be_not_started
   end
 
   it "Can't add incomplete advice", :capybara do
@@ -77,7 +89,7 @@ RSpec.describe "Planning considerations and advice task", type: :system do
     expect(page).to have_text "Failed to add consideration"
 
     expect(planning_application.consideration_set.considerations).not_to be_empty
-    expect(task.status).to eq "not_started"
+    expect(task).to be_not_started
     consideration = planning_application.consideration_set.considerations.last
     expect(consideration.summary_tag).to be_nil
   end

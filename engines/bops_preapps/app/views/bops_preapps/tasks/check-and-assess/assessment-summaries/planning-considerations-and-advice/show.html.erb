@@ -70,8 +70,4 @@
   <% end %>
 <% end %>
 
-<%= form_with model: @task, url: task_path(@planning_application, @task), class: "govuk-!-margin-top-7" do |form| %>
-  <div class="govuk-button-group">
-    <%= form.submit "Confirm as checked", class: "govuk-button" %>
-  </div>
-<% end %>
+<%= render "shared/task_submit_form" %>
