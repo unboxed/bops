@@ -2,8 +2,9 @@ shared:
   os_vector_tiles_api_key: <%= ENV["OS_VECTOR_TILES_API_KEY"] %>
   google_tag_manager_id: <%= ENV["GOOGLE_TAG_MANAGER_ID"] %>
   default_notify_api_key: <%= ENV["NOTIFY_API_KEY"] %>
-  default_letter_template_id: <%= ENV.fetch("DEFAULT_NOTIFY_TEMPLATE_ID", "7a7c541e-be0a-490b-8165-8e44dc9d13ad") %>
-  notify_letter_api_key: <%= ENV["NOTIFY_LETTER_API_KEY"] %>
+  default_email_reply_to_id: <%= ENV["NOTIFY_EMAIL_REPLY_TO_ID"] %>
+  default_email_template_id: <%= ENV["NOTIFY_EMAIL_TEMPLATE_ID"] %>
+  default_sms_template_id: <%= ENV["NOTIFY_SMS_TEMPLATE_ID"] %>
   otp_secret_encryption_key: <%= ENV["OTP_SECRET_ENCRYPTION_KEY"] %>
   paapi_url: <%= ENV.fetch("PAAPI_URL", "https://staging.paapi.services/api/v1") %>
   planx_file_api_key: <%= ENV["PLANX_FILE_API_KEY"] %>

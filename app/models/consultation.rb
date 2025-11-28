@@ -245,7 +245,7 @@ class Consultation < ApplicationRecord
   end
 
   def consultee_email_reply_to_id
-    super.presence || local_authority.shared_email_reply_to_id
+    super.presence || local_authority.email_reply_to_id
   end
 
   def neighbour_letter_header

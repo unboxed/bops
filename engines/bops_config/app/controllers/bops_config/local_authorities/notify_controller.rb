@@ -32,7 +32,7 @@ module BopsConfig
       end
 
       def local_authority_attributes
-        %i[notify_api_key email_reply_to_id email_template_id sms_template_id letter_template_id]
+        %i[notify_api_key email_reply_to_id email_template_id sms_template_id letter_template_id enable_notify]
       end
 
       def check_settings?
