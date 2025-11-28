@@ -1,5 +1,7 @@
 <%# locals: (save_draft: false) %>
 
-<%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
-  <%= render "shared/task_submit_buttons", form: form %>
+<% unless @planning_application.determined? %>
+  <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
+    <%= render "shared/task_submit_buttons", form: form %>
+  <% end %>
 <% end %>
