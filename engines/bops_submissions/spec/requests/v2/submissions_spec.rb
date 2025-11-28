@@ -51,9 +51,30 @@ RSpec.describe "BOPS Submissions API", type: :request do
       response "200", "submission accepted" do
         schema "$ref" => "#/components/schemas/SubmissionResponse"
 
-        let(:Authorization) { "Bearer #{token}" }
-
         context "for planning portal" do
+          let(:Authorization) { "Bearer #{token}" }
+
+          let(:schema) { "planning-portal" }
+          let(:event) { valid_planning_portal_submission_event }
+
+          before do
+            stub_request(:get, event["documentLinks"].first["documentLink"])
+              .to_return(
+                status: 200,
+                body: file_fixture_submissions("applications/PT-10087984.zip"),
+                headers: {"Content-Type" => "application/zip"}
+              )
+          end
+
+          run_test! do |response|
+            body = JSON.parse(response.body)
+            expect(body["uuid"]).to match(/[0-9a-f-]{36}/)
+          end
+        end
+
+        context "for planning portal with a bare token" do
+          let(:Authorization) { token }
+
           let(:schema) { "planning-portal" }
           let(:event) { valid_planning_portal_submission_event }
 
@@ -73,6 +94,8 @@ RSpec.describe "BOPS Submissions API", type: :request do
         end
 
         context "for odp" do
+          let(:Authorization) { "Bearer #{token}" }
+
           context "for planning applications" do
             let(:event) { valid_planx_submission_event }
             run_test! do |response|
