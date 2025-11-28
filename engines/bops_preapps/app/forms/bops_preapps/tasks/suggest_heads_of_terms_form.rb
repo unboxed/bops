@@ -13,11 +13,15 @@ module BopsPreapps
       end
 
       def update(params)
-        task.update(status: :completed)
+        if params[:button] == "save_draft"
+          task.start!
+        else
+          task.complete!
+        end
       end
 
       def permitted_fields(params)
-        {} # no params sent: just a submit button
+        params # no params sent: just a submit button
       end
     end
   end

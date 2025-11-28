@@ -4,13 +4,15 @@ module BopsPreapps
   module Tasks
     class CheckAndAddRequirementsForm < BaseForm
       def update(params)
-        task.update!(status: :completed)
-      rescue ActiveRecord::RecordInvalid
-        false
+        if params[:button] == "save_draft"
+          task.start!
+        else
+          task.complete!
+        end
       end
 
       def permitted_fields(params)
-        {} # no params sent: just a submit button
+        params # no params sent: just a submit button
       end
     end
   end

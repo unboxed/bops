@@ -23,7 +23,7 @@ RSpec.describe "Suggest heads of terms task", type: :system do
   end
 
   it "displays the form to add heads of terms when none have been added" do
-    expect(task.status).to eq("not_started")
+    expect(task).to be_not_started
     expect(page).to have_content("Suggest heads of terms")
     expect(page).to have_content("Heads of terms can be added for pre-applications, but no email will be sent to the applicant.")
     expect(page).to have_css("#heads-of-terms-list")
@@ -69,13 +69,18 @@ RSpec.describe "Suggest heads of terms task", type: :system do
       visit current_path
     end
 
-    it "marks the task as completed when Save is clicked" do
-      expect(task.reload.status).to eq("not_started")
+    it "updates the task status when save buttons are clicked" do
+      expect(task).to be_not_started
+
+      click_button "Save changes"
+
+      expect(page).to have_content("Head of terms have been confirmed")
+      expect(task.reload).to be_in_progress
 
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Head of terms have been confirmed")
-      expect(task.reload.status).to eq("completed")
+      expect(task.reload).to be_completed
     end
   end
 

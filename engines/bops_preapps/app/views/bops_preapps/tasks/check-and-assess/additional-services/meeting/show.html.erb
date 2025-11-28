@@ -20,26 +20,19 @@
   </table>
 <% else %>
   <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
-    <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-3"><strong>No meetings have been recorded yet.</strong></p>
-    <p> Add new meeting to start recording meeting history.</p>
+    <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-3">
+      <strong>No meetings have been recorded yet.</strong>
+    </p>
+    <p>Add new meeting to start recording meeting history.</p>
   </div>
 <% end %>
 
 <% unless @planning_application.determined? %>
-  <details class="govuk-details" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">Add a new meeting</span>
-    </summary>
-    <div class="govuk-details__text" id="add-meeting-details">
+  <%= govuk_details(summary_text: "Add a new meeting") do %>
+    <div id="add-meeting-details">
       <%= render "bops_preapps/tasks/check-and-assess/additional-services/meeting/form" %>
     </div>
-  </details>
+  <% end %>
 <% end %>
 
-<%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
-  <div class="govuk-button-group">
-    <%= form.submit "Save", class: "govuk-button" %>
-
-    <%= govuk_button_link_to "Back", main_app.planning_application_assessment_tasks_path(@planning_application), secondary: true %>
-  </div>
-<% end %>
+<%= render "shared/task_submit_form" %>

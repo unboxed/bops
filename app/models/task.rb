@@ -15,6 +15,14 @@ class Task < ApplicationRecord
     self.status ||= "not_started"
   end
 
+  def start!
+    update(status: :in_progress) unless completed?
+  end
+
+  def complete!
+    update(status: :completed)
+  end
+
   def full_slug
     @full_slug ||= parent.is_a?(Task) ? "#{parent.full_slug}/#{slug}" : slug
   end

@@ -15,7 +15,7 @@ RSpec.describe "Choose application type task", type: :system do
   end
 
   it "Can complete and submit the form" do
-    expect(task.status).to eq("not_started")
+    expect(task).to be_not_started
 
     within ".bops-sidebar" do
       click_link "Choose application type"
@@ -25,12 +25,12 @@ RSpec.describe "Choose application type task", type: :system do
 
     select "Prior Approval - Larger extension to a house", from: "What application type would the applicant need to apply for next?"
 
-    click_button "Save"
+    click_button "Save and mark as complete"
 
     expect(page).to have_content("Recommended application type was successfully chosen")
 
     expect(planning_application.reload.recommended_application_type).to eq(application_type)
-    expect(task.reload.status).to eq("completed")
+    expect(task.reload).to be_completed
   end
 
   it "shows validation errors when application type is not selected" do
@@ -40,26 +40,26 @@ RSpec.describe "Choose application type task", type: :system do
       click_link "Choose application type"
     end
 
-    click_button "Save"
+    click_button "Save and mark as complete"
 
     expect(page).to have_content("There is a problem")
     expect(page).to have_content("Failed to save recommended application type")
 
     expect(planning_application.reload.recommended_application_type).to be_nil
-    expect(task.reload.status).to eq("not_started")
+    expect(task.reload).to be_not_started
   end
 
   it "displays the selected application type after completion" do
-    expect(task.status).to eq("not_started")
+    expect(task).to be_not_started
 
     within ".bops-sidebar" do
       click_link "Choose application type"
     end
 
     select "Prior Approval - Larger extension to a house", from: "What application type would the applicant need to apply for next?"
-    click_button "Save"
+    click_button "Save and mark as complete"
 
-    expect(task.reload.status).to eq("completed")
+    expect(task.reload).to be_completed
 
     within ".bops-sidebar" do
       click_link "Choose application type"
@@ -71,7 +71,7 @@ RSpec.describe "Choose application type task", type: :system do
 
   it "shows the previously selected application type in the dropdown" do
     planning_application.update!(recommended_application_type: application_type)
-    task.update!(status: :completed)
+    task.complete!
 
     within ".bops-sidebar" do
       click_link "Choose application type"

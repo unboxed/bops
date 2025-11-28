@@ -5,6 +5,7 @@ require "rails_helper"
 RSpec.describe "Summary of advice task", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
+  let(:task) { planning_application.case_record.find_task_by_slug_path! "check-and-assess/assessment-summaries/summary-of-advice" }
   let(:user) { create(:user, local_authority:) }
 
   before do
@@ -21,9 +22,10 @@ RSpec.describe "Summary of advice task", type: :system do
 
     choose "Likely to be supported (recommended based on considerations)"
     fill_in "Enter summary of planning considerations and advice. This should summarise any changes the applicant needs to make before they make an application.", with: "It is my recommendation that if a formal application were to be submitted this would be granted."
-    click_button "Save"
+    click_button "Save changes"
 
     expect(page).to have_content("Summary of advice successfully updated")
+    expect(task).to be_in_progress
     expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/assessment-summaries/summary-of-advice")
 
     expect(page).not_to have_content("#outcome-form")
@@ -35,10 +37,16 @@ RSpec.describe "Summary of advice task", type: :system do
 
     within "#outcome-form" do
       choose "Likely to be supported with changes"
-      click_button "Save"
+      click_button "Save changes"
     end
 
     expect(page).to have_content("Summary of advice successfully updated")
+    expect(task.reload).to be_in_progress
+
     expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/assessment-summaries/summary-of-advice")
+
+    click_button "Save and mark as complete"
+    expect(page).to have_content("Summary of advice successfully updated")
+    expect(task.reload).to be_completed
   end
 end

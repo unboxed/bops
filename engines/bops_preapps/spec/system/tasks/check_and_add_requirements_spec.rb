@@ -28,7 +28,7 @@ RSpec.describe "Check and add requirements task", type: :system do
     expect(page).to have_content("Add requirements")
     expect(page).to have_css(".govuk-summary-card")
     expect(page).to have_content("No requirements of this type selected")
-    expect(page).to have_button("Save")
+    expect(page).to have_button("Save and mark as complete")
   end
 
   it "shows summary cards and edit/remove links for existing requirements" do
@@ -50,32 +50,39 @@ RSpec.describe "Check and add requirements task", type: :system do
       expect(page).to have_link("Remove")
     end
 
-    expect(page).to have_button("Save")
+    expect(page).to have_button("Save and mark as complete")
+    expect(page).to have_button("Save changes")
   end
 
-  it "marks the task as completed when Save is clicked" do
+  it "updates the task status when save buttons are clicked" do
     planning_application.add_requirements([requirement3])
 
     within ".bops-sidebar" do
       click_link "Check and add requirements"
     end
 
-    expect(task.reload.status).to eq("not_started")
+    expect(task).to be_not_started
 
-    click_button "Save"
+    click_button "Save changes"
 
     expect(page).to have_content("Requirements were successfully saved")
-    expect(task.reload.status).to eq("completed")
+    expect(task.reload).to be_in_progress
+
+    click_button "Save and mark as complete"
+
+    expect(page).to have_content("Requirements were successfully saved")
+    expect(task.reload).to be_completed
   end
 
-  it "hides Save button when application is determined" do
+  it "hides save buttons when application is determined" do
     planning_application.update!(status: "determined", determined_at: Time.current)
 
     within ".bops-sidebar" do
       click_link "Check and add requirements"
     end
 
-    expect(page).not_to have_button("Save")
+    expect(page).not_to have_button("Save and mark as complete")
+    expect(page).not_to have_button("Save draft")
   end
 
   it "redirects back to task page after adding requirements" do

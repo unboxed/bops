@@ -5,6 +5,8 @@ require "rails_helper"
 RSpec.describe "Site visit", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
+  let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/additional-services/site-visit") }
+
   let(:user) { create(:user, local_authority:) }
 
   before do
@@ -26,10 +28,13 @@ RSpec.describe "Site visit", type: :system do
       fill_in "Year", with: 2025
 
       fill_in "Comment", with: "Visited the site to assess proximity to neighbour boundary."
-      click_button "Save"
+      click_button "Add site visit"
     end
 
-    expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/additional-services/site-visit")
+    click_button "Save changes"
+
+    expect(task.reload).to be_in_progress
+
     expect(planning_application.site_visits.last.comment == "Visited the site to assess proximity to neighbour boundary.")
 
     expect(page).not_to have_content("No site visits have been recorded yet.")
@@ -37,5 +42,10 @@ RSpec.describe "Site visit", type: :system do
     within("#site-visit-history") do
       expect(page).to have_content(planning_application.site_visits.last.address)
     end
+
+    click_button "Save and mark as complete"
+    expect(task.reload).to be_completed
+
+    expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/additional-services/site-visit")
   end
 end

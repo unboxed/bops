@@ -4,15 +4,15 @@ module BopsPreapps
   module Tasks
     class MeetingForm < BaseForm
       def update(params)
-        ActiveRecord::Base.transaction do
-          task.update!(status: :completed)
+        if params[:button] == "save_draft"
+          task.start!
+        else
+          task.complete!
         end
-      rescue ActiveRecord::RecordInvalid
-        false
       end
 
       def permitted_fields(params)
-        {} # no params sent: just a submit button
+        params # no params sent: just a submit button
       end
     end
   end

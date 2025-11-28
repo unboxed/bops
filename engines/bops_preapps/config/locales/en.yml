@@ -25,6 +25,10 @@ en:
           summary-of-advice:
             edit:
               complies: Likely to be supported
+              does_not_comply: Unlikely to be supported
+              needs_changes: Likely to be supported with changes
+            form:
+              complies: Likely to be supported
               complies_recommended_html: Likely to be supported <strong>(recommended based on considerations)</strong>
               does_not_comply: Unlikely to be supported
               does_not_comply_recommended_html: Unlikely to be supported <strong>(recommended based on considerations)</strong>
@@ -33,12 +37,8 @@ en:
               needs_changes_recommended_html: Likely to be supported with changes <strong>(recommended based on considerations)</strong>
             show:
               complies: Likely to be supported
-              complies_recommended_html: Likely to be supported <strong>(recommended based on considerations)</strong>
               does_not_comply: Unlikely to be supported
-              does_not_comply_recommended_html: Unlikely to be supported <strong>(recommended based on considerations)</strong>
-              label: Enter summary of planning considerations and advice. This should summarise any changes the applicant needs to make before they make an application.
               needs_changes: Likely to be supported with changes
-              needs_changes_recommended_html: Likely to be supported with changes <strong>(recommended based on considerations)</strong>
       update:
         check-and-add-requirements:
           failure: Failed to save requirements

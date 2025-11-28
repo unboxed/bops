@@ -30,5 +30,5 @@
 
   <%= form.hidden_field(:category, value: @category) %>
 
-  <%= form.govuk_submit "Save" %>
+  <%= render "shared/task_submit_buttons", form: form %>
 <% end %>
