@@ -5,6 +5,8 @@ require "rails_helper"
 RSpec.describe "Check application details task", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
+  let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/check-application/check-application-details") }
+
   let(:user) { create(:user, local_authority:) }
 
   before do
@@ -21,7 +23,8 @@ RSpec.describe "Check application details task", type: :system do
     choose "task-proposal-details-match-documents-yes-field"
     choose "task-site-map-correct-yes-field"
 
-    click_button "Save"
+    click_button "Save and mark as complete"
+    expect(task.reload).to be_completed
 
     expect(planning_application.reload.consistency_checklist.description_matches_documents).to eq "yes"
     expect(planning_application.reload.consistency_checklist.documents_consistent).to eq "yes"
