@@ -16,18 +16,25 @@
           <% requirements.each do |requirement| %>
             <div class="govuk-summary-list__row">
               <dt class="govuk-summary-list__value govuk-!-width-one-half">
-                <strong>
-                  <%= requirement.description %>
-                </strong>
+                <strong><%= requirement.description %></strong>
               </dt>
-              <dd class="govuk-summary-list__value govuk-!-padding-right-2 govuk-!-width-one-quarter govuk-secondary-text-colour">
+              <dd
+                class="
+                  govuk-summary-list__value govuk-!-padding-right-2
+                  govuk-!-width-one-quarter govuk-secondary-text-colour
+                ">
                 Added by <%= requirement.source %>
               </dd>
-              <dd class="govuk-summary-list__actions  govuk-!-padding-right-2 govuk-!-width-one-quarter">
+              <dd
+                class="
+                  govuk-summary-list__actions govuk-!-padding-right-2
+                  govuk-!-width-one-quarter
+                ">
                 <% unless @planning_application.determined? %>
                   <div class="align-items-center justify-end gap-2">
                     <%= govuk_link_to("Edit", main_app.edit_planning_application_assessment_requirement_path(@planning_application, requirement, redirect_to: task_path(@planning_application, @task)), no_visited_state: true, no_underline: true) %>
                     <span>|</span>
+
                     <%= govuk_link_to("Remove", main_app.planning_application_assessment_requirement_path(@planning_application, requirement, redirect_to: task_path(@planning_application, @task)),
                           method: :delete,
                           no_visited_state: true,
@@ -74,8 +81,4 @@
   <% end %>
 <% end %>
 
-<% unless @planning_application.determined? %>
-  <%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
-    <%= form.govuk_submit "Save" %>
-  <% end %>
-<% end %>
+<%= render "shared/task_submit_form", save_draft: false %>
