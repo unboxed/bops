@@ -51,7 +51,7 @@ class UserMailer < ApplicationMailer
       to: email,
       subject: subject,
       reply_to_id: email_reply_to_id,
-      delivery_method_settings: {
+      notify_settings: {
         api_key: notify_api_key
       }
     }
