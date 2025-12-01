@@ -31,7 +31,7 @@ class DeviseMailer < Devise::Mailer
   def settings
     {
       reply_to_id: email_reply_to_id,
-      delivery_method_settings: {
+      notify_settings: {
         api_key: notify_api_key
       }
     }
