@@ -5,7 +5,10 @@ require "notifications/client"
 class Consultee < ApplicationRecord
   class Email < ApplicationRecord
     belongs_to :consultee
+
     delegate :email_address, to: :consultee
+    delegate :local_authority, to: :consultee
+    delegate :notify_api_key, to: :local_authority, allow_nil: true
 
     enum :status, {
       pending: "pending",
@@ -46,11 +49,11 @@ class Consultee < ApplicationRecord
     private
 
     def client
-      Notifications::Client.new(api_key)
+      @client ||= Notifications::Client.new(api_key)
     end
 
     def api_key
-      Rails.configuration.default_notify_api_key.presence || (raise NotifyEmailJob::NotConfiguredError, "Notify API key not found")
+      notify_api_key.presence || (raise NotifyEmailJob::NotConfiguredError, "Notify API key not found")
     end
   end
 end

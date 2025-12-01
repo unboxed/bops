@@ -4,6 +4,7 @@ require "rails_helper"
 
 RSpec.describe LetterSendingService do
   let!(:planning_application) { create(:planning_application, :planning_permission) }
+  let!(:local_authority) { planning_application.local_authority }
   let(:consultation) { planning_application.consultation }
   let(:neighbour) { create(:neighbour, consultation:) }
 

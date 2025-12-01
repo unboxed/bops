@@ -89,7 +89,7 @@ class LetterSendingService
   end
 
   def client
-    @client ||= Notifications::Client.new(local_authority.notify_api_key_for_letters)
+    @client ||= Notifications::Client.new(local_authority.notify_api_key)
   end
 
   def update_letter!(letter_record, response)

@@ -13,16 +13,24 @@ module BopsCore
       @email = email
 
       view_mail(
-        NOTIFY_TEMPLATE_ID,
+        email_template_id,
         to: email,
         subject:,
-        reply_to_id: planning_application.local_authority.shared_email_reply_to_id
+        reply_to_id: email_reply_to_id,
+        delivery_method_options: {
+          api_key: notify_api_key
+        }
       )
     end
 
     private
 
     attr_reader :resource, :sgid, :subdomain, :planning_application, :email
+    delegate :local_authority, to: :planning_application
+
+    with_options to: :local_authority, allow_nil: true do
+      delegate :notify_api_key, :email_template_id, :email_reply_to_id
+    end
 
     def magic_link_url
       case resource

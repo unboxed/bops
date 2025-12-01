@@ -57,9 +57,6 @@ Rails.application.configure do
 
   if ENV["NOTIFY_API_KEY"].present?
     config.action_mailer.delivery_method = :notify
-    config.action_mailer.notify_settings = {
-      api_key: ENV.fetch("NOTIFY_API_KEY")
-    }
   end
 
   # Print deprecation notices to the Rails logger.

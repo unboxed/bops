@@ -49,7 +49,7 @@ class NeighbourLetter < ApplicationRecord
   end
 
   def notify_api_key
-    local_authority.notify_api_key_for_letters
+    local_authority.notify_api_key
   end
 
   def resend?

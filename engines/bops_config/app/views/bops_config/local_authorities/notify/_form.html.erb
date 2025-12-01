@@ -1,34 +1,43 @@
 <%= form_with(model: @local_authority, url: local_authority_notify_path(@local_authority), id: "notify-form") do |form| %>
   <%= form.govuk_error_summary %>
 
-  <%= form.govuk_fieldset(legend: {text: t(".settings")}) do %>
-    <%= form.govuk_password_field(
-          :notify_api_key,
-          label: {text: t(".notify_api_key")},
-          value: @local_authority.notify_api_key
-        ) %>
+  <% @local_authority.with_notify_enabled do %>
+    <%= form.govuk_fieldset(legend: {text: t(".settings")}) do %>
+      <%= form.govuk_password_field(
+            :notify_api_key,
+            label: {text: t(".notify_api_key")},
+            value: @local_authority.notify_api_key
+          ) %>
 
-    <%= form.govuk_text_field(
-          :email_reply_to_id,
-          label: {text: t(".email_reply_to_id")}
-        ) %>
+      <%= form.govuk_text_field(
+            :email_reply_to_id,
+            label: {text: t(".email_reply_to_id")}
+          ) %>
+    <% end %>
+
+    <%= form.govuk_fieldset(legend: {text: t(".templates")}) do %>
+      <%= form.govuk_text_field(
+            :email_template_id,
+            label: {text: t(".email_template_id")}
+          ) %>
+
+      <%= form.govuk_text_field(
+            :sms_template_id,
+            label: {text: t(".sms_template_id")}
+          ) %>
+
+      <%= form.govuk_text_field(
+            :letter_template_id,
+            label: {text: t(".letter_template_id")}
+          ) %>
+    <% end %>
   <% end %>
 
-  <%= form.govuk_fieldset(legend: {text: t(".templates")}) do %>
-    <%= form.govuk_text_field(
-          :email_template_id,
-          label: {text: t(".email_template_id")}
-        ) %>
+  <%= govuk_section_break(visible: true, size: "l") %>
 
-    <%= form.govuk_text_field(
-          :sms_template_id,
-          label: {text: t(".sms_template_id")}
-        ) %>
-
-    <%= form.govuk_text_field(
-          :letter_template_id,
-          label: {text: t(".letter_template_id")}
-        ) %>
+  <%= form.govuk_radio_buttons_fieldset(:enable_notify, inline: true, legend: {size: "s", text: "Enable this GOV.UK Notify account?"}) do %>
+    <%= form.govuk_radio_button :enable_notify, "true", label: {text: "Yes"} %>
+    <%= form.govuk_radio_button :enable_notify, "false", label: {text: "No"} %>
   <% end %>
 
   <%= form.govuk_submit(t(".submit")) do %>

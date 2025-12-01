@@ -23,7 +23,9 @@ module BopsCore
         return false unless valid?
 
         begin
-          yield if block_given?
+          local_authority.with_notify_enabled do
+            yield if block_given?
+          end
 
           @checked = true
         rescue Notifications::Client::RequestError => error
