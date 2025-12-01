@@ -1,0 +1,30 @@
+<div id="outcome-form">
+  <h2>Check pre-application outcome</h2>
+
+  <p>
+    This is a suggested outcome based on your assessment. If you'd like to
+    change it, you can select the outcome.
+  </p>
+
+  <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
+    <%= form.govuk_error_summary %>
+    <% outcome = @planning_application.consideration_set.suggested_outcome %>
+    <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Select pre-application outcome", size: "s"}, small: true do %>
+      <% AssessmentDetail.summary_tags.each do |label, value| %>
+        <% key = (value == outcome) ? "#{label}_recommended_html" : label %>
+        <% label_text = t(".#{key}") %>
+        <%= form.govuk_radio_button :summary_tag, value, label: {text: label_text}, checked: value.to_sym == @planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice).summary_tag&.to_sym %>
+      <% end %>
+    <% end %>
+
+    <h3>Add summary of advice</h3>
+
+    <%= form.govuk_text_area(:entry, value: @planning_application
+              .assessment_details
+              .find_or_initialize_by(category: :summary_of_advice)
+              .entry, label: {text: t(".label")}, rows: 10) %>
+    <%= form.hidden_field(:category, value: @category) %>
+
+    <%= render "shared/task_submit_buttons", form: form %>
+  <% end %>
+</div>

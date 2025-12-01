@@ -42,6 +42,4 @@
   <% end %>
 <% end %>
 
-<%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
-  <%= form.govuk_submit %>
-<% end %>
+<%= render "shared/task_submit_form" %>

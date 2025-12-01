@@ -7,14 +7,24 @@ module BopsPreapps
         assessment_detail = planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice)
         ActiveRecord::Base.transaction do
           assessment_detail.update!(params)
-          task.update!(status: :completed)
+
+          if @button == "save_draft"
+            task.start!
+          else
+            task.complete!
+          end || raise(ActiveRecord::RecordInvalid)
         end
       rescue ActiveRecord::RecordInvalid
         false
       end
 
       def permitted_fields(params)
-        params.require(:task).permit(:summary_tag, :entry)
+        @button = params[:button]
+        begin
+          params.require(:task).permit(:summary_tag, :entry)
+        rescue ActionController::ParameterMissing
+          {}
+        end
       end
     end
   end

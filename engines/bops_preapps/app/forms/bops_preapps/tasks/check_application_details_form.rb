@@ -14,13 +14,20 @@ module BopsPreapps
       def update(params)
         ActiveRecord::Base.transaction do
           consistency_checklist.update!(params)
-          task.update!(status: :completed)
+
+          if @button == "save_draft"
+            task.start!
+          else
+            task.complete!
+          end || raise(ActiveRecord::RecordInvalid)
         end
       rescue ActiveRecord::RecordInvalid
         false
       end
 
       def permitted_fields(params)
+        @button = params[:button]
+
         params.require(:task).permit(%i[description_matches_documents
           documents_consistent
           proposal_details_match_documents

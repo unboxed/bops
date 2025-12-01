@@ -1,4 +1,4 @@
-<div class="govuk-details__text" id="new-site-visit-form">
+<div id="new-site-visit-form">
   <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
     <%= form.govuk_error_summary %>
     <div class="govuk-form-group">
@@ -27,6 +27,6 @@
       <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Comment", class: "govuk-!-font-weight-bold"}) %>
     </div>
 
-    <%= form.govuk_submit "Save" %>
+    <%= form.govuk_submit "Add site visit", secondary: true, class: "govuk-!-margin-bottom-2" %>
   <% end %>
 </div>

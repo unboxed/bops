@@ -8,13 +8,18 @@ module BopsPreapps
 
         ActiveRecord::Base.transaction do
           assessment_detail.update!(params)
-          task.update!(status: :completed)
+          if @button == "save_draft"
+            task.start!
+          else
+            task.complete!
+          end || raise(ActiveRecord::RecordInvalid)
         end
       rescue ActiveRecord::RecordInvalid
         false
       end
 
       def permitted_fields(params)
+        @button = params[:button]
         params.require(:task).permit(:entry)
       end
     end

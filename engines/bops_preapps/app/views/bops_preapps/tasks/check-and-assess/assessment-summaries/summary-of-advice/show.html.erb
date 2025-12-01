@@ -3,7 +3,11 @@
 <%= govuk_tabs do |tabs| %>
   <% tabs.with_tab(label: "Considerations") do %>
     <h2>Considerations</h2>
-    <hr class="govuk-section-break govuk-section-break--s govuk-section-break--visible">
+    <hr
+      class="
+        govuk-section-break govuk-section-break--s
+        govuk-section-break--visible
+      ">
 
     <div class="govuk-!-margin-bottom-5">
       <% @planning_application.consideration_set.considerations.active.each do |consideration| %>
@@ -25,53 +29,25 @@
         <% end %>
       <% end %>
     </div>
+
     <%= govuk_link_to "View considerations", task_path(slug: "/check-and-assess/assessment-summaries/planning-considerations-and-advice", reference: @planning_application.reference), new_tab: true %>
   <% end %>
 <% end %>
 
-<% if @task.status == "not_started" %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds" id="outcome-form">
-      <h2>Check pre-application outcome</h2>
-      <p>This is a suggested outcome based on your assessment. If you'd like to change it, you can select the outcome.</p>
-
-      <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
-        <%= form.govuk_error_summary %>
-        <% outcome = @planning_application.consideration_set.suggested_outcome %>
-        <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Select pre-application outcome", size: "s"}, small: true do %>
-          <% AssessmentDetail.summary_tags.each do |label, value| %>
-            <% key = (value == outcome) ? "#{label}_recommended_html" : label %>
-            <% label_text = t(".#{key}") %>
-            <%= form.govuk_radio_button :summary_tag, value, label: {text: label_text}, checked: value.to_sym == @planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice).summary_tag&.to_sym %>
-          <% end %>
-      <% end %>
-
-        <h3>Add summary of advice</h3>
-
-        <%= form.govuk_text_area(:entry, value: @planning_application
-              .assessment_details
-              .find_or_initialize_by(category: :summary_of_advice)
-              .entry, label: {text: t(".label")}, rows: 10) %>
-        <%= form.hidden_field(:category, value: @category) %>
-
-        <%= form.govuk_submit "Save" %>
-      <% end %>
-    </div>
-  </div>
+<% if @task.not_started? %>
+  <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/summary-of-advice/form" %>
 <% else %>
-    <% if @planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice).summary_tag %>
-      <% content = I18n.t("summary_advice.#{@planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice).summary_tag}") %>
-      <%= bops_notification_banner(title: "Outcome", **content) %>
+  <% if @planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice).summary_tag %>
+    <% content = I18n.t("summary_advice.#{@planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice).summary_tag}") %>
+    <%= bops_notification_banner(title: "Outcome", **content) %>
+  <% end %>
+  <p>
+    <%= render(FormattedContentComponent.new(text: @planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice).entry)) %>
+  </p>
+  <div class="govuk-button-group">
+    <% unless @planning_application.determined? %>
+      <%= govuk_button_link_to "Edit summary of advice", edit_task_path(slug: @task.full_slug, reference: @planning_application.reference), secondary: true %>
     <% end %>
-
-    <p>
-      <%= render(FormattedContentComponent.new(text: @planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice).entry)) %>
-    </p>
-
-    <div class="govuk-button-group">
-      <% unless @planning_application.determined? %>
-        <%= govuk_button_link_to "Edit summary of advice", edit_task_path(slug: @task.full_slug, reference: @planning_application.reference), secondary: true %>
-      <% end %>
-    </div>
   </div>
+  <%= render "shared/task_submit_form" %>
 <% end %>
