@@ -5,6 +5,7 @@ module PlanningApplications
     before_action :set_planning_application
     before_action :set_consultation
     before_action :redirect_to_application_page, unless: :public_or_preapp?
+    before_action :show_sidebar
 
     def show
       respond_to do |format|
@@ -31,6 +32,12 @@ module PlanningApplications
     end
 
     private
+
+    def show_sidebar
+      @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout && !BLOCKED_SIDEBAR_EMAILS.include?(current_user&.email)
+        @planning_application.case_record.tasks.find_by(section: "Consultation")
+      end
+    end
 
     def consultation_params
       params.fetch(:consultation, {}).permit(:neighbour_letter_text, :resend_existing, :resend_reason, :end_date)

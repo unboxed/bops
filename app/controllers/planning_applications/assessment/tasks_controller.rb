@@ -3,11 +3,6 @@
 module PlanningApplications
   module Assessment
     class TasksController < BaseController
-      BLOCKED_SIDEBAR_EMAILS = %w[
-        martyn.evans+demo_southwark_assessor@unboxedconsulting.com
-        martyn.evans+demo_southwark_reviewer@unboxedconsulting.com
-      ].freeze
-
       before_action :redirect_to_reference_url
 
       def index
