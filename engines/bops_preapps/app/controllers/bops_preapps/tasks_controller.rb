@@ -32,7 +32,7 @@ module BopsPreapps
     end
 
     def show_sidebar
-      @show_sidebar ||= @planning_application.case_record.tasks.find_by(section: "Assessment")
+      @show_sidebar ||= @task.top_level_ancestor
     end
 
     def redirect_to_review_and_submit_report
