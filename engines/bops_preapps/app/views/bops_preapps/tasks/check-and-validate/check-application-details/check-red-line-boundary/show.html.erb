@@ -1,0 +1,18 @@
+<%= render "shared/task_header", task: @task, heading: "Check the digital red line boundary" %>
+
+<p>This digital red line boundary was submitted by the applicant.</p>
+
+<%= render "shared/location_map", locals: {in_accordion: true, geojson: @planning_application.boundary_geojson} %><br>
+
+<%= form_with model: @planning_application, url: task_path(@planning_application, @task), method: :patch do |form| %>
+  <%= form.govuk_radio_buttons_fieldset(:valid_red_line_boundary) do %>
+    <%= form.govuk_radio_button :valid_red_line_boundary, true, label: {text: "Yes"} %>
+    <%= form.govuk_radio_button :valid_red_line_boundary, false, label: {text: "No"} %>
+  <% end %>
+
+  <% unless @planning_application.determined? %>
+    <div class="govuk-button-group">
+      <%= form.govuk_submit t(".submit") %>
+    </div>
+  <% end %>
+<% end %>

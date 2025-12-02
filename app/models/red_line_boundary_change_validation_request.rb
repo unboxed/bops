@@ -17,10 +17,10 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
   end
 
   before_create :set_original_geojson
-
   before_create lambda {
     reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests)
   }
+  after_create :complete_check_red_line_boundary_task
 
   def update_planning_application!(*)
     planning_application.update!(boundary_geojson: new_geojson)
@@ -66,6 +66,27 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
 
   def set_original_geojson
     self.original_geojson = planning_application.boundary_geojson
+  end
+
+  def complete_check_red_line_boundary_task
+    return unless planning_application.pre_application?
+
+    planning_application.case_record
+      &.find_task_by_slug_path(CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG)
+      &.complete!
+  end
+
+  def reset_check_red_line_boundary_task
+    return unless planning_application.pre_application?
+
+    planning_application.case_record
+      &.find_task_by_slug_path(CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG)
+      &.not_started!
+  end
+
+  def reset_red_line_boundary_invalidation
+    super
+    reset_check_red_line_boundary_task
   end
 
   def audit_api_comment
