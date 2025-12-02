@@ -88,3 +88,7 @@ body:has(.bops-fullwidth-container) {
   height: 32px;
   line-height: 0;
 }
+
+.bops-sidebar__task-name--disabled {
+  color: $govuk-secondary-text-colour;
+}

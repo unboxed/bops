@@ -14,7 +14,9 @@
       <%= govuk_button_link_to "Continue", planning_application_validation_fee_items_path(planning_application) %>
     <% end %>
   <% end %>
-  <%= back_link(classname: "govuk-button govuk-button--secondary") %>
+  <% if local_assigns.fetch(:include_back_link, true) %>
+    <%= back_link(classname: "govuk-button govuk-button--secondary") %>
+  <% end %>
 
   <% if validation_request.open_or_pending? %>
     <% if planning_application.validation_complete? %>

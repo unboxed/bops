@@ -1,1 +1,13 @@
-<h1>Check and Validate</h1>
+<%= render "shared/task_header", task: @task %>
+
+<%= govuk_task_list(id_prefix: "#") do |task_list| %>
+  <% @task.tasks.each do |task| %>
+    <%= task_list.with_item(
+          title: task.name,
+          href: task_path(@planning_application, task),
+          status: task_status_tag(task)
+        ) %>
+  <% end %>
+<% end %>
+
+<%= govuk_button_link_to "Back", main_app.planning_application_validation_tasks_path(@planning_application), secondary: true %>

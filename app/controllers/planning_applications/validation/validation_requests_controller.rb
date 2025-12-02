@@ -15,6 +15,7 @@ module PlanningApplications
       before_action :set_validation_request, only: %i[show edit update destroy cancel_confirmation cancel]
       before_action :set_document
       before_action :set_type, only: %i[new]
+      before_action :show_sidebar_for_pre_application
       before_action :ensure_planning_application_is_validated, only: :post_validation_requests
       before_action :ensure_planning_application_not_validated, only: %i[new create edit update]
       before_action :ensure_planning_application_not_invalidated, only: :edit
@@ -62,17 +63,18 @@ module PlanningApplications
       end
 
       def destroy
+        reset_check_red_line_boundary_task_for_pre_application
         @validation_request.destroy!
 
         respond_to do |format|
           if @validation_request.destroyed?
             format.html do
-              redirect_to planning_application_validation_tasks_path(@planning_application),
+              redirect_to destroy_redirect_url,
                 notice: t(".#{@validation_request.type.underscore}.success")
             end
           else
             format.html do
-              redirect_to planning_application_validation_tasks_path(@planning_application),
+              redirect_to destroy_redirect_url,
                 alert: t(".failure")
             end
           end
@@ -86,6 +88,8 @@ module PlanningApplications
           )
         @validation_request.user = current_user
         if @validation_request.save
+          complete_check_red_line_boundary_task_for_pre_application
+
           i18n_key = ".#{@validation_request.type.underscore}.success"
           if @validation_request.type == "DescriptionChangeValidationRequest" && !@planning_application.description_change_requires_validation? || applicant_approval_skipped?
             i18n_key << "_autoapproved"
@@ -114,6 +118,7 @@ module PlanningApplications
         respond_to do |format|
           @validation_request.assign_attributes(cancel_validation_request_params)
           @validation_request.cancel_request!
+          reset_check_red_line_boundary_task_for_pre_application
 
           @validation_request.send_cancelled_validation_request_mail unless @planning_application.not_started?
 
@@ -174,6 +179,11 @@ module PlanningApplications
         if params.dig(:validation_request, :return_to)
           params.dig(:validation_request, :return_to) ||
             @planning_application
+        elsif redirect_to_check_red_line_boundary_task?
+          planning_application_validation_validation_request_path(
+            @planning_application,
+            @validation_request
+          )
         elsif @planning_application.validated?
           planning_application_assessment_tasks_path(@planning_application)
         elsif @validation_request.type == "ReplacementDocumentValidationRequest"
@@ -216,11 +226,28 @@ module PlanningApplications
         elsif params.dig(:validation_request, :return_to)
           params.dig(:validation_request, :return_to) ||
             @planning_application
+        elsif redirect_to_check_red_line_boundary_task?
+          check_red_line_boundary_task_path
         elsif @planning_application.validated?
           post_validation_requests_planning_application_validation_validation_requests_path(@planning_application)
         else
           planning_application_validation_validation_requests_path(@planning_application)
         end
+      end
+
+      def destroy_redirect_url
+        if redirect_to_check_red_line_boundary_task?
+          check_red_line_boundary_task_path
+        else
+          planning_application_validation_tasks_path(@planning_application)
+        end
+      end
+
+      def check_red_line_boundary_task_path
+        BopsPreapps::Engine.routes.url_helpers.task_path(
+          reference: @planning_application.reference,
+          slug: CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG
+        )
       end
 
       def set_validation_request
@@ -245,6 +272,32 @@ module PlanningApplications
 
       def applicant_approval_skipped?
         params.dig("validation_request", "skip_applicant_approval") == "true"
+      end
+
+      def show_sidebar_for_pre_application
+        return unless @planning_application.pre_application?
+        return unless @planning_application.case_record&.tasks&.exists?
+
+        @show_sidebar = @planning_application.case_record.tasks.find_by(section: "Validation")
+      end
+
+      def redirect_to_check_red_line_boundary_task?
+        @planning_application.pre_application? &&
+          @validation_request.type == "RedLineBoundaryChangeValidationRequest"
+      end
+
+      def complete_check_red_line_boundary_task_for_pre_application
+        return unless redirect_to_check_red_line_boundary_task?
+
+        task = @planning_application.case_record.find_task_by_slug_path(CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG)
+        task&.complete!
+      end
+
+      def reset_check_red_line_boundary_task_for_pre_application
+        return unless redirect_to_check_red_line_boundary_task?
+
+        task = @planning_application.case_record.find_task_by_slug_path(CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG)
+        task&.not_started!
       end
     end
   end

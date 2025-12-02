@@ -1,0 +1,27 @@
+<%= render "shared/task_header", task: @task %>
+
+<h3>Red line site boundary on submission</h3>
+
+<% if @form.sitemap_documents.none? %>
+  <p>No document has been tagged as a sitemap for this application</p>
+  <p><%= govuk_link_to "View all documents", main_app.planning_application_documents_path(@planning_application) %></p>
+<% elsif @form.sitemap_documents.one? %>
+  <p>This digital red line boundary was submitted by the applicant on PlanX.</p>
+  <p><%= govuk_link_to "View sitemap document", main_app.edit_planning_application_document_path(@planning_application, @form.sitemap_documents.first) %></p>
+<% else %>
+  <p>Multiple documents have been tagged as a sitemap for this application</p>
+  <p><%= govuk_link_to "View all documents", main_app.planning_application_documents_path(@planning_application) %></p>
+<% end %>
+
+<h3>Draw the red line site boundary</h3>
+
+<%= form_with model: @planning_application, url: task_path(@planning_application, @task), method: :patch do |form| %>
+  <%= form.hidden_field :boundary_geojson, value: @planning_application.boundary_geojson.to_json %>
+  <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson, geojson_field: "planning_application_boundary_geojson"} %>
+
+  <% unless @planning_application.determined? %>
+    <div class="govuk-button-group govuk-!-margin-top-3">
+      <%= form.govuk_submit t(".submit") %>
+    </div>
+  <% end %>
+<% end %>

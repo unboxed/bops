@@ -32,16 +32,19 @@ class SidebarComponent < ViewComponent::Base
         BopsPreapps::Engine.routes.url_helpers.task_path(@case_record,
           slug: task.full_slug, reference: planning_application_reference)
       end
-      link = helpers.govuk_link_to(task.name, target)
-      content = safe_join([status_indicator_for(task), link], " ")
+      name_element = helpers.govuk_link_to(task.name, target)
+      content = safe_join([status_indicator_for(task), name_element], " ")
       helpers.tag.li(content, class: "bops-sidebar__task")
     end
   end
 
   def render_section(section)
+    visible_tasks = section.tasks.reject(&:hidden?)
+    return if visible_tasks.empty?
+
     elements = []
     elements << helpers.tag.h3(section.section, class: "govuk-heading-s")
-    tasks = section.tasks.map { |task| render_task(task) }
+    tasks = visible_tasks.map { |task| render_task(task) }
     elements << helpers.tag.ul(safe_join(tasks), class: "govuk-list govuk-list--spaced")
 
     safe_join(elements)
