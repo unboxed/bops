@@ -9,8 +9,4 @@
       consultation: @planning_application.consultation,
       show_assign: true %>
 
-<p>
-  <%= govuk_link_to "Add consultees", main_app.planning_application_consultees_path(@planning_application), secondary: true %>
-</p>
-
 <%= render "shared/task_submit_form" %>
