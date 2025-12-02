@@ -1,0 +1,70 @@
+<%= render "shared/task_header", task: @task %>
+
+<div id="check-tag-documents-tasks">
+  <h2 class="app-task-list__section">
+    Submitted documents
+  </h2>
+  <div data-download-target="documentsElement">
+    <ul class="app-task-list__items govuk-!-padding-left-0">
+      <% if @planning_application.documents.active.empty? %>
+        <li id="check-supplied-document" class="app-task-list__item">
+          <span class="app-task-list__task-name"> There are no active documents </span>
+        </li>
+      <% else %>
+        <div data-download-target="button" class="display-flex">
+          <%= govuk_button_link_to "Download all documents", data: {action: "click->download#submit"}, secondary: true %>
+        </div>
+        <%= govuk_table(classes: "govuk-!-margin-top-4") do |table| %>
+          <% table.with_head do |head| %>
+            <% head.with_row do |row| %>
+              <% row.with_cell(text: "Document name") %>
+              <% row.with_cell(text: "Date received") %>
+              <% row.with_cell(text: "Visibility") %>
+              <% row.with_cell(text: "Redacted") %>
+              <% row.with_cell(text: "Status") %>
+            <% end %>
+          <% end %>
+
+          <% table.with_body do |body| %>
+            <% @planning_application.documents.active.each do |document| %>
+              <% next unless document.representable? %>
+              <% body.with_row(
+                       html_attributes: {
+                         "data-document-url-value" => url_for_document(document),
+                         "data-document-title-value" => document.file.filename
+                       }
+                     ) do |row| %>
+                <%= row.with_cell do %>
+                  <p>
+                    <%= govuk_link_to(truncate(document.reference_or_name, length: 50), document_link_path(document, redirect_to: task_path(@planning_application, @task))) %>
+                  </p>
+
+                  <% if document.tags.present? %>
+                    <% document.tags.each do |tag| %>
+                      <strong class="govuk-tag govuk-tag--turquoise document-tag">
+                        <%= I18n.t(:"#{tag}", scope: :document_tags) %>
+                      </strong>
+                    <% end %>
+                  <% else %>
+                    <p class="govuk govuk-!-margin-bottom-1">
+                      <em>No tags added</em>
+                    </p>
+                  <% end %>
+                <% end %>
+
+                <%= row.with_cell(text: document.received_at_or_created || "-") %>
+                <%= row.with_cell(text: document.publishable? ? "Public" : "-") %>
+                <%= row.with_cell(text: document.redacted? ? "Redacted" : "-") %>
+                <%= row.with_cell do %>
+                  <%= render StatusTags::BaseComponent.new(status: document.status) %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<%= render "shared/task_submit_form" %>
