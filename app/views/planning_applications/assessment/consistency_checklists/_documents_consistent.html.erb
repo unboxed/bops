@@ -16,12 +16,10 @@
           label: {text: t(".no")},
           checked: consistency_checklist.default_documents_consistent_to_no?
         ) do %>
-      <% unless planning_application.pre_application? %>
-        <%= govuk_link_to t(".request_additional_document"), new_planning_application_validation_validation_request_path(
+        <%= govuk_link_to t(".request_additional_document"), main_app.new_planning_application_validation_validation_request_path(
               planning_application,
               type: "additional_document"
             ) %>
-      <% end %>
     <% end %>
   <% else %>
     <%= form.govuk_radio_button(
@@ -31,12 +29,10 @@
           disabled: true
         ) %>
   <% end %>
-  <% unless planning_application.pre_application? %>
-    <% planning_application.additional_document_validation_requests.order(:created_at).each do |request| %>
-      <%= render(
-            partial: "additional_document_validation_request",
-            locals: {request: request, planning_application: planning_application}
-          ) %>
-    <% end %>
+  <% planning_application.additional_document_validation_requests.order(:created_at).each do |request| %>
+    <%= render(
+          partial: "planning_applications/assessment/consistency_checklists/additional_document_validation_request",
+          locals: {request: request, planning_application: planning_application}
+        ) %>
   <% end %>
 <% end %>
