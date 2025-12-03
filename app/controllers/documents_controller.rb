@@ -9,6 +9,7 @@ class DocumentsController < AuthenticationController
   before_action :validate_document?, only: %i[edit update]
   before_action :replacement_document_validation_request, only: %i[edit update]
   before_action :set_return_to_session, only: %i[update]
+  before_action :show_sidebar, only: %i[edit update archive]
 
   def index
     @documents = @planning_application.documents.default.with_file_attachment
@@ -166,5 +167,13 @@ class DocumentsController < AuthenticationController
 
   def return_to_session
     session.delete(:return_to)
+  end
+
+  def show_sidebar
+    @show_sidebar = if @planning_application.pre_application? &&
+        Rails.configuration.use_new_sidebar_layout &&
+        !BLOCKED_SIDEBAR_EMAILS.include?(current_user&.email)
+      @planning_application.case_record.tasks.find_by(section: "Validation")
+    end
   end
 end

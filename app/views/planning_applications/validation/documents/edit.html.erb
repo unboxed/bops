@@ -12,48 +12,9 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h2>Check for missing documents</h2>
-    <p class="govuk-body-m">
-      Check all necessary documents have been provided and add requests for any missing documents.
-    </p>
-
-    <% unless @documents.any? && @documents.all?(&:representable?) %>
-      <%= govuk_warning_text(text: "One or more documents that the applicant submitted are not available due to a security issue. Ask the applicant or agent for replacements.") %>
-    <% end %>
-
-    <% if @planning_application.local_authority.document_checklist? %>
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-      <p class="govuk-body-m">
-        <%= govuk_link_to(@planning_application.local_authority.document_checklist, new_tab: true) do %>
-          Checklist for <%= @planning_application.application_type.name.humanize.downcase %>
-        <% end %>
-      </p>
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-    <% end %>
-
-    <%= govuk_tabs do |tabs| %>
-      <% Document::DEFAULT_TABS.each do |tab| %>
-        <% documents = @planning_application.documents_for(tab) %>
-        <% tabs.with_tab(label: "#{tab} (#{documents.size})", id: tab.parameterize) do %>
-          <h2><%= tab %></h2>
-          <%= render(partial: "documents/active_documents_table", locals: {documents: documents}) %>
-        <% end %>
-      <% end %>
-    <% end %>
-
-    <% if @additional_document_validation_requests.any? %>
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-      <%= render "planning_applications/validation/additional_document_validation_requests/additional_document_validation_requests_table",
-            validation_requests: @additional_document_validation_requests %>
-    <% else %>
-      <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-    <% end %>
-
-    <p class="govuk-!-margin-bottom-6 govuk-!-margin-top-0">
-      <%= govuk_link_to "Add a request for a missing document", new_planning_application_validation_validation_request_path(@planning_application, type: "additional_document"), class: "govuk-body-m" %>
-    </p>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+    <%= render "planning_applications/validation/documents/check_and_request_documents",
+          documents: @documents,
+          additional_document_validation_requests: @additional_document_validation_requests %>
 
     <%= form_with model: @planning_application, url: planning_application_validation_documents_path(@planning_application) do |form| %>
       <%= form.hidden_field :documents_missing, value: @additional_document_validation_requests.any? %>

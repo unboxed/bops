@@ -43,6 +43,9 @@ en:
         check-and-add-requirements:
           failure: Failed to save requirements
           success: Requirements were successfully saved
+        check-and-request-documents:
+          failure: Failed to save documents check
+          success: Documents check saved
         check-application-details:
           failure: Failed to save application details
           success: Application details were successfully updated
