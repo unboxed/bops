@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 module DocumentHelper
+  include BopsCore::DocumentHelper
+
   def filter_archived(documents)
     documents.select { |file| file.archived? == true }
   end
@@ -37,20 +39,5 @@ module DocumentHelper
     end
 
     link_to_document image, document
-  end
-
-  def document_link_path(document)
-    if document.status == :invalid
-      planning_application_validation_replacement_document_validation_request_path(
-        document.planning_application,
-        document.replacement_document_validation_request
-      )
-    else
-      edit_planning_application_document_path(
-        document.planning_application,
-        document,
-        validate: :yes
-      )
-    end
   end
 end
