@@ -4,6 +4,7 @@ module BopsCore
   module ApplicationHelper
     include ApplicationTypeHelper
     include AssetsHelper
+    include BopsCore::PlanningDataHelper
     include TasksHelper
     include GOVUKDesignSystemFormBuilder::BuilderHelper
 
