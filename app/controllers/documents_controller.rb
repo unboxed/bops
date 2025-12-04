@@ -49,10 +49,9 @@ class DocumentsController < AuthenticationController
     respond_to do |format|
       format.html do
         if @document.update_or_replace(document_params)
-          if @planning_application.pre_application? && (return_path = params.dig(:document, :redirect_to))
-            redirect_to return_path, notice: t(".success")
-          elsif validate_document? && @document.validated == false
-            redirect_to new_planning_application_validation_validation_request_path(document: @document, type: "replacement_document")
+          if validate_document? && @document.validated == false
+            redirect_to new_planning_application_validation_validation_request_path(document: @document, type: "replacement_document",
+              return_to: params.dig(:document, :redirect_to))
           else
             redirect_to redirect_url, notice: t(".success")
           end
