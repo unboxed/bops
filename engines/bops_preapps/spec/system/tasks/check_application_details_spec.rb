@@ -33,6 +33,43 @@ RSpec.describe "Check application details task", type: :system do
     expect(planning_application.reload.consistency_checklist.site_map_correct).to eq "yes"
   end
 
+  it "persists radio button selections when viewing the page again" do
+    within ".bops-sidebar" do
+      click_link "Check application details"
+    end
+
+    within_fieldset("Does the description match the development or use in the plans?") { choose "Yes" }
+    within_fieldset("Are the plans consistent with each other?") { choose "Yes" }
+    within_fieldset("Are the proposal details consistent with the plans?") { choose "No" }
+    within_fieldset("Is the site map correct?") { choose "No" }
+    fill_in "Add a comment", with: "Site boundary needs adjusting"
+
+    click_button "Save and mark as complete"
+    expect(task.reload).to be_completed
+
+    within ".bops-sidebar" do
+      click_link "Check application details"
+    end
+
+    within_fieldset("Does the description match the development or use in the plans?") do
+      expect(page).to have_checked_field("Yes")
+    end
+
+    within_fieldset("Are the plans consistent with each other?") do
+      expect(page).to have_checked_field("Yes")
+    end
+
+    within_fieldset("Are the proposal details consistent with the plans?") do
+      expect(page).to have_checked_field("No")
+    end
+
+    within_fieldset("Is the site map correct?") do
+      expect(page).to have_checked_field("No")
+    end
+
+    expect(page).to have_field("Add a comment", with: "Site boundary needs adjusting")
+  end
+
   it "shows link to request a description change when selecting No" do
     within ".bops-sidebar" do
       click_link "Check application details"

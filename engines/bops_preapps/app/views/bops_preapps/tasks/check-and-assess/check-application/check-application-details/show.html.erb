@@ -1,7 +1,7 @@
 <%= render "shared/task_header", task: @task %>
 
 <%= form_with(
-      model: @task,
+      model: @form.consistency_checklist,
       url: task_path(@planning_application, @task),
       class: "consistency-checklist-form"
     ) do |form| %>

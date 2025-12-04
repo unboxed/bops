@@ -28,7 +28,7 @@ module BopsPreapps
       def permitted_fields(params)
         @button = params[:button]
 
-        params.require(:task).permit(%i[description_matches_documents
+        params.require(:consistency_checklist).permit(%i[description_matches_documents
           documents_consistent
           proposal_details_match_documents
           proposal_details_match_documents_comment
