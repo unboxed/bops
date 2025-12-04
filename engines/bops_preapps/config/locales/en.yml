@@ -58,6 +58,9 @@ en:
         check-application-details:
           failure: Failed to save application details
           success: Application details were successfully updated
+        check-constraints:
+          failure: Failed to save constraint review
+          success: Constraints were successfully marked as reviewed
         check-consultees-consulted:
           failure: Failed to save consultee review
           success: Consultees were successfully marked as reviewed
