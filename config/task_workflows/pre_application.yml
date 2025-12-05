@@ -5,6 +5,7 @@
       section: Check, tag, and confirm documents
       tasks:
         - name: Review documents
+        - name: Check and request documents
 - name: "Consultees"
   section: "Consultation"
 - name: "Check and assess"
