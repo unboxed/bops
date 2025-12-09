@@ -8,6 +8,7 @@ RSpec.describe "Site visit", type: :system do
   let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/additional-services/site-visit") }
 
   let(:user) { create(:user, local_authority:) }
+  let(:tomorrow) { Date.tomorrow }
 
   before do
     sign_in(user)
@@ -21,6 +22,33 @@ RSpec.describe "Site visit", type: :system do
 
     expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/additional-services/site-visit")
     expect(page).to have_content("No site visits have been recorded yet.")
+
+    within "#new-site-visit-form" do
+      click_button "Add site visit"
+    end
+
+    expect(page).to have_content("Enter the date of the site visit")
+    expect(page).to have_content("Enter some comments about the site visit")
+
+    within "#new-site-visit-form" do
+      fill_in "Day", with: 32
+      fill_in "Month", with: 12
+      fill_in "Year", with: 2025
+
+      click_button "Add site visit"
+    end
+
+    expect(page).to have_content("Enter a valid date for the site visit")
+
+    within "#new-site-visit-form" do
+      fill_in "Day", with: tomorrow.day
+      fill_in "Month", with: tomorrow.month
+      fill_in "Year", with: tomorrow.year
+
+      click_button "Add site visit"
+    end
+
+    expect(page).to have_content("Enter a date on or before today’s date")
 
     within "#new-site-visit-form" do
       fill_in "Day", with: 2

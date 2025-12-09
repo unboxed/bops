@@ -7,7 +7,7 @@ module BopsPreapps
       include BopsPreapps::Engine.routes.url_helpers
 
       attr_reader :task, :case_record, :planning_application, :button
-      delegate :parent, to: :task
+      delegate :parent, :slug, to: :task
 
       def initialize(task)
         @task = task
@@ -29,6 +29,15 @@ module BopsPreapps
 
       def save_draft?
         button == "save_draft"
+      end
+
+      def flash(type, controller)
+        case type
+        when :notice
+          controller.t(".#{slug}.success")
+        when :alert
+          controller.t(".#{slug}.failure")
+        end
       end
     end
   end

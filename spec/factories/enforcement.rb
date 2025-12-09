@@ -8,6 +8,7 @@ FactoryBot.define do
     town { Faker::Address.city }
     county { Faker::Address.state }
     postcode { Faker::Address.postcode }
+    description { "Unauthorised erection of a library in the front garden" }
 
     trait :with_boundary do
       boundary do

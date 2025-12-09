@@ -27,9 +27,9 @@ module BopsCore
       respond_to do |format|
         format.html do
           if @form.update(task_params)
-            redirect_to @form.redirect_url, notice: t(".#{@task.slug}.success")
+            redirect_to @form.redirect_url, notice: @form.flash(:notice, self)
           else
-            render template_for(:show), alert: t(".#{@task.slug}.failure")
+            render template_for(:show), alert: @form.flash(:alert, self)
           end
         end
       end
