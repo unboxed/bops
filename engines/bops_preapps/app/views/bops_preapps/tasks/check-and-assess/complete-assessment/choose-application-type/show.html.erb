@@ -1,14 +1,18 @@
-<%= render "shared/task_header", task: @task %>
-
-<%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
+<%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
+
+  <%= render "shared/task_header", task: @task %>
 
   <div data-controller="autocomplete-select">
     <%= form.govuk_select :recommended_application_type_id,
-          @planning_application.local_authority.application_types.menu,
+          @form.application_type_menu,
           label: {text: "What application type would the applicant need to apply for next?", tag: "h2", size: "m"},
-          options: {include_blank: true, selected: @planning_application.recommended_application_type_id} %>
+          options: {include_blank: true} %>
   </div>
 
-  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+  <% unless @planning_application.determined? %>
+    <div class="govuk-button-group">
+      <%= form.govuk_task_button "Save and mark as complete" %>
+    </div>
+  <% end %>
 <% end %>

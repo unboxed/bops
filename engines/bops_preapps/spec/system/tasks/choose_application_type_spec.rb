@@ -43,7 +43,7 @@ RSpec.describe "Choose application type task", type: :system do
     click_button "Save and mark as complete"
 
     expect(page).to have_content("There is a problem")
-    expect(page).to have_content("Failed to save recommended application type")
+    expect(page).to have_content("Select the recommended type for the application")
 
     expect(planning_application.reload.recommended_application_type).to be_nil
     expect(task.reload).to be_not_started
