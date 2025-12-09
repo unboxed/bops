@@ -17,7 +17,8 @@ RSpec.describe "Site description task", type: :system do
     within ".bops-sidebar" do
       click_link "Site description"
     end
-    fill_in "task[entry]", with: "Words words words"
+
+    fill_in "Description of the site", with: "Words words words"
 
     click_button "Save changes"
 
