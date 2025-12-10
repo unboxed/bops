@@ -46,8 +46,9 @@ class TaskLoader
 
   def build_tasks_for(parent, nodes)
     Array(nodes).each_with_index do |node, index|
-      params = node.except("tasks", "hidden").merge("position" => index)
+      params = node.except("tasks").merge("position" => index)
       params["optional"] ||= false
+      params["hidden"] ||= false
 
       task = parent.tasks.build(**params)
 
@@ -57,8 +58,9 @@ class TaskLoader
 
   def rebuild_tasks_for(parent, nodes)
     Array(nodes).each_with_index do |node, index|
-      params = node.except("tasks", "hidden").merge("position" => index)
+      params = node.except("tasks").merge("position" => index)
       params["optional"] ||= false
+      params["hidden"] ||= false
 
       task = parent.tasks.find_or_create_by!(name: params["name"])
       task.update!(params)

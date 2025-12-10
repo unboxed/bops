@@ -5,6 +5,7 @@ en:
       index:
         title: Preapps
     tasks:
+      cannot_start_yet: You must complete the previous task before starting this one
       check-and-assess:
         additional-services:
           site-visit:
@@ -39,6 +40,14 @@ en:
               complies: Likely to be supported
               does_not_comply: Unlikely to be supported
               needs_changes: Likely to be supported with changes
+      check-and-validate:
+        check-application-details:
+          check-red-line-boundary:
+            show:
+              submit: Save and mark as complete
+          draw-red-line-boundary:
+            show:
+              submit: Save and mark as complete
       update:
         check-and-add-requirements:
           failure: Failed to save requirements
@@ -52,12 +61,18 @@ en:
         check-consultees-consulted:
           failure: Failed to save consultee review
           success: Consultees were successfully marked as reviewed
+        check-red-line-boundary:
+          failure: Please select whether the red line boundary is correct
+          success: Red line boundary check was successfully saved
         check-site-history:
           failure: Failed to save site history review
           success: Site history was successfully marked as reviewed
         choose-application-type:
           failure: Failed to save recommended application type
           success: Recommended application type was successfully chosen
+        draw-red-line-boundary:
+          failure: Draw a red line boundary
+          success: Red line boundary was successfully saved
         meeting:
           failure: Failed to save meeting
           success: Meeting successfully recorded

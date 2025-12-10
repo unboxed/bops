@@ -6,6 +6,12 @@
       tasks:
         - name: Review documents
         - name: Check and request documents
+    - name: Check application details
+      section: Check application details
+      tasks:
+        - name: Draw red line boundary
+          hidden: true
+        - name: Check red line boundary
 - name: "Consultees"
   section: "Consultation"
 - name: "Check and assess"

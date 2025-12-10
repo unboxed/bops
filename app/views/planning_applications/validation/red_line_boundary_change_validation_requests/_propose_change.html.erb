@@ -29,7 +29,8 @@
           locals: {
             planning_application: @planning_application,
             validation_request: @validation_request,
-            include_edit: false
+            include_edit: false,
+            include_back_link: !@planning_application.pre_application?
           }
         ) %>
   </div>

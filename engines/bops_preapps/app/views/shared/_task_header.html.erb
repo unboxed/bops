@@ -1,4 +1,4 @@
-<%# locals: (task:) %>
+<%# locals: (task:, heading: nil) %>
 
 <% add_parent_breadcrumb_link "Home", preapp_home_path %>
 
@@ -7,14 +7,19 @@
 <% if task.top_level_ancestor.section == "Assessment" %>
   <% add_parent_breadcrumb_link "Assessment",
        main_app.planning_application_assessment_tasks_path(task.case_record.planning_application) %>
+<% elsif task.top_level_ancestor.section == "Validation" %>
+  <% add_parent_breadcrumb_link "Validation",
+       main_app.planning_application_validation_tasks_path(task.case_record.planning_application) %>
 <% end %>
 
+<% page_heading = heading || task.title %>
+
 <% content_for :page_title do %>
-  <%= task.title %>
+  <%= page_heading %>
   &mdash;
   <%= t("page_title") %>
 <% end %>
 
-<h1><%= task.title %></h1>
+<h1><%= page_heading %></h1>
 
 <%= render "shared/proposal_header" %>
