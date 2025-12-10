@@ -59,7 +59,9 @@
             value: @planning_application.description,
             label: {size: "s", text: "Enter an amended description"},
             rows: 5 %>
-      <% if @planning_application.not_started? %>
+      <% if @planning_application.pre_application? && @planning_application.not_started? %>
+        <%= form.hidden_field(:return_to, value: BopsPreapps::Engine.routes.url_helpers.task_path(reference: @planning_application.reference, slug: "check-and-validate/check-application-details/check-description")) %>
+      <% elsif @planning_application.not_started? %>
         <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>
       <% else %>
         <%= form.hidden_field(:return_to, value: @back_path) %>
@@ -78,7 +80,7 @@
       <% end %>
       <div class="govuk-button-group">
         <%= form.govuk_submit @planning_application.application_type.description_change_requires_validation? ? "Update description" : "Save and mark as complete" %>
-        <%= back_link %>
+        <%= back_link unless @planning_application.pre_application? %>
       </div>
     <% end %>
   </div>

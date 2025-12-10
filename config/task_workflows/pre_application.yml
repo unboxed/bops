@@ -11,6 +11,7 @@
       tasks:
         - name: Draw red line boundary
           hidden: true
+        - name: Check description
         - name: Check red line boundary
     - name: Review
       section: Review

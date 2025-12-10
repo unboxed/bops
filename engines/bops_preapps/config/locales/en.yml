@@ -42,6 +42,9 @@ en:
               needs_changes: Likely to be supported with changes
       check-and-validate:
         check-application-details:
+          check-description:
+            show:
+              submit: Save and mark as complete
           check-red-line-boundary:
             show:
               submit: Save and mark as complete
@@ -61,6 +64,9 @@ en:
         check-consultees-consulted:
           failure: Failed to save consultee review
           success: Consultees were successfully marked as reviewed
+        check-description:
+          failure: Please select whether the description is correct
+          success: Description check was successfully saved
         check-red-line-boundary:
           failure: Please select whether the red line boundary is correct
           success: Red line boundary check was successfully saved
