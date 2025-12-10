@@ -20,5 +20,6 @@ class Meeting < ApplicationRecord
     complete
   ].index_with(&:to_s)
 
-  scope :by_occurred_at_desc, -> { order(occurred_at: :desc) }
+  scope :by_created_at_desc, -> { order(created_at: :desc) }
+  scope :by_occurred_at_desc, -> { order(occurred_at: :desc, created_at: :desc) }
 end
