@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require Rails.root.join("spec/support/notify_mock")
+
 Before do
   Rails.application.load_seed
 
@@ -18,4 +20,8 @@ Before("@javascript") do
   unless page.driver.invalid_element_errors.include?(Selenium::WebDriver::Error::UnknownError)
     page.driver.invalid_element_errors << Selenium::WebDriver::Error::UnknownError
   end
+end
+
+Before do
+  stub_request(:post, NotifyMock.url).to_rack(NotifyMock.app)
 end

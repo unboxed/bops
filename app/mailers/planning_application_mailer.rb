@@ -194,7 +194,8 @@ class PlanningApplicationMailer < ApplicationMailer
       to: email,
       subject: subject,
       reply_to_id: email_reply_to_id,
-      notify_settings: {
+      delivery_method: :notify,
+      delivery_method_options: {
         api_key: notify_api_key
       }
     }

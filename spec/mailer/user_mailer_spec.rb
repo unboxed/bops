@@ -45,6 +45,7 @@ RSpec.describe UserMailer, type: :mailer do
   describe "#otp_mail" do
     let(:user) { create(:user, email: "jane@example.com") }
     let(:mail) { described_class.otp_mail(user) }
+    let(:delivery_method) { mail.delivery_method }
     let(:local_authority) { user.local_authority }
 
     it "sets subject" do
@@ -91,7 +92,11 @@ RSpec.describe UserMailer, type: :mailer do
       it "has the correct configuration" do
         expect(mail).to have_notify_header("template-id", "c56d9346-02be-4812-af6b-e254269c98d7")
         expect(mail).to have_notify_header("reply-to-id", "4896bb50-4f4c-4b4d-ad67-2caddddde125")
-        expect(mail).to have_notify_header("notify-settings", {api_key: "fake-c2a32a67-f437-46cd-9364-483d2cc4c43f-523849d3-ca3b-4c12-b11a-09ed7d86de2e"})
+
+        expect(delivery_method).to be_an_instance_of(Mail::Notify::DeliveryMethod)
+        expect(delivery_method.settings).to match(
+          api_key: "fake-c2a32a67-f437-46cd-9364-483d2cc4c43f-523849d3-ca3b-4c12-b11a-09ed7d86de2e"
+        )
       end
     end
 
@@ -103,7 +108,11 @@ RSpec.describe UserMailer, type: :mailer do
       it "has the correct configuration" do
         expect(mail).to have_notify_header("template-id", "f51c953c-d3e3-4126-86f3-0d8927023472")
         expect(mail).to have_notify_header("reply-to-id", "3d0d2d5d-9b30-454c-9391-096ed8fef1d6")
-        expect(mail).to have_notify_header("notify-settings", {api_key: "testtest-8e9d49e4-ddf0-4b68-946f-f6c9554478f4-0b1c96fc-e505-4b58-98b0-a9d03838c700"})
+
+        expect(delivery_method).to be_an_instance_of(Mail::Notify::DeliveryMethod)
+        expect(delivery_method.settings).to match(
+          api_key: "testtest-8e9d49e4-ddf0-4b68-946f-f6c9554478f4-0b1c96fc-e505-4b58-98b0-a9d03838c700"
+        )
       end
     end
   end
