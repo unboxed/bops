@@ -122,6 +122,7 @@ RSpec.describe "Draw red line boundary task", type: :system do
     expect(page).to have_content("Red line boundary was successfully saved")
     expect(task.reload).to be_completed
     expect(planning_application.reload.boundary_geojson).to eq(boundary_geojson.deep_stringify_keys)
+    expect(planning_application.reload.valid_red_line_boundary).to be true
   end
 
   it "hides save button when application is determined" do
@@ -163,5 +164,12 @@ RSpec.describe "Draw red line boundary task", type: :system do
     expect(page).to have_link("Home")
     expect(page).to have_link("Application")
     expect(page).to have_link("Validation")
+  end
+
+  it "hides check red line boundary task when draw task is shown" do
+    within ".bops-sidebar" do
+      expect(page).to have_link("Draw red line boundary")
+      expect(page).not_to have_link("Check red line boundary")
+    end
   end
 end

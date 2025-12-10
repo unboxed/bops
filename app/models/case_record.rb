@@ -69,6 +69,7 @@ class CaseRecord < ApplicationRecord
 
     if planning_application.boundary_geojson.blank?
       find_task_by_slug_path(DRAW_RED_LINE_BOUNDARY_SLUG)&.update!(hidden: false)
+      find_task_by_slug_path(CHECK_RED_LINE_BOUNDARY_SLUG)&.update!(hidden: true)
     end
   end
 end

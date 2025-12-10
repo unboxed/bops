@@ -87,7 +87,7 @@ RSpec.describe "Check red line boundary task", type: :system do
     expect(page).to have_current_path(
       "/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=red_line_boundary_change"
     )
-    expect(task.reload).to be_not_started
+    expect(task.reload).to be_in_progress
     expect(planning_application.reload.valid_red_line_boundary).to be false
 
     within ".bops-sidebar" do
@@ -177,10 +177,10 @@ RSpec.describe "Check red line boundary task", type: :system do
   context "when boundary_geojson is blank" do
     let(:planning_application) { create(:planning_application, :pre_application, :not_started, local_authority:, boundary_geojson: nil) }
 
-    it "shows the draw red line boundary task in the sidebar" do
+    it "shows draw red line boundary task and hides check red line boundary task" do
       within ".bops-sidebar" do
         expect(page).to have_link("Draw red line boundary")
-        expect(page).to have_link("Check red line boundary")
+        expect(page).not_to have_link("Check red line boundary")
       end
     end
   end

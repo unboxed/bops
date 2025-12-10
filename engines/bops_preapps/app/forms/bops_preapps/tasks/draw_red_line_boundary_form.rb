@@ -46,7 +46,7 @@ module BopsPreapps
 
         audit_action = planning_application.boundary_geojson.blank? ? "created" : "updated"
 
-        planning_application.update!(boundary_geojson:, boundary_created_by: Current.user)
+        planning_application.update!(boundary_geojson:, boundary_created_by: Current.user, valid_red_line_boundary: true)
         planning_application.audit_boundary_geojson!(audit_action)
       end
     end
