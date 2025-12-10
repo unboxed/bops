@@ -7,12 +7,6 @@ RSpec.describe "Sign in" do
   let(:assessor) { create(:user, :assessor, name: "Lorrine Krajcik", local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer, name: "Harley Dicki", local_authority: default_local_authority) }
 
-  before do
-    client = double("Notifications::Client")
-    allow(client).to receive(:send_sms)
-    allow(Notifications::Client).to receive(:new).and_return(client)
-  end
-
   it "ensure we can perform a healthcheck" do
     visit "/healthcheck"
 
@@ -134,196 +128,204 @@ RSpec.describe "Sign in" do
       fill_in "Password", with: user.password
     end
 
-    context "when I do not have a mobile number" do
-      let!(:user) do
-        create(
-          :user,
-          local_authority: default_local_authority,
-          mobile_number: nil,
-          name: "Alice Smith"
-        )
+    context "when otp delivery method is set to SMS" do
+      before do
+        client = double("Notifications::Client")
+        allow(client).to receive(:send_sms)
+        allow(Notifications::Client).to receive(:new).and_return(client)
       end
 
-      let(:administrator) do
-        create(:user, :administrator, local_authority: default_local_authority)
-      end
-
-      it "prompts me to enter a mobile number first before receiving my OTP" do
-        click_button "Log in"
-
-        expect(page).to have_content("Enter your phone number")
-        expect(page).to have_content("To use two-factor authentication we need a UK mobile phone number for your account.")
-
-        fill_in "Mobile number", with: "07722865843"
-
-        expect(TwoFactor::SmsNotification).to receive(:new).with(user, "07722865843").and_call_original
-        click_button "Send code"
-
-        # mobile number saved to session rather than db at this point
-        expect(user.reload.mobile_number).to be_nil
-
-        expect(page).to have_content("Enter the code you have received by text message")
-        expect(page).to have_content(
-          "A 6-digit code has been sent to your mobile phone. This message may take a minute to arrive."
-        )
-        expect(page).to have_content(
-          "If you have an issue logging in, please send an email to #{default_local_authority.email_address}"
-        )
-        expect(page).to have_link(default_local_authority.email_address.to_s, href: "mailto:#{default_local_authority.email_address}")
-
-        fill_in "Security code", with: user.current_otp
-        click_button "Enter code"
-
-        expect(page).to have_content("Signed in successfully.")
-        expect(page).to have_content(user.name)
-
-        # mobile now saved to the db after successful login
-        expect(user.reload.mobile_number).to eq("07722865843")
-      end
-
-      it "shows error message if mobile number is invalid" do
-        click_button("Log in")
-        fill_in("Mobile number", with: "qwerty")
-        click_button("Send code")
-
-        expect(page).to have_content("Mobile number is invalid")
-
-        fill_in("Mobile number", with: "07722865843")
-        click_button("Send code")
-        fill_in("Security code", with: user.current_otp)
-        click_button("Enter code")
-
-        expect(page).to have_content("Signed in successfully.")
-
-        click_link("Log out")
-        sign_in(administrator)
-        visit "/admin/dashboard"
-
-        expect(page).to have_content("Welcome #{administrator.name}")
-
-        click_link("Users")
-
-        expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
-      end
-
-      it "shows error message if mobile number is blank" do
-        click_button("Log in")
-        click_button("Send code")
-
-        expect(page).to have_content("Mobile number can't be blank")
-
-        fill_in("Mobile number", with: "07722865843")
-        click_button("Send code")
-        fill_in("Security code", with: user.current_otp)
-        click_button("Enter code")
-
-        expect(page).to have_content("Signed in successfully.")
-
-        click_link("Log out")
-        sign_in(administrator)
-        visit "/admin/dashboard"
-
-        click_link("Users")
-
-        expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
-      end
-
-      context "when there is an error from Notify" do
-        before do
-          error_hash = Struct.new(:body, :code).new(
-            "Notifications::Client::BadRequestError: ValidationError: phone_number Must not contain letters or symbols",
-            400
-          )
-
-          allow_any_instance_of(TwoFactor::SmsNotification).to receive(:deliver!).and_raise(
-            Notifications::Client::BadRequestError, error_hash
+      context "when I do not have a mobile number" do
+        let!(:user) do
+          create(
+            :user,
+            local_authority: default_local_authority,
+            mobile_number: nil,
+            name: "Alice Smith"
           )
         end
 
-        it "displays an error if there is an issue calling the notify API" do
+        let(:administrator) do
+          create(:user, :administrator, local_authority: default_local_authority)
+        end
+
+        it "prompts me to enter a mobile number first before receiving my OTP" do
           click_button "Log in"
 
-          fill_in "Mobile number", with: "0671272472"
+          expect(page).to have_content("Enter your phone number")
+          expect(page).to have_content("To use two-factor authentication we need a UK mobile phone number for your account.")
+
+          fill_in "Mobile number", with: "07722865843"
+
+          expect(TwoFactor::SmsNotification).to receive(:new).with(user, "07722865843").and_call_original
           click_button "Send code"
 
-          expect(page).to have_content("Notify was unable to send sms with error: Notifications::Client::BadRequestError: ValidationError: phone_number Must not contain letters or symbols.")
-          expect(page).to have_content("Enter your phone number")
+          # mobile number saved to session rather than db at this point
           expect(user.reload.mobile_number).to be_nil
-        end
-      end
 
-      it "I cannot access /two_factor url without setting up a mobile number first" do
-        click_button "Log in"
-
-        expect(TwoFactor::SmsNotification).not_to receive(:new)
-
-        visit "/two_factor"
-
-        expect(page).not_to have_content("Enter the code you have received by text message")
-        expect(page).to have_content("Enter your phone number")
-      end
-
-      it "I cannot access /setup or /two_factor url without logging in first" do
-        visit "/setup"
-        expect(page).to have_content("You need to sign in or sign up before continuing.")
-
-        visit "/two_factor"
-        expect(page).to have_content("You need to sign in or sign up before continuing.")
-      end
-    end
-
-    context "when I have a mobile number" do
-      let!(:user) { create(:user, local_authority: default_local_authority, mobile_number: "07765445412") }
-
-      it "immediately send me my OTP" do
-        expect(TwoFactor::SmsNotification).to receive(:new).with(user, "07765445412").and_call_original
-        click_button "Log in"
-
-        expect(page).not_to have_content("Enter your phone number")
-
-        expect(page).to have_content("Enter the code you have received by text message")
-
-        fill_in "Security code", with: user.current_otp
-        click_button "Enter code"
-
-        expect(page).to have_content("Signed in successfully.")
-      end
-
-      it "I can resend my OTP code" do
-        click_button "Log in"
-
-        # Before a minute has passed you should get a warning
-        click_link "Resend code"
-        expect(page).to have_content("Please wait at least a minute before resending your verification code.")
-
-        # After a minute has passed you are able to resend code
-        travel 2.minutes
-        expect(TwoFactor::SmsNotification).to receive(:new).with(user, "07765445412").and_call_original
-        click_link "Resend code"
-        expect(page).to have_content("You have been sent another verification code.")
-
-        # Before another minute has passed you should get the same warning
-        expect(TwoFactor::SmsNotification).not_to receive(:new)
-        click_link "Resend code"
-        expect(page).to have_content("Please wait at least a minute before resending your verification code.")
-      end
-
-      context "when there is an error from Notify" do
-        before do
-          error_hash = Struct.new(:body, :code).new(
-            "Notifications::Client::ClientError: Exceeded rate limit",
-            429
+          expect(page).to have_content("Enter the code you have received by text message")
+          expect(page).to have_content(
+            "A 6-digit code has been sent to your mobile phone. This message may take a minute to arrive."
           )
-
-          allow_any_instance_of(TwoFactor::SmsNotification).to receive(:deliver!).and_raise(
-            Notifications::Client::ClientError, error_hash
+          expect(page).to have_content(
+            "If you have an issue logging in, please send an email to #{default_local_authority.email_address}"
           )
+          expect(page).to have_link(default_local_authority.email_address.to_s, href: "mailto:#{default_local_authority.email_address}")
+
+          fill_in "Security code", with: user.current_otp
+          click_button "Enter code"
+
+          expect(page).to have_content("Signed in successfully.")
+          expect(page).to have_content(user.name)
+
+          # mobile now saved to the db after successful login
+          expect(user.reload.mobile_number).to eq("07722865843")
         end
 
-        it "displays an error if there is an issue calling the notify API" do
+        it "shows error message if mobile number is invalid" do
+          click_button("Log in")
+          fill_in("Mobile number", with: "qwerty")
+          click_button("Send code")
+
+          expect(page).to have_content("Mobile number is invalid")
+
+          fill_in("Mobile number", with: "07722865843")
+          click_button("Send code")
+          fill_in("Security code", with: user.current_otp)
+          click_button("Enter code")
+
+          expect(page).to have_content("Signed in successfully.")
+
+          click_link("Log out")
+          sign_in(administrator)
+          visit "/admin/dashboard"
+
+          expect(page).to have_content("Welcome #{administrator.name}")
+
+          click_link("Users")
+
+          expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
+        end
+
+        it "shows error message if mobile number is blank" do
+          click_button("Log in")
+          click_button("Send code")
+
+          expect(page).to have_content("Mobile number can't be blank")
+
+          fill_in("Mobile number", with: "07722865843")
+          click_button("Send code")
+          fill_in("Security code", with: user.current_otp)
+          click_button("Enter code")
+
+          expect(page).to have_content("Signed in successfully.")
+
+          click_link("Log out")
+          sign_in(administrator)
+          visit "/admin/dashboard"
+
+          click_link("Users")
+
+          expect(page).to have_row_for("Alice Smith", with: "07722 865 843")
+        end
+
+        context "when there is an error from Notify" do
+          before do
+            error_hash = Struct.new(:body, :code).new(
+              "Notifications::Client::BadRequestError: ValidationError: phone_number Must not contain letters or symbols",
+              400
+            )
+
+            allow_any_instance_of(TwoFactor::SmsNotification).to receive(:deliver!).and_raise(
+              Notifications::Client::BadRequestError, error_hash
+            )
+          end
+
+          it "displays an error if there is an issue calling the notify API" do
+            click_button "Log in"
+
+            fill_in "Mobile number", with: "0671272472"
+            click_button "Send code"
+
+            expect(page).to have_content("Notify was unable to send sms with error: Notifications::Client::BadRequestError: ValidationError: phone_number Must not contain letters or symbols.")
+            expect(page).to have_content("Enter your phone number")
+            expect(user.reload.mobile_number).to be_nil
+          end
+        end
+
+        it "I cannot access /two_factor url without setting up a mobile number first" do
           click_button "Log in"
 
-          expect(page).to have_content("Notify was unable to send sms with error: Notifications::Client::ClientError: Exceeded rate limit.")
+          expect(TwoFactor::SmsNotification).not_to receive(:new)
+
+          visit "/two_factor"
+
+          expect(page).not_to have_content("Enter the code you have received by text message")
+          expect(page).to have_content("Enter your phone number")
+        end
+
+        it "I cannot access /setup or /two_factor url without logging in first" do
+          visit "/setup"
+          expect(page).to have_content("You need to sign in or sign up before continuing.")
+
+          visit "/two_factor"
+          expect(page).to have_content("You need to sign in or sign up before continuing.")
+        end
+      end
+
+      context "when I have a mobile number" do
+        let!(:user) { create(:user, local_authority: default_local_authority, mobile_number: "07765445412") }
+
+        it "immediately send me my OTP" do
+          expect(TwoFactor::SmsNotification).to receive(:new).with(user, "07765445412").and_call_original
+          click_button "Log in"
+
+          expect(page).not_to have_content("Enter your phone number")
+
+          expect(page).to have_content("Enter the code you have received by text message")
+
+          fill_in "Security code", with: user.current_otp
+          click_button "Enter code"
+
+          expect(page).to have_content("Signed in successfully.")
+        end
+
+        it "I can resend my OTP code" do
+          click_button "Log in"
+
+          # Before a minute has passed you should get a warning
+          click_link "Resend code"
+          expect(page).to have_content("Please wait at least a minute before resending your verification code.")
+
+          # After a minute has passed you are able to resend code
+          travel 2.minutes
+          expect(TwoFactor::SmsNotification).to receive(:new).with(user, "07765445412").and_call_original
+          click_link "Resend code"
+          expect(page).to have_content("You have been sent another verification code.")
+
+          # Before another minute has passed you should get the same warning
+          expect(TwoFactor::SmsNotification).not_to receive(:new)
+          click_link "Resend code"
+          expect(page).to have_content("Please wait at least a minute before resending your verification code.")
+        end
+
+        context "when there is an error from Notify" do
+          before do
+            error_hash = Struct.new(:body, :code).new(
+              "Notifications::Client::ClientError: Exceeded rate limit",
+              429
+            )
+
+            allow_any_instance_of(TwoFactor::SmsNotification).to receive(:deliver!).and_raise(
+              Notifications::Client::ClientError, error_hash
+            )
+          end
+
+          it "displays an error if there is an issue calling the notify API" do
+            click_button "Log in"
+
+            expect(page).to have_content("Notify was unable to send sms with error: Notifications::Client::ClientError: Exceeded rate limit.")
+          end
         end
       end
     end
