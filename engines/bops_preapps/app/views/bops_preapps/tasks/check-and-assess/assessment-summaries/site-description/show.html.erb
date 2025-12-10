@@ -1,20 +1,14 @@
-<%= render "shared/task_header", task: @task %>
-
-<p>
-  <%= govuk_link_to t(".view_site_on_map"), map_link(@planning_application.full_address), new_tab: true %>
-</p>
-
-<%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
+<%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
 
-  <%= form.govuk_text_area(:entry, rows: 10,
-        value: @planning_application.assessment_details.where(category: :site_description)&.last&.entry,
-        label: {text: t(".heading"), tag: "h2", size: "m"}) do %>
-    <% if @planning_application.publishable? %>
-      <%= govuk_warning_text(text: t(".warning")) %>
-    <% end %>
+  <%= render "shared/task_header", task: @task %>
 
-    <%= render(ReviewerCommentComponent.new(comment: @rejected_assessment_detail&.comment)) %>
+  <p>
+    <%= govuk_link_to t(".view_site_on_map"), map_link(@form.address), new_tab: true %>
+  </p>
+
+  <%= form.govuk_text_area(:site_description, rows: 10,
+        label: {text: t(".heading"), tag: "h2", size: "m"}) do %>
 
     <p>You can include:</p>
 
@@ -28,7 +22,11 @@
     </ul>
   <% end %>
 
-  <%= form.hidden_field(:category, value: @category) %>
-
-  <%= render "shared/task_submit_buttons", form: form %>
+  <div class="govuk-button-group">
+    <%= form.govuk_task_button "Save and mark as complete" do %>
+      <% if !@task.completed? %>
+        <%= form.govuk_task_button "Save changes", action: "save_draft", secondary: true %>
+      <% end %>
+    <% end %>
+  </div>
 <% end %>

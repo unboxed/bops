@@ -27,6 +27,7 @@ class SiteVisit < ApplicationRecord
   ].index_with(&:to_s)
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
+  scope :by_visited_at_desc, -> { order(visited_at: :desc, created_at: :desc) }
 
   delegate :consultation, to: :planning_application, allow_nil: true
 

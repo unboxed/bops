@@ -11,6 +11,8 @@ class DateValidator < ActiveModel::EachValidator
   }.freeze
 
   ERROR_TYPES = {
+    format: :date_invalid,
+    presence: :date_blank,
     is: :date_is_not,
     before: :date_not_before,
     after: :date_not_after,
@@ -23,9 +25,9 @@ class DateValidator < ActiveModel::EachValidator
 
   def validate_each(record, attribute, value)
     if record.attribute_date_invalid?(attribute)
-      record.errors.add(attribute, :date_invalid)
+      add_error(record, attribute, :format, nil)
     elsif options[:presence] && value.blank?
-      record.errors.add(attribute, :date_blank)
+      add_error(record, attribute, :presence, nil)
     end
 
     VALIDATIONS.each do |validation, comparator|
@@ -81,7 +83,7 @@ class DateValidator < ActiveModel::EachValidator
     if validation == :between
       message[:start_date] = format_date(restriction.first)
       message[:end_date] = format_date(restriction.last)
-    else
+    elsif restriction
       message[:date] = format_date(restriction)
     end
 

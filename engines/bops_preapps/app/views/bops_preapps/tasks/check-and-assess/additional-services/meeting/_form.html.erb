@@ -1,15 +1,9 @@
-<h2 class="govuk-heading-m"> Add new meeting</h3>
-<%= form_with(
-      model: @planning_application.meetings.new,
-      class: "govuk-!-margin-top-5",
-      url: main_app.planning_application_assessment_meetings_path(@planning_application, @meeting),
-      method: :post
-    ) do |form| %>
-  <%= form.govuk_date_field(:occurred_at, rows: 6, legend: {text: "Meeting date", size: "s"}) %>
+<%# locals: (form:) %>
+<div id="new-meeting-form">
+  <%= form.govuk_date_field(:occurred_on, legend: {text: "Meeting date", size: "s"}) %>
+  <%= form.govuk_text_area(:comments, rows: 6, label: {text: "Add notes (optional)", size: "s"}) %>
 
-  <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Add notes (optional)", size: "s"}) %>
-
-  <%= form.hidden_field :return_to, value: task_path(@planning_application, @task) %>
-
-  <%= form.govuk_submit "Add meeting", secondary: true, class: "govuk-!-margin-bottom-2" %>
-<% end %>
+  <div class="govuk-button-group govuk-!-margin-bottom-0">
+    <%= form.govuk_task_button "Add meeting", action: "add_meeting", secondary: true %>
+  </div>
+</div>

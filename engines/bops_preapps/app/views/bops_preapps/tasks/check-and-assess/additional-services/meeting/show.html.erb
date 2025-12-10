@@ -1,38 +1,58 @@
-<%= render "shared/task_header", task: @task %>
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
 
-<% if @planning_application.meetings.present? %>
-  <table class="govuk-table">
-    <caption class="govuk-table__caption govuk-table__caption--m">
-      Meeting history
-    </caption>
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Meeting date</th>
-        <th scope="col" class="govuk-table__header">Case officer</th>
-        <th scope="col" class="govuk-table__header">Notes (optional)</th>
-      </tr>
-    </thead>
-    <% @planning_application.meetings.all.find_each do |meeting| %>
-      <% if meeting.persisted? %>
-        <%= render "planning_applications/assessment/meetings/overview", meeting: meeting %>
+  <%= render "shared/task_header", task: @task %>
+
+  <% if @form.meetings.any? %>
+    <table class="govuk-table" id="meeting-history">
+      <caption class="govuk-table__caption govuk-table__caption--m">
+        Meeting history
+      </caption>
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Meeting date</th>
+          <th scope="col" class="govuk-table__header">Case officer</th>
+          <th scope="col" class="govuk-table__header">Notes (optional)</th>
+        </tr>
+      </thead>
+      <% @form.each_meeting do |meeting| %>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              <%= meeting.occurred_on %>
+            </th>
+            <td class="govuk-table__cell">
+              <%= meeting.created_by %>
+            </td>
+            <td class="govuk-table__cell">
+              <%= meeting.comment %>
+            </td>
+          </tr>
+        </tbody>
       <% end %>
-    <% end %>
-  </table>
-<% else %>
-  <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
-    <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-3">
-      <strong>No meetings have been recorded yet.</strong>
-    </p>
-    <p>Add new meeting to start recording meeting history.</p>
-  </div>
-<% end %>
+    </table>
+  <% else %>
+    <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
+      <p class="govuk-!-margin-bottom-2">
+        <strong>No meetings have been recorded yet.</strong>
+      </p>
+      <p class="govuk-!-margin-bottom-0">
+        Add new meeting to start recording meeting history.
+      </p>
+    </div>
+  <% end %>
 
-<% unless @planning_application.determined? %>
-  <%= govuk_details(summary_text: "Add a new meeting") do %>
-    <div id="add-meeting-details">
-      <%= render "bops_preapps/tasks/check-and-assess/additional-services/meeting/form" %>
+  <% unless @planning_application.determined? %>
+    <%= govuk_details(summary_text: "Add a new meeting", open: @form.add_meeting_open?) do %>
+      <%= render "bops_preapps/tasks/check-and-assess/additional-services/meeting/form", form: form %>
+    <% end %>
+
+    <div class="govuk-button-group">
+      <%= form.govuk_task_button "Save and mark as complete" do %>
+        <% if !@task.completed? %>
+          <%= form.govuk_task_button "Save changes", action: "save_draft", secondary: true %>
+        <% end %>
+      <% end %>
     </div>
   <% end %>
 <% end %>
-
-<%= render "shared/task_submit_form" %>

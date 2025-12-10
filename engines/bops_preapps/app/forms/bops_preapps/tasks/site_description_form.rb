@@ -2,25 +2,65 @@
 
 module BopsPreapps
   module Tasks
-    class SiteDescriptionForm < BaseForm
-      def update(params)
-        assessment_detail = planning_application.assessment_details.find_or_initialize_by(category: :site_description)
+    class SiteDescriptionForm < Form
+      self.task_actions = %w[save_draft save_and_complete]
 
-        ActiveRecord::Base.transaction do
-          assessment_detail.update!(params)
-          if @button == "save_draft"
-            task.start!
-          else
-            task.complete!
-          end || raise(ActiveRecord::RecordInvalid)
-        end
-      rescue ActiveRecord::RecordInvalid
-        false
+      attribute :site_description, :string
+
+      with_options on: %i[save_draft save_and_complete] do
+        validates :site_description,
+          presence: {
+            message: "Enter a description for the site"
+          }
       end
 
-      def permitted_fields(params)
-        @button = params[:button]
-        params.require(:task).permit(:entry)
+      after_initialize do
+        self.site_description = assessment_detail.entry
+      end
+
+      delegate :assessment_details, to: :planning_application
+
+      def address
+        planning_application.full_address
+      end
+
+      def update(params)
+        super do
+          case action
+          when "save_draft"
+            save_draft
+          when "save_and_complete"
+            save_and_complete
+          else
+            raise ArgumentError, "Invalid task action: #{action.inspect}"
+          end
+        end
+      end
+
+      private
+
+      def find_or_initialize_assessment_detail
+        assessment_details.find_or_initialize_by(category: :site_description)
+      end
+
+      def assessment_detail
+        @assessment_detail ||= find_or_initialize_assessment_detail
+      end
+
+      def update_assessment_detail!
+        assessment_detail.update!(entry: site_description)
+      end
+
+      def save_draft
+        transaction do
+          update_assessment_detail! && task.start!
+        end
+      end
+
+      def save_and_complete
+        transaction do
+          update_assessment_detail! && task.complete!
+        end
       end
     end
   end
