@@ -52,6 +52,9 @@ en:
         check-and-add-requirements:
           failure: Failed to save requirements
           success: Requirements were successfully saved
+        add-reporting-details:
+          failure: Failed to save reporting details
+          success: Reporting details were successfully saved
         check-and-request-documents:
           failure: Failed to save documents check
           success: Documents check saved

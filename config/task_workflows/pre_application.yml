@@ -12,6 +12,7 @@
         - name: Draw red line boundary
           hidden: true
         - name: Check red line boundary
+        - name: Add reporting details
     - name: Review
       section: Review
       tasks:
