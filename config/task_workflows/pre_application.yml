@@ -12,6 +12,10 @@
         - name: Draw red line boundary
           hidden: true
         - name: Check red line boundary
+    - name: Review
+      section: Review
+      tasks:
+        - name: Review validation requests
 - name: "Consultees"
   section: "Consultation"
 - name: "Check and assess"
