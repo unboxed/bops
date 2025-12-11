@@ -60,6 +60,9 @@ en:
             show:
               submit: Save and mark as complete
       update:
+        add-reporting-details:
+          failure: Failed to save reporting details
+          success: Reporting details were successfully saved
         check-and-add-requirements:
           failure: Failed to save requirements
           success: Requirements were successfully saved
