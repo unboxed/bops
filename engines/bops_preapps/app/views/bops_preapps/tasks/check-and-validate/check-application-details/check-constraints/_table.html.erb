@@ -1,0 +1,46 @@
+<% if planning_application_constraints.any? %>
+  <%= tag.table(class: ["govuk-table", "#{identifier}-constraints-table"]) do %>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+          Category
+        </th>
+        <th scope="col" class="govuk-table__header">
+          Constraint
+        </th>
+        <% if show_source %>
+          <th scope="col" class="govuk-table__header">
+            Source
+          </th>
+        <% end %>
+        <% if show_action %>
+          <th
+            scope="col"
+            class="govuk-table__header govuk-table__header--numeric">
+            Action
+          </th>
+        <% end %>
+      </tr>
+    </thead>
+
+    <tbody class="govuk-table__body">
+      <% planning_application_constraints.each do |planning_application_constraint| %>
+        <%= render(
+              partial: "planning_applications/validation/constraints/row",
+              locals: {
+                planning_application_constraint: planning_application_constraint,
+                show_source: show_source,
+                show_entity: show_entity,
+                show_action: show_action
+              }
+            ) %>
+      <% end %>
+    </tbody>
+  <% end %>
+<% else %>
+  <div class="background-light-grey govuk-!-padding-6">
+    <p class="govuk-!-margin-bottom-0">
+      <strong>No constraints have been added or identified</strong>
+    </p>
+  </div>
+<% end %>

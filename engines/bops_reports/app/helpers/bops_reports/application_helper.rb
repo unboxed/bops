@@ -4,7 +4,7 @@ module BopsReports
   module ApplicationHelper
     include BopsCore::ApplicationHelper
     include BreadcrumbNavigationHelper
-    include PlanningDataHelper
+    include BopsCore::PlanningDataHelper
 
     def nav_items
       []

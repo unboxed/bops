@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe PlanningDataHelper do
+RSpec.describe BopsCore::PlanningDataHelper do
   describe ".planning_data_map_url" do
     let(:planning_application) { create(:planning_application) }
     let(:url) { planning_data_map_url(datasets, planning_application) }
