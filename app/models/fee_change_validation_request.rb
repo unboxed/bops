@@ -13,8 +13,11 @@ class FeeChangeValidationRequest < ValidationRequest
                   reset_validation_requests_update_counter!(planning_application.fee_change_validation_requests)
                 }
   after_create :set_invalid_payment_amount
+  after_create :complete_check_fee_task
   before_update :reset_fee_invalidation, if: :closed?
   before_destroy :reset_fee_invalidation
+  before_destroy :reset_check_fee_task
+  after_save :reset_check_fee_task, if: :cancelled?
 
   validate if: :applicant_responding? do
     if response.blank?
@@ -64,5 +67,21 @@ class FeeChangeValidationRequest < ValidationRequest
     end
   rescue ActiveRecord::ActiveRecordError => e
     raise ResetFeeInvalidationError, e.message
+  end
+
+  def complete_check_fee_task
+    return unless planning_application.pre_application?
+
+    check_fee_task&.complete!
+  end
+
+  def reset_check_fee_task
+    return unless planning_application.pre_application?
+
+    check_fee_task&.not_started!
+  end
+
+  def check_fee_task
+    planning_application.case_record&.find_task_by_slug_path("check-and-validate/check-application-details/check-fee")
   end
 end
