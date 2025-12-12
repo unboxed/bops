@@ -1,0 +1,39 @@
+<%= render "shared/task_header", task: @task, heading: "Check the application fee" %>
+
+<p>This fee was calculated based on the services requested by the applicant.</p>
+
+<h3 class="govuk-heading-m govuk-!-margin-top-8">Fee calculation</h3>
+<table class="govuk-table">
+  <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+      <th scope="col" class="govuk-table__header">Service</th>
+      <th scope="col" class="govuk-table__header govuk-table__header--numeric">Fee</th>
+    </tr>
+  </thead>
+  <tbody class="govuk-table__body">
+    <% @planning_application.find_proposal_detail("Planning Pre-Application Advice Services").map(&:response_values).flatten.each do |response| %>
+      <% service, fee = response.split(/(.*) \((.*)\)/)[1..2] %>
+      <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">
+          <%= service %>
+        </th>
+        <td class="govuk-table__cell govuk-table__cell--numeric">
+          <%= fee %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= form_with model: @planning_application, url: task_path(@planning_application, @task), method: :patch do |form| %>
+  <%= form.govuk_radio_buttons_fieldset(:valid_fee) do %>
+    <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"} %>
+    <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"} %>
+  <% end %>
+
+  <% unless @planning_application.determined? %>
+    <div class="govuk-button-group">
+      <%= form.govuk_submit t(".submit") %>
+    </div>
+  <% end %>
+<% end %>
