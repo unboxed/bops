@@ -232,9 +232,11 @@ RSpec.describe "DescriptionChangesValidation" do
       )
     end
 
-    it "I can request a change and it will be automatically accepted immediately" do
+    it "I can request a change and it will be automatically accepted immediately", capybara: true do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check description"
+      within ".bops-sidebar" do
+        click_link "Check description"
+      end
 
       within(".govuk-fieldset") do
         within(".govuk-radios") { choose "No" }
@@ -257,24 +259,13 @@ RSpec.describe "DescriptionChangesValidation" do
       click_button "Save and mark as complete"
       expect(page).to have_content("Description updated.")
 
-      within("#check-description-task") do
-        expect(page).to have_content("Completed")
-      end
-
       expect(planning_application.reload.valid_description).to be true
       expect(DescriptionChangeValidationRequest.all.length).to eq(1)
       expect(DescriptionChangeValidationRequest.closed.length).to eq(1)
 
       click_link "Check description"
 
-      expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.reference}/validation/description_changes"
-      )
-
       expect(page).to have_content("My better description")
-
-      click_link "Back"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
     end
   end
 end

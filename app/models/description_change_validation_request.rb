@@ -21,6 +21,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
   end
 
   before_create :set_previous_application_description
+  after_create :complete_check_description_task
   after_save :description_auto_close, if: -> { open? && !planning_application.application_type.description_change_requires_validation? || skip_applicant_approval? }
 
   def response_due
@@ -97,5 +98,21 @@ class DescriptionChangeValidationRequest < ValidationRequest
   def description_auto_close
     auto_close_request!
     planning_application.update!(valid_description: true)
+  end
+
+  def complete_check_description_task
+    return unless planning_application.pre_application?
+
+    check_description_task&.complete!
+  end
+
+  def reset_check_description_task
+    return unless planning_application.pre_application?
+
+    check_description_task&.not_started!
+  end
+
+  def check_description_task
+    planning_application.case_record&.find_task_by_slug_path("check-and-validate/check-application-details/check-description")
   end
 end
