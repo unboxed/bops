@@ -80,7 +80,7 @@ module BopsPreapps
       private
 
       def form_params(params)
-        params.require(param_key).permit(attribute_names)
+        params.fetch(param_key, {}).permit(attribute_names)
       end
 
       def transaction(&block)

@@ -2,33 +2,33 @@
 
 module BopsPreapps
   module Tasks
-    class CheckFeeForm < BaseForm
-      include ActiveModel::Attributes
+    class CheckFeeForm < Form
+      self.task_actions = %w[save_and_complete]
 
       attribute :valid_fee, :boolean
 
-      validates :valid_fee, inclusion: {in: [true, false], message: :blank}
+      with_options on: :save_and_complete do
+        validates :valid_fee, inclusion: {in: [true, false], message: "Select whether the fee is correct"}
+      end
+
+      after_initialize do
+        self.valid_fee = planning_application.valid_fee
+      end
 
       def update(params)
-        assign_attributes(valid_fee: params.dig(:planning_application, :valid_fee))
-        save
-      end
-
-      def save
-        return false unless valid?
-
-        ApplicationRecord.transaction do
-          planning_application.update!(valid_fee:)
-          valid_fee ? task.complete! : task.in_progress!
+        super do
+          case action
+          when "save_and_complete"
+            save_and_complete
+          else
+            raise ArgumentError, "Invalid task action: #{action.inspect}"
+          end
         end
-        true
-      rescue ActiveRecord::RecordInvalid
-        false
       end
 
-      def redirect_url
+      def redirect_url(options = {})
         if valid_fee
-          task_path(planning_application, task)
+          super
         else
           Rails.application.routes.url_helpers.new_planning_application_validation_validation_request_path(
             planning_application,
@@ -37,8 +37,13 @@ module BopsPreapps
         end
       end
 
-      def permitted_fields(params)
-        params
+      private
+
+      def save_and_complete
+        transaction do
+          planning_application.update!(valid_fee:)
+          valid_fee ? task.complete! : task.in_progress!
+        end
       end
     end
   end
