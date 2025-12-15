@@ -7,6 +7,7 @@ module BopsPreapps
     before_action :set_planning_application
     before_action :redirect_to_review_and_submit_report, only: :show
     before_action :redirect_to_outstanding_red_line_validation_request, only: :show
+    before_action :redirect_to_outstanding_fee_validation_request, only: :show
     before_action :build_form
     before_action :show_sidebar
     before_action :show_header
@@ -52,6 +53,21 @@ module BopsPreapps
 
       validation_request = @planning_application.validation_requests
         .where(type: "RedLineBoundaryChangeValidationRequest")
+        .open_or_pending
+        .first
+
+      return unless validation_request
+
+      redirect_to main_app.planning_application_validation_validation_request_path(
+        @planning_application,
+        validation_request
+      )
+    end
+
+    def redirect_to_outstanding_fee_validation_request
+      return unless @task.slug == "check-fee"
+
+      validation_request = @planning_application.fee_change_validation_requests
         .open_or_pending
         .first
 
