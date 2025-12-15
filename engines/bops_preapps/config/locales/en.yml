@@ -88,6 +88,9 @@ en:
         review-and-submit-pre-application:
           failure: Failed to submit pre-application
           success: Pre-application was successfully submitted
+        send-validation-decision:
+          failure: Failed to send validation decision
+          success: Validation decision successfully sent
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated

@@ -17,6 +17,7 @@
       section: Review
       tasks:
         - name: Review validation requests
+        - name: Send validation decision
 - name: "Consultees"
   section: "Consultation"
 - name: "Check and assess"

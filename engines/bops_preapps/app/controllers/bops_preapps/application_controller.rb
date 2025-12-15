@@ -5,6 +5,7 @@ module BopsPreapps
     include BopsCore::ApplicationController
 
     helper BopsPreapps::FileTypesHelper
+    helper PlanningApplicationHelper
 
     before_action :require_local_authority!
 
