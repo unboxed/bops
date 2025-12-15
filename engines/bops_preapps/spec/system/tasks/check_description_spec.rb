@@ -93,6 +93,7 @@ RSpec.describe "Check description task", type: :system, capybara: true do
     fill_in "Enter an amended description", with: "This is an updated description."
     click_button "Save and mark as complete"
 
+    expect(page).to have_content "Description updated."
     expect(task.reload).to be_completed
 
     expect(planning_application.reload.description).to eq("This is an updated description.")
