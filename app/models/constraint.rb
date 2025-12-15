@@ -26,9 +26,7 @@ class Constraint < ApplicationRecord
     end
 
     def non_applicable_constraints(applicable_constraints)
-      all.reject do |constraint|
-        applicable_constraints.pluck(:constraint_id).include?(constraint.id)
-      end
+      all.where.not(id: applicable_constraints.pluck(:constraint_id))
     end
 
     def other_constraints(query, planning_application)
