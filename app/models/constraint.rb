@@ -26,23 +26,17 @@ class Constraint < ApplicationRecord
     end
 
     def non_applicable_constraints(applicable_constraints)
-      all.reject do |constraint|
-        applicable_constraints.pluck(:constraint_id).include?(constraint.id)
-      end
+      all.where.not(id: applicable_constraints.pluck(:constraint_id))
     end
 
-    def all_constraints(query)
-      scope = order(:category)
+    def other_constraints(query, planning_application)
+      scope = options_for_local_authority(planning_application.local_authority_id).order(:category)
 
-      if query.blank?
-        scope
-      else
-        scope.where(search_query, search_param(query))
+      if query.present?
+        scope = scope.where(search_query, search_param(query))
       end
-    end
 
-    def other_constraints(search_param, planning_application)
-      all_constraints(search_param).non_applicable_constraints(planning_application.planning_application_constraints).sort_by(&:category)
+      scope.non_applicable_constraints(planning_application.planning_application_constraints).sort_by(&:category)
     end
 
     private

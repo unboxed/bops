@@ -4,7 +4,7 @@ module BopsPreapps
   module Tasks
     class << self
       def form_for(slug)
-        form_class_for(slug) || BaseForm
+        form_class_for(slug)
       end
 
       private
