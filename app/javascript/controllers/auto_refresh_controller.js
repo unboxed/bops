@@ -21,6 +21,9 @@ export default class extends Controller {
 
     window.addEventListener("beforeunload", this.storeState)
     document.addEventListener("visibilitychange", this.handleVisibilityChange)
+
+    window.addEventListener("beforeprint", () => this.stopAutoRefresh())
+    window.addEventListener("afterprint", () => this.startAutoRefresh())
   }
 
   disconnect() {
