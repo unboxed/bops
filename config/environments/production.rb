@@ -81,7 +81,7 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :notify
-  config.action_mailer.notify_settings = { api_key: ENV["NOTIFY_API_KEY"] }
+  config.action_mailer.notify_settings = {api_key: ENV["NOTIFY_API_KEY"]}
 
   # Set host to be used by links generated in mailer templates.
   config.action_mailer.default_url_options = {host: ENV["DOMAIN"] || "bops.services"}
@@ -121,5 +121,12 @@ Rails.application.configure do
   # nb. only used in staging: production will override
   config.applicants_base_url = "bops-applicants-staging.services"
 
-  config.use_new_sidebar_layout = Bops.env.staging?
+  config.use_new_sidebar_layout = if Bops.env.staging?
+    {
+      "camden" => [:assessment],
+      :default => true
+    }
+  else
+    %i[assessment]
+  end
 end

@@ -14,7 +14,7 @@ module PlanningApplications
       end
 
       def edit
-        @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout
+        @show_sidebar = if use_new_sidebar_layout?(:assessment)
           @planning_application.case_record.find_task_by_path!("check-and-assess")
         end
 
@@ -24,7 +24,7 @@ module PlanningApplications
       end
 
       def create
-        @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout
+        @show_sidebar = if use_new_sidebar_layout?(:assessment)
           @planning_application.case_record.find_task_by_path!("check-and-assess")
         end
 

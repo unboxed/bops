@@ -15,7 +15,6 @@ module PlanningApplications
       before_action :set_validation_request, only: %i[show edit update destroy cancel_confirmation cancel]
       before_action :set_document
       before_action :set_type, only: %i[new]
-      before_action :show_sidebar_for_pre_application
       before_action :ensure_planning_application_is_validated, only: :post_validation_requests
       before_action :ensure_planning_application_not_validated, only: %i[new create edit update]
       before_action :ensure_planning_application_not_invalidated, only: :edit
@@ -268,12 +267,6 @@ module PlanningApplications
 
       def applicant_approval_skipped?
         params.dig("validation_request", "skip_applicant_approval") == "true"
-      end
-
-      def show_sidebar_for_pre_application
-        @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout
-          @planning_application.case_record.find_task_by_path!("check-and-validate")
-        end
       end
 
       def redirect_to_check_red_line_boundary_task?

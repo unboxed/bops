@@ -6,7 +6,7 @@ module PlanningApplications
       before_action :redirect_to_reference_url
 
       def index
-        @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout && !BLOCKED_SIDEBAR_EMAILS.include?(current_user&.email)
+        @show_sidebar = if use_new_sidebar_layout?(:assessment)
           @planning_application.case_record.tasks.find_by(section: "Assessment")
         end
 
