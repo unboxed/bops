@@ -1,22 +1,33 @@
-<%= form_with model: @form, url: @form.url do |form| %>
+<%= render "shared/task_header", task: @task, heading: "Check description" %>
+
+<div class="govuk-inset-text">
+  <h3> Existing description </h3>
+  <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
+</div>
+
+<% if @planning_application.valid_description.nil? || params[:edit] == "true" %>
+  <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
-  <%= render "shared/task_header", task: @task, heading: "Check description" %>
+    <%= form.govuk_radio_buttons_fieldset :valid_description, legend: {text: "Does the description match the development or use in the plans?"} do %>
+      <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"} %>
+      <%= form.govuk_radio_button :valid_description, false, label: {text: "No"} %>
+    <% end %>
 
-  <div class="govuk-inset-text">
-    <h3>
-      Existing description
-    </h3>
-    <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
+    <% unless @planning_application.determined? %>
+      <div class="govuk-button-group">
+        <%= form.govuk_task_button "Save and mark as complete" %>
+      </div>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>
+    Description was <%= @form.description_validation_request? ? "updated and" : "" %>
+    marked as <%= @planning_application.valid_description? ? "valid" : "invalid" %>
+  </p>
+  <div class="govuk-button-group">
+    <%= govuk_link_to "Edit description", Rails.application.routes.url_helpers.new_planning_application_validation_validation_request_path(
+          @planning_application,
+          type: "description_change"
+        ), class: "govuk-body" %>
   </div>
-
-  <%= form.govuk_radio_buttons_fieldset :valid_description, legend: {text: "Does the description match the development or use in the plans?"} do %>
-    <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"} %>
-    <%= form.govuk_radio_button :valid_description, false, label: {text: "No"} %>
-  <% end %>
-
-  <% unless @planning_application.determined? %>
-    <div class="govuk-button-group">
-      <%= form.govuk_task_button "Save and mark as complete" %>
-    </div>
-  <% end %>
 <% end %>

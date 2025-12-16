@@ -37,6 +37,10 @@ module BopsPreapps
         end
       end
 
+      def description_validation_request?
+        planning_application.validation_requests.where(type: "DescriptionChangeValidationRequest")
+      end
+
       private
 
       def save_and_complete
