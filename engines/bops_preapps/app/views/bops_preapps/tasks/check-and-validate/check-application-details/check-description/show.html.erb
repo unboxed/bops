@@ -9,14 +9,14 @@
     <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
   </div>
 
-    <%= form.govuk_radio_buttons_fieldset :valid_description, legend: {text: "Does the description match the development or use in the plans?"} do %>
-      <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"} %>
-      <%= form.govuk_radio_button :valid_description, false, label: {text: "No"} %>
-    <% end %>
-
-    <% unless @planning_application.determined? %>
-      <div class="govuk-button-group">
-        <%= form.govuk_task_button "Save and mark as complete" %>
-      </div>
-    <% end %>
+  <%= form.govuk_radio_buttons_fieldset :valid_description, legend: {text: "Does the description match the development or use in the plans?"} do %>
+    <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"} %>
+    <%= form.govuk_radio_button :valid_description, false, label: {text: "No"} %>
   <% end %>
+
+  <% unless @planning_application.determined? %>
+    <div class="govuk-button-group">
+      <%= form.govuk_task_button "Save and mark as complete" %>
+    </div>
+  <% end %>
+<% end %>

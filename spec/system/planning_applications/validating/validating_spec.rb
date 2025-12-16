@@ -188,7 +188,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
         visit "/planning_applications/#{pre_app_planning_application.reference}"
 
         click_link "Check and validate"
-        click_link "Send validation decision"
+        within ".govuk-main-wrapper" do
+          click_link "Send validation decision"
+        end
         click_link "Mark the application as valid"
 
         expect(page).to have_current_path("/planning_applications/#{pre_app_planning_application.reference}")
