@@ -34,7 +34,7 @@ module PlanningApplications
     private
 
     def show_sidebar
-      @show_sidebar = if @planning_application.pre_application? && Rails.configuration.use_new_sidebar_layout && !BLOCKED_SIDEBAR_EMAILS.include?(current_user&.email)
+      @show_sidebar = if use_new_sidebar_layout?(:consultation)
         @planning_application.case_record.tasks.find_by(section: "Consultation")
       end
     end
