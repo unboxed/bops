@@ -112,6 +112,17 @@ class ApplicationController < ActionController::Base
     case Rails.configuration.use_new_sidebar_layout
     when TrueClass
       true
+    when Hash
+      permissions = Rails.configuration.use_new_sidebar_layout[current_user&.local_authority&.subdomain]
+      if permissions.nil?
+        permissions = Rails.configuration.use_new_sidebar_layout[:default]
+      end
+
+      if permissions.respond_to?(:include?)
+        permissions.include?(application_stage)
+      else
+        permissions
+      end
     when Array
       Rails.configuration.use_new_sidebar_layout.include?(application_stage)
     when application_stage
