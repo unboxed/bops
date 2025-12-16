@@ -1,6 +1,11 @@
 ---
 en:
   bops_preapps:
+    cancel_requests:
+      update:
+        check-fee:
+          cancel_request: Fee change request successfully cancelled
+          failure: Fee change request could not be cancelled
     pre_applications:
       index:
         title: Preapps
@@ -80,7 +85,6 @@ en:
           failure: Please select whether the description is correct
           success: Description check was successfully saved
         check-fee:
-          cancel_request: Fee change request successfully cancelled
           delete_request: Fee change request successfully deleted
           failure: Please select whether the fee is correct
           success: Fee check was successfully saved

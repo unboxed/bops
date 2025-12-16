@@ -3,12 +3,11 @@
 module BopsPreapps
   module Tasks
     class CheckFeeForm < Form
-      self.task_actions = %w[save_and_complete update_request delete_request cancel_request]
+      self.task_actions = %w[save_and_complete update_request delete_request]
 
       attribute :valid_fee, :boolean
       attribute :reason, :string
       attribute :suggestion, :string
-      attribute :cancel_reason, :string
       attribute :validation_request_id, :integer
 
       with_options on: :save_and_complete do
@@ -20,10 +19,6 @@ module BopsPreapps
       with_options on: :update_request do
         validates :reason, presence: {message: "Tell the applicant why the fee is incorrect"}
         validates :suggestion, presence: {message: "Tell the applicant what they need to do"}
-      end
-
-      with_options on: :cancel_request do
-        validates :cancel_reason, presence: {message: "Explain to the applicant why this request is being cancelled"}
       end
 
       after_initialize do
@@ -39,8 +34,6 @@ module BopsPreapps
             update_validation_request
           when "delete_request"
             delete_validation_request
-          when "cancel_request"
-            cancel_validation_request
           end
         end
       end
@@ -58,7 +51,7 @@ module BopsPreapps
       end
 
       def cancel_url
-        route_for(:cancel_task, planning_application, task, validation_request_id: validation_request&.id, only_path: true)
+        route_for(:cancel_request, planning_application, validation_request_id: validation_request.id, task_slug: task.full_slug, only_path: true)
       end
 
       def flash(type, controller)
@@ -71,8 +64,6 @@ module BopsPreapps
           controller.t(".check-fee.update_request")
         when "delete_request"
           controller.t(".check-fee.delete_request")
-        when "cancel_request"
-          controller.t(".check-fee.cancel_request")
         end
       end
 
@@ -98,14 +89,6 @@ module BopsPreapps
       def delete_validation_request
         transaction do
           validation_request.destroy!
-          task.not_started!
-        end
-      end
-
-      def cancel_validation_request
-        transaction do
-          validation_request.assign_attributes(cancel_reason:)
-          validation_request.cancel_request!
           task.not_started!
         end
       end

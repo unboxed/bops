@@ -264,23 +264,26 @@ RSpec.describe "Check fee task", type: :system do
       expect(page).not_to have_button("Delete request")
     end
 
-    it "allows cancelling the validation request" do
+    it "allows cancelling the validation request and resets task to not started" do
       within ".bops-sidebar" do
         click_link "Check fee"
       end
 
       click_link "Cancel request"
 
-      expect(page).to have_content("Cancel fee change request")
-      expect(page).to have_content("Request to be cancelled")
+      expect(page).to have_content("Cancel validation request")
+      expect(page).to have_content("Fee change validation request")
+      expect(page).to have_content("Reason")
       expect(page).to have_content("Fee is incorrect")
+      expect(page).to have_content("What the applicant needs to do")
+      expect(page).to have_content("Please pay the correct fee")
 
       fill_in "Explain to the applicant why this request is being cancelled", with: "No longer needed"
       click_button "Confirm cancellation"
 
-      expect(page).to have_content("Fee change request successfully cancelled")
-      expect(task.reload).to be_not_started
+      expect(page).to have_content("successfully cancelled")
       expect(fee_change_request.reload).to be_cancelled
+      expect(task.reload).to be_not_started
     end
   end
 end

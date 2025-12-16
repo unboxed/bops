@@ -11,12 +11,6 @@ module BopsPreapps
     before_action :show_sidebar
     before_action :show_header
 
-    def cancel
-      respond_to do |format|
-        format.html { render template_for(:cancel) }
-      end
-    end
-
     private
 
     def set_planning_application
