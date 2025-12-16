@@ -76,15 +76,15 @@ en:
         check-consultees-consulted:
           failure: Failed to save consultee review
           success: Consultees were successfully marked as reviewed
-<<<<<<< HEAD
         check-description:
           failure: Please select whether the description is correct
           success: Description check was successfully saved
-=======
         check-fee:
+          cancel_request: Fee change request successfully cancelled
+          delete_request: Fee change request successfully deleted
           failure: Please select whether the fee is correct
           success: Fee check was successfully saved
->>>>>>> c6f895a6c (Add check fee task for pre-applications)
+          update_request: Fee change request successfully updated
         check-red-line-boundary:
           failure: Please select whether the red line boundary is correct
           success: Red line boundary check was successfully saved

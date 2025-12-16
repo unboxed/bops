@@ -1,0 +1,43 @@
+<%= render "shared/task_header", task: @task, heading: "Edit fee change request" %>
+
+<h3 class="govuk-heading-m">Payment information</h3>
+<%= render "bops_preapps/shared/payment_information", planning_application: @planning_application %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.hidden_field :validation_request_id %>
+
+  <%= form.govuk_text_area :reason,
+        label: {size: "m", text: "Tell the applicant why the fee is incorrect"},
+        hint: {text: "Use plain English to explain why the fee is wrong. This message will be shown to the applicant."},
+        value: @form.reason.presence || @form.validation_request.reason,
+        rows: 5 %>
+
+  <%= form.govuk_text_area :suggestion,
+        label: {size: "m", text: "Tell the applicant what they need to do"},
+        hint: {text: "If the applicant needs to provide evidence, give examples of what you can accept. If the fee exemption relates to disability, use the phrase 'documents to support your fee exemption' rather than 'evidence of your disability'."},
+        value: @form.suggestion.presence || @form.validation_request.suggestion,
+        rows: 5 %>
+
+  <details class="govuk-details" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        View guidance on supporting documents
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <ul class="govuk-list govuk-list--bullet">
+        <li>PIP award letters</li>
+        <li>supporting statements, such as from a council or therapist</li>
+        <li>NHS letters</li>
+        <li>disabled person's bus pass, blue badges or related documents</li>
+      </ul>
+    </div>
+  </details>
+
+  <div class="govuk-button-group">
+    <%= form.govuk_submit "Update request", name: "task_action", value: "update_request" %>
+    <%= govuk_link_to "Back", @form.url %>
+  </div>
+<% end %>

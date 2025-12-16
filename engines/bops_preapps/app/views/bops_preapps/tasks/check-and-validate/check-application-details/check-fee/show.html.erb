@@ -1,41 +1,112 @@
-<%= form_with model: @form, url: @form.url do |form| %>
-  <%= form.govuk_error_summary %>
+<%= render "shared/task_header", task: @task, heading: "Check the application fee" %>
 
-  <%= render "shared/task_header", task: @task, heading: "Check the application fee" %>
+<% if @form.validation_request %>
+  <h2 class="govuk-heading-m">Fee change request sent</h2>
 
-  <p>This fee was calculated based on the services requested by the applicant.</p>
+  <div class="govuk-inset-text govuk-!-margin-bottom-3">
+    <p>
+      <strong>Reason fee is invalid:</strong>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.reason)) %>
+    </p>
+    <p>
+      <strong>What the applicant needs to do:</strong>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.suggestion)) %>
+    </p>
+    <p>
+      <%= @form.validation_request.created_at.to_fs %>
+    </p>
+  </div>
 
-  <h3 class="govuk-heading-m govuk-!-margin-top-8">Fee calculation</h3>
-  <table class="govuk-table">
-    <thead class="govuk-table__head">
-      <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header">Service</th>
-        <th scope="col" class="govuk-table__header govuk-table__header--numeric">Fee</th>
-      </tr>
-    </thead>
-    <tbody class="govuk-table__body">
-      <% @planning_application.find_proposal_detail("Planning Pre-Application Advice Services").map(&:response_values).flatten.each do |response| %>
-        <% service, fee = response.split(/(.*) \((.*)\)/)[1..2] %>
-        <tr class="govuk-table__row">
-          <th scope="row" class="govuk-table__header">
-            <%= service %>
-          </th>
-          <td class="govuk-table__cell govuk-table__cell--numeric">
-            <%= fee %>
-          </td>
-        </tr>
+  <% if @form.validation_request.open_or_pending? %>
+    <% if @planning_application.not_started? %>
+      <%= form_with url: @form.url, method: :patch, data: {confirm: "Are you sure you want to delete this request?"} do |f| %>
+        <%= f.hidden_field :task_action, value: "delete_request" %>
+        <%= f.hidden_field "#{@form.param_key}[validation_request_id]", value: @form.validation_request.id %>
+        <%= f.govuk_submit "Delete request", secondary: true %>
       <% end %>
-    </tbody>
-  </table>
+      <p><%= govuk_link_to "Edit request", @form.edit_url %></p>
+    <% end %>
 
-  <%= form.govuk_radio_buttons_fieldset(:valid_fee, legend: {text: "Is the fee correct?"}) do %>
-    <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"} %>
-    <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"} %>
+    <% if @planning_application.invalidated? %>
+      <p><%= govuk_link_to "Cancel request", @form.cancel_url %></p>
+    <% end %>
   <% end %>
+<% else %>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <%= form.govuk_error_summary %>
 
-  <% unless @planning_application.determined? %>
-    <div class="govuk-button-group">
-      <%= form.govuk_task_button "Save and mark as complete" %>
-    </div>
+    <p>This fee was calculated based on the services requested by the applicant.</p>
+
+    <% if @planning_application.documents.for_fee_exemption.any? %>
+      <h3 class="govuk-heading-m govuk-!-margin-top-6">Documents</h3>
+      <ul class="govuk-list govuk-list--bullet">
+        <% @planning_application.documents.for_fee_exemption.each do |document| %>
+          <li><%= govuk_link_to document.name, main_app.planning_application_document_path(@planning_application, document) %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <h3 class="govuk-heading-m govuk-!-margin-top-6">Payment information</h3>
+    <%= render "bops_preapps/shared/payment_information", planning_application: @planning_application %>
+
+    <h3 class="govuk-heading-m">Fee calculation</h3>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Service</th>
+          <th scope="col" class="govuk-table__header govuk-table__header--numeric">Fee</th>
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <% @planning_application.find_proposal_detail("Planning Pre-Application Advice Services").map(&:response_values).flatten.each do |response| %>
+          <% service, fee = response.split(/(.*) \((.*)\)/)[1..2] %>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              <%= service %>
+            </th>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <%= fee %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <%= form.govuk_radio_buttons_fieldset(:valid_fee, legend: {text: "Is the fee correct?"}) do %>
+      <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"} %>
+      <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"} do %>
+        <%= form.govuk_text_area :reason,
+              label: {size: "s", text: "Tell the applicant why the fee is incorrect"},
+              hint: {text: "Use plain English to explain why the fee is wrong. This message will be shown to the applicant."},
+              rows: 5 %>
+
+        <%= form.govuk_text_area :suggestion,
+              label: {size: "s", text: "Tell the applicant what they need to do"},
+              hint: {text: "If the applicant needs to provide evidence, give examples of what you can accept. If the fee exemption relates to disability, use the phrase 'documents to support your fee exemption' rather than 'evidence of your disability'."},
+              rows: 5 %>
+
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              View guidance on supporting documents
+            </span>
+          </summary>
+          <div class="govuk-details__text">
+            <ul class="govuk-list govuk-list--bullet">
+              <li>PIP award letters</li>
+              <li>supporting statements, such as from a council or therapist</li>
+              <li>NHS letters</li>
+              <li>disabled person's bus pass, blue badges or related documents</li>
+            </ul>
+          </div>
+        </details>
+      <% end %>
+    <% end %>
+
+    <% unless @planning_application.determined? %>
+      <div class="govuk-button-group">
+        <%= form.govuk_task_button "Save and mark as complete" %>
+      </div>
+    <% end %>
   <% end %>
 <% end %>

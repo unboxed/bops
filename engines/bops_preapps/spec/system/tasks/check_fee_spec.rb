@@ -46,6 +46,10 @@ RSpec.describe "Check fee task", type: :system do
 
     expect(page).to have_content("Check the application fee")
     expect(page).to have_content("This fee was calculated based on the services requested by the applicant.")
+    expect(page).to have_content("Payment information")
+    expect(page).to have_content("Fee paid")
+    expect(page).to have_content("Payment reference")
+    expect(page).to have_content("Session ID")
     expect(page).to have_content("Fee calculation")
     expect(page).to have_content("Householder")
     expect(page).to have_content("£100")
@@ -69,7 +73,7 @@ RSpec.describe "Check fee task", type: :system do
     expect(planning_application.reload.valid_fee).to be true
   end
 
-  it "redirects to validation request when selecting No" do
+  it "shows validation request fields when selecting No", js: true do
     expect(task).to be_not_started
 
     within ".bops-sidebar" do
@@ -77,17 +81,40 @@ RSpec.describe "Check fee task", type: :system do
     end
 
     choose "No"
+
+    expect(page).to have_field("Tell the applicant why the fee is incorrect")
+    expect(page).to have_field("Tell the applicant what they need to do")
+  end
+
+  it "shows validation errors when selecting No without reason and suggestion" do
+    within ".bops-sidebar" do
+      click_link "Check fee"
+    end
+
+    choose "No"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path(
-      "/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=fee_change"
-    )
-    expect(task.reload).to be_in_progress
-    expect(planning_application.reload.valid_fee).to be false
+    expect(page).to have_content("Tell the applicant why the fee is incorrect")
+    expect(page).to have_content("Tell the applicant what they need to do")
+    expect(task.reload).to be_not_started
+  end
+
+  it "creates fee change validation request when selecting No with reason and suggestion", js: true do
+    expect(task).to be_not_started
 
     within ".bops-sidebar" do
-      expect(page).to have_content("Validation")
+      click_link "Check fee"
     end
+
+    choose "No"
+    fill_in "Tell the applicant why the fee is incorrect", with: "The fee amount is wrong"
+    fill_in "Tell the applicant what they need to do", with: "Please pay the correct amount"
+    click_button "Save and mark as complete"
+
+    expect(page).to have_content("Fee check was successfully saved")
+    expect(task.reload).to be_completed
+    expect(planning_application.reload.valid_fee).to be false
+    expect(planning_application.fee_change_validation_requests.count).to eq(1)
   end
 
   it "shows error when no selection is made" do
@@ -141,23 +168,32 @@ RSpec.describe "Check fee task", type: :system do
         suggestion: "Please pay the correct fee")
     end
 
-    it "redirects to the validation request show page" do
+    before do
+      task.complete!
+    end
+
+    it "shows the validation request on the task page" do
       within ".bops-sidebar" do
         click_link "Check fee"
       end
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.reference}/validation/validation_requests/#{fee_change_request.id}"
+        "/preapps/#{planning_application.reference}/check-and-validate/check-application-details/check-fee"
       )
-      expect(page).to have_content("View fee change request")
+      expect(page).to have_content("Fee change request sent")
       expect(page).to have_content("Fee is incorrect")
       expect(page).to have_content("Please pay the correct fee")
-      expect(page).to have_link("Delete request")
-      expect(page).to have_link("Edit request")
+      expect(page).to have_button("Delete request")
     end
 
-    it "marks task as completed when validation request is created" do
-      expect(task.reload).to be_completed
+    it "does not show the form when validation request exists" do
+      within ".bops-sidebar" do
+        click_link "Check fee"
+      end
+
+      expect(page).not_to have_field("Yes")
+      expect(page).not_to have_field("No")
+      expect(page).not_to have_button("Save and mark as complete")
     end
 
     it "resets task to not_started when validation request is deleted", js: true do
@@ -168,33 +204,83 @@ RSpec.describe "Check fee task", type: :system do
       end
 
       accept_confirm do
-        click_link "Delete request"
+        click_button "Delete request"
       end
 
       expect(page).to have_content("Fee change request successfully deleted")
       expect(task.reload).to be_not_started
     end
-  end
 
-  context "when creating a fee change validation request" do
-    it "marks task as completed after creating the request" do
-      expect(task).to be_not_started
-
+    it "shows edit link when application is not started" do
       within ".bops-sidebar" do
         click_link "Check fee"
       end
 
-      choose "No"
-      click_button "Save and mark as complete"
+      expect(page).to have_link("Edit request")
+    end
 
-      expect(task.reload).to be_in_progress
+    it "allows editing the validation request" do
+      within ".bops-sidebar" do
+        click_link "Check fee"
+      end
 
-      fill_in "Tell the applicant why the fee is incorrect", with: "The fee amount is wrong"
-      fill_in "Tell the applicant what they need to do", with: "Please pay the correct amount"
-      click_button "Save request"
+      click_link "Edit request"
 
-      expect(page).to have_content("Fee change request successfully created")
-      expect(task.reload).to be_completed
+      expect(page).to have_content("Edit fee change request")
+      expect(page).to have_field("Tell the applicant why the fee is incorrect", with: "Fee is incorrect")
+      expect(page).to have_field("Tell the applicant what they need to do", with: "Please pay the correct fee")
+
+      fill_in "Tell the applicant why the fee is incorrect", with: "Updated reason"
+      fill_in "Tell the applicant what they need to do", with: "Updated suggestion"
+      click_button "Update request"
+
+      expect(page).to have_content("Fee change request successfully updated")
+      expect(page).to have_content("Updated reason")
+      expect(page).to have_content("Updated suggestion")
+    end
+  end
+
+  context "when application is invalidated with fee change request" do
+    let!(:fee_change_request) do
+      create(:fee_change_validation_request,
+        :open,
+        planning_application:,
+        reason: "Fee is incorrect",
+        suggestion: "Please pay the correct fee")
+    end
+
+    before do
+      task.complete!
+      planning_application.update!(status: "invalidated")
+    end
+
+    it "shows cancel link when application is invalidated" do
+      within ".bops-sidebar" do
+        click_link "Check fee"
+      end
+
+      expect(page).to have_link("Cancel request")
+      expect(page).not_to have_link("Edit request")
+      expect(page).not_to have_button("Delete request")
+    end
+
+    it "allows cancelling the validation request" do
+      within ".bops-sidebar" do
+        click_link "Check fee"
+      end
+
+      click_link "Cancel request"
+
+      expect(page).to have_content("Cancel fee change request")
+      expect(page).to have_content("Request to be cancelled")
+      expect(page).to have_content("Fee is incorrect")
+
+      fill_in "Explain to the applicant why this request is being cancelled", with: "No longer needed"
+      click_button "Confirm cancellation"
+
+      expect(page).to have_content("Fee change request successfully cancelled")
+      expect(task.reload).to be_not_started
+      expect(fee_change_request.reload).to be_cancelled
     end
   end
 end
