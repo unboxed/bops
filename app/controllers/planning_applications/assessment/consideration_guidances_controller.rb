@@ -117,7 +117,11 @@ module PlanningApplications
       end
 
       def return_path
-        param_return_to || report_return_path
+        if param_return_to == "report"
+          report_return_path
+        else
+          param_return_to || report_return_path
+        end
       end
     end
   end
