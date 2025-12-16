@@ -162,7 +162,7 @@ const drawMap = (pdf, x, y, map) => {
 }
 
 const drawQRCode = (pdf, context, x, y) => {
-  const url = `${context.url}?qr=true`
+  const url = `${context.url}?utm_source=qr_code`
   const qrCodeCanvas = document.createElement("canvas")
 
   const instructions = [
