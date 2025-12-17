@@ -1,6 +1,11 @@
 ---
 en:
   bops_preapps:
+    cancel_requests:
+      update:
+        check-fee:
+          cancel_request: Fee change request successfully cancelled
+          failure: Fee change request could not be cancelled
     pre_applications:
       index:
         title: Preapps
@@ -45,6 +50,9 @@ en:
           check-description:
             show:
               submit: Save and mark as complete
+          check-fee:
+            show:
+              submit: Save and mark as complete
           check-red-line-boundary:
             show:
               submit: Save and mark as complete
@@ -76,6 +84,11 @@ en:
         check-description:
           failure: Please select whether the description is correct
           success: Description check was successfully saved
+        check-fee:
+          delete_request: Fee change request successfully deleted
+          failure: Please select whether the fee is correct
+          success: Fee check was successfully saved
+          update_request: Fee change request successfully updated
         check-red-line-boundary:
           failure: Please select whether the red line boundary is correct
           success: Red line boundary check was successfully saved

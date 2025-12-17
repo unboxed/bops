@@ -9,6 +9,8 @@ BopsPreapps::Engine.routes.draw do
   scope "/:reference" do
     get "/", to: redirect("/planning_applications/%{reference}")
 
+    get "/cancel", to: "cancel_requests#show", as: :cancel_request
+    patch "/cancel", to: "cancel_requests#update"
     get "/*slug/edit", to: "tasks#edit", as: :edit_task
     post "/*slug", to: "tasks#update"
     patch "/*slug", to: "tasks#update"
