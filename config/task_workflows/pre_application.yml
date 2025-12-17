@@ -14,6 +14,7 @@
         - name: Check red line boundary
         - name: Check constraints
         - name: Check description
+        - name: Add reporting details
         - name: Check fee
     - name: Review
       section: Review

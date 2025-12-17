@@ -1,0 +1,50 @@
+<%= render "shared/task_header", task: @task, heading: "Add reporting details" %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_radio_buttons_fieldset(:reporting_type_id, legend: {size: "m"}) do %>
+    <% if @planning_application.application_type.selected_reporting_types? %>
+      <% @planning_application.application_type.selected_reporting_types.each do |reporting_type| %>
+        <%= form.govuk_radio_button(:reporting_type_id, reporting_type.id, label: {text: reporting_type.full_description}) do %>
+          <% if reporting_type.guidance? %>
+            <%= render FormattedContentComponent.new(text: reporting_type.guidance, classname: "govuk-hint") %>
+            <% if reporting_type.guidance_link? %>
+              <p class="govuk-hint">
+                <%= govuk_link_to(
+                      t("planning_applications.validation.reporting_types.form.read_more"),
+                      reporting_type.guidance_link,
+                      new_tab: true
+                    ) %>
+              </p>
+            <% end %>
+          <% end %>
+          <% if reporting_type.legislation? %>
+            <p><strong><%= t("planning_applications.validation.reporting_types.form.legislation") %></strong></p>
+            <p class="govuk-hint"><%= reporting_type.legislation %></p>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <p><%= t("planning_applications.validation.reporting_types.form.no_applicable_reporting_types") %></p>
+    <% end %>
+  <% end %>
+
+  <%= form.govuk_radio_buttons_fieldset(:regulation, legend: {size: "m", text: "Is the local planning authority the owner of this land?"}) do %>
+    <%= form.govuk_radio_button :regulation, true, label: {text: "Yes"}, link_errors: true, checked: @form.regulation_3 || @form.regulation_4 do %>
+      <%= form.govuk_radio_buttons_fieldset(:regulation_3, legend: {size: "s", text: "Is the local planning authority carrying out the works proposed?"}) do %>
+        <%= form.govuk_radio_button :regulation_3, true, label: {text: "Yes"}, link_errors: true, checked: @form.regulation_3 %>
+        <%= form.govuk_radio_button :regulation_3, false, label: {text: "No"}, checked: @form.regulation_4 %>
+      <% end %>
+    <% end %>
+    <%= form.govuk_radio_button :regulation, false, label: {text: "No"}, checked: !@form.regulation_3 && !@form.regulation_4 %>
+  <% end %>
+
+  <% unless @planning_application.determined? %>
+    <%= form.govuk_task_button "Save and mark as complete", action: "save_and_complete" do %>
+      <% unless @task.completed? %>
+        <%= form.govuk_task_button "Save changes", action: "save_draft", secondary: true %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
