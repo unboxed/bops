@@ -14,15 +14,15 @@
       <%= govuk_button_link_to "Continue", planning_application_validation_fee_items_path(planning_application) %>
     <% end %>
   <% end %>
+
   <% if local_assigns.fetch(:include_back_link, true) %>
     <%= back_link(classname: "govuk-button govuk-button--secondary") %>
   <% end %>
 
   <% if validation_request.open_or_pending? %>
     <% if planning_application.validation_complete? %>
-      <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(planning_application, validation_request), class: "govuk-body" %>
+      <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(planning_application, validation_request, redirect_to: params[:redirect_to]), class: "govuk-body" %>
     <% end %>
-
     <% if planning_application.not_started? %>
       <% if local_assigns.fetch(:include_edit, true) %>
         <%= edit_request_link(
