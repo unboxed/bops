@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_03_100823) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_17_103359) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -1484,4 +1484,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_03_100823) do
   add_foreign_key "users", "local_authorities"
   add_foreign_key "validation_requests", "documents", column: "old_document_id"
   add_foreign_key "validation_requests", "planning_applications"
+  add_foreign_key "validation_requests", "users"
 end
