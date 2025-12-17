@@ -13,11 +13,7 @@
       <%= form.govuk_radio_button :valid_description, false, label: {text: "No"} %>
     <% end %>
 
-    <% unless @planning_application.determined? %>
-      <div class="govuk-button-group">
-        <%= form.govuk_task_button "Save and mark as complete" %>
-      </div>
-    <% end %>
+    <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
   <% end %>
 <% else %>
   <p>

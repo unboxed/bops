@@ -46,13 +46,7 @@
     <%= govuk_details(summary_text: "Add new site visit", open: @form.add_site_visit_open?) do %>
       <%= render "bops_preapps/tasks/check-and-assess/additional-services/site-visit/form", form: form %>
     <% end %>
-
-    <div class="govuk-button-group">
-      <%= form.govuk_task_button "Save and mark as complete" do %>
-        <% if !@task.completed? %>
-          <%= form.govuk_task_button "Save changes", action: "save_draft", secondary: true %>
-        <% end %>
-      <% end %>
-    </div>
   <% end %>
+
+  <%= render "shared/task_submit_buttons", form: form %>
 <% end %>

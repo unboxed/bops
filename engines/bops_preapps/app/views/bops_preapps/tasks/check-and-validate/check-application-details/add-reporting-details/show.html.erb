@@ -40,11 +40,5 @@
     <%= form.govuk_radio_button :regulation, false, label: {text: "No"}, checked: !@form.regulation_3 && !@form.regulation_4 %>
   <% end %>
 
-  <% unless @planning_application.determined? %>
-    <%= form.govuk_task_button "Save and mark as complete", action: "save_and_complete" do %>
-      <% unless @task.completed? %>
-        <%= form.govuk_task_button "Save changes", action: "save_draft", secondary: true %>
-      <% end %>
-    <% end %>
-  <% end %>
+  <%= render "shared/task_submit_buttons", form: form %>
 <% end %>
