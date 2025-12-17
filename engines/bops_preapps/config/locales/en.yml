@@ -97,6 +97,9 @@ en:
         review-and-submit-pre-application:
           failure: Failed to submit pre-application
           success: Pre-application was successfully submitted
+        review-documents:
+          failure: Failed to update document review
+          success: Successfully updated document review
         send-validation-decision:
           failure: Failed to send validation decision
           success: Validation decision successfully sent
@@ -113,5 +116,8 @@ en:
           success: Summary of advice successfully updated
   shared:
     task_submit_buttons:
+      save_draft: Save changes
+      submit: Save and mark as complete
+    task_submit_buttons_old:
       save_draft: Save changes
       submit: Save and mark as complete
