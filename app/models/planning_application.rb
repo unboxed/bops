@@ -936,12 +936,16 @@ class PlanningApplication < ApplicationRecord
 
   def documents_for(tab)
     Document.tags_for(tab).then do |tags|
-      active_documents_with_file.select { |document| document.has_tags?(tags) }
+      all_documents_for_display.select { |document| document.has_tags?(tags) }
     end
   end
 
   def active_documents_with_file
     @active_documents ||= documents.active.with_file_attachment
+  end
+
+  def all_documents_for_display
+    @all_documents_for_display ||= documents.not_archived.with_file_attachment
   end
 
   def environment_impact_assessment_status

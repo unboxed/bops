@@ -239,7 +239,8 @@ class Document < ApplicationRecord
   scope :not_excluded_owners, -> { where.not(owner_type: EXCLUDED_OWNERS) }
   scope :default, -> { no_owner.or(not_excluded_owners) }
   scope :by_created_at, -> { order(created_at: :asc) }
-  scope :active, -> { default.where(archived_at: nil) }
+  scope :active, -> { default.not_archived }
+  scope :not_archived, -> { where(archived_at: nil) }
   scope :invalidated, -> { where(validated: false) }
   scope :validated, -> { where(validated: true) }
   scope :redacted, -> { where(redacted: true) }

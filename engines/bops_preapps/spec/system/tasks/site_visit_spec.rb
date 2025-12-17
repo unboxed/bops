@@ -76,4 +76,28 @@ RSpec.describe "Site visit", type: :system do
 
     expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/additional-services/site-visit")
   end
+
+  it "displays uploaded photos in the site visit history" do
+    create(
+      :site_visit,
+      :with_documents,
+      planning_application:,
+      created_by: user,
+      visited_at: 1.day.ago,
+      address: planning_application.address,
+      comment: "Site inspection completed"
+    )
+
+    within ".bops-sidebar" do
+      click_link "Site visit"
+    end
+
+    expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/additional-services/site-visit")
+
+    within("#site-visit-history") do
+      expect(page).to have_content("Site inspection completed")
+      expect(page).to have_link("View in new window")
+      expect(page).to have_css("img")
+    end
+  end
 end
