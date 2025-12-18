@@ -32,14 +32,14 @@
                 ">
                 <% unless @planning_application.determined? %>
                   <div class="align-items-center justify-end gap-2">
-                    <%= govuk_link_to("Edit", main_app.edit_planning_application_assessment_requirement_path(@planning_application, requirement, redirect_to: task_path(@planning_application, @task)), no_visited_state: true, no_underline: true) %>
-                    <span>|</span>
+                    <%= form_with model: @form, url: @form.url do |form| %>
+                      <%= form.hidden_field :requirement_id, value: requirement.id %>
+                      <%= govuk_link_to("Edit", main_app.edit_planning_application_assessment_requirement_path(@planning_application, requirement, redirect_to: task_path(@planning_application, @task)), no_visited_state: true, no_underline: true) %>
+                      <span>|</span>
 
-                    <%= govuk_link_to("Remove", main_app.planning_application_assessment_requirement_path(@planning_application, requirement, redirect_to: task_path(@planning_application, @task)),
-                          method: :delete,
-                          no_visited_state: true,
-                          no_underline: true,
-                          data: {confirm: "Are you sure you want to remove this requirement?"}) %>
+                      <%= form.govuk_task_button "Remove", action: "remove_requirement", class: "button-as-link",
+                            data: {confirm: "Are you sure you want to remove this requirement?"} %>
+                    <% end %>
                   </div>
                 <% end %>
               </dd>
@@ -55,8 +55,8 @@
 
 <hr>
 
-<%= govuk_details(summary_text: "Add requirements") do %>
-  <%= form_with method: :post, url: main_app.planning_application_assessment_requirements_path(@planning_application, redirect_to: task_path(@planning_application, @task)) do |form| %>
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= govuk_details(summary_text: "Add requirements") do %>
     <%= govuk_tabs do |tabs| %>
       <% @planning_application.local_authority.requirements.by_category do |category, requirements| %>
         <% tabs.with_tab(label: t("planning_applications.assessment.requirements.index.categories.#{category}")) do %>
@@ -77,8 +77,8 @@
       <% end %>
     <% end %>
 
-    <%= form.govuk_submit("Add requirements", secondary: true, class: "govuk-!-margin-bottom-2") %>
+    <%= form.govuk_task_button "Add requirements", secondary: true, action: :add_requirement, class: "govuk-!-margin-bottom-2" %>
   <% end %>
-<% end %>
 
-<%= render "shared/task_submit_form", save_draft: false %>
+  <%= render "shared/task_submit_buttons", form: form %>
+<% end %>
