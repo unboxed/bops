@@ -59,6 +59,15 @@ en:
           draw-red-line-boundary:
             show:
               submit: Save and mark as complete
+      consultees:
+        determine-consultation-requirement:
+          show:
+            hint: Select "Yes" to unlock consultation tasks or "No" to skip them for this case.
+            options:
+              'no': 'No'
+              'yes': 'Yes'
+            question: Is consultation required?
+            warning: Changing this answer to "No" will remove all consultees and any responses you have recorded.
       update:
         add-reporting-details:
           failure: Failed to save reporting details
@@ -101,6 +110,9 @@ en:
         choose-application-type:
           failure: Failed to save recommended application type
           success: Recommended application type was successfully chosen
+        determine-consultation-requirement:
+          failure: Determine if consultation is required
+          success: Consultation requirement was successfully updated
         draw-red-line-boundary:
           failure: Draw a red line boundary
           success: Red line boundary was successfully saved

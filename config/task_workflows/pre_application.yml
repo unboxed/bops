@@ -27,6 +27,8 @@
         - name: Send validation decision
 - name: "Consultees"
   section: "Consultation"
+  tasks:
+    - name: Determine consultation requirement
 - name: "Check and assess"
   section: "Assessment"
   tasks:

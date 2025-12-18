@@ -1,0 +1,20 @@
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= render "shared/task_header", task: @task %>
+
+  <% if @planning_application.consultation_required? && @planning_application.consultation&.consultees&.exists? %>
+    <%= govuk_warning_text(text: t(".warning")) %>
+  <% end %>
+
+  <%= form.govuk_radio_buttons_fieldset(
+        :consultation_required,
+        legend: {text: t(".question"), size: "m"},
+        hint: {text: t(".hint")}
+      ) do %>
+    <%= form.govuk_radio_button(:consultation_required, true, label: {text: t(".options.yes")}) %>
+    <%= form.govuk_radio_button(:consultation_required, false, label: {text: t(".options.no")}) %>
+  <% end %>
+
+  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+<% end %>
