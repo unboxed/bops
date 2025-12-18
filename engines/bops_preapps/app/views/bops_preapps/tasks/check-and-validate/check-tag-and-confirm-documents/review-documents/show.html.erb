@@ -68,11 +68,5 @@
 </div>
 
 <%= form_with model: @form, url: @form.url do |form| %>
-  <% unless @planning_application.determined? %>
-    <%= form.govuk_task_button "Save and mark as complete" do %>
-      <% if !@task.completed? %>
-        <%= form.govuk_task_button "Save changes", action: "save_draft", secondary: true %>
-      <% end %>
-    <% end %>
-  <% end %>
+  <%= render "shared/task_submit_buttons", form: form %>
 <% end %>

@@ -22,11 +22,5 @@
     </ul>
   <% end %>
 
-  <div class="govuk-button-group">
-    <%= form.govuk_task_button "Save and mark as complete" do %>
-      <% if !@task.completed? %>
-        <%= form.govuk_task_button "Save changes", action: "save_draft", secondary: true %>
-      <% end %>
-    <% end %>
-  </div>
+  <%= render "shared/task_submit_buttons", form: form %>
 <% end %>

@@ -2,9 +2,9 @@
 
 <% unless @planning_application.determined? %>
   <div class="govuk-button-group">
-    <%= form.govuk_task_button t(".submit") do %>
+    <%= form.govuk_submit t("shared.task_submit_buttons.submit") do %>
       <% if save_draft && !@task.completed? %>
-        <%= form.govuk_task_button t(".save_draft"), action: :save_draft, secondary: true %>
+        <%= form.button t("shared.task_submit_buttons.save_draft"), class: "govuk-button govuk-button--secondary", value: :save_draft %>
       <% end %>
     <% end %>
   </div>

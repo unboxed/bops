@@ -1,6 +1,7 @@
 <%= render "shared/task_header", task: @task %>
 
 <% documents = @planning_application.documents.active %>
+
 <% additional_document_validation_requests = @planning_application.additional_document_validation_requests.pre_validation.open_or_pending %>
 
 <%= render "planning_applications/validation/documents/check_and_request_documents",
@@ -10,5 +11,5 @@
 <%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
   <%= form.hidden_field :documents_missing, value: additional_document_validation_requests.any? %>
 
-  <%= render "shared/task_submit_buttons", form: form %>
+  <%= render "shared/task_submit_buttons_old", form: form %>
 <% end %>

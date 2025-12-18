@@ -134,6 +134,3 @@ en:
     task_submit_buttons:
       save_draft: Save changes
       submit: Save and mark as complete
-    task_submit_buttons_old:
-      save_draft: Save changes
-      submit: Save and mark as complete
