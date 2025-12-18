@@ -32,9 +32,9 @@ module BopsPreapps
           when "add_meeting"
             add_meeting
           when "save_draft"
-            task.start!
+            save_draft
           when "save_and_complete"
-            task.complete!
+            save_and_complete
           else
             raise ArgumentError, "Invalid task action: #{action.inspect}"
           end

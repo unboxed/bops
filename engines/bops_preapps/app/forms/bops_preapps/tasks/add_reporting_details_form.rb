@@ -51,14 +51,6 @@ module BopsPreapps
           regulation_4: regulation_present && !regulation_3_selected
         }
       end
-
-      def save_draft
-        task.start!
-      end
-
-      def save_and_complete
-        task.complete!
-      end
     end
   end
 end

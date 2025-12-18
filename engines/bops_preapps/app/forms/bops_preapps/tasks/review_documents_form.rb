@@ -14,16 +14,6 @@ module BopsPreapps
           end
         end
       end
-
-      private
-
-      def save_draft
-        task.start!
-      end
-
-      def save_and_complete
-        task.complete!
-      end
     end
   end
 end
