@@ -1,0 +1,58 @@
+<%= render "shared/task_header", task: @task, heading: "Edit site visit" %>
+
+<h3 class="govuk-heading-m">Site visit</h3>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+<div id="new-site-visit-form">
+  <div class="govuk-form-group">
+    <%= form.hidden_field :site_visit_id, value: @form.site_visit_id.presence || params[:site_visit_id] %>
+    <% date = @form.site_visit&.visited_at&.to_date %>
+    <%= form.govuk_date_field(
+          :visited_on,
+          legend: {text: "Date of site visit", size: "s"},
+          value: date && {
+            day: date.day,
+            month: date.month,
+            year: date.year
+          }
+        ) %>
+    <%= content_tag :div, data: {
+          controller: "address-search",
+          address_search_url: main_app.os_places_api_index_path,
+          address_search_id: "address",
+          address_search_default_address_value: @form.site_visit.address
+        } do %>
+
+      <%= form.hidden_field :address, id: "address-hidden-field" %>
+      <%= form.govuk_label(:address, text: "Search for address", size: "s") %>
+      <span id="address-hint" class="govuk-hint">Start typing address or postcode</span>
+      <div id="address-container" class="govuk-!-margin-top-2"></div>
+    <% end %>
+
+  </div>
+
+  <%= form.govuk_file_field :documents,
+        label: {size: "s", text: t(".upload_photos")},
+        accept: acceptable_file_mime_types,
+        multiple: true %>
+  <% if @form.site_visit.documents.any? %>
+    <%= form.govuk_check_boxes_fieldset :documents_to_remove,
+          legend: {text: "Existing documents", size: "s"},
+          hint: {text: "Select documents to remove them"},
+          small: true  do %>
+
+        <% @form.site_visit.documents.each do |document| %>
+          <%= form.govuk_check_box :documents_to_remove,
+                document.id,
+                label: {text: link_to_document(document.name, document)} %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <%= form.govuk_text_area(:comments, rows: 6, label: {text: "Comments", size: "s"}, value: @form.site_visit.comment) %>
+
+  <div class="govuk-button-group govuk-!-margin-bottom-0">
+    <%= form.govuk_task_button "Update site visit", action: "update_site_visit", secondary: true %>
+  </div>
+</div>
+<% end %>

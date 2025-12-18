@@ -3,7 +3,7 @@
 module BopsPreapps
   module Tasks
     class CheckApplicationDetailsForm < BaseForm
-      def initialize(task)
+      def initialize(task, params = {})
         super
 
         @consistency_checklist = @planning_application.consistency_checklist ||

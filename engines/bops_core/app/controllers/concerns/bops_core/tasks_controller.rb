@@ -29,7 +29,7 @@ module BopsCore
           if @form.update(task_params)
             redirect_to @form.redirect_url, notice: @form.flash(:notice, self)
           else
-            render template_for(:show), alert: @form.flash(:alert, self)
+            render template_for(failure_template), alert: @form.flash(:alert, self)
           end
         end
       end
@@ -60,6 +60,12 @@ module BopsCore
     def template_for(action)
       path = "tasks/#{@task.full_slug}/#{action}"
       lookup_context.exists?(path) ? path : "tasks/generic/#{action}"
+    end
+
+    def failure_template
+      return :edit if params[:task_action] == "update_site_visit"
+
+      :show
     end
   end
 end

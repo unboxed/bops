@@ -5,7 +5,7 @@ module BopsPreapps
     class SuggestHeadsOfTermsForm < BaseForm
       attr_reader :heads_of_term, :term
 
-      def initialize(task)
+      def initialize(task, params = {})
         super
 
         @heads_of_term = @planning_application.heads_of_term

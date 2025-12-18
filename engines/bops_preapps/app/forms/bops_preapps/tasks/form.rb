@@ -12,7 +12,7 @@ module BopsPreapps
 
       include BopsPreapps::Engine.routes.url_helpers
 
-      attr_reader :task
+      attr_reader :task, :params
       attr_accessor :action
 
       delegate :case_record, :slug, to: :task
@@ -29,8 +29,9 @@ module BopsPreapps
         class_attribute :after_failure, default: "render"
       end
 
-      def initialize(task)
+      def initialize(task, params = {})
         @task = task
+        @params = params
         @result = false
         @action = "default"
 

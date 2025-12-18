@@ -3,7 +3,7 @@
 module BopsPreapps
   module Tasks
     class PlanningConsiderationsAndAdviceForm < BaseForm
-      def initialize(task)
+      def initialize(task, params = {})
         super
 
         @consideration_set = planning_application.consideration_set

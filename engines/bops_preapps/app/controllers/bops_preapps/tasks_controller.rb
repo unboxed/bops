@@ -25,7 +25,7 @@ module BopsPreapps
     def build_form
       klass = BopsPreapps::Tasks.form_for(@task.slug)
 
-      @form = klass.new(@task)
+      @form = klass.new(@task, params)
     end
 
     def show_header

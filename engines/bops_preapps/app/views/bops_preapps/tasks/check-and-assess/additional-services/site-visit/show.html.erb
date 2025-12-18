@@ -14,10 +14,13 @@
           <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Address</th>
           <th scope="col" class="govuk-table__header">Case officer</th>
           <th scope="col" class="govuk-table__header govuk-!-width-one-half">Comment</th>
+          <th scope="col" class="govuk-table__header">Action</th>
         </tr>
       </thead>
       <tbody class="govuk-table__body">
         <% @form.each_site_visit do |site_visit| %>
+        <%= form.hidden_field :site_visit_id, value: site_visit.id %>
+        <tbody class="govuk-table__body">
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">
               <%= site_visit.visited_on %>
@@ -36,6 +39,9 @@
                   <%= link_to_document "View in new window", document %>
                 </p>
               <% end %>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <%= govuk_link_to "Edit", @form.route_for(:edit_task, @planning_application, @task, site_visit_id: site_visit.id, only_path: true) %>
+              <%= form.govuk_task_button "Remove", action: "remove_site_visit", class: "button-as-link" %>
             </td>
           </tr>
         <% end %>

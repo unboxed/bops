@@ -9,6 +9,7 @@
           address_search_default_address_value: form.object.address
         } do %>
 
+      <%= form.hidden_field :address, id: "address-hidden-field" %>
       <%= form.govuk_label(:address, text: "Search for address", size: "s") %>
       <span id="address-hint" class="govuk-hint">Start typing address or postcode</span>
       <div id="address-container" class="govuk-!-margin-top-2"></div>
