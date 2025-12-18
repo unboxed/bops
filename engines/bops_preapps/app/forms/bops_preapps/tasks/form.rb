@@ -106,6 +106,14 @@ module BopsPreapps
         # Let the user know that we couldn't carry out the action
         errors.add :base, :invalid, message: "Unable to perform action - please contact support"
       end
+
+      def save_draft
+        task.start!
+      end
+
+      def save_and_complete
+        task.complete!
+      end
     end
   end
 end
