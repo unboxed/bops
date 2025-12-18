@@ -10,9 +10,9 @@ module BopsPreapps
           begin
             ActiveRecord::Base.transaction do
               planning_application.consultation.create_consultees_review!
-              task.complete! || raise(ActiveRecord::RecordInvalid)
+              task.complete!
             end
-          rescue ActiveRecord::RecordInvalid
+          rescue ActiveRecord::ActiveRecordError
             false
           end
         end
