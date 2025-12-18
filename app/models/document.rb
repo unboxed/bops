@@ -256,7 +256,7 @@ class Document < ApplicationRecord
   scope :with_tag, ->(tag) { where(arel_table[:tags].contains(Array.wrap(tag))) }
   scope :with_siteplan_tags, -> { where(arel_table[:tags].overlaps(%w[sitePlan.existing sitePlan.proposed])) }
   scope :with_drawing_tags, -> { where(arel_table[:tags].overlaps(DRAWING_TAGS)) }
-  scope :with_file_attachment, -> { includes(file_attachment: :blob) }
+  scope :with_file_attachment, -> { includes(file_attachment: {blob: :variant_records}) }
   scope :for_site_visit, -> { where.not(site_visit_id: nil) }
   scope :for_fee_exemption, -> { with_tag("disabilityExemptionEvidence") }
   scope :not_for_fee_exemption, -> { where.not(arel_table[:tags].contains(%w[disabilityExemptionEvidence])) }

@@ -347,4 +347,8 @@ class PlanningApplicationsController < AuthenticationController
     flash.now[:alert] = t(".confirm_press_notice_published_at_html", href: planning_application_press_notice_confirmation_path(@planning_application))
     render :publish and return
   end
+
+  def planning_applications_scope
+    super.includes(:application_type, :user, :consultation)
+  end
 end
