@@ -10,6 +10,7 @@ class PlanningApplicationsController < AuthenticationController
   before_action :ensure_site_notice_displayed_at, only: %i[determine]
   before_action :ensure_press_notice_published_at, only: %i[determine]
   before_action :ensure_planning_application_is_not_preapp, only: %i[submit_recommendation view_recommendation]
+  before_action :show_sidebar, only: %i[supply_documents]
 
   before_action :redirect_to_reference_url, only: %i[show edit]
 
@@ -246,6 +247,12 @@ class PlanningApplicationsController < AuthenticationController
     @planning_application.case_record = CaseRecord.new(local_authority: current_local_authority)
 
     @planning_application
+  end
+
+  def show_sidebar
+    @show_sidebar = if use_new_sidebar_layout?(:validation)
+      @planning_application.case_record.tasks.find_by(section: "Validation")
+    end
   end
 
   def planning_application_params

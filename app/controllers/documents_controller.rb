@@ -88,7 +88,7 @@ class DocumentsController < AuthenticationController
 
     if @document.archived?
       flash[:notice] = "#{@document.name} has been archived"
-      redirect_to(return_to_session || planning_application_documents_path(@planning_application))
+      redirect_to(params.dig(:document, :redirect_to).presence || return_to_session || planning_application_documents_path(@planning_application))
     else
       flash[:alert] = "There was an error with archiving #{@document.name}"
       render :archive
@@ -149,6 +149,8 @@ class DocumentsController < AuthenticationController
   def redirect_url
     if @validate_document
       supply_documents_planning_application_path(@planning_application)
+    elsif params.dig(:document, :redirect_to).present?
+      params.dig(:document, :redirect_to)
     elsif session[:return_to]
       return_to_session
     elsif request.referer&.include?("route=review")
@@ -166,6 +168,10 @@ class DocumentsController < AuthenticationController
 
   def return_to_session
     session.delete(:return_to)
+  end
+
+  def document_return_to
+    params.dig(:document, :redirect_to).presence
   end
 
   def show_sidebar

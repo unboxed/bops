@@ -174,6 +174,8 @@ module PlanningApplications
         if params.dig(:validation_request, :return_to)
           params.dig(:validation_request, :return_to) ||
             @planning_application
+        elsif redirect_to_check_and_request_documents_task?
+          check_and_request_documents_task_path
         elsif redirect_to_check_red_line_boundary_task?
           planning_application_validation_validation_request_path(
             @planning_application,
@@ -223,6 +225,8 @@ module PlanningApplications
             @planning_application
         elsif redirect_to_check_red_line_boundary_task?
           check_red_line_boundary_task_path
+        elsif redirect_to_check_and_request_documents_task?
+          check_and_request_documents_task_path
         elsif @planning_application.validated?
           post_validation_requests_planning_application_validation_validation_requests_path(@planning_application)
         else
@@ -233,6 +237,8 @@ module PlanningApplications
       def destroy_redirect_url
         if redirect_to_check_red_line_boundary_task?
           check_red_line_boundary_task_path
+        elsif redirect_to_check_and_request_documents_task?
+          check_and_request_documents_task_path
         else
           planning_application_validation_tasks_path(@planning_application)
         end
@@ -242,6 +248,13 @@ module PlanningApplications
         BopsPreapps::Engine.routes.url_helpers.task_path(
           reference: @planning_application.reference,
           slug: CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG
+        )
+      end
+
+      def check_and_request_documents_task_path
+        BopsPreapps::Engine.routes.url_helpers.task_path(
+          reference: @planning_application.reference,
+          slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents"
         )
       end
 
@@ -272,6 +285,12 @@ module PlanningApplications
       def redirect_to_check_red_line_boundary_task?
         @planning_application.pre_application? &&
           @validation_request.type == "RedLineBoundaryChangeValidationRequest"
+      end
+
+      def redirect_to_check_and_request_documents_task?
+        return false unless @planning_application.pre_application?
+
+        @validation_request.type.in?(%w[ReplacementDocumentValidationRequest AdditionalDocumentValidationRequest])
       end
     end
   end

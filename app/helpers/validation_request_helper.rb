@@ -3,13 +3,17 @@
 module ValidationRequestHelper
   def edit_request_link(planning_application, validation_request, classname: nil)
     govuk_link_to "Edit request",
-      edit_planning_application_validation_validation_request_path(planning_application, validation_request),
+      main_app.edit_planning_application_validation_validation_request_path(planning_application, validation_request),
       class: classname
   end
 
-  def delete_confirmation_request_link(planning_application, validation_request, classname: nil)
+  def delete_confirmation_request_link(planning_application, validation_request, classname: nil, redirect_to: nil)
     govuk_link_to "Delete request",
-      planning_application_validation_validation_request_path(planning_application, validation_request),
+      main_app.planning_application_validation_validation_request_path(
+        planning_application,
+        validation_request,
+        redirect_to: redirect_to
+      ),
       method: :delete, data: {confirm: "Are you sure?"}, class: classname
   end
 
@@ -31,15 +35,15 @@ module ValidationRequestHelper
     if request.type == "AdditionalDocumentValidationRequest"
       show_additional_document_validation_request_url(application, request)
     else
-      planning_application_validation_validation_request_path(application, request)
+      main_app.planning_application_validation_validation_request_path(application, request)
     end
   end
 
   def show_additional_document_validation_request_url(application, request)
     if request.post_validation?
-      planning_application_documents_path(application)
+      main_app.planning_application_documents_path(application)
     else
-      edit_planning_application_validation_documents_path(application)
+      main_app.edit_planning_application_validation_documents_path(application)
     end
   end
 
