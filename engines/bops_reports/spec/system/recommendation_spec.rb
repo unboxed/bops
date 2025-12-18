@@ -30,17 +30,13 @@ RSpec.describe "Recommending and submitting a pre-application report" do
     click_button "Confirm and submit recommendation"
     expect(page).to have_selector("[role=alert] p", text: "Pre-application report submitted for review")
 
-    within "main" do
-      click_link "Review and submit pre-application"
-    end
+    click_link "Review and submit pre-application"
     expect(page).to have_selector("h1", text: "Pre-application report")
 
     click_button "Withdraw recommendation"
     expect(page).to have_selector("[role=alert] p", text: "Pre-application report withdrawn")
 
-    within "main" do
-      click_link "Review and submit pre-application"
-    end
+    click_link "Review and submit pre-application"
     expect(page).to have_selector("h1", text: "Pre-application report")
 
     click_button "Confirm and submit recommendation"
@@ -93,12 +89,12 @@ RSpec.describe "Recommending and submitting a pre-application report" do
 
     click_button "Confirm and submit pre-application report"
 
+    expect(page).to have_selector("[role=alert] p", text: "Pre-application report has been sent to the applicant")
+
     expect(BopsReports::SendReportEmailJob).to have_been_enqueued.with(
       planning_application,
       reviewer
     ).once
-
-    expect(page).to have_selector("[role=alert] p", text: "Pre-application report has been sent to the applicant")
   end
 
   it "requires an assigned case officer before you can submit the recommendation" do
@@ -123,9 +119,8 @@ RSpec.describe "Recommending and submitting a pre-application report" do
 
     expect(BopsReports::SendReportEmailJob).not_to have_been_enqueued
 
-    within "main" do
-      click_link "Review and submit pre-application"
-    end
+    click_link "Review and submit pre-application"
+
     expect(page).to have_button("Confirm and submit pre-application report")
 
     within_fieldset "Do you agree with the advice?" do
@@ -139,11 +134,7 @@ RSpec.describe "Recommending and submitting a pre-application report" do
     expect(BopsReports::SendReportEmailJob).not_to have_been_enqueued
 
     click_link "Check and assess"
-    expect(page).to have_selector("h1", text: "Assess the application")
-
-    within "main" do
-      click_link "Review and submit pre-application"
-    end
+    click_link "Review and submit pre-application"
     expect(page).to have_button("Confirm and submit recommendation")
 
     fill_in "Assessor comment", with: "It is now"
@@ -151,9 +142,7 @@ RSpec.describe "Recommending and submitting a pre-application report" do
     click_button "Confirm and submit recommendation"
     expect(page).to have_selector("[role=alert] p", text: "Pre-application report submitted for review")
 
-    within "main" do
-      click_link "Review and submit pre-application"
-    end
+    click_link "Review and submit pre-application"
     expect(page).to have_button("Confirm and submit pre-application report")
 
     within_fieldset "Do you agree with the advice?" do

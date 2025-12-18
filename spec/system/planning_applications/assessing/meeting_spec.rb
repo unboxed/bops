@@ -16,31 +16,15 @@ RSpec.describe "Meeting" do
     travel_to("2024-12-24")
     sign_in(assessor)
     visit "/planning_applications/#{planning_application.reference}"
-  end
-
-  context "when a meeting is not required" do
-    it "does not show the meeting item in the tasklist" do
-      click_link "Check and assess"
-      expect(page).not_to have_css("#meeting")
-    end
+    click_link "Check and assess"
+    click_link "Meeting"
   end
 
   context "when a meeting is required" do
     let!(:additional_service) { create(:additional_service, :with_meeting, planning_application: planning_application) }
 
-    it "shows the meeting item in the tasklist" do
-      click_link "Check and assess"
-      within("#additional-services-tasks") do
-        expect(page).to have_css("#meeting")
-      end
-    end
-
     it "I can add a new meeting record" do
-      click_link "Check and assess"
-      within "main" do
-        click_link "Meeting"
-      end
-      expect(page).to have_selector("h1", text: "Add a meeting")
+      expect(page).to have_selector("h1", text: "Meeting")
 
       fill_in "Day", with: "12"
       fill_in "Month", with: "12"
@@ -48,22 +32,7 @@ RSpec.describe "Meeting" do
       fill_in "Add notes (optional)", with: "Met with applicant"
       click_button "Add meeting"
 
-      expect(page).to have_content("Meeting record was successfully added.")
-
-      click_link "Back"
-
-      within("#meeting") do
-        expect(page).to have_content("Completed")
-      end
-
-      expect(page).to have_link(
-        "Meeting",
-        href: "/planning_applications/#{planning_application.reference}/assessment/meetings"
-      )
-
-      within "main" do
-        click_link "Meeting"
-      end
+      expect(page).to have_content("Meeting successfully recorded")
 
       within(".govuk-table") do
         expect(page).to have_selector("caption", text: "Meeting history")
@@ -74,19 +43,10 @@ RSpec.describe "Meeting" do
     end
 
     context "when there are validation errors" do
-      before do
-        click_link "Check and assess"
-        within "main" do
-          click_link "Meeting"
-        end
-      end
-
       it "there is a validation error when no date is entered" do
         click_button "Add meeting"
 
-        within("#meeting-occurred-at-error") do
-          expect(page).to have_content("Provide the date when the meeting took place")
-        end
+        expect(page).to have_content("Enter the date of the meeting")
       end
 
       it "I can't add a meeting after the current date" do
@@ -95,7 +55,7 @@ RSpec.describe "Meeting" do
         fill_in "Year", with: "2026"
         click_button "Add meeting"
 
-        expect(page).to have_content "The date the meeting took place must be on or before today"
+        expect(page).to have_content "Enter a date on or before today’s date"
       end
 
       it "I can't add an incomplete meeting date" do
@@ -103,19 +63,14 @@ RSpec.describe "Meeting" do
         fill_in "Month", with: "1"
         click_button "Add meeting"
 
-        expect(page).to have_content "The date the meeting took place must be a valid date"
+        expect(page).to have_content "Enter a valid date for the meeting"
       end
     end
 
     context "when a meeting record exists" do
       let!(:meeting) { create(:meeting, planning_application: planning_application) }
 
-      before do
-        click_link "Check and assess"
-        within "main" do
-          click_link "Meeting"
-        end
-      end
+      before { page.refresh }
 
       it "I can see an existing meeting record" do
         within(".govuk-table") do

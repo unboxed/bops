@@ -55,7 +55,7 @@ RSpec.describe "making planning application public" do
       expect(page).not_to have_content("Public on BOPS Public Portal")
 
       visit "/planning_applications/#{reference}/make_public"
-      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-assess/check-application/check-application-details")
       expect(page).to have_selector("[role=alert] p", text: "You can’t publish Pre-application Advice on the public portal")
     end
   end

@@ -130,21 +130,15 @@ RSpec.describe "Site description" do
       create(:planning_application, :pre_application, :in_assessment, local_authority: default_local_authority)
     end
 
-    before do
-      click_link "Check and assess"
-    end
-
     it "does not show the information will be made public warning" do
-      within("#assessment-information-tasks") do
-        expect(page).to have_content("Not started")
-        click_link "Site description"
-      end
+      click_link "Check and assess"
+      click_link "Site description"
 
       expect(page).to have_current_path(
-        "/planning_applications/#{reference}/assessment/assessment_details/new?category=site_description"
+        "/preapps/#{reference}/check-and-assess/assessment-summaries/site-description"
       )
 
-      expect(page).to have_content("Create a description of the site")
+      expect(page).to have_content("Description of the site")
       expect(page).not_to have_content("This information WILL be made publicly available.")
     end
   end
