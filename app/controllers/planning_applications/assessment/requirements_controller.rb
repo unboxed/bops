@@ -54,11 +54,11 @@ module PlanningApplications
         respond_to do |format|
           if @requirement.destroy
             format.html do
-              redirect_to redirect_path, notice: t(".success")
+              redirect_to planning_application_assessment_requirements_path(@planning_application), notice: t(".success")
             end
           else
             format.html do
-              redirect_to redirect_path, alert: t(".failure")
+              redirect_to planning_application_assessment_requirements_path(@planning_application), alert: t(".failure")
             end
           end
         end

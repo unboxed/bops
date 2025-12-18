@@ -41,13 +41,13 @@ RSpec.describe "Check and add requirements task", type: :system do
     within("#supporting_documents-card") do
       expect(page).to have_content("Parking plan")
       expect(page).to have_link("Edit")
-      expect(page).to have_link("Remove")
+      expect(page).to have_button("Remove")
     end
 
     within("#evidence-card") do
       expect(page).to have_content("Design statement")
       expect(page).to have_link("Edit")
-      expect(page).to have_link("Remove")
+      expect(page).to have_button("Remove")
     end
 
     expect(page).to have_button("Save and mark as complete")
@@ -97,7 +97,7 @@ RSpec.describe "Check and add requirements task", type: :system do
     click_button "Add requirements"
 
     expect(page).to have_content("Check and add requirements")
-    expect(page).to have_content("Requirements successfully added")
+    expect(page).to have_content("Requirements were successfully saved")
     within("#supporting_documents-card") do
       expect(page).to have_content("Parking plan")
     end
@@ -131,12 +131,12 @@ RSpec.describe "Check and add requirements task", type: :system do
 
     within("#supporting_documents-card") do
       accept_confirm do
-        click_link "Remove"
+        click_button "Remove"
       end
     end
 
     expect(page).to have_content("Check and add requirements")
-    expect(page).to have_content("Requirement successfully removed")
+    expect(page).to have_content("Requirements were successfully saved")
 
     within("#supporting_documents-card") do
       expect(page).not_to have_content("Parking plan")
