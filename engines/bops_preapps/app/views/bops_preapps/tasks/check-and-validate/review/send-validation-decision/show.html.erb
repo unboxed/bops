@@ -31,8 +31,8 @@
       <h2>
         Validation requests
       </h2>
-      <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %>
-
+      <p>
+        <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %><br>
         <%= govuk_link_to "View existing requests", main_app.planning_application_validation_validation_requests_path(@planning_application) %>
       </p>
       <p>

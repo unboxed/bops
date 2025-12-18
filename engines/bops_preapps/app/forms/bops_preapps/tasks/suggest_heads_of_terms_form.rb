@@ -18,6 +18,8 @@ module BopsPreapps
         else
           task.complete!
         end
+      rescue ActiveRecord::ActiveRecordError
+        false
       end
 
       def permitted_fields(params)

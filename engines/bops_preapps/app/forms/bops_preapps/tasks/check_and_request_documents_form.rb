@@ -8,12 +8,12 @@ module BopsPreapps
           planning_application.update!(documents_missing: documents_missing(params))
 
           if save_draft?
-            task.start! || raise(ActiveRecord::RecordInvalid.new(task))
+            task.start!
           else
-            task.complete! || raise(ActiveRecord::RecordInvalid.new(task))
+            task.complete!
           end
         end
-      rescue ActiveRecord::RecordInvalid
+      rescue ActiveRecord::ActiveRecordError
         false
       end
 

@@ -54,6 +54,8 @@ module BopsPreapps
         end
 
         @result
+      rescue ActiveRecord::ActiveRecordError => e
+        report_error(e) and return false
       end
 
       def url(options = {})
@@ -95,6 +97,14 @@ module BopsPreapps
         else
           raise ArgumentError, "Invalid task action: #{action.inspect}"
         end
+      end
+
+      def report_error(error)
+        # If we get here that means we've missed something so send it to Appsignal
+        Appsignal.send_exception(error)
+
+        # Let the user know that we couldn't carry out the action
+        errors.add :base, :invalid, message: "Unable to perform action - please contact support"
       end
     end
   end

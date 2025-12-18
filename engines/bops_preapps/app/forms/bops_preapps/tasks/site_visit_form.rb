@@ -73,8 +73,8 @@ module BopsPreapps
         params.require(param_key).permit(:visited_on, :address, :comments, documents: [])
       end
 
-      def build_site_visit
-        planning_application.site_visits.new do |sv|
+      def create_site_visit!
+        planning_application.site_visits.create! do |sv|
           sv.visited_at = visited_on
           sv.address = address
           sv.comment = comments
@@ -86,7 +86,7 @@ module BopsPreapps
 
       def add_site_visit
         transaction do
-          build_site_visit.save! && task.start!
+          create_site_visit! && task.start!
         end
       end
     end

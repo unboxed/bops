@@ -8,6 +8,11 @@
     <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
       <%= form.govuk_error_summary %>
 
+      <%= form.hidden_field(
+            :return_to,
+            value: local_assigns[:return_to]
+          ) %>
+
       <%= form.govuk_text_area(
             :reason,
             label: {

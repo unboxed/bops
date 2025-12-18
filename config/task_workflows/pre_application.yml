@@ -16,6 +16,10 @@
         - name: Check description
         - name: Add reporting details
         - name: Check fee
+    - name: Other validation issues
+      section: Other validation issues
+      tasks:
+        - name: Other validation requests
     - name: Review
       section: Review
       tasks:

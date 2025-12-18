@@ -107,6 +107,9 @@ en:
         meeting:
           failure: Failed to save meeting
           success: Meeting successfully recorded
+        other-validation-requests:
+          failure: Failed to add other validation request
+          success: Other validation requests was successfully saved
         planning-considerations-and-advice:
           failure: Failed to save confirmation of considerations and advice
           success: Considerations and advice were successfully confirmed

@@ -15,12 +15,20 @@ class Task < ApplicationRecord
     self.status ||= "not_started"
   end
 
+  def start
+    completed? || update(status: :in_progress)
+  end
+
   def start!
-    update(status: :in_progress) unless completed?
+    start || raise_not_saved("start")
+  end
+
+  def complete
+    update(status: :completed)
   end
 
   def complete!
-    update(status: :completed)
+    complete || raise_not_saved("complete")
   end
 
   def full_slug
@@ -49,5 +57,11 @@ class Task < ApplicationRecord
 
   def title
     I18n.t("bops_enforcements.tasks.title.#{slug}", default: name)
+  end
+
+  private
+
+  def raise_not_saved(transition)
+    raise ActiveRecord::RecordNotSaved, "Unable to #{transition} the task #{name.inspect}"
   end
 end

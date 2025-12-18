@@ -61,8 +61,8 @@ module BopsPreapps
         planning_application.meetings.includes(:created_by).by_occurred_at_desc
       end
 
-      def build_meeting
-        planning_application.meetings.new do |m|
+      def create_meeting!
+        planning_application.meetings.create! do |m|
           m.occurred_at = occurred_on
           m.comment = comments
           m.created_by = Current.user
@@ -71,7 +71,7 @@ module BopsPreapps
 
       def add_meeting
         transaction do
-          build_meeting.save! && task.start!
+          create_meeting! && task.start!
         end
       end
     end

@@ -5,6 +5,20 @@ module BopsPreapps
     class SendValidationDecisionForm < Form
       self.task_actions = %w[save_and_complete save_and_invalidate]
 
+      validate on: :save_and_invalidate do
+        unless planning_application.may_invalidate?
+          errors.add :base, :invalid, message: "This planning application cannot be marked as invalid"
+        end
+      end
+
+      after_update do
+        if planning_application.invalid?
+          planning_application.send_invalidation_notice_mail
+        else
+          planning_application.send_validation_notice_mail
+        end
+      end
+
       def update(params)
         super do
           case action
@@ -22,24 +36,15 @@ module BopsPreapps
 
       def save_and_invalidate
         transaction do
-          if planning_application.may_invalidate?
-            planning_application.invalidate!
-            planning_application.send_invalidation_notice_mail
-
-          else
-            validation_requests = planning_application.validation_requests
-            @cancelled_validation_requests = validation_requests.where(state: "cancelled")
-            @active_validation_requests = validation_requests.where.not(state: "cancelled")
-          end
+          planning_application.invalidate!
           task.complete!
         end
       end
 
       def save_and_complete
         transaction do
-          planning_application.update(validated_at: planning_application.valid_from_date)
+          planning_application.update!(validated_at: planning_application.valid_from_date)
           planning_application.start!
-          planning_application.send_validation_notice_mail
           task.complete!
         end
       end

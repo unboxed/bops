@@ -52,13 +52,18 @@ module BopsPreapps
 
       def add_constraint
         transaction do
-          planning_application_constraints.new(constraint_id:, identified_by: Current.user.name).save! && task.start!
+          create_constraint! && task.start!
         end
+      end
+
+      def create_constraint!
+        planning_application_constraints.create!(constraint_id:, identified_by: Current.user.name)
       end
 
       def remove_constraint
         transaction do
-          planning_application_constraints.find(constraint_id).delete && task.start!
+          constraint = planning_application_constraints.find(constraint_id)
+          constraint.destroy! && task.start!
         end
       end
     end

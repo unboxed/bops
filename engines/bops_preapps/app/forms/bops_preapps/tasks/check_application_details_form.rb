@@ -19,9 +19,9 @@ module BopsPreapps
             task.start!
           else
             task.complete!
-          end || raise(ActiveRecord::RecordInvalid)
+          end
         end
-      rescue ActiveRecord::RecordInvalid
+      rescue ActiveRecord::ActiveRecordError
         false
       end
 
