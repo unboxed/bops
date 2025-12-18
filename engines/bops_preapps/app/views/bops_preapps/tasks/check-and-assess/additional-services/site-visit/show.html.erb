@@ -16,8 +16,8 @@
           <th scope="col" class="govuk-table__header">Comment</th>
         </tr>
       </thead>
-      <% @form.each_site_visit do |site_visit| %>
-        <tbody class="govuk-table__body">
+      <tbody class="govuk-table__body">
+        <% @form.each_site_visit do |site_visit| %>
           <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">
               <%= site_visit.visited_on %>
@@ -28,8 +28,8 @@
             <td class="govuk-table__cell"><%= site_visit.created_by %></td>
             <td class="govuk-table__cell"><%= site_visit.comment %></td>
           </tr>
-        </tbody>
-      <% end %>
+        <% end %>
+      </tbody>
     </table>
   <% else %>
     <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
