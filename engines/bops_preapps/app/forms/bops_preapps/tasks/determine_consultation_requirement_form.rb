@@ -29,8 +29,18 @@ module BopsPreapps
       def save_and_complete
         transaction do
           planning_application.update!(consultation_required:)
+          update_consultation_tasks_visibility
           task.complete!
         end
+      end
+
+      def update_consultation_tasks_visibility
+        return unless consultation_required
+
+        consultees_section = case_record.tasks.find_by(slug: "consultees")
+        return unless consultees_section
+
+        consultees_section.tasks.where(hidden: true).update_all(hidden: false)
       end
     end
   end

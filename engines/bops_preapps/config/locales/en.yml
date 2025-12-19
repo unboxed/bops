@@ -1,11 +1,20 @@
 ---
 en:
   bops_preapps:
+    assign_constraints:
+      create:
+        failure: Failed to update constraint
     cancel_requests:
       update:
         check-fee:
           cancel_request: Fee change request successfully cancelled
           failure: Fee change request could not be cancelled
+    constraint_consultees:
+      destroy:
+        success: Consultee was removed from this constraint
+    consultees:
+      create:
+        success: Consultees were successfully assigned
     pre_applications:
       index:
         title: Preapps
@@ -60,6 +69,11 @@ en:
             show:
               submit: Save and mark as complete
       consultees:
+        add-and-assign-consultees:
+          show:
+            assign_consultees_heading: Assign consultees to each constraint
+            select_constraints_description: Review the planning constraints and select which ones require consultation.
+            select_constraints_heading: Select constraints that require consultation
         determine-consultation-requirement:
           show:
             hint: Select "Yes" to unlock consultation tasks or "No" to skip them for this case.
@@ -69,6 +83,9 @@ en:
             question: Is consultation required?
             warning: Changing this answer to "No" will remove all consultees and any responses you have recorded.
       update:
+        add-and-assign-consultees:
+          failure: Failed to save consultee assignments
+          success: Consultee assignments were successfully saved
         add-reporting-details:
           failure: Failed to save reporting details
           success: Reporting details were successfully saved

@@ -3,7 +3,7 @@
 <% unless @planning_application.determined? %>
   <div class="govuk-button-group">
     <%= form.govuk_task_button t(".submit") do %>
-      <% if save_draft && !@task.completed? %>
+      <% if save_draft %>
         <%= form.govuk_task_button t(".save_draft"), action: :save_draft, secondary: true %>
       <% end %>
     <% end %>
