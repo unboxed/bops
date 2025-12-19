@@ -8,10 +8,14 @@
     <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
       <%= form.govuk_error_summary %>
 
-      <%= form.hidden_field(
-            :return_to,
-            value: local_assigns[:return_to]
-          ) %>
+      <% return_to = local_assigns[:return_to].presence || params[:return_to].presence %>
+      <% if return_to.nil? && @planning_application.pre_application? %>
+        <% return_to = BopsPreapps::Engine.routes.url_helpers.task_path(
+             reference: @planning_application.reference,
+             slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents"
+           ) %>
+      <% end %>
+      <%= form.hidden_field(:return_to, value: return_to) if return_to.present? %>
 
       <%= form.govuk_text_field :document_request_type,
             label: {size: "m", text: "Please specify the new document type:"},

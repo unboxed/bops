@@ -1,9 +1,12 @@
-<%# locals: (documents:, additional_document_validation_requests:) %>
+<%# locals: (documents:, additional_document_validation_requests:, allow_cancel: true, cancel_request_path_for: nil, redirect_to: nil) %>
 
 <% documents = local_assigns.fetch(:documents) { @planning_application.documents.active } %>
 <% additional_document_validation_requests = local_assigns.fetch(:additional_document_validation_requests) do %>
   @planning_application.additional_document_validation_requests.pre_validation.open_or_pending
 <% end %>
+<% cancel_request_path_for = local_assigns[:cancel_request_path_for] %>
+<% allow_cancel = local_assigns.fetch(:allow_cancel, true) %>
+<% redirect_to = local_assigns[:redirect_to] %>
 
 <h2>Check for missing documents</h2>
 <p class="govuk-body-m">
@@ -29,7 +32,7 @@
     <% tab_documents = @planning_application.documents_for(tab) %>
     <% tabs.with_tab(label: "#{tab} (#{tab_documents.size})", id: tab.parameterize) do %>
       <h2><%= tab %></h2>
-      <%= render(partial: "documents/active_documents_table", locals: {documents: tab_documents}) %>
+      <%= render(partial: "documents/active_documents_table", locals: {documents: tab_documents, redirect_to: redirect_to}) %>
     <% end %>
   <% end %>
 <% end %>
@@ -38,7 +41,10 @@
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
   <%= render "planning_applications/validation/additional_document_validation_requests/additional_document_validation_requests_table",
-        validation_requests: additional_document_validation_requests %>
+        validation_requests: additional_document_validation_requests,
+        cancel_request_path_for: cancel_request_path_for,
+        allow_cancel: allow_cancel,
+        redirect_to: redirect_to %>
 <% else %>
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 <% end %>

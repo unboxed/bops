@@ -1,3 +1,5 @@
+<% redirect_to = local_assigns[:redirect_to] %>
+
 <table class="govuk-table current-documents">
   <tbody class="govuk-table__body">
     <% documents.each do |document| %>
@@ -26,8 +28,8 @@
             <% if @planning_application.can_edit_documents? %>
               <% if document.representable? %>
                 <p class="govuk-!-margin-right-2 govuk-!-text-align-right">
-                  <%= govuk_link_to "Edit", main_app.edit_planning_application_document_path(@planning_application, document) %><br>
-                  <%= govuk_link_to "Archive", main_app.planning_application_document_archive_path(@planning_application, document) %><br>
+                  <%= govuk_link_to "Edit", main_app.edit_planning_application_document_path(@planning_application, document, redirect_to: redirect_to) %><br>
+                  <%= govuk_link_to "Archive", main_app.planning_application_document_archive_path(@planning_application, document, redirect_to: redirect_to) %><br>
                   <% if document.replacement_document_validation_request %>
                     <%= govuk_link_to "Cancel replacement request", show_validation_request_url(@planning_application, document.replacement_document_validation_request) %>
                   <% else %>

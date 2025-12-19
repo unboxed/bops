@@ -1,4 +1,5 @@
 <%= form_for(@document, as: :document, url: planning_application_document_confirm_archive_path) do |form| %>
+  <%= form.hidden_field :redirect_to, value: params[:redirect_to].presence %>
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
       <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
@@ -18,7 +19,10 @@
       </div>
     </fieldset>
     <p>
-      <%= form.submit "Archive", class: "govuk-button", data: {module: "govuk-button"} %> <%= govuk_button_link_to "Cancel", planning_application_documents_path, secondary: true %>
+      <%= form.submit "Archive", class: "govuk-button", data: {module: "govuk-button"} %>
+      <%= govuk_button_link_to "Cancel",
+            (params[:redirect_to].presence || planning_application_documents_path),
+            secondary: true %>
     </p>
   </div>
 <% end %>

@@ -6,7 +6,16 @@
 
 <%= render "planning_applications/validation/documents/check_and_request_documents",
       documents: documents,
-      additional_document_validation_requests: additional_document_validation_requests %>
+      additional_document_validation_requests: additional_document_validation_requests,
+      allow_cancel: @planning_application.invalidated?,
+      redirect_to: task_path(@planning_application, @task),
+      cancel_request_path_for: lambda { |validation_request|
+        cancel_request_path(
+          @planning_application,
+          validation_request_id: validation_request.id,
+          task_slug: @task.full_slug
+        )
+      } %>
 
 <%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
   <%= form.hidden_field :documents_missing, value: additional_document_validation_requests.any? %>
