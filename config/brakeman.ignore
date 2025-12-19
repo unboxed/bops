@@ -7,7 +7,7 @@
       "check_name": "VerbConfusion",
       "message": "Potential HTTP verb confusion. `HEAD` is routed like `GET` but `request.get?` will return `false`",
       "file": "engines/bops_core/app/controllers/concerns/bops_core/application_controller.rb",
-      "line": 98,
+      "line": 128,
       "link": "https://brakemanscanner.org/docs/warning_types/http_verb_confusion/",
       "code": "session[:back_path] = request.referer if request.get?",
       "render_path": null,
@@ -58,13 +58,47 @@
       "note": ""
     },
     {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "5240d450204c9e3b74401ae28b8c08ad7dc4788ca35f31cfe0a56b8fa6005635",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "engines/bops_preapps/app/views/bops_preapps/validation_requests/cancellations/new.html.erb",
+      "line": 2,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"#{controller_path}/new/#{PlanningApplicationPresenter.new(view_context, current_local_authority.planning_applications.find_by!(:reference => params[:reference])).validation_requests.find(params[:validation_request_id]).type_param}\", {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BopsPreapps::ValidationRequests::CancellationsController",
+          "method": "create",
+          "line": 36,
+          "file": "engines/bops_preapps/app/controllers/bops_preapps/validation_requests/cancellations_controller.rb",
+          "rendered": {
+            "name": "bops_preapps/validation_requests/cancellations/new",
+            "file": "engines/bops_preapps/app/views/bops_preapps/validation_requests/cancellations/new.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "bops_preapps/validation_requests/cancellations/new"
+      },
+      "user_input": "params[:validation_request_id]",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
       "warning_type": "Denial of Service",
       "warning_code": 76,
       "fingerprint": "76f55a4f527e1d179af74841ccb067e61a02033a08e86bc7844b843e8a2c1b41",
       "check_name": "RegexDoS",
       "message": "Parameter value used in regular expression",
       "file": "app/controllers/application_controller.rb",
-      "line": 48,
+      "line": 55,
       "link": "https://brakemanscanner.org/docs/warning_types/denial_of_service/",
       "code": "/\\/#{get_planning_application(params[planning_application_param]).id}/",
       "render_path": null,
@@ -82,46 +116,36 @@
       "note": ""
     },
     {
-      "warning_type": "Cross-Site Scripting",
-      "warning_code": 2,
-      "fingerprint": "98a2eb7517c9b0fbbbb711af14b9eb2241ece8b3b375dc85bc30d394a659a0f5",
-      "check_name": "CrossSiteScripting",
-      "message": "Unescaped parameter value",
-      "file": "app/views/planning_applications/site_notices/_status.html.erb",
-      "line": 23,
-      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
-      "code": "PlanningApplicationPresenter.new(view_context, get_planning_application(params[planning_application_param])).last_site_notice.preview_content",
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "afeab00e1d4d52748bb9e6533d9761489e90595357a5f6ad2166530f1817d400",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "engines/bops_preapps/app/views/bops_preapps/validation_requests/edit.html.erb",
+      "line": 2,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"#{controller_path}/edit/#{PlanningApplicationPresenter.new(view_context, current_local_authority.planning_applications.find_by!(:reference => params[:reference])).validation_requests.find(params[:id]).type_param}\", {})",
       "render_path": [
         {
           "type": "controller",
-          "class": "PlanningApplications::SiteNoticesController",
-          "method": "create",
+          "class": "BopsPreapps::ValidationRequestsController",
+          "method": "update",
           "line": 54,
-          "file": "app/controllers/planning_applications/site_notices_controller.rb",
+          "file": "engines/bops_preapps/app/controllers/bops_preapps/validation_requests_controller.rb",
           "rendered": {
-            "name": "planning_applications/site_notices/new",
-            "file": "app/views/planning_applications/site_notices/new.html.erb"
-          }
-        },
-        {
-          "type": "template",
-          "name": "planning_applications/site_notices/new",
-          "line": 22,
-          "file": "app/views/planning_applications/site_notices/new.html.erb",
-          "rendered": {
-            "name": "planning_applications/site_notices/_status",
-            "file": "app/views/planning_applications/site_notices/_status.html.erb"
+            "name": "bops_preapps/validation_requests/edit",
+            "file": "engines/bops_preapps/app/views/bops_preapps/validation_requests/edit.html.erb"
           }
         }
       ],
       "location": {
         "type": "template",
-        "template": "planning_applications/site_notices/_status"
+        "template": "bops_preapps/validation_requests/edit"
       },
-      "user_input": "params[planning_application_param]",
+      "user_input": "params[:id]",
       "confidence": "Weak",
       "cwe_id": [
-        79
+        22
       ],
       "note": ""
     },
@@ -153,6 +177,40 @@
         "template": "bops_applicants/ownership_certificates/new"
       },
       "user_input": "params",
+      "confidence": "Weak",
+      "cwe_id": [
+        22
+      ],
+      "note": ""
+    },
+    {
+      "warning_type": "Dynamic Render Path",
+      "warning_code": 15,
+      "fingerprint": "df3f134a8f88aadd7d08404d76efb177eef78b6f38546392f66e0dba8b39a71d",
+      "check_name": "Render",
+      "message": "Render path contains parameter value",
+      "file": "engines/bops_preapps/app/views/bops_preapps/validation_requests/new.html.erb",
+      "line": 2,
+      "link": "https://brakemanscanner.org/docs/warning_types/dynamic_render_path/",
+      "code": "render(action => \"#{controller_path}/new/#{PlanningApplicationPresenter.new(view_context, current_local_authority.planning_applications.find_by!(:reference => params[:reference])).validation_requests.new(:type => request_type).type_param}\", {})",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "BopsPreapps::ValidationRequestsController",
+          "method": "create",
+          "line": 30,
+          "file": "engines/bops_preapps/app/controllers/bops_preapps/validation_requests_controller.rb",
+          "rendered": {
+            "name": "bops_preapps/validation_requests/new",
+            "file": "engines/bops_preapps/app/views/bops_preapps/validation_requests/new.html.erb"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "bops_preapps/validation_requests/new"
+      },
+      "user_input": "params[:reference]",
       "confidence": "Weak",
       "cwe_id": [
         22

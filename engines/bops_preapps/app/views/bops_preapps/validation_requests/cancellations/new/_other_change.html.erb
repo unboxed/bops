@@ -1,0 +1,37 @@
+<% content_for :page_title do %>
+  Cancel other validation request &mdash; <%= t("page_title") %>
+<% end %>
+
+<%= form_with model: @validation_request, scope: :validation_request, method: :post, url: validation_request_cancellation_path(@planning_application) do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <h1>Cancel validation request</h1>
+  <%= render "shared/proposal_header" %>
+
+  <div class="govuk-grid-row govuk-!-margin-top-3">
+    <div class="govuk-grid-column-two-thirds">
+      <h2 class="govuk-!-margin-bottom-3">
+        Other request to be cancelled
+      </h2>
+
+      <div class="govuk-inset-text govuk-!-margin-top-3">
+        <h3 class="govuk-!-margin-bottom-1">Reason it is invalid:</h3>
+        <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+
+        <h3 class="govuk-!-margin-bottom-1">How it can be made valid:</h3>
+        <%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
+
+        <p>
+          <%= @validation_request.created_at.to_fs %>
+        </p>
+      </div>
+
+      <%= form.govuk_text_area(:cancel_reason, rows: 5,
+            label: {size: "m", text: "Explain to the applicant why this request is being cancelled"}) %>
+
+      <%= form.govuk_submit "Confirm cancellation" do %>
+        <%= govuk_button_link_to "Back", task_redirect_path, secondary: true %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
