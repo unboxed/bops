@@ -9,6 +9,10 @@ BopsPreapps::Engine.routes.draw do
   scope "/:reference" do
     get "/", to: redirect("/planning_applications/%{reference}")
 
+    resources :validation_requests, path: "/validation/requests", except: %i[index] do
+      resource :cancellation, only: %i[new create], module: "validation_requests"
+    end
+
     get "/cancel", to: "cancel_requests#show", as: :cancel_request
     patch "/cancel", to: "cancel_requests#update"
     get "/*slug/edit", to: "tasks#edit", as: :edit_task

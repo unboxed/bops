@@ -16,6 +16,8 @@ class ValidationRequest < ApplicationRecord
     TimeExtensionValidationRequest
   ].freeze
 
+  REQUEST_TYPE_MAP = REQUEST_TYPES.index_by { |type| type[0..-18].underscore }.freeze
+
   with_options to: :planning_application do
     delegate :audits
     delegate :validated?, prefix: :planning_application
@@ -122,8 +124,12 @@ class ValidationRequest < ApplicationRecord
     end
   end
 
+  def type_param
+    type[0..-18].underscore
+  end
+
   def type_symbol
-    type.underscore.gsub(/_validation_request\z/, "").to_sym
+    type_param.to_sym
   end
 
   def response_due

@@ -1,0 +1,64 @@
+<% content_for :page_title do %>
+  Other validation request &mdash; <%= t("page_title") %>
+<% end %>
+
+<h1>
+  <% if @validation_request.closed? %>
+    Check the response to other request
+  <% else %>
+    View other request
+  <% end %>
+</h1>
+<%= render "shared/proposal_header" %>
+
+<div class="govuk-grid-row govuk-!-margin-top-3">
+  <div class="govuk-grid-column-two-thirds">
+    <h2 class="govuk-!-margin-bottom-3">Officer request</h2>
+
+    <div class="govuk-inset-text govuk-!-margin-top-3">
+      <h3 class="govuk-!-margin-bottom-1">Reason it is invalid:</h3>
+      <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+
+      <h3 class="govuk-!-margin-bottom-1">How it can be made valid:</h3>
+      <%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
+
+      <p>
+        <%= @validation_request.created_at.to_fs %>
+      </p>
+    </div>
+
+    <h2 class="govuk-!-margin-bottom-3">Applicant response</h2>
+
+    <div class="govuk-inset-text govuk-!-margin-top-3">
+      <% if @validation_request.closed? %>
+        <%= render(FormattedContentComponent.new(text: @validation_request.response)) %>
+
+        <p>
+          <%= @validation_request.updated_at.to_fs %>
+        </p>
+      <% else %>
+        <p>Applicant has not responded yet</p>
+      <% end %>
+    </div>
+
+    <% if @validation_request.open_or_pending? %>
+      <% if @planning_application.not_started? %>
+        <div class="govuk-button-group govuk-!-margin-top-6">
+          <%= govuk_button_to "Delete request", validation_request_path(@planning_application, @validation_request), secondary: true, method: :delete, data: {confirm: "Are you sure?"} %>
+        </div>
+      <% elsif @planning_application.validation_complete? %>
+        <div class="govuk-button-group govuk-!-margin-top-6">
+          <%= govuk_button_link_to "Cancel request", new_validation_request_cancellation_path(@planning_application, @validation_request), secondary: true %>
+        </div>
+      <% end %>
+    <% end %>
+
+    <div class="govuk-button-group govuk-!-margin-top-6">
+      <%= govuk_button_link_to "Back", task_redirect_path, secondary: true %>
+
+      <% if @planning_application.not_started? %>
+        <%= govuk_link_to "Edit request", edit_validation_request_path(@planning_application, @validation_request) %>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -133,6 +133,39 @@ en:
         summary-of-advice:
           failure: Failed to save summary of advice
           success: Summary of advice successfully updated
+    validation_requests:
+      attributes:
+        other_change:
+        - :reason
+        - :suggestion
+      cancellations:
+        create:
+          other_change: Change request successfully cancelled.
+          validation_request_not_cancelable: Validation request can't be cancelled.
+        new:
+          validation_request_not_cancelable: Validation request can't be cancelled.
+      create:
+        validation_request_not_createable: Validation requests can't be added.
+      destroy:
+        validation_request_not_destroyable: The validation request can't be deleted.
+      edit:
+        validation_request_not_editable: The validation request can't be edited.
+      new:
+        validation_request_not_createable: Validation requests can't be added.
+      redirect_alerts:
+        destroy:
+          other_change: Couldn't delete validation request — please contact support.
+      redirect_notices:
+        create:
+          other_change: Change request successfully created.
+        destroy:
+          other_change: Change request successfully deleted.
+        update:
+          other_change: Change request successfully updated.
+      redirect_slugs:
+        other_change: check-and-validate/other-validation-issues/other-validation-requests
+      update:
+        validation_request_not_editable: The validation request can't be edited.
   shared:
     task_submit_buttons:
       save_draft: Save changes

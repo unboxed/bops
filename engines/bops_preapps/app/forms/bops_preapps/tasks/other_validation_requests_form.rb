@@ -10,12 +10,27 @@ module BopsPreapps
 
         def status
           case state
+          when "pending"
+            "Not sent yet"
+          when "open"
+            overdue? ? "Overdue" : "Sent"
           when "closed"
-            :updated
+            "Responded"
           when "cancelled"
-            :cancelled
-          else
-            :invalid
+            "Cancelled"
+          end
+        end
+
+        def status_colour
+          case state
+          when "pending"
+            "yellow"
+          when "open"
+            overdue? ? "red" : "green"
+          when "closed"
+            nil
+          when "cancelled"
+            "red"
           end
         end
       end

@@ -1,0 +1,27 @@
+<% content_for :page_title do %>
+  Update other validation request &mdash; <%= t("page_title") %>
+<% end %>
+
+<%= form_with model: @validation_request, scope: :validation_request, url: validation_request_path(@planning_application) do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <h1>Request other validation change</h1>
+  <%= render "shared/proposal_header" %>
+
+  <div class="govuk-grid-row govuk-!-margin-top-3">
+    <div class="govuk-grid-column-two-thirds">
+      <%= hidden_field_tag :type, "other_change" %>
+
+      <%= form.govuk_text_area(:reason, rows: 5,
+            label: {size: "m", text: "Tell the applicant another reason why the application is invalid"}) %>
+
+      <%= form.govuk_text_area(:suggestion, rows: 5,
+            hint: {text: "Add all information that they will need to complete this action"},
+            label: {size: "m", text: "Explain to the applicant how the application can be made valid"}) %>
+
+      <%= form.govuk_submit "Update request" do %>
+        <%= govuk_button_link_to "Back", task_redirect_path, secondary: true %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
