@@ -66,7 +66,7 @@ module BopsPreapps
       private
 
       def site_visits_relation
-        planning_application.site_visits.includes(:created_by).by_visited_at_desc
+        planning_application.site_visits.includes(:created_by, documents: {file_attachment: :blob}).by_visited_at_desc
       end
 
       def form_params(params)

@@ -11,9 +11,9 @@
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
           <th scope="col" class="govuk-table__header">Site visit date</th>
-          <th scope="col" class="govuk-table__header">Address visited</th>
-          <th scope="col" class="govuk-table__header">Created by</th>
-          <th scope="col" class="govuk-table__header">Comment</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Address</th>
+          <th scope="col" class="govuk-table__header">Case officer</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-half">Comment</th>
         </tr>
       </thead>
       <tbody class="govuk-table__body">
@@ -26,7 +26,17 @@
               <%= site_visit.address %>
             </td>
             <td class="govuk-table__cell"><%= site_visit.created_by %></td>
-            <td class="govuk-table__cell"><%= site_visit.comment %></td>
+            <td class="govuk-table__cell">
+              <%= site_visit.comment %>
+              <% site_visit.documents.each do |document| %>
+                <p class="govuk-!-margin-top-3 govuk-!-margin-bottom-1">
+                  <%= document_thumbnail_link document, thumbnail_args: {resize: "180x135"} %>
+                </p>
+                <p>
+                  <%= link_to_document "View in new window", document %>
+                </p>
+              <% end %>
+            </td>
           </tr>
         <% end %>
       </tbody>
