@@ -14,6 +14,8 @@ en:
       check-and-assess:
         additional-services:
           site-visit:
+            edit:
+              upload_photos: Upload photo(s)
             form:
               upload_photos: Upload photo(s)
             show:
@@ -138,8 +140,17 @@ en:
           failure: Failed to save site description
           success: Site description was successfully updated
         site-visit:
-          failure: Failed to save site visit
-          success: Site visit successfully recorded
+          add_site_visit:
+            failure: Failed to save site visit
+            success: Site visit successfully recorded
+          failure: Unable to complete site visit task
+          remove_site_visit:
+            failure: Failed to remove site visit
+            success: Site visit successfully removed
+          success: Site visits successfully checked
+          update_site_visit:
+            failure: Failed to update site visit
+            success: Site visit successfully updated
         suggest-heads-of-terms:
           success: Head of terms have been confirmed
         summary-of-advice:

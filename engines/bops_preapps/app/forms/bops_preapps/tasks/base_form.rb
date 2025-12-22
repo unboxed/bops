@@ -6,11 +6,12 @@ module BopsPreapps
       include ActiveModel::Model
       include BopsPreapps::Engine.routes.url_helpers
 
-      attr_reader :task, :case_record, :planning_application, :button
+      attr_reader :task, :case_record, :planning_application, :button, :params
       delegate :parent, :slug, to: :task
 
-      def initialize(task)
+      def initialize(task, params = {})
         @task = task
+        @params = params
         @case_record = @task.case_record
         @planning_application = @task.case_record.planning_application
       end

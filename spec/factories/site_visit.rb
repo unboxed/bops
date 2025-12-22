@@ -21,5 +21,14 @@ FactoryBot.define do
         request.documents << documents
       end
     end
+
+    trait :with_two_different_documents do
+      before(:create) do |request|
+        doc1 = create(:document, :with_file, planning_application: request.planning_application)
+        doc2 = create(:document, :with_other_file, planning_application: request.planning_application)
+
+        request.documents << [doc1, doc2]
+      end
+    end
   end
 end

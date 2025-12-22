@@ -77,6 +77,50 @@ RSpec.describe "Site visit", type: :system do
     expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/additional-services/site-visit")
   end
 
+  it "Allows editing a site visit" do
+    site_visit = create(:site_visit, :with_two_different_documents, planning_application: planning_application)
+
+    within ".bops-sidebar" do
+      click_link "Site visit"
+    end
+
+    within "#site-visit-history" do
+      expect(page).to have_content(site_visit.comment)
+      click_link "Edit"
+    end
+    expect(site_visit.documents.length).to eq(2)
+    expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/additional-services/site-visit/edit?site_visit_id=#{site_visit.id}")
+
+    fill_in "Comments", with: "This is an updated comment."
+    check site_visit.documents.last.name
+
+    click_button "Update site visit"
+
+    expect(page).to have_content("Site visit successfully updated")
+    expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/additional-services/site-visit")
+
+    expect(site_visit.reload.comment).to eq("This is an updated comment.")
+    expect(site_visit.reload.documents.length).to eq(1)
+  end
+
+  it "Allows deleting a site visit" do
+    site_visit = create(:site_visit, planning_application: planning_application)
+
+    within ".bops-sidebar" do
+      click_link "Site visit"
+    end
+
+    expect(page).not_to have_content("No site visits have been recorded yet.")
+
+    within "#site-visit-history" do
+      expect(page).to have_content(site_visit.comment)
+      click_button "Remove"
+    end
+
+    expect(page).to have_content("Site visit successfully removed")
+    expect(page).to have_content("No site visits have been recorded yet.")
+  end
+
   it "displays uploaded photos in the site visit history" do
     create(
       :site_visit,
