@@ -1,7 +1,7 @@
 <div class="govuk-!-margin-top-3">
   <% if validation_request.open_or_pending? %>
     <% if planning_application.not_started? %>
-      <%= delete_confirmation_request_link(planning_application, validation_request, classname: "govuk-button govuk-button--secondary") %>
+      <%= delete_confirmation_request_link(planning_application, validation_request, classname: "govuk-button govuk-button--secondary", redirect_to: params[:redirect_to]) %>
     <% end %>
   <% end %>
 </div>
@@ -28,7 +28,8 @@
         <%= edit_request_link(
               planning_application,
               validation_request,
-              classname: "govuk-body"
+              classname: "govuk-body",
+              redirect_to: params[:redirect_to]
             ) %>
       <% end %>
     <% end %>

@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module ValidationRequestHelper
-  def edit_request_link(planning_application, validation_request, classname: nil)
+  def edit_request_link(planning_application, validation_request, classname: nil, redirect_to: nil)
     govuk_link_to "Edit request",
-      main_app.edit_planning_application_validation_validation_request_path(planning_application, validation_request),
+      main_app.edit_planning_application_validation_validation_request_path(planning_application, validation_request, redirect_to: redirect_to),
       class: classname
   end
 
