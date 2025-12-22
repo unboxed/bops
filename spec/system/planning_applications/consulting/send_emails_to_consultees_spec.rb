@@ -565,7 +565,9 @@ RSpec.describe "Consultation", type: :system, js: true do
 
       click_link "Back"
 
-      click_link "Send emails to consultees"
+      within "#consultee-tasks li:nth-child(3)" do
+        click_link "Send emails to consultees"
+      end
       expect(page).to have_selector("h1", text: "Send emails to consultees")
 
       within "#consultees" do
