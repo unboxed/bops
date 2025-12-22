@@ -147,10 +147,10 @@ class DocumentsController < AuthenticationController
   end
 
   def redirect_url
-    if @validate_document
-      supply_documents_planning_application_path(@planning_application)
-    elsif params.dig(:document, :redirect_to).present?
+    if params.dig(:document, :redirect_to).present?
       params.dig(:document, :redirect_to)
+    elsif @validate_document
+      supply_documents_planning_application_path(@planning_application)
     elsif session[:return_to]
       return_to_session
     elsif request.referer&.include?("route=review")
