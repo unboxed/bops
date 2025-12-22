@@ -1,5 +1,7 @@
 <% planning_application ||= @planning_application %>
 <% consultation ||= @consultation %>
+<% use_preapps_routes ||= false %>
+<% task_slug ||= nil %>
 
 <%= govuk_table(classes: "consultee-table") do |table| %>
   <% table.with_head do |head| %>
@@ -48,11 +50,19 @@
 
               <% if can_manage_consultees %>
                 <div class="consultee-table__secondary-link">
-                  <%= govuk_link_to "Assign another consultee", main_app.new_planning_application_consultee_path(planning_application, constraint: constraint) %>
+                  <% if use_preapps_routes %>
+                    <%= govuk_link_to "Assign another consultee", bops_preapps.new_consultee_path(reference: planning_application.reference, constraint_id: constraint.id, task_slug: task_slug) %>
+                  <% else %>
+                    <%= govuk_link_to "Assign another consultee", main_app.new_planning_application_consultee_path(planning_application, constraint: constraint) %>
+                  <% end %>
                 </div>
               <% end %>
             <% elsif can_manage_consultees %>
-              <%= govuk_link_to "Assign consultee", main_app.new_planning_application_consultee_path(planning_application, constraint: constraint) %>
+              <% if use_preapps_routes %>
+                <%= govuk_link_to "Assign consultee", bops_preapps.new_consultee_path(reference: planning_application.reference, constraint_id: constraint.id, task_slug: task_slug) %>
+              <% else %>
+                <%= govuk_link_to "Assign consultee", main_app.new_planning_application_consultee_path(planning_application, constraint: constraint) %>
+              <% end %>
             <% else %>
               &ndash;
             <% end %>
@@ -88,8 +98,13 @@
                 <% assigned_consultees.each do |consultee| %>
                   <% constraint_consultee = constraint_consultees_by_consultee[consultee.id] %>
                   <li class="consultee-table__action-item" id="remove-consultee-<%= constraint_consultee.id %>">
+                    <% remove_path = if use_preapps_routes
+                         bops_preapps.constraint_consultee_path(reference: planning_application.reference, id: constraint_consultee.id, task_slug: task_slug)
+                       else
+                         main_app.planning_application_consultees_constraint_consultee_path(planning_application, constraint_consultee)
+                       end %>
                     <%= govuk_link_to "Remove",
-                          main_app.planning_application_consultees_constraint_consultee_path(planning_application, constraint_consultee),
+                          remove_path,
                           method: :delete,
                           class: "consultee-table__action-button",
                           form: {class: "consultee-table__action-form"} %>

@@ -1,0 +1,36 @@
+<% content_for :page_title do %>
+  Assign consultees - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", main_app.root_path %>
+<% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", main_app.planning_application_consultation_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Add and assign consultees", route_for(:task, @planning_application, @task) %>
+<% content_for :title, "Assign consultees" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Assign consultees"}
+    ) %>
+
+<%= form_with model: @constraint,
+      url: consultees_path(reference: @planning_application.reference, task_slug: @task.full_slug),
+      method: :post,
+      class: "govuk-!-margin-top-7" do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.hidden_field :constraint, value: @constraint.id %>
+  <%= hidden_field_tag :task_slug, @task.full_slug %>
+  <%= form.govuk_collection_check_boxes :consultee_ids,
+        @consultees,
+        :id,
+        :name,
+        legend: {text: "Select consultees for #{@constraint.type_code}", size: "s"} %>
+
+  <%= form.govuk_check_box :consultation_required, true, false, label: {text: "Consultation required?"} %>
+
+  <div class="govuk-button-group">
+    <%= form.submit "Assign consultees", class: "govuk-button", data: {module: "govuk-button"} %>
+    <%= govuk_button_link_to "Back", route_for(:task, @planning_application, @task), secondary: true %>
+  </div>
+<% end %>

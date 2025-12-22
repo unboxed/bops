@@ -1,0 +1,62 @@
+<%= render "shared/task_header", task: @task %>
+
+<%= content_tag :div, data: {
+      controller: "consultees",
+      consultees_planning_application_id: @planning_application.reference,
+      consultees_confirmation_message: "Send emails to consultees",
+      consultees_prompt_message: "Select a consultee",
+      consultees_error_message: "Unable to add consultee",
+      consultees_target: "allConsultees"
+    } do %>
+
+  <section class="consultee-selection govuk-!-margin-top-6">
+    <h2><%= t(".select_constraints_heading") %></h2>
+    <p class="govuk-body"><%= t(".select_constraints_description") %></p>
+
+    <div class="govuk-checkboxes consultee-selection__list" data-module="govuk-checkboxes">
+      <% manageable_consultees = !@planning_application.determined? %>
+      <% @form.constraints.each do |constraint| %>
+        <% form_data_attributes = {} %>
+        <% form_data_attributes[:controller] = "auto-submit" if manageable_consultees %>
+
+        <%= form_with scope: :planning_application_constraint,
+              url: assign_constraint_path(reference: @planning_application.reference, task_slug: @task.full_slug),
+              method: :post,
+              local: true,
+              data: form_data_attributes,
+              class: "consultee-selection__form" do |constraint_form| %>
+          <%= constraint_form.hidden_field :constraint, value: constraint.id %>
+          <div class="govuk-checkboxes__item">
+            <% checkbox_options = {
+                 class: "govuk-checkboxes__input",
+                 id: dom_id(constraint, :consultation_required),
+                 data: manageable_consultees ? {action: "change->auto-submit#submit"} : nil,
+                 disabled: !manageable_consultees
+               } %>
+            <%= check_box_tag(
+                  "planning_application_constraint[consultation_required][]",
+                  "true",
+                  constraint.consultation_required?,
+                  **checkbox_options
+                ) %>
+            <%= label_tag dom_id(constraint, :consultation_required),
+                  constraint.type_code,
+                  class: "govuk-label govuk-checkboxes__label" %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </section>
+
+  <%= form_with model: @form, url: @form.url, data: {consultees_target: "form"} do |form| %>
+    <%= form.govuk_error_summary %>
+
+    <section class="govuk-!-margin-top-7">
+      <h2><%= t(".assign_consultees_heading") %></h2>
+      <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @form.consultation, show_assign: true, use_preapps_routes: true, task_slug: @task.full_slug %>
+      <%= render AddConsulteeComponent.new(consultees: @form.consultees, form: form) %>
+    </section>
+
+    <%= render "shared/task_submit_buttons", form: form %>
+  <% end %>
+<% end %>
