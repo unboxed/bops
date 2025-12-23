@@ -287,4 +287,87 @@ RSpec.describe "Submissions", type: :system do
       end
     end
   end
+
+  context "when filtering submissions by schema" do
+    let!(:odp_submission) { create(:submission, :odp_planning_application, local_authority:) }
+    let!(:pp_submission) { create(:submission, :planning_portal, local_authority:) }
+
+    it "filters by ODP schema" do
+      visit "/admin/submissions"
+
+      expect(page).to have_selector("#submission_#{odp_submission.id}")
+      expect(page).to have_selector("#submission_#{pp_submission.id}")
+
+      select "ODP", from: "schema"
+      click_button "Filter"
+
+      expect(page).to have_current_path(/schema=odp/)
+      expect(page).to have_selector("#submission_#{odp_submission.id}")
+      expect(page).not_to have_selector("#submission_#{pp_submission.id}")
+    end
+
+    it "filters by Planning Portal schema" do
+      visit "/admin/submissions"
+
+      select "Planning Portal", from: "schema"
+      click_button "Filter"
+
+      expect(page).to have_current_path(/schema=planning-portal/)
+      expect(page).not_to have_selector("#submission_#{odp_submission.id}")
+      expect(page).to have_selector("#submission_#{pp_submission.id}")
+    end
+
+    it "preserves filter in URL for sharing" do
+      visit "/admin/submissions?schema=odp"
+
+      expect(page).to have_select("schema", selected: "ODP")
+      expect(page).to have_selector("#submission_#{odp_submission.id}")
+      expect(page).not_to have_selector("#submission_#{pp_submission.id}")
+    end
+  end
+
+  context "when viewing an ODP planning application submission" do
+    let!(:submission) { create(:submission, :odp_planning_application, local_authority:) }
+
+    it "shows the PlanX source in the index" do
+      visit "/admin/submissions"
+
+      within("#submission_#{submission.id}") do
+        expect(page).to have_content("PlanX")
+        expect(page).to have_content(submission.application_reference)
+      end
+    end
+
+    it "shows the submission details with correct source" do
+      visit "/admin/submissions/#{submission.id}"
+
+      expect(page).to have_selector("h1", text: "Submission")
+
+      within(".govuk-summary-list") do
+        expect(page).to have_selector("dt", text: "Source")
+        expect(page).to have_selector("dd", text: "PlanX")
+
+        expect(page).to have_selector("dt", text: "Reference")
+        expect(page).to have_selector("dd", text: submission.application_reference)
+      end
+    end
+
+    context "with a custom source" do
+      let!(:submission) do
+        create(:submission, :odp_planning_application, local_authority:).tap do |s|
+          body = s.request_body.dup
+          body["metadata"]["source"] = "CustomPortal"
+          s.update!(request_body: body)
+        end
+      end
+
+      it "shows the custom source in the index" do
+        visit "/admin/submissions"
+
+        within("#submission_#{submission.reload.id}") do
+          expect(page).to have_content("CustomPortal")
+        end
+      end
+    end
+  end
 end

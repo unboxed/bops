@@ -35,6 +35,10 @@ FactoryBot.define do
       request_body { JSON.parse(BopsApi::Engine.root.join("spec", "fixtures", "examples", "odp", "v0.7.5/enforcement/breach.json").read) }
     end
 
+    trait :odp_planning_application do
+      request_body { JSON.parse(BopsApi::Engine.root.join("spec", "fixtures", "examples", "odp", "v0.7.5/application/planningPermission/fullHouseholder.json").read) }
+    end
+
     trait :completed do
       after(:create) do |submission|
         submission.start!

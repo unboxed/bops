@@ -69,6 +69,10 @@ RSpec.describe "BOPS Submissions API", type: :request do
           run_test! do |response|
             body = JSON.parse(response.body)
             expect(body["uuid"]).to match(/[0-9a-f-]{36}/)
+
+            submission = Submission.find_by(external_uuid: body["uuid"])
+            expect(submission.source).to eq("Planning Portal")
+            expect(submission.schema).to eq("planning-portal")
           end
         end
 
@@ -78,6 +82,10 @@ RSpec.describe "BOPS Submissions API", type: :request do
             run_test! do |response|
               body = JSON.parse(response.body)
               expect(body["uuid"]).to match(/[0-9a-f-]{36}/)
+
+              submission = Submission.find_by(external_uuid: body["uuid"])
+              expect(submission.source).to eq("PlanX")
+              expect(submission.schema).to eq("odp")
             end
           end
 
@@ -86,6 +94,9 @@ RSpec.describe "BOPS Submissions API", type: :request do
             run_test! do |response|
               body = JSON.parse(response.body)
               expect(body["uuid"]).to match(/[0-9a-f-]{36}/)
+
+              submission = Submission.find_by(external_uuid: body["uuid"])
+              expect(submission.source).to eq("PlanX")
             end
           end
 

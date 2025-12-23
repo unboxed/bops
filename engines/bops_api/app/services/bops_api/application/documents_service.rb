@@ -33,6 +33,7 @@ module BopsApi
 
         planning_application.documents.create! do |document|
           document.api_user = user
+          document.submission = planning_application.case_record&.submission
           document.tags = tags
           document.applicant_description = description
           document.file.attach(io: file.open, filename: name)

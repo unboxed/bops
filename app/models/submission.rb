@@ -21,6 +21,8 @@ class Submission < ApplicationRecord
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
+  scope :by_schema, ->(schema) { where(schema:) }
+
   aasm column: :status, timestamps: true do
     state :submitted, initial: true
     state :started
@@ -51,7 +53,13 @@ class Submission < ApplicationRecord
   end
 
   def source
-    @source ||= odp? ? request_body.dig("metadata", "source") : "Planning Portal"
+    @source ||= if planning_portal?
+      "Planning Portal"
+    elsif odp?
+      request_body.dig("metadata", "source") || "PlanX"
+    else
+      "Unknown"
+    end
   end
 
   def request_body

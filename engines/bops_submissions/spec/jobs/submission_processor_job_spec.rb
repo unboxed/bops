@@ -139,5 +139,93 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
         expect(pa.local_authority_id).to eq(submission.local_authority_id)
       end
     end
+
+    context "when processing an ODP planning application submission" do
+      let!(:submission) { create(:submission, :odp_planning_application, status: "submitted") }
+      let(:api_user) { create(:api_user, :planx, local_authority: submission.local_authority) }
+
+      before do
+        allow(Submission)
+          .to receive(:find)
+          .with(submission.id)
+          .and_return(submission)
+      end
+
+      it "calls OdpCreationService with correct params" do
+        creator = instance_double(BopsSubmissions::Application::OdpCreationService)
+        allow(BopsSubmissions::Application::OdpCreationService)
+          .to receive(:new)
+          .with(
+            submission: submission,
+            user: api_user,
+            email_sending_permitted: false
+          )
+          .and_return(creator)
+        allow(creator).to receive(:call!)
+
+        expect(submission).to receive(:start!).ordered
+        expect(creator).to receive(:call!).ordered
+        expect(submission).to receive(:complete!).ordered
+
+        described_class.perform_now(submission.id, api_user)
+      end
+
+      context "when metadata.sendEmail is true" do
+        let!(:submission) do
+          create(:submission, :odp_planning_application, status: "submitted").tap do |s|
+            body = s.request_body.dup
+            body["metadata"]["sendEmail"] = true
+            s.update!(request_body: body)
+          end
+        end
+
+        it "enables email sending" do
+          creator = instance_double(BopsSubmissions::Application::OdpCreationService)
+          allow(BopsSubmissions::Application::OdpCreationService)
+            .to receive(:new)
+            .with(
+              submission: submission,
+              user: api_user,
+              email_sending_permitted: true
+            )
+            .and_return(creator)
+          allow(creator).to receive(:call!)
+
+          described_class.perform_now(submission.id, api_user)
+        end
+      end
+
+      it "tracks the source correctly" do
+        expect(submission.source).to eq("PlanX")
+      end
+
+      context "when source is not specified in metadata" do
+        let!(:submission) do
+          create(:submission, :odp_planning_application, status: "submitted").tap do |s|
+            body = s.request_body.dup
+            body["metadata"].delete("source")
+            s.update!(request_body: body)
+          end
+        end
+
+        it "defaults source to PlanX" do
+          expect(submission.reload.source).to eq("PlanX")
+        end
+      end
+
+      context "when a custom source is specified" do
+        let!(:submission) do
+          create(:submission, :odp_planning_application, status: "submitted").tap do |s|
+            body = s.request_body.dup
+            body["metadata"]["source"] = "CustomPortal"
+            s.update!(request_body: body)
+          end
+        end
+
+        it "uses the custom source" do
+          expect(submission.reload.source).to eq("CustomPortal")
+        end
+      end
+    end
   end
 end

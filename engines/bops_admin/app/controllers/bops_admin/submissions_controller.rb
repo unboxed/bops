@@ -25,7 +25,10 @@ module BopsAdmin
     private
 
     def set_submissions
-      @pagy, @submissions = pagy(current_local_authority.submissions.by_created_at_desc, limit: 10)
+      submissions = current_local_authority.submissions.by_created_at_desc
+      submissions = submissions.by_schema(params[:schema]) if params[:schema].present?
+
+      @pagy, @submissions = pagy(submissions, limit: 10)
     end
 
     def set_planning_application

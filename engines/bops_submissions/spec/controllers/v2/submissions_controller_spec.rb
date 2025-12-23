@@ -20,11 +20,11 @@ RSpec.describe BopsSubmissions::V2::SubmissionsController, type: :controller do
   end
 
   context "when submitting a planning application from planx" do
-    let(:creation_service) { instance_double(BopsApi::Application::CreationService) }
+    let(:creation_service) { instance_double(BopsSubmissions::Application::OdpCreationService) }
     let(:planning_application) { instance_double(PlanningApplication) }
 
     before do
-      expect(BopsApi::Application::CreationService).to receive(:new).and_return(creation_service)
+      expect(BopsSubmissions::Application::OdpCreationService).to receive(:new).and_return(creation_service)
       expect(BopsSubmissions::Application::PlanningPortalCreationService).not_to receive(:new)
       expect(BopsSubmissions::Enforcement::CreationService).not_to receive(:new)
 
@@ -63,7 +63,7 @@ RSpec.describe BopsSubmissions::V2::SubmissionsController, type: :controller do
     let(:json_data) { json_fixture_submissions("planning_portal.json") }
 
     before do
-      expect(BopsApi::Application::CreationService).not_to receive(:new)
+      expect(BopsSubmissions::Application::OdpCreationService).not_to receive(:new)
       expect(BopsSubmissions::Enforcement::CreationService).not_to receive(:new)
 
       stub_request(:get, json_data["documentLinks"].first["documentLink"])
@@ -115,7 +115,7 @@ RSpec.describe BopsSubmissions::V2::SubmissionsController, type: :controller do
     let(:enforcement) { instance_double(Enforcement) }
 
     before do
-      expect(BopsApi::Application::CreationService).not_to receive(:new)
+      expect(BopsSubmissions::Application::OdpCreationService).not_to receive(:new)
       expect(BopsSubmissions::Application::PlanningPortalCreationService).not_to receive(:new)
       expect(BopsSubmissions::Enforcement::CreationService).to receive(:new).and_return(creation_service)
       expect(creation_service).to receive(:call!).and_return(enforcement)

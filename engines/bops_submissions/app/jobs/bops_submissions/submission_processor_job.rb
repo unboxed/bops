@@ -15,13 +15,11 @@ module BopsSubmissions
         if submission.request_body.dig(:data, :application, :type, :value) == "breach"
           Enforcement::CreationService.new(submission:, user: current_api_user).call!
         else
-          send_email = false # TODO where do we set this from?
+          send_email = submission.request_body.dig("metadata", "sendEmail") == true
 
-          BopsApi::Application::CreationService.new(
-            local_authority: submission.local_authority,
+          Application::OdpCreationService.new(
             submission:,
             user: current_api_user,
-            params: submission.request_body,
             email_sending_permitted: send_email
           ).call!
         end
