@@ -2,7 +2,7 @@
   <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
 
     <%= form.hidden_field :old_document_id, value: @document.id %>
-    <% return_to = params[:return_to].presence %>
+    <% return_to = params[:return_to].presence || params[:redirect_to].presence %>
     <% if return_to.nil? && @planning_application.pre_application? %>
       <% return_to = BopsPreapps::Engine.routes.url_helpers.task_path(
            reference: @planning_application.reference,

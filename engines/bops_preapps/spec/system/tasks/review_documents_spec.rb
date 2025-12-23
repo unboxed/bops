@@ -50,6 +50,52 @@ RSpec.describe "Review documents task", type: :system do
       expect(page).to have_current_path(%r{/check-and-validate/check-tag-and-confirm-documents/review-documents})
       expect(page).to have_content("Submitted documents")
     end
+
+    context "when a document has a replacement validation request" do
+      let!(:replacement_request) do
+        create(:replacement_document_validation_request, :pending,
+          planning_application:,
+          old_document: document,
+          user:)
+      end
+
+      it "redirects back to the task after updating the replacement request" do
+        within ".bops-sidebar" do
+          click_link "Review documents"
+        end
+
+        click_link "proposed-floorplan.png"
+
+        expect(page).to have_content("View request for a replacement document")
+
+        click_link "Edit request"
+
+        expect(page).to have_content("Request a replacement document")
+
+        fill_in "List all issues with the document", with: "Updated reason"
+        click_button "Update"
+
+        expect(page).to have_current_path(%r{/check-and-validate/check-tag-and-confirm-documents/review-documents})
+        expect(page).to have_content("Submitted documents")
+      end
+
+      it "redirects back to the task after deleting the replacement request", :capybara do
+        within ".bops-sidebar" do
+          click_link "Review documents"
+        end
+
+        click_link "proposed-floorplan.png"
+
+        expect(page).to have_content("View request for a replacement document")
+
+        accept_confirm(text: "Are you sure?") do
+          click_link "Delete request"
+        end
+
+        expect(page).to have_current_path(%r{/check-and-validate/check-tag-and-confirm-documents/review-documents})
+        expect(page).to have_content("Submitted documents")
+      end
+    end
   end
 
   it "can complete the task" do
@@ -60,5 +106,36 @@ RSpec.describe "Review documents task", type: :system do
     click_button "Save and mark as complete"
 
     expect(task.reload).to be_completed
+  end
+
+  context "when application is invalidated" do
+    let(:planning_application) { create(:planning_application, :pre_application, :invalidated, local_authority:) }
+    let!(:document) { create(:document, :with_tags, planning_application:) }
+    let!(:replacement_request) do
+      create(:replacement_document_validation_request, :open,
+        planning_application:,
+        old_document: document,
+        user:)
+    end
+
+    it "redirects back to the task after cancelling the replacement request" do
+      within ".bops-sidebar" do
+        click_link "Review documents"
+      end
+
+      click_link "proposed-floorplan.png"
+
+      expect(page).to have_content("View request for a replacement document")
+
+      click_link "Cancel request"
+
+      expect(page).to have_content("Cancel validation request")
+
+      fill_in "Explain to the applicant why this request is being cancelled", with: "No longer needed"
+      click_button "Confirm cancellation"
+
+      expect(page).to have_current_path(%r{/check-and-validate/check-tag-and-confirm-documents/review-documents})
+      expect(page).to have_content("Submitted documents")
+    end
   end
 end
