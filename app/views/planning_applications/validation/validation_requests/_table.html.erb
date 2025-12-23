@@ -20,7 +20,7 @@
     <% requests.each do |request| %>
       <tr class="govuk-table__row">
         <%= content_tag(:tr, id: dom_id(request)) do %>
-          <%= render request %>
+          <%= render partial: "planning_applications/validation/#{request.to_partial_path}", object: request %>
 
           <td class="govuk-table__cell">
             <% case request.state %>
