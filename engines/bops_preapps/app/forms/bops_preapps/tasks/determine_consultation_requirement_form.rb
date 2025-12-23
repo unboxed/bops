@@ -35,12 +35,13 @@ module BopsPreapps
       end
 
       def update_consultation_tasks_visibility
-        return unless consultation_required
+        sibling_tasks = task.parent.tasks.where.not(id: task.id)
 
-        consultees_section = case_record.tasks.find_by(slug: "consultees")
-        return unless consultees_section
-
-        consultees_section.tasks.where(hidden: true).update_all(hidden: false)
+        if consultation_required
+          sibling_tasks.where(hidden: true).update_all(hidden: false)
+        else
+          sibling_tasks.update_all(hidden: true)
+        end
       end
     end
   end
