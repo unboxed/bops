@@ -13,6 +13,9 @@ BopsPreapps::Engine.routes.draw do
     patch "/cancel", to: "cancel_requests#update"
 
     resources :consultees, only: %i[new create], param: :constraint_id
+    resources :consultees, only: [] do
+      resources :responses, only: %i[index new create], controller: "consultee_responses"
+    end
     resources :constraint_consultees, only: %i[destroy]
     resource :assign_constraint, only: %i[create]
 

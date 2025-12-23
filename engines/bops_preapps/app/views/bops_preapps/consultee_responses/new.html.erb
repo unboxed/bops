@@ -1,0 +1,46 @@
+<% content_for :page_title do %>
+  Upload consultee response - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", main_app.root_path %>
+<% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Consultation", main_app.planning_application_consultation_path(@planning_application) %>
+<% add_parent_breadcrumb_link "View consultee responses", back_to_task_path %>
+<% content_for :title, "Upload consultee response" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Upload consultee response"}
+    ) %>
+
+<h2 class="govuk-heading-m govuk-!-margin-top-7"><%= t(".add_new_response") %></h2>
+
+<%= form_with(
+      model: @consultee_response,
+      class: "govuk-!-margin-top-5",
+      url: consultee_responses_path(reference: @planning_application.reference, consultee_id: @consultee.id, task_slug: @task.full_slug),
+      method: :post
+    ) do |form| %>
+  <%= form.govuk_error_summary %>
+  <%= form.govuk_text_field :name, label: {text: t(".name_label")} %>
+  <%= form.govuk_text_field :email, label: {text: t(".email_label")} %>
+  <%= form.govuk_date_field :received_at, legend: {text: t(".received_at_legend"), size: "s", tag: "p"} %>
+  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: t(".summary_tag_legend"), size: "m"} do %>
+    <% Consultee::Response.all_summary_tags.each do |label, value| %>
+      <%= form.govuk_radio_button :summary_tag, value, label: {text: label} %>
+    <% end %>
+  <% end %>
+  <%= form.govuk_text_area :response, label: {text: t(".response_label")}, hint: {text: t(".response_hint")} %>
+  <%= form.govuk_text_area :redacted_response, label: {text: t(".redacted_response_label")}, hint: {text: t(".redacted_response_hint")} %>
+  <%= form.govuk_file_field :documents,
+        label: {text: t(".documents_label")},
+        hint: {text: t(".documents_hint")},
+        multiple: true %>
+  <div class="govuk-button-group">
+    <%= form.submit(
+          t(".save_button"),
+          class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
+        ) %>
+    <%= govuk_button_link_to t(".back_button"), back_to_task_path, secondary: true, class: "govuk-!-margin-top-5" %>
+  </div>
+<% end %>

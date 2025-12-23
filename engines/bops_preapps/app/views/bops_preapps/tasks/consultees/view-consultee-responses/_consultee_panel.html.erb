@@ -1,0 +1,44 @@
+<%# locals: (consultee:, planning_application:, task:, show_divider: true, show_action: true) %>
+
+<article class="consultee-panel">
+  <div class="consultee-panel__heading">
+    <div class="consultee-panel__title">
+      <h4 class="govuk-heading-s govuk-!-margin-bottom-1"><%= consultee.name %></h4>
+      <% if consultee.role_line.present? %>
+        <p class="govuk-body-s govuk-!-margin-bottom-1"><%= consultee.role_line %></p>
+      <% end %>
+    </div>
+    <div class="consultee-panel__type">
+      <%= consultee.type_tag %>
+    </div>
+  </div>
+
+  <% if consultee.last_corresponded_at.present? %>
+    <p class="govuk-hint govuk-!-margin-bottom-3"><%= consultee.last_corresponded_at %></p>
+  <% end %>
+
+  <div class="consultee-panel__status">
+    <%= consultee.status_tag %>
+  </div>
+
+  <p class="govuk-body">
+    <%= consultee.response_snippet || consultee.fallback_response_text %>
+  </p>
+
+  <% if show_action %>
+    <div class="consultee-panel__actions">
+      <% if consultee.has_responses? %>
+        <div class="consultee-panel__action">
+          <%= govuk_link_to consultee.view_all_responses_label, consultee_responses_path(reference: planning_application.reference, consultee_id: consultee.consultee.id, task_slug: task.full_slug) %>
+        </div>
+      <% end %>
+      <div class="consultee-panel__action">
+        <%= govuk_link_to consultee.upload_new_response_label, new_consultee_response_path(reference: planning_application.reference, consultee_id: consultee.consultee.id, task_slug: task.full_slug) %>
+      </div>
+    </div>
+  <% end %>
+</article>
+
+<% if show_divider %>
+  <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+<% end %>

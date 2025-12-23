@@ -33,6 +33,8 @@
       hidden: true
     - name: Send emails to consultees
       hidden: true
+    - name: View consultee responses
+      hidden: true
 - name: "Check and assess"
   section: "Assessment"
   tasks:

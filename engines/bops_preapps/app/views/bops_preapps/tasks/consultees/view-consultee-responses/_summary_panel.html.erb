@@ -1,0 +1,38 @@
+<% summary = @form.response_summary %>
+
+<div class="govuk-summary-card">
+  <div class="govuk-summary-card__title-wrapper">
+    <h2 class="govuk-summary-card__title"><%= t(".response_summary.title") %></h2>
+  </div>
+  <div class="govuk-summary-card__content">
+    <%= govuk_summary_list(classes: "govuk-summary-list--no-border") do |list| %>
+      <% list.with_row do |row| %>
+        <% row.with_key { t(".response_summary.total_consultees") } %>
+        <% row.with_value do %>
+          <strong><%= summary[:total] %></strong>
+        <% end %>
+      <% end %>
+
+      <% list.with_row do |row| %>
+        <% row.with_key { t(".response_summary.responded") } %>
+        <% row.with_value do %>
+          <span class="govuk-tag govuk-tag--green"><%= summary[:responded] %></span>
+        <% end %>
+      <% end %>
+
+      <% list.with_row do |row| %>
+        <% row.with_key { t(".response_summary.awaiting_response") } %>
+        <% row.with_value do %>
+          <span class="govuk-tag govuk-tag--yellow"><%= summary[:awaiting] %></span>
+        <% end %>
+      <% end %>
+
+      <% list.with_row do |row| %>
+        <% row.with_key { t(".response_summary.not_consulted") } %>
+        <% row.with_value do %>
+          <span class="govuk-tag govuk-tag--grey"><%= summary[:not_consulted] %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

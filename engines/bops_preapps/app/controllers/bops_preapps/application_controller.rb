@@ -7,6 +7,7 @@ module BopsPreapps
     helper BopsPreapps::FileTypesHelper
     helper PlanningApplicationHelper
     helper ValidationRequestHelper
+    helper ConsulteesHelper
 
     before_action :require_local_authority!
 
