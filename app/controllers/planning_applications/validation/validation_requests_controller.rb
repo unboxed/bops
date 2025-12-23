@@ -235,7 +235,9 @@ module PlanningApplications
       end
 
       def destroy_redirect_url
-        if redirect_to_check_red_line_boundary_task?
+        if params[:redirect_to].present?
+          params[:redirect_to]
+        elsif redirect_to_check_red_line_boundary_task?
           check_red_line_boundary_task_path
         elsif redirect_to_check_and_request_documents_task?
           check_and_request_documents_task_path

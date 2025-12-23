@@ -6,4 +6,4 @@
 
 <% content_for :title, "Other validation request" %>
 
-<%= render(partial: "planning_applications/validation/other_change_validation_requests/form", locals: {return_to: @back_path}) %>
+<%= render(partial: "planning_applications/validation/other_change_validation_requests/form", locals: {return_to: params[:redirect_to] || @back_path}) %>
