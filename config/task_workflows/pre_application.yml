@@ -31,6 +31,8 @@
     - name: Determine consultation requirement
     - name: Add and assign consultees
       hidden: true
+    - name: Send emails to consultees
+      hidden: true
 - name: "Check and assess"
   section: "Assessment"
   tasks:

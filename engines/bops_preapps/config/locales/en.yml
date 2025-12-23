@@ -84,6 +84,17 @@ en:
               'yes': 'Yes'
             question: Is consultation required?
             warning: Changing this answer to "No" will remove all consultees and any responses you have recorded.
+        send-emails-to-consultees:
+          show:
+            confirmation_message: Send emails to consultees?
+            error_message: 'Error: Unable to add the consultee to the list'
+            header: Select the consultees to consult
+            heading: Send emails to consultees
+            prompt_message: Please search for a consultee first
+            response_period:
+              hint: Enter the number of days that consultees have to respond.
+              label: Set response period
+            submit: Send emails to consultees
       update:
         add-and-assign-consultees:
           failure: Failed to save consultee assignments
@@ -150,6 +161,9 @@ en:
         review-documents:
           failure: Failed to update document review
           success: Successfully updated document review
+        send-emails-to-consultees:
+          failure: Failed to send emails to consultees
+          success: Emails have been sent to the selected consultees
         send-validation-decision:
           failure: Failed to send validation decision
           success: Validation decision successfully sent

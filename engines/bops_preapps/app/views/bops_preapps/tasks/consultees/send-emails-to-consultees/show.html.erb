@@ -1,0 +1,47 @@
+<%= form_with model: @form, url: @form.url, data: {consultees_target: "form"} do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= render "shared/task_header", task: @task, heading: t(".heading") %>
+
+  <div class="govuk-grid-row">
+    <%= content_tag(:div, class: "govuk-grid-column-full", data: {
+          controller: "consultees",
+          consultees_planning_application_id: @planning_application.reference,
+          consultees_confirmation_message: t(".confirmation_message"),
+          consultees_prompt_message: t(".prompt_message"),
+          consultees_error_message: t(".error_message")
+        }) do %>
+      <h2>
+        <div class="govuk-hint govuk-!-margin-bottom-0">Step 1</div>
+        <%= t(".header") %>
+      </h2>
+
+      <%= render ConsulteesTableComponent.new(consultees: @form.consultees) %>
+
+      <%= render NoConsulteesComponent.new(consultees: @form.consultees) %>
+
+      <%= render ConsulteeEmailComponent.new(form: form) %>
+
+      <div class="govuk-form-group" id="response-period">
+        <h2>
+          <div class="govuk-hint govuk-!-margin-bottom-0">Step 3</div>
+          <%= form.govuk_label :consultee_response_period, text: t(".response_period.label"), size: "m" %>
+        </h2>
+
+        <p class="govuk-hint">
+          <%= t(".response_period.hint") %>
+        </p>
+
+        <div class="govuk-input__wrapper">
+          <%= form.govuk_text_field :consultee_response_period, class: "govuk-input", label: -> {}, required: true %>
+
+          <div class="govuk-input__suffix" aria-hidden="true">days</div>
+        </div>
+      </div>
+
+      <div class="govuk-button-group">
+        <%= form.govuk_task_button t(".submit"), id: "send-emails-button", data: {consultees_target: "submit"} %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
