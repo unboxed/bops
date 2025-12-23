@@ -133,4 +133,57 @@ RSpec.describe "Determine consultation requirement task", type: :system do
       )
     end
   end
+
+  describe "consultation task visibility" do
+    let(:consultees_section) { planning_application.case_record.find_task_by_slug_path!("consultees") }
+    let(:add_consultees_task) { consultees_section.tasks.find_by(slug: "add-and-assign-consultees") }
+    let(:send_emails_task) { consultees_section.tasks.find_by(slug: "send-emails-to-consultees") }
+
+    it "shows hidden consultation tasks when selecting Yes" do
+      expect(add_consultees_task).to be_hidden
+      expect(send_emails_task).to be_hidden
+
+      visit "/preapps/#{planning_application.reference}/consultees/determine-consultation-requirement"
+
+      choose "Yes"
+      click_button "Save and mark as complete"
+
+      expect(add_consultees_task.reload).not_to be_hidden
+      expect(send_emails_task.reload).not_to be_hidden
+    end
+
+    it "keeps consultation tasks hidden when selecting No" do
+      expect(add_consultees_task).to be_hidden
+      expect(send_emails_task).to be_hidden
+
+      visit "/preapps/#{planning_application.reference}/consultees/determine-consultation-requirement"
+
+      choose "No"
+      click_button "Save and mark as complete"
+
+      expect(add_consultees_task.reload).to be_hidden
+      expect(send_emails_task.reload).to be_hidden
+    end
+
+    context "when consultation was previously required" do
+      before do
+        planning_application.update!(consultation_required: true)
+        add_consultees_task.update!(hidden: false)
+        send_emails_task.update!(hidden: false)
+      end
+
+      it "hides consultation tasks when changing to No" do
+        expect(add_consultees_task).not_to be_hidden
+        expect(send_emails_task).not_to be_hidden
+
+        visit "/preapps/#{planning_application.reference}/consultees/determine-consultation-requirement"
+
+        choose "No"
+        click_button "Save and mark as complete"
+
+        expect(add_consultees_task.reload).to be_hidden
+        expect(send_emails_task.reload).to be_hidden
+      end
+    end
+  end
 end
