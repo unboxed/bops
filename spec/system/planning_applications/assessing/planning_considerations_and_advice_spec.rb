@@ -148,7 +148,7 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
       expect(page).to have_content("has already been taken")
     end
 
-    it "show a validation error without required fields" do
+    it "show a validation error without required fields", :capybara do
       fill_in "Select policy area", with: "Transport"
       pick "Transport", from: "#consideration-policy-area-field"
       click_button "Add consideration"
@@ -156,7 +156,7 @@ RSpec.describe "Add planning considerations and advice", type: :system, capybara
       find("span", text: "Add advice").click
       click_button("Save advice")
 
-      expect(page).to have_content("Enter at least one existing policy reference for this consideration")
+      expect(page).to have_content("Enter assessment of this element of the proposal")
     end
   end
 

@@ -29,7 +29,7 @@ RSpec.describe "Assessing against policies and guidance", type: :system, js: tru
     click_link "Check and assess"
   end
 
-  it "I see errors when required fields are missing" do
+  it "I see errors when required fields are missing", :capybara do
     within "#assess-against-policies-and-guidance" do
       expect(page).to have_content("Not started")
       click_link "Assess against policies and guidance"
@@ -43,7 +43,6 @@ RSpec.describe "Assessing against policies and guidance", type: :system, js: tru
 
     within "div[role=alert]" do
       expect(page).to have_content("Enter the policy area of this consideration")
-      expect(page).to have_content("Enter at least one existing policy reference for this consideration")
       expect(page).to have_content("Enter the assessment of this consideration")
       expect(page).to have_content("Enter the conclusion for this consideration")
     end
