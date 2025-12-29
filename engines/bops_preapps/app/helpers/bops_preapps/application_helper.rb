@@ -6,5 +6,6 @@ module BopsPreapps
     include BopsCore::DocumentHelper
     include ::DocumentHelper
     include BreadcrumbNavigationHelper
+    include ::ConsulteesHelper
   end
 end

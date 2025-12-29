@@ -12,6 +12,24 @@ en:
     constraint_consultees:
       destroy:
         success: Consultee was removed from this constraint
+    consultee_responses:
+      consultee_not_found: Consultee not found
+      create:
+        success: Response was successfully uploaded
+      new:
+        add_new_response: Add a new response
+        back_button: Back
+        documents_hint: Add any documents that the consultee sent.
+        documents_label: Upload documents
+        email_label: Email
+        name_label: Name
+        received_at_legend: Response received on
+        redacted_response_hint: This will be made public
+        redacted_response_label: Redacted response
+        response_hint: This won't be made public
+        response_label: Response
+        save_button: Save response
+        summary_tag_legend: Is the response
     consultees:
       create:
         success: Consultees were successfully assigned
@@ -95,6 +113,19 @@ en:
               hint: Enter the number of days that consultees have to respond.
               label: Set response period
             submit: Send emails to consultees
+        view-consultee-responses:
+          consultee_tabs:
+            no_consultees_in_tab: No consultees to show.
+            tabs_title: Responses
+          show:
+            no_consultees: No consultees have been added yet. Please add consultees before viewing responses.
+          summary_panel:
+            response_summary:
+              awaiting_response: Awaiting response
+              not_consulted: Not consulted
+              responded: Responded
+              title: Response summary
+              total_consultees: Total consultees
       update:
         add-and-assign-consultees:
           failure: Failed to save consultee assignments
@@ -193,6 +224,9 @@ en:
         summary-of-advice:
           failure: Failed to save summary of advice
           success: Summary of advice successfully updated
+        view-consultee-responses:
+          failure: Failed to save consultee responses review
+          success: Consultee responses were successfully reviewed
   shared:
     task_submit_buttons:
       save_draft: Save changes

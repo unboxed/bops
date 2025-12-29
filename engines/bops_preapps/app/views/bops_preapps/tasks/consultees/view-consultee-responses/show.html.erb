@@ -1,0 +1,26 @@
+<%= render "shared/task_header", task: @task %>
+
+<% if @form.consultation.present? && @form.consultees.any? %>
+  <div class="govuk-!-margin-top-6">
+    <%= render partial: "bops_preapps/tasks/consultees/view-consultee-responses/summary_panel" %>
+  </div>
+
+  <% presenters = consultee_presenters(@form.consultees, @planning_application) %>
+  <% tabs = consultee_tabs(presenters) %>
+
+  <div class="govuk-grid-row govuk-!-margin-top-6">
+    <div class="govuk-grid-column-full">
+      <%= render partial: "bops_preapps/tasks/consultees/view-consultee-responses/consultee_tabs",
+            locals: {tabs: tabs, planning_application: @planning_application, task: @task, show_action: !@planning_application.determined?} %>
+    </div>
+  </div>
+<% else %>
+  <div class="govuk-inset-text govuk-!-margin-top-6">
+    <p class="govuk-body"><%= t(".no_consultees") %></p>
+  </div>
+<% end %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+  <%= render "shared/task_submit_buttons", form: form %>
+<% end %>
