@@ -73,5 +73,30 @@ RSpec.describe "Send validation decision task", type: :system, capybara: true do
       expect(task.reload).to be_completed
       expect(planning_application.reload).to be_valid
     end
+
+    it "hides the validate button when there are unresolved validation requests" do
+      validation_request = create(:other_change_validation_request, planning_application: planning_application, state: "pending",
+        created_at: 7.days.ago)
+
+      within ".bops-sidebar" do
+        click_link "Send validation decision"
+      end
+
+      click_button("Mark the application as invalid")
+
+      expect(page).to have_content("The application is marked as invalid.")
+      expect(planning_application.reload.status).to eq("invalidated")
+
+      # The validation request is now open after invalidation
+      expect(validation_request.reload.state).to eq("open")
+
+      within ".bops-sidebar" do
+        click_link "Send validation decision"
+      end
+
+      expect(page).to have_content("There are 1 unresolved validation request")
+      expect(page).to have_content("All validation requests must be resolved or cancelled before the application can be marked as valid.")
+      expect(page).not_to have_button("Mark the application as valid")
+    end
   end
 end

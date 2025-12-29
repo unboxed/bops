@@ -24,6 +24,7 @@
       section: Review
       tasks:
         - name: Review validation requests
+          status_hidden: true
         - name: Send validation decision
 - name: "Consultees"
   section: "Consultation"

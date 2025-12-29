@@ -65,14 +65,43 @@ RSpec.describe FeeChangeValidationRequest do
           create(:planning_application, :invalidated, valid_fee: false)
         end
 
-        context "when it is a closed fee item validation request" do
+        context "when state changes to closed" do
           let!(:fee_change_validation_request) do
             create(:fee_change_validation_request, :open, planning_application:)
           end
 
           before { fee_change_validation_request.update(state: "closed", response: "A response") }
 
-          it "updates and resets the valid_fee to nil on the planning application" do
+          it "resets valid_fee to nil on the planning application" do
+            expect(planning_application.reload.valid_fee).to be_nil
+          end
+        end
+
+        context "when a closed request is updated without state change" do
+          let!(:fee_change_validation_request) do
+            create(:fee_change_validation_request, :closed, planning_application:, response: "A response")
+          end
+
+          before do
+            planning_application.update!(valid_fee: true)
+            fee_change_validation_request.update!(update_counter: false)
+          end
+
+          it "does not reset valid_fee on the planning application" do
+            expect(planning_application.reload.valid_fee).to be true
+          end
+        end
+
+        context "when state changes to cancelled" do
+          let!(:fee_change_validation_request) do
+            create(:fee_change_validation_request, :open, planning_application:)
+          end
+
+          before do
+            fee_change_validation_request.update!(state: "cancelled", cancel_reason: "No longer needed")
+          end
+
+          it "resets valid_fee to nil on the planning application" do
             expect(planning_application.reload.valid_fee).to be_nil
           end
         end
@@ -155,6 +184,70 @@ RSpec.describe FeeChangeValidationRequest do
 
         expect(other_change_validation_request.update_counter?).to be(true)
         expect(fee_item_validation_request.update_counter?).to be(true)
+      end
+    end
+  end
+
+  describe "#state_changed_to_closed?" do
+    let(:planning_application) { create(:planning_application, :invalidated) }
+
+    context "when state changes to closed" do
+      let(:request) { create(:fee_change_validation_request, :open, planning_application:) }
+
+      it "returns true" do
+        request.state = "closed"
+        expect(request.send(:state_changed_to_closed?)).to be true
+      end
+    end
+
+    context "when state has not changed" do
+      let(:request) { create(:fee_change_validation_request, :closed, planning_application:, response: "ok") }
+
+      it "returns false" do
+        expect(request.send(:state_changed_to_closed?)).to be false
+      end
+    end
+
+    context "when state changes to something other than closed" do
+      let(:request) { create(:fee_change_validation_request, :open, planning_application:) }
+
+      it "returns false" do
+        request.state = "cancelled"
+        expect(request.send(:state_changed_to_closed?)).to be false
+      end
+    end
+  end
+
+  describe "#set_check_fee_task_action_required" do
+    context "when planning application is a pre-application" do
+      let(:local_authority) { create(:local_authority, :default) }
+      let(:planning_application) { create(:planning_application, :pre_application, :invalidated, local_authority:) }
+      let!(:fee_change_validation_request) { create(:fee_change_validation_request, :open, planning_application:) }
+      let(:task) { planning_application.case_record.find_task_by_slug_path!(CaseRecord::CHECK_FEE_SLUG) }
+
+      before do
+        task.complete!
+      end
+
+      it "sets the check fee task to action_required when request is closed" do
+        expect(task.reload).to be_completed
+
+        fee_change_validation_request.update!(response: "I have now paid the correct amount")
+        fee_change_validation_request.close!
+
+        expect(task.reload).to be_action_required
+      end
+    end
+
+    context "when planning application is not a pre-application" do
+      let!(:planning_application) { create(:planning_application, :invalidated) }
+      let!(:fee_change_validation_request) { create(:fee_change_validation_request, :open, planning_application:) }
+
+      it "does not attempt to update any task" do
+        expect do
+          fee_change_validation_request.update!(response: "I have now paid the correct amount")
+          fee_change_validation_request.close!
+        end.not_to raise_error
       end
     end
   end

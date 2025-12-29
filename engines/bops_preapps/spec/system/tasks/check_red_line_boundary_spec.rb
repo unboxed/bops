@@ -112,7 +112,7 @@ RSpec.describe "Check red line boundary task", type: :system do
 
     click_button "Save request"
 
-    expect(page).to have_content("Proposed red line boundary change")
+    expect(page).to have_content("Red line boundary change request sent")
     expect(page).to have_content("The boundary needs to include the garage")
     expect(page).to have_content("Current red line boundary")
     expect(page).to have_content("Proposed red line boundary")
@@ -132,7 +132,7 @@ RSpec.describe "Check red line boundary task", type: :system do
 
     click_button "Save and mark as complete"
 
-    expect(page).to have_content("Please select whether the red line boundary is correct")
+    expect(page).to have_content("Select whether the red line boundary is correct")
     expect(task.reload).to be_not_started
   end
 
@@ -182,6 +182,237 @@ RSpec.describe "Check red line boundary task", type: :system do
         expect(page).to have_link("Draw red line boundary")
         expect(page).not_to have_link("Check red line boundary")
       end
+    end
+  end
+
+  context "when applicant has approved red line boundary change" do
+    let(:new_geojson) do
+      {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-0.054600, 51.537335],
+              [-0.054590, 51.537290],
+              [-0.054455, 51.537315],
+              [-0.054600, 51.537335]
+            ]
+          ]
+        }
+      }
+    end
+
+    let!(:validation_request) do
+      create(:red_line_boundary_change_validation_request,
+        :closed,
+        planning_application:,
+        reason: "Boundary needs to include garage",
+        new_geojson: new_geojson,
+        original_geojson: boundary_geojson,
+        approved: true)
+    end
+
+    before do
+      task.action_required!
+    end
+
+    it "shows the task with action_required status" do
+      expect(task.reload).to be_action_required
+    end
+
+    it "shows approval message on the task page" do
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      expect(page).to have_content("Red line boundary change approved")
+      expect(page).to have_content("Change to red line boundary has been approved by the applicant")
+    end
+
+    it "shows save and mark as complete button" do
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      expect(page).to have_button("Save and mark as complete")
+    end
+
+    it "marks red line as valid and completes the task" do
+      expect(task.reload).to be_action_required
+
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content("Red line boundary was successfully marked as valid")
+      expect(task.reload).to be_completed
+      expect(planning_application.reload.valid_red_line_boundary).to be true
+    end
+  end
+
+  context "when applicant has rejected red line boundary change" do
+    let(:new_geojson) do
+      {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-0.054600, 51.537335],
+              [-0.054590, 51.537290],
+              [-0.054455, 51.537315],
+              [-0.054600, 51.537335]
+            ]
+          ]
+        }
+      }
+    end
+
+    let!(:validation_request) do
+      create(:red_line_boundary_change_validation_request,
+        :closed,
+        planning_application:,
+        reason: "Boundary needs to include garage",
+        new_geojson: new_geojson,
+        original_geojson: boundary_geojson,
+        approved: false,
+        rejection_reason: "The garage is not part of my property")
+    end
+
+    before do
+      task.action_required!
+    end
+
+    it "shows the task with action_required status" do
+      expect(task.reload).to be_action_required
+    end
+
+    it "shows rejection message on the task page" do
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      expect(page).to have_content("Red line boundary change rejected")
+      expect(page).to have_content("Applicant rejected this proposed red line boundary")
+      expect(page).to have_content("The garage is not part of my property")
+    end
+
+    it "shows link to request new red line boundary change" do
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      expect(page).to have_link("Request a new red line boundary change")
+    end
+  end
+
+  context "when validation request is pending" do
+    let(:new_geojson) do
+      {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-0.054600, 51.537335],
+              [-0.054590, 51.537290],
+              [-0.054455, 51.537315],
+              [-0.054600, 51.537335]
+            ]
+          ]
+        }
+      }
+    end
+
+    let!(:validation_request) do
+      create(:red_line_boundary_change_validation_request,
+        :pending,
+        planning_application:,
+        reason: "Boundary needs to include garage",
+        new_geojson: new_geojson,
+        original_geojson: boundary_geojson)
+    end
+
+    before do
+      task.complete!
+    end
+
+    it "shows the validation request was sent on the task page" do
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      expect(page).to have_content("Red line boundary change request sent")
+      expect(page).to have_content("Boundary needs to include garage")
+      expect(page).to have_content("Waiting for applicant response")
+    end
+
+    it "does not show the form when validation request exists" do
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      expect(page).not_to have_field("Yes")
+      expect(page).not_to have_field("No")
+      expect(page).not_to have_button("Save and mark as complete")
+    end
+  end
+
+  context "when applicant responds to red line boundary change request" do
+    let(:new_geojson) do
+      {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-0.054600, 51.537335],
+              [-0.054590, 51.537290],
+              [-0.054455, 51.537315],
+              [-0.054600, 51.537335]
+            ]
+          ]
+        }
+      }
+    end
+
+    let!(:validation_request) do
+      create(:red_line_boundary_change_validation_request,
+        :open,
+        planning_application:,
+        reason: "Boundary needs to include garage",
+        new_geojson: new_geojson,
+        original_geojson: boundary_geojson)
+    end
+
+    before do
+      task.complete!
+      planning_application.update!(status: "invalidated")
+    end
+
+    it "sets task to action_required when applicant approves the request" do
+      expect(task.reload).to be_completed
+
+      validation_request.update!(approved: true)
+      validation_request.close!
+
+      expect(task.reload).to be_action_required
+    end
+
+    it "sets task to action_required when applicant rejects the request" do
+      expect(task.reload).to be_completed
+
+      validation_request.update!(approved: false, rejection_reason: "The garage is not part of my property")
+      validation_request.close!
+
+      expect(task.reload).to be_action_required
     end
   end
 end

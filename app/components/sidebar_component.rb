@@ -33,7 +33,11 @@ class SidebarComponent < ViewComponent::Base
           slug: task.full_slug, reference: planning_application_reference)
       end
       link = helpers.govuk_link_to(task.name, target)
-      content = safe_join([status_indicator_for(task), link], " ")
+      content = if task.status_hidden?
+        safe_join([invisible_status_placeholder, link], " ")
+      else
+        safe_join([status_indicator_for(task), link], " ")
+      end
       helpers.tag.li(content, class: "bops-sidebar__task")
     end
   end
@@ -65,5 +69,9 @@ class SidebarComponent < ViewComponent::Base
   def status_indicator_for(task)
     icon_markup = helpers.render("shared/icons/#{task.status}")
     helpers.content_tag(:span, icon_markup, class: "bops-sidebar__task-icon", aria: {hidden: true})
+  end
+
+  def invisible_status_placeholder
+    helpers.content_tag(:span, "", class: "bops-sidebar__task-icon", aria: {hidden: true})
   end
 end

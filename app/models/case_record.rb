@@ -3,6 +3,7 @@
 require "securerandom"
 
 class CaseRecord < ApplicationRecord
+  CHECK_FEE_SLUG = "check-and-validate/check-application-details/check-fee"
   CHECK_RED_LINE_BOUNDARY_SLUG = "check-and-validate/check-application-details/check-red-line-boundary"
   DRAW_RED_LINE_BOUNDARY_SLUG = "check-and-validate/check-application-details/draw-red-line-boundary"
 

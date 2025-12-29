@@ -37,8 +37,17 @@ module BopsPreapps
         end
       end
 
+      def validation_request
+        @validation_request ||= planning_application.description_change_validation_requests.open_or_pending.first ||
+          planning_application.description_change_validation_requests.closed.last
+      end
+
       def description_validation_request?
-        planning_application.validation_requests.where(type: "DescriptionChangeValidationRequest")
+        validation_request.present?
+      end
+
+      def description_was_updated?
+        @description_was_updated ||= planning_application.description_change_validation_requests.closed.approved.exists?
       end
 
       private

@@ -1,13 +1,49 @@
 <%= render "shared/task_header", task: @task, heading: "Check description" %>
 
-<div class="govuk-inset-text">
-  <h3> Existing description </h3>
-  <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
-</div>
+<% if @form.validation_request %>
+  <h2 class="govuk-heading-m">Description change request</h2>
 
-<% if @planning_application.valid_description.nil? || params[:edit] == "true" %>
+  <div class="govuk-inset-text govuk-!-margin-bottom-3">
+    <p>
+      <strong>Previous description:</strong><br>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.previous_description)) %>
+    </p>
+    <p>
+      <strong>Proposed description:</strong><br>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.proposed_description)) %>
+    </p>
+    <p>
+      <% if @form.validation_request.open? %>
+        Sent on <%= @form.validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
+      <% elsif @form.validation_request.closed? %>
+        <%= @form.validation_request.approved? ? "Approved" : "Rejected" %> on <%= @form.validation_request.updated_at.to_date.to_fs %>
+      <% end %>
+    </p>
+  </div>
+
+  <% if @form.validation_request.closed? && @form.validation_request.approved? %>
+    <%= form_with model: @form, url: @form.url do |form| %>
+      <%= form.hidden_field :valid_description, value: true %>
+      <%= return_to_hidden_field %>
+      <div class="govuk-button-group">
+        <%= form.govuk_task_button "Save and mark as complete" %>
+      </div>
+    <% end %>
+  <% elsif @form.validation_request.closed? && @form.validation_request.rejected? %>
+    <p>
+      <%= govuk_link_to "Request a new description change",
+            main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "description_change"),
+            class: "govuk-body" %>
+    </p>
+  <% end %>
+<% elsif @planning_application.valid_description.nil? || params[:edit] == "true" %>
+  <div class="govuk-inset-text">
+    <h3>Existing description</h3>
+    <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
+  </div>
+
   <%= form_with model: @form, url: @form.url do |form| %>
-  <%= form.govuk_error_summary %>
+    <%= form.govuk_error_summary %>
     <%= form.govuk_radio_buttons_fieldset :valid_description, legend: {text: "Does the description match the development or use in the plans?"} do %>
       <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"} %>
       <%= form.govuk_radio_button :valid_description, false, label: {text: "No"} %>
@@ -16,12 +52,16 @@
     <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
   <% end %>
 <% else %>
+  <div class="govuk-inset-text">
+    <h3>Existing description</h3>
+    <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
+  </div>
+
   <p>
-    Description was <%= @form.description_validation_request? ? "updated and" : "" %>
-    marked as <%= @planning_application.valid_description? ? "valid" : "invalid" %>
+    Description was <%= @form.description_was_updated? ? "updated and " : "" %>marked as <%= @planning_application.valid_description? ? "valid" : "invalid" %>
   </p>
   <div class="govuk-button-group">
-    <%= govuk_link_to "Edit description", Rails.application.routes.url_helpers.new_planning_application_validation_validation_request_path(
+    <%= govuk_link_to "Edit description", main_app.new_planning_application_validation_validation_request_path(
           @planning_application,
           type: "description_change"
         ), class: "govuk-body" %>

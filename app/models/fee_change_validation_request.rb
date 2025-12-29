@@ -13,8 +13,9 @@ class FeeChangeValidationRequest < ValidationRequest
                   reset_validation_requests_update_counter!(planning_application.fee_change_validation_requests)
                 }
   after_create :set_invalid_payment_amount
-  before_update :reset_fee_invalidation, if: :closed?
+  before_update :reset_fee_invalidation, if: :state_changed_to_closed_or_cancelled?
   before_destroy :reset_fee_invalidation
+  after_save :set_check_fee_task_action_required, if: :saved_change_to_state_to_closed?
 
   validate if: :applicant_responding? do
     if response.blank?
@@ -64,5 +65,25 @@ class FeeChangeValidationRequest < ValidationRequest
     end
   rescue ActiveRecord::ActiveRecordError => e
     raise ResetFeeInvalidationError, e.message
+  end
+
+  def state_changed_to_closed_or_cancelled?
+    state_changed? && (closed? || cancelled?)
+  end
+
+  def state_changed_to_closed?
+    state_changed? && closed?
+  end
+
+  def saved_change_to_state_to_closed?
+    saved_change_to_state? && closed?
+  end
+
+  def set_check_fee_task_action_required
+    return unless planning_application.pre_application?
+
+    planning_application.case_record
+      &.find_task_by_slug_path(CaseRecord::CHECK_FEE_SLUG)
+      &.action_required!
   end
 end

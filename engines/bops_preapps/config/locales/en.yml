@@ -164,6 +164,7 @@ en:
           update_request: Fee change request successfully updated
         check-red-line-boundary:
           failure: Please select whether the red line boundary is correct
+          mark_as_valid: Red line boundary was successfully marked as valid
           success: Red line boundary check was successfully saved
         check-site-history:
           failure: Failed to save site history review

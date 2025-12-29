@@ -12,7 +12,7 @@ module BopsPreapps
 
       include BopsPreapps::Engine.routes.url_helpers
 
-      attr_reader :task, :params
+      attr_reader :task, :params, :return_to
       attr_accessor :action
 
       delegate :case_record, :slug, to: :task
@@ -34,6 +34,7 @@ module BopsPreapps
         @params = params
         @result = false
         @action = "default"
+        @return_to = params[:return_to].presence
 
         run_callbacks :initialize do
           super({})
@@ -64,6 +65,8 @@ module BopsPreapps
       end
 
       def redirect_url(options = {})
+        return return_to if return_to.present?
+
         route_for(:task, planning_application, task, options.with_defaults(only_path: true))
       end
 
