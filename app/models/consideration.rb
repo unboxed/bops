@@ -38,7 +38,6 @@ class Consideration < ApplicationRecord
 
   validates :policy_area, presence: true
   validates :policy_area, uniqueness: {scope: :consideration_set}, if: :draft
-  validates :policy_references, presence: true, unless: :draft
 
   delegate :current_review, to: :consideration_set
   delegate :not_started?, to: :current_review, prefix: true
@@ -58,6 +57,6 @@ class Consideration < ApplicationRecord
   end
 
   with_options on: :advice do
-    validates :proposal, :summary_tag, :policy_references, :advice, presence: true, unless: :draft
+    validates :proposal, :summary_tag, :advice, presence: true, unless: :draft
   end
 end

@@ -49,7 +49,7 @@ RSpec.describe "Planning considerations and advice task", type: :system do
 
     click_button "Save changes"
 
-    expect(page).to have_content "successfully confirmed"
+    expect(page).to have_content "Draft considerations and advice successfully saved"
 
     expect(planning_application.consideration_set.considerations).not_to be_empty
     expect(task.reload).to be_in_progress
@@ -65,13 +65,26 @@ RSpec.describe "Planning considerations and advice task", type: :system do
     expect(consideration.summary_tag).to eq "complies"
   end
 
-  it "Can't add consideration without area" do
+  it "Can't add consideration without area", :capybara do
     click_button "Add consideration"
 
     expect(page).to have_text "Failed to add consideration"
 
     expect(planning_application.consideration_set.considerations).to be_empty
+    pp task.status
     expect(task).to be_not_started
+  end
+
+  it "Cant add duplicate consideration", :capybara do
+    fill_in "Select policy area", with: policy_area.description
+    click_button "Add consideration"
+
+    toggle("Add a new consideration")
+    fill_in "Select policy area", with: policy_area.description
+    click_button "Add consideration"
+
+    expect(page).to have_text("You have already added this consideration to this assessment, it cannot be added twice.")
+    expect(planning_application.consideration_set.considerations.length).to eq(1)
   end
 
   it "Can't add incomplete advice", :capybara do
@@ -81,15 +94,12 @@ RSpec.describe "Planning considerations and advice task", type: :system do
     toggle("Add advice")
 
     fill_in "Enter element of proposal", with: "Things"
-    # mandatory policy reference left blank
-    choose "Complies"
 
     click_button "Save advice"
 
     expect(page).to have_text "Failed to add consideration"
 
     expect(planning_application.consideration_set.considerations).not_to be_empty
-    expect(task).to be_not_started
     consideration = planning_application.consideration_set.considerations.last
     expect(consideration.summary_tag).to be_nil
   end

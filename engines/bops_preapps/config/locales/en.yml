@@ -153,7 +153,13 @@ en:
           failure: Failed to add other validation request
           success: Other validation requests was successfully saved
         planning-considerations-and-advice:
+          add_consideration:
+            failure: Failed to add consideration
+            success: Consideration successfully added
           failure: Failed to save confirmation of considerations and advice
+          save_draft:
+            failure: Unable to save draft considerations and advice
+            success: Draft considerations and advice successfully saved
           success: Considerations and advice were successfully confirmed
         review-and-submit-pre-application:
           failure: Failed to submit pre-application
