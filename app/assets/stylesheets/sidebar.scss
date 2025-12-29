@@ -28,9 +28,15 @@ body:has(.bops-fullwidth-container) {
 
     .bops-sidebar {
       padding: 15px;
-      border-right: 1px solid $govuk-border-colour;
+      border-right: 1px solid #8eb8dc;
       overflow-y: auto;
       height: 100%;
+      background-color: #f4f8fb;
+      @include govuk-font($size: 16);
+
+      .govuk-link {
+        @include govuk-font($size: 16);
+      }
     }
   }
 
@@ -77,6 +83,14 @@ body:has(.bops-fullwidth-container) {
   display: flex;
   align-items: center;
   gap: govuk-spacing(2);
+  padding-bottom: govuk-spacing(3);
+  border-bottom: 1px solid #8eb8dc;
+}
+
+.bops-sidebar ul h3 {
+  @include govuk-font($size: 16);
+  font-weight: normal !important;
+  color: $govuk-secondary-text-colour;
 }
 
 .bops-sidebar__task-icon {
@@ -84,7 +98,7 @@ body:has(.bops-fullwidth-container) {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 24px;
+  height: 24px;
   line-height: 0;
 }
