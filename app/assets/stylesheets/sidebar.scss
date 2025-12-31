@@ -3,7 +3,7 @@
 }
 
 body:has(.bops-fullwidth-container) {
-  $sidebar-width: 300px;
+  $sidebar-width: 320px;
   height: 100vh;
   margin: 0;
   overflow: hidden;
@@ -27,7 +27,7 @@ body:has(.bops-fullwidth-container) {
     }
 
     .bops-sidebar {
-      padding: 15px;
+      padding: 20px;
       border-right: 1px solid #8eb8dc;
       overflow-y: auto;
       height: 100%;
@@ -36,6 +36,16 @@ body:has(.bops-fullwidth-container) {
 
       .govuk-link {
         @include govuk-font($size: 16);
+        text-decoration: none;
+
+        &:visited {
+          color: $govuk-link-colour;
+        }
+
+        &:active,
+        &[aria-current="page"] {
+          color: #0b0c0c;
+        }
       }
     }
   }
@@ -83,7 +93,7 @@ body:has(.bops-fullwidth-container) {
   display: flex;
   align-items: center;
   gap: govuk-spacing(2);
-  padding-bottom: govuk-spacing(3);
+  padding-bottom: govuk-spacing(2);
   border-bottom: 1px solid #8eb8dc;
 }
 
