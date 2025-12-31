@@ -50,6 +50,10 @@ FactoryBot.define do
     tags { ["photographs.proposed", "utilityBill"] }
   end
 
+  trait :fee_exemption do
+    tags { ["disabilityExemptionEvidence"] }
+  end
+
   trait :floorplan_tags do
     tags { ["roofPlan.existing", "roofPlan.proposed"] }
   end

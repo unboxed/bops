@@ -65,4 +65,52 @@ RSpec.describe Task, type: :model do
 
     expect(other_task).to be_valid
   end
+
+  describe "#action_required" do
+    before { task.save! }
+
+    it "sets the status to action_required" do
+      expect { task.action_required }.to change(task, :status).from("not_started").to("action_required")
+    end
+
+    it "returns true on success" do
+      expect(task.action_required).to be true
+    end
+  end
+
+  describe "#action_required!" do
+    before { task.save! }
+
+    it "sets the status to action_required" do
+      expect { task.action_required! }.to change(task, :status).from("not_started").to("action_required")
+    end
+
+    it "raises an error if the update fails" do
+      allow(task).to receive(:update).and_return(false)
+
+      expect { task.action_required! }.to raise_error(ActiveRecord::RecordNotSaved, /Unable to action_required/)
+    end
+  end
+
+  describe "#start" do
+    before { task.save! }
+
+    it "sets the status to in_progress" do
+      expect { task.start }.to change(task, :status).from("not_started").to("in_progress")
+    end
+
+    it "does not change the status if already completed" do
+      task.update!(status: :completed)
+
+      expect { task.start }.not_to change(task, :status)
+    end
+  end
+
+  describe "#complete" do
+    before { task.save! }
+
+    it "sets the status to completed" do
+      expect { task.complete }.to change(task, :status).from("not_started").to("completed")
+    end
+  end
 end

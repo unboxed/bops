@@ -225,6 +225,28 @@ RSpec.describe "DescriptionChangesValidation" do
     end
   end
 
+  context "when navigating from validation requests list" do
+    let!(:planning_application) do
+      create(:planning_application, :not_started, :from_planx_prior_approval, local_authority: default_local_authority)
+    end
+
+    it "returns to the validation requests list after marking description as complete" do
+      create(:description_change_validation_request, planning_application:, approved: true, state: "closed")
+
+      # Navigate from validation requests list to set the back_path via referer
+      visit "/planning_applications/#{planning_application.reference}/validation/validation_requests"
+      click_link "View and update"
+
+      expect(page).to have_content("Request approval to a description change")
+      expect(page).to have_content("Approved")
+
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content("Description was marked as valid")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/validation_requests")
+    end
+  end
+
   context "when the application is a pre-application" do
     let(:planning_application) do
       create(

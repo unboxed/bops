@@ -9,6 +9,7 @@ module BopsPreapps
       attribute :reason, :string
       attribute :suggestion, :string
       attribute :validation_request_id, :integer
+      attribute :payment_amount, :string
 
       with_options on: :save_and_complete do
         validates :valid_fee, inclusion: {in: [true, false], message: "Select whether the fee is correct"}
@@ -42,12 +43,13 @@ module BopsPreapps
         @validation_request ||= if validation_request_id.present?
           planning_application.fee_change_validation_requests.find(validation_request_id)
         else
-          planning_application.fee_change_validation_requests.open_or_pending.first
+          planning_application.fee_change_validation_requests.open_or_pending.first ||
+            planning_application.fee_change_validation_requests.closed.last
         end
       end
 
       def edit_url
-        route_for(:edit_task, planning_application, task, validation_request_id: validation_request&.id, only_path: true)
+        route_for(:edit_task, planning_application, task, validation_request_id: validation_request&.id, return_to: return_to, only_path: true)
       end
 
       def cancel_url
@@ -75,9 +77,12 @@ module BopsPreapps
 
       def save_and_complete
         transaction do
-          planning_application.update!(valid_fee:)
-
-          create_validation_request! unless valid_fee
+          if valid_fee
+            planning_application.update!(valid_fee: true, payment_amount: payment_amount)
+          else
+            planning_application.update!(valid_fee: false)
+            create_validation_request!
+          end
           task.complete!
         end
       end

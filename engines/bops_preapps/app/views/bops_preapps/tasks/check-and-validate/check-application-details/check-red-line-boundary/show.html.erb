@@ -1,18 +1,89 @@
 <%= render "shared/task_header", task: @task, heading: "Check the digital red line boundary" %>
 
-<p>This digital red line boundary was submitted by the applicant.</p>
+<% if @form.validation_request %>
+  <% if @form.validation_request.open_or_pending? %>
+    <h2 class="govuk-heading-m">Red line boundary change request sent</h2>
 
-<%= render "shared/location_map", locals: {in_accordion: true, geojson: @planning_application.boundary_geojson} %><br>
+    <h3 class="govuk-heading-s">Current red line boundary</h3>
+    <%= render "shared/location_map", locals: {geojson: @form.validation_request.original_geojson} %>
 
-<%= form_with model: @planning_application, url: task_path(@planning_application, @task), method: :patch do |form| %>
-  <%= form.govuk_radio_buttons_fieldset(:valid_red_line_boundary) do %>
-    <%= form.govuk_radio_button :valid_red_line_boundary, true, label: {text: "Yes"} %>
-    <%= form.govuk_radio_button :valid_red_line_boundary, false, label: {text: "No"} %>
-  <% end %>
-
-  <% unless @planning_application.determined? %>
-    <div class="govuk-button-group">
-      <%= form.govuk_submit t(".submit") %>
+    <div class="govuk-inset-text govuk-!-margin-bottom-3 govuk-!-margin-top-6">
+      <p>
+        <strong>Reason change is requested:</strong><br>
+        <%= render(FormattedContentComponent.new(text: @form.validation_request.reason)) %>
+      </p>
+      <p>
+        <%= @form.validation_request.created_at.to_fs %>
+      </p>
     </div>
+
+    <h3 class="govuk-heading-s">Proposed red line boundary</h3>
+    <%= render "shared/location_map", locals: {geojson: @form.validation_request.new_geojson} %>
+
+    <p class="govuk-body govuk-!-margin-top-4">Waiting for applicant response.</p>
+
+    <% if @planning_application.not_started? %>
+      <p class="govuk-body">
+        <%= delete_confirmation_request_link(
+              @planning_application,
+              @form.validation_request,
+              classname: "govuk-link"
+            ) %>
+      </p>
+    <% end %>
+  <% elsif @form.validation_request.closed? && @form.validation_request.approved? %>
+    <h2 class="govuk-heading-m">Red line boundary change approved</h2>
+
+    <h3 class="govuk-heading-s">Approved red line boundary</h3>
+    <%= render "shared/location_map", locals: {geojson: @form.validation_request.new_geojson} %>
+
+    <div class="govuk-inset-text govuk-!-margin-top-6">
+      <% if @form.validation_request.auto_closed? %>
+        <strong>Change to red line boundary was auto closed and approved after being open for more than 5 business days</strong>
+      <% else %>
+        <strong>Change to red line boundary has been approved by the applicant</strong>
+      <% end %>
+      <p><%= @form.validation_request.updated_at.to_fs %></p>
+    </div>
+
+    <%= form_with model: @form, url: @form.url do |form| %>
+      <%= return_to_hidden_field %>
+      <div class="govuk-button-group">
+        <%= form.govuk_submit "Save and mark as complete", name: "task_action", value: "mark_as_valid" %>
+      </div>
+    <% end %>
+  <% elsif @form.validation_request.closed? && @form.validation_request.rejected? %>
+    <h2 class="govuk-heading-m">Red line boundary change rejected</h2>
+
+    <h3 class="govuk-heading-s">Proposed red line boundary</h3>
+    <%= render "shared/location_map", locals: {geojson: @form.validation_request.new_geojson} %>
+
+    <div class="govuk-inset-text govuk-!-margin-top-6">
+      <strong>Applicant rejected this proposed red line boundary</strong><br><br>
+      <strong>Reason:</strong> <%= @form.validation_request.rejection_reason %>
+      <p><%= @form.validation_request.updated_at.to_fs %></p>
+    </div>
+
+    <p>
+      <%= govuk_link_to "Request a new red line boundary change",
+            main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "red_line_boundary_change"),
+            class: "govuk-body" %>
+    </p>
+  <% end %>
+<% else %>
+  <p>This digital red line boundary was submitted by the applicant.</p>
+
+  <%= render "shared/location_map", locals: {in_accordion: true, geojson: @planning_application.boundary_geojson} %><br>
+
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <%= form.govuk_error_summary %>
+    <%= return_to_hidden_field %>
+
+    <%= form.govuk_radio_buttons_fieldset :valid_red_line_boundary, legend: {text: "Is the red line boundary correct?"} do %>
+      <%= form.govuk_radio_button :valid_red_line_boundary, true, label: {text: "Yes"} %>
+      <%= form.govuk_radio_button :valid_red_line_boundary, false, label: {text: "No"} %>
+    <% end %>
+
+    <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
   <% end %>
 <% end %>

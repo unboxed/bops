@@ -59,6 +59,9 @@
       </details>
 
       <%= form.hidden_field :type, value: "FeeChangeValidationRequest" %>
+      <% if @planning_application.pre_application? %>
+        <%= form.hidden_field :return_to, value: @back_path %>
+      <% end %>
 
       <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
     <% end %>

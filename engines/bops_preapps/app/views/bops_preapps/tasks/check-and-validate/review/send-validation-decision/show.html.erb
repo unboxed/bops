@@ -35,12 +35,19 @@
         <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %><br>
         <%= govuk_link_to "View existing requests", main_app.planning_application_validation_validation_requests_path(@planning_application) %>
       </p>
-      <p>
-        Once the application has been checked and all validation requests resolved, mark the application as valid.
-      </p>
-      <div class="govuk-button-group">
-        <%= form.govuk_task_button "Mark the application as valid" %>
-      </div>
+      <% unresolved_requests = @planning_application.requests_excluding_time_extension.open_or_pending %>
+      <% if unresolved_requests.any? %>
+        <p>
+          There are <%= pluralize(unresolved_requests.count, "unresolved validation request") %>. All validation requests must be resolved or cancelled before the application can be marked as valid.
+        </p>
+      <% else %>
+        <p>
+          Once the application has been checked and all validation requests resolved, mark the application as valid.
+        </p>
+        <div class="govuk-button-group">
+          <%= form.govuk_task_button "Mark the application as valid" %>
+        </div>
+      <% end %>
     <% elsif @planning_application.validated? %>
       <p>
         <strong>

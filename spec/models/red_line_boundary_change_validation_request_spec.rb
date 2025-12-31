@@ -110,4 +110,47 @@ RSpec.describe RedLineBoundaryChangeValidationRequest do
       end
     end
   end
+
+  describe "#set_check_red_line_boundary_task_action_required" do
+    context "when planning application is a pre-application" do
+      let(:local_authority) { create(:local_authority, :default) }
+      let(:planning_application) { create(:planning_application, :pre_application, :invalidated, :with_boundary_geojson, local_authority:) }
+      let!(:validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
+      let(:task) { planning_application.case_record.find_task_by_slug_path!(CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG) }
+
+      before do
+        task.complete!
+      end
+
+      it "sets the check red line boundary task to action_required when request is closed with approval" do
+        expect(task.reload).to be_completed
+
+        validation_request.update!(approved: true)
+        validation_request.close!
+
+        expect(task.reload).to be_action_required
+      end
+
+      it "sets the check red line boundary task to action_required when request is closed with rejection" do
+        expect(task.reload).to be_completed
+
+        validation_request.update!(approved: false, rejection_reason: "Not my property")
+        validation_request.close!
+
+        expect(task.reload).to be_action_required
+      end
+    end
+
+    context "when planning application is not a pre-application" do
+      let!(:planning_application) { create(:planning_application, :invalidated, :with_boundary_geojson) }
+      let!(:validation_request) { create(:red_line_boundary_change_validation_request, :open, planning_application:) }
+
+      it "does not attempt to update any task" do
+        expect do
+          validation_request.update!(approved: true)
+          validation_request.close!
+        end.not_to raise_error
+      end
+    end
+  end
 end

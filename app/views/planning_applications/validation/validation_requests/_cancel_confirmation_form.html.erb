@@ -4,8 +4,9 @@
       url: cancel_planning_application_validation_validation_request_path(@planning_application, validation_request) do |form| %>
   <%= form.govuk_error_summary %>
 
-  <% if params[:redirect_to].present? %>
-    <%= form.hidden_field :return_to, value: params[:redirect_to] %>
+  <% return_to_value = params[:redirect_to].presence || (@planning_application.pre_application? && @back_path) %>
+  <% if return_to_value.present? %>
+    <%= form.hidden_field :return_to, value: return_to_value %>
   <% end %>
 
   <%= form.govuk_text_area :cancel_reason, label: {text: "Explain to the applicant why this request is being cancelled"}, rows: 5 %>

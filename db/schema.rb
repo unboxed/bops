@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_17_103359) do
+ActiveRecord::Schema[8.0].define(version: 2025_12_29_151345) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -1290,6 +1290,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_17_103359) do
     t.string "section"
     t.string "legacy_url"
     t.boolean "hidden", default: false, null: false
+    t.boolean "status_hidden", default: false, null: false
     t.index ["parent_type", "parent_id", "name"], name: "index_tasks_on_parent_and_name", unique: true
     t.index ["parent_type", "parent_id", "slug"], name: "index_tasks_on_parent_and_slug"
     t.index ["parent_type", "parent_id"], name: "index_tasks_on_parent"

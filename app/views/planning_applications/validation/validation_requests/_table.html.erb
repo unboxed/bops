@@ -40,7 +40,7 @@
           </td>
 
           <td class="govuk-table__cell">
-            <%= show_validation_request_link(planning_application, request) %>
+            <%= show_validation_request_link(planning_application, request, return_to: local_assigns[:return_to]) %>
           </td>
         <% end %>
       </tr>

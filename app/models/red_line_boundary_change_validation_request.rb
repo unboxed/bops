@@ -21,6 +21,7 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
     reset_validation_requests_update_counter!(planning_application.red_line_boundary_change_validation_requests)
   }
   after_create :complete_check_red_line_boundary_task
+  after_save :set_check_red_line_boundary_task_action_required, if: :saved_change_to_state_to_closed?
 
   def update_planning_application!(*)
     planning_application.update!(boundary_geojson: new_geojson)
@@ -103,5 +104,17 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
 
   def update_planning_application_for_auto_closed_request!
     planning_application.update!(boundary_geojson: new_geojson)
+  end
+
+  def saved_change_to_state_to_closed?
+    saved_change_to_state? && state == "closed"
+  end
+
+  def set_check_red_line_boundary_task_action_required
+    return unless planning_application.pre_application?
+
+    planning_application.case_record
+      &.find_task_by_slug_path(CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG)
+      &.action_required!
   end
 end

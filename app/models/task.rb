@@ -31,6 +31,14 @@ class Task < ApplicationRecord
     complete || raise_not_saved("complete")
   end
 
+  def action_required
+    update(status: :action_required)
+  end
+
+  def action_required!
+    action_required || raise_not_saved("action_required")
+  end
+
   def full_slug
     @full_slug ||= parent.is_a?(Task) ? "#{parent.full_slug}/#{slug}" : slug
   end
