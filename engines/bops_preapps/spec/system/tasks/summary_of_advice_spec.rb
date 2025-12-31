@@ -13,6 +13,17 @@ RSpec.describe "Summary of advice task", type: :system do
     visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
   end
 
+  it "highlights the active task in the sidebar" do
+    within ".bops-sidebar" do
+      click_link "Summary of advice"
+    end
+
+    within ".bops-sidebar" do
+      expect(page).to have_css(".bops-sidebar__task--active", text: "Summary of advice")
+      expect(page).to have_css("a[aria-current='page']", text: "Summary of advice")
+    end
+  end
+
   it "Can complete and submit the summary of advice" do
     within ".bops-sidebar" do
       click_link "Summary of advice"

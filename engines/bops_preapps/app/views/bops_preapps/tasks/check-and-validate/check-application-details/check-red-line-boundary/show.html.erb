@@ -23,13 +23,15 @@
     <p class="govuk-body govuk-!-margin-top-4">Waiting for applicant response.</p>
 
     <% if @planning_application.not_started? %>
-      <p class="govuk-body">
-        <%= delete_confirmation_request_link(
-              @planning_application,
-              @form.validation_request,
-              classname: "govuk-link"
-            ) %>
-      </p>
+      <%= form_with url: @form.url, method: :patch, data: {confirm: "Are you sure you want to delete this request?"} do |f| %>
+        <%= f.hidden_field :task_action, value: "delete_request" %>
+        <%= f.hidden_field "#{@form.param_key}[validation_request_id]", value: @form.validation_request.id %>
+        <%= f.govuk_submit "Delete request", secondary: true %>
+      <% end %>
+    <% end %>
+
+    <% if @planning_application.invalidated? %>
+      <p><%= govuk_link_to "Cancel request", @form.cancel_url %></p>
     <% end %>
   <% elsif @form.validation_request.closed? && @form.validation_request.approved? %>
     <h2 class="govuk-heading-m">Red line boundary change approved</h2>
@@ -64,11 +66,20 @@
       <p><%= @form.validation_request.updated_at.to_fs %></p>
     </div>
 
-    <p>
-      <%= govuk_link_to "Request a new red line boundary change",
-            main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "red_line_boundary_change"),
-            class: "govuk-body" %>
-    </p>
+    <h3 class="govuk-heading-s">Current red line boundary</h3>
+    <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson} %>
+
+    <%= form_with model: @form, url: @form.url do |form| %>
+      <%= form.govuk_error_summary %>
+      <%= return_to_hidden_field %>
+
+      <%= form.govuk_radio_buttons_fieldset :valid_red_line_boundary, legend: {text: "Is the red line boundary correct?"} do %>
+        <%= form.govuk_radio_button :valid_red_line_boundary, true, label: {text: "Yes"} %>
+        <%= form.govuk_radio_button :valid_red_line_boundary, false, label: {text: "No"} %>
+      <% end %>
+
+      <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+    <% end %>
   <% end %>
 <% else %>
   <p>This digital red line boundary was submitted by the applicant.</p>

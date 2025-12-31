@@ -7,12 +7,6 @@
 <% if task.top_level_ancestor.section == "Assessment" %>
   <% add_parent_breadcrumb_link "Assessment",
        main_app.planning_application_assessment_tasks_path(task.case_record.planning_application) %>
-<% elsif task.top_level_ancestor.section == "Validation" %>
-  <% add_parent_breadcrumb_link "Validation",
-       main_app.planning_application_validation_tasks_path(task.case_record.planning_application) %>
-<% elsif task.top_level_ancestor.section == "Consultation" %>
-  <% add_parent_breadcrumb_link "Consultation",
-       main_app.planning_application_consultation_path(task.case_record.planning_application) %>
 <% end %>
 
 <% page_heading = heading || task.title %>

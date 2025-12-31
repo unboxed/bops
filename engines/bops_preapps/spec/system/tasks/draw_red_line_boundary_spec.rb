@@ -156,6 +156,17 @@ RSpec.describe "Draw red line boundary task", type: :system do
     end
   end
 
+  it "highlights the active task in the sidebar" do
+    within ".bops-sidebar" do
+      click_link "Draw red line boundary"
+    end
+
+    within ".bops-sidebar" do
+      expect(page).to have_css(".bops-sidebar__task--active", text: "Draw red line boundary")
+      expect(page).to have_css("a[aria-current='page']", text: "Draw red line boundary")
+    end
+  end
+
   it "shows correct breadcrumb navigation" do
     within ".bops-sidebar" do
       click_link "Draw red line boundary"
@@ -163,7 +174,7 @@ RSpec.describe "Draw red line boundary task", type: :system do
 
     expect(page).to have_link("Home")
     expect(page).to have_link("Application")
-    expect(page).to have_link("Validation")
+    expect(page).not_to have_link("Validation")
   end
 
   it "hides check red line boundary task when draw task is shown" do

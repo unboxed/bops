@@ -32,7 +32,16 @@ RSpec.describe "View consultee responses task", type: :system do
 
       expect(page).to have_link("Home")
       expect(page).to have_link("Application")
-      expect(page).to have_link("Consultation")
+      expect(page).not_to have_link("Consultation")
+    end
+
+    it "highlights the active task in the sidebar" do
+      visit "/preapps/#{planning_application.reference}/consultees/view-consultee-responses"
+
+      within ".bops-sidebar" do
+        expect(page).to have_css(".bops-sidebar__task--active", text: "View consultee responses")
+        expect(page).to have_css("a[aria-current='page']", text: "View consultee responses")
+      end
     end
   end
 

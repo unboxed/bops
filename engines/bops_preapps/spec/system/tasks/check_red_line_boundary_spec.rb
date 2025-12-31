@@ -118,7 +118,7 @@ RSpec.describe "Check red line boundary task", type: :system do
     expect(page).to have_content("Proposed red line boundary")
     expect(task.reload).to be_completed
 
-    click_link "Delete request"
+    click_button "Delete request"
 
     expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-application-details/check-red-line-boundary")
     expect(page).to have_content("Check the digital red line boundary")
@@ -157,6 +157,17 @@ RSpec.describe "Check red line boundary task", type: :system do
     end
   end
 
+  it "highlights the active task in the sidebar" do
+    within ".bops-sidebar" do
+      click_link "Check red line boundary"
+    end
+
+    within ".bops-sidebar" do
+      expect(page).to have_css(".bops-sidebar__task--active", text: "Check red line boundary")
+      expect(page).to have_css("a[aria-current='page']", text: "Check red line boundary")
+    end
+  end
+
   it "shows correct breadcrumb navigation" do
     within ".bops-sidebar" do
       click_link "Check red line boundary"
@@ -164,7 +175,7 @@ RSpec.describe "Check red line boundary task", type: :system do
 
     expect(page).to have_link("Home")
     expect(page).to have_link("Application")
-    expect(page).to have_link("Validation")
+    expect(page).not_to have_link("Validation")
   end
 
   it "hides the draw red line boundary task when boundary_geojson is present" do
@@ -302,12 +313,46 @@ RSpec.describe "Check red line boundary task", type: :system do
       expect(page).to have_content("The garage is not part of my property")
     end
 
-    it "shows link to request new red line boundary change" do
+    it "shows Yes/No form to re-check the boundary" do
       within ".bops-sidebar" do
         click_link "Check red line boundary"
       end
 
-      expect(page).to have_link("Request a new red line boundary change")
+      expect(page).to have_field("Yes")
+      expect(page).to have_field("No")
+      expect(page).to have_button("Save and mark as complete")
+    end
+
+    it "marks boundary as valid and completes task when selecting Yes" do
+      expect(task.reload).to be_action_required
+
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      choose "Yes"
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content("Red line boundary check was successfully saved")
+      expect(task.reload).to be_completed
+      expect(planning_application.reload.valid_red_line_boundary).to be true
+    end
+
+    it "redirects to new validation request when selecting No" do
+      expect(task.reload).to be_action_required
+
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      choose "No"
+      click_button "Save and mark as complete"
+
+      expect(page).to have_current_path(
+        "/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=red_line_boundary_change"
+      )
+      expect(task.reload).to be_in_progress
+      expect(planning_application.reload.valid_red_line_boundary).to be false
     end
   end
 
@@ -361,6 +406,65 @@ RSpec.describe "Check red line boundary task", type: :system do
       expect(page).not_to have_field("Yes")
       expect(page).not_to have_field("No")
       expect(page).not_to have_button("Save and mark as complete")
+    end
+  end
+
+  context "when application is invalidated with open validation request" do
+    let(:new_geojson) do
+      {
+        type: "Feature",
+        properties: {},
+        geometry: {
+          type: "Polygon",
+          coordinates: [
+            [
+              [-0.054600, 51.537335],
+              [-0.054590, 51.537290],
+              [-0.054455, 51.537315],
+              [-0.054600, 51.537335]
+            ]
+          ]
+        }
+      }
+    end
+
+    let!(:validation_request) do
+      create(:red_line_boundary_change_validation_request,
+        :open,
+        planning_application:,
+        reason: "Boundary needs to include garage",
+        new_geojson: new_geojson,
+        original_geojson: boundary_geojson)
+    end
+
+    before do
+      task.complete!
+      planning_application.update!(status: "invalidated")
+    end
+
+    it "shows cancel link when application is invalidated" do
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      expect(page).to have_link("Cancel request")
+      expect(page).not_to have_button("Delete request")
+    end
+
+    it "allows cancelling the validation request" do
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      click_link "Cancel request"
+
+      expect(page).to have_content("Cancel validation request")
+
+      fill_in "Explain to the applicant why this request is being cancelled", with: "Boundary was correct after all"
+      click_button "Confirm cancellation"
+
+      expect(page).to have_content("Red line boundary change request successfully cancelled")
+      expect(validation_request.reload).to be_cancelled
     end
   end
 
