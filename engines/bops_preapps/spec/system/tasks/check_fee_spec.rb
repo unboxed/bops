@@ -149,6 +149,17 @@ RSpec.describe "Check fee task", type: :system do
     end
   end
 
+  it "highlights the active task in the sidebar" do
+    within ".bops-sidebar" do
+      click_link "Check fee"
+    end
+
+    within ".bops-sidebar" do
+      expect(page).to have_css(".bops-sidebar__task--active", text: "Check fee")
+      expect(page).to have_css("a[aria-current='page']", text: "Check fee")
+    end
+  end
+
   it "shows correct breadcrumb navigation" do
     within ".bops-sidebar" do
       click_link "Check fee"
@@ -156,7 +167,7 @@ RSpec.describe "Check fee task", type: :system do
 
     expect(page).to have_link("Home")
     expect(page).to have_link("Application")
-    expect(page).to have_link("Validation")
+    expect(page).not_to have_link("Validation")
   end
 
   context "when fee change validation request exists" do

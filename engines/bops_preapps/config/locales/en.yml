@@ -9,6 +9,9 @@ en:
         check-fee:
           cancel_request: Fee change request successfully cancelled
           failure: Fee change request could not be cancelled
+        check-red-line-boundary:
+          cancel_request: Red line boundary change request successfully cancelled
+          failure: Red line boundary change request could not be cancelled
     constraint_consultees:
       destroy:
         success: Consultee was removed from this constraint
@@ -163,6 +166,7 @@ en:
           success: Fee check was successfully saved
           update_request: Fee change request successfully updated
         check-red-line-boundary:
+          delete_request: Red line boundary change request successfully deleted
           failure: Please select whether the red line boundary is correct
           mark_as_valid: Red line boundary was successfully marked as valid
           success: Red line boundary check was successfully saved

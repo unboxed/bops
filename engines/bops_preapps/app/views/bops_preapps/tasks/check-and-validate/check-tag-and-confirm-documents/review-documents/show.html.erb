@@ -1,6 +1,6 @@
 <%= render "shared/task_header", task: @task %>
 
-<div id="check-tag-documents-tasks">
+<div id="check-tag-documents-tasks" data-controller="download" data-application-reference-value="<%= @planning_application.reference %>">
   <h2 class="app-task-list__section">
     Submitted documents
   </h2>

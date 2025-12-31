@@ -26,19 +26,23 @@ class SidebarComponent < ViewComponent::Base
     if task.section.present?
       render_section(task)
     else
+      is_active = current_task?(task)
       target = if task.legacy_url.present?
         route_for(task.legacy_url, planning_application)
       else
         BopsPreapps::Engine.routes.url_helpers.task_path(@case_record,
           slug: task.full_slug, reference: planning_application_reference)
       end
-      link = helpers.govuk_link_to(task.name, target)
+      link_options = is_active ? {"aria-current" => "page"} : {}
+      link = helpers.govuk_link_to(task.name, target, **link_options)
       content = if task.status_hidden?
         safe_join([invisible_status_placeholder, link], " ")
       else
         safe_join([status_indicator_for(task), link], " ")
       end
-      helpers.tag.li(content, class: "bops-sidebar__task")
+      li_classes = ["bops-sidebar__task"]
+      li_classes << "bops-sidebar__task--active" if is_active
+      helpers.tag.li(content, class: li_classes.join(" "))
     end
   end
 
@@ -73,5 +77,12 @@ class SidebarComponent < ViewComponent::Base
 
   def invisible_status_placeholder
     helpers.content_tag(:span, "", class: "bops-sidebar__task-icon", aria: {hidden: true})
+  end
+
+  def current_task?(task)
+    current_slug = params[:slug]
+    return false if current_slug.blank?
+
+    task.full_slug == current_slug
   end
 end

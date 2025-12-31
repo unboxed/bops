@@ -3,9 +3,10 @@
 module BopsPreapps
   module Tasks
     class CheckRedLineBoundaryForm < Form
-      self.task_actions = %w[save_and_complete mark_as_valid]
+      self.task_actions = %w[save_and_complete mark_as_valid delete_request]
 
       attribute :valid_red_line_boundary, :boolean
+      attribute :validation_request_id, :integer
 
       with_options on: :save_and_complete do
         validates :valid_red_line_boundary, inclusion: {in: [true, false], message: "Select whether the red line boundary is correct"}
@@ -22,6 +23,8 @@ module BopsPreapps
             save_and_complete
           when "mark_as_valid"
             mark_as_valid
+          when "delete_request"
+            delete_validation_request
           end
         end
       end
@@ -29,19 +32,34 @@ module BopsPreapps
       def redirect_url(options = {})
         return return_to if return_to.present?
 
-        if valid_red_line_boundary
+        case action
+        when "delete_request"
           super
+        when "save_and_complete"
+          if valid_red_line_boundary
+            super
+          else
+            Rails.application.routes.url_helpers.new_planning_application_validation_validation_request_path(
+              planning_application,
+              type: "red_line_boundary_change"
+            )
+          end
         else
-          Rails.application.routes.url_helpers.new_planning_application_validation_validation_request_path(
-            planning_application,
-            type: "red_line_boundary_change"
-          )
+          super
         end
       end
 
       def validation_request
-        @validation_request ||= planning_application.red_line_boundary_change_validation_requests.open_or_pending.first ||
-          planning_application.red_line_boundary_change_validation_requests.closed.last
+        @validation_request ||= if validation_request_id.present?
+          planning_application.red_line_boundary_change_validation_requests.find(validation_request_id)
+        else
+          planning_application.red_line_boundary_change_validation_requests.open_or_pending.first ||
+            planning_application.red_line_boundary_change_validation_requests.closed.last
+        end
+      end
+
+      def cancel_url
+        route_for(:cancel_request, planning_application, validation_request_id: validation_request.id, task_slug: task.full_slug, only_path: true)
       end
 
       def flash(type, controller)
@@ -52,6 +70,8 @@ module BopsPreapps
           controller.t(".check-red-line-boundary.success")
         when "mark_as_valid"
           controller.t(".check-red-line-boundary.mark_as_valid")
+        when "delete_request"
+          controller.t(".check-red-line-boundary.delete_request")
         end
       end
 
@@ -68,6 +88,13 @@ module BopsPreapps
         transaction do
           planning_application.update!(valid_red_line_boundary: true)
           task.complete!
+        end
+      end
+
+      def delete_validation_request
+        transaction do
+          validation_request.destroy!
+          task.not_started!
         end
       end
     end

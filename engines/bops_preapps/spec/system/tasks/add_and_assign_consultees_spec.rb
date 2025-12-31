@@ -78,7 +78,7 @@ RSpec.describe "Add and assign consultees task", type: :system do
 
     expect(page).to have_link("Home")
     expect(page).to have_link("Application")
-    expect(page).to have_link("Consultation")
+    expect(page).not_to have_link("Consultation")
   end
 
   it "hides save buttons when application is determined" do

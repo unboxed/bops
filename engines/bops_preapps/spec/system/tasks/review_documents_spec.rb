@@ -15,6 +15,17 @@ RSpec.describe "Review documents task", type: :system do
     visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
+  it "highlights the active task in the sidebar" do
+    within ".bops-sidebar" do
+      click_link "Review documents"
+    end
+
+    within ".bops-sidebar" do
+      expect(page).to have_css(".bops-sidebar__task--active", text: "Review documents")
+      expect(page).to have_css("a[aria-current='page']", text: "Review documents")
+    end
+  end
+
   context "when there are no documents" do
     it "displays a message indicating no active documents" do
       within ".bops-sidebar" do
@@ -34,6 +45,19 @@ RSpec.describe "Review documents task", type: :system do
       end
 
       expect(page).to have_content("proposed-floorplan.png")
+    end
+
+    it "displays the download all documents button with correct data attributes" do
+      within ".bops-sidebar" do
+        click_link "Review documents"
+      end
+
+      expect(page).to have_link("Download all documents")
+      expect(page).to have_css("[data-controller='download']")
+      expect(page).to have_css("[data-application-reference-value='#{planning_application.reference}']")
+      expect(page).to have_css("[data-download-target='documentsElement']")
+      expect(page).to have_css("[data-document-url-value]")
+      expect(page).to have_css("[data-document-title-value]")
     end
 
     it "redirects back to the task after editing a document" do

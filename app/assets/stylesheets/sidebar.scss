@@ -89,12 +89,19 @@ body:has(.bops-fullwidth-container) {
   width: 100%;
 }
 
-.bops-sidebar__task {
+.bops-sidebar .govuk-list.govuk-list--spaced > .bops-sidebar__task {
   display: flex;
   align-items: center;
   gap: govuk-spacing(2);
-  padding-bottom: govuk-spacing(2);
+  padding: govuk-spacing(2) 20px;
+  margin: 0 -20px;
   border-bottom: 1px solid #8eb8dc;
+  border-left: 4px solid transparent;
+
+  &.bops-sidebar__task--active {
+    background-color: #d4e4f1;
+    border-left-color: $govuk-link-colour;
+  }
 }
 
 .bops-sidebar ul h3 {
