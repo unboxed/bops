@@ -121,12 +121,5 @@ Rails.application.configure do
   # nb. only used in staging: production will override
   config.applicants_base_url = "bops-applicants-staging.services"
 
-  config.use_new_sidebar_layout = if Bops.env.staging?
-    {
-      "camden" => [:assessment],
-      :default => true
-    }
-  else
-    %i[assessment]
-  end
+  config.use_new_sidebar_layout = true
 end

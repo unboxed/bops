@@ -175,8 +175,7 @@ class DocumentsController < AuthenticationController
   end
 
   def show_sidebar
-    @show_sidebar = if use_new_sidebar_layout?(:validation) &&
-        !BLOCKED_SIDEBAR_EMAILS.include?(current_user&.email)
+    @show_sidebar = if use_new_sidebar_layout?(:validation)
       @planning_application.case_record.tasks.find_by(section: "Validation")
     end
   end
