@@ -10,17 +10,21 @@ module BopsPreapps
       attribute :regulation_3, :boolean
       attribute :regulation_4, :boolean
 
+      validates :reporting_type_id, presence: {message: "Please select a development type for reporting"}, on: :save_and_complete, if: :selected_reporting_types?
+
       after_initialize :prefill_from_planning_application
 
       def update(params)
         super do
           transaction do
-            return false unless planning_application.update(reporting_details_params, :reporting_types)
-
             case action
             when "save_draft"
+              return false unless planning_application.update(reporting_details_params)
+
               save_draft
             when "save_and_complete"
+              return false unless planning_application.update(reporting_details_params, :reporting_types)
+
               save_and_complete
             else
               raise ArgumentError, "Invalid task action: #{action.inspect}"
@@ -50,6 +54,10 @@ module BopsPreapps
           regulation_3: regulation_present && regulation_3_selected,
           regulation_4: regulation_present && !regulation_3_selected
         }
+      end
+
+      def selected_reporting_types?
+        planning_application.application_type.selected_reporting_types?
       end
     end
   end

@@ -3,7 +3,7 @@
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
 
-  <%= form.govuk_radio_buttons_fieldset(:reporting_type_id, legend: {size: "m"}) do %>
+  <%= form.govuk_radio_buttons_fieldset(:reporting_type_id, legend: {size: "m", text: t("helpers.legend.planning_application.reporting_type")}) do %>
     <% if @planning_application.application_type.selected_reporting_types? %>
       <% @planning_application.application_type.selected_reporting_types.each do |reporting_type| %>
         <%= form.govuk_radio_button(:reporting_type_id, reporting_type.id, label: {text: reporting_type.full_description}) do %>
