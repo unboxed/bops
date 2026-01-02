@@ -74,6 +74,9 @@ application.register("rich-text", RichTextController)
 import ShowHideController from "./show_hide_controller.js"
 application.register("show-hide", ShowHideController)
 
+import SidebarScrollController from "./sidebar_scroll_controller.js"
+application.register("sidebar-scroll", SidebarScrollController)
+
 import ShowHideFormController from "./show_hide_form_controller.js"
 application.register("show-hide-form", ShowHideFormController)
 

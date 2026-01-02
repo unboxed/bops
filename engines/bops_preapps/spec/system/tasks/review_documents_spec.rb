@@ -26,6 +26,14 @@ RSpec.describe "Review documents task", type: :system do
     end
   end
 
+  it "has sidebar scroll controller attached" do
+    within(".bops-sidebar") do
+      click_link "Review documents"
+    end
+
+    expect(page).to have_css(".bops-sidebar[data-controller='sidebar-scroll']")
+  end
+
   context "when there are no documents" do
     it "displays a message indicating no active documents" do
       within ".bops-sidebar" do

@@ -22,7 +22,7 @@ RSpec.describe BopsCore::MagicLinkMailer, type: :mailer do
     end
 
     it "assigns the correct magic link URL" do
-      expect(mail.body.encoded).to include("http://buckinghamshire.bops.services/consultees/planning_applications/25-00100-LDCE?sgid=123456789")
+      expect(mail.body.encoded).to include("http://buckinghamshire.bops.services/consultees/planning_applications/#{planning_application.reference}?sgid=123456789")
     end
 
     it "includes the planning application reference in the email body" do

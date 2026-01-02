@@ -1,4 +1,4 @@
-<nav aria-label="Application tasks" class="bops-sidebar">
+<nav aria-label="Application tasks" class="bops-sidebar" data-controller="sidebar-scroll" data-action="scroll->sidebar-scroll#handleScroll">
   <% if planning_application.pre_application? && tasks.first.section == "Assessment" %>
     <%= govuk_button_link_to "Preview report", bops_reports.planning_application_path(planning_application, view_as: "applicant"), new_tab: "", secondary: true, id: "preview-report-button-link" %>
   <% end %>
