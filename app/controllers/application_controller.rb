@@ -3,11 +3,6 @@
 class ApplicationController < ActionController::Base
   include BopsCore::ApplicationController
 
-  BLOCKED_SIDEBAR_EMAILS = %w[
-    martyn.evans+demo_southwark_assessor@unboxedconsulting.com
-    martyn.evans+demo_southwark_reviewer@unboxedconsulting.com
-  ].freeze
-
   before_action :require_local_authority!
   before_action :prevent_caching
   before_action :enforce_user_permissions
@@ -105,30 +100,9 @@ class ApplicationController < ActionController::Base
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_review_assessment?
   end
 
-  def use_new_sidebar_layout?(application_stage)
+  def use_new_sidebar_layout?(_application_stage = nil)
     return false unless @planning_application&.pre_application?
-    return false if current_user&.email&.in?(BLOCKED_SIDEBAR_EMAILS)
 
-    case Rails.configuration.use_new_sidebar_layout
-    when TrueClass
-      true
-    when Hash
-      permissions = Rails.configuration.use_new_sidebar_layout[current_user&.local_authority&.subdomain]
-      if permissions.nil?
-        permissions = Rails.configuration.use_new_sidebar_layout[:default]
-      end
-
-      if permissions.respond_to?(:include?)
-        permissions.include?(application_stage)
-      else
-        permissions
-      end
-    when Array
-      Rails.configuration.use_new_sidebar_layout.include?(application_stage)
-    when application_stage
-      true
-    else
-      false
-    end
+    Rails.configuration.use_new_sidebar_layout
   end
 end
