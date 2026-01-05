@@ -436,6 +436,8 @@ RSpec.describe "Check fee task", type: :system do
         click_link "Check fee"
       end
 
+      click_button "Edit"
+
       expect(page).to have_field("Yes", checked: true)
       expect(page).to have_field("No")
       expect(page).to have_button("Save and mark as complete")
@@ -445,6 +447,8 @@ RSpec.describe "Check fee task", type: :system do
       within ".bops-sidebar" do
         click_link "Check fee"
       end
+
+      click_button "Edit"
 
       choose "No"
       fill_in "Tell the applicant why the fee is incorrect", with: "Actually the fee is wrong"

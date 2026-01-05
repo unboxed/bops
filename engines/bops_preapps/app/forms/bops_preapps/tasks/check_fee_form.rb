@@ -3,7 +3,7 @@
 module BopsPreapps
   module Tasks
     class CheckFeeForm < Form
-      self.task_actions = %w[save_and_complete update_request delete_request]
+      self.task_actions = %w[save_and_complete update_request delete_request edit_form]
 
       attribute :valid_fee, :boolean
       attribute :reason, :string
@@ -35,6 +35,8 @@ module BopsPreapps
             update_validation_request
           when "delete_request"
             delete_validation_request
+          when "edit_form"
+            task.in_progress!
           end
         end
       end

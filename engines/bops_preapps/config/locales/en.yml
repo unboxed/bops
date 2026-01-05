@@ -153,6 +153,9 @@ en:
           remove_constraint:
             failure: Failed to remove constraint
             success: Successfully removed constraint
+          save_draft:
+            failure: Failed to save draft constraints
+            success: Draft constraints successfully saved
           success: Constraints were successfully marked as reviewed
         check-consultees-consulted:
           failure: Failed to save consultee review

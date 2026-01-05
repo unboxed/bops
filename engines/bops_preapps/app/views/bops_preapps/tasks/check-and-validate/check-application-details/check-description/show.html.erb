@@ -45,10 +45,9 @@
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= form.govuk_error_summary %>
     <%= form.govuk_radio_buttons_fieldset :valid_description, legend: {text: "Does the description match the development or use in the plans?"} do %>
-      <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"} %>
-      <%= form.govuk_radio_button :valid_description, false, label: {text: "No"} %>
+      <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"}, disabled: @form.read_only? %>
+      <%= form.govuk_radio_button :valid_description, false, label: {text: "No"}, disabled: @form.read_only? %>
     <% end %>
-
     <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
   <% end %>
 <% else %>

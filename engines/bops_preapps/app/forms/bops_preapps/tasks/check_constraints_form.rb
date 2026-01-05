@@ -3,7 +3,7 @@
 module BopsPreapps
   module Tasks
     class CheckConstraintsForm < Form
-      self.task_actions = %w[add_constraint remove_constraint save_draft save_and_complete]
+      self.task_actions = %w[add_constraint remove_constraint save_draft save_and_complete edit_form]
 
       attribute :constraint_id, :integer
 
@@ -20,6 +20,8 @@ module BopsPreapps
             save_draft
           when "save_and_complete"
             save_and_complete
+          when "edit_form"
+            task.in_progress!
           else
             raise ArgumentError, "Invalid task action: #{action.inspect}"
           end
@@ -36,7 +38,7 @@ module BopsPreapps
 
       def flash(type, controller)
         case action
-        when "add_constraint", "remove_constraint"
+        when "add_constraint", "remove_constraint", "save_draft"
           case type
           when :notice
             controller.t(".#{slug}.#{action}.success")

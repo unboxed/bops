@@ -20,7 +20,7 @@ module BopsPreapps
         end
       end
 
-      self.task_actions = %w[save_draft save_and_complete]
+      self.task_actions = %w[save_draft save_and_complete edit_form]
 
       def update(params)
         super do
@@ -29,6 +29,8 @@ module BopsPreapps
             save_draft
           when "save_and_complete"
             save_and_complete
+          when "edit_form"
+            task.in_progress!
           else
             raise ArgumentError, "Invalid task action: #{action.inspect}"
           end

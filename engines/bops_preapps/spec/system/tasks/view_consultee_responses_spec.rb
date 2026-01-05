@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "View consultee responses task", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:planning_application) { create(:planning_application, :pre_application, :not_started, local_authority:, consultation_required: true) }
+  let(:planning_application) { create(:planning_application, :pre_application, local_authority:, consultation_required: true) }
   let(:user) { create(:user, local_authority:) }
   let(:task) { planning_application.case_record.find_task_by_slug_path!("consultees/view-consultee-responses") }
   let(:consultation) { planning_application.consultation || planning_application.create_consultation! }

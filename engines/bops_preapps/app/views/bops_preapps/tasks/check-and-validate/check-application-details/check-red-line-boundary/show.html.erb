@@ -91,8 +91,8 @@
     <%= return_to_hidden_field %>
 
     <%= form.govuk_radio_buttons_fieldset :valid_red_line_boundary, legend: {text: "Is the red line boundary correct?"} do %>
-      <%= form.govuk_radio_button :valid_red_line_boundary, true, label: {text: "Yes"} %>
-      <%= form.govuk_radio_button :valid_red_line_boundary, false, label: {text: "No"} %>
+      <%= form.govuk_radio_button :valid_red_line_boundary, true, label: {text: "Yes"}, disabled: @form.read_only? %>
+      <%= form.govuk_radio_button :valid_red_line_boundary, false, label: {text: "No"}, disabled: @form.read_only? %>
     <% end %>
 
     <%= render "shared/task_submit_buttons", form: form, save_draft: false %>

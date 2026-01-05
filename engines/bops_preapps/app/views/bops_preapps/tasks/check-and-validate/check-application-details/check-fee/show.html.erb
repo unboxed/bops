@@ -88,7 +88,7 @@
     <%= return_to_hidden_field %>
 
     <%= form.govuk_radio_buttons_fieldset(:valid_fee, legend: {text: "Is the fee correct?"}) do %>
-      <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"} do %>
+      <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"}, disabled: @form.read_only?  do %>
         <h3 class="govuk-heading-s">Confirm total fee paid</h3>
         <ul class="govuk-list govuk-list--bullet">
           <li>check that the correct fee has been received</li>
@@ -102,7 +102,7 @@
               prefix_text: "£",
               width: 10 %>
       <% end %>
-      <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"} do %>
+      <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"}, disabled: @form.read_only? do %>
         <%= form.govuk_text_area :reason,
               label: {size: "s", text: "Tell the applicant why the fee is incorrect"},
               hint: {text: "Use plain English to explain why the fee is wrong. This message will be shown to the applicant."},
@@ -132,6 +132,7 @@
     <% end %>
 
     <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+
   <% end %>
 <% elsif @form.validation_request&.closed? && @planning_application.valid_fee? %>
   <p>This fee was calculated based on the services requested by the applicant.</p>
@@ -192,14 +193,13 @@
       <% end %>
     </tbody>
   </table>
-
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= form.govuk_error_summary %>
     <%= return_to_hidden_field %>
 
     <%= form.govuk_radio_buttons_fieldset(:valid_fee, legend: {text: "Is the fee correct?"}) do %>
-      <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"}, checked: true %>
-      <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"} do %>
+      <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"}, checked: true, disabled: @form.read_only? %>
+      <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"}, disabled: @form.read_only? do %>
         <%= form.govuk_text_area :reason,
               label: {size: "s", text: "Tell the applicant why the fee is incorrect"},
               hint: {text: "Use plain English to explain why the fee is wrong. This message will be shown to the applicant."},
@@ -295,8 +295,8 @@
     <%= return_to_hidden_field %>
 
     <%= form.govuk_radio_buttons_fieldset(:valid_fee, legend: {text: "Is the fee correct?"}) do %>
-      <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"}, checked: @planning_application.valid_fee? %>
-      <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"} do %>
+      <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"}, checked: @planning_application.valid_fee?, disabled: @form.read_only? %>
+      <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"}, disabled: @form.read_only? do %>
         <%= form.govuk_text_area :reason,
               label: {size: "s", text: "Tell the applicant why the fee is incorrect"},
               hint: {text: "Use plain English to explain why the fee is wrong. This message will be shown to the applicant."},
@@ -324,7 +324,7 @@
         </details>
       <% end %>
     <% end %>
-
     <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+
   <% end %>
 <% end %>
