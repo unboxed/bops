@@ -30,83 +30,57 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       proposal_details:)
   end
 
+  let(:reference) { planning_application.reference }
+
   before do
     sign_in(user)
   end
 
   describe "end-to-end validation workflow" do
     it "completes all validation tasks in sequence with correct status transitions and icons" do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
-      expect(page).to have_css(".bops-sidebar")
+      expect(page).to have_selector(:sidebar)
       expect(page).to have_content("Validation")
 
-      within ".bops-sidebar" do
+      within :sidebar do
         expect(page).to have_content("Check, tag, and confirm documents")
         expect(page).to have_content("Check application details")
         expect(page).to have_content("Other validation issues")
         expect(page).to have_content("Review")
       end
 
-      review_documents_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/check-tag-and-confirm-documents/review-documents")
-      check_red_line_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/check-application-details/check-red-line-boundary")
-      check_constraints_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/check-application-details/check-constraints")
-      check_description_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/check-application-details/check-description")
-      add_reporting_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/check-application-details/add-reporting-details")
-      check_fee_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/check-application-details/check-fee")
-      other_requests_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/other-validation-issues/other-validation-requests")
-      review_requests_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/review/review-validation-requests")
-      send_decision_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/review/send-validation-decision")
+      validation_tasks.each do |t|
+        expect(t).to be_not_started
+      end
 
-      expect(review_documents_task).to be_not_started
-      expect(check_red_line_task).to be_not_started
-      expect(check_constraints_task).to be_not_started
-      expect(check_description_task).to be_not_started
-      expect(add_reporting_task).to be_not_started
-      expect(check_fee_task).to be_not_started
-      expect(other_requests_task).to be_not_started
-      expect(review_requests_task).to be_not_started
-      expect(send_decision_task).to be_not_started
-
-      within ".bops-sidebar" do
+      within :sidebar do
         expect(page).to have_css("svg[aria-label='Not started']", minimum: 7)
       end
 
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Review documents"
       end
 
-      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-tag-and-confirm-documents/review-documents")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/check-tag-and-confirm-documents/review-documents")
       expect(page).to have_selector("h1", text: "Review documents")
-
-      within ".bops-sidebar" do
-        expect(page).to have_css(".bops-sidebar__task--active", text: "Review documents")
-        expect(page).to have_css("a[aria-current='page']", text: "Review documents")
-      end
+      expect(page).to have_selector(:active_sidebar_task, "Review documents")
 
       expect(page).to have_content("There are no active documents")
 
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Successfully updated document review")
-      expect(review_documents_task.reload).to be_completed
+      expect(task("Review documents").reload).to be_completed
+      expect(page).to have_selector(:completed_sidebar_task, "Review documents")
 
-      within ".bops-sidebar" do
-        within(".bops-sidebar__task", text: "Review documents") do
-          expect(page).to have_css("svg[aria-label='Completed']")
-        end
-      end
-
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Check red line boundary"
       end
 
-      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-application-details/check-red-line-boundary")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/check-application-details/check-red-line-boundary")
       expect(page).to have_content("Check the digital red line boundary")
-
-      within ".bops-sidebar" do
-        expect(page).to have_css(".bops-sidebar__task--active", text: "Check red line boundary")
-      end
+      expect(page).to have_selector(:active_sidebar_task, "Check red line boundary")
 
       expect(page).to have_field("Yes")
       expect(page).to have_field("No")
@@ -115,25 +89,17 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Red line boundary check was successfully saved")
-      expect(check_red_line_task.reload).to be_completed
+      expect(task("Check red line boundary").reload).to be_completed
       expect(planning_application.reload.valid_red_line_boundary).to be true
+      expect(page).to have_selector(:completed_sidebar_task, "Check red line boundary")
 
-      within ".bops-sidebar" do
-        within(".bops-sidebar__task", text: "Check red line boundary") do
-          expect(page).to have_css("svg[aria-label='Completed']")
-        end
-      end
-
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Check constraints"
       end
 
-      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-application-details/check-constraints")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/check-application-details/check-constraints")
       expect(page).to have_content("Check constraints")
-
-      within ".bops-sidebar" do
-        expect(page).to have_css(".bops-sidebar__task--active", text: "Check constraints")
-      end
+      expect(page).to have_selector(:active_sidebar_task, "Check constraints")
 
       within(".identified-constraints-table") do
         expect(page).to have_text("Conservation area")
@@ -143,24 +109,16 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Constraints were successfully marked as reviewed")
-      expect(check_constraints_task.reload).to be_completed
+      expect(task("Check constraints").reload).to be_completed
+      expect(page).to have_selector(:completed_sidebar_task, "Check constraints")
 
-      within ".bops-sidebar" do
-        within(".bops-sidebar__task", text: "Check constraints") do
-          expect(page).to have_css("svg[aria-label='Completed']")
-        end
-      end
-
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Check description"
       end
 
-      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-application-details/check-description")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/check-application-details/check-description")
       expect(page).to have_selector("h1", text: "Check description")
-
-      within ".bops-sidebar" do
-        expect(page).to have_css(".bops-sidebar__task--active", text: "Check description")
-      end
+      expect(page).to have_selector(:active_sidebar_task, "Check description")
 
       expect(page).to have_content("Does the description match the development or use in the plans?")
 
@@ -168,25 +126,17 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Description check was successfully saved")
-      expect(check_description_task.reload).to be_completed
+      expect(task("Check description").reload).to be_completed
       expect(planning_application.reload.valid_description).to be true
+      expect(page).to have_selector(:completed_sidebar_task, "Check description")
 
-      within ".bops-sidebar" do
-        within(".bops-sidebar__task", text: "Check description") do
-          expect(page).to have_css("svg[aria-label='Completed']")
-        end
-      end
-
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Add reporting details"
       end
 
-      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-application-details/add-reporting-details")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/check-application-details/add-reporting-details")
       expect(page).to have_selector("h1", text: "Add reporting details")
-
-      within ".bops-sidebar" do
-        expect(page).to have_css(".bops-sidebar__task--active", text: "Add reporting details")
-      end
+      expect(page).to have_selector(:active_sidebar_task, "Add reporting details")
 
       expect(page).to have_content("Is the local planning authority the owner of this land?")
 
@@ -195,24 +145,16 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Reporting details were successfully saved")
-      expect(add_reporting_task.reload).to be_completed
+      expect(task("Add reporting details").reload).to be_completed
+      expect(page).to have_selector(:completed_sidebar_task, "Add reporting details")
 
-      within ".bops-sidebar" do
-        within(".bops-sidebar__task", text: "Add reporting details") do
-          expect(page).to have_css("svg[aria-label='Completed']")
-        end
-      end
-
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Check fee"
       end
 
-      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-application-details/check-fee")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/check-application-details/check-fee")
       expect(page).to have_content("Check the application fee")
-
-      within ".bops-sidebar" do
-        expect(page).to have_css(".bops-sidebar__task--active", text: "Check fee")
-      end
+      expect(page).to have_selector(:active_sidebar_task, "Check fee")
 
       expect(page).to have_content("Payment information")
       expect(page).to have_content("Fee calculation")
@@ -223,62 +165,43 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Fee check was successfully saved")
-      expect(check_fee_task.reload).to be_completed
+      expect(task("Check fee").reload).to be_completed
       expect(planning_application.reload.valid_fee).to be true
+      expect(page).to have_selector(:completed_sidebar_task, "Check fee")
 
-      within ".bops-sidebar" do
-        within(".bops-sidebar__task", text: "Check fee") do
-          expect(page).to have_css("svg[aria-label='Completed']")
-        end
-      end
-
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Other validation requests"
       end
 
-      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/other-validation-issues/other-validation-requests")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/other-validation-issues/other-validation-requests")
       expect(page).to have_selector("h1", text: "Other validation requests")
-
-      within ".bops-sidebar" do
-        expect(page).to have_css(".bops-sidebar__task--active", text: "Other validation requests")
-      end
+      expect(page).to have_selector(:active_sidebar_task, "Other validation requests")
 
       expect(page).to have_content("No other validation requests have been added")
 
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Other validation requests was successfully saved")
-      expect(other_requests_task.reload).to be_completed
+      expect(task("Other validation requests").reload).to be_completed
+      expect(page).to have_selector(:completed_sidebar_task, "Other validation requests")
 
-      within ".bops-sidebar" do
-        within(".bops-sidebar__task", text: "Other validation requests") do
-          expect(page).to have_css("svg[aria-label='Completed']")
-        end
-      end
-
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Review validation requests"
       end
 
-      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/review/review-validation-requests")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/review/review-validation-requests")
       expect(page).to have_selector("h1", text: "Review validation requests")
-
-      within ".bops-sidebar" do
-        expect(page).to have_css(".bops-sidebar__task--active", text: "Review validation requests")
-      end
+      expect(page).to have_selector(:active_sidebar_task, "Review validation requests")
 
       expect(page).to have_content("There are no active validation requests")
 
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Send validation decision"
       end
 
-      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/review/send-validation-decision")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/review/send-validation-decision")
       expect(page).to have_selector("h1", text: "Send validation decision")
-
-      within ".bops-sidebar" do
-        expect(page).to have_css(".bops-sidebar__task--active", text: "Send validation decision")
-      end
+      expect(page).to have_selector(:active_sidebar_task, "Send validation decision")
 
       expect(page).to have_content("The application has not been marked as valid or invalid yet")
       expect(page).to have_button("Mark the application as valid")
@@ -286,77 +209,47 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       click_button "Mark the application as valid"
 
       expect(page).to have_content("The application is marked as valid")
-      expect(send_decision_task.reload).to be_completed
+      expect(task("Send validation decision").reload).to be_completed
       expect(planning_application.reload).to be_valid
-
-      within ".bops-sidebar" do
-        within(".bops-sidebar__task", text: "Send validation decision") do
-          expect(page).to have_css("svg[aria-label='Completed']")
-        end
-      end
-
-      [
-        review_documents_task,
-        check_red_line_task,
-        check_constraints_task,
-        check_description_task,
-        add_reporting_task,
-        check_fee_task,
-        other_requests_task,
-        send_decision_task
-      ].each do |task|
-        expect(task.reload).to be_completed
-      end
+      expect(page).to have_selector(:completed_sidebar_task, "Send validation decision")
     end
 
     it "shows in progress status when task is partially completed" do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Check constraints"
       end
 
       click_button "Save changes"
 
       expect(page).to have_content("Constraints were successfully marked as reviewed")
-
-      check_constraints_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/check-application-details/check-constraints")
-      expect(check_constraints_task.reload).to be_in_progress
-
-      within ".bops-sidebar" do
-        within(".bops-sidebar__task", text: "Check constraints") do
-          expect(page).to have_css("svg[aria-label='In progress']")
-        end
-      end
+      expect(task("Check constraints").reload).to be_in_progress
+      expect(page).to have_selector(:in_progress_sidebar_task, "Check constraints")
     end
 
     it "handles validation request flow with status transitions" do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Check description"
       end
 
       choose "No"
       click_button "Save and mark as complete"
 
-      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=description_change")
+      expect(page).to have_current_path("/planning_applications/#{reference}/validation/validation_requests/new?type=description_change")
 
-      check_description_task = planning_application.case_record.find_task_by_slug_path!("check-and-validate/check-application-details/check-description")
-      expect(check_description_task.reload).to be_in_progress
+      expect(task("Check description").reload).to be_in_progress
       expect(planning_application.reload.valid_description).to be false
 
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
-      within ".bops-sidebar" do
-        within(".bops-sidebar__task", text: "Check description") do
-          expect(page).to have_css("svg[aria-label='In progress']")
-        end
-      end
+      expect(page).to have_selector(:in_progress_sidebar_task, "Check description")
     end
 
     it "navigates correctly between all validation task sections" do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
       sections = [
         {name: "Review documents", path: "check-tag-and-confirm-documents/review-documents"},
@@ -371,36 +264,41 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       ]
 
       sections.each do |section|
-        within ".bops-sidebar" do
+        within :sidebar do
           click_link section[:name]
         end
 
-        expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/#{section[:path]}")
-
-        within ".bops-sidebar" do
-          expect(page).to have_css(".bops-sidebar__task--active", text: section[:name])
-          expect(page).to have_css("a[aria-current='page']", text: section[:name])
-        end
+        expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/#{section[:path]}")
+        expect(page).to have_selector(:active_sidebar_task, section[:name])
       end
     end
 
     it "hides buttons when application is determined" do
       planning_application.update!(status: "determined", determined_at: Time.current)
 
-      visit "/preapps/#{planning_application.reference}/check-and-validate/check-application-details/check-description"
+      visit "/preapps/#{reference}/check-and-validate/check-application-details/check-description"
 
       expect(page).not_to have_button("Save and mark as complete")
       expect(page).not_to have_button("Save changes")
     end
 
     it "maintains sidebar scroll position across navigation", js: true do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
-      within ".bops-sidebar" do
+      within :sidebar do
         click_link "Send validation decision"
       end
 
-      expect(page).to have_css(".bops-sidebar[data-controller='sidebar-scroll']")
+      expect(page).to have_css("nav.bops-sidebar[data-controller='sidebar-scroll']")
+
+      initial_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
+
+      within :sidebar do
+        click_link "Review documents"
+      end
+
+      final_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
+      expect(final_scroll).to eq(initial_scroll)
     end
   end
 end
