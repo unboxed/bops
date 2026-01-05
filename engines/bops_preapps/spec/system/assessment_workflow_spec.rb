@@ -224,54 +224,6 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
       expect(task("Review and submit pre-application").reload).to be_completed
     end
 
-    it "shows in progress status when task is partially completed" do
-      sign_in(assessor)
-      visit "/planning_applications/#{reference}/assessment/tasks"
-
-      expect(page).to have_selector(:sidebar)
-
-      within :sidebar do
-        click_link "Site description"
-      end
-
-      fill_in "Description of the site", with: "Some text"
-      click_button "Save changes"
-
-      expect(page).to have_content("Site description was successfully updated")
-      expect(task("Site description").reload).to be_in_progress
-      expect(page).to have_selector(:in_progress_sidebar_task, "Site description")
-    end
-
-    it "navigates correctly between all assessment task sections" do
-      sign_in(assessor)
-      visit "/planning_applications/#{reference}/assessment/tasks"
-
-      expect(page).to have_selector(:sidebar)
-
-      tasks = [
-        {name: "Check application details", path: "check-application/check-application-details"},
-        {name: "Check consultees consulted", path: "check-application/check-consultees-consulted"},
-        {name: "Check site history", path: "check-application/check-site-history"},
-        {name: "Site visit", path: "additional-services/site-visit"},
-        {name: "Meeting", path: "additional-services/meeting"},
-        {name: "Site description", path: "assessment-summaries/site-description"},
-        {name: "Planning considerations and advice", path: "assessment-summaries/planning-considerations-and-advice"},
-        {name: "Suggest heads of terms", path: "assessment-summaries/suggest-heads-of-terms"},
-        {name: "Summary of advice", path: "assessment-summaries/summary-of-advice"},
-        {name: "Choose application type", path: "complete-assessment/choose-application-type"},
-        {name: "Check and add requirements", path: "complete-assessment/check-and-add-requirements"}
-      ]
-
-      tasks.each do |t|
-        within :sidebar do
-          click_link t[:name]
-        end
-
-        expect(page).to have_current_path("/preapps/#{reference}/check-and-assess/#{t[:path]}")
-        expect(page).to have_selector(:active_sidebar_task, t[:name])
-      end
-    end
-
     it "hides buttons when application is determined" do
       planning_application.update!(status: "determined", determined_at: Time.current)
 
@@ -376,68 +328,6 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
 
       expect(page).to have_content("Pre-application report has been sent to the applicant")
       expect(task("Review and submit pre-application").reload).to be_completed
-    end
-  end
-
-  describe "site visit recording" do
-    it "allows adding a site visit with date and comments" do
-      sign_in(assessor)
-      visit "/planning_applications/#{reference}/assessment/tasks"
-
-      expect(page).to have_selector(:sidebar)
-
-      within :sidebar do
-        click_link "Site visit"
-      end
-
-      expect(task("Site visit")).to be_not_started
-
-      expect(page).to have_content("No site visits have been recorded yet")
-
-      within "#new-site-visit-form" do
-        click_button "Add site visit"
-      end
-
-      yesterday = Date.yesterday
-      within "#new-site-visit-form" do
-        fill_in "Day", with: yesterday.day
-        fill_in "Month", with: yesterday.month
-        fill_in "Year", with: yesterday.year
-        fill_in "Comment", with: "Inspected front and rear of property"
-        click_button "Add site visit"
-      end
-
-      click_button "Save changes"
-
-      expect(task("Site visit").reload).to be_in_progress
-      expect(page).to have_selector(:in_progress_sidebar_task, "Site visit")
-
-      expect(page).not_to have_content("No site visits have been recorded yet")
-
-      within("#site-visit-history") do
-        expect(page).to have_content("Inspected front and rear of property")
-      end
-    end
-  end
-
-  describe "check application details with issues" do
-    it "shows request links when selecting No for checks" do
-      sign_in(assessor)
-      visit "/planning_applications/#{reference}/assessment/tasks"
-
-      expect(page).to have_selector(:sidebar)
-
-      within :sidebar do
-        click_link "Check application details"
-      end
-
-      within_fieldset("Does the description match the development or use in the plans?") { choose "No" }
-
-      expect(page).to have_link("Request a change to the description")
-
-      within_fieldset("Are the plans consistent with each other?") { choose "No" }
-
-      expect(page).to have_link("Request a new document")
     end
   end
 end

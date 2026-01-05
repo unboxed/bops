@@ -4,7 +4,7 @@
 # These provide cleaner, more semantic ways to interact with the sidebar
 
 Capybara.add_selector(:sidebar) do
-  css { "nav.bops-sidebar" }
+  css { ".bops-sidebar" }
 end
 
 Capybara.add_selector(:active_sidebar_task) do
