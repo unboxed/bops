@@ -7,7 +7,6 @@ module PlanningApplications
 
       before_action :set_consistency_checklist, except: %i[new create]
       before_action :redirect_to_reference_url
-      before_action :store_return_to_report_path, only: %i[edit create]
 
       def show
       end
@@ -102,7 +101,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        report_path_or(planning_application_assessment_tasks_path(@planning_application))
+        return_to_path(planning_application_assessment_tasks_path(@planning_application))
       end
     end
   end

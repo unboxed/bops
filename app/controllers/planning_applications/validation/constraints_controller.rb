@@ -7,7 +7,6 @@ module PlanningApplications
 
       before_action :set_planning_application_constraints, only: %i[update index create]
       before_action :set_other_constraints, only: %i[index]
-      before_action :store_return_to_report_path, only: %i[index create destroy update]
 
       def index
         respond_to do |format|
@@ -70,7 +69,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        report_path_or(planning_application_validation_tasks_path(@planning_application))
+        return_to_path(planning_application_validation_tasks_path(@planning_application))
       end
     end
   end

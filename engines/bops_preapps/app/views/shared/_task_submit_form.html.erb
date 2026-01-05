@@ -2,6 +2,6 @@
 
 <% unless @planning_application.determined? %>
   <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
-    <%= render "shared/task_submit_buttons_old", form: form %>
+    <%= render "shared/task_submit_buttons_old", form: form, save_draft: save_draft %>
   <% end %>
 <% end %>

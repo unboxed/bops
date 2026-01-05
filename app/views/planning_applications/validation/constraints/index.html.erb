@@ -77,7 +77,7 @@
     <%= form_with model: @planning_application, url: planning_application_validation_constraints_path(@planning_application) do |form| %>
       <div class="govuk-button-group">
         <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
-        <%= govuk_button_link_to "Back", planning_application_validation_tasks_path(@planning_application), secondary: true %>
+        <%= govuk_button_link_to "Back", back_path, secondary: true %>
       </div>
     <% end %>
   </div>

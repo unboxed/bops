@@ -17,7 +17,6 @@ RSpec.describe "Check site history", type: :system do
     within ".bops-sidebar" do
       click_link "Check site history"
     end
-    click_button "Add site history"
 
     click_button "Save changes"
 

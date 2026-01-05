@@ -7,7 +7,6 @@ module PlanningApplications
 
       before_action :set_planning_application
       before_action :build_meeting, only: %i[create index]
-      before_action :store_return_to_report_path, only: [:index]
 
       def index
         set_planning_application_meetings
@@ -55,11 +54,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        return_to || report_path_or(planning_application_assessment_meetings_path)
-      end
-
-      def return_to
-        @return_to ||= params.dig(:meeting, :return_to).presence
+        return_to_path(planning_application_assessment_meetings_path)
       end
     end
   end

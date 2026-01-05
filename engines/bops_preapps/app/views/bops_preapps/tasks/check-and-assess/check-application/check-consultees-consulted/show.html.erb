@@ -17,4 +17,4 @@
   <%= govuk_link_to "Add consultees", task_path(@planning_application, add_consultees_task), secondary: true %>
 </p>
 
-<%= render "shared/task_submit_form" %>
+<%= render "shared/task_submit_form", save_draft: true %>

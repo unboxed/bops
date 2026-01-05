@@ -315,6 +315,17 @@ RSpec.describe "Pre-application report" do
     end
   end
 
+  it "returns to report page when clicking Back on constraints page" do
+    within("#site-constraints") do
+      click_link "Edit"
+    end
+
+    expect(page).to have_current_path("/planning_applications/#{reference}/validation/constraints?return_to=report")
+    click_link "Back"
+
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+  end
+
   it "displays site history" do
     within("#site-history") do
       expect(page).to have_content("Relevant site history")
@@ -369,6 +380,17 @@ RSpec.describe "Pre-application report" do
     end
   end
 
+  it "returns to report page when clicking Back on site history page" do
+    within("#site-history") do
+      click_link "Edit"
+    end
+
+    expect(page).to have_current_path("/planning_applications/#{reference}/assessment/site_histories?return_to=report")
+    click_link "Back"
+
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+  end
+
   it "displays site and surroundings" do
     within("#site-and-surroundings") do
       expect(page).to have_content("Site and surroundings")
@@ -420,6 +442,28 @@ RSpec.describe "Pre-application report" do
       expect(page).to have_text(planning_application.requirements.first.description)
       expect(page).to have_text(planning_application.requirements.first.guidelines)
     end
+  end
+
+  it "returns to report page when clicking Back on requirements page" do
+    within("#requirements") do
+      click_link "Edit"
+    end
+
+    expect(page).to have_current_path("/planning_applications/#{reference}/assessment/requirements?return_to=report")
+    click_link "Back"
+
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+  end
+
+  it "returns to report page when clicking Back on considerations page" do
+    within("#considerations-advice") do
+      first(:link, "Edit").click
+    end
+
+    expect(page).to have_current_path("/planning_applications/#{reference}/assessment/consideration_guidances?return_to=report")
+    click_link "Back"
+
+    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
   end
 
   it "displays next steps and disclaimer" do

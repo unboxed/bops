@@ -10,7 +10,6 @@ module PlanningApplications
       before_action :set_requirements, only: %i[index create]
       before_action :set_new_requirements, only: %i[create]
       before_action :set_requirement, only: %i[update edit destroy]
-      before_action :store_return_to_report_path, only: %i[index]
 
       def index
         respond_to do |format|
@@ -99,7 +98,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        params[:redirect_to].presence || planning_application_assessment_requirements_path(@planning_application)
+        return_to_path(planning_application_assessment_requirements_path(@planning_application))
       end
     end
   end
