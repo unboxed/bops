@@ -75,9 +75,10 @@
 <div class="govuk-grid-row govuk-!-margin-top-6">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @planning_application, url: planning_application_validation_constraints_path(@planning_application) do |form| %>
+      <%= hidden_field_tag :return_to, return_to_param %>
       <div class="govuk-button-group">
         <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
-        <%= govuk_button_link_to "Back", back_path, secondary: true %>
+        <%= govuk_button_link_to "Back", return_to_path, secondary: true %>
       </div>
     <% end %>
   </div>

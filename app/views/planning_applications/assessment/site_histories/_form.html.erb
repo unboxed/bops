@@ -24,7 +24,7 @@
 
       <% if model.persisted? %>
         <%= form.govuk_submit "Update site history", class: "govuk-!-margin-bottom-2" do %>
-          <%= govuk_button_link_to "Back", planning_application_assessment_site_histories_path(@planning_application, return_to: return_to_param), secondary: true %>
+          <%= govuk_button_link_to "Back", return_to_path(planning_application_assessment_site_histories_path(@planning_application)), secondary: true %>
         <% end %>
       <% else %>
         <%= form.govuk_submit "Add site history", secondary: true, class: "govuk-!-margin-bottom-2" %>

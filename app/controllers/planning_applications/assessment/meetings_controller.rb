@@ -27,8 +27,6 @@ module PlanningApplications
           format.html do
             if @meeting.update(meeting_params)
               redirect_to redirect_path, notice: t(".success")
-            elsif return_to
-              redirect_to redirect_path, alert: t(".failure")
             else
               set_planning_application_meetings
               render :index

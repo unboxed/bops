@@ -18,10 +18,10 @@ module PlanningApplications
         @constraint = @planning_application_constraints.new(constraint_id: params[:constraint_id], identified_by: current_user.name)
 
         if @constraint.save!
-          redirect_to planning_application_validation_constraints_path(@planning_application),
+          redirect_to planning_application_validation_constraints_path(@planning_application, return_to: return_to_param),
             notice: t(".success")
         else
-          redirect_to planning_application_validation_constraints_path(@planning_application),
+          redirect_to planning_application_validation_constraints_path(@planning_application, return_to: return_to_param),
             alert: t(".failure")
         end
       end
@@ -30,10 +30,10 @@ module PlanningApplications
         @constraint = @planning_application.planning_application_constraints.find(params[:id])
 
         if @constraint.destroy
-          redirect_to planning_application_validation_constraints_path(@planning_application),
+          redirect_to planning_application_validation_constraints_path(@planning_application, return_to: return_to_param),
             notice: t(".success")
         else
-          redirect_to planning_application_validation_constraints_path(@planning_application),
+          redirect_to planning_application_validation_constraints_path(@planning_application, return_to: return_to_param),
             notice: t(".failure")
         end
       end
