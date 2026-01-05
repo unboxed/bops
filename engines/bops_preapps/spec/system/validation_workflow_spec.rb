@@ -214,17 +214,21 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       expect(page).to have_selector(:completed_sidebar_task, "Send validation decision")
     end
 
-    it "shows in progress status when task is partially completed" do
+    it "shows in progress status when is opened for editing after completion" do
       visit "/planning_applications/#{reference}/validation/tasks"
 
       within :sidebar do
         click_link "Check constraints"
       end
 
-      click_button "Save changes"
+      click_button "Save and mark as complete"
 
       expect(page).to have_content("Constraints were successfully marked as reviewed")
-      expect(task("Check constraints").reload).to be_in_progress
+      expect(task("Check constraints").reload).to be_completed
+      expect(page).to have_selector(:completed_sidebar_task, "Check constraints")
+
+      expect(page).to have_button("Edit")
+      click_button "Edit"
       expect(page).to have_selector(:in_progress_sidebar_task, "Check constraints")
     end
 

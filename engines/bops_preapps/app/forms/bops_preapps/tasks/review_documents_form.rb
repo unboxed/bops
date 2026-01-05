@@ -3,7 +3,7 @@
 module BopsPreapps
   module Tasks
     class ReviewDocumentsForm < Form
-      self.task_actions = %w[save_draft save_and_complete]
+      self.task_actions = %w[save_draft save_and_complete edit_form]
 
       def update(params)
         super do

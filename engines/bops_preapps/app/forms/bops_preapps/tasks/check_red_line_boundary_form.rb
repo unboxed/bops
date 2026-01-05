@@ -3,7 +3,7 @@
 module BopsPreapps
   module Tasks
     class CheckRedLineBoundaryForm < Form
-      self.task_actions = %w[save_and_complete mark_as_valid delete_request]
+      self.task_actions = %w[save_and_complete mark_as_valid delete_request edit_form]
 
       attribute :valid_red_line_boundary, :boolean
       attribute :validation_request_id, :integer
@@ -25,6 +25,8 @@ module BopsPreapps
             mark_as_valid
           when "delete_request"
             delete_validation_request
+          when "edit_form"
+            task.in_progress!
           end
         end
       end

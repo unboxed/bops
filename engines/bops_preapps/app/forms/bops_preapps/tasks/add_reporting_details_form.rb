@@ -3,7 +3,7 @@
 module BopsPreapps
   module Tasks
     class AddReportingDetailsForm < Form
-      self.task_actions = %w[save_draft save_and_complete]
+      self.task_actions = %w[save_draft save_and_complete edit_form]
 
       attribute :reporting_type_id, :string
       attribute :regulation, :boolean
@@ -26,6 +26,8 @@ module BopsPreapps
               return false unless planning_application.update(reporting_details_params, :reporting_types)
 
               save_and_complete
+            when "edit_form"
+              task.in_progress!
             else
               raise ArgumentError, "Invalid task action: #{action.inspect}"
             end

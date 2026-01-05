@@ -3,10 +3,10 @@
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
 
-  <%= form.govuk_radio_buttons_fieldset(:reporting_type_id, legend: {size: "m", text: t("helpers.legend.planning_application.reporting_type")}) do %>
+  <%= form.govuk_radio_buttons_fieldset(:reporting_type_id, legend: {size: "m", text: t("helpers.legend.planning_application.reporting_type")}, disabled: @form.read_only?) do %>
     <% if @planning_application.application_type.selected_reporting_types? %>
       <% @planning_application.application_type.selected_reporting_types.each do |reporting_type| %>
-        <%= form.govuk_radio_button(:reporting_type_id, reporting_type.id, label: {text: reporting_type.full_description}) do %>
+        <%= form.govuk_radio_button(:reporting_type_id, reporting_type.id, label: {text: reporting_type.full_description}, disabled: @form.read_only?) do %>
           <% if reporting_type.guidance? %>
             <%= render FormattedContentComponent.new(text: reporting_type.guidance, classname: "govuk-hint") %>
             <% if reporting_type.guidance_link? %>
@@ -30,15 +30,15 @@
     <% end %>
   <% end %>
 
-  <%= form.govuk_radio_buttons_fieldset(:regulation, legend: {size: "m", text: "Is the local planning authority the owner of this land?"}) do %>
-    <%= form.govuk_radio_button :regulation, true, label: {text: "Yes"}, link_errors: true, checked: @form.regulation_3 || @form.regulation_4 do %>
+  <%= form.govuk_radio_buttons_fieldset(:regulation, legend: {size: "m", text: "Is the local planning authority the owner of this land?"}, disabled: @form.read_only?) do %>
+    <%= form.govuk_radio_button :regulation, true, label: {text: "Yes"}, link_errors: true, checked: @form.regulation_3 || @form.regulation_4, disabled: @form.read_only? do %>
       <%= form.govuk_radio_buttons_fieldset(:regulation_3, legend: {size: "s", text: "Is the local planning authority carrying out the works proposed?"}) do %>
-        <%= form.govuk_radio_button :regulation_3, true, label: {text: "Yes"}, link_errors: true, checked: @form.regulation_3 %>
-        <%= form.govuk_radio_button :regulation_3, false, label: {text: "No"}, checked: @form.regulation_4 %>
+        <%= form.govuk_radio_button :regulation_3, true, label: {text: "Yes"}, link_errors: true, checked: @form.regulation_3, disabled: @form.read_only? %>
+        <%= form.govuk_radio_button :regulation_3, false, label: {text: "No"}, checked: @form.regulation_4, disabled: @form.read_only? %>
       <% end %>
     <% end %>
-    <%= form.govuk_radio_button :regulation, false, label: {text: "No"}, checked: !@form.regulation_3 && !@form.regulation_4 %>
+    <%= form.govuk_radio_button :regulation, false, label: {text: "No"}, checked: !@form.regulation_3 && !@form.regulation_4, disabled: @form.read_only? %>
   <% end %>
 
-  <%= render "shared/task_submit_buttons", form: form %>
+  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
 <% end %>

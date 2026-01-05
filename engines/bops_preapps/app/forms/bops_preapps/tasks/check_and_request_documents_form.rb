@@ -5,11 +5,14 @@ module BopsPreapps
     class CheckAndRequestDocumentsForm < BaseForm
       def update(params)
         ActiveRecord::Base.transaction do
-          planning_application.update!(documents_missing: documents_missing(params))
-
-          if save_draft?
+          case button
+          when "edit_form"
+            edit_form
+          when "save_draft"
+            planning_application.update!(documents_missing: documents_missing(params))
             task.start!
           else
+            planning_application.update!(documents_missing: documents_missing(params))
             task.complete!
           end
         end
@@ -20,6 +23,17 @@ module BopsPreapps
       def permitted_fields(params)
         @button = params[:button]
         params.require(:task).permit(:documents_missing)
+      end
+
+      def flash(type, controller)
+        return if button == "edit_form"
+
+        case type
+        when :notice
+          controller.t(".#{slug}.success")
+        when :alert
+          controller.t(".#{slug}.failure")
+        end
       end
 
       private

@@ -83,6 +83,10 @@ module BopsPreapps
         end
       end
 
+      def read_only?
+        task.status == "completed"
+      end
+
       private
 
       def form_params(params)
@@ -117,6 +121,10 @@ module BopsPreapps
 
       def save_and_complete
         task.complete!
+      end
+
+      def edit_form
+        task.in_progress!
       end
     end
   end

@@ -45,7 +45,6 @@ RSpec.describe "Add reporting details task", type: :system, capybara: true do
     expect(page).to have_content("Select development type")
     expect(page).to have_content("Is the local planning authority the owner of this land?")
     expect(page).to have_button("Save and mark as complete")
-    expect(page).to have_button("Save changes")
   end
 
   context "when application type has reporting types" do
@@ -68,16 +67,6 @@ RSpec.describe "Add reporting details task", type: :system, capybara: true do
 
       expect(page).to have_content("Please select a development type for reporting")
       expect(task.reload).to be_not_started
-    end
-
-    it "allows saving draft without selecting reporting type" do
-      expect(task).to be_not_started
-
-      visit "/preapps/#{planning_application.reference}/check-and-validate/check-application-details/add-reporting-details"
-
-      click_button "Save changes"
-
-      expect(task.reload).to be_in_progress
     end
 
     it "marks task as complete when reporting type is selected" do

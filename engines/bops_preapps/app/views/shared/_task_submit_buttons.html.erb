@@ -2,9 +2,13 @@
 
 <% unless @planning_application.determined? %>
   <div class="govuk-button-group">
-    <%= form.govuk_task_button t(".submit") do %>
-      <% if save_draft %>
-        <%= form.govuk_task_button t(".save_draft"), action: :save_draft, secondary: true %>
+    <% if @form.read_only? && @planning_application.not_started? %>
+      <%= form.govuk_task_button "Edit", action: "edit_form", secondary: true %>
+    <% else %>
+      <%= form.govuk_task_button t(".submit") do %>
+        <% if save_draft %>
+          <%= form.govuk_task_button t(".save_draft"), action: :save_draft, secondary: true %>
+        <% end %>
       <% end %>
     <% end %>
   </div>

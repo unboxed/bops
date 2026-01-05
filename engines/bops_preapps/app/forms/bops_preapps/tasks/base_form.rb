@@ -40,6 +40,14 @@ module BopsPreapps
           controller.t(".#{slug}.failure")
         end
       end
+
+      def read_only?
+        task.status == "completed"
+      end
+
+      def edit_form
+        task.in_progress!
+      end
     end
   end
 end

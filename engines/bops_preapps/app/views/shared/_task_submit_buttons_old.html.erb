@@ -2,10 +2,14 @@
 
 <% unless @planning_application.determined? %>
   <div class="govuk-button-group">
-    <%= form.govuk_submit t("shared.task_submit_buttons.submit") do %>
-      <% if save_draft && !@task.completed? %>
-        <%= form.button t("shared.task_submit_buttons.save_draft"), class: "govuk-button govuk-button--secondary", value: :save_draft %>
-      <% end %>
+    <% if @form.read_only? && @planning_application.not_started? %>
+        <%= form.button "Edit", class: "govuk-button govuk-button--secondary", value: :edit_form %>
+      <% else %>
+        <%= form.govuk_submit t("shared.task_submit_buttons.submit") do %>
+          <% if save_draft && !@task.completed? %>
+            <%= form.button t("shared.task_submit_buttons.save_draft"), class: "govuk-button govuk-button--secondary", value: :save_draft %>
+          <% end %>
+        <% end %>
     <% end %>
   </div>
 <% end %>

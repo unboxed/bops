@@ -33,36 +33,38 @@
   </div>
 </div>
 
-<div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
-  <div class="govuk-grid-column-full">
-    <details class="govuk-details" <%= "open" if params[:q].present? %>>
-      <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text"> Add constraints </span>
-      </summary>
-      <div>
-        <%= form_with url: main_app.planning_application_validation_constraints_path(@planning_application), method: :get do |form| %>
-          <div class="search-form-inputs">
-            <%= form.govuk_text_field :q, value: params[:q], style: "width: 30rem;", class: "govuk-input--width-30", label: {text: "Find a constraint", size: "m"}, hint: {text: "Search by name or category"} %>
-            <%= form.govuk_submit "Search", class: "govuk-button--secondary" %>
-          </div>
-        <% end %>
+<% unless @form.read_only? %>
+  <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
+    <div class="govuk-grid-column-full">
+      <details class="govuk-details" <%= "open" if params[:q].present? %>>
+        <summary class="govuk-details__summary">
+          <span class="govuk-details__summary-text"> Add constraints </span>
+        </summary>
+        <div>
+          <%= form_with url: main_app.planning_application_validation_constraints_path(@planning_application), method: :get do |form| %>
+            <div class="search-form-inputs">
+              <%= form.govuk_text_field :q, value: params[:q], style: "width: 30rem;", class: "govuk-input--width-30", label: {text: "Find a constraint", size: "m"}, hint: {text: "Search by name or category"} %>
+              <%= form.govuk_submit "Search", class: "govuk-button--secondary" %>
+            </div>
+          <% end %>
 
-        <%= render(
-              partial: "bops_preapps/tasks/check-and-validate/check-application-details/check-constraints/table",
-              locals: {
-                title: "",
-                identifier: "other",
-                planning_application_constraints: @form.other_constraints(search_param: params.fetch(:q, "")),
-                show_source: false,
-                show_entity: false,
-                show_action: true
-              }
-            ) %>
-      </div>
-    </details>
+          <%= render(
+                partial: "bops_preapps/tasks/check-and-validate/check-application-details/check-constraints/table",
+                locals: {
+                  title: "",
+                  identifier: "other",
+                  planning_application_constraints: @form.other_constraints(search_param: params.fetch(:q, "")),
+                  show_source: false,
+                  show_entity: false,
+                  show_action: true
+                }
+              ) %>
+        </div>
+      </details>
+    </div>
   </div>
-</div>
+<% end %>
 
 <%= form_with model: @form, url: @form.url do |form| %>
-  <%= render "shared/task_submit_buttons", form: form %>
+  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
 <% end %>
