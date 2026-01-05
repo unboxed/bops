@@ -28,10 +28,10 @@ body:has(.bops-fullwidth-container) {
 
     .bops-sidebar {
       padding: 20px;
-      border-right: 1px solid #8eb8dc;
+      border-right: 1px solid $bops-blue-border;
       overflow-y: auto;
       height: 100%;
-      background-color: #f4f8fb;
+      background-color: $bops-light-blue-background;
       @include govuk-font($size: 16);
 
       .govuk-link {
@@ -94,7 +94,7 @@ body:has(.bops-fullwidth-container) {
   align-items: center;
   gap: govuk-spacing(2);
   padding-bottom: govuk-spacing(2);
-  border-bottom: 1px solid #8eb8dc;
+  border-bottom: 1px solid $bops-blue-border;
 
   &.bops-sidebar__task--active .govuk-link {
     font-weight: bold;
