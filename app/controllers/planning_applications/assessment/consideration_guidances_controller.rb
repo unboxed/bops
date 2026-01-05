@@ -11,7 +11,6 @@ module PlanningApplications
       before_action :build_consideration, only: [:index, :create]
       before_action :set_consultee_responses, only: [:index, :edit]
       before_action :set_consideration, only: [:destroy, :edit, :update]
-      before_action :store_return_to_report_path, only: %i[create edit]
 
       def index
         respond_to do |format|
@@ -32,8 +31,6 @@ module PlanningApplications
           format.html do
             if @consideration.update(consideration_params, :advice)
               redirect_to return_path, notice: t(".success")
-            elsif param_return_to
-              redirect_to param_return_to, alert: t(".failure")
             else
               set_consultee_responses
               render :index
@@ -47,8 +44,6 @@ module PlanningApplications
           format.html do
             if @consideration.update(consideration_params, :advice)
               redirect_to return_path, notice: t(".success")
-            elsif param_return_to
-              redirect_to param_return_to, alert: t(".failure")
             else
               set_consultee_responses
               render :edit
@@ -62,8 +57,6 @@ module PlanningApplications
           format.html do
             if @consideration.destroy
               redirect_to return_path, notice: t(".success")
-            elsif param_return_to
-              redirect_to param_return_to, alert: t(".failure")
             else
               set_consultee_responses
               render :index
@@ -108,20 +101,8 @@ module PlanningApplications
         )
       end
 
-      def param_return_to
-        @param_return_to ||= params[:return_to].presence || params.dig(:consideration, :return_to).presence
-      end
-
-      def report_return_path
-        report_path_or(planning_application_assessment_consideration_guidances_path(@planning_application))
-      end
-
       def return_path
-        if param_return_to == "report"
-          report_return_path
-        else
-          param_return_to || report_return_path
-        end
+        return_to_path(planning_application_assessment_consideration_guidances_path(@planning_application))
       end
     end
   end

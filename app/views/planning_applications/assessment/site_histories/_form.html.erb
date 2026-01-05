@@ -2,10 +2,7 @@
   <div class="govuk-grid-column-two-thirds-from-desktop">
     <%= form_with(model:, url:) do |form| %>
       <%= form.govuk_error_summary %>
-
-      <% if params[:return_to] %>
-        <%= form.hidden_field :return_to, value: params[:return_to] %>
-      <% end %>
+      <%= form.hidden_field :return_to, value: return_to_param %>
 
       <%= form.govuk_text_field :reference, width: "one-half" %>
       <%= form.govuk_text_field :address, value: @planning_application.address %>
@@ -27,11 +24,7 @@
 
       <% if model.persisted? %>
         <%= form.govuk_submit "Update site history", class: "govuk-!-margin-bottom-2" do %>
-          <% if params[:return_to] %>
-            <%= govuk_button_link_to "Back", params[:return_to], secondary: true %>
-          <% else %>
-            <%= govuk_button_link_to "Back", planning_application_assessment_site_histories_path(@planning_application), secondary: true %>
-          <% end %>
+          <%= govuk_button_link_to "Back", return_to_path(planning_application_assessment_site_histories_path(@planning_application)), secondary: true %>
         <% end %>
       <% else %>
         <%= form.govuk_submit "Add site history", secondary: true, class: "govuk-!-margin-bottom-2" %>
