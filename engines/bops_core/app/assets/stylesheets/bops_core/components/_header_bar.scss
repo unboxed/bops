@@ -1,7 +1,7 @@
 .bops-header-bar {
   width: 100%;
-  background-color: govuk-colour("white");
-  border-bottom: 1px solid $govuk-border-colour;
+  background-color: #f4f8fb;
+  border-bottom: 1px solid #8eb8dc;
 }
 
 .bops-header-bar__inner {
@@ -27,7 +27,7 @@
 }
 
 .bops-header-bar__item + .bops-header-bar__item {
-  border-inline-start: 1px solid $govuk-border-colour;
+  border-inline-start: 1px solid #8eb8dc;
 }
 
 .bops-header-bar__right {
@@ -36,7 +36,7 @@
   gap: 16px;
   margin-left: 16px;
   padding-left: 16px;
-  border-left: 1px solid $govuk-border-colour;
+  border-left: 1px solid #8eb8dc;
 }
 
 .bops-header-bar__text {
@@ -53,7 +53,7 @@
 .bops-header-bar__toggle-panel {
   padding: 0 0 15px 15px;
   color: govuk-colour("dark-grey");
-  background-color: govuk-colour("white");
+  background-color: #f4f8fb;
 }
 
 .bops-header-bar__toggle-panel > *:last-child {
