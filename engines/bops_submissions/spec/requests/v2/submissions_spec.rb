@@ -7,7 +7,9 @@ RSpec.describe "BOPS Submissions API", type: :request do
   let(:valid_planning_portal_submission_event) { json_fixture_submissions("planning_portal.json") }
   let(:valid_enforcement_submission_event) { json_fixture_api("examples/odp/v0.7.5/enforcement/breach.json") }
   let(:valid_enforcement_with_documents_submission_event) { json_fixture_api("examples/odp/v0.7.5/enforcement/breachWithDocuments.json") }
-  let(:valid_planx_submission_event) { json_fixture_api("examples/odp/v0.7.5/application/planningPermission/fullHouseholder.json") }
+  let(:valid_planx_full_householder_submission_event) { json_fixture_api("examples/odp/v0.7.5/application/planningPermission/fullHouseholder.json") }
+  let(:valid_planx_pre_application_submission_event) { json_fixture_api("examples/odp/v0.7.5/preApplication/preApp.json") }
+
   let(:token) { "bops_EjWSP1javBbvZFtRYiWs6y5orH4R748qapSGLNZsJw" }
 
   before do
@@ -31,9 +33,81 @@ RSpec.describe "BOPS Submissions API", type: :request do
       )
 
       request_body_example(
-        name: "ValidPlanXSubmissionEvent",
-        summary: "PlanX Submission",
+        name: "ValidPlanXFullHouseholderSubmissionEvent",
+        summary: "PlanX Full Householder Submission",
         value: json_fixture_api("examples/odp/v0.7.5/application/planningPermission/fullHouseholder.json")
+      )
+
+      request_body_example(
+        name: "ValidPlanXPreApplicationSubmissionEvent",
+        summary: "PlanX Pre-application",
+        value: json_fixture_api("examples/odp/v0.7.5/preApplication/preApp.json")
+      )
+
+      request_body_example(
+        name: "ValidPlanXLawfulDevelopmentCertificateExistingSubmissionEvent",
+        summary: "PlanX Lawful Development Certificate - Existing use",
+        value: json_fixture_api("examples/odp/v0.7.5/application/lawfulDevelopmentCertificate/existing.json")
+      )
+
+      request_body_example(
+        name: "ValidPlanXLawfulDevelopmentCertificateProposedSubmissionEvent",
+        summary: "PlanX Lawful Development Certificate - Proposed use",
+        value: json_fixture_api("examples/odp/v0.7.5/application/lawfulDevelopmentCertificate/proposed.json")
+      )
+
+      request_body_example(
+        name: "ValidPlanXPriorApprovalSolarPanelsSubmissionEvent",
+        summary: "PlanX Prior Approval - Install or change solar panels",
+        value: json_fixture_api("examples/odp/v0.7.5/application/priorApproval/solarPanels.json")
+      )
+
+      request_body_example(
+        name: "ValidPlanXPriorApprovalLargerExtensionSubmissionEvent",
+        summary: "PlanX Prior Approval - Larger extension to a house",
+        value: json_fixture_api("examples/odp/v0.7.5/application/priorApproval/largerExtension.json")
+      )
+
+      request_body_example(
+        name: "ValidPlanXPriorApprovalExtendUniversitySubmissionEvent",
+        summary: "PlanX Prior Approval - Extend a school, college, university, prison or hospital",
+        value: json_fixture_api("examples/odp/v0.7.5/application/priorApproval/extendUniversity.json")
+      )
+
+      request_body_example(
+        name: "ValidPlanXPriorApprovalConvertCommercialToHomeSubmissionEvent",
+        summary: "PlanX Prior Approval - Convert a commercial building into a home or homes",
+        value: json_fixture_api("examples/odp/v0.7.5/application/priorApproval/convertCommercialToHome.json")
+      )
+
+      request_body_example(
+        name: "ValidPlanXPriorApprovalBuildHomesSubmissionEvent",
+        summary: "PlanX Prior Approval - Build homes on an adjoining commercial or mixed use building",
+        value: json_fixture_api("examples/odp/v0.7.5/application/priorApproval/buildHomes.json")
+      )
+
+      request_body_example(
+        name: "ValidMajorSubmissionEvent",
+        summary: "PlanX Planning Permission - Major application",
+        value: json_fixture_api("examples/odp/v0.7.5/application/planningPermission/major.json")
+      )
+
+      request_body_example(
+        name: "ValidMinorSubmissionEvent",
+        summary: "PlanX Planning Permission - Minor application",
+        value: json_fixture_api("examples/odp/v0.7.5/application/planningPermission/minor.json")
+      )
+
+      request_body_example(
+        name: "ValidDrainageSubmissionEvent",
+        summary: "PlanX Consent to do works affecting ordinary water courses or land drainage",
+        value: json_fixture_api("examples/odp/v0.7.5/application/landDrainageConsent.json")
+      )
+
+      request_body_example(
+        name: "ValidListedBuildingSubmissionEvent",
+        summary: "PlanX Consent to do works to a listed building",
+        value: json_fixture_api("examples/odp/v0.7.5/application/listedBuildingConsent.json")
       )
 
       request_body_example(
@@ -74,7 +148,15 @@ RSpec.describe "BOPS Submissions API", type: :request do
 
         context "for odp" do
           context "for planning applications" do
-            let(:event) { valid_planx_submission_event }
+            let(:event) { valid_planx_full_householder_submission_event }
+            run_test! do |response|
+              body = JSON.parse(response.body)
+              expect(body["uuid"]).to match(/[0-9a-f-]{36}/)
+            end
+          end
+
+          context "for pre applications" do
+            let(:event) { valid_planx_pre_application_submission_event }
             run_test! do |response|
               body = JSON.parse(response.body)
               expect(body["uuid"]).to match(/[0-9a-f-]{36}/)

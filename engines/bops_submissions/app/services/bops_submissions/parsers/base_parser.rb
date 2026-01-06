@@ -5,7 +5,7 @@ module BopsSubmissions
     class BaseParser
       attr_reader :params, :source, :local_authority
 
-      def initialize(params, source:, local_authority:)
+      def initialize(params, local_authority:, source: nil, **_)
         @params = params
         @source = source
         @local_authority = local_authority

@@ -20,11 +20,12 @@ RSpec.describe BopsSubmissions::V2::SubmissionsController, type: :controller do
   end
 
   context "when submitting a planning application from planx" do
-    let(:creation_service) { instance_double(BopsApi::Application::CreationService) }
+    let(:creation_service) { instance_double(BopsSubmissions::Application::PlanxCreationService) }
     let(:planning_application) { instance_double(PlanningApplication) }
 
     before do
-      expect(BopsApi::Application::CreationService).to receive(:new).and_return(creation_service)
+      expect(BopsSubmissions::Application::PlanxCreationService).to receive(:new).and_return(creation_service)
+      expect(BopsApi::Application::CreationService).not_to receive(:new)
       expect(BopsSubmissions::Application::PlanningPortalCreationService).not_to receive(:new)
       expect(BopsSubmissions::Enforcement::CreationService).not_to receive(:new)
 
