@@ -2,6 +2,10 @@ $govuk-assets-path: "govuk-frontend/dist/govuk/assets/";
 $govuk-font-family: open-sans, sans-serif;
 $govuk-page-width: 1100px;
 
+// BOPS custom colors (from GOV.UK rebrand service navigation)
+$bops-light-blue-background: #f4f8fb;
+$bops-blue-border: #8eb8dc;
+
 // Imports from node_modules
 @import "govuk-frontend/dist/govuk/all";
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
