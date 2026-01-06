@@ -3,8 +3,6 @@
 module PlanningApplications
   module Assessment
     class SiteHistoriesController < BaseController
-      include ReturnToReport
-
       before_action :set_site_histories
       before_action :set_site_history, except: %i[confirm]
 
@@ -97,11 +95,11 @@ module PlanningApplications
       end
 
       def redirect_path
-        return_to_path(planning_application_assessment_tasks_path(@planning_application))
+        params[:return_to].presence || planning_application_assessment_tasks_path(@planning_application)
       end
 
       def submission_redirect_path
-        planning_application_assessment_site_histories_path(@planning_application, return_to: return_to_param)
+        planning_application_assessment_site_histories_path(@planning_application, return_to: params[:return_to])
       end
     end
   end

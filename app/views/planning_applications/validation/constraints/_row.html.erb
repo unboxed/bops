@@ -24,9 +24,9 @@
   <% if show_action %>
     <td class="govuk-table__cell govuk-table__cell--numeric">
       <% if Constraint.non_applicable_constraints(@planning_application.planning_application_constraints).include? planning_application_constraint %>
-        <%= govuk_link_to "Add", planning_application_validation_constraints_path(@planning_application, constraint_id: planning_application_constraint, return_to: return_to_param), method: :post %>
+        <%= govuk_link_to "Add", planning_application_validation_constraints_path(@planning_application, constraint_id: planning_application_constraint, return_to: params[:return_to]), method: :post %>
       <% elsif !planning_application_constraint.identified %>
-        <%= govuk_link_to "Remove", planning_application_validation_constraint_path(@planning_application, planning_application_constraint, return_to: return_to_param), method: :delete %>
+        <%= govuk_link_to "Remove", planning_application_validation_constraint_path(@planning_application, planning_application_constraint, return_to: params[:return_to]), method: :delete %>
       <% else %>
         -
       <% end %>

@@ -3,8 +3,6 @@
 module PlanningApplications
   module Assessment
     class AssessmentDetailsController < BaseController
-      include ReturnToReport
-
       before_action :set_assessment_detail, only: %i[show edit update]
       before_action :set_category, :set_rejected_assessment_detail, only: %i[new create edit update show]
       before_action :set_consultation, if: :has_consultation_and_summary?
@@ -146,9 +144,9 @@ module PlanningApplications
 
       def redirect_path
         if current_user.reviewer? && @category == "site_description" && !@planning_application.pre_application?
-          return_to_path(@back_path)
+          params[:return_to].presence || @back_path
         else
-          return_to_path(planning_application_assessment_tasks_path(@planning_application))
+          params[:return_to].presence || planning_application_assessment_tasks_path(@planning_application)
         end
       end
     end

@@ -6,7 +6,7 @@ module BopsPreapps
       include ActiveModel::Model
       include BopsPreapps::Engine.routes.url_helpers
 
-      attr_reader :task, :case_record, :planning_application, :button, :params
+      attr_reader :task, :case_record, :planning_application, :button, :params, :return_to
       delegate :parent, :slug, to: :task
 
       def initialize(task, params = {})
@@ -14,6 +14,7 @@ module BopsPreapps
         @params = params
         @case_record = @task.case_record
         @planning_application = @task.case_record.planning_application
+        @return_to = params[:return_to].presence
       end
 
       def update(params)
@@ -25,7 +26,7 @@ module BopsPreapps
       end
 
       def redirect_url
-        task_path(planning_application, task)
+        return_to.presence || task_path(planning_application, task)
       end
 
       def save_draft?

@@ -8,6 +8,7 @@
 
   <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
     <%= form.govuk_error_summary %>
+    <%= return_to_hidden_field %>
     <% outcome = @planning_application.consideration_set.suggested_outcome %>
     <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Select pre-application outcome", size: "s"}, small: true do %>
       <% AssessmentDetail.summary_tags.each do |label, value| %>

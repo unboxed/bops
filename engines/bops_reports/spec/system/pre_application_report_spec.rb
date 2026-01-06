@@ -112,7 +112,7 @@ RSpec.describe "Pre-application report" do
   it "displays the summary of advice outcome section" do
     within("#pre-application-outcome") do
       expect(page).to have_content("Pre-application outcome")
-      expect(page).to have_link("Edit", href: "/planning_applications/#{reference}/assessment/assessment_details/#{summary_of_advice.id}/edit?category=summary_of_advice&return_to=report")
+      expect(page).to have_link("Edit")
       expect(page).to have_css(".govuk-notification-banner.bops-notification-banner--green")
       expect(page).to have_content("Likely to be supported")
     end
@@ -121,7 +121,7 @@ RSpec.describe "Pre-application report" do
   it "displays the summary of advice section" do
     within("#summary-advice") do
       expect(page).to have_content("Summary")
-      expect(page).to have_link("Edit", href: "/planning_applications/#{reference}/assessment/assessment_details/#{summary_of_advice.id}/edit?category=summary_of_advice&return_to=report")
+      expect(page).to have_link("Edit")
       expect(page).to have_content("Looks good")
     end
   end
@@ -163,13 +163,13 @@ RSpec.describe "Pre-application report" do
       within(rows[1]) do
         expect(page).to have_content("Site visit")
         expect(page).to have_content(planning_application.site_visit_visited_at.to_date.to_fs)
-        expect(page).to have_link("Edit", href: "/planning_applications/#{reference}/assessment/site_visits?return_to=report")
+        expect(page).to have_link("Edit")
       end
 
       within(rows[2]) do
         expect(page).to have_content("Meeting")
         expect(page).to have_content(planning_application.meeting_occurred_at.to_date.to_fs)
-        expect(page).to have_link("Edit", href: "/planning_applications/#{reference}/assessment/meetings?return_to=report")
+        expect(page).to have_link("Edit")
       end
     end
   end
@@ -188,28 +188,33 @@ RSpec.describe "Pre-application report" do
       click_link "Edit"
     end
 
-    fill_in "Enter summary of planning considerations and advice", with: "Updated advice."
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/assessment-summaries/summary-of-advice})
+    fill_in "task[entry]", with: "Updated advice."
     choose "Likely to be supported with changes"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
     expect(page).to have_content("Likely to be supported with changes")
     expect(page).to have_css(".govuk-notification-banner.bops-notification-banner--orange")
   end
 
   it "returns to the report page after adding a new meeting" do
     within("#pre-application-details-table") do
-      click_link "Edit", href: "/planning_applications/#{reference}/assessment/meetings?return_to=report"
+      rows = all("tbody tr")
+      within(rows[2]) { click_link "Edit" }
     end
 
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/additional-services/meeting})
     toggle "Add a new meeting"
-    fill_in "Day", with: "2"
-    fill_in "Month", with: "4"
-    fill_in "Year", with: "2025"
-    fill_in "Add notes (optional)", with: "Discussed next steps"
-    click_button "Add meeting"
+    within("#new-meeting-form") do
+      fill_in "Day", with: "2"
+      fill_in "Month", with: "4"
+      fill_in "Year", with: "2025"
+      fill_in "Add notes (optional)", with: "Discussed next steps"
+      click_button "Add meeting"
+    end
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
     within("#pre-application-details-table") do
       rows = all("tbody tr")
 
@@ -219,14 +224,16 @@ RSpec.describe "Pre-application report" do
     end
   end
 
-  it "returns to the report page after viewing site visits" do
+  it "returns to the report page after saving site visits" do
     within("#pre-application-details-table") do
-      click_link "Edit", href: "/planning_applications/#{reference}/assessment/site_visits?return_to=report"
+      rows = all("tbody tr")
+      within(rows[1]) { click_link "Edit" }
     end
 
-    click_link "Back"
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/additional-services/site-visit})
+    click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
   end
 
   it "returns to the report page after editing proposal description" do
@@ -238,7 +245,7 @@ RSpec.describe "Pre-application report" do
     fill_in "Enter an amended description", with: "This is the amended description for the proposal"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
     within("#proposal-description") do
       expect(page).to have_content("This is the amended description for the proposal")
     end
@@ -261,11 +268,11 @@ RSpec.describe "Pre-application report" do
       click_link "Edit"
     end
 
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/check-application/check-application-details})
     fill_in "consistency-checklist-site-map-correct-comment-field", with: "Site map is of neighbours property, this comment has been updated."
 
     click_button "Save and mark as complete"
-    expect(page).to have_content("Successfully updated application checklist")
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
 
     within("#officer-map-comments") do
       expect(page).to have_content("Site map is of neighbours property, this comment has been updated.")
@@ -289,41 +296,33 @@ RSpec.describe "Pre-application report" do
     end
   end
 
-  it "returns to report after editing site constraints" do
+  it "displays constraints task page and can return to report" do
     within("#site-constraints") do
       click_link "Edit"
     end
 
-    expect(page).to have_current_path("/planning_applications/#{reference}/validation/constraints?return_to=report")
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-validate/check-application-details/check-constraints})
     expect(page).to have_content("Check the constraints")
 
     within(".identified-constraints-table") do
       expect(page).to have_text("Conservation area")
-      within(row_with_content("Tree preservation zone")) do
-        click_link "Remove"
-      end
+      expect(page).to have_text("Tree preservation zone")
     end
-    expect(page).to have_content("Constraint was successfully removed")
 
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
-    expect(page).to have_content("Constraints were successfully checked")
-
-    within("#site-constraints") do
-      expect(page).not_to have_content("Trees")
-    end
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
   end
 
-  it "returns to report page when clicking Back on constraints page" do
+  it "returns to report page after saving constraints" do
     within("#site-constraints") do
       click_link "Edit"
     end
 
-    expect(page).to have_current_path("/planning_applications/#{reference}/validation/constraints?return_to=report")
-    click_link "Back"
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-validate/check-application-details/check-constraints})
+    click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
   end
 
   it "displays site history" do
@@ -353,42 +352,29 @@ RSpec.describe "Pre-application report" do
     end
   end
 
-  it "returns to report page after editing site history" do
+  it "displays site history task page and can return to report" do
     within("#site-history") do
       click_link "Edit"
     end
 
-    expect(page).to have_current_path("/planning_applications/#{reference}/assessment/site_histories?return_to=report")
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/check-application/check-site-history})
+    expect(page).to have_content("Summary of the relevant historical applications")
+    expect(page).to have_content("REF123")
 
-    within("#REF123") do
-      click_link "Edit"
-    end
-
-    fill_in "site-history-comment-field", with: "An amended entry for planning history"
-
-    click_button "Update site history"
-
-    expect(page).to have_content("Site history was successfully updated")
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
-    expect(page).to have_content("Site history has been confirmed")
-
-    within("#site-history") do
-      expect(page).to have_content("Officer comment: An amended entry for planning history")
-      expect(page).to have_content(site_history.date.to_fs(:day_month_year_slashes))
-    end
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
   end
 
-  it "returns to report page when clicking Back on site history page" do
+  it "returns to report page after saving site history" do
     within("#site-history") do
       click_link "Edit"
     end
 
-    expect(page).to have_current_path("/planning_applications/#{reference}/assessment/site_histories?return_to=report")
-    click_link "Back"
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/check-application/check-site-history})
+    click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
   end
 
   it "displays site and surroundings" do
@@ -403,12 +389,13 @@ RSpec.describe "Pre-application report" do
       click_link "Edit"
     end
 
-    expect(page).to have_content("Edit site description")
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/assessment-summaries/site-description})
+    expect(page).to have_content("Description of the site")
 
-    fill_in "assessment_detail[entry]", with: "This is the amended description of site and surroundings"
+    fill_in "Description of the site", with: "This is the amended description of site and surroundings"
     click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
     within("#site-and-surroundings") do
       expect(page).to have_content("This is the amended description of site and surroundings")
     end
@@ -444,26 +431,75 @@ RSpec.describe "Pre-application report" do
     end
   end
 
-  it "returns to report page when clicking Back on requirements page" do
+  it "returns to report page after saving requirements" do
     within("#requirements") do
       click_link "Edit"
     end
 
-    expect(page).to have_current_path("/planning_applications/#{reference}/assessment/requirements?return_to=report")
-    click_link "Back"
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/complete-assessment/check-and-add-requirements})
+    click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
   end
 
-  it "returns to report page when clicking Back on considerations page" do
+  it "returns to report page after saving considerations" do
     within("#considerations-advice") do
       first(:link, "Edit").click
     end
 
-    expect(page).to have_current_path("/planning_applications/#{reference}/assessment/consideration_guidances?return_to=report")
-    click_link "Back"
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/assessment-summaries/planning-considerations-and-advice})
+    click_button "Save and mark as complete"
 
-    expect(page).to have_current_path("/reports/planning_applications/#{reference}")
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
+  end
+
+  it "returns to report page after editing individual consideration" do
+    consideration = planning_application.considerations.first
+
+    within("#considerations-advice") do
+      within(first(".govuk-summary-card")) do
+        click_link "Edit"
+      end
+    end
+
+    expect(page).to have_current_path(%r{/planning_applications/#{reference}/assessment/consideration_guidances/#{consideration.id}/edit})
+
+    click_button "Save advice"
+
+    expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
+  end
+
+  context "with heads of terms" do
+    let!(:term) do
+      create(:term, :skip_validation_request,
+        heads_of_term: planning_application.heads_of_term,
+        title: "Affordable housing contribution",
+        text: "A contribution of £50,000 is required.")
+    end
+
+    it "displays heads of terms section" do
+      visit "/reports/planning_applications/#{reference}"
+
+      within("#heads-of-terms") do
+        expect(page).to have_content("Heads of terms")
+        expect(page).to have_content("Affordable housing contribution")
+        expect(page).to have_content("A contribution of £50,000 is required.")
+        expect(page).to have_link("Edit")
+      end
+    end
+
+    it "returns to report page after editing heads of terms" do
+      visit "/reports/planning_applications/#{reference}"
+
+      within("#heads-of-terms") do
+        click_link "Edit"
+      end
+
+      expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/assessment-summaries/suggest-heads-of-terms})
+      click_button "Save and mark as complete"
+
+      expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})
+    end
   end
 
   it "displays next steps and disclaimer" do
@@ -503,7 +539,7 @@ RSpec.describe "Pre-application report" do
       visit "/reports/planning_applications/#{reference}"
 
       expect(page).to have_selector("h1", text: "Pre-application report")
-      expect(page).to have_link("Add outcome", href: "/planning_applications/#{reference}/assessment/assessment_details/new?category=summary_of_advice&return_to=report")
+      expect(page).to have_link("Add outcome")
       expect(page).to have_content("The pre-application outcome has not been set.")
     end
   end

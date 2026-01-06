@@ -2,8 +2,6 @@
 
 module PlanningApplications
   class AssignUsersController < AuthenticationController
-    include ReturnToReport
-
     before_action :set_planning_application
     before_action :set_users
 
@@ -19,7 +17,7 @@ module PlanningApplications
       @planning_application.assign!(user)
 
       respond_to do |format|
-        format.html { redirect_to return_to_path(@planning_application) }
+        format.html { redirect_to params[:return_to].presence || planning_application_path(@planning_application) }
       end
     rescue ActiveRecord::ActiveRecordError => e
       redirect_to planning_application_assign_users_path(@planning_application),

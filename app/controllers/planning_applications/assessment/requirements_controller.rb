@@ -3,8 +3,6 @@
 module PlanningApplications
   module Assessment
     class RequirementsController < BaseController
-      include ReturnToReport
-
       before_action :set_local_authority_requirements, only: %i[index create]
       before_action :set_application_type, only: %i[index create]
       before_action :set_requirements, only: %i[index create]
@@ -98,7 +96,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        return_to_path(planning_application_assessment_requirements_path(@planning_application))
+        params[:return_to].presence || planning_application_assessment_requirements_path(@planning_application)
       end
     end
   end

@@ -3,8 +3,6 @@
 module PlanningApplications
   module Assessment
     class MeetingsController < AuthenticationController
-      include ReturnToReport
-
       before_action :set_planning_application
       before_action :build_meeting, only: %i[create index]
 
@@ -52,7 +50,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        return_to_path(planning_application_assessment_meetings_path)
+        params[:return_to].presence || planning_application_assessment_meetings_path
       end
     end
   end

@@ -80,13 +80,9 @@
     <% if editing_enabled? %>
       <p class="govuk-body-m">
         <% if @summary_of_advice&.summary_tag %>
-          <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
-                @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
-              ) %>
+          <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/summary-of-advice", anchor: "pre-application-outcome") %>
         <% else %>
-          <%= govuk_link_to "Add outcome", main_app.new_planning_application_assessment_assessment_detail_path(
-                @planning_application, category: "summary_of_advice", return_to: "report"
-              ) %>
+          <%= govuk_link_to "Add outcome", report_task_path(@planning_application, "check-and-assess/assessment-summaries/summary-of-advice", anchor: "pre-application-outcome") %>
         <% end %>
       </p>
     <% end %>
@@ -116,7 +112,7 @@
     <% elsif editing_enabled? %>
       <p>
         No case officer has been assigned yet.<br>
-        <%= govuk_link_to "Assign case officer", main_app.planning_application_assign_users_path(@planning_application, return_to: "report") %>
+        <%= govuk_link_to "Assign case officer", main_app.planning_application_assign_users_path(@planning_application, return_to: planning_application_path(@planning_application, anchor: "contact-details")) %>
       </p>
     <% end %>
     <p><strong>Email:</strong> <%= govuk_mail_to @current_local_authority.email_address %></p>
@@ -163,7 +159,7 @@
 
           <% if editing_enabled? %>
             <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
-              <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_visits_path(@planning_application, return_to: "report") %>
+              <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/additional-services/site-visit", anchor: "pre-application-details") %>
             <% end %>
           <% end %>
         <% end %>
@@ -180,7 +176,7 @@
 
           <% if editing_enabled? %>
             <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
-              <%= govuk_link_to "Edit", main_app.planning_application_assessment_meetings_path(@planning_application, return_to: "report") %>
+              <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/additional-services/meeting", anchor: "pre-application-details") %>
             <% end %>
           <% end %>
         <% end %>
@@ -196,7 +192,7 @@
           <%= govuk_link_to "Edit", main_app.new_planning_application_validation_validation_request_path(
                 @planning_application,
                 type: "description_change",
-                return_to: "report"
+                return_to: planning_application_path(@planning_application, anchor: "pre-application-details")
               ) %>
         </p>
       <% end %>
@@ -237,11 +233,7 @@
           Officer comments
         </h3>
         <% if editing_enabled? %>
-          <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consistency_checklist_path(
-                @planning_application,
-                anchor: "site-map-title-field",
-                return_to: "report"
-              ) %>
+          <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/check-application/check-application-details", anchor: "site-map") %>
         <% end %>
       </div>
       <% if @planning_application.consistency_checklist&.site_map_correct == "no" %>
@@ -261,10 +253,7 @@
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2>Relevant site constraints</h2>
     <% if editing_enabled? %>
-      <%= govuk_link_to "Edit", main_app.planning_application_validation_constraints_path(
-            @planning_application,
-            return_to: "report"
-          ) %>
+      <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-validate/check-application-details/check-constraints", anchor: "site-constraints") %>
     <% end %>
   </div>
   <p>
@@ -279,10 +268,7 @@
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2>Relevant site history</h2>
     <% if editing_enabled? %>
-      <%= govuk_link_to "Edit", main_app.planning_application_assessment_site_histories_path(
-            @planning_application,
-            return_to: "report"
-          ) %>
+      <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/check-application/check-site-history", anchor: "site-history") %>
     <% end %>
   </div>
   <% if @planning_application.site_histories.any? %>
@@ -302,19 +288,7 @@
       <h2>Site and surroundings</h2>
 
       <% if editing_enabled? %>
-        <% if @site_description %>
-          <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
-                @planning_application, @site_description,
-                category: "site_description",
-                return_to: "report"
-              ) %>
-        <% else %>
-          <%= govuk_link_to "Edit", main_app.new_planning_application_assessment_assessment_detail_path(
-                @planning_application,
-                category: "site_description",
-                return_to: "report"
-              ) %>
-        <% end %>
+        <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/site-description", anchor: "site-and-surroundings") %>
       <% end %>
     </div>
 
@@ -330,10 +304,7 @@
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2>Planning considerations and advice</h2>
     <% if editing_enabled? %>
-      <%= govuk_link_to "Edit", main_app.planning_application_assessment_consideration_guidances_path(
-            @planning_application,
-            return_to: "report"
-          ) %>
+      <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/planning-considerations-and-advice", anchor: "considerations-advice") %>
     <% end %>
   </div>
 
@@ -385,7 +356,7 @@
               <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consideration_guidance_path(
                     @planning_application,
                     consideration,
-                    return_to: "report"
+                    return_to: planning_application_path(@planning_application, anchor: "considerations-advice")
                   ) %>
             <% end %>
           </div>
@@ -421,9 +392,7 @@
       <div class="flex-between">
         <h2>Summary</h2>
         <% if editing_enabled? %>
-          <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_assessment_detail_path(
-                @planning_application, @summary_of_advice, category: "summary_of_advice", return_to: "report"
-              ) %>
+          <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/summary-of-advice", anchor: "summary-advice") %>
         <% end %>
       </div>
 
@@ -442,7 +411,7 @@
     <div class="govuk-!-margin-bottom-2 flex-between">
       <h2>Heads of terms</h2>
       <% if editing_enabled? %>
-        <%= govuk_link_to "Edit", main_app.planning_application_assessment_terms_path(@planning_application, return_to: "report") %>
+        <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/suggest-heads-of-terms", anchor: "heads-of-terms") %>
       <% end %>
     </div>
     <% if applicant_view? %>
@@ -461,7 +430,7 @@
     <h2>List of relevant policies and guidance</h2>
 
     <% if editing_enabled? %>
-      <%= govuk_link_to "Edit", main_app.planning_application_assessment_consideration_guidances_path(@planning_application) %>
+      <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/planning-considerations-and-advice", anchor: "policies-guidance") %>
     <% end %>
   </div>
 
@@ -492,7 +461,7 @@
   <div class="flex-between">
     <h2>Requirements</h2>
     <% if editing_enabled? %>
-      <%= govuk_link_to "Edit", main_app.planning_application_assessment_requirements_path(@planning_application, return_to: "report") %>
+      <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/complete-assessment/check-and-add-requirements", anchor: "requirements") %>
     <% end %>
   </div>
 

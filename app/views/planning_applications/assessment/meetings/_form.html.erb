@@ -5,7 +5,7 @@
       method: :post
     ) do |form| %>
 
-  <%= form.hidden_field :return_to, value: return_to_param %>
+  <%= hidden_field_tag :return_to, params[:return_to] %>
   <%= form.govuk_date_field(:occurred_at, rows: 6, legend: {text: "Meeting date"}) %>
 
   <%= form.govuk_text_area(:comment, rows: 6, label: {text: "Add notes (optional)"}) %>

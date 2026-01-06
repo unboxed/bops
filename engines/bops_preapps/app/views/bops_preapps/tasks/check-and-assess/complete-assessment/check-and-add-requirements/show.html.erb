@@ -56,6 +56,7 @@
 <hr>
 
 <%= form_with model: @form, url: @form.url do |form| %>
+  <%= return_to_hidden_field %>
   <%= govuk_details(summary_text: "Add requirements") do %>
     <%= govuk_tabs do |tabs| %>
       <% @planning_application.local_authority.requirements.by_category do |category, requirements| %>

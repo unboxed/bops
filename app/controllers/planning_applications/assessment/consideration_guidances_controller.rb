@@ -3,8 +3,6 @@
 module PlanningApplications
   module Assessment
     class ConsiderationGuidancesController < BaseController
-      include ReturnToReport
-
       before_action :set_consideration_set
       before_action :set_considerations
       before_action :set_review
@@ -102,7 +100,7 @@ module PlanningApplications
       end
 
       def return_path
-        return_to_path(planning_application_assessment_consideration_guidances_path(@planning_application))
+        params[:return_to].presence || planning_application_assessment_consideration_guidances_path(@planning_application)
       end
     end
   end

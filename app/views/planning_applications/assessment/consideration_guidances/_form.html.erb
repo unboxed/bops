@@ -6,7 +6,7 @@
           <p class="govuk-body-s"><strong><%= @consideration.proposal %></strong></p>
         <% end %>
 
-        <%= form.hidden_field :return_to, value: return_to_param %>
+        <%= hidden_field_tag :return_to, params[:return_to] %>
 
         <%= form.hidden_field :draft, value: false %>
         <%= form.hidden_field :policy_area, value: policy_area %>
@@ -52,7 +52,7 @@
 
     <% if action_name.eql?("edit") %>
       <%= form.govuk_submit("Save advice", class: "govuk-!-margin-bottom-2") do %>
-        <%= govuk_button_link_to(t("back"), return_to_path(planning_application_assessment_consideration_guidances_path(@planning_application)), secondary: true) %>
+        <%= govuk_button_link_to(t("back"), params[:return_to].presence || planning_application_assessment_consideration_guidances_path(@planning_application), secondary: true) %>
       <% end %>
     <% else %>
       <%= form.govuk_submit("Save advice", secondary: true, class: "govuk-!-margin-bottom-2") %>

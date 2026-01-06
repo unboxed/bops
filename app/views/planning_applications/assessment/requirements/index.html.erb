@@ -35,10 +35,10 @@
     </details>
 
     <div class="govuk-button-group">
-      <%= govuk_button_link_to "Save and mark as complete", return_to_path %>
+      <%= govuk_button_link_to "Save and mark as complete", params[:return_to].presence || planning_application_path(@planning_application) %>
 
       <% if @requirements.any? %>
-        <%= govuk_button_link_to t("back"), return_to_path, secondary: true %>
+        <%= govuk_button_link_to t("back"), params[:return_to].presence || planning_application_path(@planning_application), secondary: true %>
       <% end %>
     </div>
   <% end %>

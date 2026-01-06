@@ -3,8 +3,6 @@
 module PlanningApplications
   module Assessment
     class ConsistencyChecklistsController < BaseController
-      include ReturnToReport
-
       before_action :set_consistency_checklist, except: %i[new create]
       before_action :redirect_to_reference_url
 
@@ -101,7 +99,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        return_to_path(planning_application_assessment_tasks_path(@planning_application))
+        params[:return_to].presence || planning_application_assessment_tasks_path(@planning_application)
       end
     end
   end

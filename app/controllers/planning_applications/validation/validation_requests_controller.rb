@@ -3,8 +3,6 @@
 module PlanningApplications
   module Validation
     class ValidationRequestsController < BaseController
-      include ReturnToReport
-
       rescue_from Notifications::Client::NotFoundError, with: :validation_notice_request_error
       rescue_from Notifications::Client::ServerError, with: :validation_notice_request_error
       rescue_from Notifications::Client::RequestError, with: :validation_notice_request_error
@@ -170,9 +168,8 @@ module PlanningApplications
       end
 
       def create_request_redirect_url
-        if params.dig(:validation_request, :return_to)
-          params.dig(:validation_request, :return_to) ||
-            @planning_application
+        if params.dig(:validation_request, :return_to).present?
+          params.dig(:validation_request, :return_to)
         elsif redirect_to_check_and_request_documents_task?
           check_and_request_documents_task_path
         elsif redirect_to_check_red_line_boundary_task?
