@@ -516,36 +516,20 @@ RSpec.describe "Consultation", type: :system, js: true do
       end
 
       click_link "Consultees"
-      expect(page).to have_selector("h1", text: "Consultation")
+      expect(page).to have_selector("h1", text: "Determine consultation requirement")
 
-      within "#consultation-end-date" do
-        expect(page).to have_text("Consultation end Not yet started")
+      within ".bops-sidebar" do
+        expect(page).not_to have_text("Add and assign consultees")
       end
 
-      within "#consultee-tasks" do
-        within "li:nth-child(2)" do
-          expect(page).to have_text("Add and assign consultees")
-          expect(page).to have_selector(".govuk-tag", text: "Cannot start yet")
-          expect(page).not_to have_link("Add and assign consultees")
-        end
-      end
-
-      click_link "Determine if consultation is required"
       choose "Yes"
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Consultation requirement was successfully updated")
 
-      within "#consultee-tasks" do
-        within "li:nth-child(2)" do
-          expect(page).to have_selector(".govuk-tag", text: "Not started")
-          expect(page).to have_link("Add and assign consultees")
-        end
-
-        within "li:nth-child(3)" do
-          expect(page).to have_selector(".govuk-tag", text: "Not started")
-          expect(page).to have_link("Send emails to consultees")
-        end
+      within ".bops-sidebar" do
+        expect(page).to have_link("Add and assign consultees")
+        expect(page).to have_link("Send emails to consultees")
       end
 
       click_link "Add and assign consultees"
@@ -563,9 +547,7 @@ RSpec.describe "Consultation", type: :system, js: true do
         expect(page).to have_content("Planning Department, GLA")
       end
 
-      click_link "Back"
-
-      within "#consultee-tasks li:nth-child(3)" do
+      within ".bops-sidebar" do
         click_link "Send emails to consultees"
       end
       expect(page).to have_selector("h1", text: "Send emails to consultees")
@@ -582,12 +564,9 @@ RSpec.describe "Consultation", type: :system, js: true do
         end
       end
 
-      accept_confirm(text: "Send emails to consultees?") do
-        click_button "Send emails to consultees"
-      end
+      click_button "Send emails to consultees"
 
-      expect(page).to have_selector("h1", text: "Consultation")
-      expect(page).to have_selector("[role=alert] h3", text: "Emails have been sent to the selected consultees.")
+      expect(page).to have_content("Emails have been sent to the selected consultees")
     end
   end
 end
