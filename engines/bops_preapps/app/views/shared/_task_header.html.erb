@@ -4,17 +4,14 @@
 
 <% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
 
-<% if task.top_level_ancestor.section == "Assessment" %>
-  <% add_parent_breadcrumb_link "Assessment",
-       main_app.planning_application_assessment_tasks_path(task.case_record.planning_application) %>
+<% unless current_page?(BopsPreapps::Engine.routes.url_helpers.task_path(@planning_application, @task)) %>
+  <% add_parent_breadcrumb_link @task.title, BopsPreapps::Engine.routes.url_helpers.task_path(@planning_application, @task) %>
 <% end %>
 
 <% page_heading = heading || task.title %>
 
 <% content_for :page_title do %>
-  <%= page_heading %>
-  &mdash;
-  <%= t("page_title") %>
+  <%= page_heading %> &mdash; <%= t("page_title") %>
 <% end %>
 
 <h1><%= page_heading %></h1>

@@ -8,12 +8,14 @@
       consultees_error_message: "Unable to add consultee",
       consultees_target: "allConsultees"
     } do %>
-
   <section class="consultee-selection govuk-!-margin-top-6">
     <h2><%= t(".select_constraints_heading") %></h2>
+
     <p class="govuk-body"><%= t(".select_constraints_description") %></p>
 
-    <div class="govuk-checkboxes consultee-selection__list" data-module="govuk-checkboxes">
+    <div
+      class="govuk-checkboxes consultee-selection__list"
+      data-module="govuk-checkboxes">
       <% manageable_consultees = !@planning_application.determined? %>
       <% @form.constraints.each do |constraint| %>
         <% form_data_attributes = {} %>
@@ -53,6 +55,7 @@
 
     <section class="govuk-!-margin-top-7">
       <h2><%= t(".assign_consultees_heading") %></h2>
+
       <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @form.consultation, show_assign: true, use_preapps_routes: true, task_slug: @task.full_slug %>
       <%= render AddConsulteeComponent.new(consultees: @form.consultees, form: form) %>
     </section>

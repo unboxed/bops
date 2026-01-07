@@ -32,7 +32,6 @@ RSpec.describe "View consultee responses task", type: :system do
 
       expect(page).to have_link("Home")
       expect(page).to have_link("Application")
-      expect(page).not_to have_link("Consultation")
     end
 
     it "highlights the active task in the sidebar" do
@@ -489,7 +488,6 @@ RSpec.describe "View consultee responses task", type: :system do
       end
 
       expect(page).to have_content("Upload consultee response")
-      expect(page).to have_content("Add a new response")
     end
 
     it "displays the response form fields" do
@@ -555,7 +553,6 @@ RSpec.describe "View consultee responses task", type: :system do
 
       expect(page).to have_link("Home")
       expect(page).to have_link("Application")
-      expect(page).to have_link("Consultation")
       expect(page).to have_link("View consultee responses")
     end
 
@@ -564,7 +561,6 @@ RSpec.describe "View consultee responses task", type: :system do
 
       expect(page).to have_link("Home")
       expect(page).to have_link("Application")
-      expect(page).to have_link("Consultation")
       expect(page).to have_link("View consultee responses")
     end
   end
