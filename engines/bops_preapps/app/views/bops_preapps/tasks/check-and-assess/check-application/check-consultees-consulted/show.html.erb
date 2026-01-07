@@ -4,17 +4,36 @@
   <%= render ErrorSummaryComponent.new(errors: @planning_application.consultation.errors) %>
 <% end %>
 
-<% add_consultees_task = @task.case_record.find_task_by_slug_path!("consultees/add-and-assign-consultees") %>
-
-<%= render "shared/consultees_table",
-      planning_application: @planning_application,
-      consultation: @planning_application.consultation,
-      show_assign: true,
-      use_preapps_routes: true,
-      task_slug: @task.full_slug %>
+<% if @planning_application.consultation_required == false %>
+  <div class="grey-border-box">
+    <p><strong>Consultation has been marked as not required</strong></p>
+    <p>
+      To start the consultation process, first complete the
+      <%= link_to "Determine consultation requirement", task_path(@planning_application, @form.determine_consultation_requirement_task) %>
+      task.
+    </p>
+  </div>
+<% else %>
+  <% if @planning_application.consultation_required.nil? %>
+    <div class="grey-border-box">
+      <p><strong>Consultation hasn't been started yet</strong></p>
+      <p>
+        To start the consultation process, first complete the
+        <%= link_to "Determine consultation requirement", task_path(@planning_application, @form.determine_consultation_requirement_task) %>
+        task.
+      </p>
+    </div>
+  <% end %>
+  <%= render "shared/consultees_table",
+        planning_application: @planning_application,
+        consultation: @planning_application.consultation,
+        show_assign: true,
+        use_preapps_routes: true,
+        task_slug: @task.full_slug %>
+<% end %>
 
 <p>
-  <%= govuk_link_to "Add consultees", task_path(@planning_application, add_consultees_task), secondary: true %>
+  <%= govuk_link_to "Add consultees", task_path(@planning_application, @form.add_consultees_task) %>
 </p>
 
 <%= render "shared/task_submit_form" %>

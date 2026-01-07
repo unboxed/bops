@@ -21,6 +21,14 @@ module BopsPreapps
       def permitted_fields(params)
         params # no params sent: just a submit button
       end
+
+      def add_consultees_task
+        task.case_record.find_task_by_slug_path!("consultees/add-and-assign-consultees")
+      end
+
+      def determine_consultation_requirement_task
+        task.case_record.find_task_by_slug_path!("consultees/determine-consultation-requirement")
+      end
     end
   end
 end
