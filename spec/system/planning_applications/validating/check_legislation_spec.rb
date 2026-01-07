@@ -96,7 +96,7 @@ RSpec.describe "Check legislation" do
 
     it "redirects to validation tasks page when navigating to the page directly" do
       visit "/planning_applications/#{planning_application.reference}/validation/legislation"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
+      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-tag-and-confirm-documents/review-documents")
     end
   end
 
@@ -117,7 +117,7 @@ RSpec.describe "Check legislation" do
 
       visit "planning_applications/#{planning_application.reference}/validation/legislation"
 
-      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
+      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-tag-and-confirm-documents/review-documents")
     end
   end
 end

@@ -205,7 +205,7 @@ RSpec.describe "Validation tasks" do
 
       visit "planning_applications/#{planning_application.reference}/validation/environment_impact_assessment"
 
-      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
+      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-tag-and-confirm-documents/review-documents")
     end
   end
 end

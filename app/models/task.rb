@@ -70,7 +70,7 @@ class Task < ApplicationRecord
   def first_child
     return self if section.blank?
 
-    tasks.first.first_child
+    tasks.first&.first_child
   end
 
   private
