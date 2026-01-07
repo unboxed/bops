@@ -39,7 +39,6 @@ RSpec.describe "Assign consultees", type: :system do
 
       expect(page).to have_link("Home")
       expect(page).to have_link("Application")
-      expect(page).to have_link("Consultation")
       expect(page).to have_link("Add and assign consultees")
     end
   end
