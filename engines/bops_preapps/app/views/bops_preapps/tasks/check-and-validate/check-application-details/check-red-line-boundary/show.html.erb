@@ -61,8 +61,10 @@
     <%= render "shared/location_map", locals: {geojson: @form.validation_request.new_geojson} %>
 
     <div class="govuk-inset-text govuk-!-margin-top-6">
-      <strong>Applicant rejected this proposed red line boundary</strong><br><br>
-      <strong>Reason:</strong> <%= @form.validation_request.rejection_reason %>
+      <p>
+        <strong>Applicant rejected this proposed red line boundary</strong><br>
+        <strong>Reason:</strong> <%= @form.validation_request.rejection_reason %>
+      </p>
       <p><%= @form.validation_request.updated_at.to_fs %></p>
     </div>
 
