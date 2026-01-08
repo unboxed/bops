@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_12_29_151345) do
+ActiveRecord::Schema[8.0].define(version: 2026_01_08_145117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -1052,6 +1052,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_12_29_151345) do
     t.string "applicant_county"
     t.string "applicant_postcode"
     t.string "applicant_country"
+    t.string "alternative_reference"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "lower(replace((postcode)::text, ' '::text, ''::text))", name: "ix_planning_applications_on_LOWER_replace_postcode"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin

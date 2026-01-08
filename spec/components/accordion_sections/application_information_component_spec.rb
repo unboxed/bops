@@ -153,6 +153,39 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     end
   end
 
+  context "when there is an alternative reference" do
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :from_planx,
+        description: "Test description",
+        address_1: "123 Long Lane",
+        town: "Big City",
+        postcode: "AB34EF",
+        uprn: "123456789",
+        payment_reference:,
+        payment_amount: 100,
+        alternative_reference: "M3-12345",
+        application_type:,
+        user:
+      )
+    end
+
+    it "renders the alternative reference" do
+      render_inline(component)
+
+      expect(page).to have_row_for("Alternative reference:", with: "M3-12345")
+    end
+  end
+
+  context "when there is no alternative reference" do
+    it "renders 'Not provided'" do
+      render_inline(component)
+
+      expect(page).to have_row_for("Alternative reference:", with: "Not provided")
+    end
+  end
+
   context "when the work has been started" do
     let(:application_type) { create(:application_type, :ldc_existing) }
 
