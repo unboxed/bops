@@ -16,8 +16,7 @@ module BopsSubmissions
           Enforcement::CreationService.new(submission:, user: current_api_user).call!
         else
           send_email = false # TODO where do we set this from?
-
-          BopsApi::Application::CreationService.new(
+          Application::PlanxCreationService.new(
             local_authority: submission.local_authority,
             submission:,
             user: current_api_user,
