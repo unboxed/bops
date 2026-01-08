@@ -120,7 +120,7 @@ RSpec.describe "Pre-application report" do
 
   it "displays the summary of advice section" do
     within("#summary-advice") do
-      expect(page).to have_content("Summary")
+      expect(page).to have_content("Summary of advice")
       expect(page).to have_link("Edit")
       expect(page).to have_content("Looks good")
     end
@@ -508,14 +508,13 @@ RSpec.describe "Pre-application report" do
 
     visit "/reports/planning_applications/#{reference}"
     within("#next-steps") do
-      expect(page).to have_content("If you wish to submit an application, follow these clear steps to submit your formal application:")
-      expect(page).to have_link("website", href: "https://www.southwark.gov.uk/planning-environment-and-building-control/planning/step-by-step/apply-planning-permission/submit")
-      expect(page).to have_content("For further information on applying to the 'Householder Application for Planning Permission' application, visit the council's website.")
+      expect(page).to have_content("If you wish to proceed, you'll need to make a #{planning_application.recommended_application_type.human_name} application. Follow these steps")
+      expect(page).to have_link("council's planning application service.", href: "https://www.southwark.gov.uk/planning-environment-and-building-control/planning/step-by-step/apply-planning-permission/submit")
     end
 
     # Default disclaimer
     within("#disclaimer") do
-      within(".govuk-warning-text") do
+      within(".grey-border-box") do
         expect(page).to have_content("Please note that this pre-application advice follows initial officer assessment of the information you have provided.")
       end
     end
@@ -524,7 +523,7 @@ RSpec.describe "Pre-application report" do
     planning_application.application_type.update(disclaimer: "This is a custom disclaimer")
     visit "/reports/planning_applications/#{reference}"
     within("#disclaimer") do
-      within(".govuk-warning-text") do
+      within(".grey-border-box") do
         expect(page).to have_content("This is a custom disclaimer")
       end
     end

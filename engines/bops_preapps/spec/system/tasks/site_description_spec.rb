@@ -18,7 +18,7 @@ RSpec.describe "Site description task", type: :system do
       click_link "Site description"
     end
 
-    fill_in "Description of the site", with: "Words words words"
+    fill_in "Description of the site and surroundings", with: "Words words words"
 
     click_button "Save changes"
 

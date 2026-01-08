@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "Check consultees", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
-  let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/check-application/check-consultees-consulted") }
+  let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/check-application/check-consultees") }
   let(:user) { create(:user, local_authority:) }
 
   before do
@@ -15,7 +15,7 @@ RSpec.describe "Check consultees", type: :system do
 
   it "Can complete and submit the form" do
     within ".bops-sidebar" do
-      click_link "Check consultees consulted"
+      click_link "Check consultees"
     end
 
     click_button "Save changes"

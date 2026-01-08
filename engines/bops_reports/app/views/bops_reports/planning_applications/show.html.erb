@@ -66,6 +66,7 @@
         {text: "Site history", href: "#site-history"},
         {text: "Site and surroundings", href: "#site-and-surroundings"},
         {text: "Considerations and advice", href: "#considerations-advice"},
+        {text: "Summary of advice", href: "#summary-advice"},
         {text: "Heads of terms", href: "#heads-of-terms", visible: @heads_of_term.terms.present?},
         {text: "Policies and guidance", href: "#policies-guidance"},
         {text: "Requirements", href: "#requirements"},
@@ -390,7 +391,7 @@
 
     <section id="summary-advice">
       <div class="flex-between">
-        <h2>Summary</h2>
+        <h2>Summary of advice</h2>
         <% if editing_enabled? %>
           <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/summary-of-advice", anchor: "summary-advice") %>
         <% end %>
@@ -494,17 +495,18 @@
   <% if @current_local_authority.submission_url && @current_local_authority.submission_guidance_url %>
     <% if @planning_application.recommended_application_type %>
       <p>
-        <%= t(".next_steps_intro_html") %>
-      </p>
-
-      <%= t(".next_steps_list_html") %>
-      <p>
         <%= t(
-              ".next_steps_outro_html",
-              planning_service_link: @current_local_authority.submission_url,
+              ".next_steps_intro_html",
               application_type: @planning_application.recommended_application_type.human_name
             ) %>
       </p>
+       <p>
+        <%= t(
+              ".next_steps_list_html",
+              planning_service_link: @current_local_authority.submission_url,
+              application_type: @planning_application.recommended_application_type.human_name
+            ) %>
+       </p>
     <% else %>
       <p>Next steps cannot be displayed until a recommended application type has been set.</p>
     <% end %>
@@ -518,10 +520,14 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <section id="disclaimer">
-  <h2><%= t(".disclaimer_heading") %></h2>
-  <%= govuk_warning_text do %>
-    <%= @planning_application.disclaimer %>
-  <% end %>
+  <div class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+        <h2><%= t(".disclaimer_heading") %></h2>
+      <div class="grey-border-box">
+        <p class="govuk-body">
+          <%= @planning_application.disclaimer %>
+        </p>
+      </div>
+  </div>
 </section>
 
 <% if current_user.present? && !applicant_view? %>

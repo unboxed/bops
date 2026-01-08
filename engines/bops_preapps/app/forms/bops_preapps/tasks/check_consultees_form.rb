@@ -2,7 +2,7 @@
 
 module BopsPreapps
   module Tasks
-    class CheckConsulteesConsultedForm < Form
+    class CheckConsulteesForm < Form
       self.task_actions = %w[save_draft save_and_complete]
 
       def update(params)

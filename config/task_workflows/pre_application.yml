@@ -44,7 +44,7 @@
       tasks:
         - name: Check application details
           legacy_url: ""
-        - name: Check consultees consulted
+        - name: Check consultees
           legacy_url: ""
         - name: Check site history
           legacy_url: ""
