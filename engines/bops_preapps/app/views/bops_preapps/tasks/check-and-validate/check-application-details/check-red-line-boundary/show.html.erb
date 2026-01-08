@@ -69,7 +69,9 @@
     </div>
 
     <h3 class="govuk-heading-s">Current red line boundary</h3>
-    <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson} %>
+    <div class="govuk-!-margin-bottom-6">
+      <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson} %>
+    </div>
 
     <%= form_with model: @form, url: @form.url do |form| %>
       <%= form.govuk_error_summary %>
@@ -86,7 +88,9 @@
 <% else %>
   <p>This digital red line boundary was submitted by the applicant.</p>
 
-  <%= render "shared/location_map", locals: {in_accordion: true, geojson: @planning_application.boundary_geojson} %><br>
+  <div class="govuk-!-margin-bottom-6">
+    <%= render "shared/location_map", locals: {in_accordion: true, geojson: @planning_application.boundary_geojson} %>
+  </div>
 
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= form.govuk_error_summary %>
