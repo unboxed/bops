@@ -38,7 +38,6 @@ body:has(.bops-fullwidth-container) {
       padding: 20px;
       border-right: 1px solid $bops-blue-border;
       overflow-y: auto;
-      height: 100%;
       background-color: $bops-light-blue-background;
       @include govuk-font($size: 16);
 
