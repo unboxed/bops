@@ -49,6 +49,13 @@
         class: "govuk-input--width-30"
       ) %>
 
+  <%= form.govuk_text_area(
+        :engagement_statement,
+        label: {text: t(".engagement_statement"), class: "govuk-label govuk-label--m"},
+        hint: {text: t(".engagement_statement_hint")},
+        rows: 5
+      ) %>
+
   <%= form.govuk_text_field(
         :email_address,
         label: {text: t(".email_address"), class: "govuk-label govuk-label--m"},
