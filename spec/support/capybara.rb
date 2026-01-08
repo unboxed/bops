@@ -62,6 +62,7 @@ RSpec.configure do |config|
     Capybara.enable_aria_label = true
     Capybara.ignore_hidden_elements = false
     Capybara.server = :puma, {Silent: true}
+    Capybara.default_max_wait_time = 5
   end
 
   config.before type: :system do |example|

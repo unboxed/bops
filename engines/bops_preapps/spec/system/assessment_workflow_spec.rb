@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Pre-application assessment workflow", type: :system do
+RSpec.describe "Pre-application assessment workflow", type: :system, js: true do
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:, name: "Alice Smith") }
   let(:reviewer) { create(:user, :reviewer, local_authority:, name: "Bob Jones") }
@@ -234,7 +234,7 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
       expect(page).not_to have_button("Save changes")
     end
 
-    it "maintains sidebar scroll position across navigation", js: true do
+    it "maintains sidebar scroll position across navigation" do
       sign_in(assessor)
       visit "/planning_applications/#{reference}/assessment/tasks"
 
