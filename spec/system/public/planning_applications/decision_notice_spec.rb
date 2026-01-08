@@ -39,6 +39,25 @@ RSpec.describe "Decision notice" do
           expect(page).not_to have_selector("h3", text: "Conditions:")
         end
       end
+
+      context "when local authority has an engagement statement" do
+        let(:local_authority) do
+          create(:local_authority, :default, engagement_statement: "We take a proactive approach and work positively with applicants.")
+        end
+
+        it "shows the proactive engagement section" do
+          expect(page).to have_selector("h3", text: "Proactive engagement")
+          expect(page).to have_content("We take a proactive approach and work positively with applicants.")
+        end
+      end
+
+      context "when local authority does not have an engagement statement" do
+        let(:local_authority) { create(:local_authority, :default, engagement_statement: nil) }
+
+        it "does not show the proactive engagement section" do
+          expect(page).not_to have_selector("h3", text: "Proactive engagement")
+        end
+      end
     end
 
     context "when planning application has not been determined" do
