@@ -86,9 +86,9 @@ RSpec.describe "Pre-application report" do
     sign_in reviewer
     visit "/planning_applications/#{reference}"
     click_link "Check and assess"
-    within "main" do
-      click_link "Review and submit pre-application"
-    end
+    click_link "Review and submit pre-application"
+    click_button "Confirm and submit recommendation"
+    visit "/reports/planning_applications/#{reference}"
   end
 
   it "shows the report content and table of contents" do

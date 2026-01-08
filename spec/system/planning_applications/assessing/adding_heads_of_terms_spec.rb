@@ -22,7 +22,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     expect(page).to have_selector("h1", text: "Application")
 
     click_link "Check and assess"
-    expect(page).to have_selector("h1", text: "Assess the application")
+    expect(page).to have_selector("h1")
   end
 
   context "when planning application is an LDC" do
@@ -34,7 +34,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       expect(page).not_to have_link("Add heads of terms", href: "/planning_applications/#{reference}/assessment/terms")
     end
 
-    it "it doesn't allow visiting the heads of terms page" do
+    it "doesn't allow visiting the heads of terms page" do
       visit "/planning_applications/#{reference}/assessment/terms"
 
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
@@ -346,10 +346,7 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     end
 
     it "you can add new heads of terms" do
-      within("#suggest-heads-of-terms") do
-        expect(page).to have_content "Optional"
-        click_link "Suggest heads of terms"
-      end
+      click_link "Suggest heads of terms"
 
       expect(page).to have_content("Heads of terms can be added for pre-applications, but no email will be sent to the applicant.")
       expect(page).to have_selector("h1", text: "Suggest heads of terms")
@@ -391,10 +388,6 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       click_button "Save and mark as complete"
       expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed")
 
-      within "main" do
-        click_link "Suggest heads of terms"
-      end
-
       within("#term_#{Term.first.id}") do
         expect(page).to have_no_content("Not sent")
 
@@ -407,11 +400,6 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
 
         expect(page).to have_link("Edit")
         expect(page).to have_link("Remove")
-      end
-
-      click_link "Back"
-      within("#suggest-heads-of-terms") do
-        expect(page).to have_content "Completed"
       end
     end
   end

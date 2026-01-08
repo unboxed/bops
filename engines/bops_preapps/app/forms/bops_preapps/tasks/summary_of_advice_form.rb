@@ -14,7 +14,7 @@ module BopsPreapps
             task.complete!
           end
         end
-      rescue ActiveRecord::ActiveRecordErrror
+      rescue ActiveRecord::ActiveRecordError
         false
       end
 

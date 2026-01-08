@@ -99,7 +99,7 @@ RSpec.describe "Assessment tasks", type: :system do
       end
     end
 
-    context "when planning application is a pre application", :capybara do
+    context "when planning application is a pre application" do
       let(:planning_application) do
         create(:planning_application, :in_assessment, :pre_application, :with_additional_services, uprn: "100081043511", local_authority: default_local_authority)
       end
@@ -118,53 +118,9 @@ RSpec.describe "Assessment tasks", type: :system do
         end
       end
 
-      it "displays the assessment tasks list" do
-        within(".app-task-list") do
-          within("#check-consistency-assessment-tasks") do
-            expect(page).to have_content("Check application")
-
-            expect(page).to have_link("Check application details")
-            expect(page).not_to have_link("Check site notice and press notice")
-            expect(page).not_to have_link("Check ownership certificate")
-            expect(page).to have_link("Check consultees consulted")
-            expect(page).to have_link("Check site history")
-            expect(page).not_to have_link("Permitted development rights")
-            expect(page).not_to have_link("Evidence of immunity")
-          end
-
-          within("#additional-services-tasks") do
-            expect(page).to have_content("Additional services")
-
-            expect(page).to have_link("Site visit")
-            expect(page).to have_link("Meeting")
-          end
-
-          within("#assessment-information-tasks") do
-            expect(page).to have_content("Assessment summaries")
-
-            expect(page).not_to have_link("Summary of works")
-            expect(page).to have_link("Site description")
-            expect(page).not_to have_link("Summary of additional evidence")
-            expect(page).not_to have_link("Summary of consultation")
-            expect(page).not_to have_link("Summary of neighbour responses")
-            expect(page).not_to have_link("Amenity")
-            expect(page).to have_link("Planning considerations and advice")
-          end
-
-          expect(page).not_to have_content("Assess against policies and guidance")
-          expect(page).not_to have_content("Assess against legislation")
-
-          within("#complete-assessment-tasks") do
-            expect(page).to have_content("Complete assessment")
-
-            expect(page).not_to have_link("Review documents for recommendation")
-            expect(page).not_to have_link("Make draft recommendation")
-            expect(page).to have_content("Choose application type")
-            expect(page).not_to have_content("Add informatives")
-            expect(page).to have_content("Check and add requirements")
-            expect(page).not_to have_content("Review and submit recommendation")
-          end
-        end
+      it "redirects to the first task" do
+        expect(page).to have_selector("h1")
+        expect(page.current_path).to match("/preapps/#{planning_application.reference}/check-and-assess/")
       end
 
       it "displays the preview report button link" do

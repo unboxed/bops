@@ -67,6 +67,12 @@ class Task < ApplicationRecord
     I18n.t("bops_enforcements.tasks.title.#{slug}", default: name)
   end
 
+  def first_child
+    return self if section.blank?
+
+    tasks.first&.first_child
+  end
+
   private
 
   def raise_not_saved(transition)

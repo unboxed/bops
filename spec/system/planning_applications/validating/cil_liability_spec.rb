@@ -167,7 +167,7 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
 
       visit "planning_applications/#{planning_application.reference}/validation/cil_liability/edit"
 
-      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
+      expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-validate/check-tag-and-confirm-documents/review-documents")
     end
   end
 end
