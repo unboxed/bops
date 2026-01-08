@@ -59,7 +59,9 @@
             value: @planning_application.description,
             label: {size: "s", text: "Enter an amended description"},
             rows: 5 %>
-      <% if @planning_application.pre_application? && @planning_application.not_started? %>
+      <% if params[:return_to].present? %>
+        <%= form.hidden_field(:return_to, value: params[:return_to]) %>
+      <% elsif @planning_application.pre_application? && @planning_application.not_started? %>
         <%= form.hidden_field(:return_to, value: BopsPreapps::Engine.routes.url_helpers.task_path(reference: @planning_application.reference, slug: "check-and-validate/check-application-details/check-description")) %>
       <% elsif @planning_application.not_started? %>
         <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>

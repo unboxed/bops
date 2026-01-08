@@ -16,6 +16,7 @@
 
   <%= form.govuk_text_area(:entry, label: {text: t(".label")}, rows: 10) %>
   <%= form.hidden_field(:category, value: @category) %>
+  <%= hidden_field_tag :return_to, params[:return_to] %>
 
   <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
 <% end %>

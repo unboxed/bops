@@ -148,7 +148,7 @@ RSpec.describe "Check and add requirements task", type: :system do
     end
   end
 
-  it "raises an error when attempting to redirect to external URLs" do
+  it "ignores external URLs and redirects to safe default path" do
     planning_application.add_requirements([requirement])
     added_requirement = planning_application.requirements.first
 
@@ -156,8 +156,9 @@ RSpec.describe "Check and add requirements task", type: :system do
 
     fill_in "Guidelines URL", with: "https://example.com/test"
 
-    expect {
-      click_button "Save"
-    }.to raise_error(ActionController::Redirecting::UnsafeRedirectError)
+    click_button "Save"
+
+    expect(page).to have_current_path(%r{/planning_applications/.+/assessment/requirements})
+    expect(page).to have_content("Requirement successfully updated")
   end
 end

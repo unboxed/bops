@@ -8,7 +8,7 @@
       <div class="govuk-form-group">
         <%= form.hidden_field :draft, value: false %>
         <%= form.hidden_field :policy_area, value: policy_area %>
-        <%= form.hidden_field :return_to, value: task_path(@planning_application, @task) %>
+        <%= hidden_field_tag :return_to, return_to_or_task_path(@planning_application, @task) %>
         <%= form.govuk_text_field :proposal, label: {text: "Enter element of proposal"} %>
 
         <%= form.govuk_text_field :policy_references,

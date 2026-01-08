@@ -6,7 +6,7 @@
       <% if consideration.draft? %>
         <% if considerations.length == 1 %>
           <% card.with_action do %>
-            <%= govuk_link_to("Remove", main_app.planning_application_assessment_consideration_guidance_path(@planning_application, consideration, return_to: task_path(@planning_application, @task)), method: :delete, data: {confirm: "Are you sure?"}) %>
+            <%= govuk_link_to("Remove", main_app.planning_application_assessment_consideration_guidance_path(@planning_application, consideration, return_to: return_to_or_task_path(@planning_application, @task)), method: :delete, data: {confirm: "Are you sure?"}) %>
           <% end %>
         <% end %>
       <% else %>
@@ -14,9 +14,9 @@
           <strong class="govuk-body-s"><%= consideration.proposal %></strong>
           <span class="flex-right-align">
             <% unless @planning_application.determined? %>
-              <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consideration_guidance_path(@planning_application, consideration, return_to: task_path(@planning_application, @task)) %>
+              <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consideration_guidance_path(@planning_application, consideration, return_to: return_to_or_task_path(@planning_application, @task)) %>
               |
-              <%= govuk_link_to "Remove", main_app.planning_application_assessment_consideration_guidance_path(@planning_application, consideration, return_to: task_path(@planning_application, @task)), method: :delete, data: {confirm: "Are you sure?"} %>
+              <%= govuk_link_to "Remove", main_app.planning_application_assessment_consideration_guidance_path(@planning_application, consideration, return_to: return_to_or_task_path(@planning_application, @task)), method: :delete, data: {confirm: "Are you sure?"} %>
             <% end %>
           </span>
         </div>
@@ -62,13 +62,14 @@
                 :last, :last, options: {include_blank: true},
                 label: {text: "Select policy area"},
                 data: {consideration_form_target: "policyAreaSelect"} %>
-          <%= form.hidden_field :return_to, value: task_path(@planning_application, @task) %>
+          <%= hidden_field_tag :return_to, return_to_or_task_path(@planning_application, @task) %>
           <%= form.govuk_task_button "Add consideration", action: "add_consideration", secondary: true, class: "govuk-!-margin-bottom-2" %>
         <% end %>
       <% end %>
     </div>
   <% end %>
   <%= form_with model: @form, url: @form.url do |form| %>
+      <%= return_to_hidden_field %>
       <%= render "shared/task_submit_buttons", form: form %>
     <% end %>
 <% end %>

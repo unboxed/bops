@@ -97,7 +97,7 @@ RSpec.describe "Planning considerations and advice task", type: :system do
 
     click_button "Save advice"
 
-    expect(page).to have_text "Failed to add consideration"
+    expect(page).to have_text "Select a status for this element of the proposal"
 
     expect(planning_application.consideration_set.considerations).not_to be_empty
     consideration = planning_application.consideration_set.considerations.last

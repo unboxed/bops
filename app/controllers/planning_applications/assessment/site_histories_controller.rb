@@ -3,11 +3,8 @@
 module PlanningApplications
   module Assessment
     class SiteHistoriesController < BaseController
-      include ReturnToReport
-
       before_action :set_site_histories
       before_action :set_site_history, except: %i[confirm]
-      before_action :store_return_to_report_path, only: %i[index edit update destroy]
 
       def index
         respond_to do |format|
@@ -48,8 +45,6 @@ module PlanningApplications
           format.html do
             if @site_history.save
               redirect_to submission_redirect_path, notice: t(".success")
-            elsif return_to
-              redirect_to return_to, alert: t(".failure")
             else
               render :index
             end
@@ -62,8 +57,6 @@ module PlanningApplications
           format.html do
             if @site_history.destroy
               redirect_to submission_redirect_path, notice: t(".success")
-            elsif return_to
-              redirect_to return_to, alert: t(".failure")
             else
               render :index
             end
@@ -76,8 +69,6 @@ module PlanningApplications
           format.html do
             if @site_history.update(planning_history_params)
               redirect_to submission_redirect_path, notice: t(".success")
-            elsif return_to
-              redirect_to return_to, alert: t(".failure")
             else
               render :edit
             end
@@ -104,15 +95,11 @@ module PlanningApplications
       end
 
       def redirect_path
-        report_path_or(planning_application_assessment_tasks_path(@planning_application))
+        params[:return_to].presence || planning_application_assessment_tasks_path(@planning_application)
       end
 
       def submission_redirect_path
-        return_to || planning_application_assessment_site_histories_path(@planning_application)
-      end
-
-      def return_to
-        @return_to ||= params[:return_to].presence || params.dig(:site_history, :return_to).presence
+        planning_application_assessment_site_histories_path(@planning_application, return_to: params[:return_to])
       end
     end
   end

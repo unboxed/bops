@@ -3,11 +3,8 @@
 module PlanningApplications
   module Validation
     class ConstraintsController < BaseController
-      include ReturnToReport
-
       before_action :set_planning_application_constraints, only: %i[update index create]
       before_action :set_other_constraints, only: %i[index]
-      before_action :store_return_to_report_path, only: %i[index create destroy update]
 
       def index
         respond_to do |format|
@@ -19,10 +16,10 @@ module PlanningApplications
         @constraint = @planning_application_constraints.new(constraint_id: params[:constraint_id], identified_by: current_user.name)
 
         if @constraint.save!
-          redirect_to planning_application_validation_constraints_path(@planning_application),
+          redirect_to planning_application_validation_constraints_path(@planning_application, return_to: params[:return_to]),
             notice: t(".success")
         else
-          redirect_to planning_application_validation_constraints_path(@planning_application),
+          redirect_to planning_application_validation_constraints_path(@planning_application, return_to: params[:return_to]),
             alert: t(".failure")
         end
       end
@@ -31,10 +28,10 @@ module PlanningApplications
         @constraint = @planning_application.planning_application_constraints.find(params[:id])
 
         if @constraint.destroy
-          redirect_to planning_application_validation_constraints_path(@planning_application),
+          redirect_to planning_application_validation_constraints_path(@planning_application, return_to: params[:return_to]),
             notice: t(".success")
         else
-          redirect_to planning_application_validation_constraints_path(@planning_application),
+          redirect_to planning_application_validation_constraints_path(@planning_application, return_to: params[:return_to]),
             notice: t(".failure")
         end
       end
@@ -70,7 +67,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        report_path_or(planning_application_validation_tasks_path(@planning_application))
+        params[:return_to].presence || planning_application_validation_tasks_path(@planning_application)
       end
     end
   end

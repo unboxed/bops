@@ -3,13 +3,10 @@
 module PlanningApplications
   module Assessment
     class ConsiderationsController < BaseController
-      include ReturnToReport
-
       before_action :set_consideration_set
       before_action :set_considerations
       before_action :set_consideration
       before_action :set_review
-      before_action :store_return_to_report_path, only: %i[create edit]
 
       def create
         @consideration.submitted_by = current_user
@@ -88,7 +85,7 @@ module PlanningApplications
       end
 
       def return_path
-        report_path_or(planning_application_assessment_tasks_path(@planning_application))
+        params[:return_to].presence || planning_application_assessment_tasks_path(@planning_application)
       end
     end
   end

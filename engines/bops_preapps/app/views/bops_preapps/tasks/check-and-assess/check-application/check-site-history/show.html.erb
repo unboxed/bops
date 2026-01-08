@@ -11,7 +11,7 @@
 <%= render "planning_applications/assessment/site_histories/table",
       site_histories: @planning_application.site_histories.all,
       show_action: true,
-      return_to: task_path(@planning_application, @task) %>
+      return_to: return_to_or_task_path(@planning_application, @task) %>
 
 <%= govuk_details(summary_text: "Add a new site history", open: @planning_application.site_histories.last&.errors&.any?) do %>
   <%= form_with(model: @planning_application.site_histories.new,
@@ -36,7 +36,7 @@
 
     <%= form.govuk_text_area :comment, rows: 4, label: {text: "Relevance to proposal"} %>
 
-    <%= form.hidden_field :return_to, value: task_path(@planning_application, @task) %>
+    <%= hidden_field_tag :return_to, return_to_or_task_path(@planning_application, @task) %>
 
     <%= form.govuk_submit "Add site history", secondary: true, class: "govuk-!-margin-bottom-2" %>
   <% end %>

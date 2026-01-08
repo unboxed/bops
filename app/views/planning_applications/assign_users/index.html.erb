@@ -21,6 +21,7 @@
           method: :patch,
           url: planning_application_assign_users_path(@planning_application)
         ) do |form| %>
+      <%= hidden_field_tag :return_to, params[:return_to] %>
 
       <%= form.govuk_fieldset(legend: {text: nil}) do %>
         <%= form.govuk_select :user_id, User.menu(scope = @users), label: nil, options: {selected: @planning_application.user&.id} %>

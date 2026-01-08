@@ -6,6 +6,7 @@
       class: "consistency-checklist-form"
     ) do |form| %>
   <%= form.govuk_error_summary %>
+  <%= return_to_hidden_field %>
   <% @planning_application.application_type.consistency_checklist.each do |checklist| %>
     <%= render(
           partial: "planning_applications/assessment/consistency_checklists/#{checklist}",

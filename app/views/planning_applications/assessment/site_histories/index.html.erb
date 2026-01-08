@@ -21,18 +21,19 @@
     <h2 class="govuk-!-margin-top-2">Summary of the relevant historical applications</h2>
     <p class="govuk-body">Past applications for this site or relevant nearby locations:</p>
 
-    <%= render "table", site_histories: @site_histories, show_action: true %>
+    <%= render "table", site_histories: @site_histories, show_action: true, return_to: params[:return_to] %>
 
     <% if @planning_application.determined? %>
-      <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+      <%= govuk_button_link_to "Back", params[:return_to].presence || planning_application_path(@planning_application), secondary: true %>
     <% else %>
       <%= govuk_details(summary_text: "Add a new site history", open: @site_history.errors.any?) do %>
-        <%= render "form", model: @site_history, url: planning_application_assessment_site_histories_path(@planning_application) %>
+        <%= render "form", model: @site_history, url: planning_application_assessment_site_histories_path(@planning_application, return_to: params[:return_to]) %>
       <% end %>
 
       <%= form_with url: confirm_planning_application_assessment_site_histories_path(@planning_application) do |form| %>
+        <%= hidden_field_tag :return_to, params[:return_to] %>
         <%= form.govuk_submit "Save and mark as complete" do %>
-          <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+          <%= govuk_button_link_to "Back", params[:return_to].presence || planning_application_path(@planning_application), secondary: true %>
         <% end %>
       <% end %>
     <% end %>

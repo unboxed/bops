@@ -15,6 +15,7 @@
           }
         ) %>
   <% end %>
+  <%= hidden_field_tag :return_to, params[:return_to] %>
   <% if can_edit %>
     <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
   <% else %>

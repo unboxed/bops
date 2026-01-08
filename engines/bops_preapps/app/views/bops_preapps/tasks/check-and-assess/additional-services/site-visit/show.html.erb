@@ -1,5 +1,6 @@
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
+  <%= return_to_hidden_field %>
 
   <%= render "shared/task_header", task: @task %>
 

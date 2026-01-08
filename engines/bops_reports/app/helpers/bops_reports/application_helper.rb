@@ -5,6 +5,7 @@ module BopsReports
     include BopsCore::ApplicationHelper
     include BreadcrumbNavigationHelper
     include BopsCore::PlanningDataHelper
+    include TaskPathHelper
 
     def nav_items
       []
