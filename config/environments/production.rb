@@ -122,10 +122,7 @@ Rails.application.configure do
   config.applicants_base_url = "bops-applicants-staging.services"
 
   config.use_new_sidebar_layout = if Bops.env.staging?
-    {
-      "camden" => [:assessment],
-      :default => true
-    }
+    true
   else
     %i[assessment]
   end
