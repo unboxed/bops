@@ -118,6 +118,15 @@
     </div>
   </div>
 
+  <div class="govuk-form-group govuk-!-margin-top-8">
+    <h2>
+      Other references
+    </h2>
+    <%= form.govuk_text_field :alternative_reference,
+          label: {text: "Alternative reference"},
+          hint: {text: "Reference from another system (e.g. M3)"} %>
+  </div>
+
   <div class="govuk-button-group">
     <%= form.submit "Save", class: "govuk-button", data: {module: "govuk-button"} %>
     <%= govuk_button_link_to "Cancel", planning_applications_path, secondary: true %>

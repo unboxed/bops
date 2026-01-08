@@ -35594,6 +35594,7 @@ paths:
                         decision:
                         status: in_assessment
                         session_id: abc123def456
+                        alternative_reference:
                         consultation:
                           startDate: '2024-04-15'
                           endDate: '2024-05-07'
@@ -35673,6 +35674,7 @@ paths:
                         determinedAt: '2024-04-20T00:00:00.000+01:00'
                         status: determined
                         session_id: xyz789ghi012
+                        alternative_reference: M3-98765
                         decision: granted
                         consultation:
                           startDate: '2024-03-12'
@@ -36256,6 +36258,7 @@ paths:
                         decision:
                         status: in_assessment
                         session_id: abc123def456
+                        alternative_reference:
                         consultation:
                           startDate: '2024-04-15'
                           endDate: '2024-05-07'
@@ -36335,6 +36338,7 @@ paths:
                         determinedAt: '2024-04-20T00:00:00.000+01:00'
                         status: determined
                         session_id: xyz789ghi012
+                        alternative_reference: M3-98765
                         decision: granted
                         consultation:
                           startDate: '2024-03-12'
@@ -36409,6 +36413,7 @@ paths:
                         decision:
                         status: Appeal allowed
                         session_id: jkl345mno678
+                        alternative_reference:
                         consultation:
                           startDate:
                           endDate:

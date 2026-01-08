@@ -275,6 +275,7 @@ class PlanningApplicationsController < AuthenticationController
       proposal_details
       payment_reference
       payment_amount
+      alternative_reference
       valid_fee
       postcode
       public_comment

@@ -113,4 +113,47 @@ RSpec.describe "editing planning application" do
       expect(page).to have_link("draft recommendation", href: new_planning_application_assessment_recommendation_path(planning_application))
     end
   end
+
+  context "when editing the alternative reference" do
+    let(:planning_application) do
+      create(
+        :planning_application,
+        :in_assessment,
+        :ldc_proposed,
+        local_authority:,
+        alternative_reference: "M3-12345"
+      )
+    end
+
+    it "allows updating the alternative reference" do
+      click_link("Check and assess")
+      find("span", text: "Application information").click
+
+      expect(page).to have_content("Alternative reference:")
+      expect(page).to have_content("M3-12345")
+
+      click_link("Edit details")
+
+      expect(page).to have_field("Alternative reference", with: "M3-12345")
+
+      fill_in("Alternative reference", with: "M3-67890")
+      click_button("Save")
+
+      expect(page).to have_content("Planning application was successfully updated.")
+
+      find("span", text: "Application information").click
+      expect(page).to have_content("Alternative reference:")
+      expect(page).to have_content("M3-67890")
+    end
+  end
+
+  context "when alternative reference is not set" do
+    it "displays 'Not provided' for alternative reference" do
+      click_link("Check and assess")
+      find("span", text: "Application information").click
+
+      expect(page).to have_content("Alternative reference:")
+      expect(page).to have_content("Not provided")
+    end
+  end
 end

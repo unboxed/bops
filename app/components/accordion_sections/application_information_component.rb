@@ -38,6 +38,10 @@ module AccordionSections
       planning_application.payment_reference || t(".exempt")
     end
 
+    def alternative_reference
+      planning_application.alternative_reference || t(".not_provided")
+    end
+
     def work_already_started
       (planning_application.work_status == "proposed") ? t(".no") : t(".yes")
     end
