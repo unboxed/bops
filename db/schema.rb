@@ -640,6 +640,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_08_145117) do
     t.string "site_notice_email_address"
     t.boolean "site_notice_show_assigned_officer", default: false, null: false
     t.boolean "enable_notify", default: true, null: false
+    t.text "engagement_statement"
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
