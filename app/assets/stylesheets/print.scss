@@ -1,0 +1,16 @@
+@media print {
+  .bops-headers,
+  .govuk-notification-banner,
+  .govuk-footer {
+    display: none;
+  }
+
+  section,
+  .govuk-summary-card {
+    break-inside: avoid;
+  }
+
+  .govuk-grid-column-two-thirds {
+    width: 100%;
+  }
+}
