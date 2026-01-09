@@ -50,9 +50,7 @@ RSpec.describe "Pre-application validation workflow", type: :system do
         expect(page).to have_content("Review")
       end
 
-      validation_tasks.each do |t|
-        expect(t).to be_not_started
-      end
+      expect(validation_tasks).to all(be_not_started)
 
       within :sidebar do
         expect(page).to have_css("svg[aria-label='Not started']", minimum: 7)
@@ -129,24 +127,6 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       expect(task("Check description").reload).to be_completed
       expect(planning_application.reload.valid_description).to be true
       expect(page).to have_selector(:completed_sidebar_task, "Check description")
-
-      within :sidebar do
-        click_link "Add reporting details"
-      end
-
-      expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/check-application-details/add-reporting-details")
-      expect(page).to have_selector("h1", text: "Add reporting details")
-      expect(page).to have_selector(:active_sidebar_task, "Add reporting details")
-
-      expect(page).to have_content("Is the local planning authority the owner of this land?")
-
-      page.first(:radio_button, "No").choose
-
-      click_button "Save and mark as complete"
-
-      expect(page).to have_content("Reporting details were successfully saved")
-      expect(task("Add reporting details").reload).to be_completed
-      expect(page).to have_selector(:completed_sidebar_task, "Add reporting details")
 
       within :sidebar do
         click_link "Check fee"
@@ -260,7 +240,6 @@ RSpec.describe "Pre-application validation workflow", type: :system do
         {name: "Check red line boundary", path: "check-application-details/check-red-line-boundary"},
         {name: "Check constraints", path: "check-application-details/check-constraints"},
         {name: "Check description", path: "check-application-details/check-description"},
-        {name: "Add reporting details", path: "check-application-details/add-reporting-details"},
         {name: "Check fee", path: "check-application-details/check-fee"},
         {name: "Other validation requests", path: "other-validation-issues/other-validation-requests"},
         {name: "Review validation requests", path: "review/review-validation-requests"},
@@ -286,7 +265,7 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       expect(page).not_to have_button("Save changes")
     end
 
-    it "maintains sidebar scroll position across navigation", js: true do
+    it "maintains sidebar scroll position across navigation", :js do
       visit "/planning_applications/#{reference}/validation/tasks"
 
       within :sidebar do
