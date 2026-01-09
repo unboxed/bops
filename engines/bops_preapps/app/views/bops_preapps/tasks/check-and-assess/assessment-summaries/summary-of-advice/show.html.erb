@@ -49,5 +49,7 @@
       <%= govuk_button_link_to "Edit summary of advice", edit_task_path(slug: @task.full_slug, reference: @planning_application.reference), secondary: true %>
     <% end %>
   </div>
-  <%= render "shared/task_submit_form" %>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <%= render "shared/task_submit_buttons", form: form %>
+  <% end %>
 <% end %>
