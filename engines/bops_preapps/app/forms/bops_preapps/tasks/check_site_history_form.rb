@@ -2,22 +2,25 @@
 
 module BopsPreapps
   module Tasks
-    class CheckSiteHistoryForm < BaseForm
+    class CheckSiteHistoryForm < Form
+      self.task_actions = %w[save_and_complete save_draft]
       def update(params)
-        if params[:button] == "save_draft"
-          task.start!
-        else
-          ActiveRecord::Base.transaction do
-            planning_application.update!(site_history_checked: true)
-            task.complete!
+        super do
+          if action.in?(task_actions)
+            send(action.to_sym)
+          else
+            raise ArgumentError, "Invalid task action: #{action.inspect}"
           end
         end
-      rescue ActiveRecord::ActiveRecordError
-        false
       end
 
-      def permitted_fields(params)
-        params # no params sent: just a submit button
+      private
+
+      def save_and_complete
+        transaction do
+          planning_application.update!(site_history_checked: true)
+          super
+        end
       end
     end
   end
