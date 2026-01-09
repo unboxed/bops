@@ -1,8 +1,8 @@
 <%= render "shared/task_header", task: @task %>
 
 <%= form_with(
-      model: @form.consistency_checklist,
-      url: task_path(@planning_application, @task),
+      model: @form,
+      url: @form.url,
       class: "consistency-checklist-form"
     ) do |form| %>
   <%= form.govuk_error_summary %>
@@ -12,12 +12,12 @@
           partial: "planning_applications/assessment/consistency_checklists/#{checklist}",
           locals: {
             form: form,
-            consistency_checklist: @planning_application.consistency_checklist,
+            consistency_checklist: @form.consistency_checklist,
             planning_application: @planning_application,
             can_edit: true
           }
         ) %>
   <% end %>
 
-  <%= render "shared/task_submit_buttons_old", form: form, save_draft: false %>
+  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
 <% end %>
