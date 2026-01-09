@@ -269,7 +269,7 @@ RSpec.describe "Pre-application report" do
     end
 
     expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/check-application/check-application-details})
-    fill_in "consistency-checklist-site-map-correct-comment-field", with: "Site map is of neighbours property, this comment has been updated."
+    fill_in "tasks-check-application-details-form-site-map-correct-comment-field", with: "Site map is of neighbours property, this comment has been updated."
 
     click_button "Save and mark as complete"
     expect(page).to have_current_path(%r{/reports/planning_applications/#{reference}})

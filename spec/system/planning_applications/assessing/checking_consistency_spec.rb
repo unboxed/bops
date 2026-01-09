@@ -286,13 +286,13 @@ RSpec.describe "checking consistency" do
 
         expect(page).to have_content("Application details were successfully updated")
 
-        field1 = find_by_id("consistency-checklist-description-matches-documents-yes-field")
+        field1 = find_by_id("tasks-check-application-details-form-description-matches-documents-yes-field")
 
-        field2 = find_by_id("consistency-checklist-documents-consistent-yes-field")
+        field2 = find_by_id("tasks-check-application-details-form-documents-consistent-yes-field")
 
-        field3 = find_by_id("consistency-checklist-proposal-details-match-documents-yes-field")
+        field3 = find_by_id("tasks-check-application-details-form-proposal-details-match-documents-yes-field")
 
-        field4 = find_by_id("consistency-checklist-site-map-correct-yes-field")
+        field4 = find_by_id("tasks-check-application-details-form-site-map-correct-yes-field")
 
         # TODO these are not currently disabled, pending change to task form behaviour
         # expect(field1).to be_disabled
@@ -344,13 +344,13 @@ RSpec.describe "checking consistency" do
 
         expect(page).to have_content("Application details were successfully updated")
 
-        field1 = find_by_id("consistency-checklist-description-matches-documents-yes-field")
+        field1 = find_by_id("tasks-check-application-details-form-description-matches-documents-yes-field")
 
-        field2 = find_by_id("consistency-checklist-documents-consistent-yes-field")
+        field2 = find_by_id("tasks-check-application-details-form-documents-consistent-yes-field")
 
-        field3 = find_by_id("consistency-checklist-proposal-details-match-documents-no-field")
+        field3 = find_by_id("tasks-check-application-details-form-proposal-details-match-documents-no-field")
 
-        field4 = find_by_id("consistency-checklist-site-map-correct-no-field")
+        field4 = find_by_id("tasks-check-application-details-form-site-map-correct-no-field")
 
         # TODO these are not currently disabled, pending change to task form behaviour
         # expect(field1).to be_disabled
