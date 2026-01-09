@@ -9,9 +9,11 @@
       <%= planning_application.local_authority.council_name %>
     </span>
     <br>
-    <h3>
-      <%= planning_application.application_type.legislation_title %>
-    </h3>
+
+    <h1>Decision Notice</h1>
+
+    <h3><%= planning_application.application_type.legislation_title %></h3>
+
     <h2>
       <strong>
         <%= t("recommendation.title", application_type: planning_application.application_type.description, decision: planning_application.decision.humanize) %>
@@ -174,15 +176,115 @@
     <%= planning_application.local_authority.council_name %>, <br>
     <%= planning_application.local_authority.enquiries_paragraph %>
   </p>
+
   <% if @planning_application.refused? %>
-    <h3>
-      Appeals to the Secretary of State
-    </h3>
     <p>
-      If you are aggrieved by this decision, then you can appeal to the Secretary of State under section 195 of the Town and Country Planning Act 1990 (as amended). Appeals to the Secretary of State regarding this decision may be made online and in accordance with the guidance set out on the Government website at: <a href="https://www.gov.uk/appeal-lawful-development-certificate-decision">https://www.gov.uk/appeal-lawful-development-certificate-decision</a>
+      TOWN & COUNTRY PLANNING (APPEALS) (WRITTEN REPRESENTATIONS) (ENGLAND)
+      (AMENDMENT) (REGULATIONS 2013)
     </p>
+    <p>TOWN AND COUNTRY PLANNING ACT 1990</p>
+    <h3>Appeals to the Secretary of State</h3>
+    <ul>
+      <li>
+        If you are aggrieved by the decision of your Local Planning Authority to
+        refuse permission for the proposed development or to grant it subject to
+        conditions, then you can appeal to the Secretary of State under section
+        78 of the Town and Country Planning Act 1990.
+      </li>
+      <li>
+        If you want to appeal against your Local Planning Authority’s decision,
+        then you must do so within 12 weeks from the date of this notice for
+        appeals being decided under the Commercial Appeals Service and 6 months
+        from the date of this notice for all other minor and major applications.
+      </li>
+      <li>
+        However, if an enforcement notice has been served for the same or very
+        similar development within the previous 2 years, the time limit is:
+        <ul>
+          <li>
+            28 days from the date of the LPA decision if the enforcement notice
+            was served before the decision was made yet not longer than 2 years
+            before the application was made.
+          </li>
+          <li>
+            28 days from the date the enforcement notice was served if served on
+            or after the date the decision was made (unless this extends the
+            appeal period beyond 6 months).
+          </li>
+        </ul>
+      </li>
+      <li>
+        Appeals must be made to the Planning Inspectorate and this can be done
+        electronically via the GOV.UK website:
+        <a href="https://www.gov.uk/appeal-planning-decision">https://www.gov.uk/appeal-planning-decision</a>
+      </li>
+      <li>
+        If you are unable to appeal online, you can obtain a paper form from the
+        Planning Inspectorate by contacting their Customer Support Team on 0303
+        444 5000.
+      </li>
+    </ul>
+    <h3>Commercial Appeals Service</h3>
+    <ul>
+      <li>
+        This type of appeal proceeds by way of written representations, known as
+        the "Commercial Appeals Service". Third parties will not have the
+        opportunity to make further representations to the Planning Inspectorate
+        on these.
+      </li>
+    </ul>
+    <h3>All other Minor and Major Applications</h3>
+    <ul>
+      <li>
+        The Secretary of State can allow a longer period for giving notice of an
+        appeal, but he will not normally be prepared to use this power unless
+        there are special circumstances which excuse the delay in giving notice
+        of appeal.
+      </li>
+      <li>
+        The Secretary of State need not consider an appeal if it seems to the
+        Secretary of State that the Local Planning Authority could not have
+        granted planning permission for the proposed development or could not
+        have granted it without the conditions they imposed, having regard to
+        the statutory requirements, to the provisions of any development order
+        and to any directions given under a development order.
+      </li>
+      <li>
+        In practice, the Secretary of State does not refuse to consider appeals
+        solely because the Local Planning Authority based on their decision on a
+        direction given by him.
+      </li>
+      <li>
+        If you intend to submit an appeal that you would like examined by
+        inquiry then you must notify the Local Planning Authority and Planning
+        Inspectorate
+        (<a href="inquiryappeals@planninginspectorate.gov.uk">inquiryappeals@planninginspectorate.gov.uk</a>)
+        at least 10 days before submitting the appeal. Further details are on
+        GOV.UK.
+      </li>
+    </ul>
+    <h3>Purchase Notices</h3>
+    <ul>
+      <li>
+        If either the Local Planning Authority or the Secretary of State refuses
+        permission to development land or grants it subject to conditions, the
+        owner may claim that he can neither put the land to a reasonably
+        beneficial use in its existing state nor render the land capable of a
+        reasonably beneficial use by the carrying out of any development which
+        has been or would be permitted.
+      </li>
+      <li>
+        In these circumstances, the owner may serve a purchase notice on the
+        Council (District Council, London Borough Council or Common Council of
+        the City of London) in whose area the land is situated. This notice will
+        require the Council to purchase his interest in the land in accordance
+        with the provisions of Part VI of the Town and Country Planning Act
+        1990.
+      </li>
+    </ul>
   <% end %>
 </div>
+
 <p class="govuk-!-margin-top-3">
   <%= govuk_link_to "Download as PDF", decision_notice_api_v1_planning_application_path(@planning_application, format: "pdf") %>
 </p>
