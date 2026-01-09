@@ -64,17 +64,17 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
       expect(page).to have_selector(:completed_sidebar_task, "Check application details")
 
       within :sidebar do
-        click_link "Check consultees consulted"
+        click_link "Check consultees"
       end
 
-      expect(page).to have_current_path("/preapps/#{reference}/check-and-assess/check-application/check-consultees-consulted")
-      expect(page).to have_selector("h1", text: "Check consultees consulted")
-      expect(page).to have_selector(:active_sidebar_task, "Check consultees consulted")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-assess/check-application/check-consultees")
+      expect(page).to have_selector("h1", text: "Check consultees")
+      expect(page).to have_selector(:active_sidebar_task, "Check consultees")
 
       click_button "Save and mark as complete"
 
-      expect(task("Check consultees consulted").reload).to be_completed
-      expect(page).to have_selector(:completed_sidebar_task, "Check consultees consulted")
+      expect(task("Check consultees").reload).to be_completed
+      expect(page).to have_selector(:completed_sidebar_task, "Check consultees")
 
       within :sidebar do
         click_link "Check site history"

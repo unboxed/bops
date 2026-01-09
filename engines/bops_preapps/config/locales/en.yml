@@ -53,7 +53,7 @@ en:
         assessment-summaries:
           site-description:
             show:
-              heading: Description of the site
+              heading: Description of the site and surroundings
               view_site_on_map: View site on Google Maps
               warning: This information WILL be made publicly available.
           suggest-heads-of-terms:
@@ -157,7 +157,7 @@ en:
             failure: Failed to save draft constraints
             success: Draft constraints successfully saved
           success: Constraints were successfully marked as reviewed
-        check-consultees-consulted:
+        check-consultees:
           failure: Failed to save consultee review
           success: Consultees were successfully marked as reviewed
         check-description:
