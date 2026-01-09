@@ -71,7 +71,6 @@ RSpec.describe "Planning considerations and advice task", type: :system do
     expect(page).to have_text "Failed to add consideration"
 
     expect(planning_application.consideration_set.considerations).to be_empty
-    pp task.status
     expect(task).to be_not_started
   end
 
