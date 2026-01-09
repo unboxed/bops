@@ -189,7 +189,7 @@ RSpec.describe "Pre-application report" do
     end
 
     expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/assessment-summaries/summary-of-advice})
-    fill_in "task[entry]", with: "Updated advice."
+    fill_in "tasks_summary_of_advice_form[entry]", with: "Updated advice."
     choose "Likely to be supported with changes"
     click_button "Save and mark as complete"
 
