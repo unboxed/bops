@@ -9,9 +9,11 @@
       <%= planning_application.local_authority.council_name %>
     </span>
     <br>
-    <h3>
-      <%= planning_application.application_type.legislation_title %>
-    </h3>
+
+    <h1>Decision Notice</h1>
+
+    <h3><%= planning_application.application_type.legislation_title %></h3>
+
     <h2>
       <strong>
         <%= t("recommendation.title", application_type: planning_application.application_type.description, decision: planning_application.decision.humanize) %>
