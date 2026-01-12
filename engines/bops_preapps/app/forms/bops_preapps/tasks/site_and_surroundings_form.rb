@@ -2,7 +2,7 @@
 
 module BopsPreapps
   module Tasks
-    class SiteDescriptionForm < Form
+    class SiteAndSurroundingsForm < Form
       self.task_actions = %w[save_draft save_and_complete]
 
       attribute :site_description, :string

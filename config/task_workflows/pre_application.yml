@@ -57,7 +57,7 @@
     - name: Assessment summaries
       section: Assessment summaries
       tasks:
-        - name: Site description
+        - name: Site and surroundings
           legacy_url: ""
         - name: Planning considerations and advice
           legacy_url: ""

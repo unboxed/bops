@@ -2,10 +2,10 @@
 
 require "rails_helper"
 
-RSpec.describe "Site description task", type: :system do
+RSpec.describe "Site and surroundings task", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:planning_application) { create(:planning_application, :pre_application, local_authority:) }
-  let(:task) { planning_application.case_record.find_task_by_slug_path! "check-and-assess/assessment-summaries/site-description" }
+  let(:task) { planning_application.case_record.find_task_by_slug_path! "check-and-assess/assessment-summaries/site-and-surroundings" }
   let(:user) { create(:user, local_authority:) }
 
   before do
@@ -15,7 +15,7 @@ RSpec.describe "Site description task", type: :system do
 
   it "Can complete and submit the form" do
     within ".bops-sidebar" do
-      click_link "Site description"
+      click_link "Site and surroundings"
     end
 
     fill_in "Description of the site and surroundings", with: "Words words words"

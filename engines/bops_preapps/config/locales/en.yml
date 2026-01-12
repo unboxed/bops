@@ -51,7 +51,7 @@ en:
             show:
               heading: View site visits
         assessment-summaries:
-          site-description:
+          site-and-surroundings:
             show:
               heading: Description of the site and surroundings
               view_site_on_map: View site on Google Maps
@@ -212,7 +212,7 @@ en:
         send-validation-decision:
           failure: Failed to send validation decision
           success_html: "<strong>Validation decision sent</strong> <br><br> An email notification has been sent to the applicant. The application is now ready for consultation and assessment."
-        site-description:
+        site-and-surroundings:
           failure: Failed to save site description
           success: Site description was successfully updated
         site-visit:

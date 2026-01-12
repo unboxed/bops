@@ -389,7 +389,7 @@ RSpec.describe "Pre-application report" do
       click_link "Edit"
     end
 
-    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/assessment-summaries/site-description})
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/assessment-summaries/site-and-surroundings})
     expect(page).to have_content("Description of the site")
 
     fill_in "Description of the site", with: "This is the amended description of site and surroundings"

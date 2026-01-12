@@ -132,10 +132,10 @@ RSpec.describe "Site description" do
 
     it "does not show the information will be made public warning" do
       click_link "Check and assess"
-      click_link "Site description"
+      click_link "Site and surroundings"
 
       expect(page).to have_current_path(
-        "/preapps/#{reference}/check-and-assess/assessment-summaries/site-description"
+        "/preapps/#{reference}/check-and-assess/assessment-summaries/site-and-surroundings"
       )
 
       expect(page).to have_content("Description of the site")
