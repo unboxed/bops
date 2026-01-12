@@ -2,12 +2,12 @@
 
 module BopsPreapps
   module Tasks
-    class DrawRedLineBoundaryForm < BaseForm
-      include ActiveModel::Attributes
+    class DrawRedLineBoundaryForm < Form
+      self.task_actions = %w[save_and_complete]
 
       attribute :boundary_geojson, :string
 
-      validates :boundary_geojson, presence: true
+      validates :boundary_geojson, presence: {message: I18n.t("bops_preapps.tasks.update.draw-red-line-boundary.failure")}
 
       def boundary_geojson=(value)
         return if value.blank? || value == "null"
@@ -15,31 +15,27 @@ module BopsPreapps
       end
 
       def update(params)
-        assign_attributes(boundary_geojson: params.dig(:planning_application, :boundary_geojson))
-        save
-      end
-
-      def save
-        return false unless valid?
-
-        ApplicationRecord.transaction do
-          persist_boundary!
-          task.complete!
+        super do
+          if action.in?(task_actions)
+            send(action.to_sym)
+          else
+            raise ArgumentError, "Invalid task action: #{action.inspect}"
+          end
         end
-        true
-      rescue ActiveRecord::RecordInvalid
-        false
       end
 
       def sitemap_documents
         @sitemap_documents ||= planning_application.documents.with_siteplan_tags
       end
 
-      def permitted_fields(params)
-        params
-      end
-
       private
+
+      def save_and_complete
+        transaction do
+          persist_boundary!
+          task.complete!
+        end
+      end
 
       def persist_boundary!
         return if boundary_geojson.blank?
