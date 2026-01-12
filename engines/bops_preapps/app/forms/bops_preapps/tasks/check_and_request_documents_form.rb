@@ -5,8 +5,6 @@ module BopsPreapps
     class CheckAndRequestDocumentsForm < Form
       self.task_actions = %w[save_and_complete edit_form]
 
-      attribute :documents_missing
-
       def update(params)
         transaction do
           super do
@@ -33,14 +31,8 @@ module BopsPreapps
       private
 
       def save_and_complete
-        planning_application.update!(documents_missing: documents_missing(params))
+        planning_application.update!(documents_missing: additional_request_pending?)
         super
-      end
-
-      def documents_missing(params)
-        missing = params[:documents_missing] == "true"
-
-        missing || additional_request_pending?
       end
 
       def additional_request_pending?
