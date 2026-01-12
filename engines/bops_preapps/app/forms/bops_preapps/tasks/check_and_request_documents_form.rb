@@ -2,27 +2,21 @@
 
 module BopsPreapps
   module Tasks
-    class CheckAndRequestDocumentsForm < BaseForm
+    class CheckAndRequestDocumentsForm < Form
+      self.task_actions = %w[save_and_complete edit_form]
+
+      attribute :documents_missing
+
       def update(params)
-        ActiveRecord::Base.transaction do
-          case button
-          when "edit_form"
-            edit_form
-          when "save_draft"
-            planning_application.update!(documents_missing: documents_missing(params))
-            task.start!
-          else
-            planning_application.update!(documents_missing: documents_missing(params))
-            task.complete!
+        transaction do
+          super do
+            if action.in?(task_actions)
+              send(action.to_sym)
+            else
+              raise ArgumentError, "Invalid task action: #{action.inspect}"
+            end
           end
         end
-      rescue ActiveRecord::ActiveRecordError
-        false
-      end
-
-      def permitted_fields(params)
-        @button = params[:button]
-        params.require(:task).permit(:documents_missing)
       end
 
       def flash(type, controller)
@@ -37,6 +31,11 @@ module BopsPreapps
       end
 
       private
+
+      def save_and_complete
+        planning_application.update!(documents_missing: documents_missing(params))
+        super
+      end
 
       def documents_missing(params)
         missing = params[:documents_missing] == "true"

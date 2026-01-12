@@ -17,8 +17,8 @@
         )
       } %>
 
-<%= form_with model: @task, url: task_path(@planning_application, @task) do |form| %>
+<%= form_with model: @form, url: @form.url do |form| %>
   <%= form.hidden_field :documents_missing, value: additional_document_validation_requests.any? %>
 
-  <%= render "shared/task_submit_buttons_old", form: form, save_draft: false %>
+  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
 <% end %>
