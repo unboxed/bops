@@ -188,6 +188,13 @@ RSpec.describe "Pre-application validation workflow", type: :system do
 
       click_button "Mark the application as valid"
 
+      expect(page).to have_content("An email notification has been sent to the applicant. The application is now ready for consultation and assessment")
+
+      click_link "Check and validate"
+      within :sidebar do
+        click_link "Send validation decision"
+      end
+
       expect(page).to have_content("The application is marked as valid")
       expect(task("Send validation decision").reload).to be_completed
       expect(planning_application.reload).to be_valid

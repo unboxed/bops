@@ -24,6 +24,23 @@ module BopsPreapps
         end
       end
 
+      def redirect_url(options = {})
+        if task.completed?
+          Rails.application.routes.url_helpers.planning_application_path(planning_application)
+        else
+          super
+        end
+      end
+
+      def flash(type, controller)
+        case type
+        when :notice
+          (after_success == "redirect") ? controller.t(".#{slug}.success_html") : nil
+        when :alert
+          (after_failure == "redirect") ? controller.t(".#{slug}.failure") : nil
+        end
+      end
+
       private
 
       def save_and_invalidate

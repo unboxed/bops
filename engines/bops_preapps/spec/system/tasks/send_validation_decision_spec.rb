@@ -26,6 +26,12 @@ RSpec.describe "Send validation decision task", type: :system, capybara: true do
 
     click_button("Mark the application as valid")
 
+    expect(page).to have_content("An email notification has been sent to the applicant. The application is now ready for consultation and assessment")
+
+    click_link "Check and validate"
+    within :sidebar do
+      click_link "Send validation decision"
+    end
     expect(page).to have_content("The application is marked as valid and cannot be marked as invalid.")
     expect(task.reload).to be_completed
     expect(planning_application.reload).to be_valid
@@ -46,6 +52,11 @@ RSpec.describe "Send validation decision task", type: :system, capybara: true do
       expect(page).to have_content("You have marked items as invalid, so you cannot validate this application.")
 
       click_button("Mark the application as invalid")
+
+      click_link "Check and validate"
+      within :sidebar do
+        click_link "Send validation decision"
+      end
 
       expect(page).to have_content("The application is marked as invalid.")
       expect(task.reload).to be_completed
@@ -69,6 +80,11 @@ RSpec.describe "Send validation decision task", type: :system, capybara: true do
       expect(page).to have_content("Once the application has been checked and all validation requests resolved, mark the application as valid.")
 
       click_button("Mark the application as valid")
+
+      click_link "Check and validate"
+      within :sidebar do
+        click_link "Send validation decision"
+      end
       expect(page).to have_content("The application is marked as valid and cannot be marked as invalid.")
       expect(task.reload).to be_completed
       expect(planning_application.reload).to be_valid
@@ -83,6 +99,11 @@ RSpec.describe "Send validation decision task", type: :system, capybara: true do
       end
 
       click_button("Mark the application as invalid")
+
+      click_link "Check and validate"
+      within :sidebar do
+        click_link "Send validation decision"
+      end
 
       expect(page).to have_content("The application is marked as invalid.")
       expect(planning_application.reload.status).to eq("invalidated")
