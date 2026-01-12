@@ -1,67 +1,79 @@
 # frozen_string_literal: true
 
 class ConstraintsCreationService
+  IGNORED_CONSTRAINTS = %w[
+    road_classified
+  ].freeze
+
   def initialize(planning_application:, constraints_params:)
     @planning_application = planning_application
     @constraints_params = constraints_params
   end
 
   def call
-    constraints.each do |constraint|
+    existing_constraints = planning_application_constraints.index_by(&:type)
+
+    constraint_requests.each do |request|
       query = PlanningApplicationConstraintsQuery.create!(
         planning_application:,
         geojson: planning_application.boundary_geojson,
-        wkt: constraint["wkt"],
-        planx_query: constraint["planxRequest"],
-        planning_data_query: constraint["sourceRequest"]
+        wkt: request["wkt"],
+        planx_query: request["planxRequest"],
+        planning_data_query: request["sourceRequest"]
       )
 
-      current_constraints = constraint["constraints"].filter { |_, present_constraint| present_constraint["value"] }
-
-      current_constraints.each do |k, v|
-        existing_constraint = Constraint.find_by("LOWER(type)= ?", k.parameterize.underscore)
+      request["constraints"].each do |key, constraint|
+        underscore_key = key.parameterize.underscore
+        existing_constraint = existing_constraints.delete(underscore_key)
 
         if existing_constraint
-          metadata = constraint["metadata"][k] if constraint["metadata"]
+          if constraint["value"]
+            existing_constraint.update!(
+              planning_application_constraints_query: query,
+              identified: true,
+              identified_by: identified_by,
+              data: constraint["data"],
+              metadata: constraint.dig("metadata", key)
+            )
+          else
+            existing_constraint.destroy!
+          end
+        elsif constraint["value"]
+          constraint_type = Constraint.find_by("LOWER(type)= ?", underscore_key)
 
-          planning_application.planning_application_constraints.create!(
-            constraint_id: existing_constraint.id,
-            planning_application_constraints_query: query,
-            identified: true,
-            identified_by: planning_application.api_user&.name || "BOPS",
-            data: v["data"],
-            metadata:
-          )
-        else
-          Appsignal.report_error("Unexpected constraint type: #{k}, category #{v["category"]}")
+          if constraint_type
+            planning_application_constraints.create!(
+              constraint: constraint_type,
+              planning_application_constraints_query: query,
+              identified: true,
+              identified_by: identified_by,
+              data: constraint["data"],
+              metadata: constraint.dig("metadata", key)
+            )
+          else
+            Appsignal.report_error("Unexpected constraint type: #{key}, category #{constraint["category"]}")
+          end
         end
       end
     end
 
-    previous_constraints =
-      planning_application.planning_application_constraints.active
-    previous_constraints.each do |pa_constraint|
-      next if present_constraints.include?(pa_constraint.constraint.type)
-
-      pa_constraint.update!(removed_at: Time.current)
-    end
-  rescue ActiveRecord::RecordInvalid, NoMethodError => e
+    existing_constraints.delete(*IGNORED_CONSTRAINTS)
+    existing_constraints.each(&:destroy!)
+  rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved, ActiveRecord::RecordNotDestroyed => e
     Appsignal.report_error(e)
   end
 
   private
 
   attr_reader :planning_application, :constraints_params
+  delegate :planning_application_constraints, to: :planning_application
+  delegate :api_user, to: :planning_application, allow_nil: true
 
-  def constraints
-    @constraints ||= Array.wrap(constraints_params)
+  def constraint_requests
+    Array.wrap(constraints_params)
   end
 
-  def present_constraints
-    constraints.filter_map do |constraint|
-      constraint["constraints"].filter_map do |key, value|
-        key.parameterize.underscore if value["value"]
-      end
-    end.flatten
+  def identified_by
+    api_user&.name || "BOPS"
   end
 end
