@@ -211,7 +211,7 @@ en:
           success: Emails have been sent to the selected consultees
         send-validation-decision:
           failure: Failed to send validation decision
-          success: Validation decision successfully sent
+          success_html: "<strong>Validation decision sent</strong> <br><br> An email notification has been sent to the applicant. The application is now ready for consultation and assessment."
         site-description:
           failure: Failed to save site description
           success: Site description was successfully updated

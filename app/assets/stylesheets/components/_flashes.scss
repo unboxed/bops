@@ -12,3 +12,7 @@
     color: $govuk-error-colour;
   }
 }
+
+.govuk-notification-banner__content > * {
+  max-width: none;
+}
