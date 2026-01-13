@@ -129,6 +129,16 @@ RSpec.describe "Check application details task", type: :system do
     expect(page).to have_content("Requested 15 September 2022 12:00")
   end
 
+  it "can navigate to the first task from consultation" do
+    visit "/preapps/#{planning_application.reference}/consultees/determine-consultation-requirement"
+
+    within ".bops-sidebar" do
+      click_link "Assessment"
+    end
+
+    expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/check-application/check-application-details")
+  end
+
   context "when there is an existing additional document request" do
     before do
       create(

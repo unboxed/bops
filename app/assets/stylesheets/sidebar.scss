@@ -123,3 +123,10 @@ body:has(.bops-fullwidth-container) {
   height: 24px;
   line-height: 0;
 }
+
+.bops-sidebar__link {
+  display: inline-flex; // make link a flex container
+  align-items: center; // vertically center icon + text
+  gap: govuk-spacing(2); // horizontal spacing between icon + text
+  text-decoration: none; // keep GOV.UK link style if needed
+}

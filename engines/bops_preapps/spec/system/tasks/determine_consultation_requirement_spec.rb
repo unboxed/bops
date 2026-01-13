@@ -134,6 +134,16 @@ RSpec.describe "Determine consultation requirement task", type: :system do
     end
   end
 
+  it "can navigate to the first task from assessment", :capybara do
+    visit "/preapps/#{planning_application.reference}/check-and-assess/check-application/check-application-details"
+
+    within ".bops-sidebar" do
+      click_link "Consultation"
+    end
+
+    expect(page).to have_current_path("/preapps/#{planning_application.reference}/consultees/determine-consultation-requirement")
+  end
+
   describe "consultation task visibility" do
     let(:consultees_section) { planning_application.case_record.find_task_by_slug_path!("consultees") }
     let(:add_consultees_task) { consultees_section.tasks.find_by(slug: "add-and-assign-consultees") }
