@@ -6,8 +6,9 @@
     change it, you can select the outcome.
   </p>
 
-  <%= form_with model: @task, url: task_path(@planning_application, @task), action: :patch do |form| %>
+  <%= form_with model: @form, url: @form.url, action: :patch do |form| %>
     <%= form.govuk_error_summary %>
+
     <%= return_to_hidden_field %>
     <% outcome = @planning_application.consideration_set.suggested_outcome %>
     <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Select pre-application outcome", size: "s"}, small: true do %>
@@ -26,6 +27,6 @@
               .entry, label: {text: t(".label")}, rows: 10) %>
     <%= form.hidden_field(:category, value: @category) %>
 
-    <%= render "shared/task_submit_buttons_old", form: form %>
+    <%= render "shared/task_submit_buttons", form: form %>
   <% end %>
 </div>

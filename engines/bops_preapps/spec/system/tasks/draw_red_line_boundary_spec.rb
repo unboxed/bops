@@ -115,7 +115,7 @@ RSpec.describe "Draw red line boundary task", type: :system do
       click_link "Draw red line boundary"
     end
 
-    find("input[name='planning_application[boundary_geojson]']").set(boundary_geojson.to_json)
+    find("input[name='tasks_draw_red_line_boundary_form[boundary_geojson]']").set(boundary_geojson.to_json)
 
     click_button "Save and mark as complete"
 

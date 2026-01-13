@@ -27,10 +27,10 @@ RSpec.describe "Check application details task", type: :system do
     click_button "Save and mark as complete"
     expect(task.reload).to be_completed
 
-    expect(planning_application.reload.consistency_checklist.description_matches_documents).to eq "yes"
-    expect(planning_application.reload.consistency_checklist.documents_consistent).to eq "yes"
-    expect(planning_application.reload.consistency_checklist.proposal_details_match_documents).to eq "yes"
-    expect(planning_application.reload.consistency_checklist.site_map_correct).to eq "yes"
+    expect(planning_application.consistency_checklist.description_matches_documents).to eq "yes"
+    expect(planning_application.consistency_checklist.documents_consistent).to eq "yes"
+    expect(planning_application.consistency_checklist.proposal_details_match_documents).to eq "yes"
+    expect(planning_application.consistency_checklist.site_map_correct).to eq "yes"
   end
 
   it "persists radio button selections when viewing the page again" do
