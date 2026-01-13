@@ -48,3 +48,6 @@ yarn-debug.log*
 /config/credentials/production.key
 
 /.erblint-rubocop*
+
+# Claude Code
+.claude/settings.local.json
