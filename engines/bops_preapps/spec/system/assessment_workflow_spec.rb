@@ -118,25 +118,25 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
       expect(page).to have_selector(:completed_sidebar_task, "Meeting")
 
       within :sidebar do
-        click_link "Site description"
+        click_link "Site and surroundings"
       end
 
-      expect(page).to have_current_path("/preapps/#{reference}/check-and-assess/assessment-summaries/site-description")
-      expect(page).to have_selector("h1", text: "Site description")
-      expect(page).to have_selector(:active_sidebar_task, "Site description")
+      expect(page).to have_current_path("/preapps/#{reference}/check-and-assess/assessment-summaries/site-and-surroundings")
+      expect(page).to have_selector("h1", text: "Site and surroundings")
+      expect(page).to have_selector(:active_sidebar_task, "Site and surroundings")
 
       fill_in "Description of the site", with: "A detached house with garden."
 
       click_button "Save changes"
 
       expect(page).to have_content("Site description was successfully updated")
-      expect(task("Site description").reload).to be_in_progress
-      expect(page).to have_selector(:in_progress_sidebar_task, "Site description")
+      expect(task("Site and surroundings").reload).to be_in_progress
+      expect(page).to have_selector(:in_progress_sidebar_task, "Site and surroundings")
 
       click_button "Save and mark as complete"
 
-      expect(task("Site description").reload).to be_completed
-      expect(page).to have_selector(:completed_sidebar_task, "Site description")
+      expect(task("Site and surroundings").reload).to be_completed
+      expect(page).to have_selector(:completed_sidebar_task, "Site and surroundings")
 
       within :sidebar do
         click_link "Planning considerations and advice"
@@ -228,7 +228,7 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
       planning_application.update!(status: "determined", determined_at: Time.current)
 
       sign_in(assessor)
-      visit "/preapps/#{reference}/check-and-assess/assessment-summaries/site-description"
+      visit "/preapps/#{reference}/check-and-assess/assessment-summaries/site-and-surroundings"
 
       expect(page).not_to have_button("Save and mark as complete")
       expect(page).not_to have_button("Save changes")

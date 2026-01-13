@@ -283,23 +283,21 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<% if @site_description&.entry || editing_enabled? %>
-  <section id="site-and-surroundings">
-    <div class="govuk-!-margin-bottom-2 flex-between">
-      <h2>Site and surroundings</h2>
+<section id="site-and-surroundings">
+  <div class="govuk-!-margin-bottom-2 flex-between">
+    <h2>Site and surroundings</h2>
 
-      <% if editing_enabled? %>
-        <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/site-description", anchor: "site-and-surroundings") %>
-      <% end %>
-    </div>
+    <% if editing_enabled? %>
+      <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/site-and-surroundings", anchor: "site-and-surroundings") %>
+    <% end %>
+  </div>
 
-    <p>
-      <%= @site_description&.entry || "No site description added." %>
-    </p>
-  </section>
+  <p>
+    <%= @site_description&.entry || "No site description added." %>
+  </p>
+</section>
 
-  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-<% end %>
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <section id="considerations-advice">
   <div class="flex-between govuk-!-margin-bottom-2">
@@ -386,23 +384,24 @@
     <% end %>
   <% end %>
 
-  <% if @summary_of_advice.present? %>
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-    <section id="summary-advice">
-      <div class="flex-between">
-        <h2>Summary of advice</h2>
-        <% if editing_enabled? %>
-          <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/summary-of-advice", anchor: "summary-advice") %>
-        <% end %>
-      </div>
-
+  <section id="summary-advice">
+    <div class="flex-between">
+      <h2>Summary of advice</h2>
+      <% if editing_enabled? %>
+        <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/summary-of-advice", anchor: "summary-advice") %>
+      <% end %>
+    </div>
+    <% if @summary_of_advice.present? %>
       <p>This is the case officer's summary of the conclusions and advice.</p>
       <p class="grey-border-box">
         <%= @summary_of_advice.entry %>
       </p>
-    </section>
-  <% end %>
+    <% else %>
+      <p>No summary of advice has been added.</p>
+    <% end %>
+  </section>
 </section>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
