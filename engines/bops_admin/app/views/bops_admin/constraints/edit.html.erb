@@ -1,0 +1,22 @@
+<% content_for :page_title do %>
+  <%= t(".edit_constraint") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+
+<% add_parent_breadcrumb_link t(".constraints"), constraints_path %>
+
+<% content_for :title, t(".edit_constraint") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation", current: "constraints" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1><%= t(".edit_constraint") %></h1>
+
+    <%= form_with model: @constraint, url: constraint_path(@constraint), scope: :constraint do |form| %>
+      <%= render "form", form: form %>
+    <% end %>
+  </div>
+</div>

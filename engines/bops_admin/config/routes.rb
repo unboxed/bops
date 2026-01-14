@@ -27,6 +27,7 @@ BopsAdmin::Engine.routes.draw do
   with_options except: %i[show] do
     resources :informatives
     resources :requirements
+    resources :constraints
   end
 
   scope "/policy" do

@@ -129,6 +129,41 @@ en:
         view_and_or_edit: View and/or edit
       update:
         success: Application profile successfully updated
+    constraints:
+      create:
+        successfully_created: Constraint successfully created
+      destroy:
+        not_destroyed: Unable to delete constraint - please contact support
+        successfully_destroyed: Constraint successfully deleted
+      edit:
+        constraints: Constraints
+        edit_constraint: Edit constraint
+      form:
+        hints:
+          category: e.g., Heritage and Conservation
+          type: e.g., Listed
+        labels:
+          category: Category
+          type: Type
+        submit: Submit
+      index:
+        actions:
+          delete: Delete
+          edit: Edit
+        add_constraint: Add constraint
+        are_you_sure: Are you sure you want to delete this constraint?
+        constraints: Constraints
+        headings:
+          actions: Actions
+          description: Description
+        manage_constraints: Manage constraints
+        no_constraints_found: No constraints found
+        policy_references: Policy references
+      new:
+        add_constraint: Add a new constraint
+        constraints: Constraints
+      update:
+        successfully_updated: Constraint successfully updated
     consultees:
       create:
         consultee_successfully_created: Consultee successfully created
