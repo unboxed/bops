@@ -21,9 +21,9 @@ module NotifyHelper
 
     stub_request(:post, LETTER_URL)
       .with do |request|
-      body = JSON.parse(request.body, symbolize_names: true)
-      body[:template_id] == local_authority.letter_template_id &&
-        body[:personalisation][:address_line_1] == "The Occupier"
+        body = JSON.parse(request.body, symbolize_names: true)
+        body[:template_id] == local_authority.letter_template_id &&
+          body[:personalisation][:address_line_1] == "The Occupier"
     end
       .to_return(
         status:,
