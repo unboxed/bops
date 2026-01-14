@@ -51,7 +51,54 @@ class SidebarComponent < ViewComponent::Base
     return if visible_tasks.empty?
 
     elements = []
-    elements << helpers.tag.h3(section.section, class: "govuk-heading-s")
+
+    if planning_application.pre_application? && section.section == "Assessment"
+      elements << helpers.govuk_link_to(
+        helpers.safe_join([
+          helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
+          "Consultation"
+        ]),
+        BopsPreapps::Engine.routes.url_helpers.task_path(
+          planning_application,
+          consultation_task
+        ),
+        class: "bops-sidebar__link"
+      )
+
+      elements << helpers.tag.hr(class: "govuk-!-margin-bottom-4")
+
+    elsif planning_application.pre_application? && section.section == "Consultation"
+
+      elements << helpers.govuk_link_to(
+        helpers.safe_join([
+          helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
+          "Assessment"
+        ]),
+        BopsPreapps::Engine.routes.url_helpers.task_path(
+          planning_application,
+          assessment_task
+        ),
+        class: "bops-sidebar__link"
+      )
+
+      elements << helpers.tag.hr(class: "govuk-!-margin-bottom-4")
+    end
+    elements << helpers.tag.h3(section.section, class: "govuk-heading-s govuk-!-margin-bottom-2 ")
+
+    if planning_application.pre_application? && section.section == "Assessment"
+      elements << helpers.tag.div(
+        helpers.govuk_link_to(
+          "Preview report",
+          bops_reports.planning_application_path(
+            planning_application,
+            view_as: "applicant"
+          ),
+          new_tab: true,
+          id: "preview-report-button-link"
+        ),
+        class: "govuk-!-margin-bottom-4"
+      )
+    end
     tasks = visible_tasks.map { |task| render_task(task) }
     elements << helpers.tag.ul(safe_join(tasks), class: "govuk-list govuk-list--spaced")
 
@@ -84,5 +131,13 @@ class SidebarComponent < ViewComponent::Base
     return false if current_slug.blank?
 
     task.full_slug == current_slug
+  end
+
+  def consultation_task
+    @planning_application.case_record.tasks.find_by(section: "Consultation")&.first_child
+  end
+
+  def assessment_task
+    @planning_application.case_record.tasks.find_by(section: "Assessment")&.first_child
   end
 end
