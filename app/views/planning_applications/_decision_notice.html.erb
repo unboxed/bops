@@ -156,6 +156,15 @@
     <% end %>
   </div>
 
+  <% if planning_application.local_authority.engagement_statement? %>
+    <h3>
+      Proactive engagement
+    </h3>
+    <p>
+      <%= render(FormattedContentComponent.new(text: planning_application.local_authority.engagement_statement)) %>
+    </p>
+  <% end %>
+
   <h3>
     Notes:
   </h3>

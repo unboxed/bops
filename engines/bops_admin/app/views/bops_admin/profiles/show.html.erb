@@ -68,6 +68,17 @@
           </p>
         </li>
         <li>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".engagement_statement") %></h2>
+          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".engagement_statement_hint") %></div>
+          <p>
+            <% if current_local_authority.engagement_statement? %>
+              <%= simple_format(current_local_authority.engagement_statement) %>
+            <% else %>
+              –
+            <% end %>
+          </p>
+        </li>
+        <li>
           <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".email_address") %></h2>
           <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".email_address_hint") %></div>
           <p>

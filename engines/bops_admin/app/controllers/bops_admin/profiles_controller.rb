@@ -33,6 +33,7 @@ module BopsAdmin
         :signatory_name,
         :signatory_job_title,
         :enquiries_paragraph,
+        :engagement_statement,
         :email_address,
         :telephone_number,
         :feedback_email,
