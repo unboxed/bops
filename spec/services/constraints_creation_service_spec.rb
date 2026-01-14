@@ -95,6 +95,7 @@ RSpec.describe ConstraintsCreationService, type: :service do
             designated
             designated_conservationarea
             listed
+            road_classified
             tpo
           ])
         )
