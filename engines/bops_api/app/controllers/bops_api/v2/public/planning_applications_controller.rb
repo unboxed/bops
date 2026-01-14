@@ -46,6 +46,7 @@ module BopsApi
             :reference,
             :description,
             :postcode,
+            :alternativeReference,
             :publishedAtFrom,
             :publishedAtTo,
             :receivedAtFrom,

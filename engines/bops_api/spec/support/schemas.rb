@@ -157,6 +157,14 @@ RSpec.configure do |config|
           enum: ["refused", "granted", "not_required"],
           default: nil
         }
+
+      parameter name: :alternativeReference,
+        in: :query,
+        required: false,
+        description: "Filter by alternative reference (case-insensitive partial match)",
+        schema: {
+          type: :string
+        }
     end
 
     private

@@ -35558,6 +35558,12 @@ paths:
           - granted
           - not_required
           default:
+      - name: alternativeReference
+        in: query
+        required: false
+        description: Filter by alternative reference (case-insensitive partial match)
+        schema:
+          type: string
       responses:
         '200':
           description: returns planning applications when searching by a reference
@@ -36185,6 +36191,12 @@ paths:
           - granted
           - not_required
           default:
+      - name: alternativeReference
+        in: query
+        required: false
+        description: Filter by alternative reference (case-insensitive partial match)
+        schema:
+          type: string
       - name: resultsPerPage
         in: query
         schema:
@@ -36228,8 +36240,8 @@ paths:
           default: receivedAt
       responses:
         '200':
-          description: returns planning applications when searching by a reference
-            or description
+          description: returns planning applications when filtering by alternative
+            reference
           content:
             application/json:
               schema:

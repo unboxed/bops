@@ -38,6 +38,7 @@ module BopsApi
         :consultationEndDateFrom,
         :consultationEndDateTo,
         :councilDecision,
+        :alternativeReference,
         applicationStatus: [],
         applicationType: [])
     end

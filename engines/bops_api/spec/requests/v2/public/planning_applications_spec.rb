@@ -242,6 +242,29 @@ RSpec.describe "BOPS public API" do
           )
         end
       end
+
+      response "200", "returns planning applications when filtering by alternative reference" do
+        schema "$ref" => "#/components/schemas/PublicSearch"
+
+        let!(:app_with_alt_ref) do
+          create(
+            :planning_application,
+            :published,
+            :with_boundary_geojson,
+            local_authority: local_authority,
+            application_type: application_type,
+            alternative_reference: "ALT-REF-12345"
+          )
+        end
+        let(:alternativeReference) { "ALT-REF" }
+
+        run_test! do |response|
+          data = JSON.parse(response.body)
+
+          expect(data["data"].length).to eq(1)
+          expect(data["data"].first["application"]["alternativeReference"]).to eq("ALT-REF-12345")
+        end
+      end
     end
   end
 
