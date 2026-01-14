@@ -12,6 +12,7 @@ class ConstraintsCreationService
 
   def call
     existing_constraints = planning_application_constraints.index_by(&:type)
+    existing_constraints.delete(*IGNORED_CONSTRAINTS)
 
     constraint_requests.each do |request|
       query = PlanningApplicationConstraintsQuery.create!(
@@ -57,7 +58,6 @@ class ConstraintsCreationService
       end
     end
 
-    existing_constraints.delete(*IGNORED_CONSTRAINTS)
     existing_constraints.each(&:destroy!)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved, ActiveRecord::RecordNotDestroyed => e
     Appsignal.report_error(e)
