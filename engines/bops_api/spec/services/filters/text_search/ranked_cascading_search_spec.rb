@@ -5,42 +5,43 @@ require "rails_helper"
 RSpec.describe BopsApi::Filters::TextSearch::RankedCascadingSearch do
   let(:local_authority) { create(:local_authority) }
   let(:scope) { PlanningApplication.where(local_authority: local_authority) }
+  let(:filter) { described_class.new }
 
-  describe ".call" do
-    context "when q param is blank" do
-      let(:params) { {} }
+  describe "#applicable?" do
+    it "returns false when q param is blank" do
+      expect(filter.applicable?({})).to be false
+    end
 
-      it "returns scope unchanged" do
-        expect(described_class.call(scope, params)).to eq(scope)
+    it "returns true when q param is present" do
+      expect(filter.applicable?({q: "test"})).to be true
+    end
+  end
+
+  describe "#apply" do
+    let!(:app1) do
+      create(:planning_application,
+        local_authority: local_authority,
+        postcode: "E1 6AN",
+        description: "Some description")
+    end
+
+    context "searching by reference" do
+      it "finds by reference" do
+        params = {q: app1.reference.downcase}
+        result = filter.apply(scope, params)
+
+        expect(result).to include(app1)
       end
     end
 
-    context "when q param is present" do
-      let!(:app1) do
-        create(:planning_application,
-          local_authority: local_authority,
-          postcode: "E1 6AN",
-          description: "Some description")
-      end
-
-      context "searching by reference" do
-        it "finds by reference" do
-          # Use the actual generated reference
-          params = {q: app1.reference.downcase}
-          result = described_class.call(scope, params)
-
-          expect(result).to include(app1)
-        end
-      end
-
-      context "cascade order with ranked description" do
-        it "uses RankedDescriptionSearch as the fallback" do
-          expect(described_class::STRATEGIES).to eq([
-            BopsApi::Filters::TextSearch::ReferenceSearch,
-            BopsApi::Filters::TextSearch::PostcodeSearch,
-            BopsApi::Filters::TextSearch::AddressSearch
-          ])
-        end
+    context "cascade order with ranked description" do
+      it "includes RankedDescriptionSearch in strategies" do
+        expect(described_class::STRATEGIES).to eq([
+          BopsApi::Filters::TextSearch::ReferenceSearch,
+          BopsApi::Filters::TextSearch::PostcodeSearch,
+          BopsApi::Filters::TextSearch::AddressSearch,
+          BopsApi::Filters::TextSearch::RankedDescriptionSearch
+        ])
       end
     end
   end

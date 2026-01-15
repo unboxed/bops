@@ -5,8 +5,6 @@ module BopsApi
     module TextSearch
       class DescriptionSearch < BaseSearch
         class << self
-          private
-
           def apply(scope, query)
             scope.where(
               "to_tsvector('english', description) @@ to_tsquery('english', ?)",

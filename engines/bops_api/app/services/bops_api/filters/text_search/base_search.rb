@@ -5,12 +5,6 @@ module BopsApi
     module TextSearch
       class BaseSearch
         class << self
-          def call(scope, query)
-            apply(scope, query)
-          end
-
-          private
-
           def apply(scope, query)
             raise NotImplementedError, "#{name} must implement .apply"
           end

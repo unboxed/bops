@@ -6,7 +6,7 @@ RSpec.describe BopsApi::Filters::TextSearch::DescriptionSearch do
   let(:local_authority) { create(:local_authority) }
   let(:scope) { PlanningApplication.where(local_authority: local_authority) }
 
-  describe ".call" do
+  describe ".apply" do
     let!(:garage_app) do
       create(:planning_application,
         local_authority: local_authority,
@@ -21,7 +21,7 @@ RSpec.describe BopsApi::Filters::TextSearch::DescriptionSearch do
 
     context "with matching description term" do
       it "returns applications matching the description" do
-        result = described_class.call(scope, "garage")
+        result = described_class.apply(scope, "garage")
 
         expect(result).to include(garage_app)
         expect(result).not_to include(extension_app)
@@ -30,7 +30,7 @@ RSpec.describe BopsApi::Filters::TextSearch::DescriptionSearch do
 
     context "with multiple terms (OR logic)" do
       it "returns applications matching any term" do
-        result = described_class.call(scope, "garage kitchen")
+        result = described_class.apply(scope, "garage kitchen")
 
         expect(result).to include(garage_app)
         expect(result).to include(extension_app)
@@ -39,7 +39,7 @@ RSpec.describe BopsApi::Filters::TextSearch::DescriptionSearch do
 
     context "with no matches" do
       it "returns empty result" do
-        result = described_class.call(scope, "swimming pool")
+        result = described_class.apply(scope, "swimming pool")
 
         expect(result).to be_empty
       end

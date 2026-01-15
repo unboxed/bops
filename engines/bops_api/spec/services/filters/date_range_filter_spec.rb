@@ -6,16 +6,26 @@ RSpec.describe BopsApi::Filters::DateRangeFilter do
   let(:local_authority) { create(:local_authority) }
   let(:scope) { PlanningApplication.where(local_authority: local_authority) }
 
-  describe ".call" do
-    context "when date params are blank" do
-      let(:params) { {} }
+  describe "#applicable?" do
+    let(:filter) { described_class.new(:receivedAt) }
 
-      it "returns scope unchanged" do
-        expect(described_class.call(scope, params, :receivedAt)).to eq(scope)
-      end
+    it "returns false when date params are blank" do
+      expect(filter.applicable?({})).to be false
     end
 
+    it "returns true when from date is present" do
+      expect(filter.applicable?({receivedAtFrom: "2024-01-01"})).to be true
+    end
+
+    it "returns true when to date is present" do
+      expect(filter.applicable?({receivedAtTo: "2024-01-01"})).to be true
+    end
+  end
+
+  describe "#apply" do
     context "when filtering by receivedAt" do
+      let(:filter) { described_class.new(:receivedAt) }
+
       let!(:old_app) do
         create(:planning_application, local_authority: local_authority, received_at: 30.days.ago)
       end
@@ -32,7 +42,7 @@ RSpec.describe BopsApi::Filters::DateRangeFilter do
         let(:params) { {receivedAtFrom: 10.days.ago.to_date.iso8601} }
 
         it "filters applications received after the from date" do
-          result = described_class.call(scope, params, :receivedAt)
+          result = filter.apply(scope, params)
 
           expect(result).not_to include(old_app)
           expect(result).to include(recent_app)
@@ -44,7 +54,7 @@ RSpec.describe BopsApi::Filters::DateRangeFilter do
         let(:params) { {receivedAtTo: 3.days.ago.to_date.iso8601} }
 
         it "filters applications received before the to date" do
-          result = described_class.call(scope, params, :receivedAt)
+          result = filter.apply(scope, params)
 
           expect(result).to include(old_app)
           expect(result).to include(recent_app)
@@ -61,7 +71,7 @@ RSpec.describe BopsApi::Filters::DateRangeFilter do
         end
 
         it "filters applications within the date range" do
-          result = described_class.call(scope, params, :receivedAt)
+          result = filter.apply(scope, params)
 
           expect(result).not_to include(old_app)
           expect(result).to include(recent_app)
@@ -71,6 +81,8 @@ RSpec.describe BopsApi::Filters::DateRangeFilter do
     end
 
     context "when filtering by validatedAt" do
+      let(:filter) { described_class.new(:validatedAt) }
+
       let!(:validated_app) do
         create(:planning_application, :in_assessment, local_authority: local_authority, validated_at: 5.days.ago)
       end
@@ -82,7 +94,7 @@ RSpec.describe BopsApi::Filters::DateRangeFilter do
       let(:params) { {validatedAtFrom: 10.days.ago.to_date.iso8601} }
 
       it "filters by validated_at field" do
-        result = described_class.call(scope, params, :validatedAt)
+        result = filter.apply(scope, params)
 
         expect(result).to include(validated_app)
         expect(result).not_to include(unvalidated_app)
@@ -90,11 +102,11 @@ RSpec.describe BopsApi::Filters::DateRangeFilter do
     end
 
     context "with invalid date format" do
+      let(:filter) { described_class.new(:receivedAt) }
       let(:params) { {receivedAtFrom: "not-a-date"} }
 
       it "handles invalid dates gracefully" do
-        # Should not raise an error
-        expect { described_class.call(scope, params, :receivedAt) }.not_to raise_error
+        expect { filter.apply(scope, params) }.not_to raise_error
       end
     end
   end

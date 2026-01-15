@@ -6,7 +6,7 @@ RSpec.describe BopsApi::Filters::TextSearch::AddressSearch do
   let(:local_authority) { create(:local_authority) }
   let(:scope) { PlanningApplication.where(local_authority: local_authority) }
 
-  describe ".call" do
+  describe ".apply" do
     let!(:app1) do
       create(:planning_application,
         local_authority: local_authority,
@@ -23,7 +23,7 @@ RSpec.describe BopsApi::Filters::TextSearch::AddressSearch do
 
     context "with matching address" do
       it "returns applications matching the address" do
-        result = described_class.call(scope, "downing")
+        result = described_class.apply(scope, "downing")
 
         expect(result).to include(app1)
         expect(result).not_to include(app2)
@@ -32,7 +32,7 @@ RSpec.describe BopsApi::Filters::TextSearch::AddressSearch do
 
     context "with multiple terms" do
       it "requires all terms to match (AND logic)" do
-        result = described_class.call(scope, "downing street")
+        result = described_class.apply(scope, "downing street")
 
         expect(result).to include(app1)
         expect(result).not_to include(app2)
@@ -41,7 +41,7 @@ RSpec.describe BopsApi::Filters::TextSearch::AddressSearch do
 
     context "with common term" do
       it "returns all matching applications" do
-        result = described_class.call(scope, "london")
+        result = described_class.apply(scope, "london")
 
         expect(result).to include(app1)
         expect(result).to include(app2)

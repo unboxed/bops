@@ -7,17 +7,13 @@ module BopsApi
         POSTCODE_REGEX = /^(GIR\s?0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/i
 
         class << self
-          def call(scope, query)
+          def apply(scope, query)
             return scope.none unless postcode_query?(query)
 
-            apply(scope, query)
+            scope.where("LOWER(replace(postcode,' ','')) = ?", query.delete(" "))
           end
 
           private
-
-          def apply(scope, query)
-            scope.where("LOWER(replace(postcode,' ','')) = ?", query.delete(" "))
-          end
 
           def postcode_query?(query)
             query.match?(POSTCODE_REGEX)

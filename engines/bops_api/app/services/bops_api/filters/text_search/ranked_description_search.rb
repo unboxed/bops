@@ -5,8 +5,6 @@ module BopsApi
     module TextSearch
       class RankedDescriptionSearch < BaseSearch
         class << self
-          private
-
           def apply(scope, query)
             terms = tsquery_terms(query)
             scope

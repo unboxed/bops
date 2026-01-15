@@ -5,8 +5,6 @@ module BopsApi
     module TextSearch
       class ReferenceSearch < BaseSearch
         class << self
-          private
-
           def apply(scope, query)
             scope.where("LOWER(reference) LIKE ?", "%#{query}%")
           end

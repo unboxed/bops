@@ -5,8 +5,6 @@ module BopsApi
     module TextSearch
       class AddressSearch < BaseSearch
         class << self
-          private
-
           def apply(scope, query)
             scope.where("address_search @@ to_tsquery('simple', ?)", tsquery_terms(query))
           end

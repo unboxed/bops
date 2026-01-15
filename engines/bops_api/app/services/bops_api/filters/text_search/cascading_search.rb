@@ -11,27 +11,29 @@ module BopsApi
           DescriptionSearch
         ].freeze
 
-        class << self
-          private
+        def applicable?(params)
+          query(params).present?
+        end
 
-          def applicable?(params)
-            query(params).present?
+        def apply(scope, params)
+          q = query(params)
+
+          strategies.each do |strategy|
+            result = strategy.apply(scope, q)
+            return result if result.exists?
           end
 
-          def apply(scope, params)
-            q = query(params)
+          scope.none
+        end
 
-            STRATEGIES.each do |strategy|
-              result = strategy.call(scope, q)
-              return result if result.exists?
-            end
+        private
 
-            DescriptionSearch.call(scope, q)
-          end
+        def strategies
+          self.class::STRATEGIES
+        end
 
-          def query(params)
-            (params[:query] || params[:q]).presence&.downcase&.strip
-          end
+        def query(params)
+          (params[:query] || params[:q]).presence&.downcase&.strip
         end
       end
     end

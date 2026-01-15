@@ -4,18 +4,16 @@ module BopsApi
   module Application
     class SearchService
       FILTERS = [
-        Filters::ApplicationTypeFilter,
-        Filters::ApplicationStatusFilter,
-        Filters::DateRangeFilter.for(:receivedAt),
-        Filters::DateRangeFilter.for(:validatedAt),
-        Filters::DateRangeFilter.for(:publishedAt),
-        Filters::DateRangeFilter.for(:consultationEndDate),
-        Filters::CouncilDecisionFilter,
-        Filters::AlternativeReferenceFilter,
-        Filters::TextSearch::RankedCascadingSearch
+        Filters::ApplicationTypeFilter.new,
+        Filters::ApplicationStatusFilter.new,
+        Filters::DateRangeFilter.new(:receivedAt),
+        Filters::DateRangeFilter.new(:validatedAt),
+        Filters::DateRangeFilter.new(:publishedAt),
+        Filters::DateRangeFilter.new(:consultationEndDate),
+        Filters::CouncilDecisionFilter.new,
+        Filters::AlternativeReferenceFilter.new,
+        Filters::TextSearch::RankedCascadingSearch.new
       ].freeze
-
-      SORTER = Sorting::Sorter.for(default_field: "received_at")
 
       def initialize(scope, params)
         @scope = scope
@@ -23,9 +21,27 @@ module BopsApi
       end
 
       def call
-        result = Filters::FilterChain.apply(FILTERS, @scope, @params)
-        result = SORTER.call(result, @params)
-        Pagination.new(scope: result, params: @params).paginate
+        result = filters.reduce(@scope) do |scope, filter|
+          filter.applicable?(@params) ? filter.apply(scope, @params) : scope
+        end
+        result = sorter.call(result, @params)
+        paginate(result)
+      end
+
+      private
+
+      attr_reader :params
+
+      def filters
+        self.class::FILTERS
+      end
+
+      def sorter
+        Sorting::Sorter.new
+      end
+
+      def paginate(scope)
+        Pagination.new(scope: scope, params: params).paginate
       end
     end
   end

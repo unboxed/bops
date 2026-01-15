@@ -3,54 +3,37 @@
 module BopsApi
   module Filters
     class DateRangeFilter < BaseFilter
-      class << self
-        def for(field_name)
-          ->(scope, params) { call(scope, params, field_name) }
-        end
+      def initialize(field_name)
+        @field_name = field_name
+        @from_key = :"#{field_name}From"
+        @to_key = :"#{field_name}To"
+        @scope_method = "#{field_name.to_s.underscore}_between"
+      end
 
-        def call(scope, params, field_name)
-          return scope unless applicable?(params, field_name)
+      def applicable?(params)
+        params[@from_key].present? || params[@to_key].present?
+      end
 
-          apply(scope, params, field_name)
-        end
+      def apply(scope, params)
+        scope.public_send(@scope_method, from_time(params), to_time(params))
+      end
 
-        private
+      private
 
-        def applicable?(params, field_name)
-          params[from_key(field_name)].present? || params[to_key(field_name)].present?
-        end
+      def from_time(params)
+        parse_date(params[@from_key])&.beginning_of_day || Time.zone.at(0)
+      end
 
-        def apply(scope, params, field_name)
-          scope.public_send(scope_method(field_name), from_time(params, field_name), to_time(params, field_name))
-        end
+      def to_time(params)
+        parse_date(params[@to_key])&.end_of_day || Time.zone.now.end_of_day
+      end
 
-        def from_key(field_name)
-          :"#{field_name}From"
-        end
+      def parse_date(date_string)
+        return if date_string.blank?
 
-        def to_key(field_name)
-          :"#{field_name}To"
-        end
-
-        def scope_method(field_name)
-          "#{field_name.to_s.underscore}_between"
-        end
-
-        def from_time(params, field_name)
-          parse_date(params[from_key(field_name)])&.beginning_of_day || Time.zone.at(0)
-        end
-
-        def to_time(params, field_name)
-          parse_date(params[to_key(field_name)])&.end_of_day || Time.zone.now.end_of_day
-        end
-
-        def parse_date(date_string)
-          return if date_string.blank?
-
-          Date.iso8601(date_string)
-        rescue ArgumentError
-          nil
-        end
+        Date.iso8601(date_string)
+      rescue ArgumentError
+        nil
       end
     end
   end
