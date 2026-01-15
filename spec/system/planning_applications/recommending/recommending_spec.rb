@@ -69,7 +69,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       )
 
       fill_in(
-        "Provide supporting information for your manager.",
+        "Provide supporting information for the reviewer.",
         with: "Requirements met."
       )
 
@@ -189,7 +189,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
             choose("Granted")
           end
           fill_in "State the reasons for your recommendation.", with: "This is a public comment"
-          fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
+          fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
           click_button "Save and mark as complete"
 
           planning_application.reload
@@ -200,13 +200,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
           click_link("Make draft recommendation")
           expect(page).to have_checked_field("Granted")
-          expect(page).to have_field("Provide supporting information for your manager.",
+          expect(page).to have_field("Provide supporting information for the reviewer.",
             with: "This is a private assessor comment")
           within_fieldset("What is your recommendation?") do
             choose("Refused")
           end
           fill_in "State the reasons for your recommendation.", with: "This is a new public comment"
-          fill_in "Provide supporting information for your manager.", with: "Edited private assessor comment"
+          fill_in "Provide supporting information for the reviewer.", with: "Edited private assessor comment"
           click_button "Update assessment"
           planning_application.reload
 
@@ -221,7 +221,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_content("not lawful")
           expect(page).to have_content("aggrieved")
 
-          expect(page).to have_content("If you agree with this decision notice, submit it to your line manager.")
+          expect(page).to have_content("If you agree with this decision notice, submit it for review.")
 
           click_button "Submit recommendation"
 
@@ -300,7 +300,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         end
         fill_in "State the reasons for your recommendation.",
           with: "This is so granted and GDPO everything"
-        fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
+        fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
         click_button "Update assessment"
 
         planning_application.reload
@@ -318,7 +318,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         end
 
         expect(page).to have_checked_field("Granted")
-        expect(page).to have_field("Provide supporting information for your manager.",
+        expect(page).to have_field("Provide supporting information for the reviewer.",
           with: "This is a private assessor comment")
       end
     end
@@ -331,7 +331,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           choose("Granted")
         end
         fill_in("State the reasons for your recommendation.", with: "This is a public comment")
-        fill_in("Provide supporting information for your manager.", with: "This is a private assessor comment")
+        fill_in("Provide supporting information for the reviewer.", with: "This is a private assessor comment")
         click_button("Save and mark as complete")
 
         click_link("Review and submit recommendation")
@@ -413,7 +413,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
             choose("Granted")
           end
           fill_in("State the reasons for your recommendation.", with: "This is a public comment")
-          fill_in("Provide supporting information for your manager.", with: "This is a private assessor comment")
+          fill_in("Provide supporting information for the reviewer.", with: "This is a private assessor comment")
           click_button("Save and mark as complete")
 
           click_link("Review and submit recommendation")
@@ -421,7 +421,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
           within(".govuk-notification-banner--alert") do
             expect(page).to have_content("There is a problem")
-            expect(page).to have_content("This application has open non-validation requests. Please review open requests and resolve them before submitting to your manager.")
+            expect(page).to have_content("This application has open non-validation requests. Please review open requests and resolve them before submitting the application for review.")
             expect(page).to have_link("review open requests", href: post_validation_requests_planning_application_validation_validation_requests_path(planning_application))
           end
 
@@ -439,7 +439,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
             choose("Granted")
           end
           fill_in("State the reasons for your recommendation.", with: "This is a public comment")
-          fill_in("Provide supporting information for your manager.", with: "This is a private assessor comment")
+          fill_in("Provide supporting information for the reviewer.", with: "This is a private assessor comment")
           click_button("Save and mark as complete")
 
           click_link("Review and submit recommendation")
@@ -515,7 +515,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link "Review and submit recommendation"
 
         expect(page).to have_content "The following decision report has been created based on your answers."
-        expect(page).to have_content "If you agree with this decision report, submit it to your line manager."
+        expect(page).to have_content "If you agree with this decision report, submit it for review."
 
         click_button "Submit recommendation"
 
@@ -572,7 +572,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
             choose("Granted")
           end
           fill_in "State the reasons for your recommendation.", with: "This is a public comment"
-          fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
+          fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
           click_button "Save and come back later"
 
           planning_application.reload
@@ -584,7 +584,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link("Make draft recommendation")
           expect(page).to have_checked_field("Granted")
           expect(page).to have_content("This is a public comment")
-          expect(page).to have_field("Provide supporting information for your manager.",
+          expect(page).to have_field("Provide supporting information for the reviewer.",
             with: "This is a private assessor comment")
         end
       end
@@ -614,7 +614,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           )
 
           fill_in(
-            "Provide supporting information for your manager.",
+            "Provide supporting information for the reviewer.",
             with: "Requirements met."
           )
 
@@ -789,7 +789,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         end
 
         fill_in "State the reasons for your recommendation.", with: "This is a public comment"
-        fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
+        fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
         click_button "Save and mark as complete"
 
         visit "/planning_applications/#{planning_application.reference}/submit_recommendation"
@@ -896,7 +896,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           choose "Prior approval required and approved"
 
           fill_in "State the reasons for your recommendation.", with: "This is a public comment"
-          fill_in "Provide supporting information for your manager.", with: "This is a private assessor comment"
+          fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
           click_button "Save and mark as complete"
 
           planning_application.reload
@@ -917,11 +917,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).not_to have_checked_field("Prior approval not required")
           expect(page).not_to have_checked_field("Prior approval required and refused")
 
-          expect(page).to have_field("Provide supporting information for your manager.",
+          expect(page).to have_field("Provide supporting information for the reviewer.",
             with: "This is a private assessor comment")
           choose "Prior approval not required"
           fill_in "State the reasons for your recommendation.", with: "This is a new public comment"
-          fill_in "Provide supporting information for your manager.", with: "Edited private assessor comment"
+          fill_in "Provide supporting information for the reviewer.", with: "Edited private assessor comment"
           click_button "Update assessment"
           planning_application.reload
 
@@ -942,11 +942,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_checked_field("Prior approval not required")
           expect(page).not_to have_checked_field("Prior approval required and refused")
 
-          expect(page).to have_field("Provide supporting information for your manager.",
+          expect(page).to have_field("Provide supporting information for the reviewer.",
             with: "Edited private assessor comment")
           choose "Prior approval required and refused"
           fill_in "State the reasons for your recommendation.", with: "This is a new public comment"
-          fill_in "Provide supporting information for your manager.", with: "Edited private assessor comment"
+          fill_in "Provide supporting information for the reviewer.", with: "Edited private assessor comment"
           click_button "Update assessment"
           planning_application.reload
 
@@ -962,7 +962,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).not_to have_content("not lawful")
           expect(page).to have_content("aggrieved")
 
-          expect(page).to have_content("If you agree with this decision notice, submit it to your line manager.")
+          expect(page).to have_content("If you agree with this decision notice, submit it for review.")
 
           click_button "Submit recommendation"
 

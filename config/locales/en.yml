@@ -1606,7 +1606,7 @@ en:
           error: 'Error:'
           is_the_use: What is your recommendation?
           make_draft_recommendation: Make draft recommendation
-          please_provide_supporting: Provide supporting information for your manager.
+          please_provide_supporting: Provide supporting information for the reviewer.
           refer_to_the: Refer to specific development or local plan policies or permitted development legislation to support your recommendation.
           state_the_reason: State the reasons for your recommendation.
           there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href="%{href}">View all requests</a>.
@@ -2136,7 +2136,7 @@ en:
       validation:
         check_and_validate: Check and validate
     submit:
-      has_open_non_validation_requests_html: This application has open non-validation requests. Please <a class="govuk-notification-banner__link" href="%{href}">review open requests</a> and resolve them before submitting to your manager.
+      has_open_non_validation_requests_html: This application has open non-validation requests. Please <a class="govuk-notification-banner__link" href="%{href}">review open requests</a> and resolve them before submitting the application for review.
       success: Recommendation was successfully submitted.
     submit_recommendation:
       back: Back
@@ -2144,8 +2144,8 @@ en:
       download_as_pdf: Download as PDF
       edit_recommendation: Edit recommendation
       failure: Error submitting recommendation - please contact support.
-      if_you_agree: If you agree with this decision %{report_or_notice}, submit it to your line manager.
-      if_your_manager: If your manager disagrees with your recommendation they will send it back to you to make changes.
+      if_you_agree: If you agree with this decision %{report_or_notice}, submit it for review.
+      if_your_reviewer: If the reviewer disagrees with your recommendation they will send it back to you to make changes.
       review_and_submit_recommendation: Review and submit recommendation
       submit_recommendation: Submit recommendation
       the_following_decision: The following decision %{report_or_notice} has been created based on your answers.

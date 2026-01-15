@@ -76,7 +76,7 @@ RSpec.describe "post validation requests" do
         )
 
         fill_in(
-          "Provide supporting information for your manager.",
+          "Provide supporting information for the reviewer.",
           with: "LGTM!"
         )
 

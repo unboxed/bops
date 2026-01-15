@@ -108,7 +108,7 @@ RSpec.describe "Immunity", type: :system do
       end
 
       fill_in "State the reasons for your recommendation.", with: "A public comment"
-      fill_in "Provide supporting information for your manager.", with: "A private comment"
+      fill_in "Provide supporting information for the reviewer.", with: "A private comment"
 
       click_button "Save and mark as complete"
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
