@@ -2,8 +2,13 @@
 
 ![CI](https://github.com/unboxed/bops/actions/workflows/build.yml/badge.svg) ![CodeQL](https://github.com/unboxed/bops/workflows/CodeQL/badge.svg)
 
-[FAQs](docs/FAQs.md)
-[Architecture overview](docs/architecture.md)
+## Documentation
+
+- [Architecture Overview](docs/architecture.md) - Engine structure and multi-tenant routing
+- [Development Guide](docs/development.md) - Commands, Docker setup, testing
+- [Code Style](docs/code-style.md) - Linting and style guidelines
+- [Common Gotchas](docs/gotchas.md) - Pitfalls and tips
+- [FAQs](docs/FAQs.md) - General questions about BOPS
 
 ## Back-Office Planning System (BOPS)
 
