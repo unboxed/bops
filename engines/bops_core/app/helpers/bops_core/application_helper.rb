@@ -79,7 +79,7 @@ module BopsCore
       if current_user.assessor?
         "Case Officer"
       elsif current_user.reviewer?
-        "Manager"
+        "Reviewer"
       end
     end
 

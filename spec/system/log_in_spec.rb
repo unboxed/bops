@@ -52,7 +52,7 @@ RSpec.describe "Sign in" do
 
       it "can see their name and role" do
         expect(page).to have_text("Harley Dicki")
-        expect(page).to have_text("Manager")
+        expect(page).to have_text("Reviewer")
       end
     end
 

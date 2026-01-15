@@ -404,7 +404,7 @@ RSpec.describe "Assessing against policies and guidance", type: :system, js: tru
     end
 
     fill_in "State the reasons for your recommendation", with: "Complies with all policies under the local plan"
-    fill_in "Provide supporting information for your manager", with: "It all looks tickety-boo"
+    fill_in "Provide supporting information for the reviewer", with: "It all looks tickety-boo"
 
     click_button "Save and mark as complete"
 
