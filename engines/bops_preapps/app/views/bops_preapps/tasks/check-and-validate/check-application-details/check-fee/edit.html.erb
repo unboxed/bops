@@ -3,7 +3,10 @@
 <h3 class="govuk-heading-m">Payment information</h3>
 <%= render "bops_preapps/shared/payment_information", planning_application: @planning_application %>
 
-<%= form_with model: @form, url: @form.url do |form| %>
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: @form, url: @form.url,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
   <%= form.govuk_error_summary %>
 
   <%= form.hidden_field :validation_request_id %>
@@ -37,8 +40,9 @@
     </div>
   </details>
 
-  <div class="govuk-button-group">
-    <%= form.govuk_submit "Update request", name: "task_action", value: "update_request" %>
-    <%= govuk_link_to "Back", @form.url %>
-  </div>
-<% end %>
+    <div class="govuk-button-group">
+      <%= form.govuk_submit "Update request", name: "task_action", value: "update_request" %>
+      <%= govuk_link_to "Back", @form.url %>
+    </div>
+  <% end %>
+</div>

@@ -38,7 +38,10 @@
       <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
     </div>
 
-    <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
+    <div data-controller="unsaved-changes"
+         data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+      <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request,
+            data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
       <%= form.govuk_error_summary %>
 
       <% if @planning_application.latest_rejected_description_change.present? %>
@@ -80,10 +83,11 @@
           <% end %>
         </div>
       <% end %>
-      <div class="govuk-button-group">
-        <%= form.govuk_submit @planning_application.application_type.description_change_requires_validation? ? "Update description" : "Save and mark as complete" %>
-        <%= back_link unless @planning_application.pre_application? %>
-      </div>
-    <% end %>
+        <div class="govuk-button-group">
+          <%= form.govuk_submit @planning_application.application_type.description_change_requires_validation? ? "Update description" : "Save and mark as complete" %>
+          <%= back_link unless @planning_application.pre_application? %>
+        </div>
+      <% end %>
+    </div>
   </div>
 </div>

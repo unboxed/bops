@@ -13,9 +13,11 @@
       show_action: true,
       return_to: return_to_or_task_path(@planning_application, @task) %>
 
-<%= govuk_details(summary_text: "Add a new site history", open: @planning_application.site_histories.last&.errors&.any?) do %>
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"><%= govuk_details(summary_text: "Add a new site history", open: @planning_application.site_histories.last&.errors&.any?) do %>
   <%= form_with(model: @planning_application.site_histories.new,
-        url: main_app.planning_application_assessment_site_histories_path(@planning_application)) do |form| %>
+        url: main_app.planning_application_assessment_site_histories_path(@planning_application),
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"}) do |form| %>
     <%= form.govuk_error_summary %>
 
     <%= form.govuk_text_field :reference, width: "one-half" %>
@@ -41,6 +43,7 @@
     <%= form.govuk_submit "Add site history", secondary: true, class: "govuk-!-margin-bottom-2" %>
   <% end %>
 <% end %>
+</div>
 
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= return_to_hidden_field %>
