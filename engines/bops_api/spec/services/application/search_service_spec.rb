@@ -413,5 +413,43 @@ RSpec.describe BopsApi::Application::SearchService do
         end
       end
     end
+
+    context "when filtering by alternative reference" do
+      let!(:app_with_alt_ref) { create(:planning_application, alternative_reference: "ALT-REF-12345") }
+      let!(:app_with_different_alt_ref) { create(:planning_application, alternative_reference: "OTHER-REF-99999") }
+      let!(:app_without_alt_ref) { create(:planning_application, alternative_reference: nil) }
+
+      context "when no alternative reference is provided" do
+        let(:params) { {alternativeReference: nil} }
+
+        it "returns all applications" do
+          expect(results).to match_array([app_with_alt_ref, app_with_different_alt_ref, app_without_alt_ref])
+        end
+      end
+
+      context "when alternative reference is provided" do
+        let(:params) { {alternativeReference: "ALT-REF"} }
+
+        it "returns matching applications (case-insensitive partial match)" do
+          expect(results).to match_array([app_with_alt_ref])
+        end
+      end
+
+      context "when alternative reference is provided with different case" do
+        let(:params) { {alternativeReference: "alt-ref"} }
+
+        it "returns matching applications (case-insensitive)" do
+          expect(results).to match_array([app_with_alt_ref])
+        end
+      end
+
+      context "when alternative reference does not match any application" do
+        let(:params) { {alternativeReference: "NONEXISTENT"} }
+
+        it "returns no applications" do
+          expect(results).to be_empty
+        end
+      end
+    end
   end
 end
