@@ -5,7 +5,10 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
+    <div data-controller="unsaved-changes"
+         data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+      <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request,
+            data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
       <%= form.govuk_error_summary %>
 
       <%= form.hidden_field(
@@ -39,6 +42,7 @@
       <%= form.hidden_field :type, value: "OtherChangeValidationRequest" %>
 
       <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>

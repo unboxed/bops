@@ -2,7 +2,10 @@
 
 <h3 class="govuk-heading-m">Site visit</h3>
 
-<%= form_with model: @form, url: @form.url do |form| %>
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: @form, url: @form.url,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
   <%= form.govuk_error_summary %>
 <div id="new-site-visit-form">
   <div class="govuk-form-group">
@@ -51,8 +54,9 @@
     <% end %>
   <%= form.govuk_text_area(:comments, rows: 6, label: {text: "Comments", size: "s"}, value: @form.site_visit.comment) %>
 
-  <div class="govuk-button-group govuk-!-margin-bottom-0">
-    <%= form.govuk_task_button "Update site visit", action: "update_site_visit", secondary: true %>
+    <div class="govuk-button-group govuk-!-margin-bottom-0">
+      <%= form.govuk_task_button "Update site visit", action: "update_site_visit", secondary: true %>
+    </div>
   </div>
+  <% end %>
 </div>
-<% end %>

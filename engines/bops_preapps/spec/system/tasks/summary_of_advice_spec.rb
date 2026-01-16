@@ -60,4 +60,20 @@ RSpec.describe "Summary of advice task", type: :system do
     expect(page).to have_content("Summary of advice successfully updated")
     expect(task.reload).to be_completed
   end
+
+  it "warns when navigating away with unsaved changes", js: true do
+    within ".bops-sidebar" do
+      click_link "Summary of advice"
+    end
+
+    choose "Likely to be supported (recommended based on considerations)"
+
+    dismiss_confirm(text: "You have unsaved changes") do
+      within ".bops-sidebar" do
+        click_link "Site and surroundings"
+      end
+    end
+
+    expect(page).to have_current_path(/summary-of-advice/)
+  end
 end

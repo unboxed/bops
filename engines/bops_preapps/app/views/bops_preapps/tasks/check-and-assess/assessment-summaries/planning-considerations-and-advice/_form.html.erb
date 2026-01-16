@@ -1,8 +1,13 @@
-<div data-controller="consideration-form">
+<div data-controller="consideration-form unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
   <%= form_with(
         model: @form.consideration,
         url: form_url,
-        method: form_method
+        method: form_method,
+        data: {
+          unsaved_changes_target: "form",
+          action: "submit->unsaved-changes#handleSubmit"
+        }
       ) do |form| %>
     <%= form.govuk_fieldset legend: {text: nil} do %>
       <div class="govuk-form-group">

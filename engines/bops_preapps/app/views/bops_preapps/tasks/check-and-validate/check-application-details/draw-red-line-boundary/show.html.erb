@@ -23,9 +23,13 @@
 
 <h3>Draw the red line site boundary</h3>
 
-<%= form_with model: @form, url: @form.url, method: :patch do |form| %>
-  <%= form.hidden_field :boundary_geojson, value: @planning_application.boundary_geojson.to_json %>
-  <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson, geojson_field: "planning_application_boundary_geojson"} %>
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: @form, url: @form.url, method: :patch,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+    <%= form.hidden_field :boundary_geojson, value: @planning_application.boundary_geojson.to_json %>
+    <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson, geojson_field: "planning_application_boundary_geojson"} %>
 
-  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
-<% end %>
+    <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+  <% end %>
+</div>
