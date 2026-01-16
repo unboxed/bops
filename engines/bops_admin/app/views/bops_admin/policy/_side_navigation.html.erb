@@ -5,11 +5,15 @@
     <% section.with_navigation_item(text: "Manage policy references", href: policy_references_path, current: (current == "policy_references")) %>
   <% end %>
 
-  <% nav.with_section(title: "Informatives", index: 2) do |section| %>
+  <% nav.with_section(title: "Constraints", index: 2) do |section| %>
+    <% section.with_navigation_item(text: "Manage constraints", href: constraints_path, current: (current == "constraints")) %>
+  <% end %>
+
+  <% nav.with_section(title: "Informatives", index: 3) do |section| %>
     <% section.with_navigation_item(text: "Manage informatives", href: informatives_path, current: (current == "informatives")) %>
   <% end %>
 
-  <% nav.with_section(title: "Requirements", index: 3) do |section| %>
+  <% nav.with_section(title: "Requirements", index: 4) do |section| %>
     <% section.with_navigation_item(text: "Manage requirements", href: requirements_path, current: (current == "requirements")) %>
   <% end %>
 <% end %>

@@ -1,0 +1,24 @@
+<%= form.govuk_error_summary %>
+
+<%= form.govuk_text_field :category,
+      width: "two-thirds",
+      list: "constraint-categories",
+      label: {text: t(".labels.category")},
+      hint: {text: t(".hints.category")},
+      value: form.object.category&.humanize %>
+
+<datalist id="constraint-categories">
+  <% Constraint.options_for_local_authority(1).distinct(:category).pluck(:category).each do |category| %>
+    <%= tag.option value: category.humanize %>
+  <% end %>
+</datalist>
+
+<%= form.govuk_text_field :type,
+      width: "two-thirds",
+      label: {text: t(".labels.type")},
+      hint: {text: t(".hints.type")},
+      value: form.object.type&.humanize %>
+
+<%= form.govuk_submit(t(".submit")) do %>
+  <%= back_link %>
+<% end %>
