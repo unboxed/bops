@@ -49,4 +49,18 @@ RSpec.describe "Send emails to consultees task", type: :system do
     expect(page).to have_content("Please select at least one consultee")
     expect(task.reload).to be_not_started
   end
+
+  it "warns when navigating away with unsaved changes to response period", js: true do
+    visit "/preapps/#{planning_application.reference}/consultees/send-emails-to-consultees"
+
+    # Clear and set a new value to trigger unsaved changes
+    find_field("Set response period").fill_in with: "", fill_options: {clear: :backspace}
+    fill_in "Set response period", with: "30"
+
+    dismiss_confirm(text: "You have unsaved changes") do
+      click_link "Home"
+    end
+
+    expect(page).to have_current_path(/send-emails-to-consultees/)
+  end
 end

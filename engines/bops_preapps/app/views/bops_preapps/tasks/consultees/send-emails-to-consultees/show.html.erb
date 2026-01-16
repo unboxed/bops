@@ -1,5 +1,8 @@
-<%= form_with model: @form, url: @form.url, data: {consultees_target: "form"} do |form| %>
-  <%= form.govuk_error_summary %>
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: @form, url: @form.url,
+        data: {consultees_target: "form", unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+    <%= form.govuk_error_summary %>
 
   <%= render "shared/task_header", task: @task, heading: t(".heading") %>
 
@@ -39,9 +42,10 @@
         </div>
       </div>
 
-      <div class="govuk-button-group">
-        <%= form.govuk_task_button t(".submit"), id: "send-emails-button", data: {consultees_target: "submit"} %>
-      </div>
-    <% end %>
-  </div>
-<% end %>
+        <div class="govuk-button-group">
+          <%= form.govuk_task_button t(".submit"), id: "send-emails-button", data: {consultees_target: "submit"} %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>

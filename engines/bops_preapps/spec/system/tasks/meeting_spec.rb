@@ -75,4 +75,24 @@ RSpec.describe "Meeting", type: :system do
 
     expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/additional-services/meeting")
   end
+
+  it "warns when navigating away with unsaved changes in the add meeting form", js: true do
+    within ".bops-sidebar" do
+      click_link "Meeting"
+    end
+
+    within "#new-meeting-form" do
+      fill_in "Day", with: 2
+      fill_in "Month", with: 10
+      fill_in "Year", with: 2025
+    end
+
+    dismiss_confirm(text: "You have unsaved changes") do
+      within ".bops-sidebar" do
+        click_link "Site visit"
+      end
+    end
+
+    expect(page).to have_current_path(/meeting/)
+  end
 end

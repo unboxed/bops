@@ -117,6 +117,22 @@ RSpec.describe "Check fee task", type: :system do
     expect(planning_application.fee_change_validation_requests.count).to eq(1)
   end
 
+  it "warns when navigating away with unsaved changes", js: true do
+    within ".bops-sidebar" do
+      click_link "Check fee"
+    end
+
+    choose "No"
+
+    dismiss_confirm(text: "You have unsaved changes") do
+      within ".bops-sidebar" do
+        click_link "Check description"
+      end
+    end
+
+    expect(page).to have_current_path(/check-fee/)
+  end
+
   it "shows error when no selection is made" do
     within ".bops-sidebar" do
       click_link "Check fee"
