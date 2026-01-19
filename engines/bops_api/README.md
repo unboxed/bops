@@ -134,6 +134,78 @@ class MyController < AuthenticatedController
 end
 ```
 
+## Services Architecture
+
+The API uses a Filter Object pattern for search/filtering logic. This separates concerns and makes filters reusable.
+
+### Filter Objects
+
+Filters live in `app/services/bops_api/filters/` and implement:
+
+```ruby
+class MyFilter < BaseFilter
+  def applicable?(params)
+    params[:my_param].present?  # When to apply this filter
+  end
+
+  def apply(scope, params)
+    scope.where(...)  # Return filtered scope
+  end
+end
+```
+
+**Existing filters:**
+- `Filters::TextSearch::CascadingSearch` - Tries reference → postcode → address → description
+- `Filters::TextSearch::RankedCascadingSearch` - Same with PostgreSQL ranking
+- `Filters::ApplicationTypeFilter`, `ApplicationStatusFilter`, etc.
+- `Filters::Comments::QueryFilter`, `SentimentFilter` - For comment endpoints
+
+### Search Services
+
+Search services compose filters and handle sorting/pagination:
+
+```ruby
+class MySearchService < Application::SearchService
+  FILTERS = [
+    Filters::SomeFilter.new,
+    Filters::AnotherFilter.new
+  ].freeze
+
+  private
+
+  def filters
+    FILTERS
+  end
+
+  def sorter
+    Sorting::Sorter.new(default_field: "created_at")
+  end
+
+  def paginate(scope)
+    Pagination.new(scope: scope, params: params).paginate
+  end
+end
+```
+
+The base `SearchService` provides the `call` method that chains filters:
+
+```ruby
+def call
+  result = filters.reduce(@scope) do |scope, filter|
+    filter.applicable?(@params) ? filter.apply(scope, @params) : scope
+  end
+  result = sorter.call(result, @params)
+  paginate(result)
+end
+```
+
+### Adding a New Filter
+
+1. Create filter class extending `BaseFilter`
+2. Implement `applicable?` and `apply`
+3. Add to service's FILTERS array
+4. Add specs in `spec/services/filters/`
+
 ## Common Gotchas
 
 1. **Subdomain required:** API routes are scoped by subdomain. Test requests need correct host header.
@@ -145,3 +217,5 @@ end
 4. **Scope queries:** Always use `planning_applications_scope` or similar to ensure local authority scoping.
 
 5. **JSON responses:** Use `render json:` - don't return HTML from API endpoints.
+
+6. **Inheritance for constants:** When subclassing services, use `self.class::FILTERS` or define accessor methods to ensure the subclass's constants are used.

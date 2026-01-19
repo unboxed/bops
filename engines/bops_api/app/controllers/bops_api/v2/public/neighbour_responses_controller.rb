@@ -16,7 +16,7 @@ module BopsApi
             NeighbourResponse.none
           end
 
-          @pagy, @comments = BopsApi::Postsubmission::CommentsPublicService.new(
+          @pagy, @comments = BopsApi::Postsubmission::CommentsService.new(
             @neighbour_responses,
             pagination_params
           ).call
