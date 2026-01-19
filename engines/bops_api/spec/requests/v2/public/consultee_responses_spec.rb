@@ -308,13 +308,13 @@ RSpec.describe "BOPS public API Specialist comments" do
 
           response "500", "Invalid sentiments", document: false do
             let(:reference) { planning_application.reference }
-            let(:sentiment) { ["amendments_needed", "invalid"] }
+            let(:sentiment) { %w[foo bar] }
 
             run_test! do |response|
               data = JSON.parse(response.body)
               expect(data["error"]["code"]).to eq(500)
               expect(data["error"]["message"]).to eq("Internal Server Error")
-              expect(data["error"]["detail"]).to match("Invalid sentiment(s): amendments_needed, invalid. Allowed values: approved, amendmentsNeeded, objected")
+              expect(data["error"]["detail"]).to match("Invalid sentiment(s): foo, bar. Allowed values: approved, amendments_needed, objected")
             end
           end
         end

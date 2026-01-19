@@ -13,11 +13,10 @@ module BopsApi
         end
 
         def apply(scope, params)
-          sentiments = Array(params[:sentiment]).map(&:to_s)
+          sentiments = Array(params[:sentiment]).map { |s| s.to_s.underscore }
           validate_sentiments!(sentiments)
 
-          values = sentiments.map { |s| sentiment_mapping[s] }
-          scope.where(summary_tag: values)
+          scope.where(summary_tag: sentiments)
         end
 
         private
@@ -25,21 +24,15 @@ module BopsApi
         attr_reader :model_class
 
         def validate_sentiments!(sentiments)
-          invalid = sentiments - allowed_keys
+          invalid = sentiments - allowed_values
           return if invalid.empty?
 
           raise ArgumentError,
-            "Invalid sentiment(s): #{invalid.join(", ")}. Allowed values: #{allowed_keys.join(", ")}"
+            "Invalid sentiment(s): #{invalid.join(", ")}. Allowed values: #{allowed_values.join(", ")}"
         end
 
-        def allowed_keys
-          @allowed_keys ||= sentiment_mapping.keys
-        end
-
-        def sentiment_mapping
-          @sentiment_mapping ||= model_class.summary_tags.keys.each_with_object({}) do |key, hash|
-            hash[key.to_s.camelize(:lower)] = key
-          end
+        def allowed_values
+          @allowed_values ||= model_class.summary_tags.keys.map(&:to_s)
         end
       end
     end

@@ -28,12 +28,12 @@ module BopsApi
       end
 
       def sorter
-        Sorting::CommentsSorter.new(allowed_fields: sort_fields)
+        Sorting::Sorter.new(allowed_fields: sort_fields)
       end
 
       def sort_fields
         {
-          "receivedAt" => {column: "received_at", default_order: "desc"},
+          "received_at" => {default_order: "desc"},
           "id" => {column: "#{model_class.table_name}.id", default_order: "asc"}
         }
       end
