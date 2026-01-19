@@ -102,4 +102,21 @@ RSpec.describe "Planning considerations and advice task", type: :system do
     consideration = planning_application.consideration_set.considerations.last
     expect(consideration.summary_tag).to be_nil
   end
+
+  it "warns when navigating away with unsaved changes", js: true do
+    fill_in "Select policy area", with: policy_area.description
+    click_button "Add consideration"
+
+    toggle("Add advice")
+
+    fill_in "Enter element of proposal", with: "Things"
+
+    dismiss_confirm(text: "You have unsaved changes") do
+      within ".bops-sidebar" do
+        click_link "Site and surroundings"
+      end
+    end
+
+    expect(page).to have_current_path(/planning-considerations-and-advice/)
+  end
 end

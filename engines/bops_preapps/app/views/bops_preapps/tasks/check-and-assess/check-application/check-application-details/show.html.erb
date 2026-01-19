@@ -1,23 +1,26 @@
 <%= render "shared/task_header", task: @task %>
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with(
+        model: @form,
+        url: @form.url,
+        class: "consistency-checklist-form",
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"}
+      ) do |form| %>
+    <%= form.govuk_error_summary %>
+    <%= return_to_hidden_field %>
+    <% @planning_application.application_type.consistency_checklist.each do |checklist| %>
+      <%= render(
+            partial: "planning_applications/assessment/consistency_checklists/#{checklist}",
+            locals: {
+              form: form,
+              consistency_checklist: @form.consistency_checklist,
+              planning_application: @planning_application,
+              can_edit: true
+            }
+          ) %>
+    <% end %>
 
-<%= form_with(
-      model: @form,
-      url: @form.url,
-      class: "consistency-checklist-form"
-    ) do |form| %>
-  <%= form.govuk_error_summary %>
-  <%= return_to_hidden_field %>
-  <% @planning_application.application_type.consistency_checklist.each do |checklist| %>
-    <%= render(
-          partial: "planning_applications/assessment/consistency_checklists/#{checklist}",
-          locals: {
-            form: form,
-            consistency_checklist: @form.consistency_checklist,
-            planning_application: @planning_application,
-            can_edit: true
-          }
-        ) %>
+    <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
   <% end %>
-
-  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
-<% end %>
+</div

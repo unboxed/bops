@@ -167,4 +167,18 @@ RSpec.describe "Suggest heads of terms task", type: :system do
       click_button "Update term"
     }.to raise_error(ActionController::Redirecting::UnsafeRedirectError)
   end
+
+  it "warns when navigating away with unsaved changes", js: true do
+    find("span", text: "Add a new heads of terms").click
+
+    fill_in "Enter title", with: "Viability review mechanism"
+
+    dismiss_confirm(text: "You have unsaved changes") do
+      within ".bops-sidebar" do
+        click_link "Site and surroundings"
+      end
+    end
+
+    expect(page).to have_current_path(/suggest-heads-of-terms/)
+  end
 end

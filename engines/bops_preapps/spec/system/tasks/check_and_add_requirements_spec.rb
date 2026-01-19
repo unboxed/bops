@@ -161,4 +161,23 @@ RSpec.describe "Check and add requirements task", type: :system do
     expect(page).to have_current_path(%r{/planning_applications/.+/assessment/requirements})
     expect(page).to have_content("Requirement successfully updated")
   end
+
+  it "warns when navigating away with unsaved changes", js: true do
+    within ".bops-sidebar" do
+      click_link "Check and add requirements"
+    end
+
+    find("span", text: "Add requirements").click
+
+    click_link "Supporting documents"
+    check "Parking plan"
+
+    dismiss_confirm(text: "You have unsaved changes") do
+      within ".bops-sidebar" do
+        click_link "Site and surroundings"
+      end
+    end
+
+    expect(page).to have_current_path(/check-and-add-requirements/)
+  end
 end

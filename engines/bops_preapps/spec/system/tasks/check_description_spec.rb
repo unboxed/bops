@@ -122,4 +122,32 @@ RSpec.describe "Check description task", type: :system, capybara: true do
 
     expect(page).not_to have_button("Save and mark as complete")
   end
+
+  it "warns when navigating away with unsaved changes", js: true do
+    within ".bops-sidebar" do
+      click_link "Check description"
+    end
+
+    choose "No"
+
+    dismiss_confirm(text: "You have unsaved changes") do
+      within ".bops-sidebar" do
+        click_link "Check fee"
+      end
+    end
+
+    expect(page).to have_current_path(/check-description/)
+  end
+
+  it "allows navigation when no changes have been made", js: true do
+    within ".bops-sidebar" do
+      click_link "Check description"
+    end
+
+    within ".bops-sidebar" do
+      click_link "Check fee"
+    end
+
+    expect(page).to have_current_path(/check-fee/)
+  end
 end

@@ -32,4 +32,20 @@ RSpec.describe "Site and surroundings task", type: :system do
     expect(page).to have_content "Site description was successfully updated"
     expect(task.reload).to be_completed
   end
+
+  it "warns when navigating away with unsaved changes", js: true do
+    within ".bops-sidebar" do
+      click_link "Site and surroundings"
+    end
+
+    fill_in "Description of the site and surroundings", with: "Some text"
+
+    dismiss_confirm(text: "You have unsaved changes") do
+      within ".bops-sidebar" do
+        click_link "Summary of advice"
+      end
+    end
+
+    expect(page).to have_current_path(/site-and-surroundings/)
+  end
 end

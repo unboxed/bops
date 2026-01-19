@@ -55,9 +55,15 @@
 
 <hr>
 
-<%= form_with model: @form, url: @form.url do |form| %>
-  <%= return_to_hidden_field %>
-  <%= govuk_details(summary_text: "Add requirements") do %>
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: @form, url: @form.url,
+        data: {
+          unsaved_changes_target: "form",
+          action: "submit->unsaved-changes#handleSubmit"
+        } do |form| %>
+    <%= return_to_hidden_field %>
+    <%= govuk_details(summary_text: "Add requirements") do %>
     <%= govuk_tabs do |tabs| %>
       <% @planning_application.local_authority.requirements.by_category do |category, requirements| %>
         <% tabs.with_tab(label: t("planning_applications.assessment.requirements.index.categories.#{category}")) do %>
@@ -82,4 +88,5 @@
   <% end %>
 
   <%= render "shared/task_submit_buttons", form: form %>
-<% end %>
+  <% end %>
+</div>

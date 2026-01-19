@@ -1,15 +1,22 @@
-<%= form_with model: [@planning_application, @form.term], url: url do |form| %>
-  <%= hidden_field_tag :redirect_to, params[:redirect_to] if params[:redirect_to].present? %>
-  <fieldset class="govuk-fieldset govuk-!-margin-top-3">
-    <legend class="govuk-fieldset__legend">
-      <h2 class="govuk-heading-s">Add a new heads of term</h2>
-    </legend>
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: [@planning_application, @form.term], url: url,
+        data: {
+          unsaved_changes_target: "form",
+          action: "submit->unsaved-changes#handleSubmit"
+        } do |form| %>
+    <%= hidden_field_tag :redirect_to, params[:redirect_to] if params[:redirect_to].present? %>
+    <fieldset class="govuk-fieldset govuk-!-margin-top-3">
+      <legend class="govuk-fieldset__legend">
+        <h2 class="govuk-heading-s">Add a new heads of term</h2>
+      </legend>
 
-    <%= form.govuk_error_summary %>
+      <%= form.govuk_error_summary %>
 
-    <%= form.govuk_text_field :title, label: {text: "Enter title"} %>
-    <%= form.govuk_text_area :text, rows: 5, label: {text: "Enter details"} %>
+      <%= form.govuk_text_field :title, label: {text: "Enter title"} %>
+      <%= form.govuk_text_area :text, rows: 5, label: {text: "Enter details"} %>
 
-    <%= form.govuk_submit(t("form_actions.term.add"), class: "govuk-button--secondary") %>
-  </fieldset>
-<% end %>
+      <%= form.govuk_submit(t("form_actions.term.add"), class: "govuk-button--secondary") %>
+    </fieldset>
+  <% end %>
+</div>

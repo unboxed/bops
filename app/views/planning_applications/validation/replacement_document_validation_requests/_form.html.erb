@@ -1,5 +1,8 @@
 <div class="govuk-grid-column-full">
-  <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request do |form| %>
+  <div data-controller="unsaved-changes"
+       data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+    <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request,
+          data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
 
     <%= form.hidden_field :old_document_id, value: @document.id %>
     <% return_to = params[:return_to].presence || params[:redirect_to].presence %>
@@ -19,5 +22,6 @@
     <%= render "shared/planning_guides_link" %>
 
     <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
-  <% end %>
+    <% end %>
+  </div>
 </div>

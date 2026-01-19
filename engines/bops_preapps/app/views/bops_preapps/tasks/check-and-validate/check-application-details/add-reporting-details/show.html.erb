@@ -1,6 +1,9 @@
 <%= render "shared/task_header", task: @task, heading: "Add reporting details" %>
 
-<%= form_with model: @form, url: @form.url do |form| %>
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: @form, url: @form.url,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_radio_buttons_fieldset(:reporting_type_id, legend: {size: "m", text: t("helpers.legend.planning_application.reporting_type")}, disabled: @form.read_only?) do %>
@@ -40,5 +43,6 @@
     <%= form.govuk_radio_button :regulation, false, label: {text: "No"}, checked: !@form.regulation_3 && !@form.regulation_4, disabled: @form.read_only? %>
   <% end %>
 
-  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
-<% end %>
+    <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+  <% end %>
+</div>
