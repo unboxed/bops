@@ -35,7 +35,7 @@ module BopsApi
           @total_available_items = redacted_responses.count
           @total_consulted ||= consultation_consultees.consulted.count
 
-          @pagy, @comments = BopsApi::Postsubmission::CommentsSpecialistService.new(
+          @pagy, @comments = BopsApi::Postsubmission::CommentsService.new(
             redacted_responses,
             pagination_params
           ).call

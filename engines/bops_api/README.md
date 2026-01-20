@@ -134,6 +134,23 @@ class MyController < AuthenticatedController
 end
 ```
 
+## Services Architecture
+
+The API uses a Filter Object pattern for search/filtering logic. Filters are composable, testable in isolation, and reusable across services.
+
+### Key Classes
+
+- **`Filters::BaseFilter`** - Abstract base class. Subclasses implement `applicable?(params)` and `apply(scope, params)`.
+- **`Sorting::Sorter`** - Handles `sortBy`/`orderBy` params. Fields use snake_case keys; column defaults to key if not specified.
+- **`Application::SearchService`** - Base service that composes filters, sorting, and pagination. See also `Postsubmission::CommentsService`.
+
+### Adding a New Filter
+
+1. Create filter class in `app/services/bops_api/filters/` extending `BaseFilter`
+2. Implement `applicable?` (when to apply) and `apply` (returns filtered scope)
+3. Add to service's filters array
+4. Add specs in `spec/services/filters/`
+
 ## Common Gotchas
 
 1. **Subdomain required:** API routes are scoped by subdomain. Test requests need correct host header.
@@ -145,3 +162,5 @@ end
 4. **Scope queries:** Always use `planning_applications_scope` or similar to ensure local authority scoping.
 
 5. **JSON responses:** Use `render json:` - don't return HTML from API endpoints.
+
+6. **Inheritance for constants:** When subclassing services, use `self.class::FILTERS` or define accessor methods to ensure the subclass's constants are used.
