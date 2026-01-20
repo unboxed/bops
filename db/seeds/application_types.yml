@@ -150,3 +150,41 @@
     - documents_consistent
     - proposal_details_match_documents
     - site_map_correct
+
+- name: pre_application
+  code: preApp
+  category: other
+  reporting_types:
+    - Q99
+  suffix: PRE
+  features:
+    cil: false
+    consultation_steps: ["consultee"]
+    description_change_requires_validation: false
+    eia: false
+    legislative_requirements: false
+    ownership_details: false
+    permitted_development_rights: false
+    publishable: false
+    appeals: false
+  steps:
+    - validation
+    - consultation
+    - assessment
+    - review
+  decisions:
+    - granted
+    - refused
+  assessment_details:
+    - summary_of_work
+    - site_description
+    - additional_evidence
+    - consultation_summary
+    - neighbour_summary
+    - check_publicity
+    - summary_of_advice
+  consistency_checklist:
+    - description_matches_documents
+    - documents_consistent
+    - proposal_details_match_documents
+    - site_map_correct

@@ -125,6 +125,14 @@
   categories:
     - certificate-of-lawfulness
 
+- code: Q99
+  description: Not Required
+  categories:
+    - hedgerows
+    - non-material-amendment
+    - other
+    - tree-works
+
 - code: PA1
   description: Larger householder extensions
   legislation: Town and Country Planning (General Permitted Development) (England) Order 2015, Schedule 2, Part 1, Class A
