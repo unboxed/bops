@@ -1,17 +1,20 @@
 # frozen_string_literal: true
 
-module BopsApi
+module BopsCore
   module Filters
     module TextSearch
-      class RankedDescriptionSearch < BaseSearch
+      class DescriptionSearch < BaseSearch
         class << self
           def apply(scope, query)
             terms = tsquery_terms(query)
+
             scope
               .select(sanitized_select_sql(terms))
               .where(where_sql, terms)
               .order(rank: :desc)
           end
+
+          private
 
           def sanitized_select_sql(terms)
             ActiveRecord::Base.sanitize_sql_array([select_sql, terms])

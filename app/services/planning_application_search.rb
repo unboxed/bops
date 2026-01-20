@@ -18,29 +18,16 @@ class PlanningApplicationSearch
 
   validates :query, presence: true, if: :query_submitted?
 
-  define_model_callbacks :initialize, only: :after
-
-  after_initialize :init_filter_options
-
-  def init_filter_options
+  def initialize(params = ActionController::Parameters.new)
+    super(filter_params(params))
     self.status ||= default_statuses
     self.application_type ||= application_types
   end
 
-  def initialize(params = ActionController::Parameters.new)
-    run_callbacks :initialize do
-      super(filter_params(params))
-    end
-  end
-
-  def filtered_planning_applications(default_scope = :all_applications)
-    applications = send(default_scope)
-    scope = filtered_scope(applications)
-    if valid? && query
-      scope = records_matching_query(scope)
-    end
-
-    sorted_scope(scope, sort_key, direction)
+  def filtered_planning_applications(scope = all_applications)
+    scope = apply_filters(scope)
+    scope = apply_text_search(scope)
+    apply_sorting(scope)
   end
 
   def all_statuses
@@ -59,28 +46,23 @@ class PlanningApplicationSearch
     all_applications.to_be_reviewed.for_current_user
   end
 
-  def closed_planning_applications
-    scope = all_applications.closed_or_cancelled.for_current_user.by_created_at_desc
-
-    if valid? && query
-      scope = records_matching_query(scope)
-    end
-
-    sorted_scope(scope, sort_key, direction)
+  def closed_planning_applications(scope = all_applications)
+    scope = scope.closed_or_cancelled.for_current_user.by_created_at_desc
+    scope = apply_text_search(scope)
+    apply_sorting(scope)
   end
 
   def updated_planning_application_audits(limit: 20)
-    audited_applications = filtered_scope(all_applications)
+    audited_applications = apply_filters(all_applications)
 
-    audits_scope = local_authority.audits
-      .most_recent_for_planning_applications
-      .where(planning_application_id: audited_applications.select(:id))
+    audits_scope = audits_for_applications(audited_applications.select(:id))
 
     if valid? && query
-      matching_planning_applications = records_matching_query(audited_applications)
+      matching_ids = text_search_filter
+        .apply(audited_applications, search_params)
         .unscope(:select, :order)
         .select(:id)
-      audits_scope = audits_scope.where(planning_application_id: matching_planning_applications)
+      audits_scope = audits_scope.where(planning_application_id: matching_ids)
     end
 
     audits_scope.limit(limit)
@@ -112,85 +94,38 @@ class PlanningApplicationSearch
   end
 
   def local_authority
-    @local_authority = current_user.local_authority
-  end
-
-  def records_matching_query(scope)
-    records_matching_reference(scope).presence ||
-      records_matching_address_search(scope).presence ||
-      records_matching_description(scope)
-  rescue ActiveRecord::StatementInvalid
-    scope.none
-  end
-
-  def records_matching_reference(scope)
-    scope.where(
-      "LOWER(reference) LIKE ?",
-      "%#{query.downcase}%"
-    )
-  end
-
-  def records_matching_postcode(scope)
-    scope.where(
-      "LOWER(replace(postcode, ' ', '')) = ?",
-      query.gsub(/\s+/, "").downcase
-    )
-  end
-
-  def records_matching_description(scope)
-    scope
-      .select(sanitized_select_sql)
-      .where(where_sql, query_terms)
-      .order(rank: :desc)
-  end
-
-  def records_matching_address_search(scope)
-    return records_matching_address(scope) unless postcode_query?
-
-    records_matching_postcode(scope).presence || records_matching_address(scope)
-  end
-
-  def records_matching_address(scope)
-    scope.where("address_search @@ to_tsquery('simple', ?)", query.split.join(" & "))
-  end
-
-  def sanitized_select_sql
-    ActiveRecord::Base.sanitize_sql_array([select_sql, query_terms])
-  end
-
-  def select_sql
-    "planning_applications.*,
-    ts_rank(
-      to_tsvector('english', description),
-      to_tsquery('english', ?)
-    ) AS rank"
-  end
-
-  def where_sql
-    "to_tsvector('english', description) @@ to_tsquery('english', ?)"
-  end
-
-  def query_terms
-    @query_terms ||= query.split.join(" | ")
+    @local_authority ||= current_user.local_authority
   end
 
   def query_submitted?
     submit.present?
   end
 
-  def selected_statuses
-    @selected_statuses ||= status&.reject(&:empty?)
+  def filters
+    @filters ||= [
+      ::Filters::StatusFilter.new,
+      ::Filters::ApplicationTypeFilter.new(local_authority)
+    ]
   end
 
-  def filtered_scope(scope)
-    filters = {}
-    filters[:status] = selected_statuses if selected_statuses.present?
-    filters[:application_type] = selected_application_type_ids if selected_application_type_ids.present?
-
-    scope.where(**filters).by_created_at_desc
+  def apply_filters(scope)
+    result = filters.reduce(scope) do |s, filter|
+      filter.applicable?(search_params) ? filter.apply(s, search_params) : s
+    end
+    result.by_created_at_desc
   end
 
-  def sorted_scope(scope, sort_key, direction)
+  def apply_text_search(scope)
+    return scope unless valid? && query
+
+    text_search_filter.apply(scope, search_params)
+  end
+
+  def text_search_filter
+    @text_search_filter ||= ::Filters::TextSearch::CascadingSearch.new
+  end
+
+  def apply_sorting(scope)
     case sort_key
     when "expiry_date"
       scope.reorder(expiry_date: direction)
@@ -199,11 +134,18 @@ class PlanningApplicationSearch
     end
   end
 
-  def selected_application_type_ids
-    @selected_application_type_ids ||= local_authority.application_types.where(name: application_type).ids
+  def audits_for_applications(application_ids)
+    local_authority.audits
+      .most_recent_for_planning_applications
+      .where(planning_application_id: application_ids)
   end
 
-  def postcode_query?
-    query.match?(/^(GIR\s?0AA|[A-Z]{1,2}\d[A-Z\d]?\s?\d[A-Z]{2})$/i)
+  def search_params
+    @search_params ||= {
+      status: status&.reject(&:empty?),
+      application_type: application_type,
+      query: query,
+      submit: submit
+    }
   end
 end

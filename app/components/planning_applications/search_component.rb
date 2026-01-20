@@ -2,14 +2,15 @@
 
 module PlanningApplications
   class SearchComponent < ViewComponent::Base
-    def initialize(panel_type:, search:)
+    def initialize(panel_type:, search:, tab_route:)
       @panel_type = panel_type
       @search = search
+      @tab_route = tab_route
     end
 
     private
 
-    attr_reader :search, :panel_type
+    attr_reader :search, :panel_type, :tab_route
 
     delegate :all_statuses, :default_statuses, to: :search
 
@@ -30,11 +31,14 @@ module PlanningApplications
     end
 
     def clear_search_url
-      planning_applications_path(
-        anchor: panel_type,
+      tab_path(
         status: default_statuses,
         application_type: all_application_types
       )
+    end
+
+    def tab_path(extra_params = {})
+      helpers.public_send(tab_route, extra_params.merge(anchor: "tabs"))
     end
   end
 end

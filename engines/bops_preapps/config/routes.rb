@@ -3,7 +3,14 @@
 BopsPreapps::Engine.routes.draw do
   root to: "pre_applications#index"
 
-  resources :pre_applications, only: %i[index show]
+  resources :pre_applications, only: %i[index show] do
+    collection do
+      get :mine, to: "tabs#mine"
+      get :unassigned, to: "tabs#unassigned"
+      get :closed, to: "tabs#closed"
+      get :all, to: "tabs#all_cases"
+    end
+  end
   get "/planning_applications", to: "pre_applications#index"
 
   scope "/:reference" do

@@ -87,4 +87,14 @@ module PlanningApplicationHelper
   def heads_of_terms_task_header(planning_application)
     planning_application.pre_application? ? "Suggest heads of terms" : "Add heads of terms"
   end
+
+  def planning_applications_tab_routes
+    {
+      mine: :mine_planning_applications_path,
+      unassigned: :unassigned_planning_applications_path,
+      closed: :closed_planning_applications_path,
+      updated: :updated_planning_applications_path,
+      all: :all_planning_applications_path
+    }.freeze
+  end
 end

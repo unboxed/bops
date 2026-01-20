@@ -15,7 +15,7 @@ RSpec.describe "Dashboard", type: :system do
     it "doesn't allow access to the dashboard" do
       visit "/admin/dashboard"
 
-      expect(page).to have_current_path("/")
+      expect(page).to have_current_path("/planning_applications/mine?anchor=tabs")
       expect(page).to have_content("You need to be an administrator to view the page '/admin/dashboard'")
     end
   end
@@ -26,7 +26,7 @@ RSpec.describe "Dashboard", type: :system do
     it "doesn't allow access to the dashboard" do
       visit "/admin/dashboard"
 
-      expect(page).to have_current_path("/")
+      expect(page).to have_current_path("/planning_applications/mine?anchor=tabs")
       expect(page).to have_content("You need to be an administrator to view the page '/admin/dashboard'")
     end
   end

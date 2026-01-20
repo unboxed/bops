@@ -5,10 +5,10 @@ module BopsApi
     module TextSearch
       class CascadingSearch < BaseFilter
         STRATEGIES = [
-          ReferenceSearch,
-          PostcodeSearch,
-          AddressSearch,
-          DescriptionSearch
+          BopsCore::Filters::TextSearch::ReferenceSearch,
+          BopsCore::Filters::TextSearch::PostcodeSearch,
+          BopsCore::Filters::TextSearch::AddressSearch,
+          BopsCore::Filters::TextSearch::DescriptionSearch
         ].freeze
 
         def applicable?(params)

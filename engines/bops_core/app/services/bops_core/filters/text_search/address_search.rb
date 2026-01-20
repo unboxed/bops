@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module BopsApi
+module BopsCore
   module Filters
     module TextSearch
       class AddressSearch < BaseSearch
@@ -8,6 +8,8 @@ module BopsApi
           def apply(scope, query)
             scope.where("address_search @@ to_tsquery('simple', ?)", tsquery_terms(query))
           end
+
+          private
 
           def tsquery_terms(query)
             query.split.join(" & ")

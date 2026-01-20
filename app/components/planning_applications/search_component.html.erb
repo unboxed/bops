@@ -2,7 +2,7 @@
       model: search,
       scope: "",
       method: :get,
-      url: planning_applications_path(anchor: panel_type, status: selected_status, application_type: selected_application_type),
+      url: tab_path(status: selected_status, application_type: selected_application_type),
       data: {controller: "clear-form"}
     ) do |form| %>
   <%= form.govuk_error_summary %>

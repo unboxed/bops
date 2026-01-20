@@ -60,10 +60,10 @@ RSpec.describe BopsApi::Filters::TextSearch::CascadingSearch do
     context "cascade order" do
       it "tries reference first, then postcode, then address, then description" do
         expect(described_class::STRATEGIES).to eq([
-          BopsApi::Filters::TextSearch::ReferenceSearch,
-          BopsApi::Filters::TextSearch::PostcodeSearch,
-          BopsApi::Filters::TextSearch::AddressSearch,
-          BopsApi::Filters::TextSearch::DescriptionSearch
+          BopsCore::Filters::TextSearch::ReferenceSearch,
+          BopsCore::Filters::TextSearch::PostcodeSearch,
+          BopsCore::Filters::TextSearch::AddressSearch,
+          BopsCore::Filters::TextSearch::DescriptionSearch
         ])
       end
     end

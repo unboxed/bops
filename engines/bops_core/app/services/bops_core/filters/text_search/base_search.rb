@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module BopsApi
+module BopsCore
   module Filters
     module TextSearch
       class BaseSearch
