@@ -54,7 +54,16 @@ export default class extends Controller {
   currentValues() {
     const formData = new FormData(this.formTarget)
     formData.delete("authenticity_token")
-    return Array.from(formData.values())
+    return Array.from(formData.values()).map((value) =>
+      this.normalizeValue(value),
+    )
+  }
+
+  normalizeValue(value) {
+    if (value instanceof File) {
+      return `file:${value.name}:${value.size}`
+    }
+    return value
   }
 
   handleSubmit(_event) {
