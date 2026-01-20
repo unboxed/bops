@@ -99,7 +99,7 @@ module PlanningApplications
       end
 
       def submission_redirect_path
-        planning_application_assessment_site_histories_path(@planning_application, return_to: params[:return_to])
+        params[:return_to].presence || planning_application_assessment_site_histories_path(@planning_application)
       end
     end
   end
