@@ -84,13 +84,16 @@ module BopsCore
     end
 
     def active_page_key
-      page_keys = {
-        "pre_applications" => "pre_applications",
-        "planning_applications" => "planning_applications",
-        "enforcements" => "enforcements"
-      }
-
-      page_keys.fetch(controller_name, "dashboard")
+      case controller_path
+      when "bops_preapps/pre_applications", "bops_preapps/tabs"
+        "pre_applications"
+      when "planning_applications", "planning_applications/tabs"
+        "planning_applications"
+      when "bops_enforcements/enforcements"
+        "enforcements"
+      else
+        "dashboard"
+      end
     end
 
     def nav_items

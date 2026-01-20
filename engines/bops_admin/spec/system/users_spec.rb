@@ -81,7 +81,7 @@ RSpec.describe "Users" do
     fill_in("Security code", with: last_user.current_otp)
 
     click_button("Enter code")
-    expect(page).to have_current_path("/")
+    expect(page).to have_current_path("/planning_applications/mine?anchor=tabs")
     expect(page).to have_content("Signed in successfully")
   end
 
@@ -123,7 +123,7 @@ RSpec.describe "Users" do
     fill_in("Security code", with: last_user.current_otp)
 
     click_button("Enter code")
-    expect(page).to have_current_path("/")
+    expect(page).to have_current_path("/planning_applications/mine?anchor=tabs")
     expect(page).to have_content("Signed in successfully")
   end
 
