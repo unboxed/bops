@@ -51,6 +51,10 @@
     </p>
 
     <% if @planning_application.pre_application? %>
+      <p id="service-type">
+        Pre-application service type:
+        <strong><%= @planning_application.service_type || "None" %></strong>
+      </p>
       <p id="additional-services">
         Requested services:
         <%- @planning_application.additional_services.each_with_index do |service, i| -%><%- if i > 0 %>, <% end -%>

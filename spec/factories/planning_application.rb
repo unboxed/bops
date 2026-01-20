@@ -364,6 +364,72 @@ FactoryBot.define do
 
     trait :pre_application do
       application_type { association :application_type, :pre_application, local_authority: }
+
+      proposal_details do
+        [
+          {
+            question: "what are you planning to do?",
+            responses: [
+              {
+                value: "demolish",
+                metadata: {
+                  flags: ["Planning permission / Permission needed"]
+                }
+              }
+            ],
+            metadata: {
+              notes: "this will be done before rebuilding",
+              auto_answered: true,
+              policy_refs: [
+                {
+                  url: "http://example.com/planning/policy/1/234/a.html",
+                  text: "GPDO 32.2342.223"
+                }
+              ]
+            }
+          },
+          {
+            question: "Enter the address of the first adjoining property",
+            responses: [
+              {
+                value: "London, 80 Underhill Road , , , , SE22 0QU"
+              }
+            ]
+          },
+          {
+            question: "Enter the address of the second adjoining property",
+            responses: [
+              {
+                value: "London, 78 Underhill Road, , , , SE22 0QU"
+              }
+            ]
+          },
+          {
+            question: "Is this a listed building?",
+            responses: [
+              {
+                value: "No",
+                metadata: {
+                  flags: ["Listed building consent"]
+                }
+              }
+
+            ]
+          },
+          {
+            question: "What type of pre-application are you applying for?",
+            responses: [
+              {
+                value: "Non-major pre application"
+              }
+            ],
+            metadata: {
+              autoAnswered: true,
+              sectionName: "Pre application advice offers"
+            }
+          }
+        ]
+      end
     end
 
     trait :lawfulness_certificate do

@@ -1120,6 +1120,12 @@ class PlanningApplication < ApplicationRecord
     params_v2&.dig(:data, :property, :address, :source)
   end
 
+  def service_type
+    return unless pre_application?
+
+    find_proposal_detail("What type of pre-application are you applying for?")&.first&.response_values&.first
+  end
+
   private
 
   def create_fee_calculation

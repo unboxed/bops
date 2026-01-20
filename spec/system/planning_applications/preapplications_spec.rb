@@ -15,6 +15,10 @@ RSpec.describe "assigning planning application" do
       visit "/planning_applications/#{planning_application.reference}/"
     end
 
+    it "shows the service type" do
+      expect(page).to have_content("Pre-application service type: Non-major pre application")
+    end
+
     it "shows preapp services option" do
       expect(page).to have_content("Requested services: Change")
     end
