@@ -7,8 +7,8 @@ module BopsApi
     EXCEPTIONS = Hash.new(:internal_server_error).merge(
       "ActionController::BadRequest" => :bad_request,
       "ActiveRecord::RecordNotFound" => :not_found,
-      "ActiveRecord::RecordInvalid" => :unprocessable_entity,
-      "ActiveRecord::RecordNotSaved" => :unprocessable_entity,
+      "ActiveRecord::RecordInvalid" => :unprocessable_content,
+      "ActiveRecord::RecordNotSaved" => :unprocessable_content,
       "BopsApi::Errors::InvalidRequestError" => :bad_request,
       "BopsApi::Errors::NotPermittedError" => :forbidden
     ).freeze

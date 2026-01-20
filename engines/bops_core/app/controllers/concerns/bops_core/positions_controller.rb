@@ -17,7 +17,7 @@ module BopsCore
           if @record.insert_at(position)
             head :no_content
           else
-            render json: @record.errors, status: :unprocessable_entity
+            render json: @record.errors, status: :unprocessable_content
           end
         end
       end

@@ -21,7 +21,7 @@ module BopsPreapps
             redirect_to @form.redirect_url, notice: @form.flash(:notice, self)
           else
             flash.now[:alert] = @form.flash(:alert, self)
-            render :show, status: :unprocessable_entity
+            render :show, status: :unprocessable_content
           end
         end
       end
