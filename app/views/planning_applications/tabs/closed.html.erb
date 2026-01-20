@@ -1,0 +1,10 @@
+<%= render "planning_applications/tabs_layout" do %>
+  <div class="govuk-tabs__panel" id="closed">
+    <%= render PlanningApplications::PanelComponent.new(
+          planning_applications: @planning_applications,
+          type: :closed,
+          search: @search,
+          tab_route: :closed_planning_applications_path
+        ) %>
+  </div>
+<% end %>

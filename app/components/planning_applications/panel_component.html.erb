@@ -1,9 +1,10 @@
 <h2><%= title %></h2>
-<% if search.present? %>
+<% if search.present? && tab_route.present? %>
   <%= render(
         PlanningApplications::SearchComponent.new(
           panel_type: type,
-          search: search
+          search: search,
+          tab_route: tab_route
         )
       ) %>
 <% end %>
