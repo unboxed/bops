@@ -496,14 +496,14 @@
       <p>
         <%= t(
               ".next_steps_intro_html",
-              application_type: @planning_application.recommended_application_type.human_name
+              application_type: @planning_application.recommended_application_type.description
             ) %>
       </p>
        <p>
         <%= t(
               ".next_steps_list_html",
               planning_service_link: @current_local_authority.submission_url,
-              application_type: @planning_application.recommended_application_type.human_name
+              application_type: @planning_application.recommended_application_type.description
             ) %>
        </p>
     <% else %>

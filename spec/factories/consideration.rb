@@ -3,7 +3,14 @@
 FactoryBot.define do
   factory :consideration do
     policy_area { Faker::Lorem.sentence }
-    policy_references { [{description: Faker::Lorem.sentence}] }
+    policy_references {
+      [
+        {
+          code: Faker::IDNumber.unique.ssn_valid,
+          description: Faker::Lorem.sentence
+        }
+      ]
+    }
     assessment { Faker::Lorem.paragraph }
     conclusion { Faker::Lorem.sentence }
     advice { Faker::Lorem.paragraph }
