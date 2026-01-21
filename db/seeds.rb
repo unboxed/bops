@@ -31,7 +31,7 @@ end
 
 User.find_or_create_by!(role: "global_administrator") do |user|
   user.role = "global_administrator"
-  user.password = PasswordGenerator.call
+  user.password = password[Rails.env]
   user.otp_required_for_login = false
   user.name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
   user.email = "globaladmin@example.com"
