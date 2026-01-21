@@ -3,7 +3,7 @@
 require "faker"
 
 email = ->(subdomain, role) { "#{subdomain}_#{role}@example.com" }
-password = ->(env) { env.production? ? PasswordGenerator.call : "nw29nfsijrP!P392" }
+password = ->(env) { env.production? ? nil : "nw29nfsijrP!P392" }
 fixture = ->(file) { YAML.load_file(File.expand_path("seeds/#{file}.yml", __dir__)) }
 
 fixture["local_authorities"].each do |attrs|
