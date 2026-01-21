@@ -3,7 +3,7 @@
 require "faker"
 
 email = ->(subdomain, role) { "#{subdomain}_#{role}@example.com" }
-password = ->(env) { env.production? ? PasswordGenerator.call : "nw29nfsijrP!P392" }
+password = ->(env) { env.production? ? nil : "nw29nfsijrP!P392" }
 fixture = ->(file) { YAML.load_file(File.expand_path("seeds/#{file}.yml", __dir__)) }
 
 fixture["local_authorities"].each do |attrs|
@@ -31,7 +31,7 @@ end
 
 User.find_or_create_by!(role: "global_administrator") do |user|
   user.role = "global_administrator"
-  user.password = PasswordGenerator.call
+  user.password = password[Rails.env]
   user.otp_required_for_login = false
   user.name = "#{Faker::Name.first_name} #{Faker::Name.last_name}"
   user.email = "globaladmin@example.com"
