@@ -17,7 +17,11 @@ module BopsSubmissions
       private
 
       def parse_planning_portal
-        {application_type: application_type("pp.full.householder")}
+        scenario = params.dig("applicationScenario", "scenarioNumber")
+        scope = :"bops_submissions.pp_to_odp_code"
+        code = I18n.t(scenario, scope:, params:)
+
+        {application_type: application_type(code)}
       end
 
       def parse_planx
