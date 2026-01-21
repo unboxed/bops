@@ -112,6 +112,13 @@
         class: "govuk-input--width-30"
       ) %>
 
+      <%= form.govuk_text_field(
+            :preapp_guidance_url,
+            label: {text: t(".preapp_guidance_url"), class: "govuk-label govuk-label--m"},
+            hint: {text: t(".preapp_guidance_url_hint")},
+            class: "govuk-input--width-30"
+          ) %>
+
   <%= form.govuk_text_field(
         :privacy_policy_url,
         label: {text: t(".privacy_policy_url"), class: "govuk-label govuk-label--m"},
