@@ -52,7 +52,7 @@ RSpec.describe "Pre-application report" do
   end
 
   let(:consideration_set) { create(:consideration_set, considerations: create_list(:consideration, 3, summary_tag: "complies")) }
-  let(:local_authority_requirements) { create_list(:local_authority_requirement, 3, local_authority:) }
+  let(:local_authority_requirements) { create_list(:local_authority_requirement, 3, local_authority:, guidelines: "Guidelines") }
   let!(:requirements) { local_authority_requirements.map { |r| planning_application.requirements.create(**r.as_json.except("id", "local_authority_id", "search")) } }
 
   let!(:site_visit) do
@@ -508,7 +508,7 @@ RSpec.describe "Pre-application report" do
 
     visit "/reports/planning_applications/#{reference}"
     within("#next-steps") do
-      expect(page).to have_content("If you wish to proceed, you'll need to make a #{planning_application.recommended_application_type.human_name} application. Follow these steps")
+      expect(page).to have_content("If you wish to proceed, you'll need to make a #{planning_application.recommended_application_type.description} application. Follow these steps")
       expect(page).to have_link("council's planning application service.", href: "https://www.southwark.gov.uk/planning-environment-and-building-control/planning/step-by-step/apply-planning-permission/submit")
     end
 
