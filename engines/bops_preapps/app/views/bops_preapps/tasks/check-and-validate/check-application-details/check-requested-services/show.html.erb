@@ -1,0 +1,40 @@
+<%= render "shared/task_header", task: @task %>
+<div class="display-flex">
+  <div class="govuk-inset-text govuk-grid-column-two-thirds">
+    <strong> Pre-application service type:</strong>
+    <br>
+    <%= @planning_application.service_type || "None" %>
+    <br><br>
+    <p class="govuk-body govuk-!-margin-bottom-1">Select any additional services required for this application.</p>
+    <strong>Note:</strong> Your selections may change the total service charge. Refer to your
+    <%= current_local_authority.preapp_guidance_url? ?
+        govuk_link_to(
+          "local council guidelines",
+          current_local_authority.preapp_guidance_url,
+          new_tab: true
+        ) :
+        "local council guidelines" %>
+    and <%= govuk_link_to "update the fee", main_app.planning_application_charges_path(@planning_application) %> if necessary.
+  </div>
+
+  <%= form_with model: @form, url: @form.url,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+    <%= form.govuk_error_summary %>
+    <%= form.govuk_check_boxes_fieldset :additional_services,
+          legend: {text: "Select required services"} do %>
+
+        <p class="govuk-hint">
+          Add other necessary services for this pre-application. Save and mark complete if there are no other required services.
+        </p>
+
+        <% PreapplicationService::TYPES.each do |type| %>
+          <%= form.govuk_check_box :additional_services, type,
+                label: {text: type.to_s.humanize},
+                checked: @planning_application.additional_services.map(&:name).include?(type),
+                disabled: @form.read_only? %>
+        <% end %>
+
+      <% end %>
+      <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+  <% end %>
+</div>
