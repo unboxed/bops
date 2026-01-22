@@ -3,7 +3,7 @@
 module BopsPreapps
   module Tasks
     class DrawRedLineBoundaryForm < Form
-      self.task_actions = %w[save_and_complete]
+      self.task_actions = %w[save_and_complete edit_form]
 
       attribute :boundary_geojson, :string
 
