@@ -15,6 +15,8 @@ module AccordionSections
       :uprn,
       :type_description,
       :session_id,
+      :service_type,
+      :parish_name,
       to: :planning_application
     )
 
@@ -67,6 +69,29 @@ module AccordionSections
         "Address source: ",
         helpers.content_tag(:strong, source)
       ])
+    end
+
+    def ward
+      if planning_application.postcode.present?
+        safe_join([
+          helpers.tag.p(planning_application.ward),
+          helpers.govuk_link_to(t(".view_on_mapit"), mapit_link, new_tab: true)
+        ])
+      else
+        t(".a_postcode_is")
+      end
+    end
+
+    def requested_services
+      if planning_application.additional_services.any?
+        safe_join(planning_application.additional_services.map { it.to_s.humanize }, ",")
+      else
+        "None"
+      end
+    end
+
+    def location
+      govuk_link_to(t(".view_site_on"), map_link, new_tab: true)
     end
   end
 end
