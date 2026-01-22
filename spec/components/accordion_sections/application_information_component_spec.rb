@@ -203,4 +203,20 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
       expect(page).to have_summary_item("Session ID", with: "21161b70-0e29-40e6-9a38-c42f61f25ab9")
     end
   end
+
+  context "when it is a preapp" do
+    let(:planning_application) { create(:planning_application, :pre_application) }
+
+    it "renders the service type" do
+      render_inline(component)
+
+      expect(page).to have_summary_item("Pre-application service type", with: "Non-major pre application")
+    end
+
+    it "renders the additional services" do
+      render_inline(component)
+
+      expect(page).to have_summary_item("Requested services", with: "None")
+    end
+  end
 end

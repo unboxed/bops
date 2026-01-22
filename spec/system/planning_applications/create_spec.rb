@@ -52,7 +52,7 @@ RSpec.describe "Creating a planning application", type: :system do
       expect(page).to have_content("Planning application was successfully created.")
 
       visit "/planning_applications/#{reference}"
-      expect(page).to have_content("Description: Back shack")
+      expect(page).to have_summary_item("Description", with: "Back shack")
     end
 
     it "displays an error when application type is not selected" do
@@ -78,7 +78,7 @@ RSpec.describe "Creating a planning application", type: :system do
       expect(page).to have_content("Planning application was successfully created.")
 
       visit "/planning_applications/#{reference}"
-      expect(page).to have_content("Description: Bad bad application")
+      expect(page).to have_summary_item("Description", with: "Bad bad application")
     end
 
     it "displays an error with an invalid email address" do
@@ -146,11 +146,11 @@ RSpec.describe "Creating a planning application", type: :system do
         expect(page).to have_content("carlota@corlita.com")
         expect(page).to have_content("0777773949494312")
 
-        expect(page).to have_content("Site address: Palace Road, Crystal Palace, SE19 2LX")
-        expect(page).to have_content("UPRN: 19284783939")
-        expect(page).to have_content("Application type: Lawful Development Certificate - Proposed")
-        expect(page).to have_content("Work already started: No")
-        expect(page).to have_content("Description: Backyard bird hotel")
+        expect(page).to have_summary_item("Site address", with: "Palace Road, Crystal Palace, SE19 2LX")
+        expect(page).to have_summary_item("UPRN", with: "19284783939")
+        expect(page).to have_summary_item("Application type", with: "Lawful Development Certificate - Proposed")
+        expect(page).to have_summary_item("Work already started", with: "No")
+        expect(page).to have_summary_item("Description", with: "Backyard bird hotel")
       end
 
       it "has the correct format for the payment amount" do
@@ -192,7 +192,7 @@ RSpec.describe "Creating a planning application", type: :system do
         allow(response).to receive(:body).and_return(addresses)
       end
 
-      it "can create an application", js: true do
+      it "can create an application", :js do
         select("Lawful Development Certificate - Proposed use")
         fill_in "Description", with: "Backyard bird hotel"
         fill_in "Day", with: "3"
@@ -215,8 +215,8 @@ RSpec.describe "Creating a planning application", type: :system do
 
         visit "/planning_applications/#{reference}"
 
-        expect(page).to have_content("Site address: 60-62, Commercial Street, LONDON, E16LT")
-        expect(page).to have_content("UPRN: 1234")
+        expect(page).to have_summary_item("Site address", with: "60-62, Commercial Street, LONDON, E16LT")
+        expect(page).to have_summary_item("UPRN", with: "1234")
 
         expect(planning_application).to have_attributes(longitude: "0.1", latitude: "51")
       end
@@ -245,7 +245,7 @@ RSpec.describe "Creating a planning application", type: :system do
       expect(page).to have_content("Planning application was successfully created.")
 
       visit "/planning_applications/#{reference}"
-      expect(page).to have_content("Description: Bird house")
+      expect(page).to have_summary_item("Description", with: "Bird house")
     end
   end
 end
