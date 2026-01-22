@@ -1,7 +1,9 @@
 <% if show_edit_link %>
   <%= govuk_link_to t(".edit_details"), edit_planning_application_path(planning_application), class: "govuk-body" %>
 <% end %>
+
 <hr>
+
 <table class="govuk-table">
   <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
@@ -12,20 +14,42 @@
         <%= render(FormattedContentComponent.new(text: planning_application.description)) %>
       </td>
     </tr>
-    <% %i[type_description full_address].each do |attribute| %>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell">
+        <strong><%= t(".type_description") %></strong>
+      </td>
+      <td class="govuk-table__cell"><%= type_description %></td>
+    </tr>
+    <% if planning_application.pre_application? %>
       <tr class="govuk-table__row">
         <td class="govuk-table__cell">
-          <strong><%= t(".#{attribute}") %></strong>
+          <strong><%= t(".service_type") %></strong>
         </td>
         <td class="govuk-table__cell">
-          <%= send(attribute) %>
+          <%= planning_application.service_type %>
+        </td>
+      </tr>
+      <tr class="govuk-table__row">
+        <td class="govuk-table__cell">
+          <strong><%= t(".requested_services") %></strong>
+        </td>
+        <td class="govuk-table__cell">
+          <% if planning_application.additional_services.any? %>
+            <%= planning_application.additional_services.map { tag.strong(it.to_s.humanize) }.join(", ") %>
+          <% else %>
+            None
+          <% end %>
         </td>
       </tr>
     <% end %>
     <tr class="govuk-table__row">
       <td class="govuk-table__cell">
-        <strong><%= t(".location") %></strong>
+        <strong><%= t(".full_address") %></strong>
       </td>
+      <td class="govuk-table__cell"><%= full_address %></td>
+    </tr>
+    <tr class="govuk-table__row">
+      <td class="govuk-table__cell"><strong><%= t(".location") %></strong></td>
       <td class="govuk-table__cell">
         <%= govuk_link_to(
               t(".view_site_on"),
@@ -36,9 +60,7 @@
     </tr>
     <% if planning_application.parish_name.present? %>
       <tr class="govuk-table__row">
-        <td class="govuk-table__cell">
-          <strong><%= t(".parish") %></strong>
-        </td>
+        <td class="govuk-table__cell"><strong><%= t(".parish") %></strong></td>
         <td class="govuk-table__cell">
           <%= planning_application.parish_name %>
         </td>
