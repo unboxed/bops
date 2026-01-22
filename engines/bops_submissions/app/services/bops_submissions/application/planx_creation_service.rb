@@ -12,7 +12,12 @@ module BopsSubmissions
       end
 
       def call!
-        save!(build_planning_application)
+        planning_application = build_planning_application
+        planning_application.save!
+
+        BopsApi::PlanningApplicationDependencyJob.perform_later(planning_application:, user:, files:, params:, email_sending_permitted:)
+        BopsApi::CreateNeighbourBoundaryGeojsonJob.perform_later(planning_application) if planning_application.consultation
+        BopsApi::PostApplicationToStagingJob.perform_later(local_authority, planning_application) if Bops.env.production?
       end
 
       private
@@ -68,19 +73,6 @@ module BopsSubmissions
           user_role: data_params[:user_role],
           from_production: from_bops_production?
         }
-      end
-
-      def save!(planning_application)
-        PlanningApplication.transaction do
-          if planning_application.save!
-            BopsApi::PlanningApplicationDependencyJob.perform_later(planning_application:, user:, files:, params:, email_sending_permitted:)
-          end
-        end
-
-        BopsApi::CreateNeighbourBoundaryGeojsonJob.perform_later(planning_application) if planning_application.consultation
-        BopsApi::PostApplicationToStagingJob.perform_later(local_authority, planning_application) if Bops.env.production?
-
-        planning_application
       end
 
       def raise_not_permitted_in_production_error

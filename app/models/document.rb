@@ -59,6 +59,7 @@ class Document < ApplicationRecord
   before_update :reset_replacement_document_validation_request_update_counter!, if: :owner_is_validation_request?
   after_update :create_audit!, if: :saved_change_to_planning_application_id?
   after_update :audit_updated!
+  after_commit :generate_thumbnail, on: :create
 
   DRAWING_TAGS = %w[
     elevations.existing
@@ -472,5 +473,9 @@ class Document < ApplicationRecord
     return unless validated? || archived?
 
     owner.reset_update_counter!
+  end
+
+  def generate_thumbnail
+    DocumentThumbnailJob.perform_later(id) if file.representable?
   end
 end
