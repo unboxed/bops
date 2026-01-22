@@ -20,15 +20,6 @@ module BopsPreapps
         end
       end
 
-      def flash(type, controller)
-        case type
-        when :notice
-          controller.t(".#{slug}.success")
-        when :alert
-          controller.t(".#{slug}.failure")
-        end
-      end
-
       private
 
       def form_params(params)
