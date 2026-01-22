@@ -8,7 +8,6 @@
               ) %>
         </div>
       <% end %>
-
       <% if display_or_publish_required?(@planning_application, :press) %>
         <div id="confirm-press-notice-warning">
           <%= govuk_warning_text(
@@ -46,9 +45,12 @@
       </p>
     <% end %>
 
-    <p>
-      Application type: <strong><%= @planning_application.application_type.description %></strong>
-    </p>
+    <% unless @planning_application.pre_application? %>
+      <p>
+        Application type:
+        <strong><%= @planning_application.application_type.description %></strong>
+      </p>
+    <% end %>
 
     <% if @planning_application.pre_application? %>
       <p id="service-type">
@@ -57,8 +59,8 @@
       </p>
       <p id="additional-services">
         Requested services:
-        <%- @planning_application.additional_services.each_with_index do |service, i| -%><%- if i > 0 %>, <% end -%>
-          <strong><%= service.name.to_s.humanize %></strong><% end %>
+        <%= safe_join(@planning_application.additional_services.map { |service| tag.strong(service.name.to_s.humanize) }, ", ") %>
+
         <%= govuk_link_to "Change", edit_planning_application_additional_services_path(@planning_application) %>
       </p>
       <p id="service-charges">
