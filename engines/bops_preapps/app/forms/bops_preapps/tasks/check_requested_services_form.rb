@@ -21,8 +21,6 @@ module BopsPreapps
       end
 
       def flash(type, controller)
-        return if action == "edit_form"
-
         case type
         when :notice
           controller.t(".#{slug}.success")

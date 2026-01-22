@@ -75,6 +75,8 @@ module BopsPreapps
       end
 
       def flash(type, controller)
+        return if action == "edit_form"
+
         case type
         when :notice
           (after_success == "redirect") ? controller.t(".#{slug}.success") : nil
