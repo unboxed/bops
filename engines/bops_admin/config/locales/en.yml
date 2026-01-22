@@ -453,6 +453,8 @@ en:
         notify_notion_link: https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74
         planning_policy_and_guidance: Planning policy and guidance
         planning_policy_and_guidance_hint: Link to planning policy and guidance documents for planning officers.
+        preapp_guidance_url: Pre-application services and fees guidance
+        preapp_guidance_url_hint: Link to council's pre-application services and fees guidance for planning officers.
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         privacy_policy_url: Privacy policy
@@ -493,6 +495,8 @@ en:
         notify_notion_link: https://oasis-marsupial-465.notion.site/Guide-to-Notify-set-up-7c18a8f3d43444d098c1f79eab48016c?pvs=74
         planning_policy_and_guidance: Planning policy and guidance
         planning_policy_and_guidance_hint: Link to planning policy and guidance documents for planning officers.
+        preapp_guidance_url: Pre-application services and fees guidance
+        preapp_guidance_url_hint: Link to council's pre-application services and fees guidance for planning officers.
         press_notice_email: Press notice email
         press_notice_email_hint: Enter the email of the person or team who will prepare press notices. This email will be used when a planning officer requests a press notice.
         privacy_policy_url: Privacy policy
