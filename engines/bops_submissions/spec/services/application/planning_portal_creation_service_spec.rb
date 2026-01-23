@@ -5,7 +5,7 @@ require_relative "../../swagger_helper"
 RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type: :service do
   describe "#call!" do
     let(:local_authority) { create(:local_authority) }
-    let!(:application_type_pp) { create(:application_type, :planning_permission) }
+    let!(:application_type_pp) { create(:application_type, :minor) }
 
     subject(:create_planning_application) do
       described_class.new(submission: submission).call!
@@ -46,20 +46,20 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
           town: "London",
           postcode: "SW2 1RW",
           uprn: "100023673934",
-          reference: "23-00100-HAPP",
+          reference: "23-00100-MINOR",
           map_east: "530919",
           map_north: "175202",
           latitude: "51.460661",
           longitude: "-0.116898",
-          application_type_id: ApplicationType.find_by(code: "pp.full.householder").id
+          application_type_id: ApplicationType.find_by(code: "pp.full.minor").id
         )
         expect(pa.boundary_geojson["geometry"]).to include("type" => "MultiPolygon")
       end
 
-      it "sets application_type to full householder" do
+      it "sets application_type to minor" do
         create_planning_application
         pa = PlanningApplication.last
-        expect(pa.application_type.code).to eq("pp.full.householder")
+        expect(pa.application_type.code).to eq("pp.full.minor")
       end
     end
 

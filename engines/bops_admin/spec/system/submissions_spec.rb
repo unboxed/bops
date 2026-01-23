@@ -172,7 +172,7 @@ RSpec.describe "Submissions", type: :system do
   end
 
   context "when a submission has been processed into a planning application" do
-    let!(:application_type_pp) { create(:application_type, :planning_permission, local_authority:) }
+    let!(:application_type_pp) { create(:application_type, :minor, local_authority:) }
     let(:submission) do
       create(
         :submission,

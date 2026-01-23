@@ -17,8 +17,13 @@ module BopsSubmissions
       private
 
       def parse_planning_portal
+        scenario = params.dig("applicationScenario", "scenarioNumber")
+        scope = :"bops_submissions.pp_to_description"
+        default = params.dig("applicationHeader", "description")
+        description = I18n.t(scenario, scope:, params:, default:)
+
         {
-          description: params.dig("applicationData", "proposalDescription", "descriptionText"),
+          description: description,
           boundary_geojson: build_boundary_feature
         }
       end

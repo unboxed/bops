@@ -12,7 +12,7 @@ module BopsConsultees
         redirect_to planning_application_path(@planning_application, sgid: params[:sgid]),
           notice: "Your response has been updated."
       else
-        render "bops_consultees/planning_applications/show", status: :unprocessable_entity
+        render "bops_consultees/planning_applications/show", status: :unprocessable_content
       end
     end
 

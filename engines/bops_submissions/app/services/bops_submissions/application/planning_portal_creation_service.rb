@@ -41,7 +41,6 @@ module BopsSubmissions
       def planning_application_params
         {}.tap do |pa_params|
           pa_params.merge!(parsed_data)
-          pa_params.merge!(application_type_params)
         end
       end
 
@@ -56,14 +55,10 @@ module BopsSubmissions
           "ApplicantParser" => data.dig("applicationData", "applicant"),
           "AgentParser" => data.dig("applicationData", "agent"),
           "AddressParser" => data.dig("applicationData", "siteLocation"),
+          "ApplicationTypeParser" => data,
           "FeeParser" => data["feeCalculationSummary"],
           "ProposalParser" => data
         }.transform_keys { |key| Parsers.const_get(key) }
-      end
-
-      def application_type_params
-        # Planning portal are not currently sending application type. For now, we save all as full householder to pass validation.
-        {application_type: local_authority.application_types.find_or_create_by!(code: "pp.full.householder")}
       end
 
       def attach_documents!

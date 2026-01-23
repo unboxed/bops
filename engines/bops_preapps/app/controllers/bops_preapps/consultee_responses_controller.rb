@@ -29,7 +29,7 @@ module BopsPreapps
         if @consultee_response.save
           format.html { redirect_to back_to_task_path, notice: t(".success") }
         else
-          format.html { render :new, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
         end
       end
     end

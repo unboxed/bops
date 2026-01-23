@@ -127,7 +127,7 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
       end
 
       it "creates a PlanningApplication record" do
-        create(:application_type, :planning_permission)
+        create(:application_type, :minor)
 
         expect {
           described_class.perform_now(submission.id, current_api_user: nil)
