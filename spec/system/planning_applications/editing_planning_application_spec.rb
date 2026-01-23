@@ -129,8 +129,7 @@ RSpec.describe "editing planning application" do
       click_link("Check and assess")
       find("span", text: "Application information").click
 
-      expect(page).to have_content("Alternative reference:")
-      expect(page).to have_content("M3-12345")
+      expect(page).to have_summary_item("Alternative reference", with: "M3-12345")
 
       click_link("Edit details")
 
@@ -142,8 +141,7 @@ RSpec.describe "editing planning application" do
       expect(page).to have_content("Planning application was successfully updated.")
 
       find("span", text: "Application information").click
-      expect(page).to have_content("Alternative reference:")
-      expect(page).to have_content("M3-67890")
+      expect(page).to have_summary_item("Alternative reference", with: "M3-67890")
     end
   end
 
@@ -152,8 +150,7 @@ RSpec.describe "editing planning application" do
       click_link("Check and assess")
       find("span", text: "Application information").click
 
-      expect(page).to have_content("Alternative reference:")
-      expect(page).to have_content("Not provided")
+      expect(page).to have_summary_item("Alternative reference", with: "Not provided")
     end
   end
 end

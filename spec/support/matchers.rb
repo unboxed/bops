@@ -30,4 +30,14 @@ RSpec::Matchers.define(:have_target_id) do |target_id|
   match { |url| URI.parse(url).fragment == target_id }
 end
 
+RSpec::Matchers.define(:have_summary_item) do |content, options|
+  include SystemSpecHelpers
+
+  match do |element|
+    row = element.find(".govuk-summary-list__row dt", exact_text: content).first(:xpath, ".//..")
+    with = options&.fetch(:with, nil)
+    with.present? ? row.has_content?(with) : row.present?
+  end
+end
+
 RSpec::Matchers.define_negated_matcher :not_change, :change

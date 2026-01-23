@@ -16,27 +16,29 @@ en:
   accordion_sections:
     application_information_component:
       a_postcode_is: A postcode is required for ward information
-      alternative_reference: 'Alternative reference:'
-      case_officer: 'Case officer:'
-      description: 'Description:'
+      alternative_reference: Alternative reference
+      case_officer: Case officer
+      description: Description
       edit_details: Edit details
       exempt: Exempt
-      full_address: 'Site address:'
-      location: 'Location:'
+      full_address: Site address
+      location: Location
       'no': 'No'
       not_assigned: Not assigned
       not_provided: Not provided
-      parish: 'Parish:'
-      payment_amount: 'Payment amount:'
-      payment_reference: 'Payment reference:'
+      parish: Parish
+      payment_amount: Payment amount
+      payment_reference: Payment reference
+      requested_services: Requested services
+      service_type: Pre-application service type
       session_id: Session ID
-      type_description: 'Application type:'
-      uprn: 'UPRN:'
+      type_description: Application type
+      uprn: UPRN
       view_on_mapit: View on mapit
       view_site_on: View site on Google Maps
-      ward: 'Ward:'
-      ward_type: 'Ward type:'
-      work_already_started: 'Work already started:'
+      ward: Ward
+      ward_type: Ward type
+      work_already_started: Work already started
       'yes': 'Yes'
     audit_log_component:
       date_at_time: "%{date} at %{time}"

@@ -31,15 +31,15 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
   it "renders the planning application description" do
     render_inline(component)
 
-    expect(page).to have_row_for("Description:", with: "Test description")
+    expect(page).to have_summary_item("Description", with: "Test description")
   end
 
   context "when ldc proposed application" do
     it "renders correct type and work status" do
       render_inline(component)
 
-      expect(page).to have_row_for(
-        "Application type:",
+      expect(page).to have_summary_item(
+        "Application type",
         with: "Lawful Development Certificate"
       )
     end
@@ -51,8 +51,8 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     it "renders correct type and work status" do
       render_inline(component)
 
-      expect(page).to have_row_for(
-        "Application type:",
+      expect(page).to have_summary_item(
+        "Application type",
         with: "Consent to do works to a Listed Building"
       )
     end
@@ -61,8 +61,8 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
   it "renders address" do
     render_inline(component)
 
-    expect(page).to have_row_for(
-      "Site address:",
+    expect(page).to have_summary_item(
+      "Site address",
       with: "123 Long Lane, Big City, AB34EF"
     )
   end
@@ -88,49 +88,49 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
   it "renders parish name" do
     render_inline(component)
 
-    expect(page).to have_row_for("Parish:", with: "Southwark, unparished area")
+    expect(page).to have_summary_item("Parish", with: "Southwark, unparished area")
   end
 
   it "renders ward" do
     render_inline(component)
 
-    expect(page).to have_row_for("Ward:", with: "South Bermondsey")
+    expect(page).to have_summary_item("Ward", with: "South Bermondsey")
   end
 
   it "renders ward type" do
     render_inline(component)
 
-    expect(page).to have_row_for("Ward type:", with: "London borough ward")
+    expect(page).to have_summary_item("Ward type", with: "London borough ward")
   end
 
   it "renders whether work is already started" do
     render_inline(component)
 
-    expect(page).to have_row_for("Work already started:", with: "No")
+    expect(page).to have_summary_item("Work already started", with: "No")
   end
 
   it "renders the UPRN" do
     render_inline(component)
 
-    expect(page).to have_row_for("UPRN:", with: "123456789")
+    expect(page).to have_summary_item("UPRN", with: "123456789")
   end
 
   it "renders the payment reference" do
     render_inline(component)
 
-    expect(page).to have_row_for("Payment reference:", with: "123")
+    expect(page).to have_summary_item("Payment reference", with: "123")
   end
 
   it "renders the payment amount" do
     render_inline(component)
 
-    expect(page).to have_row_for("Payment amount:", with: "£100.00")
+    expect(page).to have_summary_item("Payment amount", with: "£100.00")
   end
 
   it "renders the case officer" do
     render_inline(component)
 
-    expect(page).to have_row_for("Case officer:", with: "Alice Smith")
+    expect(page).to have_summary_item("Case officer", with: "Alice Smith")
   end
 
   context "when there is no case officer" do
@@ -139,7 +139,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     it "renders 'Not assigned'" do
       render_inline(component)
 
-      expect(page).to have_row_for("Case officer:", with: "Not assigned")
+      expect(page).to have_summary_item("Case officer", with: "Not assigned")
     end
   end
 
@@ -149,7 +149,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     it "renders 'Exempt'" do
       render_inline(component)
 
-      expect(page).to have_row_for("Payment reference:", with: "Exempt")
+      expect(page).to have_summary_item("Payment reference", with: "Exempt")
     end
   end
 
@@ -174,7 +174,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     it "renders the alternative reference" do
       render_inline(component)
 
-      expect(page).to have_row_for("Alternative reference:", with: "M3-12345")
+      expect(page).to have_summary_item("Alternative reference", with: "M3-12345")
     end
   end
 
@@ -182,7 +182,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     it "renders 'Not provided'" do
       render_inline(component)
 
-      expect(page).to have_row_for("Alternative reference:", with: "Not provided")
+      expect(page).to have_summary_item("Alternative reference", with: "Not provided")
     end
   end
 
@@ -192,7 +192,7 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     it "renders 'Yes'" do
       render_inline(component)
 
-      expect(page).to have_row_for("Work already started:", with: "Yes")
+      expect(page).to have_summary_item("Work already started", with: "Yes")
     end
   end
 
@@ -200,7 +200,23 @@ RSpec.describe AccordionSections::ApplicationInformationComponent, type: :compon
     it "renders 'session id'" do
       render_inline(component)
 
-      expect(page).to have_row_for("Session ID", with: "21161b70-0e29-40e6-9a38-c42f61f25ab9")
+      expect(page).to have_summary_item("Session ID", with: "21161b70-0e29-40e6-9a38-c42f61f25ab9")
+    end
+  end
+
+  context "when it is a preapp" do
+    let(:planning_application) { create(:planning_application, :pre_application) }
+
+    it "renders the service type" do
+      render_inline(component)
+
+      expect(page).to have_summary_item("Pre-application service type", with: "Non-major pre application")
+    end
+
+    it "renders the additional services" do
+      render_inline(component)
+
+      expect(page).to have_summary_item("Requested services", with: "None")
     end
   end
 end
