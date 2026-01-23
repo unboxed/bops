@@ -15,7 +15,6 @@ module AccordionSections
       :uprn,
       :type_description,
       :session_id,
-      :service_type,
       :parish_name,
       to: :planning_application
     )
@@ -84,10 +83,14 @@ module AccordionSections
 
     def requested_services
       if planning_application.additional_services.any?
-        safe_join(planning_application.additional_services.map { it.to_s.humanize }, ",")
+        safe_join(planning_application.additional_services.map { it.name.to_s.humanize }, ", ")
       else
         "None"
       end
+    end
+
+    def service_type
+      planning_application.service_type.presence || "None"
     end
 
     def location
