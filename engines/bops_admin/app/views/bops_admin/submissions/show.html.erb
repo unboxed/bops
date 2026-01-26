@@ -13,7 +13,7 @@
 
     <%= govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list| %>
       <% {
-           "Reference" => @submission.application_reference,
+           "Submission service reference" => @submission.application_reference,
            "Source" => @submission.source,
            "Status" => @submission.status,
            "Created at" => @submission.created_at.to_fs(:day_month_year_seconds),

@@ -18,7 +18,7 @@ RSpec.describe "Submissions", type: :system do
     expect(page).to have_selector("h1", text: "Submissions")
 
     within("#submissions thead tr") do
-      %w[Reference Source Status Created\ at Started\ at Completed\ at Failed\ at Actions].each do |heading|
+      %w[Submission\ service\ reference Source Status Created\ at Started\ at Completed\ at Failed\ at Actions].each do |heading|
         expect(page).to have_content(heading)
       end
     end
@@ -95,7 +95,7 @@ RSpec.describe "Submissions", type: :system do
 
       within(".govuk-summary-list") do
         {
-          "Reference" => submission.application_reference,
+          "Submission service reference" => submission.application_reference,
           "Source" => submission.source,
           "Status" => submission.status,
           "Created at" => submission.created_at.to_fs,
