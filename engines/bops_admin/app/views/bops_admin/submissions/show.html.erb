@@ -14,12 +14,12 @@
     <%= govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list| %>
       <% {
            "Submission service reference" => @submission.application_reference,
-           "Source" => @submission.source,
-           "Status" => @submission.status,
-           "Created at" => @submission.created_at.to_fs(:day_month_year_seconds),
-           "Started at" => @submission.started_at&.to_fs(:day_month_year_seconds),
-           "Completed at" => @submission.completed_at&.to_fs(:day_month_year_seconds),
-           "Failed at" => @submission.failed_at&.to_fs(:day_month_year_seconds),
+           "Submission source" => @submission.source,
+           "Submission status" => @submission.status,
+           "Submission created at" => @submission.created_at.to_fs(:day_month_year_seconds),
+           "Submission started at" => @submission.started_at&.to_fs(:day_month_year_seconds),
+           "Submission completed at" => @submission.completed_at&.to_fs(:day_month_year_seconds),
+           "Submission failed at" => @submission.failed_at&.to_fs(:day_month_year_seconds),
            "External UUID" => @submission.external_uuid
          }.each do |key, value| %>
         <% summary_list.with_row do |row| %>

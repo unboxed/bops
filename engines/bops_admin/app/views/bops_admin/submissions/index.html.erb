@@ -12,17 +12,25 @@
       <%= t(".submissions") %>
     </h1>
 
+    <div class="govuk-inset-text">
+      Planning applications with a <strong>Completed</strong> submission status may temporarily show a <strong>Pending</strong> application status before appearing in BOPS.
+      Applications pending for more than 10 minutes will trigger an error for the development team to investigate.
+      <br><br>
+      Please contact the development team if an application remains pending for an extended period.
+    </div>
+
     <%= govuk_table(id: "submissions") do |table| %>
       <% table.with_head do |head| %>
         <% head.with_row do |row| %>
           <% row.with_cell(text: "Submission service reference") %>
-          <% row.with_cell(text: "Source") %>
-          <% row.with_cell(text: "Status") %>
-          <% row.with_cell(text: "Created at") %>
-          <% row.with_cell(text: "Started at") %>
-          <% row.with_cell(text: "Completed at") %>
-          <% row.with_cell(text: "Failed at") %>
+          <% row.with_cell(text: "Submission source") %>
+          <% row.with_cell(text: "Submission status") %>
+          <% row.with_cell(text: "Submission created at") %>
+          <% row.with_cell(text: "Submission started at") %>
+          <% row.with_cell(text: "Submission completed at") %>
+          <% row.with_cell(text: "Submission failed at") %>
           <% row.with_cell(text: "Actions") %>
+          <% row.with_cell(text: "Planning application status") %>
         <% end %>
       <% end %>
 
@@ -38,7 +46,12 @@
               <% row.with_cell(text: submission.completed_at&.to_fs) %>
               <% row.with_cell(text: submission.failed_at&.to_fs) %>
               <% row.with_cell do %>
-                <%= govuk_link_to "View", submission_path(submission) %>
+                <%= govuk_link_to "View submission", submission_path(submission) %>
+              <% end %>
+              <% row.with_cell do %>
+                <% if submission.planning_application.present? %>
+                  <%= PlanningApplicationPresenter.new(self, submission.planning_application).status_tag %>
+                <% end %>
               <% end %>
             <% end %>
           <% end %>

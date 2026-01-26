@@ -18,7 +18,7 @@ RSpec.describe "Submissions", type: :system do
     expect(page).to have_selector("h1", text: "Submissions")
 
     within("#submissions thead tr") do
-      %w[Submission\ service\ reference Source Status Created\ at Started\ at Completed\ at Failed\ at Actions].each do |heading|
+      ["Submission service reference", "Submission source", "Submission status", "Submission created at", "Submission started at", "Submission completed at", "Submission failed at", "Actions", "Planning application status"].each do |heading|
         expect(page).to have_content(heading)
       end
     end
@@ -96,12 +96,12 @@ RSpec.describe "Submissions", type: :system do
       within(".govuk-summary-list") do
         {
           "Submission service reference" => submission.application_reference,
-          "Source" => submission.source,
-          "Status" => submission.status,
-          "Created at" => submission.created_at.to_fs,
-          "Started at" => submission.started_at&.to_fs.to_s,
-          "Completed at" => submission.completed_at&.to_fs.to_s,
-          "Failed at" => submission.failed_at&.to_fs.to_s,
+          "Submission source" => submission.source,
+          "Submission status" => submission.status,
+          "Submission created at" => submission.created_at.to_fs,
+          "Submission started at" => submission.started_at&.to_fs.to_s,
+          "Submission completed at" => submission.completed_at&.to_fs.to_s,
+          "Submission failed at" => submission.failed_at&.to_fs.to_s,
           "External UUID" => submission.external_uuid
         }.each do |label, value|
           expect(page).to have_selector("dt", text: label)
@@ -203,6 +203,15 @@ RSpec.describe "Submissions", type: :system do
       BopsSubmissions::ZipExtractionService.new(submission:).call
       BopsSubmissions::Application::PlanningPortalCreationService.new(submission:).call!
       submission.reload
+    end
+
+    it "displays the planning application status tag in the index" do
+      visit "/admin/submissions"
+
+      within("#submission_#{submission.id}") do
+        cells = all("td")
+        expect(cells[8]).to have_selector(".govuk-tag", text: "Not started")
+      end
     end
 
     it "displays the Planning Application section with correct summary and documents" do
