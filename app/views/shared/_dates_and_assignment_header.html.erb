@@ -55,7 +55,7 @@
     <% if @planning_application.pre_application? %>
       <p id="service-type">
         Pre-application service type:
-        <strong><%= @planning_application.service_type || "None" %></strong>
+        <strong><%= @planning_application.service_type || "Unknown - service type needs to be configured in submission service" %></strong>
       </p>
       <p id="additional-services">
         Requested services:
