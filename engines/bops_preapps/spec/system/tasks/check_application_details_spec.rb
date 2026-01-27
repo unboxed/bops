@@ -33,7 +33,7 @@ RSpec.describe "Check application details task", type: :system do
     expect(planning_application.consistency_checklist.site_map_correct).to eq "yes"
   end
 
-  it "persists radio button selections when viewing the page again", skip: "flaky" do
+  it "persists radio button selections when viewing the page again" do
     within ".bops-sidebar" do
       click_link "Check application details"
     end
