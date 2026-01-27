@@ -23,7 +23,7 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
   let(:reference) { planning_application.reference }
 
   describe "end-to-end assessment workflow" do
-    it "completes all assessment tasks in sequence with correct status transitions and icons", skip: "flaky" do
+    it "completes all assessment tasks in sequence with correct status transitions and icons" do
       sign_in(assessor)
       visit "/planning_applications/#{reference}/assessment/tasks"
 
