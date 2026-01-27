@@ -82,7 +82,7 @@
                  "Status" => @planning_application.status.humanize,
                  "Received at" => @planning_application.received_at&.to_fs,
                  "Local Authority" => @planning_application.local_authority.council_name,
-                 "Application Type" => @planning_application.application_type.human_name
+                 "Application Type" => @planning_application.application_type.description
                }.each do |key, value| %>
               <% pa_list.with_row do |row| %>
                 <% row.with_key { key } %>

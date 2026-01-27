@@ -7,21 +7,21 @@ class PlanningApplicationMailer < ApplicationMailer
   def decision_notice_mail(planning_application, host, email)
     @planning_application = planning_application
     @decision_notice_url = decision_notice_api_v1_planning_application_url(@planning_application, id: @planning_application.reference, format: "pdf", host: host)
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
 
     view_mail(email_template_id, headers_for(subject(:decision_notice_mail, application_type_name: application_type_name), email))
   end
 
   def validation_notice_mail(planning_application, email)
     @planning_application = planning_application
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
 
     view_mail(email_template_id, headers_for(subject(:validation_notice_mail, application_type_name: application_type_name), email))
   end
 
   def invalidation_notice_mail(planning_application)
     @planning_application = planning_application
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
     email = @planning_application.applicant_and_agent_email.first
 
     view_mail(email_template_id, headers_for(subject(:invalidation_notice_mail, application_type_name: application_type_name), email))
@@ -29,14 +29,14 @@ class PlanningApplicationMailer < ApplicationMailer
 
   def receipt_notice_mail(planning_application, email)
     @planning_application = planning_application
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
 
     view_mail(email_template_id, headers_for(subject(:receipt_notice_mail, application_type_name: application_type_name), email))
   end
 
   def validation_request_mail(planning_application)
     @planning_application = planning_application
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
     email = @planning_application.applicant_and_agent_email.first
 
     view_mail(email_template_id, headers_for(subject(:validation_request_mail, application_type_name: application_type_name), email))
@@ -45,7 +45,7 @@ class PlanningApplicationMailer < ApplicationMailer
   def post_validation_request_mail(planning_application, validation_request)
     @planning_application = planning_application
     @validation_request = validation_request
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
     email = @planning_application.applicant_and_agent_email.first
 
     view_mail(email_template_id, headers_for(subject(:post_validation_request_mail, application_type_name: application_type_name), email))
@@ -54,7 +54,7 @@ class PlanningApplicationMailer < ApplicationMailer
   def pre_commencement_condition_request_mail(planning_application, validation_request)
     @planning_application = planning_application
     @validation_request = validation_request
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
     email = @planning_application.applicant_and_agent_email.first
 
     view_mail(email_template_id, headers_for(subject(:pre_commencement_condition_notification, application_type_name: application_type_name), email))
@@ -62,7 +62,7 @@ class PlanningApplicationMailer < ApplicationMailer
 
   def cancelled_validation_request_mail(planning_application)
     @planning_application = planning_application
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
     email = @planning_application.applicant_and_agent_email.first
 
     view_mail(email_template_id, headers_for(subject(:cancelled_validation_request_mail, application_type_name: application_type_name), email))
@@ -71,7 +71,7 @@ class PlanningApplicationMailer < ApplicationMailer
   def description_change_mail(planning_application, description_change_request)
     @planning_application = planning_application
     @description_change_request = description_change_request
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
     email = @planning_application.applicant_and_agent_email.first
 
     view_mail(email_template_id, headers_for(subject(:description_change_mail, application_type_name: application_type_name), email))
@@ -80,7 +80,7 @@ class PlanningApplicationMailer < ApplicationMailer
   def description_update_mail(planning_application, description_change_request)
     @planning_application = planning_application
     @description_change_request = description_change_request
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
     email = @planning_application.applicant_and_agent_email.first
 
     view_mail(email_template_id, headers_for(subject(:description_update_mail, application_type_name: application_type_name), email))
@@ -89,7 +89,7 @@ class PlanningApplicationMailer < ApplicationMailer
   def description_closure_notification_mail(planning_application, description_change_request)
     @planning_application = planning_application
     @description_change_request = description_change_request
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
     email = @planning_application.applicant_and_agent_email.first
 
     view_mail(email_template_id, headers_for(subject(:description_closure_notification_mail, application_type_name: application_type_name), email))
@@ -98,7 +98,7 @@ class PlanningApplicationMailer < ApplicationMailer
   def pre_commencement_condition_closure_notification_mail(planning_application, change_request)
     @planning_application = planning_application
     @change_request = change_request
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
     email = @planning_application.applicant_and_agent_email.first
 
     view_mail(email_template_id, headers_for(subject(:pre_commencement_condition_closure_notification_mail, application_type_name: application_type_name), email))
@@ -106,7 +106,7 @@ class PlanningApplicationMailer < ApplicationMailer
 
   def validation_request_closure_mail(planning_application)
     @planning_application = planning_application
-    application_type_name = @planning_application.application_type.human_name
+    application_type_name = @planning_application.application_type.description
     email = @planning_application.applicant_and_agent_email.first
 
     view_mail(email_template_id, headers_for(subject(:validation_request_closure_mail, application_type_name: application_type_name), email))
