@@ -44,7 +44,6 @@ class ApplicationController < ActionController::Base
 
     @planning_application = PlanningApplicationPresenter.new(view_context, application)
     @show_header_bar = true
-    @show_sidebar = false
   end
 
   def redirect_to_reference_url
@@ -106,7 +105,6 @@ class ApplicationController < ActionController::Base
   end
 
   def use_new_sidebar_layout?(application_stage)
-    return false unless @planning_application&.pre_application?
     return false if current_user&.email&.in?(BLOCKED_SIDEBAR_EMAILS)
 
     case Rails.configuration.use_new_sidebar_layout
