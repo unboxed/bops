@@ -4,7 +4,7 @@ Application reference number: <%= @planning_application.reference_in_full %>
 
 Address: <%= @planning_application.full_address %>
 
-Your application for a <%= @planning_application.application_type.human_name %> contains no errors or missing information. We can now start assessing your application against the relevant planning policies and legislation.
+Your application for a <%= @planning_application.application_type.description %> contains no errors or missing information. We can now start assessing your application against the relevant planning policies and legislation.
 
 We aim to reach a decision about your application by <%= @planning_application.expiry_date.to_fs %>. If we need more time, we will contact you.
 <% unless @planning_application.pre_application? %>

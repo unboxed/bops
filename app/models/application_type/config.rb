@@ -243,10 +243,6 @@ class ApplicationType < ApplicationRecord
       name.humanize
     end
 
-    def human_name
-      I18n.t("application_types.#{name}")
-    end
-
     def consultation?
       steps.include?("consultation")
     end

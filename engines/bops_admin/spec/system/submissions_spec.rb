@@ -240,7 +240,7 @@ RSpec.describe "Submissions", type: :system do
         expect(page).to have_selector("dd", text: planning_application.local_authority.council_name)
 
         expect(page).to have_selector("dt", text: "Application Type")
-        expect(page).to have_selector("dd", text: planning_application.application_type.human_name)
+        expect(page).to have_selector("dd", text: planning_application.application_type.description)
       end
 
       expect(page).to have_selector("h3", text: "Planning Application documents")
