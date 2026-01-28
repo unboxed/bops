@@ -135,7 +135,7 @@ RSpec.describe "Dashboard", type: :system do
       end
 
       it "shows closed application" do
-        within("#closed_pre_apps") do
+        within("#closed") do
           row = row_with_content(closed_planning_application.reference)
           expect(row).to have_content("Closed")
           expect(row).to have_content("4 Aug")
@@ -145,7 +145,7 @@ RSpec.describe "Dashboard", type: :system do
       end
 
       it "shows withdrawn applications" do
-        within("#closed_pre_apps") do
+        within("#closed") do
           row = row_with_content(planning_application_1.reference)
           expect(row).to have_content("Withdrawn")
           expect(row).to have_content("2 August 2022")

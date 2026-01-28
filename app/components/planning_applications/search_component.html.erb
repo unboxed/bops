@@ -2,7 +2,7 @@
       model: search,
       scope: "",
       method: :get,
-      url: tab_path(status: selected_status, application_type: selected_application_type),
+      url: planning_applications_tab_path(status: selected_status, application_type: selected_application_type),
       data: {controller: "clear-form"}
     ) do |form| %>
   <%= form.govuk_error_summary %>
@@ -24,10 +24,10 @@
         ) %>
   </div>
 
-  <% unless panel_type.in? [:closed, :updated, :closed_pre_apps] %>
+  <% unless panel_type.in? [:closed, :updated] %>
     <%= govuk_accordion do |accordion| %>
       <% accordion.with_section(heading_text: "Filters") do %>
-        <% unless panel_type.to_s.include?("pre_apps") %>
+        <% unless pre_application? %>
           <div class="govuk-accordion__section-content govuk-!-padding-bottom-0">
             <p><strong>Application type</strong></p>
             <%= form.govuk_collection_check_boxes(:application_type, all_application_types, :to_s, :humanize, small: true, legend: nil, class: "display-flex") %>

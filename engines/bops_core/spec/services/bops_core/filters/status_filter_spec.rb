@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Filters::StatusFilter do
+RSpec.describe BopsCore::Filters::StatusFilter do
   let(:local_authority) { create(:local_authority, :default) }
   let(:scope) { PlanningApplication.where(local_authority: local_authority) }
   let(:filter) { described_class.new }

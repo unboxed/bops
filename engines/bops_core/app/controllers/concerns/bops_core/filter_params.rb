@@ -9,7 +9,7 @@ module BopsCore
     end
 
     def filter_params
-      params.permit(:query, :sort_key, :direction, status: [], application_type: []).merge(anchor: "tabs")
+      params.permit(:query, :sort_key, :direction, status: [], application_type: []).to_h.symbolize_keys.merge(anchor: "tabs")
     end
   end
 end

@@ -12,7 +12,7 @@ module BopsApi
         Filters::DateRangeFilter.new(:consultationEndDate),
         Filters::CouncilDecisionFilter.new,
         Filters::AlternativeReferenceFilter.new,
-        Filters::TextSearch::CascadingSearch.new
+        BopsCore::Filters::TextSearch::CascadingSearch.new
       ].freeze
 
       def initialize(scope, params)

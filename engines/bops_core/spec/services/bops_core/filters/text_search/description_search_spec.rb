@@ -6,11 +6,11 @@ RSpec.describe BopsCore::Filters::TextSearch::DescriptionSearch do
   let(:local_authority) { create(:local_authority, :default) }
   let(:scope) { PlanningApplication.where(local_authority: local_authority) }
 
-  let!(:best_match) do
+  let!(:chimney_application) do
     create(:planning_application, local_authority:, description: "Add a chimney stack to the roof")
   end
 
-  let!(:partial_match) do
+  let!(:extension_application) do
     create(:planning_application, local_authority:, description: "Add extension to house")
   end
 
@@ -22,30 +22,31 @@ RSpec.describe BopsCore::Filters::TextSearch::DescriptionSearch do
     context "with description search" do
       it "returns applications matching description" do
         result = described_class.apply(scope, "chimney stack")
-        expect(result).to include(best_match)
+        expect(result).to include(chimney_application)
         expect(result).not_to include(non_matching)
       end
     end
 
-    context "with partial word match" do
-      it "returns applications with partial description match" do
+    context "with single word query" do
+      it "returns applications matching that word in the description" do
         result = described_class.apply(scope, "chimney")
-        expect(result).to include(best_match)
+        expect(result).to include(chimney_application)
+        expect(result).not_to include(extension_application, non_matching)
       end
     end
 
     context "with plural/singular variations" do
       it "matches stemmed words" do
         result = described_class.apply(scope, "chimneys stacks")
-        expect(result).to include(best_match)
+        expect(result).to include(chimney_application)
       end
     end
 
     context "with multiple matches" do
-      it "orders by relevance" do
+      it "returns all matching applications" do
         result = described_class.apply(scope, "add extension")
-        # Both should match but with different rankings
-        expect(result).to include(best_match, partial_match)
+
+        expect(result.to_a).to eq([extension_application, chimney_application])
       end
     end
 

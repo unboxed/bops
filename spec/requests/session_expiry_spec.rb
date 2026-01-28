@@ -65,7 +65,7 @@ RSpec.describe "session expiry" do
       s1.sign_in assessor
       s1.get "/"
       expect(s1.response.status).to eq 302
-      expect(s1.response.headers["Location"]).to eq "http://#{local_authority.subdomain}.bops.services/planning_applications/mine?anchor=tabs"
+      expect(s1.response.headers["Location"]).to eq "http://#{local_authority.subdomain}.bops.services/planning_applications/mine#tabs"
     end
   end
 end

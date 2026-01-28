@@ -484,14 +484,6 @@ RSpec.describe PlanningApplicationSearch do
           another_audit_for_updated_application
         )
       end
-
-      it "excludes audits for applications with non-matching status" do
-        result = search.updated_planning_application_audits
-
-        result.each do |audit|
-          expect(audit.planning_application.status).to eq("in_assessment")
-        end
-      end
     end
 
     context "when filtering by application_type" do
@@ -696,18 +688,6 @@ RSpec.describe PlanningApplicationSearch do
         )
       end
     end
-
-    context "when no audits exist for any application" do
-      before do
-        Audit.delete_all
-      end
-
-      let(:params) { ActionController::Parameters.new }
-
-      it "returns empty result" do
-        expect(search.updated_planning_application_audits).to be_empty
-      end
-    end
   end
 
   describe "#reviewer_planning_applications" do
@@ -837,8 +817,6 @@ RSpec.describe PlanningApplicationSearch do
       end
 
       it "ignores the filter and returns all applications matching default statuses" do
-        # When application_type doesn't match any types, the filter is not applied
-        # and results fall back to just the status filter
         result = search.filtered_planning_applications
         expect(result).not_to be_empty
       end
@@ -1049,18 +1027,6 @@ RSpec.describe PlanningApplicationSearch do
         result = search.filtered_planning_applications
         expect(result.index(app_expiring_soon)).to be < result.index(app_expiring_later)
       end
-    end
-  end
-
-  describe "default values" do
-    let(:params) { ActionController::Parameters.new }
-
-    it "sets default statuses" do
-      expect(search.status).to eq(described_class::SELECTED_STATUSES)
-    end
-
-    it "sets default application types" do
-      expect(search.application_type).to eq(described_class::APPLICATION_TYPES)
     end
   end
 

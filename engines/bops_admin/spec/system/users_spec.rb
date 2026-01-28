@@ -25,7 +25,7 @@ RSpec.describe "Users" do
     expect(page).to have_no_field("Role")
   end
 
-  it "allows adding a new user" do
+  it "allows adding a new user", :capybara do
     visit "/admin/users"
     expect(page).to have_selector("h1", text: "Manage users")
 
@@ -81,11 +81,12 @@ RSpec.describe "Users" do
     fill_in("Security code", with: last_user.current_otp)
 
     click_button("Enter code")
-    expect(page).to have_current_path("/planning_applications/mine?anchor=tabs")
+
     expect(page).to have_content("Signed in successfully")
+    expect(current_url).to end_with("/planning_applications/mine#tabs")
   end
 
-  it "allows adding a new user without a mobile number" do
+  it "allows adding a new user without a mobile number", :capybara do
     visit "/admin/users/new"
     expect(page).to have_selector("h1", text: "Add a new user")
 
@@ -123,8 +124,9 @@ RSpec.describe "Users" do
     fill_in("Security code", with: last_user.current_otp)
 
     click_button("Enter code")
-    expect(page).to have_current_path("/planning_applications/mine?anchor=tabs")
+
     expect(page).to have_content("Signed in successfully")
+    expect(current_url).to end_with("/planning_applications/mine#tabs")
   end
 
   it "allows editing of an existing user" do

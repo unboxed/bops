@@ -3,7 +3,7 @@
 module BopsApi
   module Filters
     module Comments
-      class QueryFilter < BaseFilter
+      class QueryFilter
         def applicable?(params)
           params[:query].present?
         end

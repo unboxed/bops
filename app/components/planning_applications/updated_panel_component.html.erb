@@ -2,15 +2,13 @@
 
 <p>This list shows applications which have been recently updated by a user other than the assigned officer.</p>
 
-<% if search.present? && tab_route.present? %>
-  <%= render(
-        PlanningApplications::SearchComponent.new(
-          panel_type: :updated,
-          search: search,
-          tab_route: tab_route
-        )
-      ) %>
-<% end %>
+<%= render(
+      PlanningApplications::SearchComponent.new(
+        panel_type: :updated,
+        search: search,
+        tab_route: tab_route
+      )
+    ) %>
 <% if audits.empty? %>
   <p><%= t(".no_planning_applications") %></p>
 <% else %>

@@ -1,9 +1,9 @@
 <%= render "planning_applications/tabs_layout" do %>
-  <div class="govuk-tabs__panel" id="updated">
+  <div class="govuk-tabs__panel" id="<%= @panel_type %>">
     <%= render PlanningApplications::UpdatedPanelComponent.new(
           audits: @audits,
           search: @search,
-          tab_route: :updated_planning_applications_path
+          tab_route: @tab_route
         ) %>
   </div>
 <% end %>
