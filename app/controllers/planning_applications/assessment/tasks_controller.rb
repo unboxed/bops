@@ -4,7 +4,7 @@ module PlanningApplications
   module Assessment
     class TasksController < BaseController
       before_action :redirect_to_reference_url
-      before_action :redirect_to_initial_task, when: -> { @planning_application.pre_application? }
+      before_action :redirect_to_initial_task
 
       def index
         @show_sidebar = if use_new_sidebar_layout?(:assessment)
@@ -21,9 +21,9 @@ module PlanningApplications
       def redirect_to_initial_task
         task = @planning_application.case_record.tasks.find_by(section: "Assessment")&.first_child
 
-        return unless task
+        return unless task && @planning_application.pre_application?
 
-        redirect_to BopsPreapps::Engine.routes.url_helpers.task_path(@planning_application, task)
+        redirect_to BopsPreapps::Engine.routes.url_helpers.task_path(@planning_application, task) if @planning_application.pre_application?
       end
     end
   end

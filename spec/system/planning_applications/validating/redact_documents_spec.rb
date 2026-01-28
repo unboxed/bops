@@ -69,7 +69,9 @@ RSpec.describe "Redact documents" do
       expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "Completed")
     end
 
-    click_link "Review documents"
+    within "#main-content" do
+      click_link "Review documents"
+    end
 
     within("#check-tag-documents-tasks") do
       within("table tbody tr:nth-child(3)") do

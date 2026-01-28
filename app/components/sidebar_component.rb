@@ -31,7 +31,7 @@ class SidebarComponent < ViewComponent::Base
         BopsPreapps::Engine.routes.url_helpers.task_path(@case_record,
           slug: task.full_slug, reference: planning_application_reference)
       else
-        planning_application_task_path(planning_application_reference, slug: task.full_slug)
+        task_path(planning_application_reference, slug: task.full_slug)
       end
       link_options = is_active ? {"aria-current" => "page"} : {}
       link = helpers.govuk_link_to(task.name, target, **link_options)

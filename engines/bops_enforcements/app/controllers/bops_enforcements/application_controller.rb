@@ -3,6 +3,7 @@
 module BopsEnforcements
   class ApplicationController < ActionController::Base
     include BopsCore::ApplicationController
+    include BopsCore::Sidebar
 
     before_action :require_local_authority!
     before_action :authenticate_user!

@@ -2,6 +2,8 @@
 
 class ApplicationController < ActionController::Base
   include BopsCore::ApplicationController
+  include BopsCore::Sidebar
+  include BopsCore::PlanningApplicationPresenter
 
   BLOCKED_SIDEBAR_EMAILS = %w[
     martyn.evans+demo_southwark_assessor@unboxedconsulting.com

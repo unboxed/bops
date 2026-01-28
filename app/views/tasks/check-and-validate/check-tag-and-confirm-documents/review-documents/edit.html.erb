@@ -1,0 +1,160 @@
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link "Review documents", task_path(@planning_application, @task) %>
+
+<% if @form.has_open_replacement_request? %>
+  <% content_for :title, "Replacement document validation request" %>
+  <% content_for :page_title do %>
+    Replacement document validation request - <%= t("page_title") %>
+  <% end %>
+  <%= render(
+        partial: "shared/proposal_header",
+        locals: {heading: "View request for a replacement document"}
+      ) %>
+
+  <% validation_request = @form.document.replacement_document_validation_request %>
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <h3 class="govuk-heading-m">
+        Officer request
+      </h3>
+      <div class="govuk-inset-text" id="replacement-document-details">
+        <p>
+          Replacement for: <%= @form.document.name %>
+        </p>
+        <p>
+          Reason: <%= render(FormattedContentComponent.new(text: validation_request.reason)) %>
+        </p>
+        <p>
+          <%= validation_request.created_at.to_fs %>
+        </p>
+      </div>
+
+      <% if new_document = validation_request.new_document %>
+        <p>
+          A replacement document has been provided for this request:
+        </p>
+        <p>
+          <%= govuk_link_to new_document.name.to_s, edit_task_component_path(id: new_document.id) %>
+        </p>
+      <% end %>
+
+      <%= render "shared/validation_request_show_actions",
+            planning_application: @planning_application,
+            validation_request: validation_request,
+            include_back_link: false,
+            redirect_to: task_path(@planning_application, @task) %>
+    </div>
+  </div>
+<% else %>
+  <% content_for :title, "Check document" %>
+  <% content_for :page_title do %>
+    Check document - <%= t("page_title") %>
+  <% end %>
+  <%= render(
+        partial: "shared/proposal_header",
+        locals: {heading: "Check supplied document"}
+      ) %>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-half">
+      <% if @form.document.representable? %>
+        <%= document_thumbnail_link @form.document, thumbnail_args: {resize: "500x500"}, image_args: {style: "max-width:100%"} %>
+        <%= link_to_document t("documents.edit.view_in_new"), @form.document, class: "govuk-body" %>
+      <% end %>
+    </div>
+    <div class="govuk-grid-column-one-half">
+      <p class="govuk-!-margin-bottom-0">
+        <strong>File name:</strong> <%= @form.document.name %>
+      </p>
+
+      <p class="govuk-!-margin-bottom-0">
+        <strong>Date received:</strong> <%= @form.document.received_at_or_created %>
+      </p>
+
+      <p class="govuk-!-margin-bottom-0">
+        <strong>Applicant reason for submitting document:</strong>
+        <% if @form.document.applicant_description.present? %>
+          <%= render(FormattedContentComponent.new(text: @form.document.applicant_description)) %>
+        <% else %>
+          No reason submitted
+        <% end %>
+      </p>
+
+      <p>
+        <%= created_by(@form.document) %>
+      </p>
+    </div>
+  </div>
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+      <div data-controller="unsaved-changes"
+            data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+        <%= form_with model: @form, url: @form.url,
+              data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+          <%= form.govuk_error_summary %>
+
+          <%= render partial: "documents/form_partials/tags", locals: {form: form, document_tags: @planning_application.application_type.document_tags} %>
+
+          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+          <%= form.govuk_text_field(
+                :numbers,
+                value: @form.document.numbers,
+                label: {text: t("documents.form_partials.privacy.document_references"), tag: "strong", size: "s"},
+                hint: {text: t("documents.form_partials.privacy.where_documents_contain")},
+                class: "govuk-input--width-20"
+              ) %>
+
+          <% if @planning_application.publishable? %>
+            <% if @planning_application.validated? %>
+              <div class="display govuk-!-margin-top-3">
+                <%= form.govuk_radio_buttons_fieldset(:referenced_in_decision_notice, inline: true, legend: {size: "s", text: "Do you want to list this document on the decision notice?"}) do %>
+                  <%= form.govuk_radio_button :referenced_in_decision_notice, "true", label: {text: "Yes"}, checked: @form.document.referenced_in_decision_notice == true %>
+                  <%= form.govuk_radio_button :referenced_in_decision_notice, "false", label: {text: "No"}, checked: @form.document.referenced_in_decision_notice == false %>
+                <% end %>
+              </div>
+            <% end %>
+
+            <div class="publish govuk-!-margin-top-3">
+              <%= form.govuk_radio_buttons_fieldset(:publishable, inline: true, legend: {size: "s", text: "Should this document be made publicly available?"}) do %>
+                <div id="event-name-hint" class="govuk-hint">
+                  Indicate whether this document should be made available for public viewing on the planning register or via the public API. Select "No" if the document contains any sensitive personal information.
+                </div>
+                <%= form.govuk_radio_button :publishable, "true", label: {text: "Yes"}, checked: @form.document.publishable == true %>
+                <%= form.govuk_radio_button :publishable, "false", label: {text: "No"}, checked: @form.document.publishable == false %>
+              <% end %>
+            </div>
+          <% end %>
+
+          <div class="display govuk-!-margin-top-3">
+            <%= form.govuk_radio_buttons_fieldset(:available_to_consultees, inline: true, legend: {size: "s", text: "Should this document be shared with consultees?"}) do %>
+              <%= form.govuk_radio_button :available_to_consultees, "true", label: {text: "Yes"}, checked: @form.document.available_to_consultees == true %>
+              <%= form.govuk_radio_button :available_to_consultees, "false", label: {text: "No"}, checked: @form.document.available_to_consultees == false %>
+            <% end %>
+          </div>
+
+          <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+          <%= form.govuk_radio_buttons_fieldset(:validated, inline: true, legend: {text: "Is the document valid?", size: "m"}) do %>
+            <%= form.govuk_radio_button :validated, true, label: {text: "Yes"}, checked: @form.document.validated == true %>
+            <%= form.govuk_radio_button :validated, false, label: {text: "No"}, checked: @form.document.validated == false do %>
+              <%= form.govuk_text_area :invalidated_document_reason,
+                    value: @form.document.invalidated_document_reason,
+                    label: {size: "s", text: "List all issues with the document"},
+                    hint: {text: "Use plain English to explain what is wrong with this document. This message will be shown to the applicant."},
+                    rows: 5 %>
+
+              <%= render "shared/planning_guides_link" %>
+            <% end %>
+          <% end %>
+
+          <div class="govuk-button-group">
+            <%= form.govuk_task_button "Save", action: "save_document" %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
