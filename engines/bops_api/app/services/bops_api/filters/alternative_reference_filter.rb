@@ -2,7 +2,7 @@
 
 module BopsApi
   module Filters
-    class AlternativeReferenceFilter < BaseFilter
+    class AlternativeReferenceFilter < BopsCore::Filters::BaseFilter
       def applicable?(params)
         params[:alternativeReference].present?
       end

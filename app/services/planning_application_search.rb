@@ -103,8 +103,8 @@ class PlanningApplicationSearch
 
   def filters
     @filters ||= [
-      ::Filters::StatusFilter.new,
-      ::Filters::ApplicationTypeFilter.new(local_authority)
+      BopsCore::Filters::StatusFilter.new,
+      BopsCore::Filters::ApplicationTypeFilter.new
     ]
   end
 
@@ -116,13 +116,13 @@ class PlanningApplicationSearch
   end
 
   def apply_text_search(scope)
-    return scope unless valid? && query
+    return scope unless valid? && query.present?
 
     text_search_filter.apply(scope, search_params)
   end
 
   def text_search_filter
-    @text_search_filter ||= ::Filters::TextSearch::CascadingSearch.new
+    @text_search_filter ||= BopsCore::Filters::TextSearch::CascadingSearch.new
   end
 
   def apply_sorting(scope)
@@ -142,7 +142,7 @@ class PlanningApplicationSearch
 
   def search_params
     @search_params ||= {
-      status: status&.reject(&:empty?),
+      status: status,
       application_type: application_type,
       query: query,
       submit: submit

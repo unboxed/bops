@@ -1802,7 +1802,7 @@ en:
       formatted_outcome_date: Outcome date
       full_address: Site address
       mine: My applications
-      my_pre_apps: My pre-applications
+      mine_pre_apps: My pre-applications
       no_planning_applications: No planning applications match your search
       not_started_and_invalid: Not started
       outcome: Outcome

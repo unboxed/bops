@@ -1,43 +1,18 @@
-<% content_for :page_title do %>
-  Planning Applications List - <%= t("page_title") %>
+<% status_bar_content = capture do %>
+  <%= render "planning_applications/status_bar", search: @search, current_tab_route: @tab_route %>
 <% end %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <h1>
-      Planning applications
-    </h1>
-    <p class="govuk-body-m">
-      <strong><%= current_user.name %>,</strong> <%= role_name %>
-    </p>
-    <p>
-      <%= govuk_link_to "Add new application", new_planning_application_path %>
-    </p>
-  </div>
-</div>
-
-<%= render "planning_applications/status_bar", search: @search, current_tab_route: planning_applications_tab_routes[@current_tab] %>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full">
-    <div class="govuk-tabs" id="tabs">
-      <h2 class="govuk-tabs__title">
-        Contents
-      </h2>
-      <ul class="govuk-tabs__list">
-        <%= render "bops_core/tab_link", label: "Cases assigned to you", tab: :mine,
-              path: mine_planning_applications_path(filter_params) %>
-        <%= render "bops_core/tab_link", label: "Unassigned cases", tab: :unassigned,
-              path: unassigned_planning_applications_path(filter_params) %>
-        <%= render "bops_core/tab_link", label: "Closed", tab: :closed,
-              path: closed_planning_applications_path(filter_params) %>
-        <%= render "bops_core/tab_link", label: "Updated", tab: :updated,
-              path: updated_planning_applications_path(filter_params) %>
-        <%= render "bops_core/tab_link", label: "All cases", tab: :all,
-              path: all_planning_applications_path(filter_params) %>
-      </ul>
-
-      <%= yield %>
-    </div>
-  </div>
-</div>
+<%= render "bops_core/tabs_layout",
+      page_title_text: "Planning Applications List",
+      heading: "Planning applications",
+      new_app_path: new_planning_application_path,
+      status_bar_html: status_bar_content,
+      tabs: [
+        {label: "Cases assigned to you", tab: :mine, path: mine_planning_applications_path(filter_params)},
+        {label: "Unassigned cases", tab: :unassigned, path: unassigned_planning_applications_path(filter_params)},
+        {label: "Closed", tab: :closed, path: closed_planning_applications_path(filter_params)},
+        {label: "Updated", tab: :updated, path: updated_planning_applications_path(filter_params)},
+        {label: "All cases", tab: :all, path: all_planning_applications_path(filter_params)}
+      ] do %>
+  <%= yield %>
+<% end %>

@@ -1,10 +1,11 @@
 <%= render "bops_preapps/pre_applications/tabs_layout" do %>
-  <div class="govuk-tabs__panel" id="all_pre_apps">
+  <div class="govuk-tabs__panel" id="<%= @panel_type %>">
     <%= render PlanningApplications::PanelComponent.new(
           planning_applications: @planning_applications,
-          type: :all_pre_apps,
+          type: @panel_type,
           search: @search,
-          tab_route: :all_pre_applications_path
+          tab_route: @tab_route,
+          pre_application: @pre_application
         ) %>
   </div>
 <% end %>

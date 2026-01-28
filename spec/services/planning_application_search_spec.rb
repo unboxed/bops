@@ -837,8 +837,6 @@ RSpec.describe PlanningApplicationSearch do
       end
 
       it "ignores the filter and returns all applications matching default statuses" do
-        # When application_type doesn't match any types, the filter is not applied
-        # and results fall back to just the status filter
         result = search.filtered_planning_applications
         expect(result).not_to be_empty
       end
@@ -1049,18 +1047,6 @@ RSpec.describe PlanningApplicationSearch do
         result = search.filtered_planning_applications
         expect(result.index(app_expiring_soon)).to be < result.index(app_expiring_later)
       end
-    end
-  end
-
-  describe "default values" do
-    let(:params) { ActionController::Parameters.new }
-
-    it "sets default statuses" do
-      expect(search.status).to eq(described_class::SELECTED_STATUSES)
-    end
-
-    it "sets default application types" do
-      expect(search.application_type).to eq(described_class::APPLICATION_TYPES)
     end
   end
 

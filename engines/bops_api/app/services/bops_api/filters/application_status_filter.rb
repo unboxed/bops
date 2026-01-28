@@ -2,20 +2,27 @@
 
 module BopsApi
   module Filters
-    class ApplicationStatusFilter < BaseFilter
+    class ApplicationStatusFilter < BopsCore::Filters::StatusFilter
+      def initialize
+        super(param_key: :applicationStatus)
+      end
+
       def applicable?(params)
-        params[:applicationStatus].present?
+        params.key?(param_key)
       end
 
       def apply(scope, params)
-        scope.where(status: normalized_statuses(params))
+        statuses = normalized_values(params)
+        return scope.none if statuses.empty?
+
+        super
       end
 
       private
 
-      def normalized_statuses(params)
-        Array(params[:applicationStatus])
-          .flat_map { |status| status.to_s.split(",") }
+      def normalized_values(params)
+        Array(params[param_key])
+          .flat_map { |v| v.to_s.split(",") }
           .compact_blank
           .uniq
       end

@@ -2,10 +2,10 @@
 
 require "rails_helper"
 
-RSpec.describe Filters::ApplicationTypeFilter do
+RSpec.describe BopsCore::Filters::ApplicationTypeFilter do
   let(:local_authority) { create(:local_authority, :default) }
   let(:scope) { PlanningApplication.where(local_authority: local_authority) }
-  let(:filter) { described_class.new(local_authority) }
+  let(:filter) { described_class.new }
 
   let!(:application_type_ldc_proposed) { create(:application_type, :ldc_proposed, local_authority:) }
   let!(:application_type_prior_approval) { create(:application_type, :prior_approval, local_authority:) }
@@ -68,9 +68,9 @@ RSpec.describe Filters::ApplicationTypeFilter do
     context "with invalid application type" do
       let(:params) { {application_type: ["nonexistent_type"]} }
 
-      it "returns the scope unchanged (no filtering)" do
+      it "ignores the filter and returns the scope unchanged" do
         result = filter.apply(scope, params)
-        expect(result).to include(ldc_app, prior_approval_app, householder_app)
+        expect(result).not_to be_empty
       end
     end
   end

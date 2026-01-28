@@ -1,36 +1,12 @@
-<% content_for :page_title do %>
-  <%= t(".title") %> - <%= t("page_title") %>
+<%= render "bops_core/tabs_layout",
+      page_title_text: t(".title"),
+      heading: "Pre-applications",
+      new_app_path: main_app.new_planning_application_path,
+      tabs: [
+        {label: "Cases assigned to you", tab: :mine, path: mine_pre_applications_path(filter_params)},
+        {label: "Unassigned cases", tab: :unassigned, path: unassigned_pre_applications_path(filter_params)},
+        {label: "Closed", tab: :closed, path: closed_pre_applications_path(filter_params)},
+        {label: "All", tab: :all, path: all_pre_applications_path(filter_params)}
+      ] do %>
+  <%= yield %>
 <% end %>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-full govuk-!-margin-bottom-5">
-    <h1>
-      Pre-applications
-    </h1>
-    <p class="govuk-body-m">
-      <strong><%= current_user.name %>,</strong> <%= role_name %>
-    </p>
-    <p>
-      <%= govuk_link_to "Add new application", main_app.new_planning_application_path %>
-    </p>
-  </div>
-  <div class="govuk-grid-column-full">
-    <div class="govuk-tabs" id="tabs">
-      <h2 class="govuk-tabs__title">
-        Contents
-      </h2>
-      <ul class="govuk-tabs__list">
-        <%= render "bops_core/tab_link", label: "Cases assigned to you", tab: :mine,
-              path: mine_pre_applications_path(filter_params) %>
-        <%= render "bops_core/tab_link", label: "Unassigned cases", tab: :unassigned,
-              path: unassigned_pre_applications_path(filter_params) %>
-        <%= render "bops_core/tab_link", label: "Closed", tab: :closed,
-              path: closed_pre_applications_path(filter_params) %>
-        <%= render "bops_core/tab_link", label: "All", tab: :all,
-              path: all_pre_applications_path(filter_params) %>
-      </ul>
-
-      <%= yield %>
-    </div>
-  </div>
-</div>
