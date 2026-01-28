@@ -35,7 +35,7 @@
           <%= render_navigation unless @show_sidebar %>
           <%= render BopsCore::HeaderBarComponent.new(
                 left: [
-                  {text: @planning_application.reference, bold: true},
+                  {text: tag.strong(@planning_application.reference)},
                   {text: @planning_application.full_address}
                 ],
                 right: [

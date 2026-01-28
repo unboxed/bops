@@ -125,8 +125,8 @@ body:has(.bops-fullwidth-container) {
 }
 
 .bops-sidebar__link {
-  display: inline-flex; // make link a flex container
-  align-items: center; // vertically center icon + text
-  gap: govuk-spacing(2); // horizontal spacing between icon + text
-  text-decoration: none; // keep GOV.UK link style if needed
+  display: inline-flex;
+  align-items: center;
+  gap: govuk-spacing(2);
+  text-decoration: none;
 }
