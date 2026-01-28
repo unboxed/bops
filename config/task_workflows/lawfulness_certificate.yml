@@ -1,0 +1,15 @@
+- name: "Check and validate"
+  section: "Validation"
+  tasks:
+    - name: Check, tag, and confirm documents
+      section: Check, tag, and confirm documents
+      tasks:
+        - name: Review documents
+- name: "Consultees, neighbours and publicity"
+  section: "Consultation"
+- name: "Check and assess"
+  section: "Assessment"
+- name: "View recommendation"
+  section: "Review"
+- name: "Publish determination"
+  section: "Review"
