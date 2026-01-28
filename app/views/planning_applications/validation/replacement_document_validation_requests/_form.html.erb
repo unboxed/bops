@@ -11,6 +11,11 @@
            reference: @planning_application.reference,
            slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents"
          ) %>
+    <% elsif return_to.nil? && @planning_application.case_record&.find_task_by_slug_path("check-and-validate/check-tag-and-confirm-documents/review-documents") %>
+      <% return_to = planning_application_task_path(
+           @planning_application.reference,
+           slug: "check-and-validate/check-tag-and-confirm-documents/review-documents"
+         ) %>
     <% end %>
     <%= form.hidden_field :return_to, value: return_to if return_to.present? %>
 

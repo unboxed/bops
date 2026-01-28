@@ -1,0 +1,7 @@
+- name: "Check and validate"
+  section: "Validation"
+  tasks:
+    - name: Check, tag, and confirm documents
+      section: Check, tag, and confirm documents
+      tasks:
+        - name: Review documents
