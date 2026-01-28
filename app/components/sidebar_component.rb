@@ -22,9 +22,9 @@ class SidebarComponent < ViewComponent::Base
     end
   end
 
-  def render_task(task)
+  def render_task(task, top_level: true)
     if task.section.present?
-      render_section(task)
+      render_section(task, top_level:)
     else
       is_active = current_task?(task)
       target = if task.legacy_url.present?
@@ -46,7 +46,7 @@ class SidebarComponent < ViewComponent::Base
     end
   end
 
-  def render_section(section)
+  def render_section(section, top_level: true)
     visible_tasks = section.tasks.reject(&:hidden?)
     return if visible_tasks.empty?
 
@@ -83,7 +83,19 @@ class SidebarComponent < ViewComponent::Base
 
       elements << helpers.tag.hr(class: "govuk-!-margin-bottom-4")
     end
-    elements << helpers.tag.h3(section.section, class: "govuk-heading-s govuk-!-margin-bottom-2 ")
+
+    toggle_data = if top_level
+      {
+        sidebar_toggle_target: "button",
+        action: "click->sidebar-toggle#toggle"
+      }
+    else
+      {}
+    end
+    elements << helpers.tag.h3(class: "govuk-heading-s #{"bops-sidebar__toggle" if top_level}",
+      data: toggle_data) do
+      section.section + " tasks"
+    end
 
     if planning_application.pre_application? && section.section == "Assessment"
       elements << helpers.tag.div(
@@ -99,8 +111,8 @@ class SidebarComponent < ViewComponent::Base
         class: "govuk-!-margin-bottom-4"
       )
     end
-    tasks = visible_tasks.map { |task| render_task(task) }
-    elements << helpers.tag.ul(safe_join(tasks), class: "govuk-list govuk-list--spaced")
+    tasks = visible_tasks.map { |task| render_task(task, top_level: false) }
+    elements << helpers.tag.ul(safe_join(tasks), class: "govuk-list govuk-list--spaced bops-sidebar__list", data: {sidebar_toggle_target: top_level ? "content" : nil})
 
     safe_join(elements)
   end

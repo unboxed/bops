@@ -279,7 +279,7 @@ RSpec.describe "Pre-application validation workflow", type: :system do
         click_link "Send validation decision"
       end
 
-      expect(page).to have_css("nav.bops-sidebar[data-controller='sidebar-scroll']")
+      expect(page).to have_css("nav.bops-sidebar[data-controller~='sidebar-scroll']")
 
       initial_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
 

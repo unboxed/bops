@@ -31,7 +31,7 @@ RSpec.describe "Review documents task", type: :system do
       click_link "Review documents"
     end
 
-    expect(page).to have_css(".bops-sidebar[data-controller='sidebar-scroll']")
+    expect(page).to have_css(".bops-sidebar[data-controller~='sidebar-scroll']")
   end
 
   context "when there are no documents" do
