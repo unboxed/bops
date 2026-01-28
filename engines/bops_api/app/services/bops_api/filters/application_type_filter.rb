@@ -2,20 +2,27 @@
 
 module BopsApi
   module Filters
-    class ApplicationTypeFilter < BaseFilter
+    class ApplicationTypeFilter < BopsCore::Filters::ApplicationTypeFilter
+      def initialize
+        super(param_key: :applicationType)
+      end
+
       def applicable?(params)
-        params[:applicationType].present?
+        params.key?(param_key)
       end
 
       def apply(scope, params)
-        scope.for_application_type_codes(normalized_codes(params))
+        codes = normalized_values(params)
+        return scope.none if codes.empty?
+
+        scope.for_application_type_codes(codes)
       end
 
       private
 
-      def normalized_codes(params)
-        Array(params[:applicationType])
-          .flat_map { |code| code.to_s.split(",") }
+      def normalized_values(params)
+        Array(params[param_key])
+          .flat_map { |v| v.to_s.split(",") }
           .compact_blank
           .uniq
       end

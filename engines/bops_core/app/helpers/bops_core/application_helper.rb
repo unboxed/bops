@@ -83,16 +83,6 @@ module BopsCore
       end
     end
 
-    def active_page_key
-      page_keys = {
-        "pre_applications" => "pre_applications",
-        "planning_applications" => "planning_applications",
-        "enforcements" => "enforcements"
-      }
-
-      page_keys.fetch(controller_name, "dashboard")
-    end
-
     def nav_items
       return [] unless current_user
       return [] unless @show_section_navigation

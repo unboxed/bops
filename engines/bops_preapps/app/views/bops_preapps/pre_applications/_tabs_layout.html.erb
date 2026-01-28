@@ -1,0 +1,12 @@
+<%= render "bops_core/tabs_layout",
+      page_title_text: t(".title"),
+      heading: "Pre-applications",
+      new_app_path: main_app.new_planning_application_path,
+      tabs: [
+        {label: "Cases assigned to you", tab: :mine, path: mine_pre_applications_path(filter_params)},
+        {label: "Unassigned cases", tab: :unassigned, path: unassigned_pre_applications_path(filter_params)},
+        {label: "Closed", tab: :closed, path: closed_pre_applications_path(filter_params)},
+        {label: "All", tab: :all, path: all_pre_applications_path(filter_params)}
+      ] do %>
+  <%= yield %>
+<% end %>

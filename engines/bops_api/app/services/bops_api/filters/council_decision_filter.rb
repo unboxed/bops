@@ -2,7 +2,7 @@
 
 module BopsApi
   module Filters
-    class CouncilDecisionFilter < BaseFilter
+    class CouncilDecisionFilter < BopsCore::Filters::BaseFilter
       def applicable?(params)
         params[:councilDecision].present?
       end

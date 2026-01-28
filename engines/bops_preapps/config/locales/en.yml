@@ -39,6 +39,8 @@ en:
     pre_applications:
       index:
         title: Preapps
+      tabs_layout:
+        title: Pre-applications
     tasks:
       cannot_start_yet: You must complete the previous task before starting this one
       check-and-assess:

@@ -1,0 +1,18 @@
+<% status_bar_content = capture do %>
+  <%= render "planning_applications/status_bar", search: @search, current_tab_route: @tab_route %>
+<% end %>
+
+<%= render "bops_core/tabs_layout",
+      page_title_text: "Planning Applications List",
+      heading: "Planning applications",
+      new_app_path: new_planning_application_path,
+      status_bar_html: status_bar_content,
+      tabs: [
+        {label: "Cases assigned to you", tab: :mine, path: mine_planning_applications_path(filter_params)},
+        {label: "Unassigned cases", tab: :unassigned, path: unassigned_planning_applications_path(filter_params)},
+        {label: "Closed", tab: :closed, path: closed_planning_applications_path(filter_params)},
+        {label: "Updated", tab: :updated, path: updated_planning_applications_path(filter_params)},
+        {label: "All cases", tab: :all, path: all_planning_applications_path(filter_params)}
+      ] do %>
+  <%= yield %>
+<% end %>

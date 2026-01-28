@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
 class PlanningApplicationsController < AuthenticationController
+  include BopsCore::FilterParams
+
+  def active_page_key
+    "planning_applications"
+  end
+
   before_action :set_planning_application, except: %i[new create index]
   before_action :build_planning_application, only: %i[new create]
   before_action :ensure_planning_application_is_publishable, only: %i[make_public]
@@ -23,12 +29,7 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def index
-    @show_section_navigation = true
-    @search ||= PlanningApplicationSearch.new(params)
-
-    respond_to do |format|
-      format.html
-    end
+    redirect_to mine_planning_applications_path(filter_params)
   end
 
   def show

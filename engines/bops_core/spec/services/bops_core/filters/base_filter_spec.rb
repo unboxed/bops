@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe BopsApi::Filters::BaseFilter do
+RSpec.describe BopsCore::Filters::BaseFilter do
   describe "abstract methods" do
     let(:filter) { described_class.new }
     let(:scope) { PlanningApplication.all }
