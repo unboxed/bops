@@ -4,7 +4,7 @@ module PlanningApplications
   module Validation
     class TasksController < BaseController
       before_action :set_items_counter, only: :index
-      before_action :redirect_to_initial_task, when: -> { @planning_application.pre_application? }
+      before_action :redirect_to_initial_task
 
       def index
         respond_to do |format|
@@ -26,8 +26,11 @@ module PlanningApplications
         task = @planning_application.case_record.tasks.find_by(section: "Validation")&.first_child
 
         return unless task
-
-        redirect_to BopsPreapps::Engine.routes.url_helpers.task_path(@planning_application, task)
+        if @planning_application.pre_application?
+          redirect_to BopsPreapps::Engine.routes.url_helpers.task_path(@planning_application, task)
+        else
+          redirect_to planning_application_task_path(@planning_application, task)
+        end
       end
     end
   end

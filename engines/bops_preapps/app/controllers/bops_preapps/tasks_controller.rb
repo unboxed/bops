@@ -27,14 +27,6 @@ module BopsPreapps
       @form = klass.new(@task, params)
     end
 
-    def show_header
-      @show_header_bar ||= true
-    end
-
-    def show_sidebar
-      @show_sidebar ||= @task.top_level_ancestor
-    end
-
     def redirect_to_review_and_submit_report
       return unless @task.slug == "review-and-submit-pre-application"
 
