@@ -2653,6 +2653,11 @@ en:
         link_text: Check ownership certificate
     validation_decision_component:
       send_validation_decision: Send validation decision
+  tasks:
+    update:
+      review-documents:
+        failure: Failed to update document review
+        success: Successfully updated document review
   time:
     formats:
       default: "%-d %B %Y"

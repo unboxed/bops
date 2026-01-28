@@ -372,10 +372,27 @@ local_authority_subdomain do
       end
     end
 
-    get "/*slug/edit", to: "tasks#edit", as: :edit_task
-    post "/*slug", to: "tasks#update"
-    patch "/*slug", to: "tasks#update"
-    get "/*slug", to: "tasks#show", as: :task
+    # Catch-all routes for task-based navigation
+    # These must be constrained to avoid matching paths that should go to explicit nested routes
+    RESERVED_PATH_PREFIXES = %w[
+      documents audits information appeal assign_users additional_services
+      charges refunds press_notice site_notices withdraw_or_cancel notes
+      assessment consultees consultation validation review edit new
+    ].freeze
+
+    task_slug_constraint = ->(request) {
+      slug = request.params[:slug]
+      slug.present? && !RESERVED_PATH_PREFIXES.any? { |prefix| slug.start_with?(prefix) }
+    }
+
+    constraints task_slug_constraint do
+      get "/*slug/:id/edit", to: "tasks#edit", constraints: {id: /\d+/}, as: :edit_task_component
+      patch "/*slug/:id", to: "tasks#update", constraints: {id: /\d+/}
+      get "/*slug/edit", to: "tasks#edit", as: :edit_task
+      post "/*slug", to: "tasks#update"
+      patch "/*slug", to: "tasks#update"
+      get "/*slug", to: "tasks#show", as: :task
+    end
   end
 
   namespace :public, path: "/" do

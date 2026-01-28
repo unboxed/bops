@@ -4,17 +4,10 @@ module BopsPreapps
   class TasksController < AuthenticationController
     include BopsCore::TasksController
 
-    before_action :set_planning_application
     before_action :redirect_to_review_and_submit_report, only: :show
     before_action :build_form
-    before_action :show_sidebar
-    before_action :show_header
 
     private
-
-    def set_planning_application
-      @planning_application = PlanningApplicationPresenter.new(view_context, @case_record.caseable)
-    end
 
     def template_for(action)
       path = "bops_preapps/tasks/#{@task.full_slug}/#{action}"
