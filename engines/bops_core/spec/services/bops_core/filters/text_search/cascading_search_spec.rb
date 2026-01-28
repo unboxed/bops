@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe Filters::TextSearch::CascadingSearch do
+RSpec.describe BopsCore::Filters::TextSearch::CascadingSearch do
   let(:local_authority) { create(:local_authority, :default) }
   let(:scope) { PlanningApplication.where(local_authority: local_authority) }
   let(:filter) { described_class.new }
@@ -25,21 +25,21 @@ RSpec.describe Filters::TextSearch::CascadingSearch do
 
   describe "#applicable?" do
     it "returns false when query is blank" do
-      expect(filter.applicable?({submit: "search"})).to be false
+      expect(filter.applicable?({})).to be false
     end
 
-    it "returns false when submit is blank" do
-      expect(filter.applicable?({query: "test"})).to be false
+    it "returns true when query param is present" do
+      expect(filter.applicable?({query: "test"})).to be true
     end
 
-    it "returns true when both query and submit are present" do
-      expect(filter.applicable?({query: "test", submit: "search"})).to be true
+    it "returns true when q param is present" do
+      expect(filter.applicable?({q: "test"})).to be true
     end
   end
 
   describe "#apply" do
     context "when query matches reference" do
-      let(:params) { {query: app_with_reference.reference, submit: "search"} }
+      let(:params) { {query: app_with_reference.reference} }
 
       it "returns matching application" do
         result = filter.apply(scope, params)
@@ -55,7 +55,7 @@ RSpec.describe Filters::TextSearch::CascadingSearch do
     end
 
     context "when query matches postcode" do
-      let(:params) { {query: "SW1A 1AA", submit: "search"} }
+      let(:params) { {query: "SW1A 1AA"} }
 
       it "returns matching application" do
         result = filter.apply(scope, params)
@@ -64,7 +64,7 @@ RSpec.describe Filters::TextSearch::CascadingSearch do
     end
 
     context "when query matches address" do
-      let(:params) { {query: "High Street", submit: "search"} }
+      let(:params) { {query: "High Street"} }
 
       it "returns matching application" do
         result = filter.apply(scope, params)
@@ -73,7 +73,7 @@ RSpec.describe Filters::TextSearch::CascadingSearch do
     end
 
     context "when query matches description" do
-      let(:params) { {query: "chimney stack", submit: "search"} }
+      let(:params) { {query: "chimney stack"} }
 
       it "returns matching application" do
         result = filter.apply(scope, params)
@@ -82,7 +82,7 @@ RSpec.describe Filters::TextSearch::CascadingSearch do
     end
 
     context "when query has no matches" do
-      let(:params) { {query: "zzxxyyww99887766", submit: "search"} }
+      let(:params) { {query: "zzxxyyww99887766"} }
 
       it "returns empty result" do
         result = filter.apply(scope, params)
@@ -91,7 +91,7 @@ RSpec.describe Filters::TextSearch::CascadingSearch do
     end
 
     context "when query causes SQL error" do
-      let(:params) { {query: "test & | !", submit: "search"} }
+      let(:params) { {query: "test & | !"} }
 
       it "returns empty result without raising" do
         expect { filter.apply(scope, params) }.not_to raise_error

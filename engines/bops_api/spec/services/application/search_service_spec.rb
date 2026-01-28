@@ -181,8 +181,8 @@ RSpec.describe BopsApi::Application::SearchService do
       context "when no application type codes are provided" do
         let(:params) { {applicationStatus: [""]} }
 
-        it "returns no applications" do
-          expect(results).to be_empty
+        it "returns all applications" do
+          expect(results).to match_array([app1, app2])
         end
       end
 

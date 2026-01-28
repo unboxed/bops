@@ -24,10 +24,15 @@ RSpec.describe BopsCore::Filters::TextSearch::AddressSearch do
     end
 
     context "with multiple address words" do
-      it "requires all words to match (AND search)" do
-        result = described_class.apply(scope, "123 High")
+      it "matches non-adjacent words (AND, not substring)" do
+        result = described_class.apply(scope, "123 Street")
         expect(result).to include(matching_app)
         expect(result).not_to include(non_matching_app)
+      end
+
+      it "requires all words to match (AND, not OR)" do
+        result = described_class.apply(scope, "456 High Street")
+        expect(result).to be_empty
       end
     end
 

@@ -1,13 +1,12 @@
 <h2><%= title %></h2>
-<% if search.present? && tab_route.present? %>
-  <%= render(
-        PlanningApplications::SearchComponent.new(
-          panel_type: type,
-          search: search,
-          tab_route: tab_route
-        )
-      ) %>
-<% end %>
+<%= render(
+      PlanningApplications::SearchComponent.new(
+        panel_type: type,
+        search: search,
+        tab_route: tab_route,
+        pre_application: pre_application?
+      )
+    ) %>
 <% if planning_applications.empty? %>
   <p><%= t(".no_planning_applications") %></p>
 <% else %>
@@ -17,11 +16,7 @@
         <% attributes.each do |attribute| %>
           <th scope="col" class="govuk-table__header">
             <% if attribute == :formatted_expiry_date %>
-              <% if type.to_s.include?("pre_apps") %>
-                <%= render(PlanningApplications::SortComponent.new(attribute: "target_date", direction: params[:direction])) %>
-              <% else %>
-                <%= render(PlanningApplications::SortComponent.new(attribute: "expiry_date", direction: params[:direction])) %>
-              <% end %>
+              <%= render(PlanningApplications::SortComponent.new(attribute: pre_application? ? "target_date" : "expiry_date", direction: params[:direction])) %>
             <% else %>
               <%= t(".#{attribute}") %>
             <% end %>

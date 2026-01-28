@@ -83,19 +83,6 @@ module BopsCore
       end
     end
 
-    def active_page_key
-      case controller_path
-      when "bops_preapps/pre_applications", "bops_preapps/tabs"
-        "pre_applications"
-      when "planning_applications", "planning_applications/tabs"
-        "planning_applications"
-      when "bops_enforcements/enforcements"
-        "enforcements"
-      else
-        "dashboard"
-      end
-    end
-
     def nav_items
       return [] unless current_user
       return [] unless @show_section_navigation

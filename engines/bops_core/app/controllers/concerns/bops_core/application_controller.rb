@@ -11,6 +11,11 @@ module BopsCore
       before_action :set_appsignal_tags
 
       helper_method :current_local_authority
+      helper_method :active_page_key
+    end
+
+    def active_page_key
+      "dashboard"
     end
 
     def render(options = {}, locals = {}, &)
