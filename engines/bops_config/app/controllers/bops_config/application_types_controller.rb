@@ -2,6 +2,8 @@
 
 module BopsConfig
   class ApplicationTypesController < ApplicationController
+    self.page_key = "application_types"
+
     before_action :build_application_type, only: %i[new create]
     before_action :set_application_types, only: %i[index]
     before_action :set_application_type, only: %i[show edit update]

@@ -2,6 +2,8 @@
 
 module BopsConfig
   class LocalAuthoritiesController < ApplicationController
+    self.page_key = "local_authorities"
+
     before_action :set_local_authorities, only: %i[index]
     before_action :set_local_authority, only: %i[show edit update]
     before_action :build_local_authority, only: %i[new create]

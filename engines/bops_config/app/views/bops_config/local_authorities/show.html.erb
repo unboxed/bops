@@ -61,6 +61,7 @@
   </table>
 
   <div class="govuk-button-group">
+    <%= govuk_button_link_to "Manage users", local_authority_users_path(@local_authority), secondary: true %>
     <%= govuk_button_link_to "Edit local authority", edit_local_authority_path(@local_authority), secondary: true %>
     <%= govuk_button_link_to "Edit GOV.UK Notify settings", edit_local_authority_notify_path(@local_authority), secondary: true %>
     <%= back_link %>

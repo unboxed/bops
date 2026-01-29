@@ -515,6 +515,35 @@ en:
           success: GOV.UK Notify settings successfully updated
       update:
         updated: Local authority successfully updated
+      users:
+        create:
+          user_successfully_created: User successfully created
+        destroy:
+          success: User successfully deactivated
+        edit:
+          edit_user: Edit user
+          resend_invite: Resend invite
+        form:
+          email: Email
+          sms: SMS
+          submit: Submit
+        index:
+          add_user: Add user
+          users: Manage users for %{name}
+        new:
+          add_user: Add a new user
+        reactivate:
+          success: User successfully reactivated
+        resend_invite:
+          confirmation_failed_to_resend: Unable to send a reminder email - please contact support
+          confirmation_resent: User will receive a reminder email
+        table:
+          email: Email
+          'false': 'No'
+          sms: SMS
+          'true': 'Yes'
+        update:
+          user_successfully_updated: User successfully updated
     reporting_types:
       create:
         success: Reporting type successfully created
@@ -570,6 +599,7 @@ en:
         success: User successfully deactivated
       edit:
         edit_user: Edit user
+        resend_invite: Resend invite
       form:
         email: Email
         sms: SMS

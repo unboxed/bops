@@ -3,6 +3,8 @@
 module BopsConfig
   module ApplicationTypes
     class CategoryController < ApplicationController
+      self.page_key = "application_types"
+
       before_action :set_application_type
 
       def edit

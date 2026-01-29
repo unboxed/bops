@@ -2,6 +2,8 @@
 
 module BopsConfig
   class LegislationController < ApplicationController
+    self.page_key = "legislation"
+
     before_action :build_legislation, only: %i[new create]
     before_action :set_legislations, only: %i[index]
     before_action :set_legislation, only: %i[edit update destroy]
