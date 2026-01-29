@@ -40,3 +40,30 @@
   padding: 0 0 15px 15px;
   background-color: $bops-light-blue-background;
 }
+
+@media (max-width: 768px) {
+  .bops-header-bar {
+    padding: 10px 0;
+  }
+
+  .bops-header-bar,
+  .bops-header-bar__list {
+    flex-direction: column;
+    align-items: start;
+    gap: 5px;
+  }
+
+  .bops-header-bar__list--right {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .bops-header-bar__item + .bops-header-bar__item {
+    border: none;
+  }
+
+  .bops-header-bar__item--toggle,
+  .bops-header-bar__list--right {
+    padding-inline: 15px;
+  }
+}
