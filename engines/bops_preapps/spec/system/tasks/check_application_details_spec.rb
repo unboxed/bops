@@ -11,7 +11,9 @@ RSpec.describe "Check application details task", type: :system do
 
   before do
     sign_in(user)
+
     visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    expect(page).to have_selector("h1", text: "Check application details")
   end
 
   it "Can complete and submit the form" do
