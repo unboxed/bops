@@ -2,6 +2,8 @@
 
 module BopsConfig
   class ReportingTypesController < ApplicationController
+    self.page_key = "reporting_types"
+
     before_action :build_reporting_type, only: %i[new create]
     before_action :set_reporting_types, only: %i[index]
     before_action :set_reporting_type, only: %i[edit update destroy]

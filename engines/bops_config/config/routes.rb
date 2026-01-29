@@ -43,12 +43,17 @@ BopsConfig::Engine.routes.draw do
   end
 
   resources :users, except: %i[show] do
-    get :resend_invite, on: :member
+    post :resend_invite, on: :member
     patch :reactivate, on: :member
   end
 
   resources :local_authorities, param: :name, except: %i[destroy] do
     scope module: "local_authorities" do
+      resources :users, except: %i[show] do
+        post :resend_invite, on: :member
+        patch :reactivate, on: :member
+      end
+
       resource :notify, controller: "notify", only: %i[edit update] do
         resource :email, :sms, :letter, only: %i[new create], module: "notify"
       end

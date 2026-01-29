@@ -20,27 +20,7 @@ module BopsConfig
     end
 
     def active_page_key
-      return "legislation" if controller_path == "bops_config/legislation"
-
-      page_keys = {
-        "dashboard" => "dashboard",
-        "users" => "users",
-        "local_authorities" => "local_authorities",
-        "application_types" => "application_types",
-        "categories" => "application_types",
-        "determination_periods" => "application_types",
-        "legislation" => "application_types",
-        "features" => "application_types",
-        "decisions" => "decisions",
-        "statuses" => "application_types",
-        "reporting_types" => "reporting_types",
-        "policy_schedules" => "gpdo",
-        "policy_parts" => "gpdo",
-        "policy_class" => "gpdo",
-        "notify" => "local_authorities"
-      }
-
-      page_keys.fetch(controller_name, "dashboard")
+      controller.page_key
     end
 
     def nav_items

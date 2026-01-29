@@ -15,10 +15,10 @@
 
     <% if @user.unconfirmed? %>
       <div class="govuk-button-group">
-        <%= govuk_button_link_to "Resend invite", resend_invite_user_path(@user) %>
+        <%= button_to t(".resend_invite"), resend_invite_user_path(@user), method: :post, class: "govuk-button" %>
       </div>
     <% end %>
 
-    <%= render("form", user: @user) %>
+    <%= render "shared/users/form", local_authority: nil, show_role: false %>
   </div>
 </div>

@@ -3,6 +3,8 @@
 module BopsConfig
   module LocalAuthorities
     class NotifyController < ApplicationController
+      self.page_key = "local_authorities"
+
       before_action :set_local_authority, only: %i[edit update]
 
       def edit

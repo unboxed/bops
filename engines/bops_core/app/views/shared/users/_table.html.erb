@@ -1,0 +1,44 @@
+<%= govuk_table do |table| %>
+  <% table.with_head do |head| %>
+    <% head.with_row do |row| %>
+      <% row.with_cell(text: t("shared.users.table.user_details")) %>
+      <% if show_role %>
+        <% row.with_cell(text: t("shared.users.table.role")) %>
+      <% end %>
+      <% row.with_cell(text: t("shared.users.table.two_fa_set_up")) %>
+      <% row.with_cell(text: t("shared.users.table.two_fa_method")) %>
+      <% if deactivated %>
+        <% row.with_cell(text: t("shared.users.table.deactivation_date")) %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% table.with_body do |body| %>
+    <% users.each do |user| %>
+      <% body.with_row do |row| %>
+        <% row.with_cell do %>
+          <%= user.name %><br>
+          <%= user.email %><br>
+          <%= number_to_phone(user.mobile_number, delimiter: " ", pattern: /(\d{5})(\d{3})(\d{3})$/) %><br>
+          <% if local_authority %>
+            <%= govuk_link_to t("shared.users.table.edit_user"), edit_local_authority_user_path(local_authority, user) %>
+          <% else %>
+            <%= govuk_link_to t("shared.users.table.edit_user"), edit_user_path(user) %>
+          <% end %>
+          <% if user.unconfirmed? %>
+            <% resend_path = local_authority ? resend_invite_local_authority_user_path(local_authority, user) : resend_invite_user_path(user) %>
+            <%= button_to t("shared.users.table.resend_invite"), resend_path, method: :post, class: "govuk-link", form: {class: "govuk-!-display-inline-block"} %>
+          <% end %>
+        <% end %>
+        <% if show_role %>
+          <% row.with_cell(text: user.role.capitalize) %>
+        <% end %>
+        <% row.with_cell(text: t("shared.users.table.#{user.otp_required_for_login}")) %>
+        <% row.with_cell(text: t("shared.users.table.#{user.otp_delivery_method}")) %>
+        <% if deactivated %>
+          <% row.with_cell(text: t("shared.users.table.deactivated_at", date: user.deactivated_at.to_fs)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

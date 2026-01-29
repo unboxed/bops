@@ -3,6 +3,8 @@
 module BopsConfig
   module ApplicationTypes
     class DocumentTagsController < ApplicationController
+      self.page_key = "application_types"
+
       before_action :set_application_type
       before_action :set_document_tags
 

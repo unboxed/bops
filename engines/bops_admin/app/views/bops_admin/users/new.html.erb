@@ -16,6 +16,6 @@
       <%= t(".add_user") %>
     </h1>
 
-    <%= render("form", user: @user) %>
+    <%= render "shared/users/form", local_authority: nil, show_role: true %>
   </div>
 </div>

@@ -675,6 +675,7 @@ en:
         success: User successfully deactivated
       edit:
         edit_user: Edit user
+        resend_invite: Resend invite
       form:
         email: Email
         sms: SMS
