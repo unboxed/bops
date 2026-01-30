@@ -51,7 +51,6 @@ class CaseRecord < ApplicationRecord
 
   def load_tasks!
     return if tasks.exists?
-    return if planning_application? && !planning_application.pre_application?
 
     TaskLoader.new(self, caseable.task_workflow).load!
   rescue => e
@@ -60,8 +59,6 @@ class CaseRecord < ApplicationRecord
   end
 
   def reload_tasks!
-    return if planning_application? && !planning_application.pre_application?
-
     TaskLoader.new(self, caseable.task_workflow).reload!
   end
 

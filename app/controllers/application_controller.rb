@@ -106,7 +106,6 @@ class ApplicationController < ActionController::Base
   end
 
   def use_new_sidebar_layout?(application_stage)
-    return false unless @planning_application&.pre_application?
     return false if current_user&.email&.in?(BLOCKED_SIDEBAR_EMAILS)
 
     case Rails.configuration.use_new_sidebar_layout

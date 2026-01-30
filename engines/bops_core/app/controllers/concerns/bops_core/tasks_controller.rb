@@ -9,6 +9,9 @@ module BopsCore
 
       before_action :set_case_record
       before_action :find_task
+      before_action :set_planning_application
+      before_action :show_sidebar
+      before_action :show_header
     end
 
     def show
@@ -40,9 +43,23 @@ module BopsCore
     def set_case_record
       @case_record = if params[:reference]
         PlanningApplication.find_by(reference: params[:reference]).case_record
+      elsif params[:planning_application_reference]
+        PlanningApplication.find_by(reference: params[:planning_application_reference]).case_record
       else
         @current_local_authority.case_records.find(params[:case_id])
       end
+    end
+
+    def show_header
+      @show_header_bar ||= true
+    end
+
+    def show_sidebar
+      @show_sidebar ||= @task.top_level_ancestor
+    end
+
+    def set_planning_application
+      @planning_application = PlanningApplicationPresenter.new(view_context, @case_record.caseable)
     end
 
     def find_task

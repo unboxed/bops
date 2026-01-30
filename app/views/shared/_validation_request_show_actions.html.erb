@@ -1,7 +1,8 @@
+<% redirect_path = local_assigns.fetch(:redirect_to, params[:redirect_to]) %>
 <div class="govuk-!-margin-top-3">
   <% if validation_request.open_or_pending? %>
     <% if planning_application.not_started? %>
-      <%= delete_confirmation_request_link(planning_application, validation_request, classname: "govuk-button govuk-button--secondary", redirect_to: params[:redirect_to]) %>
+      <%= delete_confirmation_request_link(planning_application, validation_request, classname: "govuk-button govuk-button--secondary", redirect_to: redirect_path) %>
     <% end %>
   <% end %>
 </div>
@@ -21,7 +22,7 @@
 
   <% if validation_request.open_or_pending? %>
     <% if planning_application.validation_complete? %>
-      <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(planning_application, validation_request, redirect_to: params[:redirect_to]), class: "govuk-body" %>
+      <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(planning_application, validation_request, redirect_to: redirect_path), class: "govuk-body" %>
     <% end %>
     <% if planning_application.not_started? %>
       <% if local_assigns.fetch(:include_edit, true) %>
@@ -29,7 +30,7 @@
               planning_application,
               validation_request,
               classname: "govuk-body",
-              redirect_to: params[:redirect_to]
+              redirect_to: redirect_path
             ) %>
       <% end %>
     <% end %>
