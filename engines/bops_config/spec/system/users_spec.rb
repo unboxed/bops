@@ -180,9 +180,7 @@ RSpec.describe "Users", type: :system do
 
   context "when users are unconfirmed" do
     before do
-      2.times do
-        create(:user, :global_administrator, :unconfirmed, local_authority: nil)
-      end
+      create_list(:user, 2, :global_administrator, :unconfirmed, local_authority: nil)
     end
 
     it "shows a warning" do
