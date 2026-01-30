@@ -108,7 +108,9 @@ module BopsCore
       if action_name == "new"
         {}
       else
-        params.require(:user).permit(*user_attributes)
+        permitted = user_attributes
+        permitted -= [:role] if @user == current_user
+        params.require(:user).permit(*permitted)
       end
     end
   end
