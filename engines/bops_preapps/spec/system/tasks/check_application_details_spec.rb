@@ -11,7 +11,9 @@ RSpec.describe "Check application details task", type: :system do
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+
+    visit "/preapps/#{planning_application.reference}/check-and-assess/check-application/check-application-details"
+    expect(page).to have_selector("h1", text: "Check application details")
   end
 
   it "Can complete and submit the form" do
@@ -33,7 +35,7 @@ RSpec.describe "Check application details task", type: :system do
     expect(planning_application.consistency_checklist.site_map_correct).to eq "yes"
   end
 
-  it "persists radio button selections when viewing the page again", skip: "flaky" do
+  it "persists radio button selections when viewing the page again" do
     within ".bops-sidebar" do
       click_link "Check application details"
     end
