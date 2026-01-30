@@ -12,7 +12,7 @@ RSpec.describe "Check application details task", type: :system do
   before do
     sign_in(user)
 
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/preapps/#{planning_application.reference}/check-and-assess/check-application/check-application-details"
     expect(page).to have_selector("h1", text: "Check application details")
   end
 

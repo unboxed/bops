@@ -26,7 +26,7 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
     it "completes all assessment tasks in sequence with correct status transitions and icons" do
       sign_in(assessor)
 
-      visit "/planning_applications/#{reference}/assessment/tasks"
+      visit "/preapps/#{reference}/check-and-assess/check-application/check-application-details"
       expect(page).to have_selector("h1", text: "Check application details")
 
       expect(page).to have_selector(:sidebar)
