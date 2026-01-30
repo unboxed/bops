@@ -230,7 +230,7 @@ RSpec.describe "Users", type: :system do
 
       within("#unconfirmed tbody tr:nth-child(2)") do
         expect(page).to have_content("Rosie Starr")
-        click_link("Resend invite")
+        click_button("Resend invite")
       end
 
       expect(page).to have_content("User will receive a reminder email")

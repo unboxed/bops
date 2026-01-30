@@ -2,6 +2,8 @@
 
 module BopsConfig
   class DecisionsController < ApplicationController
+    self.page_key = "decisions"
+
     before_action :build_decision, only: %i[new create]
     before_action :set_decisions, only: %i[index]
     before_action :set_decision, only: %i[edit update]

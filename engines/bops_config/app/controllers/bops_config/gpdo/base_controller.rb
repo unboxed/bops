@@ -3,6 +3,8 @@
 module BopsConfig
   module Gpdo
     class BaseController < ApplicationController
+      self.page_key = "gpdo"
+
       private
 
       def set_policy_schedule

@@ -1,0 +1,11 @@
+<%= govuk_tabs do |tabs| %>
+  <% tabs.with_tab(label: "Confirmed", id: "confirmed") do %>
+    <%= render "shared/users/table", users: users.confirmed, local_authority: local_authority, show_role: show_role, deactivated: false %>
+  <% end %>
+  <% tabs.with_tab(label: "Unconfirmed", id: "unconfirmed") do %>
+    <%= render "shared/users/table", users: users.unconfirmed, local_authority: local_authority, show_role: show_role, deactivated: false %>
+  <% end %>
+  <% tabs.with_tab(label: "Deactivated", id: "deactivated") do %>
+    <%= render "shared/users/table", users: users.discarded, local_authority: local_authority, show_role: show_role, deactivated: true %>
+  <% end %>
+<% end %>

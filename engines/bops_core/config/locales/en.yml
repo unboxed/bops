@@ -29,3 +29,27 @@ en:
             phone_number:
               blank: Enter a phone number for the test message
               invalid: Enter a valid phone number for the test message
+  shared:
+    users:
+      form:
+        deactivate_user: Deactivate user
+        email: Email
+        reactivate_user: Reactivate user
+        sms: SMS
+        submit: Submit
+      status_prompt:
+        heading: "%{count} users have not confirmed their email"
+        message: Resend invites to unconfirmed users.
+      table:
+        deactivated_at: Deactivated at %{date}
+        deactivation_date: Deactivation date
+        edit_user: Edit user
+        email: Email
+        'false': 'No'
+        resend_invite: Resend invite
+        role: Role
+        sms: SMS
+        'true': 'Yes'
+        two_fa_method: 2FA method
+        two_fa_set_up: 2FA set up
+        user_details: User details
