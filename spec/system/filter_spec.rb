@@ -131,7 +131,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
             uncheck("To be reviewed")
 
             click_button("Apply filters")
-            expect(page).to have_current_path("/planning_applications", ignore_query: true)
+            expect(page).to have_current_path("/planning_applications/mine", ignore_query: true)
 
             expect(page).to have_content(not_started_planning_application.reference)
             expect(page).not_to have_content(invalid_planning_application.reference)
@@ -152,7 +152,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
             uncheck("To be reviewed")
 
             click_button("Apply filters")
-            expect(page).to have_current_path("/planning_applications", ignore_query: true)
+            expect(page).to have_current_path("/planning_applications/mine", ignore_query: true)
 
             expect(page).not_to have_content(not_started_planning_application.reference)
             expect(page).to have_content(invalid_planning_application.reference)
@@ -173,7 +173,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
             uncheck("To be reviewed")
 
             click_button("Apply filters")
-            expect(page).to have_current_path("/planning_applications", ignore_query: true)
+            expect(page).to have_current_path("/planning_applications/mine", ignore_query: true)
 
             expect(page).not_to have_content(not_started_planning_application.reference)
             expect(page).not_to have_content(invalid_planning_application.reference)
@@ -194,7 +194,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
             uncheck("To be reviewed")
 
             click_button("Apply filters")
-            expect(page).to have_current_path("/planning_applications", ignore_query: true)
+            expect(page).to have_current_path("/planning_applications/mine", ignore_query: true)
 
             expect(page).not_to have_content(not_started_planning_application.reference)
             expect(page).not_to have_content(invalid_planning_application.reference)
@@ -215,7 +215,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
             check("To be reviewed")
 
             click_button("Apply filters")
-            expect(page).to have_current_path("/planning_applications", ignore_query: true)
+            expect(page).to have_current_path("/planning_applications/mine", ignore_query: true)
 
             expect(page).not_to have_content(not_started_planning_application.reference)
             expect(page).not_to have_content(invalid_planning_application.reference)
@@ -264,7 +264,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           ].join("&")
 
           click_button("Apply filters")
-          expect(page).to have_current_path("/planning_applications?#{query}")
+          expect(page).to have_current_path("/planning_applications/mine?#{query}")
 
           expect(page).to have_content(not_started_planning_application.reference)
           expect(page).to have_content(invalid_planning_application.reference)
@@ -297,7 +297,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           ].join("&")
 
           click_button("Search")
-          expect(page).to have_current_path("/planning_applications?#{query}")
+          expect(page).to have_current_path("/planning_applications/mine?#{query}")
 
           expect(page).to have_content(not_started_planning_application.reference)
           expect(page).to have_content(invalid_planning_application.reference)
@@ -324,7 +324,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           ].join("&")
 
           click_button("Filter")
-          expect(page).to have_current_path("/planning_applications?#{query}")
+          expect(page).to have_current_path("/planning_applications/mine?#{query}")
 
           uncheck("Invalidated")
           uncheck("To be reviewed")
@@ -344,7 +344,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
           ].join("&")
 
           click_button("Apply filters")
-          expect(page).to have_current_path("/planning_applications?#{query}")
+          expect(page).to have_current_path("/planning_applications/mine?#{query}")
 
           expect(page).to have_content(not_started_planning_application.reference)
           expect(page).not_to have_content(invalid_planning_application.reference)
@@ -359,7 +359,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
     context "when looking at all applications" do
       before do
         sign_in(user)
-        visit "/#all"
+        visit "/planning_applications/all"
       end
 
       it "allows user to filter by different statuses" do
@@ -455,7 +455,7 @@ RSpec.describe "filtering planning applications", type: :system, capybara: true 
     context "when looking at all applications" do
       before do
         sign_in(other_user)
-        visit "/#all"
+        visit "/planning_applications/all"
       end
 
       it "allows user to filter by different statuses" do

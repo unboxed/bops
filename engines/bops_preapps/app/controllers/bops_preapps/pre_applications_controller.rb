@@ -2,16 +2,18 @@
 
 module BopsPreapps
   class PreApplicationsController < AuthenticationController
+    include BopsCore::FilterParams
+
+    def active_page_key
+      "pre_applications"
+    end
+
     before_action :set_planning_application, only: %i[show]
     before_action :set_case_record, only: %i[show]
     before_action :set_grouped_tasks, only: %i[show]
 
     def index
-      @show_section_navigation = true
-      @search ||= PlanningApplicationSearch.new(params)
-      respond_to do |format|
-        format.html
-      end
+      redirect_to mine_pre_applications_path(filter_params)
     end
 
     def show

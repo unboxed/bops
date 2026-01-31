@@ -3,7 +3,7 @@
 module BopsApi
   module Filters
     module Comments
-      class SentimentFilter < BaseFilter
+      class SentimentFilter
         def initialize(model_class)
           @model_class = model_class
         end

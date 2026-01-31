@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-module BopsApi
+module BopsCore
   module Filters
     module TextSearch
-      class CascadingSearch < BaseFilter
+      class CascadingSearch
         STRATEGIES = [
-          ReferenceSearch,
-          PostcodeSearch,
-          AddressSearch,
-          DescriptionSearch
+          BopsCore::Filters::TextSearch::ReferenceSearch,
+          BopsCore::Filters::TextSearch::PostcodeSearch,
+          BopsCore::Filters::TextSearch::AddressSearch,
+          BopsCore::Filters::TextSearch::DescriptionSearch
         ].freeze
 
         def applicable?(params)
@@ -17,12 +17,15 @@ module BopsApi
 
         def apply(scope, params)
           q = query(params)
+          return scope.none if q.nil?
 
           strategies.each do |strategy|
             result = strategy.apply(scope, q)
             return result if result.exists?
           end
 
+          scope.none
+        rescue ActiveRecord::StatementInvalid
           scope.none
         end
 

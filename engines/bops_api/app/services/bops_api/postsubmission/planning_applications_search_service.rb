@@ -4,7 +4,7 @@ module BopsApi
   module Postsubmission
     class PlanningApplicationsSearchService < Application::SearchService
       FILTERS = [
-        Filters::TextSearch::CascadingSearch.new,
+        BopsCore::Filters::TextSearch::CascadingSearch.new,
         Filters::AlternativeReferenceFilter.new,
         Filters::ApplicationTypeFilter.new,
         Filters::ApplicationStatusFilter.new,
