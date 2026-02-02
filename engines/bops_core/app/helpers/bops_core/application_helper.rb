@@ -140,5 +140,11 @@ module BopsCore
 
       content_tag(:span, label, class: css_class)
     end
+
+    def return_to_hidden_field
+      return if params[:return_to].blank?
+
+      hidden_field_tag :return_to, params[:return_to]
+    end
   end
 end

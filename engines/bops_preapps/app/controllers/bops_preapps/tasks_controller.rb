@@ -13,14 +13,22 @@ module BopsPreapps
     private
 
     def template_for(action)
-      path = "bops_preapps/tasks/#{@task.full_slug}/#{action}"
-      lookup_context.exists?(path) ? path : "bops_preapps/tasks/generic/#{action}"
+      %w[bops_preapps bops_core].each do |engine|
+        path = "#{engine}/tasks/#{@task.full_slug}/#{action}"
+        return path if lookup_context.exists?(path)
+      end
+
+      "bops_preapps/tasks/generic/#{action}"
     end
 
     def build_form
-      klass = BopsPreapps::Tasks.form_for(@task.slug)
+      [BopsPreapps, BopsCore].each do |engine|
+        klass = engine::Tasks.form_for(@task.slug)
+        next unless klass
 
-      @form = klass.new(@task, params)
+        @form = klass.new(@task, params)
+        break if @form
+      end
     end
 
     def redirect_to_review_and_submit_report

@@ -3,14 +3,7 @@
 module Tasks
   class << self
     def form_for(slug)
-      form_class_for(slug)
-    end
-
-    private
-
-    def form_class_for(slug)
-      form_name = "#{slug.underscore}_form".camelcase
-      "Tasks::#{form_name}".constantize
+      const_get("#{slug.underscore}_form".camelcase)
     rescue NameError
       nil
     end
