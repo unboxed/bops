@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module BopsPreapps
+module BopsCore
   module Tasks
     class CheckConstraintsForm < Form
       self.task_actions = %w[add_constraint remove_constraint save_draft save_and_complete edit_form]
