@@ -40,6 +40,8 @@ module BopsCore
     def set_case_record
       @case_record = if params[:reference]
         PlanningApplication.find_by(reference: params[:reference]).case_record
+      elsif params[:planning_application_reference]
+        PlanningApplication.find_by(reference: params[:planning_application_reference]).case_record
       else
         @current_local_authority.case_records.find(params[:case_id])
       end

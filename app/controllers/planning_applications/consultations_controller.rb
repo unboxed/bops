@@ -6,7 +6,7 @@ module PlanningApplications
     before_action :set_consultation
     before_action :redirect_to_application_page, unless: :public_or_preapp?
     before_action :show_sidebar
-    before_action :redirect_to_initial_task, when: -> { @planning_application.pre_application? }, on: :show
+    before_action :redirect_to_initial_task, if: -> { @planning_application.pre_application? }, only: :show
 
     def show
       respond_to do |format|

@@ -7,56 +7,74 @@
         Check document tags
       </h2>
     </legend>
-
+    <% document = @document || @form.document %>
     <div class="govuk-!-width-two-thirds">
-      <p>
-        <% if @document.tags.present? %>
-          <% @document.tags.each do |tag| %>
-            <strong class="govuk-tag govuk-tag--turquoise document-tag"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
-          <% end %>
-        <% else %>
-          <p class="govuk govuk-!-margin-bottom-1">
-            <em>No tags added</em>
-          </p>
+      <% if document.tags.present? %>
+        <% document.tags.each do |tag| %>
+          <%= govuk_tag(
+                text: I18n.t(:"#{tag}", scope: :document_tags),
+                colour: "turquoise",
+                html_attributes: {class: "document-tag"}
+              ) %>
         <% end %>
-      </p>
+      <% else %>
+        <p class="govuk-body govuk-!-margin-bottom-1">
+          <em>No tags added</em>
+        </p>
+      <% end %>
     </div>
 
-    <%= govuk_details(summary_text: "Edit tags") do %>
-      <%= govuk_tabs do |tabs| %>
-        <% document_tags.tag_groups_for_document(@document).each do |group| %>
-          <% tabs.with_tab(label: t(".groups.#{group}"), id: "#{group}-tags") do %>
-            <%= form.govuk_check_boxes_fieldset :tags, legend: {text: t(".groups.#{group}")}, hint: {text: t(".hints.#{group}")}, small: true do %>
-              <div data-controller="show-hide">
-                <div class="govuk-!-column-count-2">
-                  <% group.selected_tag_list.each do |tag| %>
-                    <%= form.govuk_check_box :tags, tag.first, label: {text: tag.last} %>
-                  <% end %>
-                </div>
-                <% if group.irrelevant_tags.any? %>
-                  <div class="govuk-!-margin-top-2">
-                    <a class="show-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#showDisplayNone">
-                      Show all (<%= group.irrelevant_tags.count %>)
-                    </a>
+      <%= govuk_details(summary_text: "Edit tags") do %>
+        <%= govuk_tabs do |tabs| %>
+          <% document_tags.tag_groups_for_document(document).each do |group| %>
+            <% tabs.with_tab(label: t(".groups.#{group}"), id: "#{group}-tags") do %>
+              <%= form.govuk_check_boxes_fieldset(
+                    :tags,
+                    legend: {text: t(".groups.#{group}")},
+                    hint: {text: t(".hints.#{group}")},
+                    small: true
+                  ) do %>
+
+                <div data-controller="show-hide">
+                  <div class="govuk-!-column-count-2">
+                    <% group.selected_tag_list.each do |tag| %>
+                      <%= form.govuk_check_box :tags, tag.first, label: {text: tag.last}, checked: document.tags.include?(tag.first) %>
+                    <% end %>
                   </div>
-                  <div class="document-tags govuk-!-display-none">
-                    <div class="govuk-!-column-count-2">
-                      <% group.irrelevant_tag_list.each do |tag| %>
-                        <%= form.govuk_check_box :tags, tag.first, label: {text: tag.last} %>
-                      <% end %>
-                    </div>
+
+                  <% if group.irrelevant_tags.any? %>
                     <div class="govuk-!-margin-top-2">
-                      <a class="remove-document-tags govuk-link govuk-body" href="#" data-action="click->show-hide#hideDisplayNone">
-                        Show less
+                      <a
+                        class="show-document-tags govuk-link govuk-body"
+                        href="#"
+                        data-action="click->show-hide#showDisplayNone">
+                        Show all (<%= group.irrelevant_tags.count %>)
                       </a>
                     </div>
-                  </div>
-                <% end %>
-              </div>
+
+                    <div class="document-tags govuk-!-display-none">
+                      <div class="govuk-!-column-count-2">
+                        <% group.irrelevant_tag_list.each do |tag| %>
+                          <%= form.govuk_check_box :tags, tag.first, label: {text: tag.last}, checked: document.tags.include?(tag.first) %>
+                        <% end %>
+                      </div>
+
+                      <div class="govuk-!-margin-top-2">
+                        <a
+                          class="remove-document-tags govuk-link govuk-body"
+                          href="#"
+                          data-action="click->show-hide#hideDisplayNone">
+                          Show less
+                        </a>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+
+              <% end %>
             <% end %>
           <% end %>
         <% end %>
       <% end %>
-    <% end %>
   </fieldset>
 </div>

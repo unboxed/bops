@@ -3,6 +3,8 @@
 module BopsPreapps
   class ApplicationController < ActionController::Base
     include BopsCore::ApplicationController
+    include BopsCore::Sidebar
+    include BopsCore::PlanningApplicationPresenter
 
     helper BopsPreapps::FileTypesHelper
     helper PlanningApplicationHelper

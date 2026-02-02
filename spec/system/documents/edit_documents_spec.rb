@@ -51,8 +51,8 @@ RSpec.describe "Edit document", type: :system do
       it "only shows selected tags and hides the rest until 'Show all' is clicked" do
         visit "/planning_applications/#{planning_application.reference}/documents/#{document.id}/edit"
 
-        expect(page).to have_selector("p strong.govuk-tag", text: "Floor plan - existin")
-        expect(page).to have_selector("p strong.govuk-tag", text: "Location plan")
+        expect(page).to have_selector("strong.govuk-tag", text: "Floor plan - existin")
+        expect(page).to have_selector("strong.govuk-tag", text: "Location plan")
 
         find("span", text: "Edit tags").click
         within "#drawings-tags" do

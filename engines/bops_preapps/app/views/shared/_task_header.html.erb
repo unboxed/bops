@@ -1,6 +1,10 @@
 <%# locals: (task:, heading: nil) %>
 
-<% add_parent_breadcrumb_link "Home", preapp_home_path %>
+<% if @planning_application.pre_application? %>
+  <% add_parent_breadcrumb_link "Home", preapp_home_path %>
+<% else %>
+  <% add_parent_breadcrumb_link "Home", home_path %>
+<% end %>
 
 <% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
 

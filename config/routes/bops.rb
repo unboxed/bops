@@ -417,6 +417,15 @@ local_authority_subdomain do
       end
     end
   end
+
+  scope "/planning_applications/:planning_application_reference" do
+    get "/*slug/:id/edit", to: "tasks#edit", constraints: {id: /\d+/}, as: :edit_task_component
+    patch "/*slug/:id", to: "tasks#update", constraints: {id: /\d+/}
+    get "/*slug/edit", to: "tasks#edit", as: :edit_task
+    post "/*slug", to: "tasks#update"
+    patch "/*slug", to: "tasks#update"
+    get "/*slug", to: "tasks#show", as: :task
+  end
 end
 
 config_subdomain do

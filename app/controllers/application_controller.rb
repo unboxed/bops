@@ -2,6 +2,8 @@
 
 class ApplicationController < ActionController::Base
   include BopsCore::ApplicationController
+  include BopsCore::Sidebar
+  include BopsCore::PlanningApplicationPresenter
 
   BLOCKED_SIDEBAR_EMAILS = %w[
     martyn.evans+demo_southwark_assessor@unboxedconsulting.com
@@ -106,7 +108,6 @@ class ApplicationController < ActionController::Base
   end
 
   def use_new_sidebar_layout?(application_stage)
-    return false unless @planning_application&.pre_application?
     return false if current_user&.email&.in?(BLOCKED_SIDEBAR_EMAILS)
 
     case Rails.configuration.use_new_sidebar_layout

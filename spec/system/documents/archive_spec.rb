@@ -204,7 +204,7 @@ RSpec.describe "Documents index page" do
     before do
       sign_in assessor
 
-      visit "/planning_applications/#{awaiting_determination_planning_application.id}/documents"
+      visit "/planning_applications/#{awaiting_determination_planning_application.reference}/documents"
     end
 
     it "Archive button is still visible" do
@@ -220,7 +220,7 @@ RSpec.describe "Documents index page" do
 
     before do
       sign_in assessor
-      visit "/planning_applications/#{not_started_planning_application.id}/documents/#{not_started_document.id}/archive"
+      visit "/planning_applications/#{not_started_planning_application.reference}/documents/#{not_started_document.id}/archive"
     end
 
     it "I am unable to archive the document" do
