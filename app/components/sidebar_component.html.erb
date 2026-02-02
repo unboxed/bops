@@ -1,4 +1,8 @@
-<nav aria-label="Application tasks" class="bops-sidebar" data-controller="sidebar-scroll" data-action="scroll->sidebar-scroll#handleScroll">
+<nav
+  aria-label="Application tasks"
+  class="bops-sidebar"
+  data-controller="sidebar-scroll sidebar-toggle"
+  data-action="scroll->sidebar-scroll#handleScroll">
   <% tasks.each do |task| %>
     <%= render_task(task) %>
   <% end %>

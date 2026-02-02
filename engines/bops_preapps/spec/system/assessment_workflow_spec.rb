@@ -244,7 +244,7 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
         click_link "Summary of advice"
       end
 
-      expect(page).to have_css("nav.bops-sidebar[data-controller='sidebar-scroll']")
+      expect(page).to have_css("nav.bops-sidebar[data-controller~='sidebar-scroll']")
 
       initial_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
 

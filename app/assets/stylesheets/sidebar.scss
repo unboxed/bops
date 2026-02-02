@@ -1,5 +1,7 @@
-.govuk-template:has(.bops-fullwidth-container) {
-  overflow-y: hidden;
+@media (min-width: 768px) {
+  .govuk-template:has(.bops-fullwidth-container) {
+    overflow-y: hidden;
+  }
 }
 
 body:has(.bops-fullwidth-container) {
@@ -60,6 +62,59 @@ body:has(.bops-fullwidth-container) {
   .bops-fullwidth-container:has(.bops-sidebar) {
     main {
       grid-column: 2;
+    }
+  }
+
+  @media (max-width: 768px) {
+    & {
+      height: auto;
+      overflow: auto;
+    }
+
+    .govuk-header__service-name {
+      margin-bottom: 0;
+    }
+
+    .bops-fullwidth-container {
+      display: block;
+      overflow: scroll;
+
+      .bops-sidebar {
+        border-bottom: 1px solid $bops-blue-border;
+        border-right: none;
+        padding-block: 15px;
+
+        & > .bops-sidebar__list {
+          display: none;
+
+          &--open {
+            display: block;
+          }
+        }
+      }
+    }
+
+    .bops-sidebar__toggle {
+      display: inline-block;
+      margin-bottom: 0;
+
+      &:before {
+        display: inline-block;
+        content: "\2303";
+        transform: rotate(0.5turn);
+        margin-right: 0.5em;
+      }
+
+      &--open {
+        margin-bottom: 10px;
+      }
+
+      &--open:before {
+        display: inline-block;
+        content: "\2303";
+        transform: rotate(0turn);
+        margin-right: 0.5em;
+      }
     }
   }
 

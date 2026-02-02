@@ -35,7 +35,9 @@
           <%= render_navigation unless @show_sidebar %>
           <%= render BopsCore::HeaderBarComponent.new(
                 left: [
-                  {text: tag.strong(@planning_application.reference)},
+                  {text: tag.strong(govuk_link_to(@planning_application.reference,
+                    main_app.planning_application_path(@planning_application),
+                    no_visited_state: true))},
                   {text: @planning_application.full_address}
                 ],
                 right: [
