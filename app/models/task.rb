@@ -59,6 +59,14 @@ class Task < ApplicationRecord
     top_level? ? self : parent.top_level_ancestor
   end
 
+  def in_section?(section_name)
+    top_level_ancestor.section == section_name
+  end
+
+  def validation_task?
+    in_section?("Validation")
+  end
+
   def task_for(slug)
     Task.find_by!(slug: slug)
   end
