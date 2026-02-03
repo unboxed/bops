@@ -7,7 +7,7 @@
 <% content_for :title, t(".users") %>
 
 <% if @users.any?(&:unconfirmed?) %>
-  <%= render("status_prompt", users: @users.unconfirmed) %>
+  <%= render "shared/users/status_prompt", users: @users.unconfirmed %>
 <% end %>
 
 <div class="govuk-grid-row">
@@ -15,34 +15,7 @@
     <h1>
       <%= t(".users") %>
     </h1>
-    <div class="govuk-tabs" data-module="govuk-tabs">
-      <ul class="govuk-tabs__list">
-        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
-          <a class="govuk-tabs__tab" href="#confirmed">
-            Confirmed
-          </a>
-        </li>
-        <li class="govuk-tabs__list-item">
-          <a class="govuk-tabs__tab" href="#unconfirmed">
-            Unconfirmed
-          </a>
-        </li>
-        <li class="govuk-tabs__list-item">
-          <a class="govuk-tabs__tab" href="#deactivated">
-            Deactivated
-          </a>
-        </li>
-      </ul>
-      <div class="govuk-tabs__panel govuk-tabs__panel" id="confirmed">
-        <%= render("table", users: @users.confirmed) %>
-      </div>
-      <div class="govuk-tabs__panel govuk-tabs__panel" id="unconfirmed">
-        <%= render("table", users: @users.unconfirmed) %>
-      </div>
-      <div class="govuk-tabs__panel govuk-tabs__panel" id="deactivated">
-        <%= render("table", users: @users.discarded, deactivated: true) %>
-      </div>
-    </div>
+    <%= render "shared/users/tabs", users: @users, local_authority: nil, show_role: false %>
     <div class="govuk-button-group">
       <%= govuk_button_link_to(t(".add_user"), new_user_path) %>
       <%= back_link %>

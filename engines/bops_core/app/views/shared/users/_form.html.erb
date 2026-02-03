@@ -1,4 +1,8 @@
-<%= form_with model: @user do |form| %>
+<% form_url = if local_authority
+     @user.persisted? ? local_authority_user_path(local_authority, @user) : local_authority_users_path(local_authority)
+   end %>
+
+<%= form_with model: @user, url: form_url do |form| %>
   <%= form.govuk_error_summary %>
   <%= form.govuk_fieldset(legend: {text: nil}) do %>
     <%= form.govuk_text_field :name, class: "govuk-input--width-30" %>
@@ -10,7 +14,7 @@
           :first,
           :last
         ) %>
-    <% unless form.object == current_user %>
+    <% if show_role && @user != current_user %>
       <%= form.govuk_collection_select(
             :role,
             User.local_roles,
@@ -21,15 +25,17 @@
   <% end %>
 
   <div class="govuk-button-group">
-    <%= form.govuk_submit(t(".submit")) %>
+    <%= form.govuk_submit(t("shared.users.form.submit")) %>
     <%= back_link %>
     <% if @user.persisted? && @user != current_user %>
       <% if @user.discarded? %>
-        <%= govuk_button_link_to("Reactivate user", reactivate_user_path(@user),
+        <% reactivate_path = local_authority ? reactivate_local_authority_user_path(local_authority, @user) : reactivate_user_path(@user) %>
+        <%= govuk_button_link_to(t("shared.users.form.reactivate_user"), reactivate_path,
               warning: true,
               method: :patch, data: {confirm: "Are you sure?"}) %>
       <% else %>
-        <%= govuk_button_link_to("Deactivate user", user_path(@user),
+        <% destroy_path = local_authority ? local_authority_user_path(local_authority, @user) : user_path(@user) %>
+        <%= govuk_button_link_to(t("shared.users.form.deactivate_user"), destroy_path,
               warning: true,
               method: :delete, data: {confirm: "Are you sure?"}) %>
       <% end %>

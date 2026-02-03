@@ -4,6 +4,8 @@ module BopsConfig
   module LocalAuthorities
     module Notify
       class BaseController < ApplicationController
+        self.page_key = "local_authorities"
+
         before_action :set_local_authority
         before_action :build_form
 

@@ -1,0 +1,4 @@
+<%= govuk_notification_banner(title_text: "Important") do |nb| %>
+  <% nb.with_heading(text: t("shared.users.status_prompt.heading", count: users.size)) %>
+  <p class="govuk-body"><%= local_assigns.fetch(:message, t("shared.users.status_prompt.message")) %></p>
+<% end %>

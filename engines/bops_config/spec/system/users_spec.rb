@@ -180,9 +180,7 @@ RSpec.describe "Users", type: :system do
 
   context "when users are unconfirmed" do
     before do
-      2.times do
-        create(:user, :global_administrator, :unconfirmed, local_authority: nil)
-      end
+      create_list(:user, 2, :global_administrator, :unconfirmed, local_authority: nil)
     end
 
     it "shows a warning" do
@@ -230,7 +228,7 @@ RSpec.describe "Users", type: :system do
 
       within("#unconfirmed tbody tr:nth-child(2)") do
         expect(page).to have_content("Rosie Starr")
-        click_link("Resend invite")
+        click_button("Resend invite")
       end
 
       expect(page).to have_content("User will receive a reminder email")
