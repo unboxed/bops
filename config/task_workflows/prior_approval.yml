@@ -5,6 +5,10 @@
       section: Check, tag, and confirm documents
       tasks:
         - name: Review documents
+    - name: Check application details
+      section: Check application details
+      tasks:
+        - name: Check constraints
 - name: "Consultees, neighbours and publicity"
   section: "Consultation"
 - name: "Check and assess"
