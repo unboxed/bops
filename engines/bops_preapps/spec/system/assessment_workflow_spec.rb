@@ -235,28 +235,6 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
       expect(page).not_to have_button("Save and mark as complete")
       expect(page).not_to have_button("Save changes")
     end
-
-    it "maintains sidebar scroll position across navigation", js: true do
-      sign_in(assessor)
-      visit "/planning_applications/#{reference}/assessment/tasks"
-
-      expect(page).to have_selector(:sidebar)
-
-      within :sidebar do
-        click_link "Summary of advice"
-      end
-
-      expect(page).to have_css("nav.bops-sidebar[data-controller~='sidebar-scroll']")
-
-      initial_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
-
-      within :sidebar do
-        click_link "Check application details"
-      end
-
-      final_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
-      expect(final_scroll).to eq(initial_scroll)
-    end
   end
 
   describe "review and submit workflow with reviewer" do

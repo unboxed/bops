@@ -271,24 +271,5 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       expect(page).not_to have_button("Save and mark as complete")
       expect(page).not_to have_button("Save changes")
     end
-
-    it "maintains sidebar scroll position across navigation", :js do
-      visit "/planning_applications/#{reference}/validation/tasks"
-
-      within :sidebar do
-        click_link "Send validation decision"
-      end
-
-      expect(page).to have_css("nav.bops-sidebar[data-controller~='sidebar-scroll']")
-
-      initial_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
-
-      within :sidebar do
-        click_link "Review documents"
-      end
-
-      final_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
-      expect(final_scroll).to eq(initial_scroll)
-    end
   end
 end

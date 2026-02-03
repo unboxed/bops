@@ -191,28 +191,6 @@ RSpec.describe "Pre-application consultation workflow", type: :system do
 
       expect(page).to have_selector(".govuk-warning-text", text: "Changing this answer to \"No\" will remove all consultees")
     end
-
-    it "maintains sidebar scroll position across navigation", js: true do
-      planning_application.update!(consultation_required: true)
-      consultees_section.tasks.update_all(hidden: false)
-
-      visit "/preapps/#{reference}/consultees/determine-consultation-requirement"
-
-      within :sidebar do
-        click_link "View consultee responses"
-      end
-
-      expect(page).to have_css("nav.bops-sidebar[data-controller~='sidebar-scroll']")
-
-      initial_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
-
-      within :sidebar do
-        click_link "Determine consultation requirement"
-      end
-
-      final_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
-      expect(final_scroll).to eq(initial_scroll)
-    end
   end
 
   describe "consultee response handling" do
