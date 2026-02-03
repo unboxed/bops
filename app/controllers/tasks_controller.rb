@@ -11,13 +11,22 @@ class TasksController < AuthenticationController
   private
 
   def template_for(action)
-    path = "tasks/#{@task.full_slug}/#{action}"
-    lookup_context.exists?(path) ? path : "tasks/generic/#{action}"
+    ["", "bops_core/"].each do |engine|
+      path = "#{engine}tasks/#{@task.full_slug}/#{action}"
+      return path if lookup_context.exists?(path)
+    end
+
+    "tasks/generic/#{action}"
   end
 
   def build_form
-    klass = Tasks.form_for(@task.slug)
+    [Tasks, BopsCore::Tasks].each do |engine|
+      klass = engine.form_for(@task.slug)
+      next unless klass
 
-    @form = klass.new(@task, params)
+      @form = klass.new(@task, params)
+
+      break if @form
+    end
   end
 end
