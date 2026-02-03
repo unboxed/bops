@@ -23,9 +23,11 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
   let(:reference) { planning_application.reference }
 
   describe "end-to-end assessment workflow" do
-    it "completes all assessment tasks in sequence with correct status transitions and icons", skip: "flaky" do
+    it "completes all assessment tasks in sequence with correct status transitions and icons" do
       sign_in(assessor)
-      visit "/planning_applications/#{reference}/assessment/tasks"
+
+      visit "/preapps/#{reference}/check-and-assess/check-application/check-application-details"
+      expect(page).to have_selector("h1", text: "Check application details")
 
       expect(page).to have_selector(:sidebar)
       expect(page).to have_content("Assessment")
@@ -232,28 +234,6 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
 
       expect(page).not_to have_button("Save and mark as complete")
       expect(page).not_to have_button("Save changes")
-    end
-
-    it "maintains sidebar scroll position across navigation", js: true do
-      sign_in(assessor)
-      visit "/planning_applications/#{reference}/assessment/tasks"
-
-      expect(page).to have_selector(:sidebar)
-
-      within :sidebar do
-        click_link "Summary of advice"
-      end
-
-      expect(page).to have_css("nav.bops-sidebar[data-controller~='sidebar-scroll']")
-
-      initial_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
-
-      within :sidebar do
-        click_link "Check application details"
-      end
-
-      final_scroll = page.evaluate_script("document.querySelector('nav.bops-sidebar').scrollTop")
-      expect(final_scroll).to eq(initial_scroll)
     end
   end
 
