@@ -20,7 +20,7 @@ module BopsCore
 
         tag.span class: classes do
           if determined?
-            decision.humanize
+            decision.to_s.humanize
           else
             aasm.human_state.humanize
           end
