@@ -24,7 +24,9 @@ RSpec.describe "DescriptionChangesValidation" do
         expect(page).to have_content("Not started")
       end
 
-      click_link "Check description"
+      within "#main-content" do
+        click_link "Check description"
+      end
 
       within(".govuk-fieldset") do
         expect(page).to have_content("Does the description match the development or use in the plans?")
@@ -43,7 +45,9 @@ RSpec.describe "DescriptionChangesValidation" do
       expect(planning_application.reload.valid_description).to be_truthy
       expect(DescriptionChangeValidationRequest.all.length).to eq(0)
 
-      click_link "Check description"
+      within "#main-content" do
+        click_link "Check description"
+      end
 
       expect(page).not_to have_content "Does the description match the development or use in the plans?"
 
@@ -52,7 +56,9 @@ RSpec.describe "DescriptionChangesValidation" do
 
     it "I get validation errors when I omit required information" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check description"
+      within "#main-content" do
+        click_link "Check description"
+      end
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Select Yes or No to continue.")
@@ -76,7 +82,9 @@ RSpec.describe "DescriptionChangesValidation" do
       expect(PlanningApplicationMailer).to receive(:description_change_mail).and_call_original
 
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check description"
+      within "#main-content" do
+        click_link "Check description"
+      end
 
       within(".govuk-fieldset") do
         within(".govuk-radios") { choose "No" }
@@ -108,7 +116,9 @@ RSpec.describe "DescriptionChangesValidation" do
       expect(planning_application.reload.valid_description).to be_falsey
       expect(DescriptionChangeValidationRequest.all.length).to eq(1)
 
-      click_link "Check description"
+      within "#main-content" do
+        click_link "Check description"
+      end
 
       description_change_validation_request = DescriptionChangeValidationRequest.last
 
@@ -141,7 +151,9 @@ RSpec.describe "DescriptionChangesValidation" do
         expect(page).to have_content("Completed")
       end
 
-      click_link "Check description"
+      within "#main-content" do
+        click_link "Check description"
+      end
 
       expect(page).not_to have_content "Does the description match the development or use in the plans?"
 
@@ -181,7 +193,9 @@ RSpec.describe "DescriptionChangesValidation" do
 
     it "I can bypass applicant approval for small changes" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check description"
+      within "#main-content" do
+        click_link "Check description"
+      end
 
       within(".govuk-fieldset") do
         within(".govuk-radios") { choose "No" }
@@ -254,7 +268,7 @@ RSpec.describe "DescriptionChangesValidation" do
       )
     end
 
-    it "I can request a change and it will be automatically accepted immediately", capybara: true do
+    it "I can request a change and it will be automatically accepted immediately", :capybara do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       within ".bops-sidebar" do
         click_link "Check description"

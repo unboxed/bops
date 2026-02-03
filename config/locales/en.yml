@@ -2689,6 +2689,9 @@ en:
           failure: Failed to save draft constraints
           success: Draft constraints successfully saved
         success: Constraints were successfully marked as reviewed
+      check-description:
+        failure: Please select whether the description is correct
+        success: Description check was successfully saved
       check-environment-impact-assessment:
         failure: Failed to save EIA requirement
         success: EIA requirement check successfully saved

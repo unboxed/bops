@@ -1,0 +1,103 @@
+<%= render "shared/task_header", task: @task, heading: "Check description" %>
+
+<% if @form.validation_request %>
+  <h2 class="govuk-heading-m">Description change request</h2>
+  <div class="govuk-inset-text govuk-!-margin-bottom-3">
+    <p>
+      <strong>Previous description:</strong>
+      <br>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.previous_description)) %>
+    </p>
+
+    <p>
+      <strong>Proposed description:</strong>
+      <br>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.proposed_description)) %>
+    </p>
+
+    <p>
+      <% if @form.validation_request.open? %>
+        Sent on
+        <%= @form.validation_request.created_at.to_date.to_fs %>
+        . Agent or applicant has not yet responded.
+      <% elsif @form.validation_request.closed? %>
+        <%= @form.validation_request.approved? ? "Approved" : "Rejected" %>
+        on
+        <%= @form.validation_request.updated_at.to_date.to_fs %>
+      <% end %>
+    </p>
+  </div>
+  <% if @form.validation_request.closed? && @form.validation_request.approved? %>
+    <%= form_with model: @form, url: @form.url do |form| %>
+      <%= form.hidden_field :valid_description, value: true %>
+      <%= return_to_hidden_field %>
+      <div class="govuk-button-group">
+        <%= form.govuk_task_button "Save and mark as complete" %>
+      </div>
+    <% end %>
+  <% elsif @form.validation_request.closed? && @form.validation_request.rejected? %>
+    <p>
+      <%= govuk_link_to "Request a new description change",
+            main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "description_change") %>
+    </p>
+  <% else %>
+    <p>
+      <%= govuk_link_to "Cancel description change request",
+            main_app.new_validation_request_cancellation_path(
+              @planning_application.reference,
+              @form.validation_request.id,
+              task_slug: @task.full_slug
+            ) %>
+    </p>
+  <% end %>
+<% elsif (!@planning_application.valid_description) || params[:edit] == "true" || @task.in_progress? %>
+  <div class="govuk-inset-text">
+    <h3>Existing description</h3>
+    <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
+  </div>
+  <div
+    data-controller="unsaved-changes"
+    data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+    <%= form_with model: @form, url: @form.url,
+          data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+      <%= form.govuk_error_summary %>
+      <%= form.govuk_radio_buttons_fieldset :valid_description, legend: {text: "Does the description match the development or use in the plans?"} do %>
+        <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"}, disabled: @form.read_only? %>
+        <%= form.govuk_radio_button :valid_description, false, label: {text: "No"}, disabled: @form.read_only? do %>
+          <%= form.govuk_text_area :proposed_description,
+                value: @planning_application.description,
+                label: {size: "s", text: "Enter an amended description"},
+                rows: 5 %>
+
+          <%= form.govuk_radio_buttons_fieldset(:skip_applicant_approval, legend: {size: "m", text: "Does this description change require applicant's agreement?"}) do %>
+            <%= form.govuk_radio_button :skip_applicant_approval, false, label: {text: "Yes, applicant agreement needed"} do %>
+              <p>
+                The new description will be sent to the applicant to approve. If
+                the applicant does not respond within 5 days, the amended
+                description will be automatically accepted.
+              </p>
+            <% end %>
+            <%= form.govuk_radio_button :skip_applicant_approval, true, label: {text: "No, update description immediately"} do %>
+              <p>The applicant will be notified of the new description.</p>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+    <% end %>
+  </div>
+<% else %>
+  <div class="govuk-inset-text">
+    <h3>Existing description</h3>
+    <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
+  </div>
+  <p>
+    Description was
+    <%= @form.description_was_updated? ? "updated and " : "" %>marked as
+    <%= @planning_application.valid_description? ? "valid" : "invalid" %>
+  </p>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+  <% end %>
+<% end %>
