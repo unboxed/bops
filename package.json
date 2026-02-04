@@ -14,7 +14,7 @@
     "esbuild": "^0.25.0",
     "govuk-frontend": "^5.2.0",
     "is-svg": "^5.0.0",
-    "jspdf": "^4.0.0",
+    "jspdf": "^4.1.0",
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
     "puppeteer": "^23.8.0",
