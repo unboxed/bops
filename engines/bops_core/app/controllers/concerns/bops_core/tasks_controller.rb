@@ -37,6 +37,10 @@ module BopsCore
 
     private
 
+    def tasks_modules
+      [Tasks]
+    end
+
     def set_case_record
       @case_record = if params[:reference]
         PlanningApplication.find_by(reference: params[:reference]).case_record
@@ -52,7 +56,13 @@ module BopsCore
     end
 
     def build_form
-      raise NotImplementedError, "#{self.class} must implement #build_form"
+      tasks_modules.each do |mod|
+        klass = mod.form_for(@task.slug)
+        next unless klass
+
+        @form = klass.new(@task, params)
+        break if @form
+      end
     end
 
     def task_params
@@ -60,8 +70,10 @@ module BopsCore
     end
 
     def template_for(action)
-      path = "tasks/#{@task.full_slug}/#{action}"
-      lookup_context.exists?(path) ? path : "tasks/generic/#{action}"
+      tasks_modules.each do |mod|
+        path = "#{mod.templates_prefix}/#{@task.full_slug}/#{action}"
+        return path if lookup_context.exists?(path)
+      end
     end
 
     def failure_template

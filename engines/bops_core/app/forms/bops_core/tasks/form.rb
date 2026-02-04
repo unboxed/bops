@@ -9,6 +9,8 @@ module BopsCore
       include ActiveRecord::AttributeAssignment
       include BopsCore::Model::Access
       include BopsCore::Model::BeforeTypeCast
+      include Rails.application.routes.url_helpers
+      include Rails.application.routes.mounted_helpers
 
       attr_reader :task, :params, :return_to
       attr_accessor :action
