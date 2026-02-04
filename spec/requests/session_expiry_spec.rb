@@ -14,15 +14,15 @@ RSpec.describe "session expiry" do
     it "logs out existing sessions" do
       s1 = new_browser
       s1.sign_in assessor
-      s1.get "/"
+      s1.get "/planning_applications/mine"
       expect(s1.response.status).to eq 200
 
       s2 = new_browser
       s2.sign_in assessor
-      s2.get "/"
+      s2.get "/planning_applications/mine"
       expect(s2.response.status).to eq 200
 
-      s1.get "/"
+      s1.get "/planning_applications/mine"
       expect(s1.response.status).to eq 302
       expect(s1.response.headers["Location"]).to eq "http://#{local_authority.subdomain}.bops.services/users/sign_in"
     end
@@ -33,11 +33,11 @@ RSpec.describe "session expiry" do
       s1 = new_browser
       s1.sign_in assessor
       original_token = assessor.persistence_token
-      s1.get "/"
+      s1.get "/planning_applications/mine"
       expect(s1.response.status).to eq 200
       s1.sign_out assessor
 
-      s1.get "/"
+      s1.get "/planning_applications/mine"
       expect(s1.response.status).to eq 302
 
       expect(assessor.persistence_token).not_to eq original_token
@@ -49,13 +49,23 @@ RSpec.describe "session expiry" do
     it "rejects the authentication" do
       s1 = new_browser
       s1.sign_in assessor
-      s1.get "/planning_applications/"
+      s1.get "/planning_applications/mine"
       expect(s1.response.status).to eq 200
 
       s2 = new_browser(current_local_authority: other_local_authority)
       s2.cookies[:_bops_session] = s1.cookies[:_bops_session]
-      s2.get "/"
+      s2.get "/planning_applications/mine"
       expect(s2.response.status).to eq 302
+    end
+  end
+
+  context "when visiting root path" do
+    it "redirects to planning_applications/mine" do
+      s1 = new_browser
+      s1.sign_in assessor
+      s1.get "/"
+      expect(s1.response.status).to eq 302
+      expect(s1.response.headers["Location"]).to eq "http://#{local_authority.subdomain}.bops.services/planning_applications/mine#tabs"
     end
   end
 end

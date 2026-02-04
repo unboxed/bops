@@ -78,6 +78,14 @@ local_authority_subdomain do
       get :make_public
     end
 
+    collection do
+      get :mine, to: "planning_applications/tabs#mine"
+      get :unassigned, to: "planning_applications/tabs#unassigned"
+      get :closed, to: "planning_applications/tabs#closed"
+      get :updated, to: "planning_applications/tabs#updated"
+      get :all, to: "planning_applications/tabs#all_cases"
+    end
+
     resources :documents, except: %i[destroy show] do
       get :archive
 

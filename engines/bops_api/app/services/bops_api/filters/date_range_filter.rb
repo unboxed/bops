@@ -2,7 +2,7 @@
 
 module BopsApi
   module Filters
-    class DateRangeFilter < BaseFilter
+    class DateRangeFilter
       def initialize(field_name)
         @field_name = field_name
         @from_key = :"#{field_name}From"

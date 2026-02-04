@@ -12,10 +12,10 @@ RSpec.describe "Dashboard", type: :system do
   context "when the user is an assessor" do
     let(:user) { create(:user, :assessor, local_authority:) }
 
-    it "doesn't allow access to the dashboard" do
+    it "doesn't allow access to the dashboard", :capybara do
       visit "/admin/dashboard"
 
-      expect(page).to have_current_path("/")
+      expect(current_url).to end_with("/planning_applications/mine#tabs")
       expect(page).to have_content("You need to be an administrator to view the page '/admin/dashboard'")
     end
   end
@@ -23,10 +23,10 @@ RSpec.describe "Dashboard", type: :system do
   context "when the user is a reviewer" do
     let(:user) { create(:user, :reviewer, local_authority:) }
 
-    it "doesn't allow access to the dashboard" do
+    it "doesn't allow access to the dashboard", :capybara do
       visit "/admin/dashboard"
 
-      expect(page).to have_current_path("/")
+      expect(current_url).to end_with("/planning_applications/mine#tabs")
       expect(page).to have_content("You need to be an administrator to view the page '/admin/dashboard'")
     end
   end

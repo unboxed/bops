@@ -2,12 +2,13 @@
 
 module PlanningApplications
   class UpdatedPanelComponent < ViewComponent::Base
-    def initialize(audits:, search: nil)
+    def initialize(audits:, search:, tab_route:)
       @audits = audits
       @search = search
+      @tab_route = tab_route
     end
 
-    attr_reader :audits, :search
+    attr_reader :audits, :search, :tab_route
 
     def attributes
       %i[

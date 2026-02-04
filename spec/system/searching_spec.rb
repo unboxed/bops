@@ -72,7 +72,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     }
 
     before do
-      visit "/#mine"
+      visit "/planning_applications/mine"
     end
 
     it "allows user to search planning applications by reference" do
@@ -84,7 +84,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         expect(page).not_to have_content(planning_application3.reference)
 
         click_button("Search")
-        expect(page).to have_current_path(%r{^/planning_applications\?query=&submit=search})
+        expect(page).to have_current_path(%r{^/planning_applications/mine\?query=&submit=search})
 
         expect(page).to have_content("My applications")
         expect(page).to have_content("Query can't be blank")
@@ -95,7 +95,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         fill_in("Find an application", with: "00100")
 
         click_button("Search")
-        expect(page).to have_current_path(%r{^/planning_applications\?query=00100&submit=search})
+        expect(page).to have_current_path(%r{^/planning_applications/mine\?query=00100&submit=search})
 
         expect(page).to have_content("My applications")
         expect(page).not_to have_content("Query can't be blank")
@@ -110,7 +110,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
       expect(page).to have_link("Enforcement")
 
       visit "/"
-      visit "/planning_applications?#{query}#mine"
+      visit "/planning_applications/mine?#{query}"
 
       within(selected_govuk_tab) do
         expect(page).to have_content("My applications")
@@ -181,7 +181,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
             fill_in("Find an application", with: "11 Abbey Gardens")
 
             click_button("Search")
-            expect(page).to have_current_path(%r{^/planning_applications\?query=11\+Abbey\+Gardens})
+            expect(page).to have_current_path(%r{^/planning_applications/all\?query=11\+Abbey\+Gardens})
 
             expect(page).to have_content(planning_application1.reference)
             expect(page).not_to have_content(planning_application2.reference)
@@ -196,7 +196,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
             fill_in("Find an application", with: "20 Abbey Gardens")
 
             click_button("Search")
-            expect(page).to have_current_path(%r{^/planning_applications\?query=20\+Abbey\+Gardens})
+            expect(page).to have_current_path(%r{^/planning_applications/all\?query=20\+Abbey\+Gardens})
 
             expect(page).not_to have_content(planning_application1.reference)
             expect(page).not_to have_content(planning_application2.reference)
@@ -211,7 +211,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
             fill_in("Find an application", with: "GARDENS")
 
             click_button("Search")
-            expect(page).to have_current_path(%r{^/planning_applications\?query=GARDENS})
+            expect(page).to have_current_path(%r{^/planning_applications/all\?query=GARDENS})
 
             expect(page).to have_content(planning_application1.reference)
             expect(page).not_to have_content(planning_application2.reference)
@@ -226,7 +226,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
             fill_in("Find an application", with: "140 woodwarde")
 
             click_button("Search")
-            expect(page).to have_current_path(%r{^/planning_applications\?query=140\+woodwarde})
+            expect(page).to have_current_path(%r{^/planning_applications/all\?query=140\+woodwarde})
 
             expect(page).not_to have_content(planning_application1.reference)
             expect(page).to have_content(planning_application2.reference)
@@ -241,7 +241,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
             fill_in("Find an application", with: "london")
 
             click_button("Search")
-            expect(page).to have_current_path(%r{^/planning_applications\?query=london})
+            expect(page).to have_current_path(%r{^/planning_applications/all\?query=london})
 
             expect(page).to have_content(planning_application1.reference)
             expect(page).to have_content(planning_application2.reference)
@@ -258,7 +258,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
             fill_in("Find an application", with: "southwark")
 
             click_button("Search")
-            expect(page).to have_current_path(%r{^/planning_applications\?query=southwark})
+            expect(page).to have_current_path(%r{^/planning_applications/all\?query=southwark})
 
             expect(page).to have_content(planning_application1.reference)
             expect(page).not_to have_content(planning_application2.reference)
@@ -273,7 +273,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
             fill_in("Find an application", with: "se22 8UR")
 
             click_button("Search")
-            expect(page).to have_current_path(%r{^/planning_applications\?query=se22\+8UR})
+            expect(page).to have_current_path(%r{^/planning_applications/all\?query=se22\+8UR})
 
             expect(page).not_to have_content(planning_application1.reference)
             expect(page).to have_content(planning_application2.reference)
@@ -288,7 +288,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
             fill_in("Find an application", with: "sE228uR")
 
             click_button("Search")
-            expect(page).to have_current_path(%r{^/planning_applications\?query=sE228uR})
+            expect(page).to have_current_path(%r{^/planning_applications/all\?query=sE228uR})
 
             expect(page).not_to have_content(planning_application1.reference)
             expect(page).to have_content(planning_application2.reference)
@@ -390,7 +390,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         expect(page).to have_content(planning_application3.reference)
 
         click_button("Search")
-        expect(page).to have_current_path("/planning_applications?#{empty_query}")
+        expect(page).to have_current_path("/planning_applications/all?#{empty_query}")
 
         expect(page).to have_content("All applications")
         expect(page).to have_content("Query can't be blank")
@@ -401,7 +401,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         fill_in("Find an application", with: "00100")
 
         click_button("Search")
-        expect(page).to have_current_path("/planning_applications?#{query}")
+        expect(page).to have_current_path("/planning_applications/all?#{query}")
 
         expect(page).to have_content("All applications")
         expect(page).not_to have_content("Query can't be blank")
@@ -411,7 +411,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
       end
 
       visit "/"
-      visit "/planning_applications?#{query}#all"
+      visit "/planning_applications/all?#{query}"
 
       within(selected_govuk_tab) do
         expect(page).to have_content("All applications")
@@ -435,7 +435,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         fill_in("Find an application", with: "chimney")
 
         click_button("Search")
-        expect(page).to have_current_path(%r{^/planning_applications\?query=chimney})
+        expect(page).to have_current_path(%r{^/planning_applications/all\?query=chimney})
 
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
@@ -487,7 +487,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
         click_button("Search")
 
-        expect(page).to have_current_path(%r{^/planning_applications\?query=something\+else\+entirely})
+        expect(page).to have_current_path(%r{^/planning_applications/all\?query=something\+else\+entirely})
         expect(page).to have_content("No planning applications match your search")
       end
     end

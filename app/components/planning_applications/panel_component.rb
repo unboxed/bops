@@ -4,13 +4,19 @@ module PlanningApplications
   class PanelComponent < ViewComponent::Base
     include Pagy::Backend
 
-    def initialize(planning_applications:, type:, search: nil)
+    def initialize(planning_applications:, type:, search:, tab_route:, pre_application: false)
       @planning_applications = planning_applications
       @type = type
       @search = search
+      @tab_route = tab_route
+      @pre_application = pre_application
     end
 
-    attr_reader :type, :search
+    attr_reader :type, :search, :tab_route
+
+    def pre_application?
+      @pre_application
+    end
 
     def before_render
       @pagy, @paginated_applications = pagy(@planning_applications, page_param: page_param, overflow: :last_page)
@@ -37,11 +43,12 @@ module PlanningApplications
     end
 
     def pagination_url(page:)
-      pagy_url_for(@pagy, page, absolute: false) + "##{type}"
+      pagy_url_for(@pagy, page, absolute: false)
     end
 
     def title
-      t(".#{type}")
+      key = pre_application? ? :"#{type}_pre_apps" : type
+      t(".#{key}")
     end
 
     def attributes
@@ -56,20 +63,12 @@ module PlanningApplications
       %i[reference full_address formatted_expiry_date days_status_tag status_tag]
     end
 
+    def unassigned_attributes
+      default_attributes
+    end
+
     def closed_attributes
       %i[reference outcome formatted_outcome_date full_address description]
-    end
-
-    def all_pre_apps_attributes
-      %i[reference full_address description days_status_tag status_tag formatted_expiry_date user_name]
-    end
-
-    def closed_pre_apps_attributes
-      %i[reference outcome formatted_outcome_date full_address description]
-    end
-
-    def my_pre_apps_attributes
-      %i[reference full_address formatted_expiry_date days_status_tag status_tag]
     end
 
     def awaiting_determination_attributes

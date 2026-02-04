@@ -2,6 +2,8 @@
 
 module BopsEnforcements
   class EnforcementsController < ApplicationController
+    class_attribute :active_page_key, instance_writer: false, default: "enforcements"
+
     before_action :set_enforcements, only: %i[index]
     before_action :set_enforcement, only: %i[show]
     before_action :set_case_record, only: %i[show]

@@ -16,6 +16,12 @@ class ApplicationController < ActionController::Base
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :set_back_path
 
+  helper_method :active_page_key
+
+  def active_page_key
+    "dashboard"
+  end
+
   def after_sign_in_path_for(resource)
     if session[:mobile_number] && !resource.mobile_number?
       resource.assign_mobile_number!(session[:mobile_number])

@@ -1,0 +1,32 @@
+<% current_tab_route ||= :mine_planning_applications_path %>
+<div class="status-bar-container status-bar-container--colored">
+  <h2>Status update:</h2>
+  <div class="status-bar govuk-!-margin-bottom-4 govuk-!-padding-bottom-4">
+    <%= tag.div(
+          id: "reviewer-requests",
+          class: class_names(
+            "status-panel",
+            "status-panel--highlighted": filter_enabled_uniquely?(status: "to_be_reviewed")
+          )
+        ) do %>
+      <%= link_to public_send(current_tab_route, (filter_enabled_uniquely?(status: "to_be_reviewed") ? {} : {status: [:to_be_reviewed]}).merge(anchor: "tabs")),
+            class: "status-filter-link" do %>
+        <h3><%= t "planning_applications.index.reviewer_requests.title" %></h3>
+        <p class="govuk-heading-m"><%= t "planning_applications.index.reviewer_requests", count: search.reviewer_planning_applications.count %></p>
+      <% end %>
+    <% end %>
+    <%= tag.div(
+          id: "not-started",
+          class: class_names(
+            "status-panel",
+            "status-panel--highlighted": filter_enabled_uniquely?(application_type: "prior_approval")
+          )
+        ) do %>
+      <%= link_to public_send(current_tab_route, (filter_enabled_uniquely?(application_type: "prior_approval") ? {} : {application_type: [:prior_approval]}).merge(anchor: "tabs")),
+            class: "status-filter-link" do %>
+        <h3><%= t "planning_applications.index.prior_approvals.title" %></h3>
+        <p class="govuk-heading-m"><%= t "planning_applications.index.prior_approvals", count: search.unstarted_prior_approvals.count %></p>
+      <% end %>
+    <% end %>
+  </div>
+</div>

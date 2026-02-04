@@ -210,8 +210,9 @@ RSpec.describe "Planning Application index page", type: :system do
           expect(page).to have_link(prior_approval_in_assessment.reference)
 
           expect(current_url).to include(
-            "query=&application_type%5B%5D=&application_type%5B%5D=prior_approval&application_type%5B%5D=planning_permission&application_type%5B%5D=pre_application&application_type%5B%5D=other&status%5B%5D=&status%5B%5D=in_assessment#all"
+            "query=&application_type%5B%5D=&application_type%5B%5D=prior_approval&application_type%5B%5D=planning_permission&application_type%5B%5D=pre_application&application_type%5B%5D=other&status%5B%5D=&status%5B%5D=in_assessment"
           )
+          expect(current_url).to include("/planning_applications/all")
         end
       end
 
@@ -231,8 +232,9 @@ RSpec.describe "Planning Application index page", type: :system do
         end
 
         expect(current_url).to include(
-          "query=&application_type%5B%5D=&application_type%5B%5D=prior_approval&application_type%5B%5D=planning_permission&application_type%5B%5D=pre_application&application_type%5B%5D=other&status%5B%5D=&status%5B%5D=not_started&status%5B%5D=invalidated&status%5B%5D=in_assessment&status%5B%5D=awaiting_determination&status%5B%5D=to_be_reviewed#all"
+          "query=&application_type%5B%5D=&application_type%5B%5D=prior_approval&application_type%5B%5D=planning_permission&application_type%5B%5D=pre_application&application_type%5B%5D=other&status%5B%5D=&status%5B%5D=not_started&status%5B%5D=invalidated&status%5B%5D=in_assessment&status%5B%5D=awaiting_determination&status%5B%5D=to_be_reviewed"
         )
+        expect(current_url).to include("/planning_applications/all")
       end
 
       context "when I view the closed tab" do

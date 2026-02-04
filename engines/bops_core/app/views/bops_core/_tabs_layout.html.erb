@@ -1,0 +1,37 @@
+<% content_for :page_title do %>
+  <%= page_title_text %> - <%= t("page_title") %>
+<% end %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1>
+      <%= heading %>
+    </h1>
+    <p class="govuk-body-m">
+      <strong><%= current_user.name %>,</strong> <%= role_name %>
+    </p>
+    <p>
+      <%= govuk_link_to "Add new application", new_app_path %>
+    </p>
+  </div>
+</div>
+
+<%= status_bar_html if local_assigns.key?(:status_bar_html) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <div class="govuk-tabs" id="tabs">
+      <h2 class="govuk-tabs__title">
+        Contents
+      </h2>
+      <ul class="govuk-tabs__list">
+        <% tabs.each do |tab_config| %>
+          <%= render "bops_core/tab_link", label: tab_config[:label], tab: tab_config[:tab],
+                path: tab_config[:path] %>
+        <% end %>
+      </ul>
+
+      <%= yield %>
+    </div>
+  </div>
+</div>
