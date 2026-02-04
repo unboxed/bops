@@ -1,0 +1,51 @@
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: form_object, url: form_object.url,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+    <%= form.govuk_error_summary %>
+    <%= return_to_hidden_field %>
+
+    <%= form.govuk_radio_buttons_fieldset(:valid_fee, legend: {text: "Is the fee correct?"}) do %>
+      <% if local_assigns[:show_payment_confirmation] %>
+        <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"}, disabled: form_object.read_only? do %>
+          <h3 class="govuk-heading-s">Confirm total fee paid</h3>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>check that the correct fee has been received</li>
+            <li>update the total fee paid</li>
+            <li>if the fee has been refunded, enter 0</li>
+          </ul>
+
+          <%= form.govuk_text_field :payment_amount,
+                label: {text: "Total fee paid"},
+                value: number_to_currency(planning_application.payment_amount, unit: ""),
+                prefix_text: "£",
+                width: 10 %>
+        <% end %>
+      <% else %>
+        <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"}, checked: yes_checked, disabled: form_object.read_only? %>
+      <% end %>
+      <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"}, disabled: form_object.read_only? do %>
+        <%= form.govuk_text_area :reason,
+              label: {size: "s", text: "Tell the applicant why the fee is incorrect"},
+              hint: {text: "Use plain English to explain why the fee is wrong. This message will be shown to the applicant."},
+              rows: 5 %>
+
+        <%= form.govuk_text_area :suggestion,
+              label: {size: "s", text: "Tell the applicant what they need to do"},
+              hint: {text: "If the applicant needs to provide evidence, give examples of what you can accept. If the fee exemption relates to disability, use the phrase 'documents to support your fee exemption' rather than 'evidence of your disability'."},
+              rows: 5 %>
+
+        <%= govuk_details(summary_text: "View guidance on supporting documents") do %>
+          <ul class="govuk-list govuk-list--bullet">
+            <li>PIP award letters</li>
+            <li>supporting statements, such as from a council or therapist</li>
+            <li>NHS letters</li>
+            <li>disabled person's bus pass, blue badges or related documents</li>
+          </ul>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+  <% end %>
+</div>

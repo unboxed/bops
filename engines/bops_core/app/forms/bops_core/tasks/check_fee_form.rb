@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module BopsPreapps
+module BopsCore
   module Tasks
     class CheckFeeForm < Form
       self.task_actions = %w[save_and_complete update_request delete_request edit_form]
@@ -55,7 +55,7 @@ module BopsPreapps
       end
 
       def cancel_url
-        route_for(:cancel_request, planning_application, validation_request_id: validation_request.id, task_slug: task.full_slug, only_path: true)
+        cancel_request_path(planning_application.reference, validation_request_id: validation_request.id, task_slug: task.full_slug)
       end
 
       def flash(type, controller)

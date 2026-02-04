@@ -165,11 +165,6 @@ en:
         check-description:
           failure: Please select whether the description is correct
           success: Description check was successfully saved
-        check-fee:
-          delete_request: Fee change request successfully deleted
-          failure: Please select whether the fee is correct
-          success: Fee check was successfully saved
-          update_request: Fee change request successfully updated
         check-red-line-boundary:
           delete_request: Red line boundary change request successfully deleted
           failure: Please select whether the red line boundary is correct

@@ -1,0 +1,18 @@
+<h3 class="govuk-heading-m">Fee calculation</h3>
+<%= govuk_table do |table| %>
+  <% table.with_head do |head| %>
+    <% head.with_row do |row| %>
+      <% row.with_cell(text: "Service") %>
+      <% row.with_cell(text: "Fee", numeric: true) %>
+    <% end %>
+  <% end %>
+  <% table.with_body do |body| %>
+    <% planning_application.find_proposal_detail("Planning Pre-Application Advice Services").map(&:response_values).flatten.each do |response| %>
+      <% service, fee = response.split(/(.*) \((.*)\)/)[1..2] %>
+      <% body.with_row do |row| %>
+        <% row.with_cell(text: service, header: true) %>
+        <% row.with_cell(text: fee, numeric: true) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
