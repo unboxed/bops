@@ -73,6 +73,24 @@ RSpec.describe "Check fee task", type: :system do
     expect(planning_application.reload.valid_fee).to be true
   end
 
+  context "when application has an existing fee" do
+    let(:planning_application) { create(:planning_application, :pre_application, :not_started, local_authority:, payment_amount: 900) }
+
+    it "does not reset payment_amount to zero when selecting Yes without providing a new amount" do
+      expect(planning_application.payment_amount).to eq(900)
+
+      within ".bops-sidebar" do
+        click_link "Check fee"
+      end
+
+      choose "Yes"
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content("Fee check was successfully saved")
+      expect(planning_application.reload.payment_amount).to eq(900)
+    end
+  end
+
   it "shows validation request fields when selecting No", js: true do
     expect(task).to be_not_started
 
