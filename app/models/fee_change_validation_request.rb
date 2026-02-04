@@ -80,8 +80,6 @@ class FeeChangeValidationRequest < ValidationRequest
   end
 
   def set_check_fee_task_action_required
-    return unless planning_application.pre_application?
-
     planning_application.case_record
       &.find_task_by_slug_path(CaseRecord::CHECK_FEE_SLUG)
       &.action_required!
