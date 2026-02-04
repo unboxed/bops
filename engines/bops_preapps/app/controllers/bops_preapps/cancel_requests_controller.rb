@@ -17,10 +17,9 @@ module BopsPreapps
     def update
       respond_to do |format|
         format.html do
-          if @form.update(params)
-            redirect_to @form.redirect_url, notice: @form.flash(:notice, self)
+          if @form.save
+            redirect_to task_path(@planning_application, @task), notice: t(".#{@task.slug}.cancel_request")
           else
-            flash.now[:alert] = @form.flash(:alert, self)
             render :show, status: :unprocessable_content
           end
         end
@@ -30,8 +29,17 @@ module BopsPreapps
     private
 
     def build_form
-      @form = BopsPreapps::Tasks::CancelValidationRequestForm.new(@task)
-      @form.validation_request_id = params[:validation_request_id]
+      @validation_request = @planning_application.validation_requests.find(params[:validation_request_id])
+      @form = BopsCore::CancelValidationRequestForm.new(
+        planning_application: @planning_application,
+        task: @task,
+        validation_request: @validation_request,
+        **form_params
+      )
+    end
+
+    def form_params
+      params.fetch(:cancel_validation_request_form, {}).permit(:cancel_reason)
     end
   end
 end
