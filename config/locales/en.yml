@@ -2655,6 +2655,9 @@ en:
       send_validation_decision: Send validation decision
   tasks:
     update:
+      check-ownership-certificate:
+        failure: Failed to save ownership certificate check
+        success: Successfully checked ownership certificate
       review-documents:
         failure: Failed to update document review
         success: Successfully updated document review

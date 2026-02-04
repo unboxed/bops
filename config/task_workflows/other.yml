@@ -9,3 +9,15 @@
       section: Check application details
       tasks:
         - name: Check constraints
+    - name: Confirm application requirements
+      section: Confirm application requirements
+      tasks:
+        - name: Check ownership certificate
+- name: "Consultees, neighbours and publicity"
+  section: "Consultation"
+- name: "Check and assess"
+  section: "Assessment"
+- name: "View recommendation"
+  section: "Review"
+- name: "Publish determination"
+  section: "Review"
