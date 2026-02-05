@@ -69,6 +69,7 @@ namespace :task_model do
       .distinct
 
     scope.find_each do |case_record|
+      next unless case_record.caseable_type == "PlanningApplication"
       next if application_type == :preapps && case_record.caseable.application_type.name != "pre_application"
       complete_application(case_record.caseable)
     end
