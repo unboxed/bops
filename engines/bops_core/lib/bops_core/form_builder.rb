@@ -12,5 +12,9 @@ module BopsCore
     def govuk_task_button(text = nil, action: "save_and_complete", **kwargs, &block)
       govuk_submit(text, name: "task_action", value: action, **kwargs, &block)
     end
+
+    def govuk_task_button_link(text = nil, action: "save_and_complete", **kwargs, &block)
+      button(text, name: "task_action", value: action, class: "button-as-link", **kwargs, &block)
+    end
   end
 end
