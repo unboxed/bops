@@ -27,7 +27,9 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
 
   it "can be marked as liable" do
     visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-    click_link "Confirm Community Infrastructure Levy (CIL)"
+    within "#main-content" do
+      click_link "Confirm Community Infrastructure Levy (CIL)"
+    end
     choose "Yes"
     click_button "Save and mark as complete"
 
@@ -40,7 +42,9 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
 
   it "can be marked as not liable" do
     visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-    click_link "Confirm Community Infrastructure Levy (CIL)"
+    within "#main-content" do
+      click_link "Confirm Community Infrastructure Levy (CIL)"
+    end
     choose "No"
     click_button "Save and mark as complete"
 
@@ -54,11 +58,15 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
   context "when revisiting the edit page" do
     it "is marked as true when liable" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Confirm Community Infrastructure Levy (CIL)"
+      within "#main-content" do
+        click_link "Confirm Community Infrastructure Levy (CIL)"
+      end
       choose "Yes"
       click_button "Save and mark as complete"
 
-      click_link "Confirm Community Infrastructure Levy (CIL)"
+      within "#main-content" do
+        click_link "Confirm Community Infrastructure Levy (CIL)"
+      end
 
       expect(page).to have_checked_field("planning-application-cil-liable-true-field")
       expect(page).not_to have_checked_field("planning-application-cil-liable-field")
@@ -66,11 +74,15 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
 
     it "is marked as false when not liable" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Confirm Community Infrastructure Levy (CIL)"
+      within "#main-content" do
+        click_link "Confirm Community Infrastructure Levy (CIL)"
+      end
       choose "No"
       click_button "Save and mark as complete"
 
-      click_link "Confirm Community Infrastructure Levy (CIL)"
+      within "#main-content" do
+        click_link "Confirm Community Infrastructure Levy (CIL)"
+      end
 
       expect(page).not_to have_checked_field("planning-application-cil-liable-true-field")
       expect(page).to have_checked_field("planning-application-cil-liable-field")
@@ -80,14 +92,18 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
   context "when there is no liability information from planx" do
     it "explains that there is no liability information" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Confirm Community Infrastructure Levy (CIL)"
+      within "#main-content" do
+        click_link "Confirm Community Infrastructure Levy (CIL)"
+      end
 
       expect(page).to have_content("No information on potential CIL liability from PlanX.")
     end
 
     it "does not preselect any radio button" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Confirm Community Infrastructure Levy (CIL)"
+      within "#main-content" do
+        click_link "Confirm Community Infrastructure Levy (CIL)"
+      end
 
       expect(find_by_id("planning-application-cil-liable-true-field")).not_to be_selected
       expect(find_by_id("planning-application-cil-liable-field")).not_to be_selected
@@ -108,7 +124,9 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
 
       it "shows relevant liability information" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-        click_link "Confirm Community Infrastructure Levy (CIL)"
+        within "#main-content" do
+          click_link "Confirm Community Infrastructure Levy (CIL)"
+        end
 
         expect(page).to have_content("420m²")
         expect(page).to have_content("This might mean that the application is liable for CIL.")
@@ -116,7 +134,9 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
 
       it "selects yes by default" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-        click_link "Confirm Community Infrastructure Levy (CIL)"
+        within "#main-content" do
+          click_link "Confirm Community Infrastructure Levy (CIL)"
+        end
 
         expect(page).to have_checked_field("planning-application-cil-liable-true-field")
         expect(page).not_to have_checked_field("planning-application-cil-liable-field")
@@ -129,7 +149,9 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
 
       it "shows relevant liability information" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-        click_link "Confirm Community Infrastructure Levy (CIL)"
+        within "#main-content" do
+          click_link "Confirm Community Infrastructure Levy (CIL)"
+        end
 
         expect(page).to have_content("88.8m²")
         expect(page).to have_content("This might mean that the application is not liable for CIL.")
@@ -139,7 +161,9 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
         let(:planx_size) { nil }
         it "shows relevant liability information" do
           visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-          click_link "Confirm Community Infrastructure Levy (CIL)"
+          within "#main-content" do
+            click_link "Confirm Community Infrastructure Levy (CIL)"
+          end
 
           expect(page).to have_content("According to PlanX the application is not liable for CIL.")
         end
@@ -147,7 +171,9 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
 
       it "selects no by default" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-        click_link "Confirm Community Infrastructure Levy (CIL)"
+        within "#main-content" do
+          click_link "Confirm Community Infrastructure Levy (CIL)"
+        end
 
         expect(page).not_to have_checked_field("planning-application-cil-liable-true-field")
         expect(page).to have_checked_field("planning-application-cil-liable-field")

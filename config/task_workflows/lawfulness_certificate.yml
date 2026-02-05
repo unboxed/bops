@@ -9,6 +9,10 @@
       section: Check application details
       tasks:
         - name: Check constraints
+    - name: Confirm application requirements
+      section: Confirm application requirements
+      tasks:
+        - name: Confirm Community Infrastructure Levy (CIL)
 - name: "Consultees, neighbours and publicity"
   section: "Consultation"
 - name: "Check and assess"

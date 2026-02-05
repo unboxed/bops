@@ -1,0 +1,38 @@
+<%= render "shared/task_header", task: @task %>
+<p>
+  <% if @planning_application.cil_liability_details? %>
+    According to PlanX
+    <% if (area = @planning_application.cil_liability_details&.dig(:proposedTotalArea, :net, :squareMetres)) %>
+      the new floor area being added is:
+      <strong><%= area %>m²</strong>.
+      <br>
+      This might mean that
+    <% end %>
+    the application is
+    <% if @form.recommended_cil_liable == false %>
+      exempt from CIL.
+    <% elsif @form.recommended_cil_liable == true %>
+      liable for CIL.
+    <% else %>
+      not liable for CIL.
+    <% end %>
+  <% else %>
+    No information on potential CIL liability from PlanX.
+  <% end %>
+</p>
+
+<div data-controller="unsaved-changes"
+          data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: @form, url: @form.url,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+
+    <%= form.govuk_error_summary %>
+    <%= form.govuk_radio_buttons_fieldset :cil_liable, legend: {text: "Is this application liable for CIL?"} do %>
+      <% yes_key = (@form.recommended_cil_liable == true) ? "yes_recommended_html" : "yes" %>
+      <%= form.govuk_radio_button :cil_liable, true, label: {text: t(".#{yes_key}")}, disabled: @form.read_only?, checked: @planning_application.cil_liable == true %>
+      <% no_key = (@form.recommended_cil_liable == false) ? "no_recommended_html" : "no" %>
+      <%= form.govuk_radio_button :cil_liable, false, label: {text: t(".#{no_key}")}, disabled: @form.read_only?, checked: @planning_application.cil_liable == false %>
+    <% end %>
+  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+<% end %>
+</div>
