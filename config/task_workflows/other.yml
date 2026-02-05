@@ -12,6 +12,7 @@
     - name: Confirm application requirements
       section: Confirm application requirements
       tasks:
+        - name: Confirm Community Infrastructure Levy (CIL)
         - name: Check ownership certificate
 - name: "Consultees, neighbours and publicity"
   section: "Consultation"

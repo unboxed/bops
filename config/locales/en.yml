@@ -2654,10 +2654,21 @@ en:
     validation_decision_component:
       send_validation_decision: Send validation decision
   tasks:
+    check-and-validate:
+      confirm-application-requirements:
+        confirm-community-infrastructure-levy-cil:
+          show:
+            'no': 'No'
+            no_recommended_html: No <strong>(recommended based on submission data)</strong>
+            'yes': 'Yes'
+            yes_recommended_html: Yes <strong>(recommended based on submission data)</strong>
     update:
       check-ownership-certificate:
         failure: Failed to save ownership certificate check
         success: Successfully checked ownership certificate
+      confirm-community-infrastructure-levy-cil:
+        failure: Failed to confirm CIL liability check
+        success: Successfully confirmed CIL liability
       review-documents:
         failure: Failed to update document review
         success: Successfully updated document review
