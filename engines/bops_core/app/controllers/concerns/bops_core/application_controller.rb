@@ -10,12 +10,10 @@ module BopsCore
       before_action :set_current
       before_action :set_appsignal_tags
 
-      helper_method :current_local_authority
-      helper_method :active_page_key
-    end
+      class_attribute :page_key, instance_writer: false, default: "dashboard"
 
-    def active_page_key
-      "dashboard"
+      helper_method :current_local_authority
+      helper_method :page_key
     end
 
     def render(options = {}, locals = {}, &)

@@ -46,8 +46,8 @@ module BopsCore
       button_tag(content, options, &)
     end
 
-    def active_page_key?(page_key)
-      active_page_key == page_key
+    def active_page_key?(key)
+      page_key == key
     end
 
     def markdown(text)

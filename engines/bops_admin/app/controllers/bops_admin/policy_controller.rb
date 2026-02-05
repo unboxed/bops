@@ -2,6 +2,6 @@
 
 module BopsAdmin
   class PolicyController < ApplicationController
-    # Group controllers for template inheritance
+    self.page_key = "policies"
   end
 end

@@ -2,6 +2,8 @@
 
 module BopsAdmin
   class ConsulteesController < ApplicationController
+    self.page_key = "applications"
+
     before_action :set_consultees, only: %i[index]
     before_action :build_consultee, only: %i[new create]
     before_action :set_constraints, only: %i[new edit create update]

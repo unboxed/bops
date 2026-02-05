@@ -2,6 +2,8 @@
 
 module BopsAdmin
   class DashboardsController < ApplicationController
+    self.page_key = "dashboard"
+
     def show
       respond_to do |format|
         format.html

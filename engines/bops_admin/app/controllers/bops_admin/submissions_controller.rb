@@ -2,6 +2,8 @@
 
 module BopsAdmin
   class SubmissionsController < ApplicationController
+    self.page_key = "submissions"
+
     before_action :set_submissions, only: %i[index]
     before_action :set_submission, only: %i[show]
     before_action :set_planning_application, only: %i[show]
