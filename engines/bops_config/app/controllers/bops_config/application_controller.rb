@@ -5,8 +5,6 @@ module BopsConfig
     include BopsCore::ApplicationController
     include BopsCore::AuditableController
 
-    class_attribute :page_key, instance_writer: false, default: "dashboard"
-
     self.audit_payload = -> {
       {
         engine: "bops_config",

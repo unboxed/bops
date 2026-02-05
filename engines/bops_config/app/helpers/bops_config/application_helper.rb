@@ -19,10 +19,6 @@ module BopsConfig
       User.otp_delivery_methods.keys.map { |key| [key, t(".#{key}")] }
     end
 
-    def active_page_key
-      controller.page_key
-    end
-
     def nav_items
       [
         {text: "Dashboard", href: root_path, active: active_page_key?("dashboard")},

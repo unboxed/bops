@@ -2,6 +2,6 @@
 
 module BopsAdmin
   class SettingsController < ApplicationController
-    # Group controllers for template inheritance
+    self.page_key = "settings"
   end
 end

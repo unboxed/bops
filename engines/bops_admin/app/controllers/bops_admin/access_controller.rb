@@ -2,6 +2,6 @@
 
 module BopsAdmin
   class AccessController < ApplicationController
-    # Group controllers for template inheritance
+    self.page_key = "users"
   end
 end
