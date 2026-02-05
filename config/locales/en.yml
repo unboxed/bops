@@ -723,14 +723,6 @@ en:
       withdrawn: Application withdrawn
       withdrawn_recommendation: Recommendation withdrawn
   back: Back
-  cancel_requests:
-    update:
-      check-fee:
-        cancel_request: Fee change request successfully cancelled
-        failure: Fee change request could not be cancelled
-      check-red-line-boundary:
-        cancel_request: Red line boundary change request successfully cancelled
-        failure: Red line boundary change request could not be cancelled
   conditions:
     create:
       success: Conditions successfully created
@@ -2712,3 +2704,10 @@ en:
       bops_updates: BOPS updates
       view_reference_on: View %{reference} on BOPS
   user_not_authorized: You are not authorized to perform this action.
+  validation_requests:
+    cancellations:
+      create:
+        check-and-request-documents: Document request successfully cancelled
+        check-fee: Fee change request successfully cancelled
+        check-red-line-boundary: Red line boundary change request successfully cancelled
+      validation_request_not_cancelable: This request cannot be cancelled

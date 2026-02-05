@@ -55,7 +55,11 @@ module BopsCore
       end
 
       def cancel_url
-        cancel_request_path(planning_application.reference, validation_request_id: validation_request.id, task_slug: task.full_slug)
+        new_validation_request_cancellation_path(
+          planning_application_reference: planning_application.reference,
+          validation_request_id: validation_request.id,
+          task_slug: task.full_slug
+        )
       end
 
       def flash(type, controller)

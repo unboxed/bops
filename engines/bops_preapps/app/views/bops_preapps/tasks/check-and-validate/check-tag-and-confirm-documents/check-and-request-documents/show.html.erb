@@ -10,8 +10,8 @@
       allow_cancel: @planning_application.invalidated?,
       redirect_to: task_path(@planning_application, @task),
       cancel_request_path_for: lambda { |validation_request|
-        cancel_request_path(
-          @planning_application,
+        new_validation_request_cancellation_path(
+          reference: @planning_application.reference,
           validation_request_id: validation_request.id,
           task_slug: @task.full_slug
         )

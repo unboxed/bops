@@ -427,8 +427,9 @@ local_authority_subdomain do
   end
 
   scope "/planning_applications/:planning_application_reference" do
-    get "/cancel", to: "cancel_requests#show", as: :cancel_request
-    patch "/cancel", to: "cancel_requests#update"
+    resources :validation_requests, only: [] do
+      resource :cancellation, only: %i[new create], controller: "validation_requests/cancellations"
+    end
 
     get "/*slug/:id/edit", to: "tasks#edit", constraints: {id: /\d+/}, as: :edit_task_component
     patch "/*slug/:id", to: "tasks#update", constraints: {id: /\d+/}

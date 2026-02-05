@@ -61,7 +61,13 @@ module BopsPreapps
       end
 
       def cancel_url
-        route_for(:cancel_request, planning_application, validation_request_id: validation_request.id, task_slug: task.full_slug, only_path: true)
+        route_for(
+          :new_validation_request_cancellation,
+          reference: planning_application.reference,
+          validation_request_id: validation_request.id,
+          task_slug: task.full_slug,
+          only_path: true
+        )
       end
 
       def flash(type, controller)

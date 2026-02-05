@@ -16,8 +16,9 @@ BopsPreapps::Engine.routes.draw do
   scope "/:reference" do
     get "/", to: redirect("/planning_applications/%{reference}")
 
-    get "/cancel", to: "cancel_requests#show", as: :cancel_request
-    patch "/cancel", to: "cancel_requests#update"
+    resources :validation_requests, only: [] do
+      resource :cancellation, only: %i[new create], controller: "validation_requests/cancellations"
+    end
 
     resources :consultees, only: %i[new create], param: :constraint_id
     resources :consultees, only: [] do

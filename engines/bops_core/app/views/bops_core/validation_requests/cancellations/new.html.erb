@@ -15,7 +15,7 @@
   <% end %>
 <% end %>
 
-<%= form_with model: @form, url: cancel_request_path(@planning_application.reference, task_slug: @task.full_slug, validation_request_id: @validation_request.id), method: :patch do |form| %>
+<%= form_with model: @validation_request, scope: :validation_request, url: cancellation_form_url, method: :post do |form| %>
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_text_area :cancel_reason,
@@ -24,6 +24,6 @@
 
   <div class="govuk-button-group">
     <%= form.govuk_submit "Confirm cancellation" %>
-    <%= govuk_button_link_to "Back", task_path(@planning_application.reference, @task.full_slug), secondary: true %>
+    <%= govuk_button_link_to "Back", back_path, secondary: true %>
   </div>
 <% end %>
