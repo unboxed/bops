@@ -8,6 +8,8 @@
     - name: Check application details
       section: Check application details
       tasks:
+        - name: Draw red line boundary
+          hidden: true
         - name: Check constraints
     - name: Confirm application requirements
       section: Confirm application requirements
