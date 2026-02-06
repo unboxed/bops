@@ -10,6 +10,7 @@ require "email_spec"
 require "email_spec/rspec"
 
 Rails.root.glob("spec/support/**/*.rb").each { |f| require f }
+BopsCore::Engine.root.glob("spec/support/shared_examples/**/*.rb").each { |f| require f }
 
 ActiveJob::Base.queue_adapter = :test
 
