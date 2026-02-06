@@ -108,7 +108,7 @@ RSpec.describe "Planning Application Assessment" do
 
         expect(page).to have_content(planning_application.application_type.legislation_title)
 
-        expect(page).to have_content("Jane Smith, Director")
+        expect(page).to have_content("Signature Jane Smith Director")
 
         visit "/planning_applications/#{planning_application.reference}"
 
