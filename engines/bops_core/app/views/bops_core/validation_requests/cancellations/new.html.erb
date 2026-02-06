@@ -1,0 +1,29 @@
+<%= render "shared/task_header", task: @task, heading: "Cancel validation request" %>
+
+<h2 class="govuk-heading-m"><%= @validation_request.model_name.human %></h2>
+
+<%= govuk_summary_list(classes: "govuk-!-margin-bottom-6") do |list| %>
+  <% list.with_row do |row| %>
+    <% row.with_key { "Reason" } %>
+    <% row.with_value { render(FormattedContentComponent.new(text: @validation_request.reason)) } %>
+  <% end %>
+  <% if @validation_request.suggestion.present? %>
+    <% list.with_row do |row| %>
+      <% row.with_key { "What the applicant needs to do" } %>
+      <% row.with_value { render(FormattedContentComponent.new(text: @validation_request.suggestion)) } %>
+    <% end %>
+  <% end %>
+<% end %>
+
+<%= form_with model: @validation_request, scope: :validation_request, url: cancellation_form_url, method: :post do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_text_area :cancel_reason,
+        label: {text: "Explain to the applicant why this request is being cancelled"},
+        rows: 5 %>
+
+  <div class="govuk-button-group">
+    <%= form.govuk_submit "Confirm cancellation" %>
+    <%= govuk_button_link_to "Back", back_path, secondary: true %>
+  </div>
+<% end %>

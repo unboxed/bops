@@ -4,14 +4,6 @@ en:
     assign_constraints:
       create:
         failure: Failed to update constraint
-    cancel_requests:
-      update:
-        check-fee:
-          cancel_request: Fee change request successfully cancelled
-          failure: Fee change request could not be cancelled
-        check-red-line-boundary:
-          cancel_request: Red line boundary change request successfully cancelled
-          failure: Red line boundary change request could not be cancelled
     constraint_consultees:
       destroy:
         success: Consultee was removed from this constraint
@@ -166,6 +158,7 @@ en:
           failure: Please select whether the description is correct
           success: Description check was successfully saved
         check-fee:
+          cancel_request: Fee change request successfully cancelled
           delete_request: Fee change request successfully deleted
           failure: Please select whether the fee is correct
           success: Fee check was successfully saved
@@ -240,6 +233,13 @@ en:
         view-consultee-responses:
           failure: Failed to save consultee responses review
           success: Consultee responses were successfully reviewed
+    validation_requests:
+      cancellations:
+        create:
+          check-and-request-documents: Document request successfully cancelled
+          check-fee: Fee change request successfully cancelled
+          check-red-line-boundary: Red line boundary change request successfully cancelled
+        validation_request_not_cancelable: This request cannot be cancelled
   shared:
     task_submit_buttons:
       save_draft: Save changes

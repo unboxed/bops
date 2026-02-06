@@ -1,0 +1,75 @@
+<%= render "shared/task_header", task: @task, heading: "Check the application fee" %>
+
+<% partial_path = "bops_core/tasks/check-and-validate/check-application-details/check-fee" %>
+
+<% if @form.validation_request&.open_or_pending? %>
+  <h2 class="govuk-heading-m">Fee change request sent</h2>
+
+  <%= govuk_inset_text(classes: "govuk-!-margin-bottom-3") do %>
+    <p>
+      <strong>Reason fee is invalid:</strong>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.reason)) %>
+    </p>
+    <p>
+      <strong>What the applicant needs to do:</strong>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.suggestion)) %>
+    </p>
+    <p><%= @form.validation_request.created_at.to_fs %></p>
+  <% end %>
+
+  <% if @planning_application.not_started? %>
+    <%= form_with url: @form.url, method: :patch, data: {confirm: "Are you sure you want to delete this request?"} do |f| %>
+      <%= f.hidden_field :task_action, value: "delete_request" %>
+      <%= f.hidden_field "#{@form.param_key}[validation_request_id]", value: @form.validation_request.id %>
+      <%= f.govuk_submit "Delete request", secondary: true %>
+    <% end %>
+    <p><%= govuk_link_to "Edit request", @form.edit_url %></p>
+  <% end %>
+
+  <% if @planning_application.invalidated? && @form.cancel_url.present? %>
+    <p><%= govuk_link_to "Cancel request", @form.cancel_url %></p>
+  <% end %>
+
+<% elsif @form.validation_request&.closed? && !@planning_application.valid_fee? %>
+  <h2 class="govuk-heading-m">Fee change request sent</h2>
+
+  <%= govuk_inset_text(classes: "govuk-!-margin-bottom-3") do %>
+    <p>
+      <strong>Reason fee is invalid:</strong>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.reason)) %>
+    </p>
+    <p>
+      <strong>What the applicant needs to do:</strong>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.suggestion)) %>
+    </p>
+    <p><%= @form.validation_request.created_at.to_fs %></p>
+  <% end %>
+
+  <h2 class="govuk-heading-m">Applicant response</h2>
+  <%= govuk_inset_text do %>
+    <p><%= render(FormattedContentComponent.new(text: @form.validation_request.response)) %></p>
+    <p><%= @form.validation_request.updated_at.to_fs %></p>
+  <% end %>
+
+  <%= render "#{partial_path}/fee_exemption_documents", documents: @planning_application.documents.for_fee_exemption %>
+
+  <%= render "#{partial_path}/check_fee_form",
+        form_object: @form,
+        planning_application: @planning_application,
+        show_payment_confirmation: true %>
+
+<% else %>
+  <p>This fee was calculated based on the services requested by the applicant.</p>
+
+  <%= render "#{partial_path}/fee_exemption_documents", documents: @planning_application.documents.for_fee_exemption %>
+  <%= render "#{partial_path}/payment_information", planning_application: @planning_application %>
+
+  <% if @planning_application.pre_application? %>
+    <%= render "#{partial_path}/fee_calculation", planning_application: @planning_application %>
+  <% end %>
+
+  <%= render "#{partial_path}/check_fee_form",
+        form_object: @form,
+        planning_application: @planning_application,
+        yes_checked: @planning_application.valid_fee? %>
+<% end %>

@@ -1,7 +1,6 @@
 <%= render "shared/task_header", task: @task, heading: "Edit fee change request" %>
 
-<h3 class="govuk-heading-m">Payment information</h3>
-<%= render "bops_preapps/shared/payment_information", planning_application: @planning_application %>
+<%= render "bops_core/tasks/check-and-validate/check-application-details/check-fee/payment_information", planning_application: @planning_application %>
 
 <div data-controller="unsaved-changes"
      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
@@ -24,21 +23,14 @@
         value: @form.suggestion.presence || @form.validation_request.suggestion,
         rows: 5 %>
 
-  <details class="govuk-details" data-module="govuk-details">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text">
-        View guidance on supporting documents
-      </span>
-    </summary>
-    <div class="govuk-details__text">
-      <ul class="govuk-list govuk-list--bullet">
-        <li>PIP award letters</li>
-        <li>supporting statements, such as from a council or therapist</li>
-        <li>NHS letters</li>
-        <li>disabled person's bus pass, blue badges or related documents</li>
-      </ul>
-    </div>
-  </details>
+  <%= govuk_details(summary_text: "View guidance on supporting documents") do %>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>PIP award letters</li>
+      <li>supporting statements, such as from a council or therapist</li>
+      <li>NHS letters</li>
+      <li>disabled person's bus pass, blue badges or related documents</li>
+    </ul>
+  <% end %>
 
     <div class="govuk-button-group">
       <%= form.govuk_submit "Update request", name: "task_action", value: "update_request" %>

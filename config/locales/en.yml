@@ -2675,6 +2675,12 @@ en:
           failure: Failed to save draft constraints
           success: Draft constraints successfully saved
         success: Constraints were successfully marked as reviewed
+      check-fee:
+        cancel_request: Fee change request successfully cancelled
+        delete_request: Fee change request successfully deleted
+        failure: Please select whether the fee is correct
+        success: Fee check was successfully saved
+        update_request: Fee change request successfully updated
       check-ownership-certificate:
         failure: Failed to save ownership certificate check
         success: Successfully checked ownership certificate
@@ -2704,3 +2710,10 @@ en:
       bops_updates: BOPS updates
       view_reference_on: View %{reference} on BOPS
   user_not_authorized: You are not authorized to perform this action.
+  validation_requests:
+    cancellations:
+      create:
+        check-and-request-documents: Document request successfully cancelled
+        check-fee: Fee change request successfully cancelled
+        check-red-line-boundary: Red line boundary change request successfully cancelled
+      validation_request_not_cancelable: This request cannot be cancelled

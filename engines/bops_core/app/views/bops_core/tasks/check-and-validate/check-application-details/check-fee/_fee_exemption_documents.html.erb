@@ -1,0 +1,24 @@
+<% if documents.any? %>
+  <h3 class="govuk-heading-m">Documents provided by applicant</h3>
+  <%= govuk_table do |table| %>
+    <% table.with_body do |body| %>
+      <% documents.with_file_attachment.each do |document| %>
+        <% body.with_row do |row| %>
+          <% row.with_cell(classes: "govuk-!-width-one-half") do %>
+            <p class="govuk-!-margin-bottom-1">
+              <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
+            </p>
+            <p>
+              <%= link_to_document "View in new window", document %>
+            </p>
+          <% end %>
+          <% row.with_cell(classes: "govuk-!-width-one-half") do %>
+            <p>File name: <strong><%= document.name %></strong></p>
+            <p>Date received: <strong><%= document.received_at_or_created %></strong></p>
+            <p>This document was uploaded by the applicant</p>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
