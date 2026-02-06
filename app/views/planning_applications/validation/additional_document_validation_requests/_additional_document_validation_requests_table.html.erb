@@ -1,4 +1,4 @@
-<% cancel_request_path_for = local_assigns[:cancel_request_path_for] %>
+<% task_slug = local_assigns[:task_slug] %>
 <% allow_cancel = local_assigns.fetch(:allow_cancel, true) %>
 <% redirect_to = local_assigns[:redirect_to] %>
 
@@ -26,8 +26,12 @@
         <td class="govuk-table__cell govuk-!-width-one-sixth">
           <% if validation_request.open_or_pending? %>
             <% if allow_cancel && validation_request.may_cancel? %>
-              <% cancel_path = if cancel_request_path_for
-                   cancel_request_path_for.call(validation_request)
+              <% cancel_path = if task_slug
+                   new_validation_request_cancellation_path(
+                     planning_application_reference: @planning_application.reference,
+                     validation_request_id: validation_request.id,
+                     task_slug: task_slug
+                   )
                  else
                    main_app.cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, validation_request)
                  end %>
