@@ -485,7 +485,7 @@ RSpec.describe "Check red line boundary task", type: :system do
       click_link "Cancel request"
       click_button "Confirm cancellation"
 
-      expect(page).to have_content("Provide a reason for cancelling this request")
+      expect(page).to have_content("Cancel reason can't be blank")
       expect(validation_request.reload).not_to be_cancelled
     end
   end
