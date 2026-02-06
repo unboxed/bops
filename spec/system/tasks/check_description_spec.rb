@@ -2,129 +2,46 @@
 
 require "rails_helper"
 
-RSpec.describe "Check description task", :capybara, type: :system do
+RSpec.describe "Check description task", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:planning_application) { create(:planning_application, :planning_permission, :not_started, local_authority:) }
   let(:user) { create(:user, local_authority:) }
   let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-validate/check-application-details/check-description") }
 
-  before do
-    sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-  end
+  %i[planning_permission lawfulness_certificate prior_approval].each do |application_type|
+    context "for a #{application_type.to_s.humanize.downcase} case" do
+      let(:planning_application) do
+        create(:planning_application, application_type, :not_started, local_authority:)
+      end
 
-  it "shows the task in the sidebar with not started status" do
-    expect(task.status).to eq("not_started")
+      before do
+        sign_in(user)
+        visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      end
 
-    within ".bops-sidebar" do
-      expect(page).to have_link("Check description")
-    end
-  end
+      it_behaves_like "check description task", application_type
 
-  it "navigates to the task from the sidebar" do
-    within ".bops-sidebar" do
-      click_link "Check description"
-    end
+      it "completes full validation request flow" do
+        expect(task).to be_not_started
 
-    expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/check-and-validate/check-application-details/check-description")
-    expect(page).to have_selector("h1", text: "Check description")
-  end
+        within ".bops-sidebar" do
+          click_link "Check description"
+        end
 
-  it "displays the form to check the description" do
-    within ".bops-sidebar" do
-      click_link "Check description"
-    end
+        choose "No"
+        choose "No, update description immediately"
+        fill_in "Enter an amended description", with: "This is an updated description."
+        click_button "Save and mark as complete"
 
-    expect(page).to have_content("Does the description match the development or use in the plans?")
-    expect(page).to have_field("Yes")
-    expect(page).to have_field("No")
-    expect(page).to have_button("Save and mark as complete")
-  end
+        expect(page).to have_content("Description check was successfully saved")
+        expect(page).to have_content("Description change")
 
-  it "marks task as complete when selecting Yes" do
-    expect(task).to be_not_started
+        expect(task.reload).to be_completed
 
-    within ".bops-sidebar" do
-      click_link "Check description"
-    end
-
-    choose "Yes"
-    click_button "Save and mark as complete"
-
-    expect(page).to have_content("Description check was successfully saved")
-    expect(task.reload).to be_completed
-    expect(planning_application.reload.valid_description).to be true
-  end
-
-  it "completes full validation request flow" do
-    expect(task).to be_not_started
-
-    within ".bops-sidebar" do
-      click_link "Check description"
-    end
-
-    choose "No"
-    choose "No, update description immediately"
-    fill_in "Enter an amended description", with: "This is an updated description."
-    click_button "Save and mark as complete"
-
-    expect(page).to have_content("Description check was successfully saved")
-    expect(page).to have_content("Description change")
-
-    expect(task.reload).to be_completed
-
-    expect(planning_application.reload.description).to eq("This is an updated description.")
-    expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.reference}/check-and-validate/check-application-details/check-description"
-      )
-  end
-
-  it "shows error when no selection is made" do
-    within ".bops-sidebar" do
-      click_link "Check description"
-    end
-
-    click_button "Save and mark as complete"
-
-    expect(page).to have_content("Select whether the description is correct")
-    expect(task.reload).to be_not_started
-  end
-
-  it "hides save button when application is determined" do
-    planning_application.update!(status: "determined", determined_at: Time.current)
-
-    within ".bops-sidebar" do
-      click_link "Check description"
-    end
-
-    expect(page).not_to have_button("Save and mark as complete")
-  end
-
-  it "warns when navigating away with unsaved changes", :js do
-    within ".bops-sidebar" do
-      click_link "Check description"
-    end
-
-    choose "No"
-
-    dismiss_confirm(text: "You have unsaved changes") do
-      within ".bops-sidebar" do
-        click_link "Check fee"
+        expect(planning_application.reload.description).to eq("This is an updated description.")
+        expect(page).to have_current_path(
+            "/planning_applications/#{planning_application.reference}/check-and-validate/check-application-details/check-description"
+          )
       end
     end
-
-    expect(page).to have_current_path(/check-description/)
-  end
-
-  it "allows navigation when no changes have been made", :js do
-    within ".bops-sidebar" do
-      click_link "Check description"
-    end
-
-    within ".bops-sidebar" do
-      click_link "Check fee"
-    end
-
-    expect(page).to have_current_path(/check-fee/)
   end
 end
