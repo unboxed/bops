@@ -85,7 +85,7 @@ RSpec.describe "Check ownership certificate task", type: :system do
       expect(request.reason).to eq("Certificate type should be A, not B")
     end
 
-    it "displays a message about the pending request" do
+    it "displays the pending request details" do
       within ".bops-sidebar" do
         click_link "Check ownership certificate"
       end
@@ -98,7 +98,8 @@ RSpec.describe "Check ownership certificate task", type: :system do
         click_link "Check ownership certificate"
       end
 
-      expect(page).to have_content("Request for more information about ownership certificate will be sent once application has been made invalid")
+      expect(page).to have_content("Ownership certificate change request created")
+      expect(page).to have_content("Certificate type is wrong")
     end
   end
 
@@ -130,53 +131,172 @@ RSpec.describe "Check ownership certificate task", type: :system do
   end
 
   context "when changing from invalid to valid" do
-    before do
-      planning_application.update!(valid_ownership_certificate: false, ownership_certificate_checked: true)
+    let!(:validation_request) do
       create(:ownership_certificate_validation_request, :pending,
         planning_application:, reason: "Certificate type is wrong")
+    end
+
+    before do
+      planning_application.update!(valid_ownership_certificate: false, ownership_certificate_checked: true)
       task.update!(status: :completed)
     end
 
-    it "destroys the existing validation request" do
+    it "shows the form after deleting the request", js: true do
       within ".bops-sidebar" do
         click_link "Check ownership certificate"
       end
 
-      click_button "Edit"
+      accept_confirm do
+        click_button "Delete request"
+      end
 
-      choose "Yes"
-      click_button "Save and mark as complete"
+      expect(page).to have_content("successfully deleted")
+      expect(task.reload).to be_not_started
+      expect { validation_request.reload }.to raise_error(ActiveRecord::RecordNotFound)
 
-      expect(task.reload).to be_completed
-      expect(planning_application.reload.valid_ownership_certificate).to be true
-      expect(planning_application.ownership_certificate_validation_requests.open_or_pending).to be_empty
+      # Form should now be visible again
+      expect(page).to have_content("Is this declaration correct?")
+      expect(page).to have_field("Yes")
+      expect(page).to have_field("No")
     end
   end
 
-  context "when updating the reason on an existing request" do
-    before do
-      planning_application.update!(valid_ownership_certificate: false, ownership_certificate_checked: true)
+  context "when updating the reason on an existing request via edit page" do
+    let!(:validation_request) do
       create(:ownership_certificate_validation_request, :pending,
         planning_application:, reason: "Certificate type is wrong")
+    end
+
+    before do
+      planning_application.update!(valid_ownership_certificate: false, ownership_certificate_checked: true)
       task.update!(status: :completed)
     end
 
-    it "updates the existing request instead of creating a new one" do
+    it "updates the existing request reason" do
       within ".bops-sidebar" do
         click_link "Check ownership certificate"
       end
 
-      click_button "Edit"
+      click_link "Edit request"
 
-      choose "No"
-      fill_in "Tell the applicant why their ownership certificate type is wrong", with: "Updated: certificate type should be C"
-      click_button "Save and mark as complete"
+      fill_in "Tell the applicant why the ownership certificate is incorrect", with: "Updated: certificate type should be C"
+      click_button "Update request"
 
-      expect(task.reload).to be_completed
-      expect(planning_application.ownership_certificate_validation_requests.count).to eq(1)
+      expect(page).to have_content("successfully updated")
+      expect(validation_request.reload.reason).to eq("Updated: certificate type should be C")
+    end
+  end
 
-      request = planning_application.ownership_certificate_validation_requests.open_or_pending.first
-      expect(request.reason).to eq("Updated: certificate type should be C")
+  context "when a pending validation request exists" do
+    let!(:validation_request) do
+      create(:ownership_certificate_validation_request, :pending,
+        planning_application:, reason: "Certificate type is wrong")
+    end
+
+    before do
+      planning_application.update!(valid_ownership_certificate: false, ownership_certificate_checked: true)
+      task.update!(status: :completed)
+    end
+
+    it "shows the validation request details with 'created' heading" do
+      within ".bops-sidebar" do
+        click_link "Check ownership certificate"
+      end
+
+      expect(page).to have_content("Ownership certificate change request created")
+      expect(page).to have_content("Reason ownership certificate is invalid:")
+      expect(page).to have_content("Certificate type is wrong")
+    end
+
+    it "shows the delete and edit links when application is not started" do
+      within ".bops-sidebar" do
+        click_link "Check ownership certificate"
+      end
+
+      expect(page).to have_button("Delete request")
+      expect(page).to have_link("Edit request")
+    end
+
+    it "allows deleting the validation request", js: true do
+      within ".bops-sidebar" do
+        click_link "Check ownership certificate"
+      end
+
+      accept_confirm do
+        click_button "Delete request"
+      end
+
+      expect(page).to have_content("successfully deleted")
+      expect(task.reload).to be_not_started
+      expect { validation_request.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    it "allows editing the validation request reason" do
+      within ".bops-sidebar" do
+        click_link "Check ownership certificate"
+      end
+
+      click_link "Edit request"
+
+      expect(page).to have_content("Edit ownership certificate change request")
+      expect(page).to have_field("Tell the applicant why the ownership certificate is incorrect", with: "Certificate type is wrong")
+
+      fill_in "Tell the applicant why the ownership certificate is incorrect", with: "Updated reason: should be type C"
+      click_button "Update request"
+
+      expect(page).to have_content("successfully updated")
+      expect(validation_request.reload.reason).to eq("Updated reason: should be type C")
+    end
+  end
+
+  context "when application is invalidated with open validation request" do
+    let!(:validation_request) do
+      create(:ownership_certificate_validation_request, :open,
+        planning_application:, reason: "Certificate type should be A")
+    end
+
+    before do
+      planning_application.update!(
+        valid_ownership_certificate: false,
+        ownership_certificate_checked: true,
+        status: "invalidated"
+      )
+      task.update!(status: :completed)
+    end
+
+    it "shows the validation request details with 'sent' heading" do
+      within ".bops-sidebar" do
+        click_link "Check ownership certificate"
+      end
+
+      expect(page).to have_content("Ownership certificate change request sent")
+      expect(page).to have_content("Reason ownership certificate is invalid:")
+      expect(page).to have_content("Certificate type should be A")
+    end
+
+    it "shows the cancel link when application is invalidated" do
+      within ".bops-sidebar" do
+        click_link "Check ownership certificate"
+      end
+
+      expect(page).to have_link("Cancel request")
+    end
+
+    it "allows cancelling the validation request" do
+      within ".bops-sidebar" do
+        click_link "Check ownership certificate"
+      end
+
+      click_link "Cancel request"
+
+      expect(page).to have_content("Cancel validation request")
+      expect(page).to have_content("Certificate type should be A")
+
+      fill_in "Explain to the applicant why this request is being cancelled", with: "No longer needed"
+      click_button "Confirm cancellation"
+
+      expect(page).to have_content("successfully cancelled")
+      expect(validation_request.reload).to be_cancelled
     end
   end
 end

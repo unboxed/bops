@@ -2682,8 +2682,10 @@ en:
         success: Fee check was successfully saved
         update_request: Fee change request successfully updated
       check-ownership-certificate:
+        delete_request: Ownership certificate change request successfully deleted
         failure: Failed to save ownership certificate check
         success: Successfully checked ownership certificate
+        update_request: Ownership certificate change request successfully updated
       confirm-community-infrastructure-levy-cil:
         failure: Failed to confirm CIL liability check
         success: Successfully confirmed CIL liability
@@ -2715,5 +2717,6 @@ en:
       create:
         check-and-request-documents: Document request successfully cancelled
         check-fee: Fee change request successfully cancelled
+        check-ownership-certificate: Ownership certificate change request successfully cancelled
         check-red-line-boundary: Red line boundary change request successfully cancelled
       validation_request_not_cancelable: This request cannot be cancelled
