@@ -407,6 +407,15 @@ RSpec.describe "Check red line boundary task", type: :system do
       expect(page).not_to have_field("No")
       expect(page).not_to have_button("Save and mark as complete")
     end
+
+    it "shows delete button but not cancel link when application is not started" do
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      expect(page).to have_button("Delete request")
+      expect(page).not_to have_link("Cancel request")
+    end
   end
 
   context "when application is invalidated with open validation request" do
@@ -451,7 +460,7 @@ RSpec.describe "Check red line boundary task", type: :system do
       expect(page).not_to have_button("Delete request")
     end
 
-    it "allows cancelling the validation request" do
+    it "allows cancelling the validation request and resets task to not started" do
       within ".bops-sidebar" do
         click_link "Check red line boundary"
       end
@@ -465,6 +474,19 @@ RSpec.describe "Check red line boundary task", type: :system do
 
       expect(page).to have_content("Red line boundary change request successfully cancelled")
       expect(validation_request.reload).to be_cancelled
+      expect(task.reload).to be_not_started
+    end
+
+    it "shows validation error when cancel reason is blank" do
+      within ".bops-sidebar" do
+        click_link "Check red line boundary"
+      end
+
+      click_link "Cancel request"
+      click_button "Confirm cancellation"
+
+      expect(page).to have_content("Provide a reason for cancelling this request")
+      expect(validation_request.reload).not_to be_cancelled
     end
   end
 
