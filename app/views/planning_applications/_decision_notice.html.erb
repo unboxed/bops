@@ -5,21 +5,24 @@
         Draft
       </span>
     <% end %>
-    <span class="govuk-caption-xl">
-      <%= planning_application.local_authority.council_name %>
-    </span>
-    <br>
 
-    <h1>Decision Notice</h1>
+    <h1 class="govuk-heading-l">
+      <span class="govuk-caption-l govuk-!-margin-bottom-2">
+        <%= planning_application.local_authority.council_name %>
+      </span>
 
-    <h3><%= planning_application.application_type.legislation_title %></h3>
+      Decision Notice
+    </h1>
 
-    <h2>
-      <strong>
-        <%= t("recommendation.title", application_type: planning_application.application_type.description, decision: planning_application.decision.humanize) %>
-      </strong>
+    <h2 class="govuk-heading-m">
+      <span class="govuk-caption-m govuk-!-margin-bottom-2">
+        <%= planning_application.application_type.legislation_title %>
+      </span>
+      <%= t("recommendation.title", application_type: planning_application.application_type.description, decision: planning_application.decision.humanize) %>
     </h2>
-    <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
     <%= govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list|
           {
             "Applicant" => planning_application.applicant_name,
@@ -40,26 +43,22 @@
         We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= (@planning_application.work_status == "proposed") ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.
       </p>
     <% end %>
-    <p>
-      <strong>
-        <%= t("recommendation.body", decision: planning_application.decision) %>
-      </strong>
-    </p>
-    <p>
-      <%= render(FormattedContentComponent.new(text: planning_application.public_comment)) %>
-    </p>
+
+    <h3 class="govuk-heading-m">
+      <%= t("recommendation.body", decision: planning_application.decision) %>
+    </h3>
+    <%= render(FormattedContentComponent.new(text: planning_application.public_comment)) %>
+
     <% if @planning_application.assessment_details.select { |ad| ad.category == "amenity" }.any? &&  @planning_application.lawfulness_certificate? %>
-      <p>
-        <strong>
-          Assessment of amenity:
-        </strong>
-      </p>
+      <h3 class="govuk-!-masrgin-bottom-2">
+        Assessment of amenity:
+      </h3>
       <p>
         <%= @planning_application.assessment_details.find { |ad| ad.category == "amenity" }.entry %>
       </p>
     <% end %>
     <% if @planning_application.granted? && @planning_application.planning_conditions? %>
-      <h3>
+      <h3 class="govuk-!-margin-bottom-2">
         Conditions:
       </h3>
       <ol class="govuk-list govuk-list--number" id="conditions-list">
@@ -77,10 +76,11 @@
           </li>
         <% end %>
       </ol>
+      <hr class="govuk-section-break govuk-section-break--m">
     <% end %>
     <% if @planning_application.application_type.informatives? %>
       <% if @planning_application.informative_set.informatives.any? %>
-        <h3>
+        <h3 class="govuk-!-margin-bottom-2">
           Informatives:
         </h3>
         <ol class="govuk-list govuk-list--number" id="informatives-list">
@@ -94,7 +94,7 @@
       <% end %>
     <% end %>
     <% if @planning_application.committee_decision&.recommend? %>
-      <h3>
+      <h3 class="govuk-!-margin-bottom-2">
         Committee recommendation
       </h3>
       <p>
@@ -107,13 +107,13 @@
           </li>
         <% end %>
       </ol>
+      <hr class="govuk-section-break govuk-section-break--m">
     <% end %>
-    <h3>
-      This decision is based on the following approved plans:
-    </h3>
     <% if planning_application.documents_for_decision_notice.any? %>
       <table class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--m">Planning application related documents</caption>
+        <caption class="govuk-table__caption govuk-table__caption--m">
+          This decision is based on the following plans:
+        </caption>
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header app-custom-class">Document reference</th>
@@ -138,62 +138,76 @@
         </tbody>
       </table>
     <% else %>
+      <h3 class="govuk-!-margin-bottom-2">
+        This decision is based on the following plans:
+      </h3>
       <p>
         No plans specified
       </p>
     <% end %>
   </div>
 
-  <div class="decision-notice-map-section govuk-!-padding-bottom-3">
-    <h3>
+  <hr class="govuk-section-break govuk-section-break--m">
+
+  <div class="decision-notice-map-section govuk-!-padding-bottom-7">
+    <h3 class="govuk-!-margin-bottom-2">
       Site location
     </h3>
 
     <% if @planning_application.boundary_geojson.present? %>
       <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson} %>
     <% else %>
-      <p>No digital sitemap provided</p>
+      <p>
+        No digital sitemap provided
+      </p>
     <% end %>
   </div>
 
   <% if planning_application.local_authority.engagement_statement? %>
-    <h3>
+    <h3 class="govuk-!-margin-bottom-2">
       Proactive engagement
     </h3>
-    <p>
-      <%= render(FormattedContentComponent.new(text: planning_application.local_authority.engagement_statement)) %>
-    </p>
+    <%= render(FormattedContentComponent.new(text: planning_application.local_authority.engagement_statement)) %>
   <% end %>
 
-  <h3>
-    Notes:
+  <h3 class="govuk-!-margin-bottom-2">
+    Notes
   </h3>
   <p>
     Enquiries regarding this document should include the application number and be sent to:
   </p>
-  <h3>
+  <h3 class="govuk-!-margin-bottom-2">
     Email
   </h3>
   <p>
     <%= mail_to planning_application.local_authority.email_address, nil, class: "govuk-link" %>
   </p>
-  <h3>
-    Post
+  <h3 class="govuk-!-margin-bottom-2">
+    Postal address
   </h3>
   <p>
-    <%= planning_application.local_authority.signatory %>, <br>
-    <%= planning_application.local_authority.council_name %>, <br>
+    <%= planning_application.local_authority.council_name %>,<br>
     <%= planning_application.local_authority.enquiries_paragraph %>
+  </p>
+  <h3 class="govuk-!-margin-bottom-2">
+    Signature
+  </h3>
+  <p class="govuk-!-margin-bottom-0">
+    <%= planning_application.local_authority.signatory_name %><br>
+    <%= planning_application.local_authority.signatory_job_title %>
   </p>
 
   <% if @planning_application.refused? %>
+    <hr class="govuk-section-break govuk-section-break--m">
     <p>
       TOWN & COUNTRY PLANNING (APPEALS) (WRITTEN REPRESENTATIONS) (ENGLAND)
       (AMENDMENT) (REGULATIONS 2013)
     </p>
     <p>TOWN AND COUNTRY PLANNING ACT 1990</p>
-    <h3>Appeals to the Secretary of State</h3>
-    <ul class="govuk-list">
+    <h3 class="govuk-!-margin-bottom-2">
+      Appeals to the Secretary of State
+    </h3>
+    <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
       <li>
         If you are aggrieved by the decision of your Local Planning Authority to
         refuse permission for the proposed development or to grant it subject to
@@ -209,7 +223,7 @@
       <li>
         However, if an enforcement notice has been served for the same or very
         similar development within the previous 2 years, the time limit is:
-        <ul>
+        <ul class="govuk-list govuk-list--bullet">
           <li>
             28 days from the date of the LPA decision if the enforcement notice
             was served before the decision was made yet not longer than 2 years
@@ -225,7 +239,7 @@
       <li>
         Appeals must be made to the Planning Inspectorate and this can be done
         electronically via the GOV.UK website:
-        <a href="https://www.gov.uk/appeal-planning-decision">https://www.gov.uk/appeal-planning-decision</a>
+        <a class="govuk-link" href="https://www.gov.uk/appeal-planning-decision">https://www.gov.uk/appeal-planning-decision</a>
       </li>
       <li>
         If you are unable to appeal online, you can obtain a paper form from the
@@ -233,8 +247,10 @@
         444 5000.
       </li>
     </ul>
-    <h3>Commercial Appeals Service</h3>
-    <ul class="govuk-list">
+    <h3 class="govuk-!-margin-bottom-2">
+      Commercial Appeals Service
+    </h3>
+    <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
       <li>
         This type of appeal proceeds by way of written representations, known as
         the "Commercial Appeals Service". Third parties will not have the
@@ -242,8 +258,10 @@
         on these.
       </li>
     </ul>
-    <h3>All other Minor and Major Applications</h3>
-    <ul class="govuk-list">
+    <h3 class="govuk-!-margin-bottom-2">
+      All other Minor and Major Applications
+    </h3>
+    <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
       <li>
         The Secretary of State can allow a longer period for giving notice of an
         appeal, but he will not normally be prepared to use this power unless
@@ -267,13 +285,15 @@
         If you intend to submit an appeal that you would like examined by
         inquiry then you must notify the Local Planning Authority and Planning
         Inspectorate
-        (<a href="inquiryappeals@planninginspectorate.gov.uk">inquiryappeals@planninginspectorate.gov.uk</a>)
+        (<a class="govuk-link" href="inquiryappeals@planninginspectorate.gov.uk">inquiryappeals@planninginspectorate.gov.uk</a>)
         at least 10 days before submitting the appeal. Further details are on
         GOV.UK.
       </li>
     </ul>
-    <h3>Purchase Notices</h3>
-    <ul class="govuk-list">
+    <h3 class="govuk-!-margin-bottom-2">
+      Purchase Notices
+    </h3>
+    <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-0">
       <li>
         If either the Local Planning Authority or the Secretary of State refuses
         permission to development land or grants it subject to conditions, the
