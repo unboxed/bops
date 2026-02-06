@@ -2,12 +2,16 @@
 
 module BopsCore
   module Tasks
-    class CheckConstraintsForm < Form
-      self.task_actions = %w[add_constraint remove_constraint save_draft save_and_complete edit_form]
+    module CheckConstraintsForm
+      extend ActiveSupport::Concern
 
-      attribute :constraint_id, :integer
+      included do
+        self.task_actions = %w[add_constraint remove_constraint save_draft save_and_complete edit_form]
 
-      delegate :planning_application_constraints, to: :planning_application
+        attribute :constraint_id, :integer
+
+        delegate :planning_application_constraints, to: :planning_application
+      end
 
       def update(params)
         super do

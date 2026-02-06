@@ -2,7 +2,8 @@
 
 module BopsPreapps
   module Tasks
-    class Form < BopsCore::Tasks::Form
+    class Form
+      include BopsCore::Tasks::Form
       include BopsPreapps::Engine.routes.url_helpers
     end
   end

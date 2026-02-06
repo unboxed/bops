@@ -2663,12 +2663,27 @@ en:
             'yes': 'Yes'
             yes_recommended_html: Yes <strong>(recommended based on submission data)</strong>
     update:
+      check-constraints:
+        add_constraint:
+          failure: Failed to add constraint
+          success: Successfully added constraint
+        failure: Failed to save constraint review
+        remove_constraint:
+          failure: Failed to remove constraint
+          success: Successfully removed constraint
+        save_draft:
+          failure: Failed to save draft constraints
+          success: Draft constraints successfully saved
+        success: Constraints were successfully marked as reviewed
       check-ownership-certificate:
         failure: Failed to save ownership certificate check
         success: Successfully checked ownership certificate
       confirm-community-infrastructure-levy-cil:
         failure: Failed to confirm CIL liability check
         success: Successfully confirmed CIL liability
+      draw-red-line-boundary:
+        failure: Draw a red line boundary
+        success: Red line boundary was successfully saved
       review-documents:
         failure: Failed to update document review
         success: Successfully updated document review

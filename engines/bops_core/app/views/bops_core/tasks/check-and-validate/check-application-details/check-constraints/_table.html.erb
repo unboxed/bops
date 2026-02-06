@@ -53,9 +53,9 @@
               <%= form_with model: @form, url: @form.url do |form| %>
                 <%= form.hidden_field :constraint_id, value: planning_application_constraint.id %>
                 <% if Constraint.non_applicable_constraints(@planning_application.planning_application_constraints).include? planning_application_constraint %>
-                  <%= form.govuk_task_button "Add", action: "add_constraint", class: "button-as-link" %>
+                  <%= form.govuk_task_button_link "Add", action: "add_constraint" %>
                 <% elsif !planning_application_constraint.identified %>
-                  <%= form.govuk_task_button "Remove", action: "remove_constraint", class: "button-as-link" %>
+                  <%= form.govuk_task_button_link "Remove", action: "remove_constraint" %>
                 <% else %>
                   -
                 <% end %>

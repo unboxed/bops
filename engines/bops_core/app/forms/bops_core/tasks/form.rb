@@ -2,31 +2,33 @@
 
 module BopsCore
   module Tasks
-    class Form
+    module Form
+      extend ActiveSupport::Concern
+
       include ActiveModel::API
       include ActiveModel::Validations::Callbacks
       include ActiveModel::Attributes
       include ActiveRecord::AttributeAssignment
       include BopsCore::Model::Access
       include BopsCore::Model::BeforeTypeCast
-      include Rails.application.routes.url_helpers
-      include Rails.application.routes.mounted_helpers
 
-      attr_reader :task, :params, :return_to
-      attr_accessor :action
+      included do
+        attr_reader :task, :params, :return_to
+        attr_accessor :action
 
-      delegate :case_record, :slug, to: :task
-      delegate :planning_application, to: :case_record
-      delegate :local_authority, to: :planning_application
-      delegate :param_key, to: :model_name
+        delegate :case_record, :slug, to: :task
+        delegate :planning_application, to: :case_record
+        delegate :local_authority, to: :planning_application
+        delegate :param_key, to: :model_name
 
-      define_model_callbacks :initialize, only: :after
-      define_model_callbacks :update
+        define_model_callbacks :initialize, only: :after
+        define_model_callbacks :update
 
-      with_options instance_writer: false do
-        class_attribute :task_actions, default: %w[save_and_complete]
-        class_attribute :after_success, default: "redirect"
-        class_attribute :after_failure, default: "render"
+        with_options instance_writer: false do
+          class_attribute :task_actions, default: %w[save_and_complete]
+          class_attribute :after_success, default: "redirect"
+          class_attribute :after_failure, default: "render"
+        end
       end
 
       def initialize(task, params = {})
