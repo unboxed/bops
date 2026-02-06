@@ -16,6 +16,7 @@
         - name: Check description
         - name: Check requested services
         - name: Check fee
+        - name: Add reporting details
     - name: Other validation issues
       section: Other validation issues
       tasks:

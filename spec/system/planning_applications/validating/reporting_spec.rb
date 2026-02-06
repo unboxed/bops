@@ -70,7 +70,7 @@ RSpec.describe "Reporting validation task" do
       end
 
       it "I can save and mark as complete" do
-        click_link "Add reporting details"
+        click_link "Add reporting details", class: "govuk-task-list__link"
         expect(page).to have_content("No applicable reporting types. Please configure them for the application type if they are required.")
         click_button "Save and mark as complete"
 
