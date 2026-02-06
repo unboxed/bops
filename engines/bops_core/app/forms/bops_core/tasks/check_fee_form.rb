@@ -2,28 +2,34 @@
 
 module BopsCore
   module Tasks
-    class CheckFeeForm < Form
-      self.task_actions = %w[save_and_complete update_request delete_request edit_form]
+    module CheckFeeForm
+      extend ActiveSupport::Concern
 
-      attribute :valid_fee, :boolean
-      attribute :reason, :string
-      attribute :suggestion, :string
-      attribute :validation_request_id, :integer
-      attribute :payment_amount, :string
+      included do
+        self.task_actions = %w[save_and_complete update_request delete_request edit_form]
 
-      with_options on: :save_and_complete do
-        validates :valid_fee, inclusion: {in: [true, false], message: "Select whether the fee is correct"}
-        validates :reason, presence: {message: "Tell the applicant why the fee is incorrect"}, unless: :valid_fee?
-        validates :suggestion, presence: {message: "Tell the applicant what they need to do"}, unless: :valid_fee?
-      end
+        class_attribute :reference_param_name, default: :reference
 
-      with_options on: :update_request do
-        validates :reason, presence: {message: "Tell the applicant why the fee is incorrect"}
-        validates :suggestion, presence: {message: "Tell the applicant what they need to do"}
-      end
+        attribute :valid_fee, :boolean
+        attribute :reason, :string
+        attribute :suggestion, :string
+        attribute :validation_request_id, :integer
+        attribute :payment_amount, :string
 
-      after_initialize do
-        self.valid_fee = planning_application.valid_fee
+        with_options on: :save_and_complete do
+          validates :valid_fee, inclusion: {in: [true, false], message: "Select whether the fee is correct"}
+          validates :reason, presence: {message: "Tell the applicant why the fee is incorrect"}, unless: :valid_fee?
+          validates :suggestion, presence: {message: "Tell the applicant what they need to do"}, unless: :valid_fee?
+        end
+
+        with_options on: :update_request do
+          validates :reason, presence: {message: "Tell the applicant why the fee is incorrect"}
+          validates :suggestion, presence: {message: "Tell the applicant what they need to do"}
+        end
+
+        after_initialize do
+          self.valid_fee = planning_application.valid_fee
+        end
       end
 
       def update(params)
@@ -55,10 +61,12 @@ module BopsCore
       end
 
       def cancel_url
-        new_validation_request_cancellation_path(
-          planning_application_reference: planning_application.reference,
-          validation_request_id: validation_request.id,
-          task_slug: task.full_slug
+        route_for(
+          :new_validation_request_cancellation,
+          reference_param_name => planning_application.reference,
+          :validation_request_id => validation_request.id,
+          :task_slug => task.full_slug,
+          :only_path => true
         )
       end
 
