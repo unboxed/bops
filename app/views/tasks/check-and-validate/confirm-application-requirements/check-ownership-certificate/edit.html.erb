@@ -1,0 +1,31 @@
+<%= render "shared/task_header", task: @task, heading: "Edit ownership certificate change request" %>
+
+<div class="govuk-!-margin-top-3">
+  <%= render "planning_applications/validation/ownership_certificates/relevant_documents_accordion" %>
+</div>
+
+<% partial_path = "tasks/check-and-validate/confirm-application-requirements/check-ownership-certificate" %>
+
+<%= render "#{partial_path}/table" %>
+
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: @form, url: @form.url,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+    <%= form.govuk_error_summary %>
+
+    <%= form.hidden_field :validation_request_id %>
+    <%= return_to_hidden_field %>
+
+    <%= form.govuk_text_area :reason,
+          label: {size: "m", text: "Tell the applicant why the ownership certificate is incorrect"},
+          hint: {text: "Use plain English to explain why the ownership certificate is wrong. This message will be shown to the applicant."},
+          value: @form.reason.presence || @form.validation_request.reason,
+          rows: 5 %>
+
+    <div class="govuk-button-group">
+      <%= form.govuk_submit "Update request", name: "task_action", value: "update_request" %>
+      <%= govuk_link_to "Back", @form.url %>
+    </div>
+  <% end %>
+</div>
