@@ -10,6 +10,7 @@
       tasks:
         - name: Draw red line boundary
           hidden: true
+        - name: Check red line boundary
         - name: Check constraints
         - name: Check fee
     - name: Confirm application requirements
