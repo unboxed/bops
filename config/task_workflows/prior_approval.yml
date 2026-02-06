@@ -11,6 +11,7 @@
         - name: Draw red line boundary
           hidden: true
         - name: Check constraints
+        - name: Check description
         - name: Check fee
     - name: Confirm application requirements
       section: Confirm application requirements
