@@ -9,12 +9,11 @@ Read these docs first:
 - [docs/development.md](docs/development.md) - Commands, Docker setup, testing
 - [docs/code-style.md](docs/code-style.md) - Linting and style guidelines
 - [docs/gotchas.md](docs/gotchas.md) - Common pitfalls
+- [.claude/skills/code-patterns.md](.claude/skills/code-patterns.md) - Coding patterns and conventions
 
 ## Workflow
 
-- **Non-trivial changes:** Use [plan-first](.claude/skills/plan-first.md) before coding
-- **Debugging:** See [debugging](.claude/skills/debugging.md) for investigation approach
-- **Stuck?** See [when-stuck](.claude/skills/when-stuck.md)
+See [.claude/skills/README.md](.claude/skills/README.md) for available skills and when to use them.
 
 ## Session Hygiene
 
