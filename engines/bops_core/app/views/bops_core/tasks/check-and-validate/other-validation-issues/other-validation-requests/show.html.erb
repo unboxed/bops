@@ -1,0 +1,47 @@
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= render "shared/task_header", task: @task %>
+
+  <% if @form.validation_requests.any? %>
+    <%= govuk_table(id: "other-validation-requests") do |table| %>
+      <% table.with_head do |head| %>
+        <% head.with_row do |row| %>
+          <% row.with_cell(text: "Reason") %>
+          <% row.with_cell(text: "Suggestion") %>
+          <% row.with_cell(text: "Created by") %>
+          <% row.with_cell(text: "Status", classes: %w[govuk-!-text-align-right]) %>
+        <% end %>
+      <% end %>
+
+      <% table.with_body do |body| %>
+        <% @form.each_validation_request do |validation_request| %>
+          <% body.with_row do |row| %>
+            <% row.with_cell do %>
+              <%= govuk_link_to(main_app.planning_application_validation_validation_request_path(@planning_application, validation_request, redirect_to: task_path(@planning_application, @task))) do %>
+                <%= truncate(validation_request.reason, length: 50) %>
+              <% end %>
+            <% end %>
+            <% row.with_cell(text: truncate(validation_request.suggestion, length: 50)) %>
+            <% row.with_cell(text: validation_request.created_by) %>
+            <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
+              <%= render(StatusTags::BaseComponent.new(status: validation_request.status)) %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%= govuk_inset_text do %>
+      <strong>No other validation requests have been added</strong>
+    <% end %>
+  <% end %>
+
+  <% unless @planning_application.determined? %>
+    <p class="govuk-body govuk-!-margin-bottom-9">
+      <%= govuk_link_to "Add other validation request", main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "other_change", redirect_to: task_path(@planning_application, @task)) %>
+    </p>
+  <% end %>
+
+  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+<% end %>
