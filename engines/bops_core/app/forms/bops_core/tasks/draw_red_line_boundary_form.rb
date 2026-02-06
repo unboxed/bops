@@ -37,8 +37,6 @@ module BopsCore
       end
 
       def persist_boundary!
-        return if boundary_geojson.blank?
-
         audit_action = planning_application.boundary_geojson.blank? ? "created" : "updated"
 
         planning_application.update!(boundary_geojson:, boundary_created_by: Current.user, valid_red_line_boundary: true)
