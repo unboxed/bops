@@ -18,6 +18,10 @@
       tasks:
         - name: Confirm Community Infrastructure Levy (CIL)
         - name: Check Environment Impact Assessment
+    - name: Other validation issues
+      section: Other validation issues
+      tasks:
+        - name: Other validation requests
 - name: "Consultees, neighbours and publicity"
   section: "Consultation"
 - name: "Check and assess"
