@@ -19,6 +19,7 @@ These apply to all skills:
 | [pr-review](pr-review.md) | Reviewing pull requests |
 | [when-stuck](when-stuck.md) | Blocked or confused |
 | [bops-patterns](bops-patterns.md) | BOPS-specific implementations |
+| [code-patterns](code-patterns.md) | BOPS coding patterns and conventions |
 
 ## Single Source of Truth
 
