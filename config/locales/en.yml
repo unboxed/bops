@@ -2656,6 +2656,20 @@ en:
   tasks:
     check-and-validate:
       confirm-application-requirements:
+        check-environment-impact-assessment:
+          show:
+            hint:
+              address: Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).
+              email_address: Enter an email address where members of the public can request a copy of the Environmental Statement (optional).
+              fee: Enter the fee to obtain a hard copy of the Environmental Statement (optional).
+              'yes': This application is subject to an EIA. The determination period will be extended to 16 weeks.
+            label:
+              address: Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).
+              email_address: Enter an email address where members of the public can request a copy of the Environmental Statement (optional).
+              fee: Enter the fee to obtain a hard copy of the Environmental Statement (optional).
+              'no': 'No'
+              'yes': 'Yes'
+            legend: Is an Environmental Impact Assessment required?
         confirm-community-infrastructure-levy-cil:
           show:
             'no': 'No'
@@ -2675,6 +2689,9 @@ en:
           failure: Failed to save draft constraints
           success: Draft constraints successfully saved
         success: Constraints were successfully marked as reviewed
+      check-environment-impact-assessment:
+        failure: Failed to save EIA requirement
+        success: EIA requirement check successfully saved
       check-fee:
         cancel_request: Fee change request successfully cancelled
         delete_request: Fee change request successfully deleted

@@ -20,7 +20,9 @@ RSpec.describe "Validation tasks" do
       within("#expiry-date") do
         expect(page).to have_content("Expiry date 11/03/2024")
       end
-      click_link "Check Environment Impact Assessment"
+      within "#main-content" do
+        click_link "Check Environment Impact Assessment"
+      end
 
       expect(page).to have_content("Environment Impact Assessment (EIA)")
       expect(page).to have_content(planning_application.description)
@@ -33,7 +35,9 @@ RSpec.describe "Validation tasks" do
     end
 
     it "I can mark the application as requiring an environment impact assessment" do
-      click_link "Check Environment Impact Assessment"
+      within "#main-content" do
+        click_link "Check Environment Impact Assessment"
+      end
 
       choose "Yes"
       fill_in "Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).", with: "123 street"
@@ -72,7 +76,9 @@ RSpec.describe "Validation tasks" do
     end
 
     it "I can edit the information" do
-      click_link "Check Environment Impact Assessment"
+      within "#main-content" do
+        click_link "Check Environment Impact Assessment"
+      end
 
       choose "Yes"
       fill_in "Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).", with: "123 street"
@@ -98,7 +104,9 @@ RSpec.describe "Validation tasks" do
         end
       end
 
-      click_link "Check Environment Impact Assessment"
+      within "#main-content" do
+        click_link "Check Environment Impact Assessment"
+      end
       click_link "Edit information"
 
       fill_in "Enter an address where members of the public can view or request a copy of the Environmental Statement. Include name/number, street, town, postcode (optional).", with: "456 street"
@@ -117,7 +125,9 @@ RSpec.describe "Validation tasks" do
     end
 
     it "shows errors" do
-      click_link "Check Environment Impact Assessment"
+      within "#main-content" do
+        click_link "Check Environment Impact Assessment"
+      end
 
       choose "Yes"
 
@@ -160,14 +170,18 @@ RSpec.describe "Validation tasks" do
 
     context "when application has been marked as requiring an environment impact assessment" do
       it "I can mark as it not being required if it's no longer necessary" do
-        click_link "Check Environment Impact Assessment"
+        within "#main-content" do
+          click_link "Check Environment Impact Assessment"
+        end
         choose "Yes"
         click_button "Save and mark as complete"
         within("#expiry-date") do
           expect(page).to have_content("Expiry date 06/05/2024")
         end
 
-        click_link "Check Environment Impact Assessment"
+        within "#main-content" do
+          click_link "Check Environment Impact Assessment"
+        end
         click_link "Edit information"
         choose "No"
         click_button "Save and mark as complete"
