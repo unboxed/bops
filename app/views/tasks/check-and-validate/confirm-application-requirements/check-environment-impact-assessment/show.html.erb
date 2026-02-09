@@ -1,0 +1,54 @@
+<%= render "shared/task_header", task: @task %>
+
+<%= render(
+      AccordionComponent.new(
+        planning_application: @planning_application,
+        sections: %i[documents]
+      )
+    ) %>
+<p>
+  <%= govuk_link_to(
+        "Check EIA guidance",
+        t("environment_impact_assessment.guidance_link"),
+        new_tab: true
+      ) %>
+</p>
+
+<div data-controller="unsaved-changes"
+          data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with model: @form, url: @form.url,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+    <%= form.govuk_error_summary %>
+    <%= form.govuk_radio_buttons_fieldset :required, legend: {text: t(".legend")} do %>
+      <%= form.govuk_radio_button(
+            :required,
+            true,
+            disabled: @form.read_only?,
+            label: {text: t(".label.yes")},
+            hint: {text: t(".hint.yes")}
+          ) do %>
+        <%= form.govuk_text_field :email_address,
+              hint: {text: t(".hint.email_address")},
+              disabled: @form.read_only?,
+              label: {text: t(".label.email_address"), hidden: true} %>
+        <%= form.govuk_text_field :address,
+              hint: {text: t(".hint.address")},
+              disabled: @form.read_only?,
+              label: {text: t(".label.address"), hidden: true} %>
+        <%= form.govuk_text_field :fee,
+              hint: {text: t(".hint.fee")},
+              label: {text: t(".label.fee"), hidden: true},
+              disabled: @form.read_only?,
+              prefix_text: "£",
+              width: "one-quarter" %>
+      <% end %>
+      <%= form.govuk_radio_button(
+            :required,
+            false,
+            disabled: @form.read_only?,
+            label: {text: t(".label.no")}
+          ) %>
+      <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+    <% end %>
+  <% end %>
+</div>
