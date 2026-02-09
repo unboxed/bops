@@ -20,7 +20,9 @@ module BopsCore
       attr_reader :param_key
 
       def normalized_values(params)
-        Array(params[param_key]).compact_blank.uniq
+        Array(params[param_key]).compact_blank.uniq.flat_map { |status|
+          PlanningApplicationSearch::GROUPED_STATUSES.fetch(status, status)
+        }.uniq
       end
     end
   end
