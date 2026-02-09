@@ -1,13 +1,5 @@
 <%# locals: (documents:, additional_document_validation_requests:, allow_cancel: true, task_slug: nil, redirect_to: nil) %>
 
-<% documents = local_assigns.fetch(:documents) { @planning_application.documents.active } %>
-<% additional_document_validation_requests = local_assigns.fetch(:additional_document_validation_requests) do %>
-  @planning_application.additional_document_validation_requests.pre_validation.open_or_pending
-<% end %>
-<% task_slug = local_assigns[:task_slug] %>
-<% allow_cancel = local_assigns.fetch(:allow_cancel, true) %>
-<% redirect_to = local_assigns[:redirect_to] %>
-
 <h2>Check for missing documents</h2>
 <p class="govuk-body-m">
   Check all necessary documents have been provided and add requests for any missing documents.
