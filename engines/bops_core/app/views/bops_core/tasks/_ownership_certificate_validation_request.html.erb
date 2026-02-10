@@ -1,0 +1,23 @@
+<td class="govuk-table__cell">
+  Ownership certificate
+</td>
+<td class="govuk-table__cell">
+  <%= render(FormattedContentComponent.new(text: validation_request.reason)) %>
+</td>
+
+<% if validation_request.cancelled? %>
+  <td class="govuk-table__cell limit-column-width">
+    <%= render(FormattedContentComponent.new(text: validation_request.cancel_reason)) %>
+  </td>
+  <td class="govuk-table__cell limit-column-width">
+    <%= validation_request.cancelled_at.to_fs %>
+  </td>
+<% else %>
+  <%= render "validation_request_status", validation_request: %>
+
+  <td class="govuk-table__cell">
+    <%= govuk_link_to task_path(@planning_application, "check-and-validate/confirm-application-requirements/check-ownership-certificate", return_to:) do %>
+      <%= @planning_application.validated? ? "View" : "View and update" %>
+    <% end %>
+  </td>
+<% end %>

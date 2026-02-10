@@ -489,7 +489,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
         click_link "Back"
 
-        click_link "Review validation requests"
+        click_link "Review validation requests", class: "govuk-task-list__link"
 
         within("#replacement_document_validation_request_#{request.id}") do
           expect(page).to have_content("Replacement document")

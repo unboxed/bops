@@ -41,7 +41,7 @@ RSpec.describe "Requesting other changes to a planning application" do
       click_button "Send request"
     end
 
-    click_link "Review validation requests"
+    click_link "Review validation requests", class: "govuk-task-list__link"
 
     within(".validation-requests-table") do
       expect(page).to have_content("Other")

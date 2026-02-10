@@ -69,7 +69,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows text and links when application has not been started" do
       visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and validate"
-      click_link "Review validation requests"
+      click_link "Review validation requests", class: "govuk-task-list__link"
 
       expect(page).to have_content("The following requests will be sent when the application is invalidated.")
       expect(page).to have_content("The application has not been marked as valid or invalid yet.")
@@ -228,7 +228,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(page).to have_content("The application is marked as valid and cannot be marked as invalid.")
 
       click_link "Back"
-      click_link "Review validation requests"
+      click_link "Review validation requests", class: "govuk-task-list__link"
       expect(page).not_to have_link("Add new request")
     end
   end

@@ -18,32 +18,30 @@
 
   <tbody class="govuk-table__body">
     <% requests.each do |request| %>
-      <tr class="govuk-table__row">
-        <%= content_tag(:tr, id: dom_id(request)) do %>
-          <%= render partial: "planning_applications/validation/#{request.to_partial_path}", object: request %>
+      <%= content_tag(:tr, id: dom_id(request)) do %>
+        <%= render partial: "planning_applications/validation/#{request.to_partial_path}", object: request %>
 
-          <td class="govuk-table__cell">
-            <% case request.state %>
-            <% when "pending" %>
-              <strong class="govuk-tag govuk-tag--yellow">
-                Not sent yet
-              </strong>
-            <% when "open" %>
-              <strong class="govuk-tag govuk-tag--<%= display_request_date_state(request) %>">
-                <%= request.overdue? ? "overdue" : "sent" %>
-              </strong>
-            <% when "closed" %>
-              <strong class="govuk-tag">
-                Responded
-              </strong>
-            <% end %>
-          </td>
+        <td class="govuk-table__cell">
+          <% case request.state %>
+          <% when "pending" %>
+            <strong class="govuk-tag govuk-tag--yellow">
+              Not sent yet
+            </strong>
+          <% when "open" %>
+            <strong class="govuk-tag govuk-tag--<%= display_request_date_state(request) %>">
+              <%= request.overdue? ? "overdue" : "sent" %>
+            </strong>
+          <% when "closed" %>
+            <strong class="govuk-tag">
+              Responded
+            </strong>
+          <% end %>
+        </td>
 
-          <td class="govuk-table__cell">
-            <%= show_validation_request_link(planning_application, request, return_to: local_assigns[:return_to]) %>
-          </td>
-        <% end %>
-      </tr>
+        <td class="govuk-table__cell">
+          <%= show_validation_request_link(planning_application, request, return_to: local_assigns[:return_to]) %>
+        </td>
+      <% end %>
     <% end %>
   </tbody>
 </table>

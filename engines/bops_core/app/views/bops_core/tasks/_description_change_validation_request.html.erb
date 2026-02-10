@@ -1,0 +1,31 @@
+<td class="govuk-table__cell">
+  Change description
+</td>
+<% if validation_request.post_validation? %>
+  <td class="govuk-table__cell">
+    Proposed description:
+    <%= render(FormattedContentComponent.new(text: validation_request.proposed_description)) %>
+  </td>
+<% else %>
+  <td class="govuk-table__cell">
+    New description:
+    <%= render(FormattedContentComponent.new(text: validation_request.proposed_description)) %>
+  </td>
+<% end %>
+
+<% if validation_request.cancelled? %>
+  <td class="govuk-table__cell limit-column-width">
+    <%= render(FormattedContentComponent.new(text: validation_request.cancel_reason)) %>
+  </td>
+  <td class="govuk-table__cell limit-column-width">
+    <%= validation_request.cancelled_at.to_fs %>
+  </td>
+<% else %>
+  <%= render "validation_request_status", validation_request: %>
+
+  <td class="govuk-table__cell">
+    <%= govuk_link_to task_path(@planning_application, "check-and-validate/check-application-details/check-description", return_to:) do %>
+      <%= @planning_application.validated? ? "View" : "View and update" %>
+    <% end %>
+  </td>
+<% end %>

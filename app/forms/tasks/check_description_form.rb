@@ -15,8 +15,6 @@ module Tasks
       validates :proposed_description, presence: true, unless: :valid_description
     end
 
-    alias_method :redirect_url, :url
-
     private
 
     def save_and_complete

@@ -26,6 +26,11 @@
       section: Other validation issues
       tasks:
         - name: Other validation requests
+    - name: Review
+      section: Review
+      tasks:
+        - name: Review validation requests
+          status_hidden: true
 - name: "Consultees, neighbours and publicity"
   section: "Consultation"
 - name: "Check and assess"

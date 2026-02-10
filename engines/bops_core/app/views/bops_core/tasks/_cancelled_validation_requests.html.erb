@@ -19,16 +19,10 @@
     </tr>
   </thead>
   <tbody class="govuk-table__body">
-    <% requests.each do |request| %>
-      <%= content_tag(:tr, id: dom_id(request)) do %>
-        <%= render partial: "planning_applications/validation/#{request.to_partial_path}", object: request %>
-        <td class="govuk-table__cell limit-column-width">
-          <%= render(FormattedContentComponent.new(text: request.cancel_reason)) %>
-        </td>
-        <td class="govuk-table__cell limit-column-width">
-          <%= request.cancelled_at.to_fs %>
-        </td>
-      <% end %>
+    <% validation_requests.each do |validation_request| %>
+      <tr class="govuk-table__row">
+        <%= render validation_request.partial_name, validation_request: validation_request %>
+      </tr>
     <% end %>
   </tbody>
 </table>
