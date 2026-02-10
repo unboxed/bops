@@ -2767,6 +2767,9 @@ en:
       summary-of-works:
         failure: Summary of works failed to save
         success: Summary of works was successfully saved
+      upload-redacted-documents:
+        failure: Failed to upload redacted documents
+        success: Redacted documents successfully uploaded
   time:
     formats:
       default: "%-d %B %Y"

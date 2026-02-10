@@ -6,6 +6,7 @@
       tasks:
         - name: Review documents
         - name: Check and request documents
+        - name: Upload redacted documents
     - name: Check application details
       section: Check application details
       tasks:
