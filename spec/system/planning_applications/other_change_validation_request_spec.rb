@@ -107,7 +107,7 @@ RSpec.describe "Requesting other changes to a planning application" do
       created_at: 12.days.ago, notified_at: 12.days.ago, reason: "Fees outstanding", suggestion: "Please pay the balance", response: "paid")
 
     click_link "Check and validate"
-    click_link "Send validation decision"
+    click_link "Send validation decision", class: "govuk-task-list__link"
     click_link "View existing requests"
 
     within(".validation-requests-table") do
@@ -143,7 +143,7 @@ RSpec.describe "Requesting other changes to a planning application" do
 
       visit "/planning_applications/#{new_planning_application.id}"
       click_link "Check and validate"
-      click_link "Send validation decision"
+      click_link "Send validation decision", class: "govuk-task-list__link"
       expect(request.notified_at).to be_nil
 
       click_button "Mark the application as invalid"

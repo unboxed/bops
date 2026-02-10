@@ -208,7 +208,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       click_link "Back"
 
       within("#review-tasks") do
-        click_link "Send validation decision"
+        click_link "Send validation decision", class: "govuk-task-list__link"
       end
       expect(page).to have_content("You have marked items as invalid, so you cannot validate this application.")
     end
@@ -253,7 +253,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       click_link "Back"
 
-      click_link "Send validation decision"
+      click_link "Send validation decision", class: "govuk-task-list__link"
       expect(page).to have_content("The application has not been marked as valid or invalid yet.")
       expect(page).to have_content("When all parts of the application have been checked and are correct, mark the application as valid.")
       expect(page).to have_link("Mark the application as valid")
@@ -328,7 +328,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       click_link "Back"
 
-      click_link "Send validation decision"
+      click_link "Send validation decision", class: "govuk-task-list__link"
       expect(page).to have_content("This application has 1 unresolved validation request and 0 resolved validation requests")
 
       click_link "Application"
@@ -400,7 +400,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       click_link "Back"
 
-      click_link "Send validation decision"
+      click_link "Send validation decision", class: "govuk-task-list__link"
       expect(page).to have_content("This application has 0 unresolved validation requests and 0 resolved validation requests")
     end
 
@@ -505,7 +505,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
         end
 
         click_link "Back"
-        click_link "Send validation decision"
+        click_link "Send validation decision", class: "govuk-task-list__link"
 
         expect(page).to have_content("This application has 1 unresolved validation request and 1 resolved validation request")
       end
@@ -694,7 +694,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
     it "updates the notified_at date of an open request when application is invalidated" do
       click_link "Check and validate"
-      click_link "Send validation decision"
+      click_link "Send validation decision", class: "govuk-task-list__link"
       expect(replacement_document_validation_request.notified_at).to be_nil
 
       click_button "Mark the application as invalid"

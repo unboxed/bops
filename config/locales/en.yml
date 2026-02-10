@@ -2718,6 +2718,9 @@ en:
       review-documents:
         failure: Failed to update document review
         success: Successfully updated document review
+      send-validation-decision:
+        failure: Failed to send validation decision
+        success_html: "<strong>Validation decision sent</strong> <br><br> An email notification has been sent to the applicant. The application is now ready for consultation and assessment."
   time:
     formats:
       default: "%-d %B %Y"

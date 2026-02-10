@@ -3,62 +3,7 @@
 module BopsPreapps
   module Tasks
     class SendValidationDecisionForm < Form
-      self.task_actions = %w[save_and_complete save_and_invalidate]
-
-      validate on: :save_and_invalidate do
-        unless planning_application.may_invalidate?
-          errors.add :base, :invalid, message: "This planning application cannot be marked as invalid"
-        end
-      end
-
-      def update(params)
-        super do
-          case action
-          when "save_and_complete"
-            save_and_complete
-          when "save_and_invalidate"
-            save_and_invalidate
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
-      def redirect_url(options = {})
-        if task.completed?
-          Rails.application.routes.url_helpers.planning_application_path(planning_application)
-        else
-          super
-        end
-      end
-
-      def flash(type, controller)
-        case type
-        when :notice
-          (after_success == "redirect") ? controller.t(".#{slug}.success_html") : nil
-        when :alert
-          (after_failure == "redirect") ? controller.t(".#{slug}.failure") : nil
-        end
-      end
-
-      private
-
-      def save_and_invalidate
-        transaction do
-          planning_application.invalidate!
-          planning_application.send_invalidation_notice_mail
-          task.complete!
-        end
-      end
-
-      def save_and_complete
-        transaction do
-          planning_application.update!(validated_at: planning_application.valid_from_date)
-          planning_application.send_validation_notice_mail
-          planning_application.start!
-          task.complete!
-        end
-      end
+      include BopsCore::Tasks::SendValidationDecisionForm
     end
   end
 end

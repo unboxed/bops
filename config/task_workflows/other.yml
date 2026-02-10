@@ -31,6 +31,7 @@
       tasks:
         - name: Review validation requests
           status_hidden: true
+        - name: Send validation decision
 - name: "Consultees, neighbours and publicity"
   section: "Consultation"
 - name: "Check and assess"
