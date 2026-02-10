@@ -492,4 +492,60 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
       end
     end
   end
+
+  context "when an application is in assessment_in_progress status" do
+    let!(:in_progress_application) do
+      create(
+        :planning_application,
+        :assessment_in_progress,
+        :planning_permission,
+        user:,
+        local_authority:,
+        description: "Replacement of all windows",
+        address_1: "3, WAVEL MEWS",
+        address_2: "",
+        town: "LONDON",
+        county: "",
+        postcode: "NW6 3AB"
+      )
+    end
+
+    it "appears on the All cases tab with default filters" do
+      visit "/planning_applications"
+      click_link "All cases"
+
+      within(selected_govuk_tab) do
+        expect(page).to have_content(in_progress_application.reference)
+      end
+    end
+
+    it "appears when filtering by In assessment only" do
+      visit "/planning_applications"
+      click_link "All cases"
+
+      within(selected_govuk_tab) do
+        click_button("Filter")
+        uncheck("Not started")
+        uncheck("Invalid")
+        uncheck("Awaiting determination")
+        uncheck("To be reviewed")
+
+        click_button("Apply filters")
+
+        expect(page).to have_content(in_progress_application.reference)
+      end
+    end
+
+    it "is findable by reference search with default filters" do
+      visit "/planning_applications"
+      click_link "All cases"
+
+      within(selected_govuk_tab) do
+        fill_in("Find an application", with: in_progress_application.reference)
+        click_button("Search")
+
+        expect(page).to have_content(in_progress_application.reference)
+      end
+    end
+  end
 end

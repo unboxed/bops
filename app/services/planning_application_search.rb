@@ -7,6 +7,10 @@ class PlanningApplicationSearch
   STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed closed withdrawn determined returned].freeze
   SELECTED_STATUSES = %w[not_started invalidated in_assessment awaiting_determination to_be_reviewed].freeze
 
+  GROUPED_STATUSES = {
+    "in_assessment" => %w[in_assessment assessment_in_progress]
+  }.freeze
+
   APPLICATION_TYPES = ApplicationType::Config::NAME_ORDER
 
   attribute :application_type, :list
