@@ -50,13 +50,13 @@ RSpec.describe "Planning applications", type: :system do
 
         click_button "Submit Response"
 
-        expect(page).to have_content("Enter Response")
+        expect(page).to have_content("Enter your response")
 
         fill_in "Response", with: "We are happy for this application to proceed"
         fill_in "Your email address", with: "tom@gmail.com"
 
         click_button "Submit Response"
-        expect(page).to have_content("Email must be a council.gov.uk email address.")
+        expect(page).to have_content("Enter an email address ending in council.gov.uk")
 
         fill_in "Your email address", with: "tom@council.gov.uk"
         click_button "Submit Response"
