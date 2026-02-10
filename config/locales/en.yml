@@ -2703,6 +2703,11 @@ en:
         failure: Failed to save ownership certificate check
         success: Successfully checked ownership certificate
         update_request: Ownership certificate change request successfully updated
+      check-red-line-boundary:
+        delete_request: Red line boundary change request successfully deleted
+        failure: Please select whether the red line boundary is correct
+        mark_as_valid: Red line boundary was successfully marked as valid
+        success: Red line boundary check was successfully saved
       confirm-community-infrastructure-levy-cil:
         failure: Failed to confirm CIL liability check
         success: Successfully confirmed CIL liability
