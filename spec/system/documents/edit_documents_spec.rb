@@ -251,6 +251,7 @@ RSpec.describe "Edit document", type: :system do
       let!(:other_planning_application) do
         create(
           :planning_application,
+          :not_started,
           local_authority: default_local_authority
         )
       end
