@@ -12,24 +12,26 @@
               "aria-expanded": "false" %>
       </li>
     <% end %>
-  </ul>
 
-  <div class="bops-header-bar__list--right">
-    <% right_items.each do |item| %>
-      <% if item[:href].present? %>
-        <%= govuk_link_to item[:label].to_s, item[:href],
-              class: class_names(govuk_link_classes, item[:class]),
-              new_tab: "",
-              method: item[:method],
-              data: item[:data] %>
-      <% else %>
-        <%= button_tag item[:label].to_s,
-              type: item[:type] || "button",
-              class: class_names("button-as-link", govuk_link_classes, item[:class]),
-              data: item[:data] %>
+    <div class="bops-header-bar__list--right">
+      <% right_items.each do |item| %>
+        <li class="bops-header-bar__item">
+          <% if item[:href].present? %>
+            <%= govuk_link_to item[:label].to_s, item[:href],
+                  class: class_names(govuk_link_classes, item[:class]),
+                  new_tab: "",
+                  method: item[:method],
+                  data: item[:data] %>
+          <% else %>
+            <%= button_tag item[:label].to_s,
+                  type: item[:type] || "button",
+                  class: class_names("button-as-link", govuk_link_classes, item[:class]),
+                  data: item[:data] %>
+          <% end %>
+        </li>
       <% end %>
-    <% end %>
-  </div>
+    </div>
+  </ul>
 
   <% if render_toggle? %>
     <%= tag.div class: toggle_classes, data: {toggle_target: "content"}, aria_live: "polite" do %>
