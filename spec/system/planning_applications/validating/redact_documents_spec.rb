@@ -29,7 +29,7 @@ RSpec.describe "Redact documents" do
   end
 
   it "allows an assessor to upload redacted documents" do
-    click_link "Upload redacted documents"
+    click_link "Upload redacted documents", class: "govuk-task-list__link"
 
     expect(page).to have_content("existing-floorplan.png")
     expect(page).to have_content("proposed-floorplan.png")
@@ -48,7 +48,7 @@ RSpec.describe "Redact documents" do
       expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "In progress")
     end
 
-    click_link "Upload redacted documents"
+    click_link "Upload redacted documents", class: "govuk-task-list__link"
 
     expect(page).to have_content "existing-floorplan.png"
 
@@ -91,7 +91,7 @@ RSpec.describe "Redact documents" do
   end
 
   it "shows an error" do
-    click_link "Upload redacted documents"
+    click_link "Upload redacted documents", class: "govuk-task-list__link"
 
     within(all(".govuk-table__row")[1]) do
       attach_file("Upload a file", "spec/fixtures/files/images/image.gif")

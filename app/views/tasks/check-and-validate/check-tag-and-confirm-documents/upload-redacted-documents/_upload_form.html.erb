@@ -1,0 +1,37 @@
+<%= form_with model: @form, url: @form.url, method: :patch, multipart: true do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= govuk_table(classes: "redacted-document-table") do |table| %>
+    <% table.with_head do |head| %>
+      <% head.with_row do |row| %>
+        <% row.with_cell(text: "Download original", width: "one-half") %>
+        <% row.with_cell(text: "Upload redacted", width: "one-half") %>
+      <% end %>
+    <% end %>
+
+    <% table.with_body do |body| %>
+      <% @form.documents.each do |document| %>
+        <% body.with_row do |row| %>
+          <%= row.with_cell(width: "one-half") do %>
+            <p class="govuk-!-margin-bottom-1">
+              <%= document_thumbnail_link document, thumbnail_args: {resize_to_limit: [150, 106]} %>
+            </p>
+            <p>
+              <%= truncate(document.name.to_s, length: 50) %><br>
+              <%= link_to_document "Download", document, class: "govuk-body-s" %>
+            </p>
+          <% end %>
+
+          <%= row.with_cell(width: "one-half") do %>
+            <div class="govuk-form-group">
+              <label class="govuk-label" for="documents_<%= document.id %>_file">Upload a file</label>
+              <%= file_field_tag "documents[#{document.id}][file]", id: "documents_#{document.id}_file", class: "govuk-file-upload" %>
+            </div>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render "task_submit_buttons", form: form, save_draft: true %>
+<% end %>
