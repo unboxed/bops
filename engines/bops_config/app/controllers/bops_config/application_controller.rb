@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module BopsConfig
-  class ApplicationController < ActionController::Base
-    include BopsCore::ApplicationController
+  class ApplicationController < BopsCore::ApplicationController
     include BopsCore::AuditableController
 
     self.audit_payload = -> {

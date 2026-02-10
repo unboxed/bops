@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module BopsApi
-  class ApplicationController < ActionController::Base
-    include BopsCore::ApplicationController
+  class ApplicationController < BopsCore::ApplicationController
     include ErrorHandler
     include SchemaValidation
 

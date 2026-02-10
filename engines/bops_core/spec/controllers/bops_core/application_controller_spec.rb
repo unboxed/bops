@@ -3,9 +3,7 @@
 require "bops_core_helper"
 
 RSpec.describe BopsCore::ApplicationController, type: :controller do
-  controller(ActionController::Base) do
-    include BopsCore::ApplicationController
-
+  controller(BopsCore::ApplicationController) do
     def index
       render plain: <<~TEXT
         Local Authority: #{Current.local_authority.subdomain.inspect}

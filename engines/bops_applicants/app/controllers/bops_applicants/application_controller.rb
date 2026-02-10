@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module BopsApplicants
-  class ApplicationController < ActionController::Base
-    include BopsCore::ApplicationController
+  class ApplicationController < BopsCore::ApplicationController
 
     before_action :require_local_authority!
     helper_method :access_control_params

@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module BopsUploads
-  class ApplicationController < ActionController::Base
-    include BopsCore::ApplicationController
+  class ApplicationController < BopsCore::ApplicationController
 
     with_options to: :BopsUploads do
       delegate :key_pair_id, :private_key, :cookie_signer

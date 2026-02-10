@@ -1,20 +1,16 @@
 # frozen_string_literal: true
 
 module BopsCore
-  module ApplicationController
-    extend ActiveSupport::Concern
-
+  class ApplicationController < ActionController::Base
     include Pagy::Backend
 
-    included do
-      before_action :set_current
-      before_action :set_appsignal_tags
+    before_action :set_current
+    before_action :set_appsignal_tags
 
-      class_attribute :page_key, instance_writer: false, default: "dashboard"
+    class_attribute :page_key, instance_writer: false, default: "dashboard"
 
-      helper_method :current_local_authority
-      helper_method :page_key
-    end
+    helper_method :current_local_authority
+    helper_method :page_key
 
     def render(options = {}, locals = {}, &)
       flash_options = (Hash === options) ? options : locals

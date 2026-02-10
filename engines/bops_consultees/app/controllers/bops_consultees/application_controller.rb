@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module BopsConsultees
-  class ApplicationController < ActionController::Base
-    include BopsCore::ApplicationController
+  class ApplicationController < BopsCore::ApplicationController
     include BopsCore::MagicLinkAuthenticatable
 
     before_action :require_local_authority!
