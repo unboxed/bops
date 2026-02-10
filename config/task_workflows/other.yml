@@ -13,6 +13,7 @@
         - name: Check red line boundary
         - name: Check constraints
         - name: Check fee
+        - name: Add reporting details
     - name: Confirm application requirements
       section: Confirm application requirements
       tasks:
