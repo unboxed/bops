@@ -16,7 +16,9 @@ RSpec.describe "Check legislation" do
 
       sign_in assessor
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link("Check legislative requirements")
+      within "#main-content" do
+        click_link("Check legislative requirements")
+      end
     end
 
     it "displays the application information" do

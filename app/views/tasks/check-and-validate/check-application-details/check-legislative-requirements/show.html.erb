@@ -1,0 +1,19 @@
+<%= render "shared/task_header", task: @task %>
+  <p>
+    <%= link_to_if(@planning_application.application_type.legislation_link.present?,
+          @planning_application.application_type.legislation_title,
+          @planning_application.application_type.legislation_link,
+          class: govuk_link_classes,
+          target: "_blank", rel: :noopener) %>
+  </p>
+
+  <% if @planning_application.application_type.legislation_description %>
+    <p><%= @planning_application.application_type.legislation_description %></p>
+  <% end %>
+
+  <%= render(
+        AccordionComponent.new(planning_application: @planning_application, sections: ["proposal_details"])
+      ) %>
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+<% end %>

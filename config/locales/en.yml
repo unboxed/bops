@@ -2705,6 +2705,9 @@ en:
         failure: Please select whether the fee is correct
         success: Fee check was successfully saved
         update_request: Fee change request successfully updated
+      check-legislative-requirements:
+        failure: Failed to save legislative requirements check
+        success: Successfully checked legislative requirements
       check-ownership-certificate:
         delete_request: Ownership certificate change request successfully deleted
         failure: Failed to save ownership certificate check
