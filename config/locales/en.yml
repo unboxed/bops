@@ -2677,6 +2677,9 @@ en:
             'yes': 'Yes'
             yes_recommended_html: Yes <strong>(recommended based on submission data)</strong>
     update:
+      add-reporting-details:
+        failure: Failed to save reporting details
+        success: Reporting details were successfully saved
       check-constraints:
         add_constraint:
           failure: Failed to add constraint

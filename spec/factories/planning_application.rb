@@ -444,6 +444,26 @@ FactoryBot.define do
       application_type { association :application_type, :ldc_existing, local_authority: }
     end
 
+    trait :with_reporting_type do
+      transient do
+        reporting_type_guidance { "This is guidance for testing" }
+      end
+
+      after(:create) do |planning_application, evaluator|
+        code = planning_application.application_type.reporting_types&.first
+        next unless code
+
+        trait = {
+          "Q21" => :householder,
+          "Q26" => :ldc,
+          "PA1" => :prior_approval_1a,
+          "PA99" => :prior_approval_all_others
+        }.fetch(code)
+
+        create(:reporting_type, trait, guidance: evaluator.reporting_type_guidance)
+      end
+    end
+
     trait :consulting do
       after(:create) do |planning_application|
         planning_application.consultation.update!(

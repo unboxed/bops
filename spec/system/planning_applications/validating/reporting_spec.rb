@@ -22,7 +22,7 @@ RSpec.describe "Reporting validation task" do
         "Add reporting details",
         href: "/planning_applications/#{planning_application.reference}/validation/reporting_type/edit"
       )
-      click_link "Add reporting details"
+      click_link "Add reporting details", class: "govuk-task-list__link"
 
       expect(page).to have_content("Edit reporting details")
 
@@ -36,7 +36,7 @@ RSpec.describe "Reporting validation task" do
     end
 
     it "I can select the development type for reporting" do
-      click_link "Add reporting details"
+      click_link "Add reporting details", class: "govuk-task-list__link"
       choose "Q26 – Certificates of lawful development"
 
       expect(page).to have_content("Includes both existing & proposed applications")
@@ -58,7 +58,7 @@ RSpec.describe "Reporting validation task" do
     end
 
     it "shows errors when a development type for reporting is not selected" do
-      click_link "Add reporting details"
+      click_link "Add reporting details", class: "govuk-task-list__link"
       click_button "Save and mark as complete"
 
       expect(page).to have_content "Please select a development type for reporting"
@@ -70,7 +70,7 @@ RSpec.describe "Reporting validation task" do
       end
 
       it "I can save and mark as complete" do
-        click_link "Add reporting details"
+        click_link "Add reporting details", class: "govuk-task-list__link"
         expect(page).to have_content("No applicable reporting types. Please configure them for the application type if they are required.")
         click_button "Save and mark as complete"
 
@@ -79,7 +79,7 @@ RSpec.describe "Reporting validation task" do
     end
 
     it "shows errors when Yes or No is not selected for whether the local authority is carrying out the works proposed" do
-      click_link "Add reporting details"
+      click_link "Add reporting details", class: "govuk-task-list__link"
       page.find(:xpath, '//*[@id="planning-application-regulation-true-field"]').click
       click_button "Save and mark as complete"
 
@@ -87,7 +87,7 @@ RSpec.describe "Reporting validation task" do
     end
 
     it "I can report whether regulation 3 applies" do
-      click_link "Add reporting details"
+      click_link "Add reporting details", class: "govuk-task-list__link"
       choose "Q26 – Certificates of lawful development"
 
       expect(page).to have_content("Includes both existing & proposed applications")
@@ -111,7 +111,7 @@ RSpec.describe "Reporting validation task" do
     end
 
     it "I can report whether regulation 4 applies" do
-      click_link "Add reporting details"
+      click_link "Add reporting details", class: "govuk-task-list__link"
       choose "Q26 – Certificates of lawful development"
 
       expect(page).to have_content("Includes both existing & proposed applications")
@@ -135,7 +135,7 @@ RSpec.describe "Reporting validation task" do
     end
 
     it "I can edit the regulations" do
-      click_link "Add reporting details"
+      click_link "Add reporting details", class: "govuk-task-list__link"
 
       choose "Q26 – Certificates of lawful development"
 
