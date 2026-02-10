@@ -14,6 +14,7 @@
         - name: Check constraints
         - name: Check fee
         - name: Add reporting details
+        - name: Check legislative requirements
     - name: Confirm application requirements
       section: Confirm application requirements
       tasks:
