@@ -2714,6 +2714,9 @@ en:
       draw-red-line-boundary:
         failure: Draw a red line boundary
         success: Red line boundary was successfully saved
+      other-validation-requests:
+        failure: Failed to save other validation requests
+        success: Other validation requests were successfully saved
       review-documents:
         failure: Failed to update document review
         success: Successfully updated document review
