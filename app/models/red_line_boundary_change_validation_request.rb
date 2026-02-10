@@ -70,16 +70,12 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
   end
 
   def complete_check_red_line_boundary_task
-    return unless planning_application.pre_application?
-
     planning_application.case_record
       &.find_task_by_slug_path(CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG)
       &.complete!
   end
 
   def reset_check_red_line_boundary_task
-    return unless planning_application.pre_application?
-
     planning_application.case_record
       &.find_task_by_slug_path(CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG)
       &.not_started!
@@ -111,8 +107,6 @@ class RedLineBoundaryChangeValidationRequest < ValidationRequest
   end
 
   def set_check_red_line_boundary_task_action_required
-    return unless planning_application.pre_application?
-
     planning_application.case_record
       &.find_task_by_slug_path(CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG)
       &.action_required!

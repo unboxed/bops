@@ -157,20 +157,8 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
       click_button "Send request"
 
-      expect(page).to have_content("Validation request for red line boundary successfully created.")
-
-      click_link "Check red line boundary", class: "govuk-task-list__link"
       expect(page).to have_content("Coordinates look wrong")
-
-      within("h1") do
-        expect(page).to have_text("Proposed red line boundary change")
-      end
-
-      # Two maps should be displayed with the original geojson and what the proposed change was
-      map_selectors = all("my-map")
-      red_line_boundary_change_validation_request = planning_application.red_line_boundary_change_validation_requests.last
-      expect(JSON.parse(map_selectors.first["geojsondata"])).to eq(red_line_boundary_change_validation_request.original_geojson)
-      expect(JSON.parse(map_selectors.last["geojsondata"])).to eq(red_line_boundary_change_validation_request.new_geojson)
+      expect(page).to have_content("Red line boundary change request sent")
 
       click_link "Application"
       click_button "Audit log"
@@ -276,8 +264,8 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
         )
 
         click_button "Send request"
-        click_link "Check red line boundary", class: "govuk-task-list__link"
 
+        expect(page).to have_content("Red line boundary change request sent")
         expect(JSON.parse(find_all("my-map")[0]["geojsondata"])).to match(boundary_geojson)
         expect(JSON.parse(find_all("my-map")[1]["geojsondata"])).to match(new_geojson)
       end
