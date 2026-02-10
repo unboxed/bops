@@ -92,7 +92,7 @@ RSpec.describe "Reviewing sign-off", type: :system do
     expect(page).to have_content("We certify that on the date of the application")
     expect(page).to have_content("were lawful")
     expect(page).to have_content("S.192")
-    expect(page).to have_no_content("aggrieved")
+    expect(page).to have_content("aggrieved")
   end
 
   it "can be rejected" do
