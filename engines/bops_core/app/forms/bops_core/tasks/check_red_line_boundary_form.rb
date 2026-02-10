@@ -5,10 +5,13 @@ module BopsCore
     module CheckRedLineBoundaryForm
       extend ActiveSupport::Concern
 
+      include Rails.application.routes.url_helpers
+      include Rails.application.routes.mounted_helpers
+
       included do
         self.task_actions = %w[save_and_complete mark_as_valid delete_request edit_form]
 
-        class_attribute :reference_param_name, default: :reference
+        class_attribute :reference_param_name, default: :planning_application_reference
 
         attribute :valid_red_line_boundary, :boolean
         attribute :validation_request_id, :integer
@@ -47,7 +50,7 @@ module BopsCore
           if valid_red_line_boundary
             super
           else
-            Rails.application.routes.url_helpers.new_planning_application_validation_validation_request_path(
+            main_app.new_planning_application_validation_validation_request_path(
               planning_application,
               type: "red_line_boundary_change"
             )
