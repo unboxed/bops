@@ -6,8 +6,6 @@ class ApplicationController < ActionController::Base
   include BopsCore::PlanningApplicationPresenter
 
   BLOCKED_SIDEBAR_EMAILS = %w[
-    martyn.evans+demo_southwark_assessor@unboxedconsulting.com
-    martyn.evans+demo_southwark_reviewer@unboxedconsulting.com
     tom.gayler@unboxedconsulting.com
   ].freeze
 
