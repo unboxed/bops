@@ -7,9 +7,10 @@ module BopsPreapps
 
       self.task_actions = %w[add_site_history save_and_complete save_draft]
 
-      attribute :decision, :boolean
+      attribute :decision, :string
       attribute :comment, :string
       attribute :description, :string
+      attribute :other_decision, :string
       attribute :reference, :string
       attribute :address, :string
       attribute :date, :date
@@ -42,7 +43,7 @@ module BopsPreapps
 
       def create_site_history!
         planning_application.site_histories.create! do |site_history|
-          site_history.decision = decision
+          site_history.decision = (decision == "other") ? other_decision : decision
           site_history.comment = comment
           site_history.description = description
           site_history.application_number = reference
