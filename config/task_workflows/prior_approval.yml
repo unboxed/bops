@@ -12,6 +12,7 @@
           hidden: true
         - name: Check red line boundary
         - name: Check constraints
+        - name: Check description
         - name: Check fee
         - name: Add reporting details
     - name: Confirm application requirements

@@ -33,7 +33,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
   end
 
   def skip_applicant_approval?
-    skip_applicant_approval == "true"
+    skip_applicant_approval.in? ["true", true]
   end
 
   private
