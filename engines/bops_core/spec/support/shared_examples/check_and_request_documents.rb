@@ -6,7 +6,6 @@ RSpec.shared_examples "check and request documents task" do |application_type|
   let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-validate/check-tag-and-confirm-documents/check-and-request-documents") }
 
   before do
-    Rails.application.load_seed
     sign_in(user)
     visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
@@ -175,7 +174,7 @@ RSpec.shared_examples "check and request documents task" do |application_type|
       click_link "Cancel request"
       click_button "Confirm cancellation"
 
-      expect(page).to have_content("Cancel reason can't be blank")
+      expect(page).to have_content("Enter Cancel reason")
     end
   end
 
