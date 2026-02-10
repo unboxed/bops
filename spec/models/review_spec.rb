@@ -40,13 +40,13 @@ RSpec.describe Review do
 
       describe "#decision" do
         it "validates presence for decision" do
-          expect { review.valid? }.to change { review.errors[:decision] }.to ["can't be blank"]
+          expect { review.valid? }.to change { review.errors[:decision] }.to ["Enter Decision"]
         end
       end
 
       describe "#decision_reason" do
         it "validates presence for decision_reason" do
-          expect { review.valid? }.to change { review.errors[:decision_reason] }.to ["can't be blank"]
+          expect { review.valid? }.to change { review.errors[:decision_reason] }.to ["Enter Decision reason"]
         end
       end
 
@@ -55,7 +55,7 @@ RSpec.describe Review do
           let(:review) { described_class.new(specific_attributes: {decision: "Yes"}, owner: immunity_detail) }
 
           it "validates presence for summary" do
-            expect { review.valid? }.to change { review.errors[:summary] }.to ["can't be blank"]
+            expect { review.valid? }.to change { review.errors[:summary] }.to ["Enter Summary"]
           end
         end
 

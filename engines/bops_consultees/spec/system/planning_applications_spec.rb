@@ -50,7 +50,7 @@ RSpec.describe "Planning applications", type: :system do
 
         click_button "Submit Response"
 
-        expect(page).to have_content("Response can't be blank")
+        expect(page).to have_content("Enter Response")
 
         fill_in "Response", with: "We are happy for this application to proceed"
         fill_in "Your email address", with: "tom@gmail.com"

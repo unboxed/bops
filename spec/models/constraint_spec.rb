@@ -8,21 +8,21 @@ RSpec.describe Constraint do
 
     describe "#type" do
       it "validates presence" do
-        expect { constraint.valid? }.to change { constraint.errors[:type] }.to ["can't be blank"]
+        expect { constraint.valid? }.to change { constraint.errors[:type] }.to ["Enter Type"]
       end
 
       it "validates uniqueness" do
         create(:constraint, type: "designated_conservationarea")
 
         expect { described_class.create!(type: "designated_conservationarea") }.to raise_error(
-          ActiveRecord::RecordInvalid, "Validation failed: Category can't be blank, Type has already been taken"
+          ActiveRecord::RecordInvalid, "Validation failed: Category Enter Category, Type has already been taken"
         )
       end
     end
 
     describe "#category" do
       it "validates presence" do
-        expect { constraint.valid? }.to change { constraint.errors[:category] }.to ["can't be blank"]
+        expect { constraint.valid? }.to change { constraint.errors[:category] }.to ["Enter Category"]
       end
     end
   end

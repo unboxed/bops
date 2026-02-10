@@ -78,7 +78,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
     it "allows user to search planning applications by reference" do
       within(selected_govuk_tab) do
         expect(page).to have_content("My applications")
-        expect(page).not_to have_content("Query can't be blank")
+        expect(page).not_to have_content("Enter Query")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
@@ -87,7 +87,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         expect(page).to have_current_path(%r{^/planning_applications/mine\?query=&submit=search})
 
         expect(page).to have_content("My applications")
-        expect(page).to have_content("Query can't be blank")
+        expect(page).to have_content("Enter Query")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
@@ -98,7 +98,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         expect(page).to have_current_path(%r{^/planning_applications/mine\?query=00100&submit=search})
 
         expect(page).to have_content("My applications")
-        expect(page).not_to have_content("Query can't be blank")
+        expect(page).not_to have_content("Enter Query")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
@@ -114,7 +114,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
       within(selected_govuk_tab) do
         expect(page).to have_content("My applications")
-        expect(page).not_to have_content("Query can't be blank")
+        expect(page).not_to have_content("Enter Query")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
@@ -384,7 +384,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
     it "allows user to search planning applications by reference" do
       within(selected_govuk_tab) do
-        expect(page).not_to have_content("Query can't be blank")
+        expect(page).not_to have_content("Enter Query")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).to have_content(planning_application3.reference)
@@ -393,7 +393,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         expect(page).to have_current_path("/planning_applications/all?#{empty_query}")
 
         expect(page).to have_content("All applications")
-        expect(page).to have_content("Query can't be blank")
+        expect(page).to have_content("Enter Query")
         expect(page).to have_content(planning_application1.reference)
         expect(page).to have_content(planning_application2.reference)
         expect(page).to have_content(planning_application3.reference)
@@ -404,7 +404,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
         expect(page).to have_current_path("/planning_applications/all?#{query}")
 
         expect(page).to have_content("All applications")
-        expect(page).not_to have_content("Query can't be blank")
+        expect(page).not_to have_content("Enter Query")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)
@@ -415,7 +415,7 @@ RSpec.describe "searching planning applications", type: :system, capybara: true 
 
       within(selected_govuk_tab) do
         expect(page).to have_content("All applications")
-        expect(page).not_to have_content("Query can't be blank")
+        expect(page).not_to have_content("Enter Query")
         expect(page).to have_content(planning_application1.reference)
         expect(page).not_to have_content(planning_application2.reference)
         expect(page).not_to have_content(planning_application3.reference)

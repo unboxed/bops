@@ -19,7 +19,7 @@ RSpec.describe AssessmentDetail do
       end
 
       it "validates presence for summary of work" do
-        expect { summary_of_work }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Entry can't be blank")
+        expect { summary_of_work }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Entry Enter Entry")
       end
 
       it "does not validate presence for additional evidence" do
@@ -27,7 +27,7 @@ RSpec.describe AssessmentDetail do
       end
 
       it "validates presence for for site description" do
-        expect { site_description }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Entry can't be blank")
+        expect { site_description }.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Entry Enter Entry")
       end
 
       context "when assessment_status is complete" do
@@ -36,7 +36,7 @@ RSpec.describe AssessmentDetail do
         it "validates presence for consultation_summary" do
           expect { consultation_summary }.to raise_error(
             ActiveRecord::RecordInvalid,
-            "Validation failed: Entry can't be blank"
+            "Validation failed: Entry Enter Entry"
           )
         end
       end
@@ -61,7 +61,7 @@ RSpec.describe AssessmentDetail do
         assessment_detail = build(:assessment_detail, category: :summary_of_advice, summary_tag: nil)
 
         expect(assessment_detail.valid?).to be(false)
-        expect(assessment_detail.errors[:summary_tag]).to include("can't be blank")
+        expect(assessment_detail.errors[:summary_tag]).to eq(["Enter Summary tag"])
       end
     end
 
@@ -201,7 +201,7 @@ RSpec.describe AssessmentDetail do
           expect(
             assessment_detail.errors.messages[:entry]
           ).to contain_exactly(
-            "can't be blank"
+            "Enter Entry"
           )
         end
       end

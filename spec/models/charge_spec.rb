@@ -10,13 +10,13 @@ RSpec.describe Charge, type: :model do
 
     describe "#description" do
       it "validates presence" do
-        expect { charge.valid? }.to change { charge.errors[:description] }.to ["can't be blank"]
+        expect { charge.valid? }.to change { charge.errors[:description] }.to ["Enter Description"]
       end
     end
 
     describe "#amount" do
       it "validates presence" do
-        expect { charge.valid? }.to change { charge.errors[:amount] }.to ["can't be blank"]
+        expect { charge.valid? }.to change { charge.errors[:amount] }.to ["Enter Amount"]
       end
     end
 

@@ -95,13 +95,13 @@ RSpec.describe "Requirement" do
 
     click_button("Submit")
     expect(page).to have_selector("h2", text: "There is a problem")
-    expect(page).to have_link("Description can't be blank", href: "#requirement-description-field-error")
+    expect(page).to have_link("Enter Description", href: "#requirement-description-field-error")
 
     fill_in "Description", with: "Floor plans - existing"
 
     click_button("Submit")
     expect(page).to have_selector("h2", text: "There is a problem")
-    expect(page).to have_link("Category can't be blank", href: "#requirement-category-field-error")
+    expect(page).to have_link("Enter Category", href: "#requirement-category-field-error")
     expect(page).to have_link("Description has already been taken", href: "#requirement-description-field-error")
 
     choose "Drawings"

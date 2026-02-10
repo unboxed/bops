@@ -8,13 +8,13 @@ RSpec.describe Submission do
 
     describe "#request_headers" do
       it "validates presence" do
-        expect { submission.valid? }.to change { submission.errors[:request_headers] }.to ["can't be blank"]
+        expect { submission.valid? }.to change { submission.errors[:request_headers] }.to ["Enter Request headers"]
       end
     end
 
     describe "#request_body" do
       it "validates presence" do
-        expect { submission.valid? }.to change { submission.errors[:request_body] }.to ["can't be blank"]
+        expect { submission.valid? }.to change { submission.errors[:request_body] }.to ["Enter Request body"]
       end
     end
 

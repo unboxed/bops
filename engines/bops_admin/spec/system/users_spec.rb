@@ -33,7 +33,7 @@ RSpec.describe "Users" do
     expect(page).to have_selector("h1", text: "Add a new user")
 
     click_button("Submit")
-    expect(page).to have_content("Email can't be blank")
+    expect(page).to have_content("Enter Email")
 
     fill_in("Email", with: "alice")
     fill_in("Mobile number", with: "not a number")
@@ -145,7 +145,7 @@ RSpec.describe "Users" do
     fill_in("Email", with: "")
 
     click_button("Submit")
-    expect(page).to have_content("Email can't be blank")
+    expect(page).to have_content("Enter Email")
 
     fill_in("Email", with: "bella")
     fill_in("Mobile number", with: "not a number")

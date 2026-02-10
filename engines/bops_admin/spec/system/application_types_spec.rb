@@ -157,7 +157,7 @@ RSpec.describe "Profile", type: :system do
     fill_in "Set determination period", with: ""
     click_button "Continue"
 
-    expect(page).to have_content("can't be blank")
+    expect(page).to have_content("Enter Determination period")
 
     fill_in "Set determination period", with: "not an integer"
     click_button "Continue"

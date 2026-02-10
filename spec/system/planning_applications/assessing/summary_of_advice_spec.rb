@@ -83,8 +83,8 @@ RSpec.describe "Summary of Advice", type: :system do
       click_button "Save and mark as complete"
 
       pending "Needs migration from BaseForm to Form for per-field validation errors to show"
-      expect(page).to have_content("Summary tag can't be blank")
-      expect(page).to have_content("Entry can't be blank")
+      expect(page).to have_content("Enter Summary tag")
+      expect(page).to have_content("Enter Entry")
     end
   end
 end

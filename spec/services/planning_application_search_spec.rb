@@ -295,7 +295,7 @@ RSpec.describe PlanningApplicationSearch do
           search.filtered_planning_applications
 
           expect(search.errors.full_messages).to contain_exactly(
-            "Query can't be blank"
+            "Query Enter Query"
           )
         end
       end
@@ -1042,7 +1042,7 @@ RSpec.describe PlanningApplicationSearch do
       it "is invalid" do
         search.filtered_planning_applications
         expect(search).not_to be_valid
-        expect(search.errors[:query]).to include("can't be blank")
+        expect(search.errors[:query]).to include("Enter Query")
       end
     end
 

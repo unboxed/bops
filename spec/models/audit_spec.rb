@@ -8,7 +8,7 @@ RSpec.describe Audit do
 
     describe "#activity_type" do
       it "validates presence" do
-        expect { audit.valid? }.to change { audit.errors[:activity_type] }.to ["can't be blank"]
+        expect { audit.valid? }.to change { audit.errors[:activity_type] }.to ["Enter Activity type"]
       end
     end
 

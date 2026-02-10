@@ -68,7 +68,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
       within(".govuk-error-summary") do
         expect(page).to have_content("There is a problem")
-        expect(page).to have_content("Proposed description can't be blank")
+        expect(page).to have_content("Enter Proposed description")
       end
     end
 

@@ -13,7 +13,7 @@ RSpec.describe PermittedDevelopmentRight do
         it "validates presence for removed_reason" do
           expect { permitted_development_right }.to raise_error(
             ActiveRecord::RecordInvalid,
-            "Validation failed: Removed reason can't be blank"
+            "Validation failed: Removed reason Enter Removed reason"
           )
         end
       end
@@ -33,7 +33,7 @@ RSpec.describe PermittedDevelopmentRight do
       before { permitted_development_right.status = nil }
 
       it "validates presence" do
-        expect { permitted_development_right.valid? }.to change { permitted_development_right.errors[:status] }.to ["can't be blank"]
+        expect { permitted_development_right.valid? }.to change { permitted_development_right.errors[:status] }.to ["Enter Status"]
       end
     end
 

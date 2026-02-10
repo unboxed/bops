@@ -30,7 +30,8 @@ RSpec.describe "Refunds", type: :system, capybara: true do
 
     click_button "Add refund"
 
-    expect(page).to have_content("can't be blank")
+    expect(page).to have_content("Enter Payment type")
+    expect(page).to have_content("Enter Reason")
 
     fill_in "refund-payment-type", with: "BACS"
     fill_in "refund-reason", with: "Overpayment"

@@ -43,12 +43,12 @@ RSpec.describe "Summary of works" do
 
       click_button "Save and mark as complete"
       within(".govuk-error-summary") do
-        expect(page).to have_content "Entry can't be blank"
+        expect(page).to have_content "Enter Entry"
       end
 
       click_button "Save and come back later"
       within(".govuk-error-summary") do
-        expect(page).to have_content "Entry can't be blank"
+        expect(page).to have_content "Enter Entry"
       end
     end
 

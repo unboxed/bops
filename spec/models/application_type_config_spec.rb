@@ -8,7 +8,7 @@ RSpec.describe ApplicationType::Config do
 
     describe "#name" do
       it "validates presence" do
-        expect { application_type.valid? }.to change { application_type.errors[:name] }.to ["can't be blank"]
+        expect { application_type.valid? }.to change { application_type.errors[:name] }.to ["Enter Name"]
       end
     end
 

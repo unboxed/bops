@@ -12,7 +12,7 @@ RSpec.describe LandOwner do
           land_owner.valid?
         end.to change {
           land_owner.errors[:name]
-        }.to ["can't be blank"]
+        }.to ["Enter Name"]
       end
     end
   end

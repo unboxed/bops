@@ -79,9 +79,9 @@ RSpec.describe "Consultees" do
 
     click_button("Submit")
     expect(page).to have_selector("h2", text: "There is a problem")
-    expect(page).to have_link("Name can't be blank", href: "#consultee-name-field-error")
-    expect(page).to have_link("Origin can't be blank", href: "#consultee-origin-field-error")
-    expect(page).to have_link("Email address can't be blank", href: "#consultee-email-address-field-error")
+    expect(page).to have_link("Enter Name", href: "#consultee-name-field-error")
+    expect(page).to have_link("Enter Origin", href: "#consultee-origin-field-error")
+    expect(page).to have_link("Enter Email address", href: "#consultee-email-address-field-error")
 
     fill_in "Name", with: "Planning Officer"
     fill_in "Organisation", with: "London Fire Brigade"

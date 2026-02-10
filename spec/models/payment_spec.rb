@@ -9,25 +9,25 @@ RSpec.describe Payment, type: :model do
 
     describe "#reference" do
       it "validates presence" do
-        expect { payment.valid? }.to change { payment.errors[:reference] }.to ["can't be blank"]
+        expect { payment.valid? }.to change { payment.errors[:reference] }.to ["Enter Reference"]
       end
     end
 
     describe "#payment_type" do
       it "validates presence" do
-        expect { payment.valid? }.to change { payment.errors[:payment_type] }.to ["can't be blank"]
+        expect { payment.valid? }.to change { payment.errors[:payment_type] }.to ["Enter Payment type"]
       end
     end
 
     describe "#amount" do
       it "validates presence" do
-        expect { payment.valid? }.to change { payment.errors[:amount] }.to ["can't be blank", "is not a number"]
+        expect { payment.valid? }.to change { payment.errors[:amount] }.to ["Enter Amount", "is not a number"]
       end
     end
 
     describe "#payment_date" do
       it "validates presence" do
-        expect { payment.valid? }.to change { payment.errors[:payment_date] }.to ["can't be blank"]
+        expect { payment.valid? }.to change { payment.errors[:payment_date] }.to ["Enter Payment date"]
       end
     end
 
@@ -40,7 +40,7 @@ RSpec.describe Payment, type: :model do
     it "is invalid when amount is nil" do
       payment = build(:payment, amount: nil)
       expect(payment).not_to be_valid
-      expect(payment.errors[:amount]).to include("can't be blank")
+      expect(payment.errors[:amount]).to include("Enter Amount")
     end
 
     it "is invalid when amount <= 0" do

@@ -146,7 +146,7 @@ RSpec.describe "Send notification to neighbours of committee" do
 
       click_button "Send notification"
 
-      expect(page).to have_content "Date of committee can't be blank, Location can't be blank, Link can't be blank, Time can't be blank, Late comments deadline can't be blank"
+      expect(page).to have_content "Date of committee Enter Date of committee, Location Enter Location, Link Enter Link, Time Enter Time, Late comments deadline Enter Late comments deadline"
     end
   end
 end

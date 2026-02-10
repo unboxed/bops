@@ -91,7 +91,7 @@ RSpec.describe "Requesting other changes to a planning application" do
     click_button "Send request"
 
     expect(page).to have_content("Provide a reason")
-    expect(page).to have_content("Suggestion can't be blank")
+    expect(page).to have_content("Enter Suggestion")
 
     click_link("Back")
 

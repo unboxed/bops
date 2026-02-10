@@ -16,7 +16,7 @@ RSpec.describe OwnershipCertificate do
           ownership_certificate.valid?
         end.to change {
           ownership_certificate.errors[:certificate_type]
-        }.to ["can't be blank"]
+        }.to ["Enter Certificate type"]
       end
     end
   end

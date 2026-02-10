@@ -59,7 +59,7 @@ RSpec.describe "Charges", type: :system, capybara: true do
     fill_in "Service description", with: "Meeting- 1 hour"
     click_button "Create charge"
 
-    expect(page).to have_content("Amount can't be blank")
+    expect(page).to have_content("Enter Amount")
 
     fill_in "Amount due", with: 100.00
     within "#payment-due-date" do

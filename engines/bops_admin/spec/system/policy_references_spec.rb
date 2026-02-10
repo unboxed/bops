@@ -117,8 +117,8 @@ RSpec.describe "Policy references" do
 
     click_button("Submit")
     expect(page).to have_selector("h2", text: "There is a problem")
-    expect(page).to have_link("Code can't be blank", href: "#policy-reference-code-field-error")
-    expect(page).to have_link("Description can't be blank", href: "#policy-reference-description-field-error")
+    expect(page).to have_link("Enter Code", href: "#policy-reference-code-field-error")
+    expect(page).to have_link("Enter Description", href: "#policy-reference-description-field-error")
 
     fill_in "Code", with: "PP-256"
     fill_in "Description", with: "Biodiversity"
