@@ -142,7 +142,7 @@ RSpec.describe "Send letters to neighbours", :js, type: :system do
 
       fill_in "consultation-deadline-extension-field", with: " "
       click_button "Confirm and send letters"
-      expect(page).to have_content("Deadline extension can't be blank")
+      expect(page).to have_content("Enter Deadline extension")
       expect(planning_application.consultation.reload.end_date).to be_nil
     end
   end

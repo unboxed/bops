@@ -42,7 +42,7 @@ RSpec.describe "Local authority users", type: :system do
     expect(page).to have_selector("h1", text: "Add a new user")
 
     click_button("Submit")
-    expect(page).to have_content("Email can't be blank")
+    expect(page).to have_content("Enter Email")
 
     fill_in("Name", with: "Alice Smith")
     fill_in("Email", with: "alice@example.com")

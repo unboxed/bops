@@ -10,7 +10,7 @@ RSpec.shared_examples "ValidationRequest" do |klass, request_type|
     it "validates that cancel_reason is present if the state is cancelled" do
       expect do
         request.update!(state: "cancelled")
-      end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Cancel reason can't be blank")
+      end.to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Cancel reason Enter Cancel reason")
     end
 
     context "when calling valid?" do

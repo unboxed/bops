@@ -29,7 +29,7 @@ RSpec.describe "assessing amenity" do
     click_button("Save and mark as complete")
 
     expect(page).to have_content(
-      "Entry can't be blank"
+      "Enter Entry"
     )
 
     fill_in("assessment_detail[entry]", with: "The noise would be too loud")

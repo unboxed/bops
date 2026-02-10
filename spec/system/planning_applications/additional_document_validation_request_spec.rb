@@ -430,7 +430,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       click_button "Confirm cancellation"
       within(".govuk-error-summary") do
         expect(page).to have_content("There is a problem")
-        expect(page).to have_content("Cancel reason can't be blank")
+        expect(page).to have_content("Enter Cancel reason")
       end
 
       fill_in "Explain to the applicant why this request is being cancelled", with: "Mistake"

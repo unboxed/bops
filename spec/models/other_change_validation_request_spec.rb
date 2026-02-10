@@ -32,7 +32,7 @@ RSpec.describe OtherChangeValidationRequest do
           other_change_validation_request.valid?
         end.to change {
           other_change_validation_request.errors[:suggestion]
-        }.to ["can't be blank"]
+        }.to ["Enter Suggestion"]
       end
     end
 

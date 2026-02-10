@@ -8,7 +8,7 @@ RSpec.describe Note do
 
     describe "#entry" do
       it "validates presence" do
-        expect { note.valid? }.to change { note.errors[:entry] }.to ["can't be blank"]
+        expect { note.valid? }.to change { note.errors[:entry] }.to ["Enter Entry"]
       end
     end
 

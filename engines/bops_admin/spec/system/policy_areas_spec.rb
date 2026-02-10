@@ -78,7 +78,7 @@ RSpec.describe "Policy areas", type: :system, capybara: true do
 
     click_button("Submit")
     expect(page).to have_selector("h2", text: "There is a problem")
-    expect(page).to have_link("Description can't be blank", href: "#policy-area-description-field-error")
+    expect(page).to have_link("Enter Description", href: "#policy-area-description-field-error")
 
     fill_in "Description", with: "Biodiversity"
 

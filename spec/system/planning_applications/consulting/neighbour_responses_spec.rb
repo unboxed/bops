@@ -281,10 +281,10 @@ RSpec.describe "View neighbour responses", type: :system, js: true do
 
     expect(page).to have_content("There is a problem")
     expect(page).to have_content("Neighbour must exist")
-    expect(page).to have_content("Name can't be blank")
-    expect(page).to have_content("Response can't be blank")
-    expect(page).to have_content("Summary tag can't be blank")
-    expect(page).to have_content("Received at can't be blank")
+    expect(page).to have_content("Enter Name")
+    expect(page).to have_content("Enter Response")
+    expect(page).to have_content("Enter Summary tag")
+    expect(page).to have_content("Enter Received at")
   end
 
   context "when there is no end date yet but there are responses" do

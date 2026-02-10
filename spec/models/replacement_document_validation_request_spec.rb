@@ -28,7 +28,7 @@ RSpec.describe ReplacementDocumentValidationRequest do
           replacement_document_validation_request.valid?
         end.to change {
           replacement_document_validation_request.errors[:old_document]
-        }.to ["can't be blank"]
+        }.to ["Enter Old document"]
       end
     end
   end

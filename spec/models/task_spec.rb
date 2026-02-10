@@ -25,7 +25,7 @@ RSpec.describe Task, type: :model do
 
     expect {
       task.valid?
-    }.to raise_error(ActiveModel::StrictValidationFailed, "Name can't be blank")
+    }.to raise_error(ActiveModel::StrictValidationFailed, "Name Enter Name")
   end
 
   it "is invalid without a slug" do
@@ -33,7 +33,7 @@ RSpec.describe Task, type: :model do
 
     expect {
       task.valid?
-    }.to raise_error(ActiveModel::StrictValidationFailed, "Slug can't be blank")
+    }.to raise_error(ActiveModel::StrictValidationFailed, "Slug Enter Slug")
   end
 
   it "enforces uniqueness of name scoped to parent" do

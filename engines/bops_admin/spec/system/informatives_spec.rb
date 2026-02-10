@@ -77,8 +77,8 @@ RSpec.describe "Informatives" do
 
     click_button("Submit")
     expect(page).to have_selector("h2", text: "There is a problem")
-    expect(page).to have_link("Title can't be blank", href: "#informative-title-field-error")
-    expect(page).to have_link("Text can't be blank", href: "#informative-text-field-error")
+    expect(page).to have_link("Enter Title", href: "#informative-title-field-error")
+    expect(page).to have_link("Enter Text", href: "#informative-text-field-error")
 
     fill_in "Title", with: "Section 106"
     fill_in "Text", with: "Section 106 needs doing"

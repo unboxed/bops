@@ -211,7 +211,7 @@ RSpec.describe "Sign in" do
           click_button("Log in")
           click_button("Send code")
 
-          expect(page).to have_content("Mobile number can't be blank")
+          expect(page).to have_content("Enter Mobile number")
 
           fill_in("Mobile number", with: "07722865843")
           click_button("Send code")

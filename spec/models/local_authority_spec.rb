@@ -40,7 +40,7 @@ RSpec.describe LocalAuthority do
 
     describe "#subdomain" do
       it "validates presence" do
-        expect { local_authority.valid? }.to change { local_authority.errors[:subdomain] }.to ["can't be blank"]
+        expect { local_authority.valid? }.to change { local_authority.errors[:subdomain] }.to ["Enter Subdomain"]
       end
     end
 

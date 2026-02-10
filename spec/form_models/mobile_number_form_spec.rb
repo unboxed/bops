@@ -22,7 +22,7 @@ RSpec.describe MobileNumberForm do
         expect(
           form.errors.messages[:mobile_number]
         ).to contain_exactly(
-          "can't be blank"
+          "Enter Mobile number"
         )
       end
     end

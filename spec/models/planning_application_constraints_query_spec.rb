@@ -8,13 +8,13 @@ RSpec.describe PlanningApplicationConstraintsQuery do
 
     describe "#planx_query" do
       it "validates presence" do
-        expect { planning_application_constraints_query.valid? }.to change { planning_application_constraints_query.errors[:planx_query] }.to ["can't be blank"]
+        expect { planning_application_constraints_query.valid? }.to change { planning_application_constraints_query.errors[:planx_query] }.to ["Enter Planx query"]
       end
     end
 
     describe "#planning_data_query" do
       it "validates presence" do
-        expect { planning_application_constraints_query.valid? }.to change { planning_application_constraints_query.errors[:planning_data_query] }.to ["can't be blank"]
+        expect { planning_application_constraints_query.valid? }.to change { planning_application_constraints_query.errors[:planning_data_query] }.to ["Enter Planning data query"]
       end
     end
 

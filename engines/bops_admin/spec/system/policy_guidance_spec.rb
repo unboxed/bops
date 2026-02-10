@@ -89,7 +89,7 @@ RSpec.describe "Policy guidance" do
 
     click_button("Submit")
     expect(page).to have_selector("h2", text: "There is a problem")
-    expect(page).to have_link("Description can't be blank", href: "#policy-guidance-description-field-error")
+    expect(page).to have_link("Enter Description", href: "#policy-guidance-description-field-error")
 
     fill_in "Description", with: "Biodiversity"
 

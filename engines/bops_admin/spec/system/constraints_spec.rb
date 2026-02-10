@@ -21,7 +21,7 @@ RSpec.describe "Constraints", type: :system do
 
     click_button("Submit")
     expect(page).to have_selector("h2", text: "There is a problem")
-    expect(page).to have_link("Type can't be blank", href: "#constraint-type-field-error")
+    expect(page).to have_link("Enter Type", href: "#constraint-type-field-error")
 
     fill_in "Category", with: "Heritage and conservation"
     fill_in "Type", with: "Biodiversity"

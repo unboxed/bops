@@ -10,25 +10,25 @@ RSpec.describe Refund, type: :model do
 
     describe "#payment_type" do
       it "validates presence" do
-        expect { refund.valid? }.to change { refund.errors[:payment_type] }.to ["can't be blank"]
+        expect { refund.valid? }.to change { refund.errors[:payment_type] }.to ["Enter Payment type"]
       end
     end
 
     describe "#amount" do
       it "validates presence" do
-        expect { refund.valid? }.to change { refund.errors[:amount] }.to ["can't be blank"]
+        expect { refund.valid? }.to change { refund.errors[:amount] }.to ["Enter Amount"]
       end
     end
 
     describe "#reason" do
       it "validates presence" do
-        expect { refund.valid? }.to change { refund.errors[:reason] }.to ["can't be blank"]
+        expect { refund.valid? }.to change { refund.errors[:reason] }.to ["Enter Reason"]
       end
     end
 
     describe "#date" do
       it "validates presence" do
-        expect { refund.valid? }.to change { refund.errors[:date] }.to ["can't be blank"]
+        expect { refund.valid? }.to change { refund.errors[:date] }.to ["Enter Date"]
       end
     end
   end

@@ -351,9 +351,9 @@ en:
         consultee/response:
           attributes:
             response:
-              blank: Response can't be blank
+              blank: Enter your response
             summary_tag:
-              blank: Summary tag can't be blank
+              blank: Select a summary for your response
         decision:
           attributes:
             category:
@@ -950,6 +950,7 @@ en:
     guidance_link: https://www.gov.uk/government/publications/environmental-impact-assessment-screening-checklist
   errors:
     messages:
+      blank: Enter %{attribute}
       date_blank: is blank
       date_invalid: is not a valid date
       date_is_not: is not %{date}

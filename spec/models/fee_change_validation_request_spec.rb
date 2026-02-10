@@ -32,7 +32,7 @@ RSpec.describe FeeChangeValidationRequest do
           fee_change_validation_request.valid?
         end.to change {
           fee_change_validation_request.errors[:suggestion]
-        }.to ["can't be blank"]
+        }.to ["Enter Suggestion"]
       end
     end
 

@@ -157,7 +157,7 @@ RSpec.describe "FeeItemsValidation", type: :system do
       within(".govuk-error-summary") do
         expect(page).to have_content("There is a problem")
         expect(page).to have_content("Provide a reason for changes")
-        expect(page).to have_content("Suggestion can't be blank")
+        expect(page).to have_content("Enter Suggestion")
       end
     end
 

@@ -73,7 +73,7 @@ class Consultee
       consultee_domain = consultee.email_address.split("@").last
 
       if submitted_domain != consultee_domain
-        errors.add(:email, "Email must be a #{consultee_domain} email address.")
+        errors.add(:email, "Enter an email address ending in #{consultee_domain}")
       end
     end
 

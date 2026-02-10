@@ -67,7 +67,7 @@ RSpec.describe "Permitted development right" do
 
         click_button "Save and mark as complete"
         within(".govuk-error-summary") do
-          expect(page).to have_content "Removed reason can't be blank"
+          expect(page).to have_content "Enter Removed reason"
         end
       end
 

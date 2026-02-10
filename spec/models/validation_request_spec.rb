@@ -8,7 +8,7 @@ RSpec.describe ValidationRequest do
 
     describe "#type" do
       it "validates presence and inclusion" do
-        expect { validation_request.valid? }.to change { validation_request.errors[:type] }.to ["can't be blank", "is not included in the list"]
+        expect { validation_request.valid? }.to change { validation_request.errors[:type] }.to ["Enter Type", "is not included in the list"]
       end
     end
 
@@ -72,7 +72,7 @@ RSpec.describe ValidationRequest do
       describe "cancel" do
         it "does not update the state to cancelled without a cancel reason" do
           expect { request.cancel }
-            .to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Cancel reason can't be blank")
+            .to raise_error(ActiveRecord::RecordInvalid, "Validation failed: Cancel reason Enter Cancel reason")
         end
 
         it "updates the state to cancelled" do
@@ -284,7 +284,7 @@ RSpec.describe ValidationRequest do
       describe "when there is an ActiveRecord error" do
         it "when no cancel reason it raises ValidationRequest::RecordCancelError" do
           expect { request.cancel_request! }
-            .to raise_error(ValidationRequest::RecordCancelError, "Validation failed: Cancel reason can't be blank")
+            .to raise_error(ValidationRequest::RecordCancelError, "Validation failed: Cancel reason Enter Cancel reason")
             .and not_change(Audit, :count)
 
           expect(request).to be_pending
@@ -295,7 +295,7 @@ RSpec.describe ValidationRequest do
           request.update(state: "closed")
 
           expect { request.cancel_request! }
-            .to raise_error(ValidationRequest::RecordCancelError, "Validation failed: Cancel reason can't be blank")
+            .to raise_error(ValidationRequest::RecordCancelError, "Validation failed: Cancel reason Enter Cancel reason")
             .and not_change(Audit, :count)
 
           expect(request).to be_closed
