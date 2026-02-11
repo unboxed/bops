@@ -11,6 +11,14 @@ module BopsCore
       before_action :find_task
     end
 
+    class_methods do
+      private
+
+      def local_prefixes
+        [controller_path, "bops_core/tasks"]
+      end
+    end
+
     def show
       respond_to do |format|
         format.html { render template_for(:show) }
