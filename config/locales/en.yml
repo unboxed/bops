@@ -2681,6 +2681,9 @@ en:
       add-reporting-details:
         failure: Failed to save reporting details
         success: Reporting details were successfully saved
+      check-application-details:
+        failure: Failed to save application details check
+        success: Application details were successfully checked
       check-description:
         failure: Please select whether the description is correct
         success: Description check was successfully saved

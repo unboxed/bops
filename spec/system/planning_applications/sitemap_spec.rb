@@ -136,6 +136,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
     before do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       click_link "Check red line boundary", class: "govuk-task-list__link"
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/sitemap")
 
       within("fieldset", text: "Is this red line boundary valid?") do
         choose "No"

@@ -31,7 +31,9 @@ RSpec.describe "checking consistency" do
     it "lets user save draft or mark as complete" do
       expect(list_item("Check and assess")).to have_content("Not started")
       click_link("Check and assess")
-      click_link("Check application details")
+      within "#main-content" do
+        click_link("Check application details")
+      end
       click_button("Save and mark as complete")
 
       expect(page).to have_content(
@@ -69,7 +71,9 @@ RSpec.describe "checking consistency" do
 
       expect(task_list_item).to have_content("In progress")
 
-      click_link("Check application details")
+      within "#main-content" do
+        click_link("Check application details")
+      end
 
       form_group4 = form_group_with_legend(
         "Are the proposal details consistent with the plans?"
@@ -88,7 +92,9 @@ RSpec.describe "checking consistency" do
 
       expect(task_list_item).to have_content("Completed")
 
-      click_link("Check application details")
+      within "#main-content" do
+        click_link("Check application details")
+      end
 
       field1 = find_by_id(
         "consistency-checklist-description-matches-documents-yes-field"
@@ -138,7 +144,9 @@ RSpec.describe "checking consistency" do
     it "lets user save draft or mark as complete" do
       expect(list_item("Check and assess")).to have_content("Not started")
       click_link("Check and assess")
-      click_link("Check application details")
+      within "#main-content" do
+        click_link("Check application details")
+      end
       click_button("Save and mark as complete")
 
       expect(page).to have_content(
@@ -176,7 +184,9 @@ RSpec.describe "checking consistency" do
 
       expect(task_list_item).to have_content("In progress")
 
-      click_link("Check application details")
+      within "#main-content" do
+        click_link("Check application details")
+      end
 
       form_group4 = form_group_with_legend(
         "Are the proposal details consistent with the plans?"
@@ -206,7 +216,9 @@ RSpec.describe "checking consistency" do
 
       expect(task_list_item).to have_content("Completed")
 
-      click_link("Check application details")
+      within "#main-content" do
+        click_link("Check application details")
+      end
 
       field1 = find_by_id(
         "consistency-checklist-description-matches-documents-yes-field"
@@ -263,8 +275,6 @@ RSpec.describe "checking consistency" do
       it "when site map is correct" do
         expect(list_item("Check and assess")).to have_content("Not started")
         click_link("Check and assess")
-        click_link("Check application details")
-        click_button("Save and mark as complete")
 
         form_group1 = form_group_with_legend("Is the site map correct?")
 
@@ -309,11 +319,9 @@ RSpec.describe "checking consistency" do
         expect(list_item("Check and assess")).to have_content("In progress")
       end
 
-      it "when site map is wrong leave a comment" do
+      it "when site map is wrong leave a comment", capybara: true do
         expect(list_item("Check and assess")).to have_content("Not started")
         click_link("Check and assess")
-        click_link("Check application details")
-        click_button("Save and mark as complete")
 
         form_group1 = form_group_with_legend("Is the site map correct?")
 
@@ -378,8 +386,9 @@ RSpec.describe "checking consistency" do
   it "lets the user request a description change" do
     travel_to(Time.zone.local(2022, 9, 15, 12))
     click_link("Check and assess")
-    click_link("Check application details")
-
+    within "#main-content" do
+      click_link("Check application details")
+    end
     form_group = form_group_with_legend(
       "Does the description match the development or use in the plans?"
     )
@@ -443,7 +452,9 @@ RSpec.describe "checking consistency" do
       .auto_close_request!
 
     visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-    click_link("Check application details")
+    within "#main-content" do
+      click_link("Check application details")
+    end
 
     expect(page).to have_content("Accepted 15 September 2022 13:00")
 
@@ -486,7 +497,9 @@ RSpec.describe "checking consistency" do
     request.close!
     request.update!(approved: true)
     visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-    click_link("Check application details")
+    within "#main-content" do
+      click_link("Check application details")
+    end
 
     expect(page).to have_content("Accepted 15 September 2022 14:00")
     expect(page).to have_link("Request a change to the description")
@@ -501,7 +514,9 @@ RSpec.describe "checking consistency" do
   it "lets the user request an additional document" do
     travel_to(Time.zone.local(2022, 9, 15, 12))
     click_link("Check and assess")
-    click_link("Check application details")
+    within "#main-content" do
+      click_link("Check application details")
+    end
 
     form_group = form_group_with_legend(
       "Are the plans consistent with each other?"
@@ -542,7 +557,9 @@ RSpec.describe "checking consistency" do
 
     click_button("Confirm cancellation")
     visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-    click_link("Check application details")
+    within "#main-content" do
+      click_link("Check application details")
+    end
 
     expect(page).to have_content("Cancelled 15 September 2022 12:00")
 
@@ -562,18 +579,22 @@ RSpec.describe "checking consistency" do
       )
     end
 
-    it "lets the user navigate to the document" do
+    it "lets the user navigate to the document", capybara: true do
       click_link("Check and assess")
-      click_link("Check application details")
+      within "#main-content" do
+        click_link("Check application details")
+      end
       click_link("View new document")
       expect(page).to have_content("File name: proposed-floorplan.png")
     end
   end
 
-  it "lets the user request a red line boundary change" do
+  it "lets the user request a red line boundary change", capybara: true do
     travel_to(Time.zone.local(2022, 9, 15, 12))
     click_link("Check and assess")
-    click_link("Check application details")
+    within "#main-content" do
+      click_link("Check application details")
+    end
 
     form_group = form_group_with_legend(
       "Is the site map correct?"
@@ -616,8 +637,6 @@ RSpec.describe "checking consistency" do
       "Validation request for red line boundary successfully created."
     )
 
-    click_link("Check application details")
-
     form_group = form_group_with_legend(
       "Is the site map correct?"
     )
@@ -643,9 +662,10 @@ RSpec.describe "checking consistency" do
     )
 
     click_button("Confirm cancellation")
-    click_link("Application")
-    click_link("Check and assess")
-    click_link("Check application details")
+    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    within "#main-content" do
+      click_link("Check application details")
+    end
 
     expect(page).to have_content("Cancelled 15 September 2022 12:00")
 

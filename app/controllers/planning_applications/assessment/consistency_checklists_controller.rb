@@ -7,6 +7,7 @@ module PlanningApplications
       before_action :redirect_to_reference_url
 
       def show
+        redirect_to(new_planning_application_assessment_consistency_checklist_path(@planning_application)) if @consistency_checklist.nil?
       end
 
       def new

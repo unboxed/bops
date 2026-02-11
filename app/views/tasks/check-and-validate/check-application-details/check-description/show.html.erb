@@ -59,6 +59,7 @@
     <%= form_with model: @form, url: @form.url,
           data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
       <%= form.govuk_error_summary %>
+      <%= return_to_hidden_field %>
       <%= form.govuk_radio_buttons_fieldset :valid_description, legend: {text: "Does the description match the development or use in the plans?"} do %>
         <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"}, disabled: @form.read_only? %>
         <%= form.govuk_radio_button :valid_description, false, label: {text: "No"}, disabled: @form.read_only? do %>
@@ -96,6 +97,7 @@
     <%= @planning_application.valid_description? ? "valid" : "invalid" %>
   </p>
   <%= form_with model: @form, url: @form.url do |form| %>
+    <%= return_to_hidden_field %>
     <%= render "task_submit_buttons", form: form, save_draft: false %>
   <% end %>
 <% end %>

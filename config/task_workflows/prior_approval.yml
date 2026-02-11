@@ -40,6 +40,7 @@
     - name: Check application
       section: Check application
       tasks:
+        - name: Check application details
         - name: Check consultees
 - name: "View recommendation"
   section: "Review"

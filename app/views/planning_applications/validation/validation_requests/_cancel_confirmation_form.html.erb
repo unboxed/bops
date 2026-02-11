@@ -4,7 +4,7 @@
       url: cancel_planning_application_validation_validation_request_path(@planning_application, validation_request) do |form| %>
   <%= form.govuk_error_summary %>
 
-  <% return_to_value = params[:redirect_to].presence || (@planning_application.pre_application? && @back_path) %>
+  <% return_to_value = params[:redirect_to].presence || params[:return_to].presence || (@planning_application.pre_application? && @back_path) %>
   <% if return_to_value.present? %>
     <%= form.hidden_field :return_to, value: return_to_value %>
   <% end %>

@@ -17,10 +17,21 @@
           checked: consistency_checklist&.default_description_matches_documents_to_no?
         ) do %>
       <% unless consistency_checklist.open_description_change_requests? %>
-        <%= govuk_link_to t(".request_description_change"), main_app.new_planning_application_validation_validation_request_path(
-              planning_application,
-              type: "description_change"
-            ) %>
+        <% check_description_slug = "check-and-validate/check-application-details/check-description" %>
+        <% if local_assigns[:redirect_to] && planning_application.case_record&.find_task_by_slug_path(check_description_slug) %>
+          <%= govuk_link_to t(".request_description_change"),
+                task_path(
+                  planning_application,
+                  check_description_slug,
+                  return_to: local_assigns[:redirect_to]
+                ) %>
+        <% else %>
+          <%= govuk_link_to t(".request_description_change"),
+                main_app.new_planning_application_validation_validation_request_path(
+                  planning_application,
+                  type: "description_change"
+                ) %>
+        <% end %>
       <% end %>
     <% end %>
   <% else %>
@@ -35,10 +46,11 @@
   <% end %>
   <% unless planning_application.pre_application? %>
     <%= render(
-          partial: "description_change_validation_request",
+          partial: "/planning_applications/assessment/consistency_checklists/description_change_validation_request",
           locals: {
             request: planning_application.description_change_validation_request,
-            planning_application: planning_application
+            planning_application: planning_application,
+            redirect_to: local_assigns[:redirect_to]
           }
         ) %>
   <% end %>

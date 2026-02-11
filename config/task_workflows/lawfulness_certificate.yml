@@ -36,6 +36,11 @@
   section: "Consultation"
 - name: "Check and assess"
   section: "Assessment"
+  tasks:
+    - name: Check application
+      section: Check application
+      tasks:
+        - name: Check application details
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"

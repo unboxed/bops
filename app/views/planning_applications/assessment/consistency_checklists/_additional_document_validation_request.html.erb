@@ -17,9 +17,11 @@
 <% if request.open? %>
   <%= govuk_link_to t(".view_and_edit"), main_app.planning_application_documents_path(
         planning_application,
-        anchor: dom_id(request)
+        anchor: dom_id(request),
+        task_slug: @task&.full_slug,
+        return_to: local_assigns[:redirect_to]
       ) %>
   <% if request.may_cancel? %>
-    <%= govuk_link_to "Cancel request", main_app.cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, request), class: "govuk-!-display-block" %>
+    <%= govuk_link_to "Cancel request", main_app.cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, request, return_to: local_assigns[:redirect_to]), class: "govuk-!-display-block" %>
   <% end %>
 <% end %>

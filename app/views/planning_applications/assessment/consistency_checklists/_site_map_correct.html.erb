@@ -39,10 +39,12 @@
 
   <% if !planning_application.pre_application? %>
     <%= render(
-          partial: "red_line_boundary_change_validation_request",
+          partial: "/planning_applications/assessment/consistency_checklists/red_line_boundary_change_validation_request",
           locals: {
             request: planning_application.red_line_boundary_change_validation_request,
-            planning_application: planning_application
+            planning_application: planning_application,
+            task_slug: @task&.full_slug,
+            redirect_to: local_assigns[:redirect_to]
           }
         ) %>
   <% end %>

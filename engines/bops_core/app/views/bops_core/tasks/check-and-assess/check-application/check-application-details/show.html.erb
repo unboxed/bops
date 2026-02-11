@@ -1,0 +1,29 @@
+<%= render "task_header", task: @task, heading: "Check application details" %>
+
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <%= form_with(
+        model: @form,
+        url: @form.url,
+        class: "consistency-checklist-form",
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"}
+      ) do |form| %>
+    <%= form.govuk_error_summary %>
+    <%= return_to_hidden_field %>
+    <% @planning_application.application_type.consistency_checklist.each do |checklist| %>
+      <%= render(
+            partial: "planning_applications/assessment/consistency_checklists/#{checklist}",
+            locals: {
+              form: form,
+              consistency_checklist: @form.consistency_checklist,
+              planning_application: @planning_application,
+              can_edit: true,
+              redirect_to: request.fullpath,
+              task_slug: @task.full_slug
+            }
+          ) %>
+    <% end %>
+
+    <%= render "task_submit_buttons", form: form %>
+  <% end %>
+</div>

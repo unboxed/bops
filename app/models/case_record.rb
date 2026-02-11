@@ -6,6 +6,7 @@ class CaseRecord < ApplicationRecord
   CHECK_FEE_SLUG = "check-and-validate/check-application-details/check-fee"
   CHECK_RED_LINE_BOUNDARY_SLUG = "check-and-validate/check-application-details/check-red-line-boundary"
   DRAW_RED_LINE_BOUNDARY_SLUG = "check-and-validate/check-application-details/draw-red-line-boundary"
+  CHECK_APPLICATION_DETAILS_SLUG = "check-and-assess/check-application/check-application-details"
 
   delegated_type :caseable, types: %w[Enforcement PlanningApplication], dependent: :destroy
 
