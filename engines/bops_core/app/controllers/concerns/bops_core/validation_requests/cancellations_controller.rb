@@ -17,6 +17,14 @@ module BopsCore
         helper_method :back_path
       end
 
+      class_methods do
+        private
+
+        def local_prefixes
+          [controller_path, "bops_core/tasks"]
+        end
+      end
+
       def new
         respond_to do |format|
           format.html { render template: "bops_core/validation_requests/cancellations/new" }

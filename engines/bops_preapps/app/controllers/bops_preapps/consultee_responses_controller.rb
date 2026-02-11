@@ -12,6 +12,14 @@ module BopsPreapps
 
     helper_method :back_to_task_path
 
+    class << self
+      private
+
+      def local_prefixes
+        [controller_path, "bops_core/tasks"]
+      end
+    end
+
     def index
       respond_to do |format|
         format.html

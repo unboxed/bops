@@ -9,6 +9,14 @@ module BopsPreapps
     before_action :show_sidebar
     before_action :show_header
 
+    class << self
+      private
+
+      def local_prefixes
+        [controller_path, "bops_core/tasks"]
+      end
+    end
+
     def new
       @consultees = @consultation.consultees
     end
