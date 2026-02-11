@@ -390,6 +390,28 @@ RSpec.shared_examples "check red line boundary task" do |application_type|
     end
   end
 
+  it "redirects back to the task after creating a validation request" do
+    expect(task).to be_not_started
+
+    within :sidebar do
+      click_link "Check red line boundary"
+    end
+
+    choose "No"
+    click_button "Save and mark as complete"
+
+    expect(page).to have_content("Proposed red line boundary change")
+
+    fill_in "validation_request[reason]", with: "The boundary needs to include the garage"
+    fill_in "validation_request[new_geojson]", with: boundary_geojson.to_json
+
+    click_button "Save request"
+
+    expect(page).to have_content("Red line boundary change request sent")
+    expect(page).to have_content("The boundary needs to include the garage")
+    expect(task.reload).to be_completed
+  end
+
   context "when boundary_geojson is blank" do
     let(:planning_application) { create(:planning_application, application_type, :not_started, local_authority:, boundary_geojson: nil) }
 

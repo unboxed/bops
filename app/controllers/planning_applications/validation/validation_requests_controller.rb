@@ -240,10 +240,17 @@ module PlanningApplications
       end
 
       def check_red_line_boundary_task_path
-        BopsPreapps::Engine.routes.url_helpers.task_path(
-          reference: @planning_application.reference,
-          slug: CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG
-        )
+        if @planning_application.pre_application?
+          BopsPreapps::Engine.routes.url_helpers.task_path(
+            reference: @planning_application.reference,
+            slug: CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG
+          )
+        else
+          task_path(
+            planning_application_reference: @planning_application.reference,
+            slug: CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG
+          )
+        end
       end
 
       def check_and_request_documents_task_path
@@ -278,7 +285,7 @@ module PlanningApplications
       end
 
       def redirect_to_check_red_line_boundary_task?
-        @planning_application.pre_application? &&
+        !@validation_request.post_validation? &&
           @validation_request.type == "RedLineBoundaryChangeValidationRequest"
       end
 

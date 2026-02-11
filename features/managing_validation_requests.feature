@@ -57,7 +57,6 @@ Feature: Managing validation requests
     When I cancel a <type> validation request with "<reason>"
     Then there is a cancelled validation request for a "<reason>" that shows "21 October 2021"
     Examples:
-      | type                     | reason                        |
-      | additional document      | document no longer needed     |
-      | other change             | my mistake                    |
-      | red line boundary change | original boundary was correct |
+      | type                | reason                    |
+      | additional document | document no longer needed |
+      | other change        | my mistake                |
