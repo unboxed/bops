@@ -75,3 +75,6 @@ en:
           failure: Failed to save draft constraints
           success: Draft constraints successfully saved
         success: Constraints were successfully marked as reviewed
+      check-consultees:
+        failure: Failed to save consultee review
+        success: Consultees were successfully marked as reviewed
