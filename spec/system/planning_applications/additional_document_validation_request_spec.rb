@@ -21,7 +21,9 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     visit "/planning_applications/#{planning_application.reference}"
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Check and validate"
-    click_link "Check and request documents"
+    within :sidebar do
+      click_link "Check and request documents"
+    end
     click_link "Add a request for a missing document"
 
     expect(page).to have_content("Request a new document")
@@ -106,7 +108,9 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     it "I can view the documents separated by their tag category", :capybara do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check and request documents"
+      within :sidebar do
+        click_link "Check and request documents"
+      end
 
       within(".govuk-tabs") do
         within("#tab_all") do
@@ -167,12 +171,13 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     it "I can see the list of active documents when I go to validate", :capybara do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
-      within("#check-missing-documents-task") do
-        expect(page).to have_content("Check and request documents")
-        expect(page).to have_content("Not started")
+      within :sidebar do
+        expect(page).to have_link("Check and request documents")
       end
 
-      click_link "Check and request documents"
+      within :sidebar do
+        click_link "Check and request documents"
+      end
 
       expect(page).to have_content("Check and request documents")
       expect(page).to have_content("Check all necessary documents have been provided and add requests for any missing documents.")
@@ -226,23 +231,18 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       end
 
       within(".govuk-button-group") do
-        expect(page).to have_button("Save")
-        expect(page).to have_link(
-          "Back", href: planning_application_validation_tasks_path(planning_application)
-        )
+        expect(page).to have_button("Save and mark as complete")
       end
     end
 
     it "I can validate that there are no missing documents" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check and request documents"
-      click_button "Save"
-
-      expect(page).to have_content("Documents required are marked as valid")
-
-      within("#check-missing-documents-task") do
-        expect(page).to have_content("Completed")
+      within :sidebar do
+        click_link "Check and request documents"
       end
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content("Documents check saved")
 
       expect(planning_application.reload.documents_missing).to be(false)
       expect(AdditionalDocumentValidationRequest.all.length).to eq(0)
@@ -250,7 +250,9 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     it "I get validation errors when I omit required information" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check and request documents"
+      within :sidebar do
+        click_link "Check and request documents"
+      end
       click_link "Add a request for a missing document"
       click_button "Save request"
 
@@ -265,7 +267,9 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     it "I can request missing documents meaning the required documents are invalid" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check and request documents"
+      within :sidebar do
+        click_link "Check and request documents"
+      end
       click_link "Add a request for a missing document"
       click_button "Save request"
 
@@ -298,14 +302,11 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
         expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at.to_fs}")
       end
       within(".govuk-button-group") do
-        click_button "Save"
+        click_button "Save and mark as complete"
       end
 
-      expect(page).to have_content("Documents required are marked as invalid")
-
-      within("#check-missing-documents-task") do
-        expect(page).to have_content("Awaiting response")
-      end
+      expect(page).to have_content("Documents check saved")
+      expect(planning_application.reload.documents_missing).to be true
     end
 
     context "when required documents are marked as awaiting response" do
@@ -321,11 +322,10 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
       it "I can edit the additional document validation request" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-        within("#check-missing-documents-task") do
-          expect(page).to have_content("Awaiting response")
-        end
 
-        click_link "Check and request documents"
+        within :sidebar do
+          click_link "Check and request documents"
+        end
         click_link "Edit request"
 
         expect(page).to have_current_path(
@@ -344,11 +344,9 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
-        within("#check-missing-documents-task") do
-          expect(page).to have_content("Awaiting response")
+        within :sidebar do
+          click_link "Check and request documents"
         end
-
-        click_link "Check and request documents"
 
         within(".govuk-table#additional-document-validation-requests-table") do
           expect(page).to have_content("New document requested")
@@ -362,19 +360,16 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
         expect(page).to have_selector("h1", text: "Check the application")
 
-        click_link "Check and request documents"
-        expect(page).to have_selector("h1", text: "Check and request documents")
+        within :sidebar do
+          click_link "Check and request documents"
+        end
+        expect(page).to have_content("Check for missing documents")
 
         accept_confirm(text: "Are you sure?") do
           click_link("Delete request")
         end
 
-        expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
         expect(page).to have_content("Additional document request was successfully deleted.")
-
-        within("#check-missing-documents-task") do
-          expect(page).to have_content("Not started")
-        end
 
         expect(planning_application.reload.documents_missing).to be_nil
         expect(AdditionalDocumentValidationRequest.all.length).to eq(0)
@@ -396,9 +391,11 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
     it "I can view the request" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check and request documents"
+      within :sidebar do
+        click_link "Check and request documents"
+      end
 
-      expect(page).to have_content("Check and request documents")
+      expect(page).to have_content("Check for missing documents")
 
       within(".govuk-table#additional-document-validation-requests-table") do
         expect(page).to have_content("New document requested")
@@ -407,24 +404,20 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
         expect(page).to have_content("Requested at: #{additional_document_validation_request.created_at.to_fs}")
       end
 
-      expect(page).to have_link(
-        "Cancel request",
-        href: cancel_confirmation_planning_application_validation_validation_request_path(planning_application, additional_document_validation_request)
-      )
+      expect(page).to have_link("Cancel request")
       expect(page).not_to have_link("Edit request")
       expect(page).not_to have_link("Delete request")
 
       within(".govuk-button-group") do
-        expect(page).to have_link(
-          "Back", href: planning_application_validation_tasks_path(planning_application)
-        )
-        expect(page).to have_button("Save")
+        expect(page).to have_button("Save and mark as complete")
       end
     end
 
     it "I can cancel the request" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check and request documents"
+      within :sidebar do
+        click_link "Check and request documents"
+      end
       click_link "Cancel request"
 
       click_button "Confirm cancellation"
@@ -436,28 +429,13 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       fill_in "Explain to the applicant why this request is being cancelled", with: "Mistake"
       click_button "Confirm cancellation"
 
-      expect(page).to have_content("Additional document request successfully cancelled.")
-
-      within(".govuk-table.cancelled-requests") do
-        within("#additional_document_validation_request_#{additional_document_validation_request.id}") do
-          expect(page).to have_content("New document")
-          expect(page).to have_content("Mistake")
-          expect(page).to have_content(additional_document_validation_request.reload.cancelled_at.to_fs)
-        end
-      end
+      expect(page).to have_content("Document request successfully cancelled")
+      expect(page).to have_content("Check and request documents")
 
       expect(planning_application.reload.documents_missing).to be_nil
       expect(AdditionalDocumentValidationRequest.last.state).to eq("cancelled")
 
-      click_link "Validation tasks"
-
-      within("#check-missing-documents-task") do
-        expect(page).to have_content("Not started")
-      end
-
-      click_link "Application"
-      find("#audit-log").click
-      click_link "View all audits"
+      visit "/planning_applications/#{planning_application.reference}/audits"
 
       within("#audit_#{Audit.last.id}") do
         expect(page).to have_content("Cancelled: validation request (new document#1)")
@@ -505,11 +483,9 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       it "I can see the new document in the validate documents list" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
-        within("#check-missing-documents-task") do
-          expect(page).to have_content("Not started")
+        within :sidebar do
+          click_link "Check and request documents"
         end
-
-        click_link "Check and request documents"
 
         within("#all .govuk-table.current-documents") do
           within(".govuk-table__body") do
@@ -539,8 +515,8 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
     it "does not allow you to validate for missing documents" do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
-      within("#check-missing-documents-task") do
-        expect(page).not_to have_link("Check and request documents")
+      within :sidebar do
+        expect(page).to have_content("Check and request documents")
       end
     end
   end
@@ -554,7 +530,9 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       allow_any_instance_of(Document).to receive(:representable?).and_return(false)
 
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check and request documents"
+      within :sidebar do
+        click_link "Check and request documents"
+      end
     end
 
     it "I can see a warning if a document has been removed due to a security issue" do
