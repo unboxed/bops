@@ -1,7 +1,7 @@
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
 
-  <%= render "shared/task_header", task: @task %>
+  <%= render "task_header", task: @task %>
 
   <% if @form.validation_requests.any? %>
     <%= govuk_table(id: "other-validation-requests") do |table| %>
@@ -43,5 +43,5 @@
     </p>
   <% end %>
 
-  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+  <%= render "task_submit_buttons", form: form, save_draft: false %>
 <% end %>

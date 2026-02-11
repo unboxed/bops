@@ -4,7 +4,7 @@
         data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
     <%= form.govuk_error_summary %>
 
-    <%= render "shared/task_header", task: @task %>
+    <%= render "task_header", task: @task %>
 
     <div data-controller="autocomplete-select">
       <%= form.govuk_select :recommended_application_type_id,
@@ -13,6 +13,6 @@
             options: {include_blank: true} %>
     </div>
 
-    <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+    <%= render "task_submit_buttons", form: form, save_draft: false %>
   <% end %>
 </div>

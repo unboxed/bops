@@ -11,6 +11,7 @@ BopsPreapps::Engine.routes.draw do
       get :all, to: "tabs#all_cases"
     end
   end
+
   get "/planning_applications", to: "pre_applications#index"
 
   scope "/:reference" do
@@ -24,6 +25,7 @@ BopsPreapps::Engine.routes.draw do
     resources :consultees, only: [] do
       resources :responses, only: %i[index new create], controller: "consultee_responses"
     end
+
     resources :constraint_consultees, only: %i[destroy]
     resource :assign_constraint, only: %i[create]
 

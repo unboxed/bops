@@ -1,4 +1,4 @@
-<%= render "shared/task_header", task: @task %>
+<%= render "task_header", task: @task %>
 
 <%= render(
       AccordionComponent.new(
@@ -48,7 +48,7 @@
             disabled: @form.read_only?,
             label: {text: t(".label.no")}
           ) %>
-      <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+      <%= render "task_submit_buttons", form: form, save_draft: false %>
     <% end %>
   <% end %>
 </div>

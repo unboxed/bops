@@ -1,4 +1,4 @@
-<%= render "shared/task_header", task: @task, heading: "Check the digital red line boundary" %>
+<%= render "task_header", task: @task, heading: "Check the digital red line boundary" %>
 
 <% if @form.validation_request %>
   <% if @form.validation_request.open_or_pending? %>
@@ -85,7 +85,7 @@
           <%= form.govuk_radio_button :valid_red_line_boundary, false, label: {text: "No"} %>
         <% end %>
 
-        <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+        <%= render "task_submit_buttons", form: form, save_draft: false %>
       <% end %>
     </div>
   <% end %>
@@ -108,7 +108,7 @@
         <%= form.govuk_radio_button :valid_red_line_boundary, false, label: {text: "No"}, disabled: @form.read_only? %>
       <% end %>
 
-      <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+      <%= render "task_submit_buttons", form: form, save_draft: false %>
     <% end %>
   </div>
 <% end %>

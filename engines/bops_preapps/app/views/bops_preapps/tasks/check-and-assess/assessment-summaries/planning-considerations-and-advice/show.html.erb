@@ -1,4 +1,4 @@
-<%= render "shared/task_header", task: @task %>
+<%= render "task_header", task: @task %>
 
 <% @form.considerations.group_by(&:policy_area).each_with_index do |(policy_area, considerations), index| %>
   <%= govuk_summary_card(title: policy_area, html_attributes: {id: policy_area.parameterize}) do |card| %>
@@ -70,6 +70,6 @@
   <% end %>
   <%= form_with model: @form, url: @form.url do |form| %>
       <%= return_to_hidden_field %>
-      <%= render "shared/task_submit_buttons", form: form %>
+      <%= render "task_submit_buttons", form: form %>
     <% end %>
 <% end %>

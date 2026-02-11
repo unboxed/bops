@@ -1,4 +1,4 @@
-<%= render "shared/task_header", task: @task, heading: "Assign consultees" %>
+<%= render "task_header", task: @task, heading: "Assign consultees" %>
 
 <%= form_with model: @constraint,
       url: consultees_path(reference: @planning_application.reference, task_slug: @task.full_slug),

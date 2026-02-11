@@ -5,7 +5,7 @@
     <%= form.govuk_error_summary %>
     <%= return_to_hidden_field %>
 
-  <%= render "shared/task_header", task: @task %>
+  <%= render "task_header", task: @task %>
 
   <% if @form.meetings.any? %>
     <table class="govuk-table" id="meeting-history">
@@ -52,6 +52,6 @@
     <% end %>
   <% end %>
 
-    <%= render "shared/task_submit_buttons", form: form %>
+    <%= render "task_submit_buttons", form: form %>
   <% end %>
 </div>

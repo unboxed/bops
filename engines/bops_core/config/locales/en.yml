@@ -29,6 +29,11 @@ en:
             phone_number:
               blank: Enter a phone number for the test message
               invalid: Enter a valid phone number for the test message
+  bops_core:
+    tasks:
+      task_submit_buttons:
+        save_draft: Save changes
+        submit: Save and mark as complete
   shared:
     users:
       form:

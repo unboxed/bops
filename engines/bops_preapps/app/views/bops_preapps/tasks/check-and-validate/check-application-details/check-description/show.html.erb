@@ -1,4 +1,4 @@
-<%= render "shared/task_header", task: @task, heading: "Check description" %>
+<%= render "task_header", task: @task, heading: "Check description" %>
 
 <% if @form.validation_request %>
   <h2 class="govuk-heading-m">Description change request</h2>
@@ -51,7 +51,7 @@
         <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"}, disabled: @form.read_only? %>
         <%= form.govuk_radio_button :valid_description, false, label: {text: "No"}, disabled: @form.read_only? %>
       <% end %>
-      <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+      <%= render "task_submit_buttons", form: form, save_draft: false %>
     <% end %>
   </div>
 <% else %>

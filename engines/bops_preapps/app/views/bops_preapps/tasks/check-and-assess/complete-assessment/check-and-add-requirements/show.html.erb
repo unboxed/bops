@@ -1,4 +1,4 @@
-<%= render "shared/task_header", task: @task %>
+<%= render "task_header", task: @task %>
 
 <% @requirements = @planning_application.requirements %>
 
@@ -87,6 +87,6 @@
     <%= form.govuk_task_button "Add requirements", secondary: true, action: :add_requirement, class: "govuk-!-margin-bottom-2" %>
   <% end %>
 
-  <%= render "shared/task_submit_buttons", form: form %>
+  <%= render "task_submit_buttons", form: form %>
   <% end %>
 </div>
