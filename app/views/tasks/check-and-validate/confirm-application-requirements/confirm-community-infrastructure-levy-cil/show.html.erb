@@ -33,6 +33,6 @@
       <% no_key = (@form.recommended_cil_liable == false) ? "no_recommended_html" : "no" %>
       <%= form.govuk_radio_button :cil_liable, false, label: {text: t(".#{no_key}")}, disabled: @form.read_only?, checked: @planning_application.cil_liable == false %>
     <% end %>
-  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+  <%= render "task_submit_buttons", form: form, save_draft: false %>
 <% end %>
 </div>

@@ -31,7 +31,7 @@
     <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson, geojson_field: "planning_application_boundary_geojson"} %>
 
     <div class="govuk-!-margin-top-4">
-      <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+      <%= render "task_submit_buttons", form: form, save_draft: false %>
     </div>
   <% end %>
 </div>

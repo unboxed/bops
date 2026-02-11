@@ -11,5 +11,5 @@
       redirect_to: @form.url %>
 
 <%= form_with model: @form, url: @form.url do |form| %>
-  <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+  <%= render "task_submit_buttons", form: form, save_draft: false %>
 <% end %>

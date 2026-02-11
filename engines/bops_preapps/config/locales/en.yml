@@ -240,7 +240,3 @@ en:
           check-fee: Fee change request successfully cancelled
           check-red-line-boundary: Red line boundary change request successfully cancelled
         validation_request_not_cancelable: This request cannot be cancelled
-  shared:
-    task_submit_buttons:
-      save_draft: Save changes
-      submit: Save and mark as complete

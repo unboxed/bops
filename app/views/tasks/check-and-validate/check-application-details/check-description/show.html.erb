@@ -84,7 +84,7 @@
         <% end %>
       <% end %>
 
-      <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+      <%= render "task_submit_buttons", form: form, save_draft: false %>
     <% end %>
   </div>
 <% else %>
@@ -98,6 +98,6 @@
     <%= @planning_application.valid_description? ? "valid" : "invalid" %>
   </p>
   <%= form_with model: @form, url: @form.url do |form| %>
-    <%= render "shared/task_submit_buttons", form: form, save_draft: false %>
+    <%= render "task_submit_buttons", form: form, save_draft: false %>
   <% end %>
 <% end %>
