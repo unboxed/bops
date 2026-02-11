@@ -1,4 +1,4 @@
-<%= render "shared/task_header", task: @task %>
+<%= render "task_header", task: @task %>
 <div data-controller="unsaved-changes"
      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
   <%= form_with(

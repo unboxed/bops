@@ -1,4 +1,4 @@
-<%= render "shared/task_header", task: @task %>
+<%= render "task_header", task: @task %>
 
 <% @form.considerations.group_by(&:policy_area).each_with_index do |(policy_area, considerations), index| %>
   <%= govuk_summary_card(title: policy_area, html_attributes: {id: policy_area.parameterize}) do |card| %>

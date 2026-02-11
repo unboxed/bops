@@ -1,4 +1,4 @@
-<%= render "shared/task_header", task: @task %>
+<%= render "task_header", task: @task %>
 
 <% validation_requests = @planning_application.requests_excluding_time_extension.where(post_validation: false) %>
 <% cancelled_validation_requests = validation_requests.cancelled %>

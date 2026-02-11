@@ -4,7 +4,7 @@
         data: {consultees_target: "form", unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
     <%= form.govuk_error_summary %>
 
-  <%= render "shared/task_header", task: @task, heading: t(".heading") %>
+  <%= render "task_header", task: @task, heading: t(".heading") %>
 
   <div class="govuk-grid-row">
     <%= content_tag(:div, class: "govuk-grid-column-full", data: {

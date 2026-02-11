@@ -1,3 +1,3 @@
-<%= render "shared/task_header", task: @task %>
+<%= render "task_header", task: @task %>
 
 <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/suggest-heads-of-terms/form", url: main_app.planning_application_assessment_term_path(@planning_application, @term, redirect_to: task_path(@planning_application, @task)) %>

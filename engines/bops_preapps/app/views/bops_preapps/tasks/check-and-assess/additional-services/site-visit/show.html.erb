@@ -5,7 +5,7 @@
     <%= form.govuk_error_summary %>
     <%= return_to_hidden_field %>
 
-  <%= render "shared/task_header", task: @task %>
+  <%= render "task_header", task: @task %>
 
   <% if @form.site_visits.any? %>
     <table class="govuk-table" id="site-visit-history">

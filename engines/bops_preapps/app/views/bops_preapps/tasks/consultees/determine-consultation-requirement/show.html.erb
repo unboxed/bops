@@ -4,7 +4,7 @@
         data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
     <%= form.govuk_error_summary %>
 
-    <%= render "shared/task_header", task: @task %>
+    <%= render "task_header", task: @task %>
 
     <% if @planning_application.consultation_required? && @planning_application.consultation&.consultees&.exists? %>
       <%= govuk_warning_text(text: t(".warning")) %>
