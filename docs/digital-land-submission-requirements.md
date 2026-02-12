@@ -331,7 +331,102 @@ DL schemas use `if/then/allOf/anyOf` extensively for conditional requirements. T
 
 ---
 
-## 6. Verification Plan
+## 6. Schema Quality Assessment
+
+The Digital Land spec (v0.1.57) is alpha-stage and the generated JSON schemas have significant issues that affect how much we can rely on schema validation alone. These are documented here both as risks for our implementation and as potential feedback to the Digital Land team.
+
+### 6.1 Critical Issues
+
+**`additionalProperties: true` at root level — the schema barely validates**
+
+The root schema allows any extra keys. A typo like `"sit-details"` instead of `"site-details"` passes validation silently — you get an apparently valid submission with missing data. This defeats the core purpose of schema validation. Should be `false`.
+
+**No version identifier anywhere in the payload**
+
+The spec's own docs list this as an open question. There is no `version`, `$schema`, or `spec-version` field. Consumers have no way to know which schema version a payload conforms to. Compare with ODP which embeds `metadata.schema` as a self-describing URL. This is a deployment and evolution blocker.
+
+**`reference` claims UUID but doesn't enforce it, and the example contradicts the spec**
+
+The markdown spec says `reference` MUST be a UUID. The JSON schema only says `"type": "string"` with no `format: "uuid"` or pattern. The sole example payload uses `"HH/2025/001"` — not a UUID. The spec, the schema, and the example are three-way inconsistent.
+
+**Empty `required: []` on critical definitions**
+
+Several key definitions have `"required": []`, meaning an empty object `{}` validates:
+- `site-location` — no address, no UPRN, no boundary, no coordinates required
+- `phone-number` — no number required
+- `notified-person` — nothing required
+- `agent-details` — the module is required at root, but everything inside is optional
+
+A "valid" householder submission could have completely empty agent details, empty site locations, and empty phone numbers.
+
+**`application-sub-type` has `"enum": []` — an empty enum**
+
+An empty enum means no value is ever valid. If someone includes this optional field, validation always fails. This is a bug in the schema generator.
+
+### 6.2 Structural Design Problems
+
+**Boolean-as-string anti-pattern**
+
+`access-rights-of-way` encodes tri-state values as string enums (`"true"`, `"false"`, `"unknown"`) while other modules use actual `"type": "boolean"`. Consumers must handle the same concept two different ways. Should use a consistent `yes-no-unknown` enum or nullable booleans throughout.
+
+**No format constraints on dates, emails, postcodes, or geometry**
+
+Every date field is just `"type": "string"` — `"banana"` is a valid `declaration-date`. Same for `email` (no `format: "email"`), `postcode` (no pattern), and `site-boundary` WKT (any string accepted). Draft-07 supports `format` for all of these but the spec doesn't use it.
+
+**`address-text` is a free-text dump instead of structured address**
+
+Addresses are a single string: `"address-text": "123 High Street, London"`. Only `postcode` is separated. This makes it impossible to reliably extract address components, match against OS AddressBase, or validate against gazetteer data. ODP gets this right with separate `line1`, `line2`, `town`, `county`, `postcode`, `country` fields.
+
+**Redundant `modules` array creates a source-of-truth conflict**
+
+`application.modules` lists which modules are present, but the modules are also required top-level keys. What if `modules` lists `"parking"` but there's no `parking` key? What if `proposal-details` exists as a key but isn't in `modules`? No cross-validation exists. It's a DRY violation with no consistency enforcement.
+
+**No transport/submission metadata envelope**
+
+Unlike ODP which has `metadata.id`, `metadata.source`, `metadata.submittedAt`, `metadata.organisation`, the DL spec has zero transport metadata — no source system identifier, no submission timestamp, no correlation ID, no schema version. All audit/traceability concerns are pushed onto every consumer independently.
+
+### 6.3 Validation & Interoperability Gaps
+
+**Multi-schema validation is entirely consumer-side**
+
+The spec says: "The responsibility for handling multi-type applications is placed on the consuming application." Every vendor must independently implement the same orchestration logic. This should be a provided utility or composite schema.
+
+**Cross-reference integrity is unenforceable**
+
+Supporting documents reference `application.documents` by `reference`. The spec says "must match", but JSON Schema cannot validate cross-references between parts of a document. This needs application-level validation, but the spec doesn't make that distinction clear.
+
+**`file` component definition is incomplete**
+
+`specification/component/file.md` defines `base64-content`, `filename`, `mime-type`, `file-size`. But `application.md` also documents `url` and `checksum` fields. These are missing from the component definition — inconsistency between human docs and machine-readable spec.
+
+**Only 1 test payload for 25 schema types**
+
+The spec docs explicitly flag this: "A major part missing in this work is sample application JSON data." Only `hh` has an example. The other 24 schemas are effectively untested.
+
+### 6.4 Recommendations for Digital Land Team
+
+| Issue | Recommendation |
+|---|---|
+| `additionalProperties: true` | Set to `false` to catch typos and malformed payloads |
+| No version field | Add `spec-version` to the `application` object |
+| Untyped `reference` | Add `"format": "uuid"` or a regex pattern; fix the example |
+| Empty `required: []` | Define meaningful required fields for `site-location`, `phone-number`, `agent-details` |
+| Empty enum `[]` | Fix schema generator to omit the field or populate valid subtypes |
+| Boolean-as-string | Use a consistent pattern across all modules |
+| No date/email formats | Add `"format": "date"`, `"format": "email"`, postcode pattern, WKT pattern |
+| Free-text addresses | Add structured address component alongside or replacing `address-text` |
+| Redundant `modules` array | Drop it or enforce consistency with top-level keys |
+| No metadata envelope | Add `submission-metadata`: `source`, `submitted-at`, `spec-version`, `correlation-id` |
+| Consumer-side multi-validation | Provide a composite meta-schema or reference validation library |
+| Missing test payloads | Generate valid examples for all 25 types |
+
+### 6.5 Implication for BOPS
+
+**We cannot rely on DL schema validation alone.** The schemas are too permissive to guarantee data quality. Our implementation must include a substantial application-level validation layer on top of JSON Schema validation — checking required field presence within modules, date formats, address completeness, document cross-references, and geometry validity.
+
+---
+
+## 7. Verification Plan
 
 1. **Unit tests**: Parser specs with DL fixture payloads for each parser
 2. **Integration tests**: Request spec `POST /api/v2/submissions?schema=digital-land` with HH fixture -> verify Submission created, UUID returned
