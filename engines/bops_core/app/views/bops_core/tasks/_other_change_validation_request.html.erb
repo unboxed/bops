@@ -1,0 +1,23 @@
+<td class="govuk-table__cell">
+  Other
+</td>
+<td class="govuk-table__cell">
+  <%= render(FormattedContentComponent.new(text: validation_request.reason)) %>
+</td>
+
+<% if validation_request.cancelled? %>
+  <td class="govuk-table__cell limit-column-width">
+    <%= render(FormattedContentComponent.new(text: validation_request.cancel_reason)) %>
+  </td>
+  <td class="govuk-table__cell limit-column-width">
+    <%= validation_request.cancelled_at.to_fs %>
+  </td>
+<% else %>
+  <%= render "validation_request_status", validation_request: %>
+
+  <td class="govuk-table__cell">
+    <%= govuk_link_to main_app.planning_application_validation_validation_request_path(@planning_application, validation_request, redirect_to: task_path(@planning_application, @task)) do %>
+      <%= @planning_application.validated? ? "View" : "View and update" %>
+    <% end %>
+  </td>
+<% end %>

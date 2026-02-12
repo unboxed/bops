@@ -3,13 +3,7 @@
 module BopsPreapps
   module Tasks
     class ReviewValidationRequestsForm < Form
-      def update(_params)
-        true
-      end
-
-      def permitted_fields(_params)
-        {}
-      end
+      include BopsCore::Tasks::ReviewValidationRequestsForm
     end
   end
 end

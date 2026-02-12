@@ -277,6 +277,10 @@ class ValidationRequest < ApplicationRecord
     (auto_closed_at - created_at) < 60.seconds
   end
 
+  def partial_name
+    model_name.singular
+  end
+
   private
 
   def send_and_add_events

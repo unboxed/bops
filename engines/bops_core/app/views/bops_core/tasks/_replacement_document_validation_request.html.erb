@@ -1,0 +1,29 @@
+<td class="govuk-table__cell">
+  Replacement document
+</td>
+<% if validation_request.cancelled? %>
+  <td class="govuk-table__cell">
+    <%= render(FormattedContentComponent.new(text: validation_request.invalidated_document_reason)) %>
+  </td>
+<% else %>
+  <td class="govuk-table__cell limit-column-width">
+    <%= govuk_link_to validation_request.old_document.name, main_app.edit_planning_application_document_path(@planning_application, validation_request.old_document) %>
+  </td>
+<% end %>
+
+<% if validation_request.cancelled? %>
+  <td class="govuk-table__cell limit-column-width">
+    <%= render(FormattedContentComponent.new(text: validation_request.cancel_reason)) %>
+  </td>
+  <td class="govuk-table__cell limit-column-width">
+    <%= validation_request.cancelled_at.to_fs %>
+  </td>
+<% else %>
+  <%= render "validation_request_status", validation_request: %>
+
+  <td class="govuk-table__cell">
+    <%= govuk_link_to task_path(@planning_application, "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents", return_to:) do %>
+      <%= @planning_application.validated? ? "View" : "View and update" %>
+    <% end %>
+  </td>
+<% end %>

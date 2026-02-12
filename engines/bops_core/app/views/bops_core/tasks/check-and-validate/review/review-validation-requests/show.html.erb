@@ -16,8 +16,8 @@
       <% end %>
 
       <%= render(
-            "planning_applications/validation/validation_requests/table",
-            requests: active_validation_requests,
+            "active_validation_requests",
+            validation_requests: active_validation_requests,
             planning_application: @planning_application,
             return_to: request.original_fullpath
           ) %>
@@ -27,8 +27,8 @@
 
     <% if cancelled_validation_requests.any? %>
       <%= render(
-            "planning_applications/validation/validation_requests/cancelled_requests",
-            requests: cancelled_validation_requests
+            "cancelled_validation_requests",
+            validation_requests: cancelled_validation_requests
           ) %>
     <% end %>
 
