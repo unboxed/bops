@@ -5,9 +5,7 @@ class ApplicationController < ActionController::Base
   include BopsCore::Sidebar
   include BopsCore::PlanningApplicationPresenter
 
-  BLOCKED_SIDEBAR_EMAILS = %w[
-    tom.gayler@unboxedconsulting.com
-  ].freeze
+  BLOCKED_SIDEBAR_EMAILS = %w[].freeze
 
   before_action :require_local_authority!
   before_action :prevent_caching
