@@ -1,7 +1,7 @@
 <%= render "task_header", task: @task %>
 
 <% unless @planning_application.determined? %>
-  <%= render ErrorSummaryComponent.new(errors: @planning_application.consultation.errors) %>
+  <%= render ErrorSummaryComponent.new(errors: @form.errors) %>
 <% end %>
 
 <% if @planning_application.consultation_required == false %>
@@ -9,7 +9,7 @@
     <p><strong>Consultation has been marked as not required</strong></p>
     <p>
       To start the consultation process, first complete the
-      <%= link_to "Determine consultation requirement", task_path(@planning_application, @form.determine_consultation_requirement_task) %>
+      <%= link_to "Determine consultation requirement", @form.determine_consultation_requirement_task_path %>
       task.
     </p>
   </div>
@@ -19,7 +19,7 @@
       <p><strong>Consultation hasn't been started yet</strong></p>
       <p>
         To start the consultation process, first complete the
-        <%= link_to "Determine consultation requirement", task_path(@planning_application, @form.determine_consultation_requirement_task) %>
+        <%= link_to "Determine consultation requirement", @form.determine_consultation_requirement_task_path %>
         task.
       </p>
     </div>
@@ -32,9 +32,7 @@
         task_slug: @task.full_slug %>
 <% end %>
 
-<p>
-  <%= govuk_link_to "Add consultees", task_path(@planning_application, @form.add_consultees_task) %>
-</p>
+<p><%= govuk_link_to "Add consultees", @form.add_consultees_task_path %></p>
 
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= render "task_submit_buttons", form: %>
