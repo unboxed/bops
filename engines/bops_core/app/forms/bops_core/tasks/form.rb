@@ -88,7 +88,7 @@ module BopsCore
       end
 
       def read_only?
-        task.status == "completed"
+        task.completed?
       end
 
       private
