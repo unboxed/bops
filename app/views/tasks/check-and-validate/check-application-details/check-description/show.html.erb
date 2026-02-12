@@ -31,9 +31,7 @@
     <%= form_with model: @form, url: @form.url do |form| %>
       <%= form.hidden_field :valid_description, value: true %>
       <%= return_to_hidden_field %>
-      <div class="govuk-button-group">
-        <%= form.govuk_task_button "Save and mark as complete" %>
-      </div>
+      <%= render "task_submit_buttons", form: form, save_draft: false %>
     <% end %>
   <% elsif @form.validation_request.closed? && @form.validation_request.rejected? %>
     <p>
