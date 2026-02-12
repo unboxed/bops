@@ -33,7 +33,7 @@
       </h2>
       <p>
         <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %><br>
-        <%= govuk_link_to "View existing requests", main_app.planning_application_validation_validation_requests_path(@planning_application) %>
+        <%= govuk_link_to "View existing requests", task_path(@planning_application, "check-and-validate/review/review-validation-requests") %>
       </p>
       <% unresolved_requests = @planning_application.requests_excluding_time_extension.open_or_pending %>
       <% if unresolved_requests.any? %>

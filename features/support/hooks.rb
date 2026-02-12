@@ -3,6 +3,10 @@
 require Rails.root.join("spec/support/notify_mock")
 
 Before do
+  Rails.configuration.use_new_sidebar_layout = false
+end
+
+Before do
   Rails.application.load_seed
 
   LocalAuthority.update_all(

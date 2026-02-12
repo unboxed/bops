@@ -79,7 +79,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
       visit "/planning_applications/#{new_planning_application.id}"
       click_link "Check and validate"
-      click_link "Send validation decision"
+      click_link "Send validation decision", class: "govuk-task-list__link"
       expect(request.notified_at).to be_nil
 
       click_button "Mark the application as invalid"
