@@ -15,6 +15,14 @@ module Tasks
       validates :proposed_description, presence: true, unless: :valid_description
     end
 
+    def cancellation_path
+      main_app.new_validation_request_cancellation_path(
+        planning_application.reference,
+        validation_request.id,
+        task_slug: task.full_slug
+      )
+    end
+
     private
 
     def save_and_complete

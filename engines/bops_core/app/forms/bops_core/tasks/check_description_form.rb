@@ -42,6 +42,10 @@ module BopsCore
         @description_was_updated ||= planning_application.description_change_validation_requests.closed.approved.exists?
       end
 
+      def new_request_path
+        main_app.new_planning_application_validation_validation_request_path(planning_application, type: "description_change")
+      end
+
       private
 
       def save_and_complete

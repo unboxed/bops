@@ -27,26 +27,22 @@
       <% end %>
     </p>
   </div>
-  <% if @form.validation_request.closed? && @form.validation_request.approved? %>
-    <%= form_with model: @form, url: @form.url do |form| %>
-      <%= form.hidden_field :valid_description, value: true %>
-      <%= return_to_hidden_field %>
-      <%= render "task_submit_buttons", form: form, save_draft: false %>
-    <% end %>
-  <% elsif @form.validation_request.closed? && @form.validation_request.rejected? %>
+  <% if @form.validation_request.closed? %>
     <p>
-      <%= govuk_link_to "Request a new description change",
-            main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "description_change") %>
+      <%= govuk_link_to "Request a new description change", @form.new_request_path %>
     </p>
   <% else %>
     <p>
-      <%= govuk_link_to "Cancel description change request",
-            main_app.new_validation_request_cancellation_path(
-              @planning_application.reference,
-              @form.validation_request.id,
-              task_slug: @task.full_slug
-            ) %>
+      <%= govuk_link_to "Cancel description change request", @form.cancellation_path %>
     </p>
+  <% end %>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <% if @form.validation_request.closed?  && @form.validation_request.approved? %>
+      <%= form.hidden_field :valid_description, value: true %>
+    <% end %>
+
+    <%= return_to_hidden_field %>
+    <%= render "task_submit_buttons", form: form, save_draft: false %>
   <% end %>
 <% elsif (!@planning_application.valid_description) || params[:edit] == "true" || @task.in_progress? %>
   <div class="govuk-inset-text">

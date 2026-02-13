@@ -31,9 +31,7 @@
     <% end %>
   <% elsif @form.validation_request.closed? && @form.validation_request.rejected? %>
     <p>
-      <%= govuk_link_to "Request a new description change",
-            main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "description_change"),
-            class: "govuk-body" %>
+      <%= govuk_link_to "Request a new description change", @form.new_request_path %>
     </p>
   <% end %>
 <% elsif @planning_application.valid_description.nil? || params[:edit] == "true" %>
