@@ -6,12 +6,6 @@
   <%= form.govuk_text_field :url, width: "three-quarters", label: {text: t(".labels.url")} %>
 <% end %>
 
-<%= form.govuk_collection_check_boxes :policy_area_ids,
-      current_local_authority.policy_areas.menu, :first, :last,
-      legend: {text: t(".labels.policy_areas")},
-      hint: {text: t(".hints.policy_areas"), size: "l"},
-      small: false, class: "govuk-!-column-count-2" %>
-
 <%= form.govuk_submit(t(".submit")) do %>
   <%= back_link %>
 <% end %>

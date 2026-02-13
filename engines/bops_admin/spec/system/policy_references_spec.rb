@@ -130,7 +130,6 @@ RSpec.describe "Policy references" do
 
     fill_in "Code", with: "PP-999"
     fill_in "Description", with: "Design"
-    check "Building Control"
 
     click_button("Submit")
     expect(page).to have_current_path("/admin/policy/references")
@@ -139,7 +138,6 @@ RSpec.describe "Policy references" do
     within "tbody tr:nth-child(2)" do
       expect(page).to have_selector("td:nth-child(1)", text: "PP-999")
       expect(page).to have_selector("td:nth-child(2)", text: "Design")
-      expect(page).to have_selector("td:nth-child(3)", text: "Building Control")
     end
   end
 

@@ -88,12 +88,8 @@ module BopsAdmin
       if action_name == "new"
         {}
       else
-        params.require(:policy_reference).permit(*policy_reference_attributes, policy_area_ids: [])
+        params.require(:policy_reference).permit(%i[code description url])
       end
-    end
-
-    def policy_reference_attributes
-      %i[code description url]
     end
   end
 end
