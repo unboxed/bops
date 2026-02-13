@@ -29,17 +29,11 @@
   </div>
   <% if @form.validation_request.closed? %>
     <p>
-      <%= govuk_link_to "Request a new description change",
-            main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "description_change") %>
+      <%= govuk_link_to "Request a new description change", @form.new_request_path %>
     </p>
   <% else %>
     <p>
-      <%= govuk_link_to "Cancel description change request",
-            main_app.new_validation_request_cancellation_path(
-              @planning_application.reference,
-              @form.validation_request.id,
-              task_slug: @task.full_slug
-            ) %>
+      <%= govuk_link_to "Cancel description change request", @form.cancellation_path %>
     </p>
   <% end %>
   <%= form_with model: @form, url: @form.url do |form| %>
