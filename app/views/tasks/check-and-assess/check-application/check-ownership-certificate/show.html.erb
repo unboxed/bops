@@ -1,0 +1,31 @@
+<%= render "task_header", task: @task %>
+<%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson} %>
+
+<div class="govuk-!-margin-top-3">
+  <%= render "planning_applications/validation/ownership_certificates/relevant_documents_accordion" %>
+</div>
+
+<% path = "tasks/check-and-validate/confirm-application-requirements/check-ownership-certificate" %>
+<%= render "#{path}/table" %>
+
+<% partial_path = "tasks/check-and-assess/check-application/check-ownership-certificate" %>
+<%= render "#{partial_path}/activity_log" %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <% unless @form.validation_requests.open_or_pending.any? %>
+    <p class="govuk-body">
+      If the ownership certificate is incorrect, send a request to the applicant for more information.
+    </p>
+    <details class="govuk-details">
+      <summary class="govuk-details__summary">
+        <span class="govuk-details__summary-text">
+          Request new ownership certificate
+        </span>
+      </summary>
+      <div class="govuk-details__text">
+        <%= form.govuk_text_area :ownership_certificate_post_validation_reason, label: {size: "s", text: "Tell the applicant why their ownership certificate type is wrong"}, hint: {text: "This request will be sent to the applicant."} %>
+      </div>
+    </details>
+  <% end %>
+  <%= form.govuk_task_button "Save and mark complete", action: "assessment_complete" %>
+<% end %>

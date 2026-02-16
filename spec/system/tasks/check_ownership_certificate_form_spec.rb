@@ -299,4 +299,168 @@ RSpec.describe "Check ownership certificate task", type: :system do
       expect(validation_request.reload).to be_cancelled
     end
   end
+
+  context "when application is in assessment", capybara: true do
+    let(:planning_application) { create(:planning_application, :planning_permission, :in_assessment, local_authority:) }
+    let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/check-application/check-ownership-certificate") }
+
+    before do
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    end
+
+    it "completes the task without creating a validation request" do
+      within ".bops-sidebar" do
+        click_link "Check ownership certificate"
+      end
+
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/check-and-assess/check-application/check-ownership-certificate")
+      click_button "Save and mark complete"
+      expect(page).to have_content("Successfully checked ownership certificate")
+      expect(task.reload).to be_completed
+      expect(planning_application.ownership_certificate_validation_requests.count).to eq(0)
+    end
+
+    it "completes the task and creates a validation request when a reason is provided" do
+      within ".bops-sidebar" do
+        click_link "Check ownership certificate"
+      end
+
+      find("span", text: "Request new ownership certificate").click
+      fill_in "Tell the applicant why their ownership certificate type is wrong", with: "Certificate type should be A, not B"
+      click_button "Save and mark complete"
+
+      expect(page).to have_content("Successfully checked ownership certificate")
+      expect(task.reload).to be_completed
+      expect(planning_application.ownership_certificate_validation_requests.count).to eq(1)
+
+      request = planning_application.ownership_certificate_validation_requests.last
+      expect(request.reason).to eq("Certificate type should be A, not B")
+    end
+
+    context "when there are no previous validation requests" do
+      it "displays 'No validation requests were made' in the activity log" do
+        within ".bops-sidebar" do
+          click_link "Check ownership certificate"
+        end
+
+        expect(page).to have_content("Activity log")
+        expect(page).to have_content("No validation requests were made")
+      end
+    end
+
+    context "when a closed validation request exists" do
+      let!(:validation_request) do
+        create(:ownership_certificate_validation_request, :closed,
+          planning_application:, user:, reason: "Certificate type is wrong")
+      end
+
+      it "displays the previous request in the activity log" do
+        within ".bops-sidebar" do
+          click_link "Check ownership certificate"
+        end
+
+        expect(page).to have_content("Activity log")
+        expect(page).to have_content("New ownership certificate requested")
+        expect(page).to have_content("Closed")
+      end
+
+      it "shows the request new ownership certificate form" do
+        within ".bops-sidebar" do
+          click_link "Check ownership certificate"
+        end
+
+        expect(page).to have_content("Request new ownership certificate")
+      end
+    end
+
+    context "when a cancelled validation request exists" do
+      let!(:validation_request) do
+        create(:ownership_certificate_validation_request, :cancelled,
+          planning_application:, user:, reason: "Certificate type is wrong")
+      end
+
+      it "displays 'Request was cancelled' in the activity log" do
+        within ".bops-sidebar" do
+          click_link "Check ownership certificate"
+        end
+
+        expect(page).to have_content("Activity log")
+        expect(page).to have_content("Request was cancelled")
+        expect(page).to have_content("Cancelled")
+      end
+    end
+
+    context "when an open validation request exists" do
+      let!(:validation_request) do
+        create(:ownership_certificate_validation_request, :open,
+          planning_application:, user:, reason: "Certificate type is wrong")
+      end
+
+      it "does not show the request new ownership certificate form" do
+        within ".bops-sidebar" do
+          click_link "Check ownership certificate"
+        end
+
+        expect(page).not_to have_content("Request new ownership certificate")
+      end
+
+      it "shows the request in the activity log" do
+        within ".bops-sidebar" do
+          click_link "Check ownership certificate"
+        end
+
+        expect(page).to have_content("New ownership certificate requested")
+        expect(page).to have_content("Applicant has not responded")
+      end
+    end
+
+    context "when a pending validation request exists" do
+      let!(:validation_request) do
+        create(:ownership_certificate_validation_request, :pending,
+          planning_application:, user:, reason: "Certificate type is wrong")
+      end
+
+      it "does not show the request new ownership certificate form" do
+        within ".bops-sidebar" do
+          click_link "Check ownership certificate"
+        end
+
+        expect(page).not_to have_content("Request new ownership certificate")
+      end
+    end
+
+    context "when a closed and approved validation request exists" do
+      let!(:validation_request) do
+        create(:ownership_certificate_validation_request, :closed,
+          planning_application:, user:, reason: "Certificate type is wrong",
+          approved: true)
+      end
+
+      it "displays 'Certificate submitted by applicant' in the activity log" do
+        within ".bops-sidebar" do
+          click_link "Check ownership certificate"
+        end
+
+        expect(page).to have_content("Certificate submitted by applicant")
+        expect(page).to have_content("Submitted")
+      end
+    end
+
+    context "when a closed and rejected validation request exists" do
+      let!(:validation_request) do
+        create(:ownership_certificate_validation_request, :closed,
+          planning_application:, user:, reason: "Certificate type is wrong",
+          approved: false)
+      end
+
+      it "displays 'Request rejected by applicant' in the activity log" do
+        within ".bops-sidebar" do
+          click_link "Check ownership certificate"
+        end
+
+        expect(page).to have_content("Request rejected by applicant")
+        expect(page).to have_content("Rejected")
+      end
+    end
+  end
 end

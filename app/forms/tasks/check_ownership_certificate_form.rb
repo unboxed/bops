@@ -2,12 +2,13 @@
 
 module Tasks
   class CheckOwnershipCertificateForm < Form
-    self.task_actions = %w[save_and_complete update_request delete_request edit_form]
+    self.task_actions = %w[save_and_complete update_request delete_request edit_form assessment_complete]
 
     attribute :valid_ownership_certificate, :boolean
     attribute :invalidated_ownership_reason, :string
     attribute :validation_request_id, :integer
     attribute :reason, :string
+    attribute :ownership_certificate_post_validation_reason, :string
 
     after_initialize do
       self.valid_ownership_certificate = planning_application.valid_ownership_certificate
@@ -33,6 +34,7 @@ module Tasks
         when "update_request" then update_validation_request
         when "delete_request" then delete_validation_request
         when "edit_form" then edit_form
+        when "assessment_complete" then assessment_complete
         end
       end
     end
@@ -64,13 +66,17 @@ module Tasks
       return nil unless type == :notice && after_success == "redirect"
 
       case action
-      when "save_and_complete"
+      when "save_and_complete", "assessment_complete"
         controller.t(".check-ownership-certificate.success")
       when "update_request"
         controller.t(".check-ownership-certificate.update_request")
       when "delete_request"
         controller.t(".check-ownership-certificate.delete_request")
       end
+    end
+
+    def validation_requests
+      planning_application.ownership_certificate_validation_requests
     end
 
     private
@@ -80,6 +86,7 @@ module Tasks
     end
 
     def save_and_complete
+      # only used for validation task, assesment task uses assessment_complete method
       transaction do
         planning_application.update!(
           valid_ownership_certificate: valid_ownership_certificate,
@@ -114,6 +121,17 @@ module Tasks
 
     def update_validation_request
       validation_request.update!(reason:)
+    end
+
+    def assessment_complete
+      unless ownership_certificate_post_validation_reason.blank?
+        planning_application.ownership_certificate_validation_requests.create!(
+          reason: ownership_certificate_post_validation_reason,
+          user: Current.user
+        )
+      end
+
+      task.completed!
     end
   end
 end
