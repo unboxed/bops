@@ -708,6 +708,7 @@ en:
       review_cil_liability: 'Reviewed: CIL liability'
       sent_to_committee: Application sent to committee
       site_notice_created: Site notice created
+      site_notice_not_required: Site notice not required
       started: Application validated
       submitted: Recommendation submitted
       time_extension_validation_request_added: 'Added: time extension request'
@@ -2119,7 +2120,9 @@ en:
           success: Request for confirmation of the site notice sent to the internal team
       create:
         assign_user_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">assigned to an officer</a> before you can create a site notice.
+        failure: Unable to save site notice requirements
         make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BOPS Public Portal</a> before you can create a site notice.
+        not_required: Site notice successfully marked as not required
         success: Site notice was successfully %{action}
       location_instructions:
         hint: Optional. Anything you add here may be shared with the recipient (including the applicant).

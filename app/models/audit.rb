@@ -114,6 +114,7 @@ class Audit < ApplicationRecord
     press_notice
     press_notice_mail
     site_notice_created
+    site_notice_not_required
     consultee_emails_sent
     consultee_emails_resent
     consultees_reconsulted

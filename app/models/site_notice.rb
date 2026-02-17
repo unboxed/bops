@@ -19,7 +19,7 @@ class SiteNotice < ApplicationRecord
   validates :required, inclusion: {in: [true, false]}
   validates :quantity,
     presence: true,
-    numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100}
+    numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100}, if: :required
 
   with_options on: :confirmation do
     validates :displayed_at,
