@@ -33,27 +33,31 @@ module PlanningApplications
     end
 
     def create
-      @site_notice.assign_attributes(site_notice_params.except(:method))
-      @site_notice.assign_attributes(content: @site_notice.preview_content)
+      if site_notice_params[:required] == "false"
+        create_audit_log
+        redirect_to planning_application_consultation_path(@planning_application), notice: t(".not_required")
+      else
+        @site_notice.assign_attributes(site_notice_params.except(:method))
+        @site_notice.assign_attributes(content: @site_notice.preview_content)
+        if @site_notice.save
+          send_mail if params[:commit] == "Email site notice and mark as complete"
 
-      if @site_notice.save
-        send_mail if params[:commit] == "Email site notice and mark as complete"
-
-        respond_to do |format|
-          action = (params[:commit] == "Email site notice and mark as complete") ? "emailed" : "created"
-          format.html do
-            if @site_notice.displayed_at.present?
-              redirect_to new_planning_application_site_notice_path(@planning_application),
-                notice: t(".success", action:)
-            else
-              redirect_to planning_application_consultation_path(@planning_application), notice: t(".success", action:)
+          respond_to do |format|
+            action = (params[:commit] == "Email site notice and mark as complete") ? "emailed" : "created"
+            format.html do
+              if @site_notice.displayed_at.present?
+                redirect_to new_planning_application_site_notice_path(@planning_application),
+                  notice: t(".success", action:)
+              else
+                redirect_to planning_application_consultation_path(@planning_application), notice: t(".success", action:)
+              end
             end
           end
-        end
 
-        create_audit_log
-      else
-        render :new
+          create_audit_log
+        else
+          render :new
+        end
       end
     end
 
@@ -115,6 +119,8 @@ module PlanningApplications
         "Site notice was emailed to internal team to print"
       elsif params[:commit] == "Email site notice and mark as complete"
         "Site notice was emailed to the applicant"
+      elsif site_notice_params[:required] == "false"
+        "Site notice was marked as not required"
       else
         "Site notice PDF was created"
       end
@@ -122,7 +128,7 @@ module PlanningApplications
       Audit.create!(
         planning_application_id: @planning_application.id,
         user: Current.user,
-        activity_type: "site_notice_created",
+        activity_type: (site_notice_params[:required] == "false") ? "site_notice_not_required" : "site_notice_created",
         audit_comment: comment
       )
     end
