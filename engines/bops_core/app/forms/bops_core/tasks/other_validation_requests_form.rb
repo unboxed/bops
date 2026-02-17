@@ -26,21 +26,6 @@ module BopsCore
         self.task_actions = %w[save_draft save_and_complete edit_form]
       end
 
-      def update(params)
-        super do
-          case action
-          when "save_draft"
-            save_draft
-          when "save_and_complete"
-            save_and_complete
-          when "edit_form"
-            task.in_progress!
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       def validation_requests
         @validation_requests ||= validation_requests_relation.load
       end

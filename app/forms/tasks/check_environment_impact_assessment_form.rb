@@ -24,15 +24,6 @@ module Tasks
       validates :address, presence: {message: "Enter the address to view or request a copy of the EIA", unless: -> { fee.blank? }}, if: :required
     end
 
-    def update(params)
-      super do
-        case action
-        when "save_and_complete" then save_and_complete
-        when "edit_form" then edit_form
-        end
-      end
-    end
-
     private
 
     def save_and_complete

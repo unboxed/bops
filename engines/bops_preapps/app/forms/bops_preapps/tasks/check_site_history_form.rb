@@ -22,16 +22,6 @@ module BopsPreapps
         validates :date, presence: {message: "Enter the date of the site history"}, date: {on_or_before: :current}
       end
 
-      def update(params)
-        super do
-          if action.in?(task_actions)
-            send(action.to_sym)
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       private
 
       def save_and_complete

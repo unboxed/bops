@@ -18,15 +18,6 @@ module Tasks
       end
     end
 
-    def update(params)
-      super do
-        case action
-        when "save_and_complete" then save_and_complete
-        when "edit_form" then edit_form
-        end
-      end
-    end
-
     private
 
     def save_and_complete

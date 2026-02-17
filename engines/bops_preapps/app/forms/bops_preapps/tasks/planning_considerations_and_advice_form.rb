@@ -21,21 +21,6 @@ module BopsPreapps
         validates :policy_area, presence: {message: "Please select a policy area"}
       end
 
-      def update(params)
-        super do
-          case action
-          when "add_consideration"
-            add_consideration
-          when "save_draft"
-            task.start!
-          when "save_and_complete"
-            task.complete!
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       def flash(type, controller)
         case action
         when "add_consideration", "save_draft"

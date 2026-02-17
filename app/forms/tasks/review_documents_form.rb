@@ -43,16 +43,6 @@ module Tasks
       end
     end
 
-    def update(params)
-      super do
-        case action
-        when "save_and_complete" then save_and_complete
-        when "edit_form" then edit_form
-        when "save_document" then save_document
-        end
-      end
-    end
-
     private
 
     def document_invalid?

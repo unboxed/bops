@@ -25,21 +25,6 @@ module BopsCore
         end
       end
 
-      def update(params)
-        super do
-          case action
-          when "save_and_complete"
-            save_and_complete
-          when "mark_as_valid"
-            mark_as_valid
-          when "delete_request"
-            delete_validation_request
-          when "edit_form"
-            task.in_progress!
-          end
-        end
-      end
-
       def redirect_url(options = {})
         return return_to if return_to.present?
 
@@ -108,7 +93,7 @@ module BopsCore
         end
       end
 
-      def delete_validation_request
+      def delete_request
         transaction do
           validation_request.destroy!
           task.not_started!

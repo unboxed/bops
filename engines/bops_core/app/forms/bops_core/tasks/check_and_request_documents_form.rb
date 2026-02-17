@@ -11,21 +11,6 @@ module BopsCore
         class_attribute :reference_param_name, default: :reference
       end
 
-      def update(params)
-        transaction do
-          super do
-            case action
-            when "save_and_complete"
-              save_and_complete
-            when "edit_form"
-              edit_form
-            else
-              raise ArgumentError, "Invalid task action: #{action.inspect}"
-            end
-          end
-        end
-      end
-
       private
 
       def save_and_complete

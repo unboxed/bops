@@ -13,30 +13,19 @@ module Tasks
 
     after_initialize :prefill_from_planning_application
 
-    def update(params)
-      super do
-        transaction do
-          case action
-          when "save_draft"
-            return false unless planning_application.update(reporting_details_params)
+    private
 
-            save_draft
-          when "save_and_complete"
-            return false unless planning_application.update(reporting_details_params, :reporting_types)
+    def save_draft
+      return false unless planning_application.update(reporting_details_params)
 
-            save_and_complete
-          when "edit_form"
-            task.in_progress!
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-    rescue ActiveRecord::RecordInvalid
-      false
+      super
     end
 
-    private
+    def save_and_complete
+      return false unless planning_application.update(reporting_details_params, :reporting_types)
+
+      super
+    end
 
     def prefill_from_planning_application
       self.reporting_type_id ||= planning_application.reporting_type_id
