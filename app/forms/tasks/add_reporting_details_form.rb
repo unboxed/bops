@@ -35,14 +35,11 @@ module Tasks
     end
 
     def reporting_details_params
-      regulation_present = ActiveModel::Type::Boolean.new.cast(regulation)
-      regulation_3_selected = ActiveModel::Type::Boolean.new.cast(regulation_3)
-
       {
         reporting_type_id:,
-        regulation: regulation_present,
-        regulation_3: regulation_present && regulation_3_selected,
-        regulation_4: regulation_present && !regulation_3_selected
+        regulation: regulation,
+        regulation_3: regulation && regulation_3,
+        regulation_4: regulation && !regulation_3
       }
     end
 
