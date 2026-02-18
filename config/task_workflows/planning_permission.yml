@@ -46,6 +46,7 @@
       section: Assessment summaries
       tasks:
         - name: Check publicity
+        - name: Check site history
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"

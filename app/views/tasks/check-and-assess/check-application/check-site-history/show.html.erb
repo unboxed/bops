@@ -1,0 +1,49 @@
+<%= render "task_header", task: @task %>
+
+<h2 class="govuk-!-margin-top-2">
+  Summary of the relevant historical applications
+</h2>
+
+<p class="govuk-body">
+  Past applications for this site or relevant nearby locations:
+</p>
+
+<%= render "planning_applications/assessment/site_histories/table",
+      site_histories: @planning_application.site_histories.all,
+      show_action: true,
+      return_to: return_to_or_task_path(@planning_application, @task) %>
+
+<div data-controller="unsaved-changes"
+     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"><%= govuk_details(summary_text: "Add a new site history", open: @planning_application.site_histories.last&.errors&.any?) do %>
+  <%= form_with(model: @form,
+        url: @form.url,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"}) do |form| %>
+    <%= form.govuk_error_summary %>
+
+    <%= form.govuk_text_field :reference, width: "one-half" %>
+    <%= form.govuk_text_field :address, value: @planning_application.address %>
+    <%= form.govuk_text_area :description, rows: 3 %>
+
+    <%= form.govuk_radio_buttons_fieldset(:decision, legend: {text: "What was the decision?", size: "s"}) do %>
+      <% Decision.all_codes.each do |label, value| %>
+        <%= form.govuk_radio_button :decision, value, label: {text: label} %>
+      <% end %>
+
+      <%= form.govuk_radio_button :decision, "other", label: {text: "Other"} do %>
+        <%= form.govuk_text_field :other_decision, label: {text: "Description"} %>
+      <% end %>
+    <% end %>
+
+    <%= form.govuk_date_field :date, legend: {text: "Decision received on", size: "s", tag: nil} %>
+
+    <%= form.govuk_text_area :comment, rows: 4, label: {text: "Relevance to proposal"} %>
+
+    <%= form.govuk_task_button "Add site history", action: "add_site_history", secondary: true %>
+  <% end %>
+<% end %>
+</div>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= return_to_hidden_field %>
+  <%= render "task_submit_buttons", form: %>
+<% end %>

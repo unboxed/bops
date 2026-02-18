@@ -2740,6 +2740,11 @@ en:
         failure: Please select whether the red line boundary is correct
         mark_as_valid: Red line boundary was successfully marked as valid
         success: Red line boundary check was successfully saved
+      check-site-history:
+        add_site_history: Site history successfully recorded
+        failure: Failed to save site history review
+        save_draft: Draft site history check successfully saved
+        success: Site history was successfully marked as reviewed
       confirm-community-infrastructure-levy-cil:
         failure: Failed to confirm CIL liability check
         success: Successfully confirmed CIL liability
