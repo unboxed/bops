@@ -19,7 +19,9 @@ RSpec.describe "Planning History" do
 
     before do
       visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-      click_link "Check site history"
+      within "#main-content" do
+        click_link "Check site history"
+      end
     end
 
     it "displays relevant planning historical applications", :capybara do
@@ -77,7 +79,9 @@ RSpec.describe "Planning History" do
 
     before do
       visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-      click_link "Check site history"
+      within "#main-content" do
+        click_link "Check site history"
+      end
     end
 
     it "displays no planning history for this property" do

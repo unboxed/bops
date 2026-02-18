@@ -42,6 +42,7 @@
       tasks:
         - name: Check ownership certificate
         - name: Check consultees
+        - name: Check site history
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"

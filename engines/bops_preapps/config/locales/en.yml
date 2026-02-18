@@ -172,7 +172,9 @@ en:
           failure: Failed to save requested services
           success: Requested services successfully saved
         check-site-history:
+          add_site_history: Site history successfully recorded
           failure: Failed to save site history review
+          save_draft: Draft site history check successfully saved
           success: Site history was successfully marked as reviewed
         choose-application-type:
           failure: Failed to save recommended application type
