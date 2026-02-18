@@ -1,0 +1,57 @@
+<%= render "task_header", task: @task %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= govuk_warning_text(text: "This information WILL be made publicly available.") %>
+
+    <% if @form.assessment_detail.present? %>
+      <h2>Summary</h2>
+      <p>
+        <%= render(FormattedContentComponent.new(text: @form.assessment_detail.entry)) %>
+      </p>
+    <% end %>
+
+    <%= render(ReviewerCommentComponent.new(comment: @rejected_assessment_detail&.comment)) %>
+
+    <h2><%= @form.assessment_detail.persisted? ? "Edit" : "Add" %> summary</h2>
+
+    <p>You can include:</p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>
+        A list of the works involved in the project, such as alterations and
+        extensions
+      </li>
+      <li>
+        Key dimensions
+        <% if @planning_application.proposal_measurement %>
+          <br>
+          Max height:
+          <%= @planning_application.proposal_measurement.max_height %>
+          m
+          <br>
+          Eaves height:
+          <%= @planning_application.proposal_measurement.eaves_height %>
+          m
+          <br>
+          Depth:
+          <%= @planning_application.proposal_measurement.depth %>
+          m
+        <% end %>
+      </li>
+      <li>Materials used in external works</li>
+      <li>Specific features you want to draw attention to</li>
+      <% if @planning_application.lawfulness_certificate? %>
+        <li>Details of a proposed use, such as opening hours</li>
+      <% end %>
+    </ul>
+
+    <%= form_with model: @form, url: @form.url do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <%= form.govuk_text_area(:entry, value: @form.assessment_detail.entry, label: nil, rows: 10) %>
+
+      <%= render "task_submit_buttons", form: %>
+    <% end %>
+  </div>
+</div>

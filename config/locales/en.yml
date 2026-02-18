@@ -2760,6 +2760,9 @@ en:
       send-validation-decision:
         failure: Failed to send validation decision
         success_html: "<strong>Validation decision sent</strong> <br><br> An email notification has been sent to the applicant. The application is now ready for consultation and assessment."
+      summary-of-works:
+        failure: Summary of works failed to save
+        success: Summary of works was successfully saved
   time:
     formats:
       default: "%-d %B %Y"

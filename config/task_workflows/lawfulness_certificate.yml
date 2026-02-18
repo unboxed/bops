@@ -41,6 +41,10 @@
       section: Check application
       tasks:
         - name: Check site history
+    - name: Assessment summaries
+      section: Assessment summaries
+      tasks:
+        - name: Summary of works
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"
