@@ -13,25 +13,6 @@ module BopsCore
         delegate :planning_application_constraints, to: :planning_application
       end
 
-      def update(params)
-        super do
-          case action
-          when "add_constraint"
-            add_constraint
-          when "remove_constraint"
-            remove_constraint
-          when "save_draft"
-            save_draft
-          when "save_and_complete"
-            save_and_complete
-          when "edit_form"
-            task.in_progress!
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       def other_constraints(search_param:)
         Constraint.other_constraints(search_param, planning_application)
       end

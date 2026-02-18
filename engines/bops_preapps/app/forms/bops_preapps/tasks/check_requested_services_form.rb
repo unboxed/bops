@@ -7,19 +7,6 @@ module BopsPreapps
 
       attribute :additional_services, default: -> { [] }
 
-      def update(params)
-        super do
-          case action
-          when "save_and_complete"
-            save_and_complete
-          when "edit_form"
-            task.in_progress!
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       private
 
       def form_params(params)

@@ -7,19 +7,6 @@ module BopsPreapps
 
       delegate :consultation, to: :planning_application
 
-      def update(params)
-        super do
-          case action
-          when "save_draft"
-            task.update!(status: :in_progress)
-          when "save_and_complete"
-            task.complete!
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       def consultees
         @consultees ||= consultation&.consultees || Consultee.none
       end

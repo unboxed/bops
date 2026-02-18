@@ -8,20 +8,21 @@ module BopsPreapps
       attribute :summary_tag
       attribute :entry
 
-      def update(params)
+      private
+
+      def update_assessment_detail
         assessment_detail = planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice)
+        assessment_detail.update!(summary_tag:, entry:) if summary_tag.present? || entry.present?
+      end
 
-        super do
-          transaction do
-            assessment_detail.update!(summary_tag:, entry:) if summary_tag.present? || entry.present?
+      def save_and_complete
+        update_assessment_detail
+        super
+      end
 
-            if action.in?(task_actions)
-              send(action.to_sym)
-            else
-              raise ArgumentError, "Invalid task action: #{action.inspect}"
-            end
-          end
-        end
+      def save_draft
+        update_assessment_detail
+        super
       end
     end
   end

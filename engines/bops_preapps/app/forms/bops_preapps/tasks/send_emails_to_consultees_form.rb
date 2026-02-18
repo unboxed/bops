@@ -27,17 +27,6 @@ module BopsPreapps
 
       delegate :default_consultee_message_body, :default_consultee_message_subject, to: :consultation
 
-      def update(params)
-        super do
-          if consultation.send_consultee_emails(form_params(params))
-            task.complete!
-          else
-            errors.merge!(consultation.errors)
-            false
-          end
-        end
-      end
-
       def consultation
         @consultation ||= planning_application.consultation || planning_application.create_consultation!
       end
@@ -47,6 +36,15 @@ module BopsPreapps
       end
 
       private
+
+      def save_and_complete
+        if consultation.send_consultee_emails(form_params(params))
+          task.complete!
+        else
+          errors.merge!(consultation.errors)
+          false
+        end
+      end
 
       def form_params(params)
         params.require(:consultation).permit(

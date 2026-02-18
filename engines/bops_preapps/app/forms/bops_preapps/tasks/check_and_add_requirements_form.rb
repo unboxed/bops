@@ -7,16 +7,6 @@ module BopsPreapps
       attribute :new_requirement_ids, :list
       attribute :requirement_id, :integer
 
-      def update(params)
-        super do
-          if action.in?(task_actions)
-            send(action.to_sym)
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       private
 
       def add_requirement

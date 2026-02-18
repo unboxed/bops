@@ -32,17 +32,6 @@ module BopsPreapps
         application_types.ids
       end
 
-      def update(params)
-        super do
-          case action
-          when "save_and_complete"
-            save_and_complete
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       private
 
       def save_and_complete

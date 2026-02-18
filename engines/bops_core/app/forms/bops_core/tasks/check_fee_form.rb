@@ -32,21 +32,6 @@ module BopsCore
         end
       end
 
-      def update(params)
-        super do
-          case action
-          when "save_and_complete"
-            save_and_complete
-          when "update_request"
-            update_validation_request
-          when "delete_request"
-            delete_validation_request
-          when "edit_form"
-            task.in_progress!
-          end
-        end
-      end
-
       def validation_request
         @validation_request ||= if validation_request_id.present?
           planning_application.fee_change_validation_requests.find(validation_request_id)
@@ -104,11 +89,11 @@ module BopsCore
         end
       end
 
-      def update_validation_request
+      def update_request
         validation_request.update!(reason:, suggestion:)
       end
 
-      def delete_validation_request
+      def delete_request
         transaction do
           validation_request.destroy!
           task.not_started!

@@ -49,25 +49,6 @@ module BopsPreapps
         end
       end
 
-      def update(params)
-        super do
-          case action
-          when "add_site_visit"
-            add_site_visit
-          when "remove_site_visit"
-            remove_site_visit
-          when "update_site_visit"
-            update_site_visit
-          when "save_draft"
-            task.start!
-          when "save_and_complete"
-            task.complete!
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       def site_visits
         @site_visits ||= site_visits_relation.load
       end

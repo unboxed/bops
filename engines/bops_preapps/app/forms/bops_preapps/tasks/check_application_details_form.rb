@@ -24,18 +24,11 @@ module BopsPreapps
       end
       attr_reader :consistency_checklist
 
-      def update(params)
-        super do
-          transaction do
-            consistency_checklist.update!(attributes)
+      private
 
-            if action.in?(task_actions)
-              send(action.to_sym)
-            else
-              raise ArgumentError, "Invalid task action: #{action.inspect}"
-            end
-          end
-        end
+      def save_and_complete
+        consistency_checklist.update!(attributes)
+        task.complete!
       end
     end
   end

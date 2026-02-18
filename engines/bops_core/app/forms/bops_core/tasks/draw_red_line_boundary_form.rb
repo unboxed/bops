@@ -13,16 +13,6 @@ module BopsCore
         validates :boundary_geojson, presence: {message: "Draw a red line boundary"}
       end
 
-      def update(params)
-        super do
-          if action.in?(task_actions)
-            send(action.to_sym)
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       def sitemap_documents
         @sitemap_documents ||= planning_application.documents.with_siteplan_tags
       end

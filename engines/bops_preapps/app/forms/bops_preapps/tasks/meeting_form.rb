@@ -26,21 +26,6 @@ module BopsPreapps
         validates :occurred_on, date: {on_or_before: :current, message: "Enter a date on or before today’s date"}
       end
 
-      def update(params)
-        super do
-          case action
-          when "add_meeting"
-            add_meeting
-          when "save_draft"
-            save_draft
-          when "save_and_complete"
-            save_and_complete
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       def meetings
         @meetings ||= meetings_relation.load
       end

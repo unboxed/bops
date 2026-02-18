@@ -27,18 +27,6 @@ module Tasks
       validates :reason, presence: {message: "Tell the applicant why the ownership certificate is incorrect"}
     end
 
-    def update(params)
-      super do
-        case action
-        when "save_and_complete" then save_and_complete
-        when "update_request" then update_validation_request
-        when "delete_request" then delete_validation_request
-        when "edit_form" then edit_form
-        when "assessment_complete" then assessment_complete
-        end
-      end
-    end
-
     def validation_request
       @validation_request ||= if validation_request_id.present?
         planning_application.ownership_certificate_validation_requests.find(validation_request_id)
@@ -112,14 +100,14 @@ module Tasks
       end
     end
 
-    def delete_validation_request
+    def delete_request
       transaction do
         validation_request.destroy!
         task.not_started!
       end
     end
 
-    def update_validation_request
+    def update_request
       validation_request.update!(reason:)
     end
 

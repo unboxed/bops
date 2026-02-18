@@ -24,19 +24,6 @@ module BopsPreapps
         planning_application.full_address
       end
 
-      def update(params)
-        super do
-          case action
-          when "save_draft"
-            save_draft
-          when "save_and_complete"
-            save_and_complete
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       private
 
       def find_or_initialize_assessment_detail

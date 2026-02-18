@@ -14,12 +14,6 @@ module BopsPreapps
         self.consultation_required = planning_application.consultation_required
       end
 
-      def update(params)
-        super do
-          save_and_complete
-        end
-      end
-
       def consultation_required?
         consultation_required
       end

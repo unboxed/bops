@@ -15,19 +15,6 @@ module BopsCore
         end
       end
 
-      def update(params)
-        super do
-          case action
-          when "save_and_complete"
-            save_and_complete
-          when "save_and_invalidate"
-            save_and_invalidate
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       def redirect_url(options = {})
         if task.completed?
           main_app.planning_application_path(planning_application)

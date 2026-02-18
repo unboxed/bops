@@ -19,16 +19,6 @@ module BopsCore
         end
       end
 
-      def update(params)
-        super do
-          if task_actions.include?(action)
-            send(action.to_sym)
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
-          end
-        end
-      end
-
       def validation_request
         @validation_request ||= planning_application.description_change_validation_requests.open_or_pending.first ||
           planning_application.description_change_validation_requests.closed.last
