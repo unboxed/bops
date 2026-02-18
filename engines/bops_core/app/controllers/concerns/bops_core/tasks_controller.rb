@@ -78,10 +78,13 @@ module BopsCore
     end
 
     def template_for(action)
-      tasks_modules.each do |mod|
-        path = "#{mod.templates_prefix}/#{@task.full_slug}/#{action}"
-        return path if lookup_context.exists?(path)
-      end
+      suffix = "#{@task.full_slug}/#{action}"
+      prefixes = tasks_modules.map { |mod| mod.templates_prefix }
+      paths = prefixes.map { |prefix| "#{prefix}/#{suffix}" }
+      path = paths.find { |path| lookup_context.exists?(path) }
+      return path if path
+
+      raise ActionView::MissingTemplate.new(paths, suffix, prefixes, false, action)
     end
 
     def failure_template
