@@ -22,6 +22,7 @@ RSpec.shared_examples "check consultees task", :capybara do |application_type|
 
     click_button "Save and mark as complete"
 
+    expect(page).to have_selector("h1", text: "Check consultees")
     expect(task.reload).to be_completed
 
     review = planning_application.reload.consultation.current_review
