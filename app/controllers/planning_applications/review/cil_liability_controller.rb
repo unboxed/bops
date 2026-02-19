@@ -11,7 +11,7 @@ module PlanningApplications
           record_audit_for_cil_liability!
           redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-cil-liability"), notice: t(".success")
         else
-          render :edit
+          redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-cil-liability"), alert: t(".failure")
         end
       end
 
