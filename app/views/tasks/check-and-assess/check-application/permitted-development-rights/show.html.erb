@@ -1,0 +1,70 @@
+<%= render "task_header", task: @task %>
+
+<%= govuk_warning_text(text: "This information will be made publicly available.") %>
+
+<section id="constraints-section" class="govuk-!-margin-bottom-3">
+  <h2>Constraints - including Article 4 direction(s)</h2>
+  <% if @planning_application.planning_application_constraints.active.empty? %>
+  <p>There are no planning constraints on the application site.</p>
+<% else %>
+  <p>The application site has these constraints:</p>
+  <%= render(
+        partial: "planning_applications/validation/constraints/info",
+        locals: {
+          planning_application: @planning_application,
+          planning_application_constraints: @planning_application.planning_application_constraints.active,
+          show_update_button: false
+        }
+      ) %>
+<% end %>
+<%= link_to_if(current_user.assessor?,
+      "Edit constraints",
+      task_path(@planning_application, "check-and-validate/check-application-details/check-constraints", return_to: task_path(@planning_application, @task)),
+      class: "govuk-link") {} %>
+</section>
+
+<hr>
+<h2 class="govuk-!-margin-top-5">Site history</h2>
+<%= render "planning_applications/assessment/site_histories/table",
+      site_histories: @planning_application.site_histories.all,
+      show_action: true %>
+<%= govuk_link_to "Edit site history", task_path(@planning_application, "check-and-assess/check-application/check-site-history", return_to: task_path(@planning_application, @task)) %>
+
+<hr>
+<% if @planning_application.possibly_immune? %>
+  <%= render(
+        PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @planning_application.immunity_detail.evidence_groups)
+      ) %>
+<% end %>
+
+<% if @form.permitted_development_rights.any? %>
+  <details class="govuk-details govuk-!-padding-top-5" data-module="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        See previous permitted development checks
+      </span>
+    </summary>
+    <div class="govuk-details__text">
+      <% @form.permitted_development_rights.each do |permitted_development_right| %>
+        <p><strong><%= permitted_development_right.reviewer.name %> marked this for review</strong></p>
+        <p><%= permitted_development_right.reviewed_at %></p>
+        <% if permitted_development_right.removed %>
+          <p><%= permitted_development_right.removed_reason %></p>
+        <% end %>
+        <p><em>Reviewer comment: <%= permitted_development_right.reviewer_comment %></em></p>
+      <% end %>
+    </div>
+  </details>
+<% end %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+  <%= form.govuk_radio_buttons_fieldset(:removed, legend: {text: "Have the permitted development rights relevant for this application been removed?"}) do %>
+    <%= form.govuk_radio_button(:removed, true, label: {text: "Yes"}) do %>
+      <%= form.govuk_text_area(:removed_reason, rows: 6, label: {text: "Describe how permitted development rights have been removed"}) %>
+    <% end %>
+
+    <%= form.govuk_radio_button(:removed, false, label: {text: "No"}) %>
+  <% end %>
+  <%= render "task_submit_buttons", form: form %>
+<% end %>

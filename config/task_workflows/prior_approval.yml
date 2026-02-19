@@ -43,6 +43,7 @@
         - name: Check ownership certificate
         - name: Check consultees
         - name: Check site history
+        - name: Permitted development rights
     - name: Assessment summaries
       section: Assessment summaries
       tasks:

@@ -41,6 +41,7 @@
       section: Check application
       tasks:
         - name: Check site history
+        - name: Permitted development rights
     - name: Assessment summaries
       section: Assessment summaries
       tasks:
