@@ -35,7 +35,7 @@ module PlanningApplications
     private
 
     def show_sidebar
-      @show_sidebar = if use_new_sidebar_layout?(:consultation)
+      @show_sidebar = if use_new_sidebar_layout?(@planning_application)
         @planning_application.case_record.tasks.find_by(section: "Consultation")
       end
     end
