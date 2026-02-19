@@ -39,7 +39,9 @@ RSpec.describe "Summary of works" do
 
     it "there is a validation error when submitting an empty text field" do
       click_link "Check and assess"
-      click_link "Summary of works"
+      within "#main-content" do
+        click_link "Summary of works"
+      end
 
       click_button "Save and mark as complete"
       within(".govuk-error-summary") do
@@ -55,7 +57,9 @@ RSpec.describe "Summary of works" do
     it "I can save and come back later when adding or editing a summary of work" do
       expect(list_item("Check and assess")).to have_content("Not started")
       click_link "Check and assess"
-      click_link "Summary of works"
+      within "#main-content" do
+        click_link "Summary of works"
+      end
 
       fill_in "assessment_detail[entry]", with: "A draft entry for the summary of works"
       click_button "Save and come back later"
@@ -66,7 +70,9 @@ RSpec.describe "Summary of works" do
         expect(page).to have_content("In progress")
       end
 
-      click_link "Summary of works"
+      within "#main-content" do
+        click_link "Summary of works"
+      end
       expect(page).to have_content("Edit summary of works")
       expect(page).to have_content("A draft entry for the summary of works")
 
@@ -84,7 +90,9 @@ RSpec.describe "Summary of works" do
 
     it "I can save and mark as complete when adding a summary of work" do
       click_link "Check and assess"
-      click_link "Summary of works"
+      within "#main-content" do
+        click_link "Summary of works"
+      end
 
       fill_in "assessment_detail[entry]", with: "A complete entry for the summary of works"
       click_button "Save and mark as complete"
@@ -95,7 +103,9 @@ RSpec.describe "Summary of works" do
         expect(page).to have_content("Completed")
       end
 
-      click_link "Summary of works"
+      within "#main-content" do
+        click_link "Summary of works"
+      end
       expect(page).to have_content("Summary of works")
       expect(page).to have_content("A complete entry for the summary of works")
 
