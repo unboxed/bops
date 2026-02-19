@@ -7,7 +7,7 @@ module PlanningApplications
       before_action :redirect_to_initial_task
 
       def index
-        @show_sidebar = if use_new_sidebar_layout?(:assessment)
+        @show_sidebar = if use_new_sidebar_layout?(@planning_application)
           @planning_application.case_record.tasks.find_by(section: "Assessment")
         end
 
