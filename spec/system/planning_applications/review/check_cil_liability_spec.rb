@@ -40,6 +40,7 @@ RSpec.describe "checking publicity" do
       expect(page).to have_content "The validation officer did not confirm whether the application is liable for CIL."
 
       within "#review-cil-liability" do
+        choose "Confirmation not required"
         click_button "Save and mark as complete"
       end
 
