@@ -13,6 +13,8 @@ module PlanningApplications
           session[:errors] = nil
         end
 
+        @cil_reviewed = @planning_application.audits.where(activity_type: :review_cil_liability).any?
+
         respond_to do |format|
           format.html
         end
