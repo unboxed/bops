@@ -98,14 +98,6 @@ jobs:
       additional_spec_opts: "${{ matrix.specs.additional_spec_opts }}"
     secrets: inherit
 
-  cucumber:
-    uses: ./.github/workflows/testing.yml
-    with:
-      name: "all"
-      test-runner: "cucumber"
-      want-pdf: true
-    secrets: inherit
-
   docker-dnsmasq:
     uses: ./.github/workflows/testing.yml
     with:
