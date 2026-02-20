@@ -8,6 +8,8 @@ module Apis
       TIMEOUT = 5
 
       def call(uprn)
+        return if Rails.configuration.paapi_url.blank?
+
         faraday.get("planning_applications/?uprn=#{uprn}") do |request|
           request.options[:timeout] = TIMEOUT
         end

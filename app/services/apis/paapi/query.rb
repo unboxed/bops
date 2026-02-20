@@ -8,7 +8,7 @@ module Apis
       def fetch(uprn)
         response = client.call(uprn)
 
-        if response.success?
+        if response&.success?
           parse(JSON.parse(response.body))
         else
           []
