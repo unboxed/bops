@@ -2,8 +2,8 @@
 
 require "rails_helper"
 
-RSpec.describe Apis::Paapi::Query do
-  let(:query) { described_class.new }
+RSpec.describe Apis::Paapi do
+  let(:query) { described_class }
   let(:paapi_url) { "https://staging.paapi.services/api/v1" }
 
   before do
