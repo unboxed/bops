@@ -31,10 +31,5 @@ end
 if RSpec.respond_to?(:configure)
   RSpec.configure do |config|
     config.include(PaapiHelper)
-
-    config.before do
-      stub_paapi_api_request_for("100081043511").to_return(paapi_api_response(:ok))
-      stub_paapi_api_request_for("10008104351").to_return(paapi_api_response(:not_found, "no_result"))
-    end
   end
 end

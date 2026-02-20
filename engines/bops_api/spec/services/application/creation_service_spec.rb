@@ -28,6 +28,8 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
     end
 
     before do
+      allow(Rails.configuration).to receive(:paapi_url).and_return("https://staging.paapi.services/api/v1")
+
       [
         ["Elevations.pdf", "planx/Elevations.pdf", "application/pdf"],
         ["Plan.pdf", "planx/Plan.pdf", "application/pdf"],

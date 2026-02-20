@@ -2,8 +2,13 @@
 
 require "rails_helper"
 
-RSpec.describe Apis::Paapi::Query do
-  let(:query) { described_class.new }
+RSpec.describe Apis::Paapi do
+  let(:query) { described_class }
+  let(:paapi_url) { "https://staging.paapi.services/api/v1" }
+
+  before do
+    allow(Rails.configuration).to receive(:paapi_url).and_return(paapi_url)
+  end
 
   describe "#fetch" do
     context "when the request is successful" do
@@ -53,6 +58,14 @@ RSpec.describe Apis::Paapi::Query do
         before do
           stub_paapi_api_request_for("100081043511").to_return(paapi_api_response(:not_acceptable))
         end
+
+        it "returns an empty array" do
+          expect(query.fetch("100081043511")).to eq([])
+        end
+      end
+
+      context "when the API endpoint isn't defined" do
+        let(:paapi_url) { nil }
 
         it "returns an empty array" do
           expect(query.fetch("100081043511")).to eq([])
