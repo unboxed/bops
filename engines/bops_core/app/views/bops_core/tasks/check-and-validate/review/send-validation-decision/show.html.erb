@@ -10,6 +10,16 @@
       <p>
         When all parts of the application have been checked and are correct, mark the application as valid.
       </p>
+
+      <% if @planning_application.publishable? %>
+        <%= form.govuk_radio_buttons_fieldset :make_public,
+              legend: {text: "Publish application on BOPS Public Portal?"},
+              hint: {text: "Will be marked as valid from #{@planning_application.valid_from_date.to_date.to_fs}"} do %>
+          <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
+          <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
+        <% end %>
+      <% end %>
+
       <div class="govuk-button-group">
         <%= form.govuk_task_button "Mark the application as valid" %>
       </div>
@@ -44,6 +54,16 @@
         <p>
           Once the application has been checked and all validation requests resolved, mark the application as valid.
         </p>
+
+        <% if @planning_application.publishable? %>
+          <%= form.govuk_radio_buttons_fieldset :make_public,
+                legend: {text: "Publish application on BOPS Public Portal?"},
+                hint: {text: "Will be marked as valid from #{@planning_application.valid_from_date.to_date.to_fs}"} do %>
+            <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
+            <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
+          <% end %>
+        <% end %>
+
         <div class="govuk-button-group">
           <%= form.govuk_task_button "Mark the application as valid" %>
         </div>

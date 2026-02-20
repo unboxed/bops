@@ -8,10 +8,23 @@ module BopsCore
       included do
         self.task_actions = %w[save_and_complete save_and_invalidate]
 
+        attribute :make_public, :boolean
+        delegate :publishable?, to: :planning_application
+
         validate on: :save_and_invalidate do
           unless planning_application.may_invalidate?
             errors.add :base, :invalid, message: "This planning application cannot be marked as invalid"
           end
+        end
+
+        validate on: :save_and_complete, if: :publishable? do
+          if make_public.nil?
+            errors.add :make_public, :inclusion, message: "Choose whether to publish the application or not"
+          end
+        end
+
+        after_update if: :publishable? do
+          planning_application.update!(make_public:)
         end
       end
 
