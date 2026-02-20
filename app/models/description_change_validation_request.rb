@@ -7,7 +7,7 @@ class DescriptionChangeValidationRequest < ValidationRequest
   validate :allows_only_one_open_description_change, on: :create
   validate :planning_application_has_not_been_determined, on: :create
   validate :rejected_reason_is_present?
-  attr_accessor :skip_applicant_approval
+  attribute :skip_applicant_approval, :boolean, default: false
   scope :auto_closed, -> { where(auto_closed: true) }
 
   validate if: :applicant_responding? do
