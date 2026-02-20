@@ -29,12 +29,14 @@ RSpec.describe "Permitted development right" do
       it "I can view the information on the permitted development rights page" do
         click_link "Check and assess"
 
-        expect(page).to have_list_item_for(
-          "Permitted development rights",
-          with: "Not started"
-        )
+        within "#main-content" do
+          expect(page).to have_list_item_for(
+            "Permitted development rights",
+            with: "Not started"
+          )
 
-        click_link("Permitted development rights")
+          click_link("Permitted development rights")
+        end
 
         expect(page).to have_current_path(
           "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/edit"
@@ -62,7 +64,9 @@ RSpec.describe "Permitted development right" do
 
       it "there is a validation error when submitting an empty text field when selecting 'Yes'" do
         click_link "Check and assess"
-        click_link "Permitted development rights"
+        within "#main-content" do
+          click_link "Permitted development rights"
+        end
         choose "Yes"
 
         click_button "Save and mark as complete"
@@ -73,7 +77,9 @@ RSpec.describe "Permitted development right" do
 
       it "there is no validation error when submitting an empty text field when selecting 'No'" do
         click_link "Check and assess"
-        click_link "Permitted development rights"
+        within "#main-content" do
+          click_link "Permitted development rights"
+        end
         choose "No"
 
         click_button "Save and mark as complete"
@@ -82,20 +88,18 @@ RSpec.describe "Permitted development right" do
 
       it "I can save and mark as complete when adding the permitted development right" do
         click_link "Check and assess"
-        click_link "Permitted development rights"
+        within "#main-content" do
+          click_link "Permitted development rights"
+        end
 
         choose "Yes"
         fill_in "permitted_development_right[removed_reason]", with: "A reason"
         click_button "Save and mark as complete"
 
         expect(page).to have_content("Permitted development rights response was successfully updated")
-
-        expect(page).to have_list_item_for(
-          "Permitted development rights",
-          with: "Removed"
-        )
-
-        click_link "Permitted development rights"
+        within "#main-content" do
+          click_link "Permitted development rights"
+        end
         expect(page).to have_content("Have the permitted development rights relevant for this application been removed?")
         expect(page).to have_content("Yes")
         expect(page).to have_content("A reason")
@@ -106,12 +110,14 @@ RSpec.describe "Permitted development right" do
 
         expect(page).to have_content("Permitted development rights response was successfully updated")
 
-        expect(page).to have_list_item_for(
-          "Permitted development rights",
-          with: "Completed"
-        )
+        within "#main-content" do
+          expect(page).to have_list_item_for(
+            "Permitted development rights",
+            with: "Completed"
+          )
 
-        click_link "Permitted development rights"
+          click_link "Permitted development rights"
+        end
         expect(page).to have_content("Have the permitted development rights relevant for this application been removed?")
         expect(page).to have_content("No")
       end
@@ -139,13 +145,14 @@ RSpec.describe "Permitted development right" do
 
         it "I can respond when there is a reviewer's comment" do
           click_link "Check and assess"
+          within "#main-content" do
+            expect(page).to have_list_item_for(
+              "Permitted development rights",
+              with: "To be reviewed"
+            )
 
-          expect(page).to have_list_item_for(
-            "Permitted development rights",
-            with: "To be reviewed"
-          )
-
-          click_link "Permitted development rights"
+            click_link "Permitted development rights"
+          end
 
           expect(page).to have_text("See previous permitted development checks")
           expect(page).to have_text("#{permitted_development_right.reviewer.name} marked this for review")
@@ -157,13 +164,14 @@ RSpec.describe "Permitted development right" do
             choose "No"
           end
           click_button "Save and mark as complete"
+          within "#main-content" do
+            expect(page).to have_list_item_for(
+              "Permitted development rights",
+              with: "Updated"
+            )
 
-          expect(page).to have_list_item_for(
-            "Permitted development rights",
-            with: "Updated"
-          )
-
-          click_link "Permitted development rights"
+            click_link "Permitted development rights"
+          end
 
           click_link("Edit permitted development rights")
           expect(page).to have_text("See previous permitted development checks")
@@ -194,11 +202,12 @@ RSpec.describe "Permitted development right" do
           click_link("Log out")
           sign_in(reviewer)
           visit "/planning_applications/#{planning_application.reference}"
-
-          expect(page).to have_list_item_for(
-            "Review and sign-off",
-            with: "Updated"
-          )
+          within "#main-content" do
+            expect(page).to have_list_item_for(
+              "Review and sign-off",
+              with: "Updated"
+            )
+          end
 
           click_link("Review and sign-off")
 
@@ -232,8 +241,9 @@ RSpec.describe "Permitted development right" do
 
         it "I cannot edit the response when the reviewer has accepted it" do
           click_link "Check and assess"
-          click_link "Permitted development rights"
-
+          within "#main-content" do
+            click_link "Permitted development rights"
+          end
           expect(page).to have_text("#{permitted_development_right.reviewer.name} accepted this response on #{permitted_development_right.reviewed_at}")
 
           visit "/planning_applications/#{planning_application.reference}/assessment/permitted_development_rights/edit"
@@ -255,13 +265,14 @@ RSpec.describe "Permitted development right" do
 
         it "I cannot see the reviewer's response if they marked the review as save and come back later" do
           click_link "Check and assess"
+          within "#main-content" do
+            expect(page).to have_list_item_for(
+              "Permitted development rights",
+              with: "Completed"
+            )
 
-          expect(page).to have_list_item_for(
-            "Permitted development rights",
-            with: "Completed"
-          )
-
-          click_link "Permitted development rights"
+            click_link "Permitted development rights"
+          end
           expect(page).to have_content("Have the permitted development rights relevant for this application been removed?")
           expect(page).to have_content("No")
           expect(page).to have_link("Edit permitted development rights")

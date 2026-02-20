@@ -2748,13 +2748,16 @@ en:
         success: Site history was successfully marked as reviewed
       confirm-community-infrastructure-levy-cil:
         failure: Failed to confirm CIL liability check
-        success: Successfully confirmed CIL liability
+        success: Successfully confirmed CIL liabilityß
       draw-red-line-boundary:
         failure: Draw a red line boundary
         success: Red line boundary was successfully saved
       other-validation-requests:
         failure: Failed to save other validation requests
         success: Other validation requests were successfully saved
+      permitted-development-rights:
+        failure: Failed to update permitted development rights
+        success: Successfully confirmed permitted development rights
       review-documents:
         failure: Failed to update document review
         success: Successfully updated document review
