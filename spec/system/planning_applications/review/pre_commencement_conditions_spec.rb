@@ -121,6 +121,23 @@ RSpec.describe "Reviewing pre-commencement conditions" do
           click_link "Cancel"
         end
       end
+
+      context "when a pre-commencement condition has been approved but later cancelled" do
+        before do
+          other_condition.update!(cancelled_at: Time.zone.today)
+
+          visit "/planning_applications/#{planning_application.reference}/review/tasks"
+        end
+
+        it "does not show cancelled conditions in the review" do
+          click_button "Review pre-commencement conditions"
+
+          within("#review-pre-commencement-conditions") do
+            expect(page).to have_content("foo")
+            expect(page).not_to have_content("bar")
+          end
+        end
+      end
     end
   end
 end

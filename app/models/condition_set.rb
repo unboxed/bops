@@ -26,7 +26,7 @@ class ConditionSet < ApplicationRecord
   end
 
   def approved_conditions
-    conditions.joins(:validation_requests).where(validation_requests: {approved: true}).distinct
+    conditions.not_cancelled.joins(:validation_requests).where(validation_requests: {approved: true}).distinct
   end
 
   def not_cancelled_conditions

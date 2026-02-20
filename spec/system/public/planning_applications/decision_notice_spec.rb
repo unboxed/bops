@@ -30,6 +30,36 @@ RSpec.describe "Decision notice" do
         it "shows conditions on the notice" do
           expect(page).to have_selector("h3", text: "Conditions:")
         end
+
+        context "when a pre-commencement condition has been approved but later cancelled" do
+          let(:user) { create(:user, local_authority:) }
+          let(:planning_application) do
+            create(:planning_application, :awaiting_determination, application_type:, local_authority:, decision: "granted")
+          end
+
+          before do
+            Current.user = user
+
+            condition_set = planning_application.pre_commencement_condition_set
+            approved_condition = create(:condition, condition_set:, title: "Approved condition")
+            cancelled_condition = create(:condition, condition_set:, title: "Cancelled condition")
+
+            create(:pre_commencement_condition_validation_request, owner: approved_condition, approved: true, state: "closed")
+            create(:pre_commencement_condition_validation_request, owner: cancelled_condition, approved: true, state: "closed")
+            cancelled_condition.update!(cancelled_at: Time.zone.today)
+
+            planning_application.determine!
+
+            visit "/public/planning_applications/#{planning_application.reference}/decision_notice"
+          end
+
+          it "does not show cancelled conditions on the notice" do
+            within("#conditions-list") do
+              expect(page).to have_content("Approved condition")
+              expect(page).not_to have_content("Cancelled condition")
+            end
+          end
+        end
       end
 
       context "when decision is to refuse" do

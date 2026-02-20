@@ -9,11 +9,11 @@ module AssessmentTasksPresenter
       permitted_development_right_in_progress? ||
       recommendation.present? ||
       immunity_validation_in_progress? ||
-      pre_commencement_condition_set.conditions.any? ||
-      condition_set.conditions.any? { |condition| !condition.standard } ||
+      pre_commencement_condition_set.not_cancelled_conditions.any? ||
+      condition_set.not_cancelled_conditions.any? { |condition| !condition.standard } ||
       consultees_checked? ||
       informative_set.informatives.any? ||
-      heads_of_term.terms.any?
+      heads_of_term.not_cancelled_terms.any?
   end
 
   def immunity_validation_in_progress?

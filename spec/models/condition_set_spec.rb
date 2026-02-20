@@ -29,6 +29,13 @@ RSpec.describe ConditionSet do
       it "returns conditions that have been approved" do
         expect(condition_set.approved_conditions).to include(approved_condition, eventually_approved_condition)
       end
+
+      it "excludes conditions that have been approved but later cancelled" do
+        approved_condition.update!(cancelled_at: Time.zone.today)
+
+        expect(condition_set.approved_conditions).not_to include(approved_condition)
+        expect(condition_set.approved_conditions).to include(eventually_approved_condition)
+      end
     end
 
     describe "#confirm_pending_requests!" do
