@@ -1866,6 +1866,7 @@ en:
         not_validated: The planning application must be validated before reviewing can begin
       cil_liability:
         update:
+          failure: Review of CIL liability failed to update
           success: Review of CIL liability successfully updated
       committee_decisions:
         update:

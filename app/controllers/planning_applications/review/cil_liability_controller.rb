@@ -4,14 +4,18 @@ module PlanningApplications
   module Review
     class CilLiabilityController < BaseController
       before_action :redirect_to_review_tasks, unless: :cil_feature?
+      before_action :validate_not_nil
 
       def update
         @previous_decision = @planning_application.cil_liable
-        if @planning_application.update(cil_liability_params)
+
+        cil_liable = (cil_liability_params[:cil_liable] == "not_required") ? nil : cil_liability_params[:cil_liable]
+
+        if @planning_application.update(cil_liable:)
           record_audit_for_cil_liability!
           redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-cil-liability"), notice: t(".success")
         else
-          render :edit
+          redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-cil-liability"), alert: t(".failure")
         end
       end
 
@@ -49,6 +53,15 @@ module PlanningApplications
 
       def cil_feature?
         @planning_application.application_type.cil?
+      end
+
+      def validate_not_nil
+        return if cil_liability_params[:cil_liable].in? ["true", "false", "not_required"]
+
+        session[:errors] ||= []
+        session[:errors] << [:cil_liable, "Must select an option"]
+
+        redirect_to planning_application_review_tasks_path(@planning_application, anchor: "review-cil-liability"), alert: t(".failure")
       end
     end
   end
