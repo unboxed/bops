@@ -1,20 +1,23 @@
 <%= render "task_header", task: @task %>
+
 <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson} %>
 
 <div class="govuk-!-margin-top-3">
-  <%= render "planning_applications/validation/ownership_certificates/relevant_documents_accordion" %>
+  <%= render "planning_applications/assessment/ownership_certificates/relevant_documents_accordion" %>
 </div>
 
 <% partial_path = "tasks/check-and-validate/confirm-application-requirements/check-ownership-certificate" %>
+
 <%= render "#{partial_path}/table" %>
 
 <% if @form.validation_request&.open_or_pending? %>
   <% if @form.validation_request.open? %>
     <h2 class="govuk-heading-m">Ownership certificate change request sent</h2>
   <% else %>
-    <h2 class="govuk-heading-m">Ownership certificate change request created</h2>
+    <h2 class="govuk-heading-m">
+      Ownership certificate change request created
+    </h2>
   <% end %>
-
   <%= govuk_inset_text(classes: "govuk-!-margin-bottom-3") do %>
     <p>
       <strong>Reason ownership certificate is invalid:</strong>
@@ -22,7 +25,6 @@
     </p>
     <p><%= @form.validation_request.created_at.to_fs %></p>
   <% end %>
-
   <% if @planning_application.not_started? %>
     <%= form_with url: @form.url, method: :patch, data: {confirm: "Are you sure you want to delete this request?"} do |f| %>
       <%= f.hidden_field :task_action, value: "delete_request" %>
@@ -31,16 +33,15 @@
     <% end %>
     <p><%= govuk_link_to "Edit request", @form.edit_url %></p>
   <% end %>
-
   <% if @planning_application.invalidated? && @form.cancel_url.present? %>
     <p><%= govuk_link_to "Cancel request", @form.cancel_url %></p>
   <% end %>
 <% else %>
-  <div data-controller="unsaved-changes"
-            data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <div
+    data-controller="unsaved-changes"
+    data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
     <%= form_with model: @form, url: @form.url,
           data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
-
       <%= form.govuk_error_summary %>
       <%= form.govuk_radio_buttons_fieldset :valid_ownership_certificate, legend: {text: "Is this declaration correct?"} do %>
         <%= form.govuk_radio_button :valid_ownership_certificate, true, label: {text: "Yes"}, disabled: @form.read_only? %>
@@ -51,7 +52,8 @@
                 label: {size: "s", text: "Tell the applicant why their ownership certificate type is wrong"},
                 hint: {text: "This request will be added to the application. The requests will not be sent until the application is marked as invalid."},
                 rows: 5 %>
-          <% end %>
+        <% end %>
+
         <%= render "task_submit_buttons", form: form, save_draft: false %>
       <% end %>
     <% end %>

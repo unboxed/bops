@@ -115,7 +115,7 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.errors.add(
         :base,
         :no_boundary_geojson,
-        path: planning_application_validation_sitemap_path(@planning_application)
+        path: task_path(@planning_application, "check-and-validate/check-application-details/check-red-line-boundary")
       )
     end
 
