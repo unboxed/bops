@@ -19,7 +19,7 @@ RSpec.describe "DescriptionChangesValidation", show_sidebar: false, type: :syste
     end
 
     it "I can validate the description" do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       within("#check-description-task") do
         expect(page).to have_content("Not started")
       end
@@ -55,7 +55,7 @@ RSpec.describe "DescriptionChangesValidation", show_sidebar: false, type: :syste
     end
 
     it "I get validation errors when I omit required information" do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       within "#main-content" do
         click_link "Check description"
       end
@@ -81,7 +81,7 @@ RSpec.describe "DescriptionChangesValidation", show_sidebar: false, type: :syste
     it "I can invalidate the description" do
       expect(PlanningApplicationMailer).to receive(:description_change_mail).and_call_original
 
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       within "#main-content" do
         click_link "Check description"
       end
@@ -129,12 +129,12 @@ RSpec.describe "DescriptionChangesValidation", show_sidebar: false, type: :syste
       expect(page).to have_content("My better description")
 
       click_link "Back"
-      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation")
     end
 
     it "I can mark the task as completed when the description change request has been approved" do
       create(:description_change_validation_request, planning_application:, approved: true, state: "closed")
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
 
       within("#check-description-task") do
         expect(page).to have_content("Updated")
@@ -162,7 +162,7 @@ RSpec.describe "DescriptionChangesValidation", show_sidebar: false, type: :syste
 
     it "I can request another change when the description change request has been rejected" do
       create(:description_change_validation_request, planning_application:, approved: false, state: "closed", rejection_reason: "no")
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
 
       within("#check-description-task") do
         expect(page).to have_content("Updated")
@@ -192,7 +192,7 @@ RSpec.describe "DescriptionChangesValidation", show_sidebar: false, type: :syste
     end
 
     it "I can bypass applicant approval for small changes" do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       within "#main-content" do
         click_link "Check description"
       end
@@ -231,7 +231,7 @@ RSpec.describe "DescriptionChangesValidation", show_sidebar: false, type: :syste
     end
 
     it "does not allow you to validate description" do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
 
       within("#check-description-task") do
         expect(page).not_to have_link("Check description")
@@ -269,7 +269,7 @@ RSpec.describe "DescriptionChangesValidation", show_sidebar: false, type: :syste
     end
 
     it "I can request a change and it will be automatically accepted immediately", :capybara do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       within ".bops-sidebar" do
         click_link "Check description"
       end
