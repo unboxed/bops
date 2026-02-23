@@ -48,7 +48,7 @@ RSpec.describe "Check description task", type: :system do
           create(:validation_request, planning_application:, type: "DescriptionChangeValidationRequest", user: user)
         end
 
-        it "allows description change request to be edited and deleted", capybara: true do
+        it "allows description change request to be edited and deleted", :capybara do
           within ".bops-sidebar" do
             click_link "Check description"
           end
