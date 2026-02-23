@@ -178,7 +178,7 @@ module BopsSubmissions
     end
 
     def fetch_planning_history(uprn)
-      Apis::Paapi::Query.new.fetch(uprn)
+      Apis::Paapi.fetch(uprn)
     end
 
     def process_planning_history(planning_application)
