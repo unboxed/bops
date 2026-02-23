@@ -10,14 +10,14 @@
         small: true,
         legend: {size: "s", text: "Is the application liable for CIL?"}
       ) do %>
-    <% if @planning_application.cil_liable.nil? %>
+    <% if !@planning_application.cil_reviewed? %>
       <%= form.govuk_radio_button(:cil_liable, true, label: {text: "Yes"}) %>
       <%= form.govuk_radio_button(:cil_liable, false, label: {text: "No"}) %>
       <%= form.govuk_radio_button(:cil_liable, :not_required, label: {text: "Confirmation not required"}) %>
     <% else %>
       <%= form.govuk_radio_button(:cil_liable, true, checked: @planning_application.cil_liable, label: {text: "Yes"}) %>
-      <%= form.govuk_radio_button(:cil_liable, false, checked: !@planning_application.cil_liable, label: {text: "No"}) %>
-      <%= form.govuk_radio_button(:cil_liable, :not_required, checked: !@planning_application.cil_liable, label: {text: "Confirmation not required"}) %>
+      <%= form.govuk_radio_button(:cil_liable, false, checked: @planning_application.cil_liable == false, label: {text: "No"}) %>
+      <%= form.govuk_radio_button(:cil_liable, :not_required, checked: @planning_application.cil_liable.nil?, label: {text: "Confirmation not required"}) %>
     <% end %>
   <% end %>
 
