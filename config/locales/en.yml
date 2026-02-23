@@ -2182,8 +2182,6 @@ en:
         destroy:
           failure: Couldn't remove constraint - please contact support.
           success: Constraint was successfully removed
-        info:
-          update_constraints: Update constraints
         update:
           failure: Couldn't check constraints — please contact support.
           success: Constraints were successfully checked
@@ -2445,6 +2443,9 @@ en:
       home: Home
     back_to_top_link:
       back_to_top: Back to top
+    constraints:
+      info:
+        update_constraints: Update constraints
     dates_and_assignment_header:
       consultation_end_date_not_set: Not yet started
     overview_tabs:

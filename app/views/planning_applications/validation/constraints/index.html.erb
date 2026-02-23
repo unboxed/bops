@@ -27,7 +27,7 @@
     </p>
 
     <%= render(
-          partial: "table",
+          partial: "shared/constraints/table",
           locals: {
             title: "Identified constraints",
             identifier: "identified",
@@ -57,7 +57,7 @@
         <% end %>
 
         <%= render(
-              partial: "table",
+              partial: "shared/constraints/table",
               locals: {
                 title: "",
                 identifier: "other",
