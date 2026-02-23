@@ -7,8 +7,14 @@ module PlanningApplications
       before_action :redirect_to_reference_url
       before_action :show_sidebar
 
-      def index
-        redirect_to planning_application_validation_tasks_url(@planning_application)
+      def show
+        task = @planning_application.case_record.tasks.find_by!(section: "Validation").first_child
+
+        if @planning_application.pre_application?
+          redirect_to BopsPreapps::Engine.routes.url_helpers.task_path(@planning_application, task)
+        else
+          redirect_to task_path(@planning_application, task)
+        end
       end
 
       private

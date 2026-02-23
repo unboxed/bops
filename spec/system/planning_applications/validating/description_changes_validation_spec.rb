@@ -19,7 +19,7 @@ RSpec.describe "DescriptionChangesValidation" do
     end
 
     it "I can validate the description" do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       click_link "Check description"
 
       expect(page).to have_content("Does the description match the development or use in the plans?")
@@ -43,7 +43,7 @@ RSpec.describe "DescriptionChangesValidation" do
     end
 
     it "I get validation errors when I omit required information", :capybara do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       click_link "Check description"
 
       click_button "Save and mark as complete"
@@ -67,7 +67,7 @@ RSpec.describe "DescriptionChangesValidation" do
     it "I can invalidate the description" do
       expect(PlanningApplicationMailer).to receive(:description_change_mail).and_call_original
 
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       click_link "Check description"
 
       within(all(".govuk-fieldset")[0]) do
@@ -92,7 +92,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
     it "I can mark the task as completed when the description change request has been approved" do
       create(:description_change_validation_request, planning_application:, approved: true, state: "closed")
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
 
       click_link "Check description"
 
@@ -107,7 +107,7 @@ RSpec.describe "DescriptionChangesValidation" do
 
     it "I can request another change when the description change request has been rejected" do
       create(:description_change_validation_request, planning_application:, approved: false, state: "closed", rejection_reason: "no")
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
 
       click_link "Check description"
 
@@ -129,7 +129,7 @@ RSpec.describe "DescriptionChangesValidation" do
     end
 
     it "I can bypass applicant approval for small changes" do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       click_link "Check description"
 
       within(all(".govuk-fieldset").first) do
@@ -184,7 +184,7 @@ RSpec.describe "DescriptionChangesValidation" do
     end
 
     it "I can request a change and it will be automatically accepted immediately", :capybara do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       within ".bops-sidebar" do
         click_link "Check description"
       end

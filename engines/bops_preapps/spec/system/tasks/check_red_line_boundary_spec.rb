@@ -47,7 +47,7 @@ RSpec.describe "Check red line boundary task", type: :system do
   context "pre_application-specific features" do
     before do
       sign_in(user)
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
     end
 
     it "hides save button when application is determined" do

@@ -238,10 +238,9 @@ local_authority_subdomain do
 
       resource :consultation_requirement, only: %i[edit update]
 
+      resource :validation, only: :show, controller: "validation/base"
       namespace :validation do
-        root to: "base#index"
-
-        resources :tasks, only: :index
+        get "/tasks", to: "base#show"
 
         resources :constraints, only: %i[index create destroy] do
           patch :update, on: :collection

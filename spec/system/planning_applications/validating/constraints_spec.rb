@@ -42,7 +42,7 @@ RSpec.describe "Constraints" do
         expect(page).not_to have_text("Listed building outline")
       end
 
-      expect(page).to have_link("Back", href: planning_application_validation_tasks_path(planning_application))
+      expect(page).to have_link("Back", href: planning_application_validation_path(planning_application))
 
       click_button "Save and mark as complete"
 

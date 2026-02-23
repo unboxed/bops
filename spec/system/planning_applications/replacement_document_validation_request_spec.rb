@@ -330,7 +330,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
 
       # Cancel request
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
 
       within("#main-content") do
         click_link "Review documents"
@@ -367,7 +367,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       end
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 2)
 
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       within("#invalid-items-count") do
         expect(page).to have_content("Invalid items 0")
       end
@@ -422,7 +422,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
           href: "/planning_applications/#{planning_application.reference}/documents/#{replacement_document_validation_request.new_document.id}/edit?validate=yes"
         )
 
-        visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+        visit "/planning_applications/#{planning_application.reference}/validation"
         click_link "Review documents"
 
         within("#check-tag-documents-tasks") do
