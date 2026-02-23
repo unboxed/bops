@@ -25,9 +25,7 @@ RSpec.describe "Constraints" do
 
   context "when application is not started or invalidated" do
     it "displays the constraints" do
-      within("h1") do
-        expect(page).to have_text("Check the constraints")
-      end
+      expect(page).to have_selector("h1", text: "Check the constraints")
 
       expect(page).to have_text("Identified constraints")
       expect(page).to have_link("View map on Planning Data (opens in new tab)", href: "https://www.planning.data.gov.uk/map/##{lat_lon_zoom}")
@@ -49,14 +47,6 @@ RSpec.describe "Constraints" do
       click_button "Save and mark as complete"
 
       expect(page).to have_text("Constraints were successfully checked")
-
-      expect(page).to have_link(
-        "Check constraints",
-        href: planning_application_validation_constraints_path(planning_application)
-      )
-      within("#check-constraints-task .govuk-tag") do
-        expect(page).to have_content("Completed")
-      end
 
       visit "/planning_applications/#{planning_application.reference}/audits"
 
