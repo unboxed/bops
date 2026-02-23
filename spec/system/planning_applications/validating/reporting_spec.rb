@@ -13,7 +13,7 @@ RSpec.describe "Reporting validation task", show_sidebar: false, type: :system d
 
   before do
     sign_in assessor
-    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+    visit "/planning_applications/#{planning_application.reference}/validation"
   end
 
   context "when application is not started" do

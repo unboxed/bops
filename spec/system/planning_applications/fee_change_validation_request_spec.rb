@@ -27,7 +27,7 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
     end
 
     it "does not show in the other validation issues task list", show_sidebar: false do
-      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      visit "/planning_applications/#{planning_application.reference}/validation"
       within("#other-change-validation-tasks") do
         expect(page).to have_link(
           "View other validation request ##{other_change_validation_request.sequence}",

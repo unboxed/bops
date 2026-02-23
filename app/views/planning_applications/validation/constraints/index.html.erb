@@ -78,7 +78,7 @@
       <%= hidden_field_tag :return_to, params[:return_to] %>
       <div class="govuk-button-group">
         <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
-        <%= govuk_button_link_to "Back", params[:return_to].presence || planning_application_validation_tasks_path(@planning_application), secondary: true %>
+        <%= govuk_button_link_to "Back", params[:return_to].presence || planning_application_validation_path(@planning_application), secondary: true %>
       </div>
     <% end %>
   </div>
