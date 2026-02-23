@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Assessment tasks", type: :system do
+RSpec.describe "Assessment tasks", show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -19,6 +19,12 @@ RSpec.describe "Assessment tasks", type: :system do
         :in_assessment,
         local_authority: default_local_authority
       )
+    end
+
+    context "when sidebar is enabled", :show_sidebar do
+      it "redirects to the first available task" do
+        expect(page).to have_current_path(%r{^/planning_applications/#{planning_application.reference}/check-and-assess})
+      end
     end
 
     context "when planning application is an LDC" do
@@ -99,7 +105,7 @@ RSpec.describe "Assessment tasks", type: :system do
       end
     end
 
-    context "when planning application is a pre application" do
+    context "when planning application is a pre application", :show_sidebar do
       let(:planning_application) do
         create(:planning_application, :in_assessment, :pre_application, :with_additional_services, uprn: "100081043511", local_authority: default_local_authority)
       end

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "adding consultation summary" do
+RSpec.describe "adding consultation summary", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
 
   let!(:assessor) do
@@ -36,7 +36,7 @@ RSpec.describe "adding consultation summary" do
     click_link("Check and assess")
   end
 
-  it "lets user save draft, mark as complete, and edit" do
+  it "lets user save draft, mark as complete, and edit", show_sidebar: false do
     within "#main-content" do
       expect(list_item("Summary of consultation")).to have_content("Not started")
       click_link("Summary of consultation")

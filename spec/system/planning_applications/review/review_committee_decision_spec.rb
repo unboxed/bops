@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Review committee decision" do
+RSpec.describe "Review committee decision", show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:reviewer) do
     create(:user,

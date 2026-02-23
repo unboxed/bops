@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "checking consistency" do
+RSpec.describe "checking consistency", show_sidebar: false, type: :system do
   let(:local_authority) { create(:local_authority, :default) }
 
   let(:user) do
@@ -245,7 +245,7 @@ RSpec.describe "checking consistency" do
     end
   end
 
-  context "when the application is a pre application" do
+  context "when the application is a pre application", :show_sidebar do
     let(:planning_application) do
       create(
         :planning_application,

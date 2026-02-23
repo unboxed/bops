@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Validation tasks" do
+RSpec.describe "Validation tasks", show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -207,7 +207,7 @@ RSpec.describe "Validation tasks" do
     end
   end
 
-  context "when EIA feature is disabled" do
+  context "when EIA feature is disabled", :show_sidebar do
     let!(:planning_application) do
       create(:planning_application, :not_started, :pre_application, local_authority: default_local_authority)
     end

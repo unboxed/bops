@@ -75,7 +75,7 @@ RSpec.describe "Reviewing immunity enforcement" do
         end
       end
 
-      it "when I return it with comments, they can see my comments" do
+      it "when I return it with comments, they can see my comments", show_sidebar: false do
         click_button "Review assessment of immunity"
 
         within("#review-immunity-enforcements-form") do

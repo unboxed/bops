@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Check legislation" do
+RSpec.describe "Check legislation", show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -80,7 +80,7 @@ RSpec.describe "Check legislation" do
     end
   end
 
-  context "when planning application type has no legislation details" do
+  context "when planning application type has no legislation details", :show_sidebar do
     let(:config) { create(:application_type_config, :pre_application, :inactive, :without_legislation) }
     let(:application_type) { create(:application_type, config:, local_authority: default_local_authority) }
     let(:planning_application) do
@@ -102,7 +102,7 @@ RSpec.describe "Check legislation" do
     end
   end
 
-  context "when legislative requirements feature is disabled" do
+  context "when legislative requirements feature is disabled", :show_sidebar do
     let!(:planning_application) do
       create(:planning_application, :not_started, :pre_application, local_authority: default_local_authority)
     end

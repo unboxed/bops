@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Assess immunity detail permitted development right", type: :system do
+RSpec.describe "Assess immunity detail permitted development right", show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 

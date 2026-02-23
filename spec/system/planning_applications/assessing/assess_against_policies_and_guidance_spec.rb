@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Assessing against policies and guidance", type: :system, js: true do
+RSpec.describe "Assessing against policies and guidance", :js, show_sidebar: false, type: :system do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, :validation_requests_ro, local_authority:) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }

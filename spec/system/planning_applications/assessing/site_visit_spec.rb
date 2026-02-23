@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Site visit" do
+RSpec.describe "Site visit", show_sidebar: false, type: :system do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
   let!(:application_type) { create(:application_type, :prior_approval) }
@@ -168,7 +168,7 @@ RSpec.describe "Site visit" do
       expect(page).to have_content "The date the site visit took place must be on or before today"
     end
 
-    context "when a site visit is taking place", js: true do
+    context "when a site visit is taking place", :js do
       before do
         allow_any_instance_of(PlanningApplication).to receive(:address).and_return("140, WOODWARDE ROAD, LONDON, SE22 8UR")
       end
@@ -290,7 +290,7 @@ RSpec.describe "Site visit" do
         create(:planning_application, application_type:, local_authority:)
       end
 
-      it "I can manually pick the address for the site visit", js: true do
+      it "I can manually pick the address for the site visit", :js do
         visit "/planning_applications/#{planning_application.reference}"
         click_link "Check and assess"
         click_link "Site visit", class: "app-task-list__link"

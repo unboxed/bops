@@ -2,11 +2,13 @@
 
 module PlanningApplications
   class ConsultationsController < AuthenticationController
+    self.application_section = "Consultation"
+
     before_action :set_planning_application
     before_action :set_consultation
     before_action :redirect_to_application_page, unless: :public_or_preapp?
     before_action :show_sidebar
-    before_action :redirect_to_initial_task, if: -> { @planning_application.pre_application? }, only: :show
+    before_action :redirect_to_initial_task, only: :show
 
     def show
       respond_to do |format|
@@ -50,14 +52,6 @@ module PlanningApplications
 
     def public_or_preapp?
       @planning_application.make_public? || @planning_application.pre_application?
-    end
-
-    def redirect_to_initial_task
-      task = @planning_application.case_record.tasks.find_by(section: "Consultation")&.first_child
-
-      return unless task
-
-      redirect_to BopsPreapps::Engine.routes.url_helpers.task_path(@planning_application, task)
     end
   end
 end

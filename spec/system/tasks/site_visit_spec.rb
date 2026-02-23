@@ -27,8 +27,6 @@ RSpec.describe "Site visit task", type: :system do
     end
 
     it "doesn't have a site visit task" do
-      expect(page).to have_selector("h1", text: "Assess the application")
-
       within :sidebar do
         expect(page).not_to have_link("Site visit")
       end

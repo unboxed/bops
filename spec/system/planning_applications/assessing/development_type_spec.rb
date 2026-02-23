@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "assessment check development type", type: :system, capybara: true do
+RSpec.describe "assessment check development type", :capybara, show_sidebar: false, type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, :planx, local_authority: local_authority) }
 
@@ -41,6 +41,7 @@ RSpec.describe "assessment check development type", type: :system, capybara: tru
             expect(page).to have_content("Cannot start yet")
           end
         end
+
         it "shows an error if the assessor doesn't choose the proposal is development" do
           click_link("Check and assess")
 
@@ -85,6 +86,7 @@ RSpec.describe "assessment check development type", type: :system, capybara: tru
               expect(page).to have_link("Add new assessment area")
             end
           end
+
           it "choose no that proposal is development" do
             click_link("Check and assess")
 

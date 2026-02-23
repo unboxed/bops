@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Drawing a sitemap on a planning application", type: :system, capybara: true do
+RSpec.describe "Drawing a sitemap on a planning application", :capybara, show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority, name: "Assessor 1") }
 
@@ -28,7 +28,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
 
       it "displays the planning application address and reference" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-        click_link "Draw red line boundary", class: "govuk-task-list__link"
+        click_link "Draw red line boundary"
 
         expect(page).to have_content(planning_application.full_address)
         expect(page).to have_content(planning_application.reference)
@@ -36,7 +36,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
 
       it "is possible to create a sitemap" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-        click_link "Draw red line boundary", class: "govuk-task-list__link"
+        click_link "Draw red line boundary"
 
         # When no boundary set, map should be displayed zoomed in at latitiude/longitude if fields present
         map_selector = find("my-map")
@@ -92,7 +92,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
     context "with 0 documents tagged with sitemap" do
       it "links to all documents" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-        click_link "Draw red line boundary", class: "govuk-task-list__link"
+        click_link "Draw red line boundary"
 
         expect(page).to have_content("No document has been tagged as a sitemap for this application")
         expect(page).to have_link("View all documents")
@@ -104,7 +104,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
 
       it "links to that documents" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-        click_link "Draw red line boundary", class: "govuk-task-list__link"
+        click_link "Draw red line boundary"
 
         expect(page).to have_content("This digital red line boundary was submitted by the applicant on PlanX")
         expect(page).to have_link("View sitemap document")
@@ -117,7 +117,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
 
       it "links to all documents" do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-        click_link "Draw red line boundary", class: "govuk-task-list__link"
+        click_link "Draw red line boundary"
 
         expect(page).to have_content("This digital red line boundary was submitted by the applicant on PlanX")
         expect(page).to have_content("Multiple documents have been tagged as a sitemap for this application")
@@ -135,7 +135,7 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
 
     before do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
-      click_link "Check red line boundary", class: "govuk-task-list__link"
+      click_link "Check red line boundary"
 
       within("fieldset", text: "Is this red line boundary valid?") do
         choose "No"
@@ -157,8 +157,9 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
       fill_in "Explain to the applicant why changes are proposed to the red line boundary", with: "Coordinates look wrong"
       click_button "Send request"
 
-      expect(page).to have_content("Coordinates look wrong")
-      expect(page).to have_content("Red line boundary change request sent")
+      expect(page).to have_content("Validation request for red line boundary successfully created.")
+      click_link "Check red line boundary"
+      expect(page).to have_text("Proposed red line boundary change")
 
       click_link "Application"
       click_button "Audit log"
@@ -265,7 +266,8 @@ RSpec.describe "Drawing a sitemap on a planning application", type: :system, cap
 
         click_button "Send request"
 
-        expect(page).to have_content("Red line boundary change request sent")
+        expect(page).to have_content("Validation request for red line boundary successfully created.")
+        click_link "Check red line boundary"
         expect(JSON.parse(find_all("my-map")[0]["geojsondata"])).to match(boundary_geojson)
         expect(JSON.parse(find_all("my-map")[1]["geojsondata"])).to match(new_geojson)
       end

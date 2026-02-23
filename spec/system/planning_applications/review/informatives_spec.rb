@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing informatives", :js do
+RSpec.describe "Reviewing informatives", :js, show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority, name: "Anne Assessor") }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority, name: "Ray Reviewer") }

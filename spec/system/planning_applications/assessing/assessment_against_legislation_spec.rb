@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "assessment against legislation", type: :system, capybara: true do
+RSpec.describe "assessment against legislation", :capybara, show_sidebar: false, type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, :planx, local_authority: local_authority) }
 

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application Assessment", type: :system do
+RSpec.describe "Planning Application Assessment", show_sidebar: false, type: :system do
   let!(:default_local_authority) do
     create(
       :local_authority,

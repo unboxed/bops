@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class AuthenticationController < ApplicationController
+  class_attribute :application_section
+
   before_action :authenticate_user!
 
   rescue_from ActionController::InvalidAuthenticityToken, with: :reset_session_and_redirect
@@ -16,6 +18,20 @@ class AuthenticationController < ApplicationController
     else
       redirect_to planning_application_path(@planning_application),
         alert: t("planning_applications.assessment.base.not_preapp", application_type: @planning_application.application_type.full_name)
+    end
+  end
+
+  def redirect_to_initial_task
+    return unless use_new_sidebar_layout?(@planning_application)
+
+    task = @planning_application.case_record.tasks.find_by(section: application_section)&.first_child
+
+    return unless task
+
+    if @planning_application.pre_application?
+      redirect_to BopsPreapps::Engine.routes.url_helpers.task_path(@planning_application, task)
+    else
+      redirect_to task_path(@planning_application, task)
     end
   end
 end
