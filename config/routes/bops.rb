@@ -240,12 +240,6 @@ local_authority_subdomain do
       namespace :validation do
         get "/tasks", to: "base#show"
 
-        resource :cil_liability, only: %i[edit update], controller: :cil_liability
-
-        resource :environment_impact_assessment, only: %i[new create edit show update]
-
-        resource :reporting_type, only: %i[show edit update]
-
         resources :constraints, only: %i[index create destroy] do
           patch :update, on: :collection
         end
@@ -256,23 +250,7 @@ local_authority_subdomain do
           resources :redactions, only: %i[index create]
         end
 
-        resource :ownership_certificate do
-          patch :validate
-        end
-
         resource :description_changes, only: %i[show] do
-          patch :validate
-        end
-
-        resource :fee_items, only: %i[show] do
-          patch :validate
-        end
-
-        resource :sitemap, only: %i[show edit update] do
-          patch :validate
-        end
-
-        resource :time_extensions, only: %i[show] do
           patch :validate
         end
 
@@ -294,8 +272,6 @@ local_authority_subdomain do
         resources :description_change_validation_requests, controller: :validation_requests
         resources :ownership_certificate_validation_requests, controller: :validation_requests
         resources :time_extension_validation_requests, controller: :validation_requests
-
-        resource :legislation, only: %i[show update]
       end
 
       namespace :review do
