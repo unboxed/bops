@@ -1,0 +1,76 @@
+<%= render "task_header", task: @task, heading: "Upload redacted documents" %>
+
+<% partial_path = "tasks/check-and-validate/check-tag-and-confirm-documents/upload-redacted-documents" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <% if @form.redacted_documents.any? %>
+      <%= govuk_table do |table| %>
+        <% table.with_head do |head| %>
+          <% head.with_row do |row| %>
+            <% row.with_cell(text: "Document", width: "one-half") %>
+            <% row.with_cell(text: "Date uploaded", width: "one-half") %>
+          <% end %>
+        <% end %>
+
+        <% table.with_body do |body| %>
+          <% @form.redacted_documents.each do |document| %>
+            <% body.with_row do |row| %>
+              <%= row.with_cell(width: "one-half") do %>
+                <p class="govuk-!-margin-bottom-1">
+                  <%= document_thumbnail_link document, thumbnail_args: {resize_to_limit: [150, 106]} %>
+                </p>
+                <p>
+                  <%= truncate(document.name.to_s, length: 50) %><br>
+                  <%= link_to_document "View in new window", document %>
+                </p>
+              <% end %>
+
+              <%= row.with_cell(width: "one-half") do %>
+                <p class="govuk-!-margin-bottom-1">
+                  <%= document.created_at.to_fs %>
+                </p>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= govuk_details(summary_text: "Redact and upload another document") do %>
+        <%= render "#{partial_path}/upload_form" %>
+      <% end %>
+    <% else %>
+      <p class="govuk-!-margin-bottom-1">
+        To add a redacted document
+      </p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>select a document that needs to be redacted</li>
+        <li>download the original</li>
+        <li>redact</li>
+        <li>upload the redacted version</li>
+      </ul>
+
+      <p>
+        Redacted versions will be made public when the application is published
+      </p>
+
+      <%= govuk_details(summary_text: "What you need to redact") do %>
+        <%= govuk_inset_text do %>
+          <p class="govuk-hint govuk-!-margin-bottom-1">
+            You need to redact
+          </p>
+          <ul class="govuk-list govuk-list--bullet govuk-hint">
+            <li>all signatures (hand written and electronic)</li>
+            <li>personal telephone numbers and email addresses</li>
+            <li>business email addresses that include first and last names</li>
+            <li>name of the agent</li>
+            <li>personal financial information</li>
+            <li>any other sensitive personal information or images that could identify a person</li>
+          </ul>
+        <% end %>
+      <% end %>
+
+      <%= render "#{partial_path}/upload_form" %>
+    <% end %>
+  </div>
+</div>
