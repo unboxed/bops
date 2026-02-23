@@ -1,9 +1,0 @@
-<h2>
-  Review
-</h2>
-
-<%= govuk_task_list(id_prefix: "review-tasks", html_attributes: {id: "review-tasks"}) do |task_list|
-      render Validation::ReviewValidationRequestsTask.new(@planning_application, task_list:)
-
-      render Validation::ValidationDecisionTask.new(@planning_application, task_list:)
-    end %>
