@@ -2687,6 +2687,11 @@ en:
             uploaded_by: Uploaded by
             view_in_new_window: View in new window
             view_more_documents: View more documents
+        site-description:
+          show:
+            heading: Description of the site
+            view_site_on_map: View site on Google Maps
+            warning: This information WILL be made publicly available.
     check-and-validate:
       confirm-application-requirements:
         check-environment-impact-assessment:
@@ -2764,6 +2769,9 @@ en:
       send-validation-decision:
         failure: Failed to send validation decision
         success_html: "<strong>Validation decision sent</strong> <br><br> An email notification has been sent to the applicant. The application is now ready for consultation and assessment."
+      site-description:
+        failure: Unable to save site description
+        success: Site description successfully saved
       summary-of-works:
         failure: Summary of works failed to save
         success: Summary of works was successfully saved

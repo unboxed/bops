@@ -50,7 +50,9 @@ RSpec.describe "Site description" do
     end
 
     it "there is a validation error when submitting an empty text field" do
-      click_link "Site description"
+      within "#main-content" do
+        click_link "Site description"
+      end
       expect(page).to have_content("Create a description of the site")
 
       click_button "Save and mark as complete"
@@ -65,7 +67,9 @@ RSpec.describe "Site description" do
     end
 
     it "I can save and come back later when adding or editing a site description" do
-      click_link "Site description"
+      within "#main-content" do
+        click_link "Site description"
+      end
       expect(page).to have_content("Create a description of the site")
 
       fill_in "Description of the site", with: "A draft entry for the site description"
@@ -77,7 +81,9 @@ RSpec.describe "Site description" do
         expect(page).to have_content("In progress")
       end
 
-      click_link "Site description"
+      within "#main-content" do
+        click_link "Site description"
+      end
       expect(page).to have_content("Edit site description")
       expect(page).to have_content("A draft entry for the site description")
 
@@ -90,7 +96,9 @@ RSpec.describe "Site description" do
     end
 
     it "I can save and mark as complete when adding a site description" do
-      click_link "Site description"
+      within "#main-content" do
+        click_link "Site description"
+      end
 
       fill_in "Description of the site", with: "A complete entry for the site description"
       click_button "Save and mark as complete"
@@ -101,7 +109,9 @@ RSpec.describe "Site description" do
         expect(page).to have_content("Completed")
       end
 
-      click_link "Site description"
+      within "#main-content" do
+        click_link "Site description"
+      end
       expect(page).to have_content("Site description")
       expect(page).to have_content("A complete entry for the site description")
 
