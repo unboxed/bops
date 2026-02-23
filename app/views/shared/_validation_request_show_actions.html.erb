@@ -12,7 +12,7 @@
     <% if form %>
       <%= form.govuk_submit (button_text || "Continue"), class: "govuk-button" %>
     <% else %>
-      <%= govuk_button_link_to "Continue", planning_application_validation_fee_items_path(planning_application) %>
+      <%= govuk_button_link_to "Continue", task_path(planning_application, "check-and-validate/check-application-details/check-fee") %>
     <% end %>
   <% end %>
 
