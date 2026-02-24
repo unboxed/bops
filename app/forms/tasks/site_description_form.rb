@@ -12,6 +12,10 @@ module Tasks
 
     attr_reader :assessment_detail
 
+    with_options on: %i[save_and_complete save_draft] do
+      validates :entry, presence: {message: "Site description cannot be blank"}
+    end
+
     private
 
     def save_draft
