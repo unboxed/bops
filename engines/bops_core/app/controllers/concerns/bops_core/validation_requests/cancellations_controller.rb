@@ -60,7 +60,7 @@ module BopsCore
       end
 
       def ensure_request_is_cancelable
-        unless @validation_request.open_or_pending? && @planning_application.validation_complete?
+        unless @validation_request.open_or_pending?
           redirect_to after_cancel_path, alert: t(".validation_request_not_cancelable")
         end
       end
