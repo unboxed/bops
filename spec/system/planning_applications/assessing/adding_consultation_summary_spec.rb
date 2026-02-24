@@ -37,9 +37,10 @@ RSpec.describe "adding consultation summary" do
   end
 
   it "lets user save draft, mark as complete, and edit" do
-    expect(list_item("Summary of consultation")).to have_content("Not started")
-
-    click_link("Summary of consultation")
+    within "#main-content" do
+      expect(list_item("Summary of consultation")).to have_content("Not started")
+      click_link("Summary of consultation")
+    end
     click_button("Save and mark as complete")
 
     expect(page).to have_content("Enter Entry")
@@ -52,16 +53,20 @@ RSpec.describe "adding consultation summary" do
     click_button("Save and come back later")
 
     expect(page).to have_content("Consultation summary successfully added.")
-    expect(list_item("Summary of consultation")).to have_content("In progress")
+    within "#main-content" do
+      expect(list_item("Summary of consultation")).to have_content("In progress")
 
-    click_link("Summary of consultation")
+      click_link("Summary of consultation")
+    end
     fill_in("Summary of consultation responses", with: "Lorem ipsum")
     click_button("Save and mark as complete")
 
     expect(page).to have_content("Consultation summary successfully updated.")
-    expect(list_item("Summary of consultation")).to have_content("Completed")
+    within "#main-content" do
+      expect(list_item("Summary of consultation")).to have_content("Completed")
 
-    click_link("Summary of consultation")
+      click_link("Summary of consultation")
+    end
 
     within "#consultation-responses" do
       expect(page).to have_content("Alice Smith")
