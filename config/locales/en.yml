@@ -2692,6 +2692,11 @@ en:
             heading: Description of the site
             view_site_on_map: View site on Google Maps
             warning: This information WILL be made publicly available.
+        summary-of-consultation:
+          show:
+            heading: Summary of consultation responses
+            responses: Consultation responses
+            warning: This information WILL be made publicly available.
     check-and-validate:
       confirm-application-requirements:
         check-environment-impact-assessment:
@@ -2772,6 +2777,9 @@ en:
       site-description:
         failure: Unable to save site description
         success: Site description successfully saved
+      summary-of-consultation:
+        failure: Summary of consultation failed to save
+        success: Successfully saved summary of consultation
       summary-of-works:
         failure: Summary of works failed to save
         success: Summary of works was successfully saved

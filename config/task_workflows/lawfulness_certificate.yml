@@ -48,6 +48,7 @@
       tasks:
         - name: Summary of works
         - name: Site description
+        - name: Summary of consultation
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"
