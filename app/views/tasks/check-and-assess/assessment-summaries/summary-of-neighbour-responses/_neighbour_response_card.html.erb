@@ -1,0 +1,27 @@
+<div class="govuk-inset-text">
+  <div class="neighbour-response-top-section">
+    <div class="neighbour-response-content govuk-!-margin-bottom-3">
+      <div class="govuk-!-margin-bottom-2">
+        <%= render(StatusTags::BaseComponent.new(status: response.summary_tag)) %>
+      </div>
+      <% if response.neighbour.selected? %>
+        <strong class="govuk-tag app-task-list__task-tag govuk-!-margin-left-1">Adjoining neighbour</strong>
+      <% end %>
+      <ul class="govuk-list">
+        <li><strong><%= response.name %></strong> <span class="govuk-hint"><%= response.email %></span></li>
+        <li class="govuk-hint"><%= response.neighbour.address %></li>
+        <li class="govuk-hint">Received on <%= response.received_at.to_fs(:day_month_year_slashes) %></li>
+      </ul>
+      <%= render ShowMoreTextComponent.new(text: response.comment, length: 100) %>
+    </div>
+    <% if local_assigns[:show_tags] %>
+      <div class="neighbour-tags">
+        <% response.tags.each do |response_tag| %>
+          <div class="govuk-!-margin-bottom-3">
+            <strong class="govuk-tag govuk-tag--grey"><%= response_tag.humanize.upcase %></strong>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
