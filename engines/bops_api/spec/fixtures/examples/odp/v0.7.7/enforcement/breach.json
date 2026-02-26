@@ -1,0 +1,407 @@
+{
+  "data": {
+    "complainant": {
+      "name": {
+        "first": "Ebenezer",
+        "last": "Scrooge"
+      },
+      "phone": {
+        "primary": "0123456789"
+      },
+      "email": "scrooge@waltdisney.com",
+      "address": {
+        "line1": "16 Bayham Street",
+        "town": "Camden Town",
+        "postcode": "NW1 0JU",
+        "country": "UK"
+      }
+    },
+    "property": {
+      "address": {
+        "latitude": 51.3873264,
+        "longitude": 0.506217,
+        "x": 574479.44,
+        "y": 168345.09,
+        "title": "CHARES DICKENS WRITING CHALET, EASTGATE HOUSE, HIGH STREET, ROCHESTER",
+        "source": "Ordnance Survey",
+        "uprn": "000044009430",
+        "usrn": "32100913",
+        "pao": "EASTGATE HOUSE",
+        "sao": "CHARES DICKENS WRITING CHALET",
+        "street": "HIGH STREET",
+        "town": "ROCHESTER",
+        "postcode": "ME1 1EW",
+        "singleLine": "CHARES DICKENS WRITING CHALET, EASTGATE HOUSE, HIGH STREET, ROCHESTER, MEDWAY, ME1 1EW"
+      },
+      "localAuthorityDistrict": [
+        "Medway"
+      ],
+      "region": "South East",
+      "ward": "Rochester West & Borstal",
+      "type": {
+        "value": "commercial.leisure.museum",
+        "description": "Museum / Gallery"
+      },
+      "boundary": {
+        "site": {
+          "type": "Feature",
+          "geometry": {
+            "type": "MultiPolygon",
+            "coordinates": [
+              [
+                [
+                  [
+                    0.505988,
+                    51.387438
+                  ],
+                  [
+                    0.506138,
+                    51.387255
+                  ],
+                  [
+                    0.50611,
+                    51.387246
+                  ],
+                  [
+                    0.506194,
+                    51.387139
+                  ],
+                  [
+                    0.506242,
+                    51.387121
+                  ],
+                  [
+                    0.506268,
+                    51.387094
+                  ],
+                  [
+                    0.506472,
+                    51.387173
+                  ],
+                  [
+                    0.506466,
+                    51.387181
+                  ],
+                  [
+                    0.506792,
+                    51.3873
+                  ],
+                  [
+                    0.506823,
+                    51.387266
+                  ],
+                  [
+                    0.506854,
+                    51.387278
+                  ],
+                  [
+                    0.506909,
+                    51.387252
+                  ],
+                  [
+                    0.506984,
+                    51.38728
+                  ],
+                  [
+                    0.506968,
+                    51.38732
+                  ],
+                  [
+                    0.507142,
+                    51.387385
+                  ],
+                  [
+                    0.507181,
+                    51.387375
+                  ],
+                  [
+                    0.506962,
+                    51.387653
+                  ],
+                  [
+                    0.506961,
+                    51.387695
+                  ],
+                  [
+                    0.506931,
+                    51.387733
+                  ],
+                  [
+                    0.506437,
+                    51.387557
+                  ],
+                  [
+                    0.506425,
+                    51.387574
+                  ],
+                  [
+                    0.505988,
+                    51.387438
+                  ]
+                ]
+              ]
+            ]
+          },
+          "properties": {
+            "name": "",
+            "entity": 12000664748,
+            "prefix": "title-boundary",
+            "dataset": "title-boundary",
+            "end-date": "",
+            "typology": "geography",
+            "reference": "32926167",
+            "entry-date": "2024-05-06",
+            "start-date": "2009-02-27",
+            "organisation-entity": "13"
+          }
+        },
+        "area": {
+          "hectares": 0.295809,
+          "squareMetres": 2958.09
+        }
+      }
+    },
+    "application": {
+      "type": {
+        "value": "breach",
+        "description": "Report a planning breach"
+      }
+    },
+    "report": {
+      "boundary": {
+        "site": {
+          "type": "Feature",
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  0.5061100423336052,
+                  51.387245941504915
+                ],
+                [
+                  0.5061945319175742,
+                  51.38713965241118
+                ],
+                [
+                  0.5062454938888572,
+                  51.387138815488186
+                ],
+                [
+                  0.5063232779502891,
+                  51.38716141240323
+                ],
+                [
+                  0.5063809454441092,
+                  51.387173966240084
+                ],
+                [
+                  0.5064935982227345,
+                  51.38722836616
+                ],
+                [
+                  0.5064211785793326,
+                  51.387287787537105
+                ],
+                [
+                  0.5063098669052146,
+                  51.387310384378566
+                ],
+                [
+                  0.5061100423336052,
+                  51.387245941504915
+                ]
+              ]
+            ]
+          },
+          "properties": {
+            "label": "1",
+            "area.hectares": 0.030997000000000004,
+            "area.squareMetres": 309.97,
+            "planx_user_action": "Drew a custom boundary"
+          }
+        },
+        "area": {
+          "squareMetres": 309.97
+        }
+      },
+      "description": "Unauthorised erection of a library in the front garden",
+      "projectType": [
+        {
+          "value": "outbuilding",
+          "description": "New or modified outbuilding (eg garage or shed)"
+        }
+      ],
+      "date": {
+        "start": "2024-12-25"
+      }
+    }
+  },
+  "responses": [
+    {
+      "question": "Are you reporting any of the following?",
+      "responses": [
+        {
+          "value": "No, none of the above"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Is the property in Medway?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {
+        "autoAnswered": true
+      }
+    },
+    {
+      "question": "Has the property or site already been granted planning permission for the works you're reporting?",
+      "responses": [
+        {
+          "value": "Yes, it's been granted planning permission but I still think it's a breach"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Enter your contact details",
+      "responses": [
+        {
+          "value": "Ebenezer Scrooge 0123456789 scrooge@waltdisney.com"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Enter your address",
+      "responses": [
+        {
+          "value": "16 Bayham Street, Camden Town, London, NW1 0JU, UK"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Is the breach currently in progress?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Select the breach you are reporting",
+      "responses": [
+        {
+          "value": "New or modified outbuilding (e.g. garage or shed)"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Describe the work suspected to be a breach",
+      "responses": [
+        {
+          "value": "Unathorised erection of a library in the front garden"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Do you know when the work started?",
+      "responses": [
+        {
+          "value": "Yes"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "When did work start?",
+      "responses": [
+        {
+          "value": "2024-12-25"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Do you know when the work was completed?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Which side of the property is the outbuilding on?",
+      "responses": [
+        {
+          "value": "Front"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Do you know any of the dimensions of the outbuilding?",
+      "responses": [
+        {
+          "value": "The library is approximately 4x3 metres"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "How many other outbuildings are there?",
+      "responses": [
+        {
+          "value": "1"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Do you have any supporting documents or photos?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {}
+    },
+    {
+      "question": "Is there anything else you'd like to tell us?",
+      "responses": [
+        {
+          "value": "No"
+        }
+      ],
+      "metadata": {}
+    }
+  ],
+  "metadata": {
+    "id": "df4bba83-5f7a-4d82-9ecf-ba2a0fffda72",
+    "organisation": "MDW",
+    "submittedAt": "2025-05-26T15:20:11.297Z",
+    "source": "PlanX",
+    "service": {
+      "flowId": "26ade0b6-f223-4b92-b5e5-5462a2067b1f",
+      "url": "https://editor.planx.dev/medway/report-a-planning-breach/published",
+      "files": {
+        "required": [],
+        "recommended": [],
+        "optional": []
+      },
+      "fee": {
+        "notApplicable": true
+      }
+    },
+    "schema": "https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/enforcement.json"
+  }
+}

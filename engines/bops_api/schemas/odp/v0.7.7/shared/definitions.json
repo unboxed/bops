@@ -1,0 +1,175 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "ApplicationOverview": {
+      "$id": "#ApplicationOverview",
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "object",
+          "properties": {
+            "value": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            }
+          },
+          "required": ["value", "description"]
+        },
+        "reference": {
+          "type": "string"
+        },
+        "fullReference": {
+          "type": "string"
+        },
+        "targetDate": {
+          "format": "date",
+          "type": ["string", "null"]
+        },
+        "expiryDate": {
+          "format": "date",
+          "type": ["string", "null"]
+        },
+        "receivedAt": {
+          "format": "datetime",
+          "type": "string"
+        },
+        "validAt": {
+          "format": "datetime",
+          "type": ["string", "null"]
+        },
+        "publishedAt": {
+          "format": "datetime",
+          "type": ["string", "null"]
+        },
+        "status": {
+          "type": "string"
+        },
+        "session_id": {
+          "type": ["string", "null"]
+        },
+        "determinedAt": {
+          "format": "datetime",
+          "type": ["string", "null"]
+        },
+        "decision": {
+          "type": ["string", "null"]
+        },
+        "consultation": {
+          "type": "object",
+          "properties": {
+            "startDate": {
+              "type": ["string", "null"],
+              "format": "date"
+            },
+            "endDate": {
+              "type": ["string", "null"],
+              "format": "date"
+            },
+            "publicUrl": {
+              "type": ["string", "null"]
+            },
+            "publishedComments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "string"
+                  },
+                  "receivedAt": {
+                    "format": "datetime",
+                    "type": "string"
+                  },
+                  "summaryTag": {
+                    "type": "string"
+                  }
+                },
+                "required": ["comment", "receivedAt", "summaryTag"]
+              }
+            },
+            "consulteeComments": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "string"
+                  },
+                  "receivedAt": {
+                    "format": "datetime",
+                    "type": "string"
+                  }
+                },
+                "required": ["comment", "receivedAt"]
+              }
+            }
+          },
+          "required": ["startDate", "endDate"]
+        },
+        "pressNotice": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "required": {
+                  "type": "boolean"
+                },
+                "reason": {
+                  "type": ["string", "null"]
+                },
+                "publishedAt": {
+                  "format": "datetime",
+                  "type": ["string", "null"]
+                }
+              },
+              "required": ["required", "reason", "publishedAt"]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "reference",
+        "fullReference",
+        "receivedAt",
+        "validAt",
+        "publishedAt",
+        "determinedAt",
+        "status",
+        "decision"
+      ]
+    },
+    "PostSubmissionPagination": {
+      "$id": "#PostSubmissionPagination",
+      "type": "object",
+      "properties": {
+        "resultsPerPage": {
+          "type": "integer"
+        },
+        "currentPage": {
+          "type": "integer"
+        },
+        "totalPages": {
+          "type": "integer"
+        },
+        "totalResults": {
+          "type": "integer"
+        },
+        "totalAvailableItems": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "resultsPerPage",
+        "currentPage",
+        "totalPages",
+        "totalAvailableItems"
+      ]
+    }
+  }
+}
