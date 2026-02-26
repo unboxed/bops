@@ -102,6 +102,38 @@ RSpec.describe ConstraintsCreationService, type: :service do
       end
     end
 
+    context "when existing constraints are not referenced in new constraint data" do
+      let!(:designated_constraint) { create(:constraint, :designated) }
+      let!(:conservation_area_constraint) { create(:constraint, :conservation_area) }
+      let!(:listed_constraint) { create(:constraint, :listed) }
+      let!(:tpo_constraint) { create(:constraint, :tpo) }
+      let!(:flood_risk_constraint) { create(:constraint, type: "flood_risk_zone", category: "flooding") }
+
+      before do
+        planning_application.planning_application_constraints.create! do |c|
+          c.constraint = flood_risk_constraint
+          c.identified_by = api_user.name
+        end
+      end
+
+      it "destroys the unreferenced existing constraints" do
+        expect {
+          create_constraints
+        }.to change {
+          planning_application.planning_application_constraints.reload.map(&:type)
+        }.from(
+          an_array_matching(%w[flood_risk_zone])
+        ).to(
+          an_array_matching(%w[
+            designated
+            designated_conservationarea
+            listed
+            tpo
+          ])
+        )
+      end
+    end
+
     context "when existing constraints includes an ignored constraint" do
       let!(:designated_constraint) { create(:constraint, :designated) }
       let!(:conservation_area_constraint) { create(:constraint, :conservation_area) }

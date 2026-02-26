@@ -58,7 +58,7 @@ class ConstraintsCreationService
       end
     end
 
-    existing_constraints.each(&:destroy!)
+    existing_constraints.each_value(&:destroy!)
   rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotSaved, ActiveRecord::RecordNotDestroyed => e
     Appsignal.report_error(e)
   end
