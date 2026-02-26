@@ -2452,6 +2452,29 @@ components:
     Email:
       format: email
       type: string
+    Enhancements:
+      "$id": "#Enhancements"
+      additionalProperties: false
+      description: Metadata associated with any AI-enhanced components used throughout
+        this service
+      properties:
+        dataProperty:
+          type: string
+        enhanced:
+          type: string
+        model:
+          type: string
+        original:
+          type: string
+        userAction:
+          type: string
+      required:
+      - dataProperty
+      - original
+      - enhanced
+      - userAction
+      - model
+      type: object
     Entity:
       additionalProperties: false
       description: A specific entity within an intersecting planning designation category
@@ -2634,6 +2657,8 @@ components:
         calculated:
           description: Total calculated fee in GBP
           type: number
+        calculatedVAT:
+          type: number
         category:
           additionalProperties: false
           description: Breakdown of calculated fee in GBP by category of development,
@@ -2706,8 +2731,23 @@ components:
           - disability
           - resubmission
           type: object
+        fastTrack:
+          description: Fast Track fee in GBP if applicable
+          type: number
+        fastTrackVAT:
+          description: Fast Track VAT in GBP if applicable
+          type: number
         payable:
           description: Total payable fee after any exemptions or reductions in GBP
+          type: number
+        payableVAT:
+          description: Total payable VAT in GBP if applicable
+          type: number
+        paymentProcessing:
+          description: Payment processing fee in GBP if applicable
+          type: number
+        paymentProcessingVAT:
+          description: Payment processing VAT in GBP if applicable
           type: number
         reduction:
           additionalProperties: false
@@ -2729,9 +2769,23 @@ components:
             govPay:
               description: GOV.UK Pay payment reference number
               type: string
+            metadata:
+              additionalProperties:
+                type:
+                - string
+                - number
+                - boolean
+              description: GOV.UK Pay metadata dictionary if applicable
+              type: object
           required:
           - govPay
           type: object
+        serviceCharge:
+          description: PlanX service charge fee in GBP if applicable
+          type: number
+        serviceChargeVAT:
+          description: PlanX service charge VAT in GBP if applicable
+          type: number
       required:
       - calculated
       - payable
@@ -2861,6 +2915,9 @@ components:
         description:
           type: string
         name:
+          type: string
+        number:
+          description: User-assigned unique drawing number, if applicable
           type: string
         type:
           items:
@@ -4740,6 +4797,12 @@ components:
           "$ref": "#/components/definitions/GeoBoundary"
           description: HM Land Registry Index polygon for this property, commonly
             referred to as the blue line boundary, sourced from planning.data.gov.uk/dataset/title-boundary
+        developmentCorporations:
+          description: Current and historic development corporations that contain
+            this address sourced from planning.data.gov.uk/dataset/development-corporation-boundary
+          items:
+            type: string
+          type: array
         flood:
           additionalProperties: false
           description: Existing flood risk, if applicable to application.type
@@ -4750,8 +4813,14 @@ components:
               type: boolean
           type: object
         localAuthorityDistrict:
-          description: Current and historic UK Local Authority Districts that contain
-            this address sourced from planning.data.gov.uk/dataset/local-authority-district
+          description: Current and historic UK Local Authority Districts (LAD) that
+            contain this address sourced from planning.data.gov.uk/dataset/local-authority-district
+          items:
+            type: string
+          type: array
+        localPlanningAuthority:
+          description: Current and historic UK Local Planning Authorities (LPA) that
+            contain this address sourced from planning.data.gov.uk/dataset/local-planning-authority
           items:
             type: string
           type: array
@@ -6177,6 +6246,8 @@ components:
         service:
           additionalProperties: false
           properties:
+            enhancements:
+              "$ref": "#/components/definitions/Enhancements"
             fee:
               anyOf:
               - "$ref": "#/components/definitions/FeeExplanation"
@@ -6423,6 +6494,38 @@ components:
               type: boolean
             value:
               const: brownfieldSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Building Preservation Notice (BPN)
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: buildingPreservationNotice
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Certificate of immunity
+              type: string
+            intersects:
+              const: false
+              type: boolean
+            value:
+              const: certificateOfImmunity
               type: string
           required:
           - description
@@ -7587,6 +7690,46 @@ components:
               type: boolean
             value:
               const: brownfieldSite
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Building Preservation Notice (BPN)
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: buildingPreservationNotice
+              type: string
+          required:
+          - description
+          - intersects
+          - value
+          type: object
+        - additionalProperties: false
+          properties:
+            description:
+              const: Certificate of immunity
+              type: string
+            entities:
+              items:
+                "$ref": "#/components/definitions/Entity"
+              type: array
+            intersects:
+              const: true
+              type: boolean
+            value:
+              const: certificateOfImmunity
               type: string
           required:
           - description
@@ -20162,9 +20305,13 @@ components:
               identicalUnits:
                 type: number
               tenure:
-                "$ref": "#/components/definitions/UKTenureType"
+                anyOf:
+                - "$ref": "#/components/definitions/UKTenureType"
+                - "$ref": "#/components/definitions/GLATenureType"
               type:
-                "$ref": "#/components/definitions/UKResidentialUnitType"
+                anyOf:
+                - "$ref": "#/components/definitions/UKResidentialUnitType"
+                - "$ref": "#/components/definitions/GLAResidentialUnitType"
             required:
             - type
             - tenure
@@ -20631,6 +20778,12 @@ components:
           "$ref": "#/components/definitions/GeoBoundary"
           description: HM Land Registry Index polygon for this property, commonly
             referred to as the blue line boundary, sourced from planning.data.gov.uk/dataset/title-boundary
+        developmentCorporations:
+          description: Current and historic development corporations that contain
+            this address sourced from planning.data.gov.uk/dataset/development-corporation-boundary
+          items:
+            type: string
+          type: array
         flood:
           additionalProperties: false
           description: Existing flood risk, if applicable to application.type
@@ -20641,8 +20794,14 @@ components:
               type: boolean
           type: object
         localAuthorityDistrict:
-          description: Current and historic UK Local Authority Districts that contain
-            this address sourced from planning.data.gov.uk/dataset/local-authority-district
+          description: Current and historic UK Local Authority Districts (LAD) that
+            contain this address sourced from planning.data.gov.uk/dataset/local-authority-district
+          items:
+            type: string
+          type: array
+        localPlanningAuthority:
+          description: Current and historic UK Local Planning Authorities (LPA) that
+            contain this address sourced from planning.data.gov.uk/dataset/local-planning-authority
           items:
             type: string
           type: array
@@ -23412,7 +23571,7 @@ paths:
                       fee:
                         calculated: []
                         payable: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               listed:
                 summary: Consent to do works to a Listed Building
                 value:
@@ -24091,7 +24250,7 @@ paths:
                           description: Visualisations
                       fee:
                         notApplicable: true
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               ldc.existing:
                 summary: Lawful Development Certificate - Existing use
                 value:
@@ -25175,7 +25334,7 @@ paths:
                           - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: 2023-10-02t00:00:00z
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               ldc.proposed:
                 summary: Lawful Development Certificate - Proposed use
                 value:
@@ -25731,7 +25890,7 @@ paths:
                     - value: Within the last 12 months
                     metadata:
                       policyRefs:
-                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 8
+                      - text: UK Statutory Instruments 2012 No. 2920 Regulation 8
                         url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8/made
                   - question: Does the application qualify for a disability exemption?
                     responses:
@@ -25865,7 +26024,7 @@ paths:
                               8
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/8/made
                     submittedAt: '2023-10-02T00:00:00+01:00'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               pp.full.householder:
                 summary: Planning Permission - Full householder
                 value:
@@ -26898,7 +27057,7 @@ paths:
                           - text: UK Statutory Instruments 2023 No. 1197
                             url: https://www.legislation.gov.uk/uksi/2023/1197/made
                     submittedAt: '2023-10-02T00:00:00.00Z'
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               pp.full.major:
                 summary: Planning Permission - Major application
                 value:
@@ -28223,7 +28382,7 @@ paths:
                       fee:
                         calculated: []
                         payable: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               pp.full.minor:
                 summary: Planning Permission - Minor application
                 value:
@@ -29165,7 +29324,7 @@ paths:
                             two: []
                           thirteen: []
                           fourteen: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               pa.part20.classAB:
                 summary: Prior Approval - Build homes on an adjoining commercial or
                   mixed use building
@@ -30265,7 +30424,7 @@ paths:
                               Deemed Applications, Requests and Site Visits) (England)
                               Regulations 2012, Regulation 14
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               pa.part3.classMA:
                 summary: Prior Approval - Convert a commercial building into a home
                   or homes
@@ -31237,7 +31396,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               pa.part7.classM:
                 summary: Prior Approval - Extend a school, college, university, prison
                   or hospital
@@ -32252,7 +32411,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               pa.part1.classA:
                 summary: Prior Approval - Larger extension to a house
                 value:
@@ -33124,7 +33283,7 @@ paths:
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/14
                           - text: Regulation 4
                             url: https://www.legislation.gov.uk/uksi/2012/2920/regulation/4/made
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               pa.part14.classJ:
                 summary: Prior Approval - Install or change solar panels
                 value:
@@ -33970,7 +34129,7 @@ paths:
                         payable:
                         - description: "<p>This application does not qualify for any
                             exemptions or reductions</p>"
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/application.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/application.json
               preApp:
                 summary: Pre-application
                 value:
@@ -33989,8 +34148,6 @@ paths:
                         name: Poet Laureates
                       address:
                         sameAsSiteAddress: true
-                      siteContact:
-                        role: applicant
                     property:
                       address:
                         latitude: 53.5020957
@@ -34319,11 +34476,11 @@ paths:
                     metadata:
                       sectionName: Pay and send
                   files:
-                  - name: https://api.editor.planx.dev/file/private/vyyogkcf/correspondence.pdf
+                  - name: https://api.editor.planx.dev/file/private/fomris6d/correspondence.pdf
                     type:
                     - value: otherSupporting
                       description: Other - supporting document
-                  - name: https://api.editor.planx.dev/file/private/tbp4kiba/myPlans.pdf
+                  - name: https://api.editor.planx.dev/file/private/7xsm1un0/myPlans.pdf
                     type:
                     - value: sitePlan.existing
                       description: Site plan - existing
@@ -34360,7 +34517,7 @@ paths:
                       fee:
                         payable: []
                         calculated: []
-                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schemas/preApplication.json
+                    schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schemas/preApplication.json
     get:
       summary: Retrieves planning applications
       tags:
@@ -35412,7 +35569,7 @@ paths:
                               - text: UK Statutory Instruments 2023 No. 1197
                                 url: https://www.legislation.gov.uk/uksi/2023/1197/made
                         submittedAt: '2023-10-02T00:00:00.00Z'
-                        schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.6/schema.json
+                        schema: https://theopensystemslab.github.io/digital-planning-data-schemas/v0.7.7/schema.json
               schema:
                 "$ref": "#/components/schemas/ApplicationSubmission"
         '401':
