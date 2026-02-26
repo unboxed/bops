@@ -34,6 +34,16 @@ RSpec.shared_examples "check constraints task" do |application_type|
     expect(task.reload).to be_in_progress
   end
 
+  it "does not show remove button for auto-identified constraints" do
+    within :sidebar do
+      click_link "Check constraints"
+    end
+
+    within(".identified-constraints-table") do
+      expect(page).not_to have_button("Remove")
+    end
+  end
+
   it "can add and delete constraints" do
     within :sidebar do
       click_link "Check constraints"

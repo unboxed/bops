@@ -22,11 +22,11 @@
     </thead>
 
     <tbody class="govuk-table__body">
-        <% planning_application_constraints.each do |planning_application_constraint| %>
+        <% planning_application_constraints.each do |constraint| %>
           <%= render(
                 partial: "shared/constraints/row",
                 locals: {
-                  planning_application_constraint: planning_application_constraint,
+                  constraint: constraint,
                   show_source: show_source,
                   show_entity: show_entity,
                   show_action: show_action

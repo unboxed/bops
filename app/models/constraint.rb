@@ -65,6 +65,14 @@ class Constraint < ApplicationRecord
     I18n.t("constraint_type_codes.#{type}", default: type.titleize.capitalize)
   end
 
+  def added?
+    false
+  end
+
+  def identified
+    false
+  end
+
   def start_date
     nil
   end
