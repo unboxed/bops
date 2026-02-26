@@ -308,10 +308,12 @@ RSpec.describe "Reviewing assessment summaries" do
           "Check and assess", with: "To be reviewed"
         )
         click_link("Check and assess")
-        expect(page).to have_list_item_for(
-          "Summary of neighbour responses", with: "To be reviewed"
-        )
-        click_link("Summary of neighbour responses")
+        within "#main-content" do
+          expect(page).to have_list_item_for(
+            "Summary of neighbour responses", with: "To be reviewed"
+          )
+          click_link("Summary of neighbour responses")
+        end
 
         within(".comment-component") do
           expect(page).to have_content("Reviewer comment")
@@ -325,9 +327,11 @@ RSpec.describe "Reviewing assessment summaries" do
 
         click_button("Save and mark as complete")
         expect(page).to have_content("Summary of neighbour responses was successfully updated.")
-        expect(page).to have_list_item_for(
-          "Summary of neighbour responses", with: "Completed"
-        )
+        within "#main-content" do
+          expect(page).to have_list_item_for(
+            "Summary of neighbour responses", with: "Completed"
+          )
+        end
         click_link("Make draft recommendation")
 
         click_button("Update assessment")
