@@ -1,0 +1,37 @@
+<%= render "task_header", task: @task %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= govuk_warning_text(text: t(".warning")) %>
+
+    <% if @form.assessment_detail.entry.present? %>
+      <h2>Summary</h2>
+      <p>
+        <%= render(FormattedContentComponent.new(text: @form.assessment_detail.entry)) %>
+      </p>
+    <% end %>
+
+    <%= render(ReviewerCommentComponent.new(comment: @form.rejected_assessment_detail&.comment)) %>
+
+    <h2><%= @form.assessment_detail.persisted? ? "Edit" : "Add" %> amenity assessment</h2>
+
+    <p><%= t(".guidance") %></p>
+
+    <p><%= t(".consider") %></p>
+
+    <ul class="govuk-list govuk-list--bullet">
+      <li>Privacy</li>
+      <li>Daylight and sunlight</li>
+      <li>Outlook</li>
+      <li>Noise</li>
+    </ul>
+
+    <%= form_with model: @form, url: @form.url do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <%= form.govuk_text_area(:entry, value: @form.assessment_detail.entry, label: nil, rows: 10) %>
+
+      <%= render "task_submit_buttons", form: %>
+    <% end %>
+  </div>
+</div>
