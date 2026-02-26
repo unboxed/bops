@@ -2662,6 +2662,11 @@ en:
   tasks:
     check-and-assess:
       assessment-summaries:
+        amenity:
+          show:
+            consider: 'You should consider:'
+            guidance: If a neighbour has objected, assess how the proposal may impact on the existing amenity.
+            warning: This information WILL be made publicly available.
         check-publicity:
           show:
             check_press_notice: Check press notice
@@ -2724,6 +2729,9 @@ en:
       add-reporting-details:
         failure: Failed to save reporting details
         success: Reporting details were successfully saved
+      amenity:
+        failure: Unable to save amenity assessment
+        success: Amenity assessment was successfully saved
       check-description:
         failure: Please select whether the description is correct
         success: Description check was successfully saved
