@@ -19,6 +19,12 @@ RSpec.describe PlanningApplicationConstraint do
     end
   end
 
+  describe "#added?" do
+    it "returns true" do
+      expect(described_class.new.added?).to be true
+    end
+  end
+
   describe "callbacks" do
     let(:local_authority) { create(:local_authority, :default) }
     let(:planning_application) { create(:planning_application, :published, local_authority:, api_user: create(:api_user, :planx)) }

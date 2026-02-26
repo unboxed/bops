@@ -1,15 +1,15 @@
 <tr class="govuk-table__row">
   <td class="govuk-table__cell">
     <strong class="govuk-tag govuk-tag--grey">
-      <%= planning_application_constraint.category.humanize %>
+      <%= constraint.category.humanize %>
     </strong>
   </td>
   <td class="govuk-table__cell">
-    <%= planning_application_constraint.type_code %>
+    <%= constraint.type_code %>
 
-    <% if show_entity && planning_application_constraint.entities.present? %>
+    <% if show_entity && constraint.entities.present? %>
         <ul class="govuk-list">
-          <% planning_application_constraint.entities.each do |name, entity| %>
+          <% constraint.entities.each do |name, entity| %>
             <% entity_name = name.present? ? name.titleize : "Entity ##{entity}" %>
             <li><%= govuk_link_to entity_name, planning_data_entity_url(entity), new_tab: true %></li>
           <% end %>
@@ -18,15 +18,15 @@
   </td>
   <% if show_source %>
     <td class="govuk-table__cell">
-      <%= planning_application_constraint.identified_by %>
+      <%= constraint.identified_by %>
     </td>
   <% end %>
   <% if show_action %>
     <td class="govuk-table__cell govuk-table__cell--numeric">
-      <% if Constraint.non_applicable_constraints(@planning_application.planning_application_constraints).include? planning_application_constraint %>
-        <%= govuk_link_to "Add", planning_application_validation_constraints_path(@planning_application, constraint_id: planning_application_constraint, return_to: params[:return_to]), method: :post %>
-      <% elsif !planning_application_constraint.identified %>
-        <%= govuk_link_to "Remove", planning_application_validation_constraint_path(@planning_application, planning_application_constraint, return_to: params[:return_to]), method: :delete %>
+      <% if !constraint.added? %>
+        <%= govuk_link_to "Add", planning_application_validation_constraints_path(@planning_application, constraint_id: constraint, return_to: params[:return_to]), method: :post %>
+      <% elsif !constraint.identified %>
+        <%= govuk_link_to "Remove", planning_application_validation_constraint_path(@planning_application, constraint, return_to: params[:return_to]), method: :delete %>
       <% else %>
         -
       <% end %>

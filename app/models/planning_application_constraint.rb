@@ -44,6 +44,10 @@ class PlanningApplicationConstraint < ApplicationRecord
     data&.pluck("dataset")
   end
 
+  def added?
+    true
+  end
+
   def checked?
     (identified? && !removed_at?) || !identified?
   end

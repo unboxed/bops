@@ -24,17 +24,17 @@
     </thead>
 
     <tbody class="govuk-table__body">
-      <% planning_application_constraints.each do |planning_application_constraint| %>
+      <% planning_application_constraints.each do |constraint| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
-            <strong class="govuk-tag govuk-tag--grey"><%= planning_application_constraint.category.humanize %></strong>
+            <strong class="govuk-tag govuk-tag--grey"><%= constraint.category.humanize %></strong>
           </td>
           <td class="govuk-table__cell">
-            <%= planning_application_constraint.type_code %>
+            <%= constraint.type_code %>
 
-            <% if show_entity && planning_application_constraint.entities.present? %>
+            <% if show_entity && constraint.entities.present? %>
               <ul class="govuk-list">
-                <% planning_application_constraint.entities.each do |name, entity| %>
+                <% constraint.entities.each do |name, entity| %>
                   <% entity_name = name.present? ? name.titleize : "Entity ##{entity}" %>
                   <li>
                     <%= govuk_link_to entity_name, planning_data_entity_url(entity), new_tab: true %>
@@ -45,16 +45,16 @@
           </td>
           <% if show_source %>
             <td class="govuk-table__cell">
-              <%= planning_application_constraint.identified_by %>
+              <%= constraint.identified_by %>
             </td>
           <% end %>
           <% if show_action %>
             <td class="govuk-table__cell govuk-table__cell--numeric">
               <%= form_with model: @form, url: @form.url do |form| %>
-                <%= form.hidden_field :constraint_id, value: planning_application_constraint.id %>
-                <% if Constraint.non_applicable_constraints(@planning_application.planning_application_constraints).include? planning_application_constraint %>
+                <%= form.hidden_field :constraint_id, value: constraint.id %>
+                <% if !constraint.added? %>
                   <%= form.govuk_task_button_link "Add", action: "add_constraint" %>
-                <% elsif !planning_application_constraint.identified %>
+                <% elsif !constraint.identified %>
                   <%= form.govuk_task_button_link "Remove", action: "remove_constraint" %>
                 <% else %>
                   -

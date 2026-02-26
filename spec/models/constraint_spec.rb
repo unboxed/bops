@@ -43,6 +43,18 @@ RSpec.describe Constraint do
     end
   end
 
+  describe "#added?" do
+    it "returns false" do
+      expect(described_class.new.added?).to be false
+    end
+  end
+
+  describe "#identified" do
+    it "returns false" do
+      expect(described_class.new.identified).to be false
+    end
+  end
+
   describe "class methods" do
     describe "#grouped_by_category" do
       let!(:local_authority1) { create(:local_authority) }
