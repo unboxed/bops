@@ -14,7 +14,7 @@
       <% if params[:redirect_to] %>
         <%= govuk_button_link_to "Back", params[:redirect_to], secondary: true %>
       <% elsif @validate_document %>
-        <%= govuk_button_link_to "Back", planning_application_validation_tasks_path(@planning_application), secondary: true %>
+        <%= govuk_button_link_to "Back", planning_application_validation_path(@planning_application), secondary: true %>
       <% else %>
         <%= back_link %>
       <% end %>

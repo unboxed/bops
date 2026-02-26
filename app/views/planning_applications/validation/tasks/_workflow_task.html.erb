@@ -1,6 +1,0 @@
-<%= if task.render?
-      task_list.with_item(html_attributes: {id: task.task_list_id}) do |item|
-        item.with_title(text: task.task_list_link_text, href: task.task_list_link)
-        item.with_status(text: render(StatusTags::BaseComponent.new(status: task.task_list_status)))
-      end
-    end %>

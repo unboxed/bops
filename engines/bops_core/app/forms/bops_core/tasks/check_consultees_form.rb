@@ -10,17 +10,11 @@ module BopsCore
       end
 
       def add_consultees_task_path
-        link_task = task.case_record.find_task_by_slug_path("consultees/add-and-assign-consultees")
-        return unless link_task
-
-        task_path(planning_application, link_task)
+        task_path(planning_application, "consultees/add-and-assign-consultees")
       end
 
       def determine_consultation_requirement_task_path
-        link_task = task.case_record.find_task_by_slug_path("consultees/determine-consultation-requirement")
-        return unless link_task
-
-        task_path(planning_application, link_task)
+        task_path(planning_application, "consultees/determine-consultation-requirement")
       end
 
       private

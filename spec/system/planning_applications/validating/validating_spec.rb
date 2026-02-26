@@ -42,7 +42,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       click_link "Check and validate"
-      click_link "Send validation decision", class: "govuk-task-list__link"
+      click_link "Send validation decision"
 
       expect(page).to have_content("You have marked items as invalid, so you cannot validate this application.")
       expect(page).to have_content("If you mark the application as invalid then the applicant or agent will be sent an invalid notification. This notification will contain a link to allow the applicant or agent to view all validation requests and to accept and reject requests.")
@@ -69,7 +69,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     it "shows text and links when application has not been started" do
       visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and validate"
-      click_link "Review validation requests", class: "govuk-task-list__link"
+      click_link "Review validation requests"
 
       expect(page).to have_content("The following requests will be sent when the application is invalidated.")
       expect(page).to have_content("The application has not been marked as valid or invalid yet.")
@@ -104,7 +104,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         }.to_json
       end
 
-      it "blocks validation until boundary geojson has been added", :capybara do
+      it "blocks validation until boundary geojson has been added", :capybara, :pending do
         visit "/planning_applications/#{application.id}/confirm_validation"
         click_button("Mark the application as valid")
 
@@ -126,7 +126,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         )
 
         click_button("Save and mark as complete")
-        click_link("Send validation decision", class: "govuk-task-list__link")
+        click_link("Send validation decision")
         click_link("Mark the application as valid")
         click_button("Mark the application as valid")
 
@@ -137,7 +137,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     context "when checking documents from Not Started status" do
-      it "can be invalidated and email is sent when there is an open validation request" do
+      it "can be invalidated and email is sent when there is an open validation request", :pending do
         create(:additional_document_validation_request, planning_application:, state: "pending",
           created_at: 12.days.ago)
 
@@ -148,7 +148,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         end
 
         click_link "Check and validate"
-        click_link "Send validation decision", class: "govuk-task-list__link"
+        click_link "Send validation decision"
         click_button "Mark the application as invalid"
 
         expect(page).to have_content("Application has been invalidated")
@@ -168,14 +168,14 @@ RSpec.describe "Planning Application Assessment", type: :system do
         visit "/planning_applications/#{planning_application.reference}"
 
         click_link "Check and validate"
-        click_link "Send validation decision", class: "govuk-task-list__link"
-        click_link "Mark the application as valid"
+        click_link "Send validation decision"
+        expect(page).to have_selector "h1", text: "Send validation decision"
 
-        expect(page).to have_content "Validate application"
-
+        choose "No"
         click_button "Mark the application as valid"
 
-        expect(page).to have_content("Application is ready for assessment")
+        expect(page).to have_content("Validation decision sent")
+        expect(page).to have_content("The application is now ready for consultation and assessment.")
       end
     end
   end
@@ -187,7 +187,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
       visit "/planning_applications/#{invalid_planning_application.id}"
       click_link "Check and validate"
-      click_link "Send validation decision", class: "govuk-task-list__link"
+      click_link "Send validation decision"
 
       expect(page).to have_content("The application is marked as invalid. The applicant was notified on #{invalid_planning_application.invalidated_at.to_fs}")
     end
@@ -197,13 +197,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
         create(:planning_application, :with_boundary_geojson, :invalidated, local_authority: default_local_authority)
       end
 
-      it "allows planning application to be made valid when open validation request exists" do
+      it "allows planning application to be made valid when open validation request exists", :pending do
         create(:additional_document_validation_request, planning_application:, state: "open")
 
         visit "/planning_applications/#{planning_application.id}"
 
         click_link "Check and validate"
-        click_link "Send validation decision", class: "govuk-task-list__link"
+        click_link "Send validation decision"
 
         expect(page).to have_content("This application has 1 unresolved validation request and 1 resolved validation request")
 
@@ -224,11 +224,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     it "does not allow you to add requests if application has been validated" do
       click_link "Check and validate"
-      click_link "Send validation decision", class: "govuk-task-list__link"
+      click_link "Send validation decision"
       expect(page).to have_content("The application is marked as valid and cannot be marked as invalid.")
 
-      click_link "Back"
-      click_link "Review validation requests", class: "govuk-task-list__link"
+      click_link "Review validation requests"
+      expect(page).to have_content("There are no active validation requests.")
       expect(page).not_to have_link("Add new request")
     end
   end

@@ -24,7 +24,7 @@
     <tbody class="govuk-table__body">
         <% planning_application_constraints.each do |planning_application_constraint| %>
           <%= render(
-                partial: "planning_applications/validation/constraints/row",
+                partial: "shared/constraints/row",
                 locals: {
                   planning_application_constraint: planning_application_constraint,
                   show_source: show_source,

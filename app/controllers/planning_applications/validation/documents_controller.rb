@@ -19,7 +19,7 @@ module PlanningApplications
         respond_to do |format|
           if @planning_application.update(validate_documents_params)
             format.html do
-              redirect_to params.dig(:validation_request, :return_to).presence || planning_application_validation_tasks_path(@planning_application),
+              redirect_to params.dig(:validation_request, :return_to).presence || planning_application_validation_path(@planning_application),
                 notice: validate_documents_notice(@planning_application)
             end
           else
