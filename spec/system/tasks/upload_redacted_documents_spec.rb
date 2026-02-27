@@ -25,7 +25,7 @@ RSpec.describe "Upload redacted documents task", type: :system do
         create(:document, :floorplan_tags, file: file1, planning_application:)
         create(:document, file: file2, planning_application:)
         create(:document, :archived, file: file3, planning_application:)
-        visit "/planning_applications/#{planning_application.reference}/validation"
+        visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       end
 
       it "shows the task in the sidebar" do

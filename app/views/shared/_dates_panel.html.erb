@@ -42,10 +42,7 @@
     <p>
       <ul class="govuk-list govuk-list--bullet">
         <% if @planning_application.environment_impact_assessment_required? %>
-          <li id="view-eia-details">
-            The expiry date has been extended to 16 weeks
-            <%= govuk_link_to "View details", task_path(@planning_application, "check-and-validate/confirm-application-requirements/check-environment-impact-assessment") %>
-          </li>
+          <li id="view-eia-details">The expiry date has been extended to 16 weeks <%= govuk_link_to "View details", planning_application_validation_environment_impact_assessment_path(@planning_application) %></li>
         <% end %>
         <% if @planning_application.consultation&.end_date %>
           <% unless display_or_publish_required?(@planning_application, :site) || display_or_publish_required?(@planning_application, :press) %>

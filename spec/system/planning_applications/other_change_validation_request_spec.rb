@@ -20,7 +20,7 @@ RSpec.describe "Requesting other changes to a planning application" do
 
   it "displays the planning application address and reference" do
     click_link "Check and validate"
-    click_link "Other validation requests"
+    click_link "Add another validation request"
 
     expect(page).to have_content(planning_application.full_address)
     expect(page).to have_content(planning_application.reference)
@@ -29,10 +29,9 @@ RSpec.describe "Requesting other changes to a planning application" do
   it "is possible to create a request for miscellaneous changes" do
     delivered_emails = ActionMailer::Base.deliveries.count
     click_link "Check and validate"
-    click_link "Other validation requests"
+    click_link "Add another validation request"
 
     expect(page).not_to have_content("Request other validation change (fee)")
-    click_link "Add other validation request"
 
     fill_in "Tell the applicant another reason why the application is invalid", with: "The wrong fee has been paid"
     fill_in "Explain to the applicant how the application can be made valid",
@@ -42,18 +41,36 @@ RSpec.describe "Requesting other changes to a planning application" do
       click_button "Send request"
     end
 
-    click_link "Review validation requests"
+    click_link "Review validation requests", class: "govuk-task-list__link"
 
     within(".validation-requests-table") do
       expect(page).to have_content("Other")
       expect(page).to have_content("The wrong fee has been paid")
-      expect(page).to have_content("Sent")
-      request = OtherChangeValidationRequest.last
+      expect(page).to have_content("sent")
       expect(page).to have_link(
         "View and update",
-        href: "/planning_applications/#{planning_application.reference}/validation/validation_requests/#{request.id}?redirect_to=%2Fplanning_applications%2F#{planning_application.reference}%2Fcheck-and-validate%2Freview%2Freview-validation-requests"
+        href: planning_application_validation_validation_request_path(planning_application, OtherChangeValidationRequest.last)
       )
     end
+
+    click_link "Back"
+    within("#invalid-items-count") do
+      expect(page).to have_content("Invalid items 1")
+    end
+    within("#other-change-validation-tasks") do
+      expect(page).to have_content("Invalid")
+      expect(page).to have_link(
+        "View other validation request #1",
+        href: planning_application_validation_other_change_validation_request_path(planning_application, OtherChangeValidationRequest.last)
+      )
+    end
+
+    click_link "View other validation request #1"
+    expect(page).to have_content("View other request")
+    expect(page).not_to have_content("View fee change request")
+    expect(page).to have_link("Cancel request")
+    expect(page).not_to have_link("Edit request")
+    expect(page).not_to have_link("Delete request")
 
     click_link "Application"
     find("#audit-log").click
@@ -67,8 +84,7 @@ RSpec.describe "Requesting other changes to a planning application" do
 
   it "only accepts a request that contains a summary and suggestion" do
     click_link "Check and validate"
-    click_link "Other validation requests"
-    click_link "Add other validation request"
+    click_link "Add another validation request"
 
     fill_in "Tell the applicant another reason why the application is invalid", with: ""
     fill_in "Explain to the applicant how the application can be made valid", with: ""
@@ -76,16 +92,22 @@ RSpec.describe "Requesting other changes to a planning application" do
 
     expect(page).to have_content("Provide a reason")
     expect(page).to have_content("Enter Suggestion")
+
+    click_link("Back")
+
+    expect(page).to have_current_path(
+      "/planning_applications/#{planning_application.reference}/validation/tasks"
+    )
   end
 
-  it "lists the current change requests and their statuses", :pending do
+  it "lists the current change requests and their statuses" do
     create(:other_change_validation_request, planning_application:, state: "open",
       created_at: 12.days.ago, notified_at: 12.days.ago, reason: "Missing information", suggestion: "Please provide more details about ownership")
     create(:other_change_validation_request, planning_application:, state: "closed",
       created_at: 12.days.ago, notified_at: 12.days.ago, reason: "Fees outstanding", suggestion: "Please pay the balance", response: "paid")
 
     click_link "Check and validate"
-    click_link "Send validation decision"
+    click_link "Send validation decision", class: "govuk-task-list__link"
     click_link "View existing requests"
 
     within(".validation-requests-table") do
@@ -121,12 +143,11 @@ RSpec.describe "Requesting other changes to a planning application" do
 
       visit "/planning_applications/#{new_planning_application.id}"
       click_link "Check and validate"
-      click_link "Send validation decision"
+      click_link "Send validation decision", class: "govuk-task-list__link"
       expect(request.notified_at).to be_nil
 
       click_button "Mark the application as invalid"
 
-      pending "this error message is currently incorrect"
       expect(page).to have_content("Application has been invalidated")
 
       new_planning_application.reload
@@ -146,25 +167,25 @@ RSpec.describe "Requesting other changes to a planning application" do
     end
 
     it "does not show in the other validation issues task list" do
-      visit "/planning_applications/#{planning_application.reference}/validation"
-      click_link "Other validation requests"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
-      expect(page).to have_link(
-        # "View other validation request ##{other_change_validation_request.sequence}",
-        href: planning_application_validation_validation_request_path(planning_application, other_change_validation_request, redirect_to: "/planning_applications/#{planning_application.reference}/check-and-validate/other-validation-issues/other-validation-requests")
-      )
-      expect(page).not_to have_link(
-        # "View other validation request ##{fee_change_validation_request.sequence}",
-        href: planning_application_validation_validation_request_path(planning_application, fee_change_validation_request, redirect_to: "/planning_applications/#{planning_application.reference}/check-and-validate/other-validation-issues/other-validation-requests")
-      )
+      within("#other-change-validation-tasks") do
+        expect(page).to have_link(
+          "View other validation request ##{other_change_validation_request.sequence}",
+          href: planning_application_validation_other_change_validation_request_path(planning_application, other_change_validation_request)
+        )
+        expect(page).not_to have_link(
+          "View other validation request ##{fee_change_validation_request.sequence}",
+          href: planning_application_validation_validation_request_path(planning_application, fee_change_validation_request)
+        )
+      end
     end
   end
 
   context "when an officer adds a link in the suggestion/summary fields" do
     it "displays the link and link html as clickable" do
       click_link "Check and validate"
-      click_link "Other validation requests"
-      click_link "Add other validation request"
+      click_link "Add another validation request"
 
       fill_in "Tell the applicant another reason why the application is invalid", with: "View info on https://www.bops.co.uk/info"
       fill_in "Explain to the applicant how the application can be made valid",
@@ -174,7 +195,7 @@ RSpec.describe "Requesting other changes to a planning application" do
         click_button "Send request"
       end
 
-      click_link(OtherChangeValidationRequest.last.reason)
+      click_link("View other validation request #1")
 
       expect(page).to have_link(
         "https://www.bops.co.uk/info",

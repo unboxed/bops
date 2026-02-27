@@ -72,8 +72,7 @@
         </table>
 
         <p>
-          If this is incorrect,
-          <%= link_to "create another ownership certificate validation request", task_path(@planning_application, "check-and-validate/confirm-application-requirements/check-ownership-certificate") %>
+          If this is incorrect, <%= link_to "create another ownership certificate validation request", edit_planning_application_validation_ownership_certificate_path(@planning_application) %>
         </p>
       <% elsif !@validation_request.approved? %>
         <p>Applicant rejected this ownership certificate change</p>

@@ -10,7 +10,7 @@ RSpec.describe "Check requested services", type: :system do
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/validation"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   it "Can complete and submit the form", :capybara do

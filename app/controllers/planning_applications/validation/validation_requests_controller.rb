@@ -179,7 +179,7 @@ module PlanningApplications
         elsif @validation_request.type == "ReplacementDocumentValidationRequest"
           supply_documents_planning_application_path(@planning_application)
         else
-          planning_application_validation_path(@planning_application)
+          planning_application_validation_tasks_path(@planning_application)
         end
       end
 
@@ -235,7 +235,7 @@ module PlanningApplications
         elsif redirect_to_check_and_request_documents_task?
           check_and_request_documents_task_path
         else
-          planning_application_validation_path(@planning_application)
+          planning_application_validation_tasks_path(@planning_application)
         end
       end
 

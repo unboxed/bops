@@ -115,7 +115,7 @@ class PlanningApplicationsController < AuthenticationController
       @planning_application.errors.add(
         :base,
         :no_boundary_geojson,
-        path: task_path(@planning_application, "check-and-validate/check-application-details/check-red-line-boundary")
+        path: planning_application_validation_sitemap_path(@planning_application)
       )
     end
 
@@ -308,7 +308,7 @@ class PlanningApplicationsController < AuthenticationController
   def redirect_update_url
     case params[:edit_action]&.to_sym
     when :edit_payment_amount
-      redirect_to planning_application_validation_path(@planning_application),
+      redirect_to planning_application_validation_tasks_path(@planning_application),
         notice: t(".edit_payment_amount")
     when :edit_public_comment
       redirect_to planning_application_review_tasks_path(@planning_application),

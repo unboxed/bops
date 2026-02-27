@@ -5,7 +5,7 @@
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
 <% if @planning_application.not_started? %>
-  <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_path(@planning_application) %>
+  <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) %>
 <% end %>
 <% content_for :title, "Description change" %>
 
@@ -67,7 +67,7 @@
       <% elsif @planning_application.pre_application? && @planning_application.not_started? %>
         <%= form.hidden_field(:return_to, value: BopsPreapps::Engine.routes.url_helpers.task_path(reference: @planning_application.reference, slug: "check-and-validate/check-application-details/check-description")) %>
       <% elsif @planning_application.not_started? %>
-        <%= form.hidden_field(:return_to, value: planning_application_validation_path(@planning_application)) %>
+        <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>
       <% else %>
         <%= form.hidden_field(:return_to, value: @back_path) %>
       <% end %>

@@ -12,7 +12,7 @@ RSpec.describe "Check description task", type: :system do
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/validation"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   it_behaves_like "check description task", :pre_application
