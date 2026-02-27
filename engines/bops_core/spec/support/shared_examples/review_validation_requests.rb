@@ -7,7 +7,7 @@ RSpec.shared_examples "review validation requests task" do |application_type|
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/validation"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   context "with an approved description change validation request" do

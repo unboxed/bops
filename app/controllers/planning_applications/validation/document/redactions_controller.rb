@@ -19,7 +19,7 @@ module PlanningApplications
           respond_to do |format|
             format.html do
               if @planning_application.save
-                redirect_to planning_application_validation_path(@planning_application), notice: t(".success")
+                redirect_to planning_application_validation_tasks_path(@planning_application), notice: t(".success")
               else
                 render :index
               end

@@ -8,7 +8,7 @@ RSpec.shared_examples "send validation decision task", :capybara do |application
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/validation"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   it "allows the application to be made valid" do

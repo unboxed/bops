@@ -97,7 +97,7 @@
   <% tabs.with_tab(label: "Constraints (#{constraints_count})", id: "constraints")  do %>
     <h2>Constraints (<%= constraints_count %>)</h2>
     <%= render(
-          partial: "shared/constraints/table",
+          partial: "planning_applications/validation/constraints/table",
           locals: {
             title: "Identified constraints",
             identifier: "identified",

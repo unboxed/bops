@@ -1,0 +1,146 @@
+<% content_for :page_title do %>
+  Fee validation request - <%= t("page_title") %>
+<% end %>
+
+<%= render "planning_applications/validation/validation_requests/validation_requests_breadcrumbs" %>
+<% content_for :title, "Fee" %>
+
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Check fee"}
+    ) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(
+          AccordionComponent.new(
+            planning_application: @planning_application,
+            sections: %i[documents]
+          )
+        ) %>
+
+    <%= render "fee_item_table" %>
+
+    <% if @planning_application.pre_application? %>
+      <h3 class="govuk-heading-m govuk-!-margin-top-8">Fee calculation</h3>
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Detail</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Amount</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <% @planning_application.find_proposal_detail("Planning Pre-Application Advice Services").map(&:response_values).flatten.each do |response| %>
+            <% service, fee = response.split(/(.*) \((.*)\)/)[1..2] %>
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">
+                <%= service %>
+              </th>
+              <td class="govuk-table__cell govuk-table__cell--numeric">
+                <%= fee %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% elsif @planning_application.fee_calculation %>
+      <h3 class="govuk-heading-m govuk-!-margin-top-8">Fee calculation</h3>
+      <table class="govuk-table">
+        <thead class="govuk-table__head">
+          <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header">Detail</th>
+            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Amount</th>
+          </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Application Fee
+            </th>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <%= number_to_currency(@planning_application.fee_calculation.total_fee || 0, unit: "£") %>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Exemptions
+            </th>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <% if @planning_application.fee_calculation.exemptions.present? %>
+                <%= @planning_application.fee_calculation.exemptions.map(&:humanize).to_sentence %>
+              <% else %>
+                None
+              <% end %>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Reductions
+            </th>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <% if @planning_application.fee_calculation.reductions.present? %>
+                <%= @planning_application.fee_calculation.reductions.map(&:humanize).to_sentence %>
+              <% else %>
+                None
+              <% end %>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Discount
+            </th>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              -<%= number_to_currency(@planning_application.fee_calculation.discount, unit: "£") %>
+            </td>
+          </tr>
+          <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">
+              Total
+              <% if  @planning_application.fee_calculation.requested_fee.present? %>
+                (set by PO)
+              <% end %>
+            </th>
+            <td class="govuk-table__cell govuk-table__cell--numeric">
+              <%= number_to_currency(@planning_application.fee_calculation.requested_fee || @planning_application.fee_calculation.payable_fee || 0, unit: "£") %>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    <% end %>
+
+    <%= render(
+          partial: "proposal_details_table",
+          locals: {
+            proposal_details: @planning_application.fee_related_proposal_details
+          }
+        ) %>
+
+    <% if @planning_application.documents.for_fee_exemption.any? %>
+      <%= render(
+            partial: "planning_applications/validation/fee_change_validation_requests/supporting_documents",
+            locals: {documents: @planning_application.documents.for_fee_exemption}
+          ) %>
+    <% end %>
+
+    <%= form_with model: @planning_application, url: validate_planning_application_validation_fee_items_path(@planning_application) do |form| %>
+      <%= form.govuk_radio_buttons_fieldset :valid_fee do %>
+        <% unless @planning_application.pre_application? %>
+          <p class="govuk-!-margin-top-0 govuk-!-margin-bottom-4">
+            <a href="https://ecab.planningportal.co.uk/uploads/english_application_fees.pdf" class="govuk-link" target="_blank">
+              A guide to the Fees for Planning Applications in England
+            </a>
+          </p>
+        <% end %>
+        <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"} %>
+        <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"} %>
+      <% end %>
+
+      <div class="govuk-button-group">
+        <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
+
+        <%= govuk_button_link_to "Back", planning_application_validation_tasks_path(@planning_application), secondary: true %>
+      </div>
+    <% end %>
+  </div>
+</div>

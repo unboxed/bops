@@ -1,0 +1,32 @@
+<%= render(
+      partial: "shared/proposal_header",
+      locals: {heading: "Draw a digital red line boundary"}
+    ) %>
+
+<h3>Red line site boundary on submission</h3>
+
+<%- sitemap_documents = @planning_application.documents.with_siteplan_tags %>
+<% if sitemap_documents.none? %>
+  <p>No document has been tagged as a sitemap for this application</p>
+  <p><%= govuk_link_to "View all documents", planning_application_documents_path(@planning_application) %></p>
+<% else sitemap_documents.any? %>
+  <p>This digital red line boundary was submitted by the applicant on PlanX.</p>
+
+  <% if sitemap_documents.one? %>
+    <p><%= govuk_link_to "View sitemap document", edit_planning_application_document_path(@planning_application, sitemap_documents.first) %></p>
+  <% else %>
+    <p>Multiple documents have been tagged as a sitemap for this application</p>
+    <p><%= govuk_link_to "View all documents", planning_application_documents_path(@planning_application) %></p>
+  <% end %>
+<% end %>
+
+<h3>Draw the red line site boundary</h3>
+
+<%= form_with model: @planning_application, url: planning_application_validation_sitemap_path(@planning_application) do |form| %>
+  <%= form.hidden_field :boundary_geojson, value: @planning_application.boundary_geojson.to_json %>
+  <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson, geojson_field: "planning_application_boundary_geojson"} %>
+  <div class="govuk-button-group govuk-!-margin-top-3">
+    <%= form.govuk_submit "Save and mark as complete" %>
+    <%= govuk_button_link_to "Back", planning_application_validation_tasks_path(@planning_application), secondary: true %>
+  </div>
+<% end %>

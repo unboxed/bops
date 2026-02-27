@@ -1,0 +1,98 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render(
+          AccordionComponent.new(
+            planning_application: @planning_application,
+            sections: %i[documents]
+          )
+        ) %>
+    <%= form_with model: [@environment_impact_assessment], url: planning_application_validation_environment_impact_assessment_url(@planning_application) do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <%= form.govuk_radio_buttons_fieldset(
+            :title,
+            legend: {size: "m"}
+          ) do %>
+        <p>
+          <%= govuk_link_to(
+                "Check EIA guidance",
+                t("environment_impact_assessment.guidance_link"),
+                new_tab: true
+              ) %>
+        </p>
+        <% if editable %>
+          <%= form.govuk_radio_button(
+                :required,
+                true,
+                checked: @environment_impact_assessment.required,
+                label: {text: t(".label.yes")},
+                hint: {text: t(".hint.yes")}
+              ) do %>
+            <%= form.govuk_text_field :email_address,
+                  hint: {text: t(".hint.email_address")},
+                  label: {text: t(".label.email_address"), hidden: true} %>
+            <%= form.govuk_text_field :address,
+                  hint: {text: t(".hint.address")},
+                  label: {text: t(".label.address"), hidden: true} %>
+            <%= form.govuk_text_field :fee,
+                  hint: {text: t(".hint.fee")},
+                  label: {text: t(".label.fee"), hidden: true},
+                  prefix_text: "£",
+                  width: "one-quarter" %>
+          <% end %>
+          <%= form.govuk_radio_button(
+                :required,
+                false,
+                checked: @environment_impact_assessment.required == false,
+                label: {text: t(".label.no")}
+              ) %>
+        <% else %>
+          <%= form.govuk_radio_button(
+                :required,
+                true,
+                checked: @environment_impact_assessment.required,
+                label: {text: t(".label.yes")},
+                hint: {text: t(".hint")},
+                disabled: true
+              ) do %>
+            <%= form.govuk_text_field :email_address,
+                  hint: {text: t(".hint.email_address")},
+                  label: {text: t(".label.email_address"), hidden: true},
+                  disabled: true %>
+            <%= form.govuk_text_field :address,
+                  hint: {text: t(".hint.address")},
+                  label: {text: t(".label.address"), hidden: true},
+                  disabled: true %>
+            <%= form.govuk_text_field :fee,
+                  hint: {text: t(".hint.fee")},
+                  label: {text: t(".label.fee"), hidden: true},
+                  prefix_text: "£",
+                  width: "one-quarter",
+                  disabled: true %>
+          <% end %>
+          <%= form.govuk_radio_button(
+                :required,
+                false,
+                checked: @environment_impact_assessment.required == false,
+                label: {text: t(".label.no")},
+                disabled: true
+              ) %>
+        <% end %>
+      <% end %>
+
+      <div class="govuk-button-group">
+        <% if editable %>
+          <%= form.submit(
+                t("form_actions.save_and_mark_as_complete"),
+                class: "govuk-button",
+                data: {module: "govuk-button"}
+              ) %>
+        <% end %>
+        <%= back_link %>
+        <% if !editable %>
+          <%= govuk_link_to "Edit information", edit_planning_application_validation_environment_impact_assessment_path(@planning_application), class: "govuk-body" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

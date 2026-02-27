@@ -27,17 +27,17 @@ RSpec.describe "Requesting other changes to a planning application" do
     end
 
     it "does not show in the other validation issues task list" do
-      visit "/planning_applications/#{planning_application.reference}/validation"
-      click_link "Other validation requests"
-
-      expect(page).to have_link(
-        other_change_validation_request.reason,
-        href: "/planning_applications/#{planning_application.reference}/validation/validation_requests/#{other_change_validation_request.id}?redirect_to=%2Fplanning_applications%2F#{planning_application.reference}%2Fcheck-and-validate%2Fother-validation-issues%2Fother-validation-requests"
-      )
-      expect(page).not_to have_link(
-        fee_change_validation_request.reason,
-        href: "/planning_applications/#{planning_application.reference}/validation/validation_requests/#{fee_change_validation_request.id}?redirect_to=%2Fplanning_applications%2F#{planning_application.reference}%2Fcheck-and-validate%2Fother-validation-issues%2Fother-validation-requests"
-      )
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      within("#other-change-validation-tasks") do
+        expect(page).to have_link(
+          "View other validation request ##{other_change_validation_request.sequence}",
+          href: planning_application_validation_other_change_validation_request_path(planning_application, other_change_validation_request)
+        )
+        expect(page).not_to have_link(
+          "View other validation request ##{fee_change_validation_request.sequence}",
+          href: planning_application_validation_validation_request_path(planning_application, fee_change_validation_request)
+        )
+      end
     end
   end
 end

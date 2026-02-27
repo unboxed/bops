@@ -17,7 +17,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @planning_application.valid_description?
-              redirect_to return_to_path_or(planning_application_validation_path(@planning_application)),
+              redirect_to return_to_path_or(planning_application_validation_tasks_path(@planning_application)),
                 notice: t(".success")
             elsif @planning_application.valid_description.nil?
               flash.now[:alert] = "Select Yes or No to continue."

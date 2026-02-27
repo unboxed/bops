@@ -3,6 +3,8 @@
 module BopsReports
   module TaskPathHelper
     def report_task_path(planning_application, slug_path, anchor: nil)
+      planning_application.case_record.find_task_by_slug_path!(slug_path)
+
       bops_preapps.task_path(
         reference: planning_application.reference,
         slug: slug_path,

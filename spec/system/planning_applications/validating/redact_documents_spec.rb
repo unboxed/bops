@@ -25,11 +25,11 @@ RSpec.describe "Redact documents" do
     create(:document, :archived, file: file3, planning_application:)
 
     sign_in assessor
-    visit "/planning_applications/#{planning_application.reference}/validation"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   it "allows an assessor to upload redacted documents" do
-    click_link "Upload redacted documents"
+    click_link "Upload redacted documents", class: "govuk-task-list__link"
 
     expect(page).to have_content("existing-floorplan.png")
     expect(page).to have_content("proposed-floorplan.png")
@@ -39,11 +39,16 @@ RSpec.describe "Redact documents" do
       attach_file("Upload a file", "spec/fixtures/files/documents/existing-floorplan-redacted.png")
     end
 
-    click_button "Save changes"
+    click_button "Save and come back later"
 
     expect(page).to have_content "Redacted documents successfully uploaded"
 
-    click_link "Upload redacted documents"
+    within("#confirm-documents-tasks") do
+      expect(page).to have_selector("li:nth-of-type(3)", text: "Upload redacted documents")
+      expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "In progress")
+    end
+
+    click_link "Upload redacted documents", class: "govuk-task-list__link"
 
     expect(page).to have_content "existing-floorplan.png"
 
@@ -59,7 +64,14 @@ RSpec.describe "Redact documents" do
 
     expect(page).to have_content "Redacted documents successfully uploaded"
 
-    click_link "Review documents"
+    within("#confirm-documents-tasks") do
+      expect(page).to have_selector("li:nth-of-type(3)", text: "Upload redacted documents")
+      expect(page).to have_selector("li:nth-of-type(3) .govuk-tag", text: "Completed")
+    end
+
+    within "#main-content" do
+      click_link "Review documents"
+    end
 
     within("#check-tag-documents-tasks") do
       within("table tbody tr:nth-child(3)") do
@@ -79,7 +91,7 @@ RSpec.describe "Redact documents" do
   end
 
   it "shows an error" do
-    click_link "Upload redacted documents"
+    click_link "Upload redacted documents", class: "govuk-task-list__link"
 
     within(all(".govuk-table__row")[1]) do
       attach_file("Upload a file", "spec/fixtures/files/images/image.gif")
@@ -87,8 +99,6 @@ RSpec.describe "Redact documents" do
 
     click_button "Save and mark as complete"
 
-    expect(page).to have_content "There is a problem"
-    pending "incorrect error message currently?"
     expect(page).to have_content "The selected file must be a PDF, JPG or PNG Download original"
   end
 end

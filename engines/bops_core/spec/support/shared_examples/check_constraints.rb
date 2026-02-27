@@ -9,7 +9,7 @@ RSpec.shared_examples "check constraints task" do |application_type|
   before do
     Rails.application.load_seed
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/validation"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   it "can complete and submit the form" do

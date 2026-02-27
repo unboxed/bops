@@ -7,7 +7,7 @@ RSpec.shared_examples "check and request documents task" do |application_type|
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/validation"
+    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
   end
 
   it "displays the task in the sidebar and shows the page" do

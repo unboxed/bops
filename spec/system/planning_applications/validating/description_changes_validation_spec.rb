@@ -19,44 +19,58 @@ RSpec.describe "DescriptionChangesValidation" do
     end
 
     it "I can validate the description" do
-      visit "/planning_applications/#{planning_application.reference}/validation"
-      click_link "Check description"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      within("#check-description-task") do
+        expect(page).to have_content("Not started")
+      end
 
-      expect(page).to have_content("Does the description match the development or use in the plans?")
+      within "#main-content" do
+        click_link "Check description"
+      end
 
-      within(all(".govuk-fieldset")[0]) do
-        choose "Yes"
+      within(".govuk-fieldset") do
+        expect(page).to have_content("Does the description match the development or use in the plans?")
+
+        within(".govuk-radios") { choose "Yes" }
       end
 
       click_button "Save and mark as complete"
 
       expect(page).to have_content("Description was marked as valid")
 
+      within("#check-description-task") do
+        expect(page).to have_content("Completed")
+      end
+
       expect(planning_application.reload.valid_description).to be_truthy
       expect(DescriptionChangeValidationRequest.all.length).to eq(0)
 
-      click_link "Check description"
+      within "#main-content" do
+        click_link "Check description"
+      end
 
       expect(page).not_to have_content "Does the description match the development or use in the plans?"
 
       expect(page).to have_content "Description was marked as valid"
     end
 
-    it "I get validation errors when I omit required information", :capybara do
-      visit "/planning_applications/#{planning_application.reference}/validation"
-      click_link "Check description"
-
+    it "I get validation errors when I omit required information" do
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      within "#main-content" do
+        click_link "Check description"
+      end
       click_button "Save and mark as complete"
 
-      expect(page).to have_content("Select whether the description is correct")
+      expect(page).to have_content("Select Yes or No to continue.")
 
-      within(all(".govuk-fieldset")[0]) do
-        choose "No"
+      within(".govuk-fieldset") do
+        within(".govuk-radios") { choose "No" }
       end
 
-      fill_in "Enter an amended description", with: ""
-
       click_button "Save and mark as complete"
+
+      fill_in "Enter an amended description", with: ""
+      click_button "Update description"
 
       within(".govuk-error-summary") do
         expect(page).to have_content("There is a problem")
@@ -67,49 +81,93 @@ RSpec.describe "DescriptionChangesValidation" do
     it "I can invalidate the description" do
       expect(PlanningApplicationMailer).to receive(:description_change_mail).and_call_original
 
-      visit "/planning_applications/#{planning_application.reference}/validation"
-      click_link "Check description"
-
-      within(all(".govuk-fieldset")[0]) do
-        choose "No"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      within "#main-content" do
+        click_link "Check description"
       end
-      fill_in(
-        "Enter an amended description",
-        with: "My better description"
-      )
-      within(all(".govuk-fieldset")[1]) do
-        choose "Yes"
+
+      within(".govuk-fieldset") do
+        within(".govuk-radios") { choose "No" }
       end
 
       click_button "Save and mark as complete"
 
-      expect(page).to have_content("Description check was successfully saved")
-      expect(page).to have_content("My better description")
+      expect(page).to have_current_path(
+        "/planning_applications/#{planning_application.reference}/validation/validation_requests/new?type=description_change"
+      )
+      expect(page).to have_content("Description change")
+
+      fill_in(
+        "Enter an amended description",
+        with: "My better description"
+      )
+
+      expect(page).to have_content("Does this description change require applicant's agreement?")
+      choose "Yes, applicant agreement needed"
+
+      click_button "Update description"
+
+      expect(page).to have_content("Description change request successfully sent.")
+
+      within("#check-description-task") do
+        expect(page).to have_content("Invalid")
+      end
 
       expect(planning_application.reload.valid_description).to be_falsey
       expect(DescriptionChangeValidationRequest.all.length).to eq(1)
+
+      within "#main-content" do
+        click_link "Check description"
+      end
+
+      description_change_validation_request = DescriptionChangeValidationRequest.last
+
+      expect(page).to have_current_path(
+        "/planning_applications/#{planning_application.reference}/validation/description_change_validation_requests/#{description_change_validation_request.id}"
+      )
+
+      expect(page).to have_content("My better description")
+
+      click_link "Back"
+      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/validation/tasks")
     end
 
     it "I can mark the task as completed when the description change request has been approved" do
       create(:description_change_validation_request, planning_application:, approved: true, state: "closed")
-      visit "/planning_applications/#{planning_application.reference}/validation"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
-      click_link "Check description"
+      within("#check-description-task") do
+        expect(page).to have_content("Updated")
+        click_link "Check description"
+      end
 
       expect(page).to have_content "Approved"
 
       click_button "Save and mark as complete"
 
-      expect(page).to have_content("Description check was successfully saved")
+      expect(page).to have_content("Description was marked as valid")
+
+      within("#check-description-task") do
+        expect(page).to have_content("Completed")
+      end
+
+      within "#main-content" do
+        click_link "Check description"
+      end
 
       expect(page).not_to have_content "Does the description match the development or use in the plans?"
+
+      expect(page).to have_content "Description was marked as valid"
     end
 
     it "I can request another change when the description change request has been rejected" do
       create(:description_change_validation_request, planning_application:, approved: false, state: "closed", rejection_reason: "no")
-      visit "/planning_applications/#{planning_application.reference}/validation"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
-      click_link "Check description"
+      within("#check-description-task") do
+        expect(page).to have_content("Updated")
+        click_link "Check description"
+      end
 
       expect(page).to have_content "Rejected"
 
@@ -123,34 +181,61 @@ RSpec.describe "DescriptionChangesValidation" do
       choose "Yes, applicant agreement needed"
       click_button "Update description"
 
+      within("#check-description-task") do
+        expect(page).to have_content("Invalid")
+        click_link "Check description"
+      end
+
       expect(page).not_to have_content "Does the description match the development or use in the plans?"
 
-      # expect(page).to have_content "Agent or applicant has not yet responded"
+      expect(page).to have_content "Agent or applicant has not yet responded"
     end
 
     it "I can bypass applicant approval for small changes" do
-      visit "/planning_applications/#{planning_application.reference}/validation"
-      click_link "Check description"
-
-      within(all(".govuk-fieldset").first) do
-        choose "No"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+      within "#main-content" do
+        click_link "Check description"
       end
 
-      field = find("textarea")
+      within(".govuk-fieldset") do
+        within(".govuk-radios") { choose "No" }
+      end
+
+      click_button "Save and mark as complete"
+
+      field = find("#validation-request-proposed-description-field")
       field.set(field.value + " Extra text")
 
       expect(page).to have_content("Does this description change require applicant's agreement?")
       choose "No, update description immediately"
 
-      click_button "Save and mark as complete"
+      click_button "Update description"
 
-      expect(page).to have_content("Description check was successfully saved")
+      expect(page).to have_content("Description updated.")
+
+      within("#check-description-task") do
+        expect(page).to have_content("Completed")
+      end
 
       expect(planning_application.reload.valid_description).to be_truthy
       expect(DescriptionChangeValidationRequest.all.length).to eq(1)
 
       visit "/planning_applications/#{planning_application.reference}"
       expect(page).to have_content("Applicant has been notified of the description change.")
+    end
+  end
+
+  context "when an application has been validated" do
+    let!(:planning_application) do
+      create(:planning_application, :in_assessment, local_authority: default_local_authority)
+    end
+
+    it "does not allow you to validate description" do
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+
+      within("#check-description-task") do
+        expect(page).not_to have_link("Check description")
+      end
     end
   end
 
@@ -184,7 +269,7 @@ RSpec.describe "DescriptionChangesValidation" do
     end
 
     it "I can request a change and it will be automatically accepted immediately", :capybara do
-      visit "/planning_applications/#{planning_application.reference}/validation"
+      visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       within ".bops-sidebar" do
         click_link "Check description"
       end

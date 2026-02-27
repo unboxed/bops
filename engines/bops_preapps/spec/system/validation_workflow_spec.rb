@@ -38,7 +38,7 @@ RSpec.describe "Pre-application validation workflow", type: :system do
 
   describe "end-to-end validation workflow" do
     it "completes all validation tasks in sequence with correct status transitions and icons" do
-      visit "/planning_applications/#{reference}/validation"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
       expect(page).to have_selector(:sidebar)
       expect(page).to have_content("Validation")
@@ -202,7 +202,7 @@ RSpec.describe "Pre-application validation workflow", type: :system do
     end
 
     it "shows in progress status when is opened for editing after completion" do
-      visit "/planning_applications/#{reference}/validation"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
       within :sidebar do
         click_link "Check constraints"
@@ -220,7 +220,7 @@ RSpec.describe "Pre-application validation workflow", type: :system do
     end
 
     it "handles validation request flow with status transitions" do
-      visit "/planning_applications/#{reference}/validation"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
       within :sidebar do
         click_link "Check description"
@@ -234,13 +234,13 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       expect(task("Check description").reload).to be_in_progress
       expect(planning_application.reload.valid_description).to be false
 
-      visit "/planning_applications/#{reference}/validation"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
       expect(page).to have_selector(:in_progress_sidebar_task, "Check description")
     end
 
     it "navigates correctly between all validation task sections" do
-      visit "/planning_applications/#{reference}/validation"
+      visit "/planning_applications/#{reference}/validation/tasks"
 
       sections = [
         {name: "Review documents", path: "check-tag-and-confirm-documents/review-documents"},
