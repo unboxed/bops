@@ -1,0 +1,16 @@
+<%= render "task_header", task: @task %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+  <%= form.govuk_radio_buttons_fieldset :section_55_development,
+        legend: {text: "Is this proposal 'development' under Section 55 of the Town and Country Planning Act 1990?", size: "m"},
+        hint: {text: "Development includes building/engineering operations or a material change of use"} do %>
+    <%= form.govuk_radio_button(:section_55_development, true, label: {text: "Yes"}) %>
+    <%= form.govuk_radio_button(:section_55_development, false, label: {text: "No"}) %>
+  <% end %>
+
+  <p class="govuk-body-s">
+    <%= govuk_link_to "What counts as a development?", "https://www.legislation.gov.uk/ukpga/1990/8/section/55", new_tab: true %>
+  </p>
+  <%= render "task_submit_buttons", form: form %>
+<% end %>

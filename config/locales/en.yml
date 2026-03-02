@@ -2735,6 +2735,9 @@ en:
         failure: Please select whether the fee is correct
         success: Fee check was successfully saved
         update_request: Fee change request successfully updated
+      check-if-proposal-is-development:
+        failure: Failed to save section 55 development
+        success: Section 55 development was successfully updated
       check-legislative-requirements:
         failure: Failed to save legislative requirements check
         success: Successfully checked legislative requirements

@@ -49,6 +49,10 @@
         - name: Summary of works
         - name: Site description
         - name: Summary of consultation
+    - name: Assess against legislation
+      section: Assess against legislation
+      tasks:
+        - name: Check if proposal is development
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"
