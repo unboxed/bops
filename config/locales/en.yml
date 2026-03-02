@@ -2780,6 +2780,9 @@ en:
       summary-of-consultation:
         failure: Summary of consultation failed to save
         success: Successfully saved summary of consultation
+      summary-of-neighbour-responses:
+        failure: Summary of neighbour responses failed to save
+        success: Successfully saved summary of neighbour responses
       summary-of-works:
         failure: Summary of works failed to save
         success: Summary of works was successfully saved

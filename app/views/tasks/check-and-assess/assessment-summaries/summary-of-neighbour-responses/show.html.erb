@@ -1,0 +1,50 @@
+<%= render "task_header", task: @task %>
+
+<% partial_path = "tasks/check-and-assess/assessment-summaries/summary-of-neighbour-responses" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= render "shared/notification_banner",
+          title: "View neighbour responses",
+          heading: t("neighbour_responses_by_summary_tag", tag: "neighbour response", count: @form.neighbour_responses.count) %>
+    <%= form_with model: @form, url: @form.url do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <% NeighbourResponse::TAGS.select { |tag| @form.neighbour_responses.any? { |r| r.tags.include?(tag.to_s) } }.each do |tag| %>
+        <%= govuk_accordion(html_attributes: {id: "neighbour-response-accordion-#{tag}"}) do |accordion| %>
+          <% accordion.with_section(heading_text: "#{tag.to_s.humanize} responses (#{@form.neighbour_responses.count { |r| r.tags.include?(tag.to_s) }})") do %>
+            <% @form.neighbour_responses.select { |r| r.tags.include?(tag.to_s) }.group_by(&:summary_tag).each do |_opinion, responses| %>
+              <% responses.each do |response| %>
+                <%= render "#{partial_path}/neighbour_response_card", response: response, show_tags: true %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%= form.govuk_text_area(
+              :"#{tag}",
+              label: {text: "Summary of #{tag.to_s.humanize.downcase} comments", size: "m"},
+              rows: 10
+            ) %>
+      <% end %>
+
+      <% if @form.neighbour_responses.without_tags.any? %>
+        <%= govuk_accordion(html_attributes: {id: "neighbour-response-accordion-untagged"}) do |accordion| %>
+          <% accordion.with_section(heading_text: "Untagged responses (#{@form.neighbour_responses.without_tags.count})") do %>
+            <% @form.neighbour_responses.without_tags.each do |response| %>
+              <%= render "#{partial_path}/neighbour_response_card", response: response %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <%= form.govuk_text_area(
+              :untagged,
+              label: {text: "Summary of untagged comments", size: "m"},
+              rows: 10
+            ) %>
+      <% end %>
+
+      <%= render "task_submit_buttons", form: form %>
+    <% end %>
+  </div>
+</div>

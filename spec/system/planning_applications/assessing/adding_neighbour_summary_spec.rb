@@ -31,13 +31,14 @@ RSpec.describe "neighbour responses", type: :system do
 
       it "I can view the information on the neighbour responses page", :capybara do
         click_link "Check and assess"
-
-        within("#assessment-information-tasks") do
-          expect(page).to have_content("Summary of neighbour responses")
-        end
-        within("#summary-of-neighbour-responses") do
-          expect(page).to have_content("Not started")
-          click_link "Summary of neighbour responses"
+        within "#main-content" do
+          within("#assessment-information-tasks") do
+            expect(page).to have_content("Summary of neighbour responses")
+          end
+          within("#summary-of-neighbour-responses") do
+            expect(page).to have_content("Not started")
+            click_link "Summary of neighbour responses"
+          end
         end
 
         within(".govuk-notification-banner") do
@@ -69,9 +70,10 @@ RSpec.describe "neighbour responses", type: :system do
 
       it "I can save and come back later when adding or editing neighbour responses" do
         expect(list_item("Check and assess")).to have_content("Not started")
-
-        click_link "Check and assess"
-        click_link "Summary of neighbour responses"
+        within "#main-content" do
+          click_link "Check and assess"
+          click_link "Summary of neighbour responses"
+        end
 
         within(".govuk-notification-banner") do
           expect(page).to have_content("View neighbour responses")
@@ -82,12 +84,13 @@ RSpec.describe "neighbour responses", type: :system do
         click_button "Save and come back later"
 
         expect(page).to have_content("neighbour responses was successfully created.")
+        within "#main-content" do
+          within("#summary-of-neighbour-responses") do
+            expect(page).to have_content("In progress")
+          end
 
-        within("#summary-of-neighbour-responses") do
-          expect(page).to have_content("In progress")
+          click_link "Summary of neighbour responses"
         end
-
-        click_link "Summary of neighbour responses"
         expect(page).to have_content("Edit summary of neighbour responses")
         expect(page).to have_content("A draft entry for the neighbour responses")
 
@@ -109,8 +112,10 @@ RSpec.describe "neighbour responses", type: :system do
       end
 
       it "I can save and mark as complete when adding neighbour responses" do
-        click_link "Check and assess"
-        click_link "Summary of neighbour responses"
+        within "#main-content" do
+          click_link "Check and assess"
+          click_link "Summary of neighbour responses"
+        end
 
         fill_in "assessment_detail[design]", with: "A complete entry for the design neighbour responses"
         fill_in "assessment_detail[access]", with: "A complete entry for the disabled access neighbour responses"
@@ -118,12 +123,12 @@ RSpec.describe "neighbour responses", type: :system do
         click_button "Save and mark as complete"
 
         expect(page).to have_content("neighbour responses was successfully created.")
-
-        within("#summary-of-neighbour-responses") do
-          expect(page).to have_content("Completed")
+        within "#main-content" do
+          within("#summary-of-neighbour-responses") do
+            expect(page).to have_content("Completed")
+          end
+          click_link "Summary of neighbour responses"
         end
-
-        click_link "Summary of neighbour responses"
         expect(page).to have_content("Summary of neighbour responses")
         expect(page).to have_content("Design: A complete entry for the design neighbour responses")
         expect(page).to have_content("Access: A complete entry for the disabled access neighbour responses")
@@ -137,8 +142,10 @@ RSpec.describe "neighbour responses", type: :system do
       end
 
       it "shows errors" do
-        click_link "Check and assess"
-        click_link "Summary of neighbour responses"
+        within "#main-content" do
+          click_link "Check and assess"
+          click_link "Summary of neighbour responses"
+        end
 
         fill_in "assessment_detail[design]", with: "A complete entry for the design neighbour responses"
         fill_in "assessment_detail[access]", with: "A complete entry for the disabled access neighbour responses"
@@ -150,19 +157,21 @@ RSpec.describe "neighbour responses", type: :system do
 
     context "when there are no neighbour responses" do
       it "I can mark the task as complete" do
-        click_link "Check and assess"
-        click_link "Summary of neighbour responses"
+        within "#main-content" do
+          click_link "Check and assess"
+          click_link "Summary of neighbour responses"
+        end
 
         expect(page).to have_content "There are 0 neighbour responses"
         click_button "Save and mark as complete"
 
         expect(page).to have_content("Summary of neighbour responses was successfully created.")
-
-        within("#summary-of-neighbour-responses") do
-          expect(page).to have_content("Completed")
-          click_link "Summary of neighbour responses"
+        within "#main-content" do
+          within("#summary-of-neighbour-responses") do
+            expect(page).to have_content("Completed")
+            click_link "Summary of neighbour responses"
+          end
         end
-
         expect(page).not_to have_selector("h2", text: "Summary")
       end
     end
