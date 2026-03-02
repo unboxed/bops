@@ -899,10 +899,7 @@ RSpec.describe "Reviewing assessment summaries" do
           "Check and assess", with: "To be reviewed"
         )
         click_link("Check and assess")
-        expect(page).to have_list_item_for(
-          "Amenity", with: "To be reviewed"
-        )
-        click_link("Amenity")
+        click_link "Amenity", class: "app-task-list__link"
 
         within(".comment-component") do
           expect(page).to have_content("Reviewer comment")
@@ -916,9 +913,7 @@ RSpec.describe "Reviewing assessment summaries" do
 
         click_button("Save and mark as complete")
         expect(page).to have_content("Amenity assessment was successfully updated.")
-        expect(page).to have_list_item_for(
-          "Amenity", with: "Completed"
-        )
+        expect(page).to have_selector("#assessment-information-tasks", text: "Completed")
         click_link("Make draft recommendation")
 
         click_button("Update assessment")

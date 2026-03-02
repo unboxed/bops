@@ -53,6 +53,7 @@
         - name: Site description
         - name: Summary of consultation
         - name: Summary of neighbour responses
+        - name: Amenity
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"
