@@ -146,7 +146,7 @@ jobs:
           if-no-files-found: ignore
 
       - name: Expose GitHub Runtime for Docker build
-        uses: crazy-max/ghaction-github-runtime@v3
+        uses: crazy-max/ghaction-github-runtime@v4
         if: ${{ inputs.test-runner == 'docker' }}
 
       - name: Set up Docker Buildx
