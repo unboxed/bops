@@ -131,6 +131,26 @@ RSpec.describe "Description change validation requests" do
             end
           end
         end
+
+        it "displays an error when an invalid document type is uploaded" do
+          visit "/additional_document_validation_requests/#{validation_request.id}/edit?#{access_control_params}"
+          expect(page).to have_selector("h1", text: "Provide a new document")
+          expect(page).to have_content("You must submit your response by 16 June 2025")
+          expect(page).to have_link("Read guidance on how to prepare plans correctly", href: "http://planx.bops.services/planning_guides")
+
+          within "#additional-document-requested" do
+            expect(page).to have_content("Arboricultural Report")
+          end
+
+          within "#additional-document-comment" do
+            expect(page).to have_content("Because the site is in a conservation area")
+          end
+
+          attach_file "Upload additional document(s)", "spec/fixtures/files/documents/example.docx"
+
+          click_button "Submit"
+          expect(page).to have_selector("[role=alert] p", text: "Only JPEG, PNG or PDF file types are supported")
+        end
       end
     end
 

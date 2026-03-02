@@ -78,6 +78,10 @@ module BopsApplicants
       @validation_request.applicant_responding = true
     end
 
+    def permitted_content_type?(file)
+      Document::PERMITTED_CONTENT_TYPES.include?(file.content_type)
+    end
+
     def transaction(&)
       ActiveRecord::Base.transaction(&)
     end
