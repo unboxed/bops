@@ -1,0 +1,66 @@
+- name: "Check and validate"
+  section: "Validation"
+  tasks:
+    - name: Check, tag, and confirm documents
+      section: Check, tag, and confirm documents
+      tasks:
+        - name: Review documents
+        - name: Check and request documents
+        - name: Upload redacted documents
+    - name: Check application details
+      section: Check application details
+      tasks:
+        - name: Draw red line boundary
+          hidden: true
+        - name: Check red line boundary
+        - name: Check constraints
+        - name: Check description
+        - name: Check fee
+        - name: Add reporting details
+        - name: Check legislative requirements
+    - name: Confirm application requirements
+      section: Confirm application requirements
+      tasks:
+        - name: Confirm Community Infrastructure Levy (CIL)
+        - name: Check Environment Impact Assessment
+    - name: Other validation issues
+      section: Other validation issues
+      tasks:
+        - name: Other validation requests
+    - name: Review
+      section: Review
+      tasks:
+        - name: Review validation requests
+          status_hidden: true
+        - name: Send validation decision
+- name: "Consultees, neighbours and publicity"
+  section: "Consultation"
+- name: "Check and assess"
+  section: "Assessment"
+  tasks:
+    - name: Check application
+      section: Check application
+      tasks:
+        - name: Check site history
+        - name: Permitted development rights
+    - name: Assess immunity
+      section: Assess immunity
+      tasks:
+        - name: Evidence of immunity
+        - name: Assess immunity
+    - name: Assessment summaries
+      section: Assessment summaries
+      tasks:
+        - name: Summary of works
+        - name: Site description
+        - name: Summary of consultation
+        - name: Site visit
+        - name: Summary of additional evidence
+    - name: Assess against legislation
+      section: Assess against legislation
+      tasks:
+        - name: Check if proposal is development
+- name: "View recommendation"
+  section: "Review"
+- name: "Publish determination"
+  section: "Review"

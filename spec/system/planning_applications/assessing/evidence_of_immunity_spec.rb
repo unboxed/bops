@@ -43,9 +43,11 @@ RSpec.describe "Evidence of immunity", type: :system do
       it "I can view the information on the evidence of immunity page" do
         click_link "Check and assess"
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-        expect(page).to have_list_item_for("Evidence of immunity", with: "Not started")
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for("Evidence of immunity", with: "Not started")
+        end
+        click_link "Evidence of immunity", class: "app-task-list__link"
 
-        click_link "Evidence of immunity"
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/immunity_details/new")
         expect(page).to have_selector("h1", text: "Evidence of immunity")
 
@@ -80,9 +82,10 @@ RSpec.describe "Evidence of immunity", type: :system do
         click_link "Check and assess"
 
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-        expect(page).to have_list_item_for("Evidence of immunity", with: "Not started")
-
-        click_link "Evidence of immunity"
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for("Evidence of immunity", with: "Not started")
+        end
+        click_link "Evidence of immunity", class: "app-task-list__link"
 
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/immunity_details/new")
         expect(page).to have_selector("h1", text: "Evidence of immunity")
@@ -103,9 +106,10 @@ RSpec.describe "Evidence of immunity", type: :system do
 
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
         expect(page).to have_content("Evidence of immunity successfully updated")
-        expect(page).to have_list_item_for("Evidence of immunity", with: "In progress")
-
-        click_link "Evidence of immunity"
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for("Evidence of immunity", with: "In progress")
+        end
+        click_link "Evidence of immunity", class: "app-task-list__link"
 
         expect(page).to have_current_path(%r{^/planning_applications/#{reference}/assessment/immunity_details/\d+/edit})
         expect(page).to have_selector("h1", text: "Evidence of immunity")
@@ -134,9 +138,10 @@ RSpec.describe "Evidence of immunity", type: :system do
         click_link "Check and assess"
 
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-        expect(page).to have_list_item_for("Evidence of immunity", with: "Not started")
-
-        click_link "Evidence of immunity"
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for("Evidence of immunity", with: "Not started")
+        end
+        click_link "Evidence of immunity", class: "app-task-list__link"
 
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/immunity_details/new")
         expect(page).to have_selector("h1", text: "Evidence of immunity")
@@ -156,9 +161,10 @@ RSpec.describe "Evidence of immunity", type: :system do
         click_button "Save and come back later"
 
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-        expect(page).to have_list_item_for("Evidence of immunity", with: "In progress")
-
-        click_link "Evidence of immunity"
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for("Evidence of immunity", with: "In progress")
+        end
+        click_link "Evidence of immunity", class: "app-task-list__link"
 
         expect(page).to have_current_path(%r{^/planning_applications/#{reference}/assessment/immunity_details/\d+/edit})
         expect(page).to have_selector("h1", text: "Evidence of immunity")
@@ -175,16 +181,19 @@ RSpec.describe "Evidence of immunity", type: :system do
 
         click_button "Save and mark as complete"
         expect(page).to have_content("Evidence of immunity successfully updated")
-        expect(page).to have_list_item_for("Evidence of immunity", with: "Completed")
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for("Evidence of immunity", with: "Completed")
+        end
       end
 
       it "I can save and mark as complete the evidence of immunity" do
         click_link "Check and assess"
 
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-        expect(page).to have_list_item_for("Evidence of immunity", with: "Not started")
-
-        click_link "Evidence of immunity"
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for("Evidence of immunity", with: "Not started")
+        end
+        click_link "Evidence of immunity", class: "app-task-list__link"
 
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/immunity_details/new")
         expect(page).to have_selector("h1", text: "Evidence of immunity")
@@ -209,9 +218,10 @@ RSpec.describe "Evidence of immunity", type: :system do
 
         expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
         expect(page).to have_content("Evidence of immunity successfully updated")
-        expect(page).to have_list_item_for("Evidence of immunity", with: "Completed")
-
-        click_link "Evidence of immunity"
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for("Evidence of immunity", with: "Completed")
+        end
+        click_link "Evidence of immunity", class: "app-task-list__link"
 
         expect(page).to have_current_path(%r{^/planning_applications/#{reference}/assessment/immunity_details/\d+})
         expect(page).to have_content("Edit evidence of immunity")

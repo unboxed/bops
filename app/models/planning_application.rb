@@ -788,7 +788,7 @@ class PlanningApplication < ApplicationRecord
     press_notice_required? && press_notice.published_at.nil?
   end
 
-  delegate :name, to: :application_type, prefix: true, allow_nil: true
+  delegate :name, :code, to: :application_type, prefix: true, allow_nil: true
 
   ApplicationType::Config::NAME_ORDER.each do |name|
     define_method :"#{name}?" do
@@ -1098,7 +1098,11 @@ class PlanningApplication < ApplicationRecord
   end
 
   def task_workflow
-    application_type_name
+    if application_type_code == "ldc.existing"
+      "ldc_existing"
+    else
+      application_type_name
+    end
   end
 
   def consultee_responses_closed?

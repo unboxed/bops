@@ -2664,6 +2664,19 @@ en:
         assess-against-policies-and-guidance:
           show:
             drag_and_drop: Drag and drop considerations to change their order.
+      assess-immunity:
+        assess-immunity:
+          show:
+            consider: 'You should consider:'
+            guidance: Assess whether the development is immune from enforcement action on the balance of probabilities.
+            heading: Immunity assessment
+            warning: This information WILL be made publicly available.
+        evidence-of-immunity:
+          show:
+            consider: 'You should consider:'
+            guidance: Review the evidence provided to support the claim of immunity from enforcement action.
+            heading: Evidence of immunity assessment
+            warning: This information WILL be made publicly available.
       assessment-summaries:
         amenity:
           show:
@@ -2739,6 +2752,9 @@ en:
       assess-against-policies-and-guidance:
         failure: Failed to add policy area assessment
         success: Policy area assessment successfully added
+      assess-immunity:
+        failure: Unable to save immunity assessment
+        success: Immunity assessment was successfully saved
       check-description:
         failure: Please select whether the description is correct
         success: Description check was successfully saved
@@ -2781,6 +2797,9 @@ en:
       draw-red-line-boundary:
         failure: Draw a red line boundary
         success: Red line boundary was successfully saved
+      evidence-of-immunity:
+        failure: Unable to save evidence of immunity
+        success: Evidence of immunity was successfully saved
       other-validation-requests:
         failure: Failed to save other validation requests
         success: Other validation requests were successfully saved
