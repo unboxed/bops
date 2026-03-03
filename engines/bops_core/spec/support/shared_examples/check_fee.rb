@@ -23,7 +23,7 @@ RSpec.shared_examples "check fee task" do |application_type|
       click_link "Check fee"
     end
 
-    expect(page).to have_content("Check the application fee")
+    expect(page).to have_selector("h1", text: "Check fee")
   end
 
   it "displays the form to check the fee" do
@@ -31,7 +31,7 @@ RSpec.shared_examples "check fee task" do |application_type|
       click_link "Check fee"
     end
 
-    expect(page).to have_content("Check the application fee")
+    expect(page).to have_selector("h1", text: "Check fee")
     expect(page).to have_content("This fee was calculated based on the services requested by the applicant.")
     expect(page).to have_content("Payment information")
     expect(page).to have_content("Fee paid")
@@ -473,7 +473,7 @@ RSpec.shared_examples "check fee task" do |application_type|
       click_link "Cancel request"
       click_link "Back"
 
-      expect(page).to have_content("Check the application fee")
+      expect(page).to have_selector("h1", text: "Check fee")
       expect(page).to have_link("Cancel request")
     end
   end

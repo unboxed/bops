@@ -96,7 +96,6 @@ en:
             confirmation_message: Send emails to consultees?
             error_message: 'Error: Unable to add the consultee to the list'
             header: Select the consultees to consult
-            heading: Send emails to consultees
             prompt_message: Please search for a consultee first
             response_period:
               hint: Enter the number of days that consultees have to respond.

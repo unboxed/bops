@@ -77,7 +77,7 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       end
 
       expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/check-application-details/check-red-line-boundary")
-      expect(page).to have_content("Check the digital red line boundary")
+      expect(page).to have_selector("h1", text: "Check red line boundary")
       expect(page).to have_selector(:active_sidebar_task, "Check red line boundary")
 
       expect(page).to have_field("Yes")
@@ -133,7 +133,7 @@ RSpec.describe "Pre-application validation workflow", type: :system do
       end
 
       expect(page).to have_current_path("/preapps/#{reference}/check-and-validate/check-application-details/check-fee")
-      expect(page).to have_content("Check the application fee")
+      expect(page).to have_selector("h1", text: "Check fee")
       expect(page).to have_selector(:active_sidebar_task, "Check fee")
 
       expect(page).to have_content("Payment information")

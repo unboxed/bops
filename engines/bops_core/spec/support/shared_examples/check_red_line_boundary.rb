@@ -57,7 +57,7 @@ RSpec.shared_examples "check red line boundary task" do |application_type|
       click_link "Check red line boundary"
     end
 
-    expect(page).to have_content("Check the digital red line boundary")
+    expect(page).to have_selector("h1", text: "Check red line boundary")
   end
 
   it "displays the form to check the red line boundary" do
@@ -65,7 +65,7 @@ RSpec.shared_examples "check red line boundary task" do |application_type|
       click_link "Check red line boundary"
     end
 
-    expect(page).to have_content("Check the digital red line boundary")
+    expect(page).to have_selector("h1", text: "Check red line boundary")
     expect(page).to have_content("This digital red line boundary was submitted by the applicant.")
     expect(page).to have_field("Yes")
     expect(page).to have_field("No")
@@ -385,7 +385,7 @@ RSpec.shared_examples "check red line boundary task" do |application_type|
       click_link "Cancel request"
       click_link "Back"
 
-      expect(page).to have_content("Check the digital red line boundary")
+      expect(page).to have_selector("h1", text: "Check red line boundary")
       expect(page).to have_link("Cancel request")
     end
   end
