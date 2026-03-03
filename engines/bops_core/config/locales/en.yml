@@ -31,6 +31,13 @@ en:
               invalid: Enter a valid phone number for the test message
   bops_core:
     tasks:
+      site-visit:
+        edit:
+          upload_photos: Upload photo(s)
+        form:
+          upload_photos: Upload photo(s)
+        show:
+          heading: View site visits
       task_submit_buttons:
         save_draft: Save changes
         submit: Save and mark as complete
