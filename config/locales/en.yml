@@ -2801,6 +2801,9 @@ en:
         update_site_visit:
           failure: Failed to update site visit
           success: Site visit successfully updated
+      summary-of-additional-evidence:
+        failure: Summary of additional evidence failed to save
+        success: Summary of additional evidence was successfully saved
       summary-of-consultation:
         failure: Summary of consultation failed to save
         success: Successfully saved summary of consultation

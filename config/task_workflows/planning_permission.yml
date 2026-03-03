@@ -53,6 +53,7 @@
         - name: Summary of consultation
         - name: Summary of neighbour responses
         - name: Site visit
+        - name: Summary of additional evidence
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"

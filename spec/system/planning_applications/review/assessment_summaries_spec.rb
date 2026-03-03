@@ -783,11 +783,14 @@ RSpec.describe "Reviewing assessment summaries" do
         expect(page).to have_list_item_for(
           "Check and assess", with: "To be reviewed"
         )
-        click_link("Check and assess")
-        expect(page).to have_list_item_for(
-          "Summary of additional evidence", with: "To be reviewed"
-        )
-        click_link("Summary of additional evidence")
+        click_link "Check and assess"
+
+        within "#main-content" do
+          expect(page).to have_list_item_for(
+            "Summary of additional evidence", with: "To be reviewed"
+          )
+          click_link("Summary of additional evidence")
+        end
 
         within(".comment-component") do
           expect(page).to have_content("Reviewer comment")
@@ -801,9 +804,11 @@ RSpec.describe "Reviewing assessment summaries" do
 
         click_button("Save and mark as complete")
         expect(page).to have_content("Additional evidence was successfully updated.")
-        expect(page).to have_list_item_for(
-          "Summary of additional evidence", with: "Completed"
-        )
+        within "#main-content" do
+          expect(page).to have_list_item_for(
+            "Summary of additional evidence", with: "Completed"
+          )
+        end
         click_link("Make draft recommendation")
 
         click_button("Update assessment")
