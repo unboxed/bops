@@ -39,15 +39,11 @@ module BopsPreapps
       end
 
       def save_draft
-        transaction do
-          update_assessment_detail! && task.start!
-        end
+        update_assessment_detail! && task.start!
       end
 
       def save_and_complete
-        transaction do
-          update_assessment_detail! && task.complete!
-        end
+        update_assessment_detail! && task.complete!
       end
     end
   end

@@ -14,10 +14,8 @@ module BopsPreapps
       end
 
       def save_and_complete
-        transaction do
-          update_additional_services!
-          task.complete!
-        end
+        update_additional_services!
+        task.complete!
       end
 
       def update_additional_services!

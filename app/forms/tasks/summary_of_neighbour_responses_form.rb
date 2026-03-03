@@ -55,17 +55,13 @@ module Tasks
     end
 
     def save_draft
-      transaction do
-        @assessment_detail.update!(entry: formatted_entry, assessment_status: :in_progress, user: Current.user)
-        super
-      end
+      @assessment_detail.update!(entry: formatted_entry, assessment_status: :in_progress, user: Current.user)
+      super
     end
 
     def save_and_complete
-      transaction do
-        @assessment_detail.update!(entry: formatted_entry, assessment_status: :complete, user: Current.user)
-        super
-      end
+      @assessment_detail.update!(entry: formatted_entry, assessment_status: :complete, user: Current.user)
+      super
     end
   end
 end

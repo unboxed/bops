@@ -111,39 +111,31 @@ module BopsCore
       end
 
       def add_site_visit
-        transaction do
-          create_site_visit! && task.start!
-        end
+        create_site_visit! && task.start!
       end
 
       def remove_site_visit
-        transaction do
-          planning_application.site_visits.find(site_visit_id).delete
-        end
+        planning_application.site_visits.find(site_visit_id).delete
       end
 
       def update_site_visit
         remove_documents(documents_to_remove)
 
-        transaction do
-          planning_application.site_visits
-            .find(site_visit_id)
-            .update!(
-              visited_at: visited_on,
-              address: address,
-              comment: comments,
-              documents: documents
-            ) && task.start!
-        end
+        planning_application.site_visits
+          .find(site_visit_id)
+          .update!(
+            visited_at: visited_on,
+            address: address,
+            comment: comments,
+            documents: documents
+          ) && task.start!
       end
 
       def remove_documents(documents_to_remove)
         return if documents_to_remove.blank?
 
-        transaction do
-          site_visit = planning_application.site_visits.find(site_visit_id)
-          site_visit.documents.where(id: documents_to_remove.compact_blank).find_each(&:destroy!)
-        end
+        site_visit = planning_application.site_visits.find(site_visit_id)
+        site_visit.documents.where(id: documents_to_remove.compact_blank).find_each(&:destroy!)
       end
 
       def documents_have_permitted_file_types

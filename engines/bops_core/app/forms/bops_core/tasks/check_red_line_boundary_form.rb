@@ -80,24 +80,18 @@ module BopsCore
       private
 
       def save_and_complete
-        transaction do
-          planning_application.update!(valid_red_line_boundary:)
-          valid_red_line_boundary ? task.complete! : task.in_progress!
-        end
+        planning_application.update!(valid_red_line_boundary:)
+        valid_red_line_boundary ? task.complete! : task.in_progress!
       end
 
       def mark_as_valid
-        transaction do
-          planning_application.update!(valid_red_line_boundary: true)
-          task.complete!
-        end
+        planning_application.update!(valid_red_line_boundary: true)
+        task.complete!
       end
 
       def delete_request
-        transaction do
-          validation_request.destroy!
-          task.not_started!
-        end
+        validation_request.destroy!
+        task.not_started!
       end
     end
   end

@@ -35,9 +35,7 @@ module BopsPreapps
       private
 
       def save_and_complete
-        transaction do
-          update_planning_application! && task.complete!
-        end
+        update_planning_application! && task.complete!
       end
 
       def update_planning_application!

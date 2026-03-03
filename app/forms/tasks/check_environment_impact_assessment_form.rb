@@ -30,10 +30,8 @@ module Tasks
       eia = planning_application.environment_impact_assessment ||
         planning_application.build_environment_impact_assessment
 
-      transaction do
-        eia.update!(eia_attributes)
-        task.completed!
-      end
+      eia.update!(eia_attributes)
+      task.completed!
     end
 
     def eia_attributes

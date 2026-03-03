@@ -38,9 +38,7 @@ module BopsCore
       private
 
       def add_constraint
-        transaction do
-          create_constraint! && task.start!
-        end
+        create_constraint! && task.start!
       end
 
       def create_constraint!
@@ -48,10 +46,8 @@ module BopsCore
       end
 
       def remove_constraint
-        transaction do
-          constraint = planning_application_constraints.find(constraint_id)
-          constraint.destroy! && task.start!
-        end
+        constraint = planning_application_constraints.find(constraint_id)
+        constraint.destroy! && task.start!
       end
     end
   end

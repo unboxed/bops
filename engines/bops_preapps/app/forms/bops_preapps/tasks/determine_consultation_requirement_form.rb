@@ -21,11 +21,9 @@ module BopsPreapps
       private
 
       def save_and_complete
-        transaction do
-          planning_application.update!(consultation_required:)
-          update_consultation_tasks_visibility
-          task.complete!
-        end
+        planning_application.update!(consultation_required:)
+        update_consultation_tasks_visibility
+        task.complete!
       end
 
       def update_consultation_tasks_visibility

@@ -39,10 +39,8 @@ module BopsCore
       private
 
       def save_and_complete
-        transaction do
-          planning_application.update!(valid_description:)
-          valid_description ? task.complete! : task.in_progress!
-        end
+        planning_application.update!(valid_description:)
+        valid_description ? task.complete! : task.in_progress!
       end
     end
   end

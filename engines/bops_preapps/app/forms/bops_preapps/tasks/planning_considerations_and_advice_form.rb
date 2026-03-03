@@ -51,9 +51,7 @@ module BopsPreapps
       end
 
       def add_consideration
-        transaction do
-          create_consideration! && task.start!
-        end
+        create_consideration! && task.start!
       end
     end
   end

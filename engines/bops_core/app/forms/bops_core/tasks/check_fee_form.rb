@@ -75,18 +75,16 @@ module BopsCore
       end
 
       def save_and_complete
-        transaction do
-          if valid_fee
-            planning_application.tap do |pa|
-              pa.valid_fee = true
-              pa.payment_amount = payment_amount if payment_amount.present?
-            end.save!
-          else
-            planning_application.update!(valid_fee: false)
-            create_validation_request!
-          end
-          task.complete!
+        if valid_fee
+          planning_application.tap do |pa|
+            pa.valid_fee = true
+            pa.payment_amount = payment_amount if payment_amount.present?
+          end.save!
+        else
+          planning_application.update!(valid_fee: false)
+          create_validation_request!
         end
+        task.complete!
       end
 
       def update_request
@@ -94,10 +92,8 @@ module BopsCore
       end
 
       def delete_request
-        transaction do
-          validation_request.destroy!
-          task.not_started!
-        end
+        validation_request.destroy!
+        task.not_started!
       end
 
       def create_validation_request!
