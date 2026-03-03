@@ -32,12 +32,7 @@ module Tasks
 
     def url(options = {})
       if params[:id].present?
-        edit_task_component_path(
-          planning_application,
-          slug: task.full_slug,
-          id: params[:id],
-          **options.with_defaults(only_path: true)
-        ).sub(%r{/edit$}, "")
+        task_component_path(planning_application, slug: task.full_slug, id: params[:id])
       else
         super
       end

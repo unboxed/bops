@@ -28,10 +28,11 @@ module PlanningApplications
         def destroy
           respond_to do |format|
             format.html do
+              return_path = params[:return_to].presence || edit_planning_application_assessment_considerations_path(@planning_application)
               if @consideration.destroy
-                redirect_to edit_planning_application_assessment_considerations_path(@planning_application), notice: t(".success")
+                redirect_to return_path, notice: t(".success")
               else
-                redirect_to edit_planning_application_assessment_considerations_path(@planning_application), notice: t(".failure")
+                redirect_to return_path, notice: t(".failure")
               end
             end
           end

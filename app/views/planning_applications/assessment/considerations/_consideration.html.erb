@@ -43,10 +43,16 @@
         Show more
       </button>
     </div>
-
     <nav class="nav-links govuk-!-padding-top-3" aria-label="Actions for consideration <%= consideration.position %>">
-      <%= govuk_link_to "Edit", edit_planning_application_assessment_considerations_item_path(@planning_application, consideration) %>
-      <%= govuk_link_to "Remove", planning_application_assessment_considerations_item_path(@planning_application, consideration), method: :delete, data: {confirm: "Are you sure?"} %>
+      <% if local_assigns[:task_slug] %>
+        <%= govuk_link_to "Edit", edit_task_component_path(@planning_application, slug: local_assigns[:task_slug], id: consideration.id) %>
+      <% else %>
+        <%= govuk_link_to "Edit", edit_planning_application_assessment_considerations_item_path(@planning_application, consideration) %>
+      <% end %>
+      <%= govuk_link_to "Remove",
+            planning_application_assessment_considerations_item_path(@planning_application, consideration, return_to: local_assigns[:return_to]),
+            method: :delete,
+            data: {confirm: "Are you sure?"} %>
       <% if consideration.submitted_by.try(:name) %>
         <span>Submitted by: <%= consideration.submitted_by.name %></span>
       <% end %>
