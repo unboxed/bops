@@ -2789,6 +2789,18 @@ en:
       site-description:
         failure: Unable to save site description
         success: Site description successfully saved
+      site-visit:
+        add_site_visit:
+          failure: Failed to save site visit
+          success: Site visit successfully recorded
+        failure: Unable to complete site visit task
+        remove_site_visit:
+          failure: Failed to remove site visit
+          success: Site visit successfully removed
+        success: Site visits successfully checked
+        update_site_visit:
+          failure: Failed to update site visit
+          success: Site visit successfully updated
       summary-of-consultation:
         failure: Summary of consultation failed to save
         success: Successfully saved summary of consultation

@@ -36,14 +36,6 @@ en:
     tasks:
       cannot_start_yet: You must complete the previous task before starting this one
       check-and-assess:
-        additional-services:
-          site-visit:
-            edit:
-              upload_photos: Upload photo(s)
-            form:
-              upload_photos: Upload photo(s)
-            show:
-              heading: View site visits
         assessment-summaries:
           site-and-surroundings:
             show:

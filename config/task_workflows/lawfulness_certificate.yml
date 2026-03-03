@@ -49,6 +49,7 @@
         - name: Summary of works
         - name: Site description
         - name: Summary of consultation
+        - name: Site visit
     - name: Assess against legislation
       section: Assess against legislation
       tasks:

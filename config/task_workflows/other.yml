@@ -52,6 +52,7 @@
         - name: Site description
         - name: Summary of consultation
         - name: Summary of neighbour responses
+        - name: Site visit
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"
