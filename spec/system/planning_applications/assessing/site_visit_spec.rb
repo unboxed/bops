@@ -293,7 +293,7 @@ RSpec.describe "Site visit" do
       it "I can manually pick the address for the site visit", js: true do
         visit "/planning_applications/#{planning_application.reference}"
         click_link "Check and assess"
-        click_link "Site visit"
+        click_link "Site visit", class: "app-task-list__link"
 
         choose "Yes"
         fill_in "Day", with: "20"
