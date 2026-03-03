@@ -75,16 +75,17 @@ module BopsCore
       end
 
       def save_and_complete
-        if valid_fee
-          planning_application.tap do |pa|
-            pa.valid_fee = true
-            pa.payment_amount = payment_amount if payment_amount.present?
-          end.save!
-        else
-          planning_application.update!(valid_fee: false)
-          create_validation_request!
+        super do
+          if valid_fee
+            planning_application.tap do |pa|
+              pa.valid_fee = true
+              pa.payment_amount = payment_amount if payment_amount.present?
+            end.save!
+          else
+            planning_application.update!(valid_fee: false)
+            create_validation_request!
+          end
         end
-        task.complete!
       end
 
       def update_request

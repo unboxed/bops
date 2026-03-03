@@ -128,14 +128,17 @@ module BopsCore
       end
 
       def save_draft
+        yield if block_given?
         task.start!
       end
 
       def save_and_complete
+        yield if block_given?
         task.complete!
       end
 
       def edit_form
+        yield if block_given?
         task.in_progress!
       end
     end

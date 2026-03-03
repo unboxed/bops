@@ -27,11 +27,12 @@ module Tasks
     private
 
     def save_and_complete
-      eia = planning_application.environment_impact_assessment ||
-        planning_application.build_environment_impact_assessment
+      super do
+        eia = planning_application.environment_impact_assessment ||
+          planning_application.build_environment_impact_assessment
 
-      eia.update!(eia_attributes)
-      task.completed!
+        eia.update!(eia_attributes)
+      end
     end
 
     def eia_attributes

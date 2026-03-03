@@ -20,13 +20,15 @@ module Tasks
     private
 
     def save_draft
-      build_or_update_assessment_detail!(assessment_status: :in_progress)
-      super
+      super do
+        build_or_update_assessment_detail!(assessment_status: :in_progress)
+      end
     end
 
     def save_and_complete
-      build_or_update_assessment_detail!(assessment_status: :complete)
-      super
+      super do
+        build_or_update_assessment_detail!(assessment_status: :complete)
+      end
     end
 
     def build_or_update_assessment_detail!(assessment_status:)

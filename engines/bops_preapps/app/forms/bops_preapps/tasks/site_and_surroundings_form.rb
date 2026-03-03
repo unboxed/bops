@@ -39,11 +39,15 @@ module BopsPreapps
       end
 
       def save_draft
-        update_assessment_detail! && task.start!
+        super do
+          update_assessment_detail!
+        end
       end
 
       def save_and_complete
-        update_assessment_detail! && task.complete!
+        super do
+          update_assessment_detail!
+        end
       end
     end
   end

@@ -26,8 +26,9 @@ module BopsCore
       private
 
       def save_and_complete
-        planning_application.consultation.create_consultees_review!
-        task.complete!
+        super do
+          planning_application.consultation.create_consultees_review!
+        end
       end
     end
   end

@@ -74,28 +74,28 @@ module Tasks
     end
 
     def save_and_complete
-      # only used for validation task, assesment task uses assessment_complete method
-      planning_application.update!(
-        valid_ownership_certificate: valid_ownership_certificate,
-        ownership_certificate_checked: true
-      )
+      super do
+        # only used for validation task, assesment task uses assessment_complete method
+        planning_application.update!(
+          valid_ownership_certificate: valid_ownership_certificate,
+          ownership_certificate_checked: true
+        )
 
-      existing_request = planning_application.ownership_certificate_validation_requests.open_or_pending.first
+        existing_request = planning_application.ownership_certificate_validation_requests.open_or_pending.first
 
-      if ownership_certificate_invalid?
-        if existing_request
-          existing_request.update!(reason: invalidated_ownership_reason)
-        else
-          planning_application.ownership_certificate_validation_requests.create!(
-            reason: invalidated_ownership_reason,
-            user: Current.user
-          )
+        if ownership_certificate_invalid?
+          if existing_request
+            existing_request.update!(reason: invalidated_ownership_reason)
+          else
+            planning_application.ownership_certificate_validation_requests.create!(
+              reason: invalidated_ownership_reason,
+              user: Current.user
+            )
+          end
+        elsif existing_request
+          existing_request.destroy!
         end
-      elsif existing_request
-        existing_request.destroy!
       end
-
-      task.completed!
     end
 
     def delete_request

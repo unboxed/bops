@@ -20,8 +20,9 @@ module BopsCore
       private
 
       def save_and_complete
-        persist_boundary!
-        task.complete!
+        super do
+          persist_boundary!
+        end
       end
 
       def persist_boundary!

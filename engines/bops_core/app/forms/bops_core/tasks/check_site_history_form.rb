@@ -41,8 +41,9 @@ module BopsCore
       private
 
       def save_and_complete
-        planning_application.update!(site_history_checked: true)
-        super
+        super do
+          planning_application.update!(site_history_checked: true)
+        end
       end
 
       def create_site_history!

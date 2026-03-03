@@ -54,10 +54,11 @@ module BopsCore
       end
 
       def save_and_complete
-        planning_application.update!(validated_at: planning_application.valid_from_date)
-        planning_application.send_validation_notice_mail
-        planning_application.start!
-        task.complete!
+        super do
+          planning_application.update!(validated_at: planning_application.valid_from_date)
+          planning_application.send_validation_notice_mail
+          planning_application.start!
+        end
       end
     end
   end

@@ -16,13 +16,15 @@ module Tasks
     private
 
     def save_draft
-      @assessment_detail.update!(entry:, assessment_status: :in_progress, user: Current.user)
-      super
+      super do
+        @assessment_detail.update!(entry:, assessment_status: :in_progress, user: Current.user)
+      end
     end
 
     def save_and_complete
-      @assessment_detail.update!(entry:, assessment_status: :complete, user: Current.user)
-      super
+      super do
+        @assessment_detail.update!(entry:, assessment_status: :complete, user: Current.user)
+      end
     end
   end
 end

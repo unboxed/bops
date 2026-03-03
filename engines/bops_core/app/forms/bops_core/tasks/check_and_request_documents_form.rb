@@ -14,8 +14,9 @@ module BopsCore
       private
 
       def save_and_complete
-        planning_application.update!(documents_missing: additional_request_pending?)
-        super
+        super do
+          planning_application.update!(documents_missing: additional_request_pending?)
+        end
       end
 
       def additional_request_pending?
