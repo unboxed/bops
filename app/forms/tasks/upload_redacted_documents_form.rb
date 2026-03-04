@@ -15,13 +15,15 @@ module Tasks
     private
 
     def save_and_complete
-      create_redacted_documents!
-      super
+      super do
+        create_redacted_documents!
+      end
     end
 
     def save_draft
-      create_redacted_documents!
-      super
+      super do
+        create_redacted_documents!
+      end
     end
 
     def documents_params

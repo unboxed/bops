@@ -26,9 +26,8 @@ module BopsCore
       private
 
       def save_and_complete
-        ActiveRecord::Base.transaction do
+        super do
           planning_application.consultation.create_consultees_review!
-          task.complete!
         end
       end
     end

@@ -17,22 +17,18 @@ module Tasks
     private
 
     def save_and_complete
-      transaction do
+      super do
         planning_application.update!(section_55_development:)
 
         if section_55_development == false
           planning_application.planning_application_policy_classes.destroy_all
         end
-
-        super
       end
     end
 
     def save_draft
-      transaction do
+      super do
         planning_application.update!(section_55_development:)
-
-        super
       end
     end
   end

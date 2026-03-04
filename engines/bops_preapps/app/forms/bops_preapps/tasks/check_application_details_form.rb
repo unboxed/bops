@@ -27,8 +27,9 @@ module BopsPreapps
       private
 
       def save_and_complete
-        consistency_checklist.update!(attributes)
-        task.complete!
+        super do
+          consistency_checklist.update!(attributes)
+        end
       end
     end
   end

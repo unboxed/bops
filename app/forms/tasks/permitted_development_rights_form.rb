@@ -34,16 +34,14 @@ module Tasks
     end
 
     def save_and_complete
-      transaction do
+      super do
         create_permitted_development_right("complete")
-        super
       end
     end
 
     def save_draft
-      transaction do
+      super do
         create_permitted_development_right("in_progress")
-        super
       end
     end
 

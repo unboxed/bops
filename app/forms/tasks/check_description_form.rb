@@ -26,23 +26,21 @@ module Tasks
     private
 
     def save_and_complete
-      transaction do
-        planning_application.update!(valid_description:)
-        # specifically comparing with false because nil is treated differently
-        if valid_description == false
-          planning_application.validation_requests.create!(
-            type: "DescriptionChangeValidationRequest",
-            proposed_description:,
-            skip_applicant_approval:,
-            user: Current.user
-          )
-        end
+      planning_application.update!(valid_description:)
+      # specifically comparing with false because nil is treated differently
+      if valid_description == false
+        planning_application.validation_requests.create!(
+          type: "DescriptionChangeValidationRequest",
+          proposed_description:,
+          skip_applicant_approval:,
+          user: Current.user
+        )
+      end
 
-        if valid_description || skip_applicant_approval
-          task.complete!
-        else
-          task.in_progress!
-        end
+      if valid_description || skip_applicant_approval
+        task.complete!
+      else
+        task.in_progress!
       end
     end
   end

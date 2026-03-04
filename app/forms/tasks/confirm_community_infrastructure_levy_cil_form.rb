@@ -21,9 +21,8 @@ module Tasks
     private
 
     def save_and_complete
-      transaction do
+      super do
         planning_application.update!(cil_liable: cil_liable)
-        task.completed!
       end
     end
   end

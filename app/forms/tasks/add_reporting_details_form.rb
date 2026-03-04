@@ -16,15 +16,15 @@ module Tasks
     private
 
     def save_draft
-      return false unless planning_application.update(reporting_details_params)
-
-      super
+      super do
+        planning_application.update!(reporting_details_params)
+      end
     end
 
     def save_and_complete
-      return false unless planning_application.update(reporting_details_params, :reporting_types)
-
-      super
+      super do
+        planning_application.update!(reporting_details_params, :reporting_types)
+      end
     end
 
     def prefill_from_planning_application

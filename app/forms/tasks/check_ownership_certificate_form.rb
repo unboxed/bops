@@ -74,8 +74,8 @@ module Tasks
     end
 
     def save_and_complete
-      # only used for validation task, assesment task uses assessment_complete method
-      transaction do
+      super do
+        # only used for validation task, assesment task uses assessment_complete method
         planning_application.update!(
           valid_ownership_certificate: valid_ownership_certificate,
           ownership_certificate_checked: true
@@ -95,16 +95,12 @@ module Tasks
         elsif existing_request
           existing_request.destroy!
         end
-
-        task.completed!
       end
     end
 
     def delete_request
-      transaction do
-        validation_request.destroy!
-        task.not_started!
-      end
+      validation_request.destroy!
+      task.not_started!
     end
 
     def update_request

@@ -55,9 +55,7 @@ module BopsPreapps
       end
 
       def add_meeting
-        transaction do
-          create_meeting! && task.start!
-        end
+        create_meeting! && task.start!
       end
     end
   end

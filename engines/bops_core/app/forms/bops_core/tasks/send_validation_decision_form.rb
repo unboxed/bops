@@ -48,19 +48,16 @@ module BopsCore
       private
 
       def save_and_invalidate
-        transaction do
-          planning_application.invalidate!
-          planning_application.send_invalidation_notice_mail
-          task.complete!
-        end
+        planning_application.invalidate!
+        planning_application.send_invalidation_notice_mail
+        task.complete!
       end
 
       def save_and_complete
-        transaction do
+        super do
           planning_application.update!(validated_at: planning_application.valid_from_date)
           planning_application.send_validation_notice_mail
           planning_application.start!
-          task.complete!
         end
       end
     end

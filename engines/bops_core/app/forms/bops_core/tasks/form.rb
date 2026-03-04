@@ -54,12 +54,14 @@ module BopsCore
         return false unless valid?(action.to_sym)
 
         run_callbacks :update do
-          @result = if block_given?
-            !!yield(params)
-          elsif action.in?(task_actions)
-            send(action.to_sym)
-          else
-            raise ArgumentError, "Invalid task action: #{action.inspect}"
+          transaction do
+            @result = if block_given?
+              !!yield(params)
+            elsif action.in?(task_actions)
+              send(action.to_sym)
+            else
+              raise ArgumentError, "Invalid task action: #{action.inspect}"
+            end
           end
         end
 
@@ -126,14 +128,17 @@ module BopsCore
       end
 
       def save_draft
+        yield if block_given?
         task.start!
       end
 
       def save_and_complete
+        yield if block_given?
         task.complete!
       end
 
       def edit_form
+        yield if block_given?
         task.in_progress!
       end
     end

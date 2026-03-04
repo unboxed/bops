@@ -10,18 +10,14 @@ module BopsPreapps
       private
 
       def add_requirement
-        transaction do
-          planning_application.add_requirements(new_requirements)
-          task.start!
-        end
+        planning_application.add_requirements(new_requirements)
+        task.start!
       end
 
       def remove_requirement
-        transaction do
-          requirement = planning_application.requirements.find(requirement_id)
-          requirement.destroy!
-          task.start!
-        end
+        requirement = planning_application.requirements.find(requirement_id)
+        requirement.destroy!
+        task.start!
       end
 
       def new_requirements

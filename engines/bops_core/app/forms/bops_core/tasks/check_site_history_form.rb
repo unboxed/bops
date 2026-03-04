@@ -41,9 +41,8 @@ module BopsCore
       private
 
       def save_and_complete
-        transaction do
+        super do
           planning_application.update!(site_history_checked: true)
-          super
         end
       end
 
@@ -59,9 +58,7 @@ module BopsCore
       end
 
       def add_site_history
-        transaction do
-          create_site_history! && task.start!
-        end
+        create_site_history! && task.start!
       end
     end
   end

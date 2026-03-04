@@ -62,24 +62,22 @@ module Tasks
     end
 
     def save_document
-      transaction do
-        document.update!(
-          numbers: numbers,
-          publishable: publishable,
-          referenced_in_decision_notice: referenced_in_decision_notice,
-          available_to_consultees: available_to_consultees,
-          validated: validated,
-          invalidated_document_reason: document_invalid? ? invalidated_document_reason : nil,
-          tags: tags || []
-        )
+      document.update!(
+        numbers: numbers,
+        publishable: publishable,
+        referenced_in_decision_notice: referenced_in_decision_notice,
+        available_to_consultees: available_to_consultees,
+        validated: validated,
+        invalidated_document_reason: document_invalid? ? invalidated_document_reason : nil,
+        tags: tags || []
+      )
 
-        if document_invalid?
-          document.planning_application.replacement_document_validation_requests.create!(
-            old_document: document,
-            reason: invalidated_document_reason,
-            user: Current.user
-          )
-        end
+      if document_invalid?
+        document.planning_application.replacement_document_validation_requests.create!(
+          old_document: document,
+          reason: invalidated_document_reason,
+          user: Current.user
+        )
       end
     end
   end
