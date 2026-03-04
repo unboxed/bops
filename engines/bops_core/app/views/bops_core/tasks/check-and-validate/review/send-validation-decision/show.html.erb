@@ -1,5 +1,5 @@
 <%= form_with model: @form, url: @form.url do |form| %>
-  <%= render "task_header", task: @task, heading: "Send validation decision" %>
+  <%= render "task_header", task: @task %>
 
     <% if @planning_application.not_started? && @planning_application.validation_requests.pending.none? %>
       <p>
