@@ -108,12 +108,14 @@ RSpec.describe "Reviewing pre-commencement conditions" do
 
         visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
-        expect(page).to have_list_item_for(
-          "Add pre-commencement conditions",
-          with: "To be reviewed"
-        )
+        within("#complete-assessment-tasks") do
+          expect(page).to have_list_item_for(
+            "Add pre-commencement conditions",
+            with: "To be reviewed"
+          )
 
-        click_link "Add pre-commencement conditions"
+          click_link "Add pre-commencement conditions"
+        end
 
         expect(page).to have_content("I don't think you've assessed conditions correctly")
 

@@ -21,7 +21,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
 
   context "when planning application is planning permission" do
     it "you can add conditions" do
-      click_link "Add conditions"
+      within("#add-conditions") { click_link "Add conditions" }
       expect(page).to have_content("Add conditions")
 
       toggle "Add condition"
@@ -86,7 +86,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       visit "/planning_applications/#{reference}"
       click_link "Check and assess"
 
-      click_link "Add conditions"
+      within("#add-conditions") { click_link "Add conditions" }
 
       expect(page).to have_content "Time limit"
       expect(page).to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."
@@ -115,7 +115,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
       visit "/planning_applications/#{reference}"
       click_link "Check and assess"
 
-      click_link "Add conditions"
+      within("#add-conditions") { click_link "Add conditions" }
 
       accept_confirm do
         within(:css, "#conditions-list li:nth-of-type(1)") do
@@ -149,7 +149,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
     end
 
     it "shows errors when adding" do
-      click_link "Add conditions"
+      within("#add-conditions") { click_link "Add conditions" }
 
       toggle "Add condition"
       fill_in "Enter condition", with: "Custom condition 1"
@@ -162,7 +162,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
     end
 
     it "shows errors when editing" do
-      click_link "Add conditions"
+      within("#add-conditions") { click_link "Add conditions" }
 
       within(:css, "#conditions-list li:first-of-type") do
         click_link "Edit"
@@ -200,7 +200,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
         visit "/planning_applications/#{reference}"
         click_link "Check and assess"
 
-        click_link "Add conditions"
+        within("#add-conditions") { click_link "Add conditions" }
         click_button "Save and mark as complete"
       end
     end
@@ -214,7 +214,7 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
 
     before do
       condition_set.conditions.where(standard: true).delete_all
-      click_link "Add conditions"
+      within("#add-conditions") { click_link "Add conditions" }
     end
 
     include_examples "Sortable", "condition"
