@@ -1,0 +1,53 @@
+<%= render "task_header", task: @task %>
+
+<%= render(
+  AccordionComponent.new(
+    planning_application: @planning_application,
+    sections: %w[constraints considerations]
+  )
+) %>
+
+<%= render(ReviewerCommentComponent.new(comment: @form.condition_set.current_review)) %>
+
+<% if @form.conditions.any? %>
+  <h2 class="govuk-!-margin-bottom-0">Add, edit and sort conditions</h2>
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  <ol id="conditions-list" class="govuk-list sortable-list" data-controller="sortable">
+    <% @form.conditions.each do |condition| %>
+      <%= render(Sortable::ListItemComponent.new(
+            record: condition,
+            record_class: "condition",
+            record_controller: "conditions",
+            record_sortable_url: planning_application_assessment_condition_position_path(@planning_application, condition),
+            edit_record_url: @form.edit_condition_url(condition),
+            remove_record_url: @form.remove_condition_url(condition)
+          )) %>
+    <% end %>
+  </ol>
+
+  <p class="govuk-hint">
+    Drag and drop conditions to change the order that they appear in the decision notice.
+  </p>
+<% end %>
+
+<%= govuk_details(summary_text: "Add condition",
+      open: @form.conditions.empty?,
+      classes: "govuk-details--borderless govuk-!-margin-top-6") do %>
+  <h3>Add a new condition</h3>
+  <%= form_with model: @form, url: @form.url, data: {controller: "reset-text"} do |form| %>
+    <%= form.govuk_error_summary %>
+    <%= form.govuk_text_field :title, label: {text: "Enter title"} %>
+    <%= form.govuk_text_area :text, label: {text: "Enter condition"}, data: {reset_text_target: "destination"} %>
+    <%= form.govuk_text_area :reason, label: {text: "Enter a reason for this condition"}, data: {reset_text_target: "destination"} %>
+    <div class="govuk-button-group">
+      <%= form.govuk_task_button "Add condition to list", action: "add_condition", secondary: true %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <div class="govuk-button-group">
+    <%= form.govuk_task_button "Save and mark as complete" %>
+    <%= form.govuk_task_button "Save and come back later", action: "save_draft", secondary: true %>
+  </div>
+<% end %>

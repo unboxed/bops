@@ -51,9 +51,9 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @condition.destroy
-              redirect_to planning_application_assessment_conditions_path(@planning_application), notice: I18n.t("conditions.destroy.success")
+              redirect_to redirect_path, notice: I18n.t("conditions.destroy.success")
             else
-              redirect_to planning_application_assessment_conditions_path(@planning_application), notice: I18n.t("conditions.destroy.failure")
+              redirect_to redirect_path, notice: I18n.t("conditions.destroy.failure")
             end
           end
         end
@@ -74,6 +74,10 @@ module PlanningApplications
       end
 
       private
+
+      def redirect_path
+        params[:redirect_to].presence || planning_application_assessment_conditions_path(@planning_application)
+      end
 
       def condition_id
         Integer(condition_params[:id])

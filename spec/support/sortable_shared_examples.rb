@@ -76,7 +76,7 @@ RSpec.shared_examples "Sortable" do |class_name|
     expect(condition_three.reload.position).to eq(1)
 
     click_link "Back"
-    click_link "Add #{class_name.pluralize}"
+    within("#add-#{class_name.pluralize.parameterize}") { click_link "Add #{class_name.pluralize}" }
 
     within("li.sortable-list:nth-of-type(1)") do
       expect(page).to have_selector("span", text: "Condition 1")

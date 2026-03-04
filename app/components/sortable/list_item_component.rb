@@ -4,13 +4,14 @@ module Sortable
   class ListItemComponent < ViewComponent::Base
     include ConditionsHelper
 
-    def initialize(record:, record_class:, record_controller:, record_sortable_url:, edit_record_url:, remove_record_url: nil, current_request: nil, show_status_tag: true)
+    def initialize(record:, record_class:, record_controller:, record_sortable_url:, edit_record_url:, remove_record_url: nil, cancel_record_url: nil, current_request: nil, show_status_tag: true)
       @record = record
       @record_class = record_class
       @record_controller = record_controller
       @record_sortable_url = record_sortable_url
       @edit_record_url = edit_record_url
       @remove_record_url = remove_record_url
+      @cancel_record_url = cancel_record_url
       @current_request = current_request
       @show_status_tag = show_status_tag
     end
@@ -19,7 +20,7 @@ module Sortable
 
     private
 
-    attr_reader :record, :record_class, :record_controller, :record_sortable_url, :edit_record_url, :remove_record_url, :current_request
+    attr_reader :record, :record_class, :record_controller, :record_sortable_url, :edit_record_url, :remove_record_url, :cancel_record_url, :current_request
 
     def caption_text
       if record.is_a?(Condition) && !record.condition_set.pre_commencement? && record.standard?
@@ -53,10 +54,10 @@ module Sortable
     def cancel_link
       return if current_request.blank?
 
-      govuk_link_to(
-        "Cancel",
+      url = cancel_record_url.presence ||
         cancel_confirmation_planning_application_validation_validation_request_path(current_request.planning_application, current_request)
-      )
+
+      govuk_link_to("Cancel", url)
     end
   end
 end

@@ -1,0 +1,16 @@
+<%= render "task_header", task: @task, heading: "Edit condition" %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <%= form_with model: @form, url: @form.condition_url do |form| %>
+      <%= form.govuk_error_summary %>
+      <%= form.govuk_text_field :title, value: @form.condition.title, label: {text: "Enter title"} %>
+      <%= form.govuk_text_area :text, value: @form.condition.text, label: {text: "Enter condition"} %>
+      <%= form.govuk_text_area :reason, value: @form.condition.reason, label: {text: "Enter a reason for this condition"} %>
+      <div class="govuk-button-group">
+        <%= form.govuk_task_button "Save condition", action: "update_condition" %>
+        <%= govuk_button_link_to "Back", task_path(@planning_application, @task), secondary: true %>
+      </div>
+    <% end %>
+  </div>
+</div>

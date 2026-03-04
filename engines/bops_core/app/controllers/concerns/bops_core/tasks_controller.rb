@@ -88,7 +88,7 @@ module BopsCore
     end
 
     def failure_template
-      return :edit if params[:task_action] == "update_site_visit"
+      return :edit if params[:task_action].in?(%w[update_site_visit update_condition])
 
       :show
     end
