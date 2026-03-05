@@ -29,10 +29,11 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
 
       sign_in(assessor)
       visit "/planning_applications/#{reference}/assessment/tasks"
+      within "#main-content" do
+        click_link "Assess against policies and guidance"
+      end
 
-      click_link "Assess against policies and guidance"
       expect(page).to have_selector("h1", text: "Assess against policies and guidance")
-
       within_fieldset("Add a new consideration") do
         with_retry do
           fill_in "Enter policy area", with: "Design"
@@ -260,9 +261,12 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       sign_in(assessor)
 
       visit "/planning_applications/#{reference}/assessment/tasks"
-      expect(page).to have_list_item_for("Assess against policies and guidance", with: "To be reviewed")
 
-      click_link "Assess against policies and guidance"
+      within "#main-content" do
+        expect(page).to have_list_item_for("Assess against policies and guidance", with: "To be reviewed")
+
+        click_link "Assess against policies and guidance"
+      end
 
       expect(page).to have_selector("h1", text: "Assess against policies and guidance")
       expect(page).to have_content("Please provide more details about the design of the property")
@@ -280,7 +284,9 @@ RSpec.describe "Reviewing assessment against policies and guidance", type: :syst
       click_button "Save and mark as complete"
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
       expect(page).to have_content("Assessment against local policies was successfully saved")
-      expect(page).to have_list_item_for("Assess against policies and guidance", with: "Updated")
+      within "#main-content" do
+        expect(page).to have_list_item_for("Assess against policies and guidance", with: "Updated")
+      end
 
       travel_to Time.zone.local(2024, 7, 23, 13)
       sign_in(reviewer)
