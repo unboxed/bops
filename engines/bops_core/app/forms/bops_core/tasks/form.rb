@@ -99,6 +99,10 @@ module BopsCore
         task.completed?
       end
 
+      def partial_path
+        "tasks/#{task.full_slug}"
+      end
+
       private
 
       def form_params(params)

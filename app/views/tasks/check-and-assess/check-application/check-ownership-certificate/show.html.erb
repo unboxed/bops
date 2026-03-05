@@ -8,8 +8,7 @@
 <% path = "tasks/check-and-validate/confirm-application-requirements/check-ownership-certificate" %>
 <%= render "#{path}/table" %>
 
-<% partial_path = "tasks/check-and-assess/check-application/check-ownership-certificate" %>
-<%= render "#{partial_path}/activity_log" %>
+<%= render "#{@form.partial_path}/activity_log" %>
 
 <%= form_with model: @form, url: @form.url do |form| %>
   <% unless @form.validation_requests.open_or_pending.any? %>
