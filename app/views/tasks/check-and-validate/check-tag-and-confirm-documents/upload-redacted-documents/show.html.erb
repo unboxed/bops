@@ -1,7 +1,5 @@
 <%= render "task_header", task: @task %>
 
-<% partial_path = "tasks/check-and-validate/check-tag-and-confirm-documents/upload-redacted-documents" %>
-
 <% if @form.redacted_documents.any? %>
   <%= govuk_table do |table| %>
     <% table.with_head do |head| %>
@@ -35,7 +33,7 @@
   <% end %>
 
   <%= govuk_details(summary_text: "Redact and upload another document") do %>
-    <%= render "#{partial_path}/upload_form" %>
+    <%= render "#{@form.partial_path}/upload_form" %>
   <% end %>
 <% else %>
   <p class="govuk-!-margin-bottom-1">
@@ -68,5 +66,5 @@
     <% end %>
   <% end %>
 
-  <%= render "#{partial_path}/upload_form" %>
+  <%= render "#{@form.partial_path}/upload_form" %>
 <% end %>

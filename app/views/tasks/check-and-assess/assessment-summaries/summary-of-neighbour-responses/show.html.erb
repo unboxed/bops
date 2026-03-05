@@ -1,7 +1,5 @@
 <%= render "task_header", task: @task %>
 
-<% partial_path = "tasks/check-and-assess/assessment-summaries/summary-of-neighbour-responses" %>
-
 <%= render "shared/notification_banner",
       title: "View neighbour responses",
       heading: t("neighbour_responses_by_summary_tag", tag: "neighbour response", count: @form.neighbour_responses.count) %>
@@ -13,7 +11,7 @@
       <% accordion.with_section(heading_text: "#{tag.to_s.humanize} responses (#{@form.neighbour_responses.count { |r| r.tags.include?(tag.to_s) }})") do %>
         <% @form.neighbour_responses.select { |r| r.tags.include?(tag.to_s) }.group_by(&:summary_tag).each do |_opinion, responses| %>
           <% responses.each do |response| %>
-            <%= render "#{partial_path}/neighbour_response_card", response: response, show_tags: true %>
+            <%= render "#{@form.partial_path}/neighbour_response_card", response: response, show_tags: true %>
           <% end %>
         <% end %>
       <% end %>
@@ -30,7 +28,7 @@
     <%= govuk_accordion(html_attributes: {id: "neighbour-response-accordion-untagged"}) do |accordion| %>
       <% accordion.with_section(heading_text: "Untagged responses (#{@form.neighbour_responses.without_tags.count})") do %>
         <% @form.neighbour_responses.without_tags.each do |response| %>
-          <%= render "#{partial_path}/neighbour_response_card", response: response %>
+          <%= render "#{@form.partial_path}/neighbour_response_card", response: response %>
         <% end %>
       <% end %>
     <% end %>

@@ -1,7 +1,5 @@
 <%= render "task_header", task: @task %>
 
-<% partial_path = "bops_core/tasks/check-and-validate/check-application-details/check-fee" %>
-
 <% if @form.validation_request&.open_or_pending? %>
   <h2 class="govuk-heading-m">Fee change request sent</h2>
 
@@ -51,9 +49,9 @@
     <p><%= @form.validation_request.updated_at.to_fs %></p>
   <% end %>
 
-  <%= render "#{partial_path}/fee_exemption_documents", documents: @planning_application.documents.for_fee_exemption %>
+  <%= render "bops_core/#{@form.partial_path}/fee_exemption_documents", documents: @planning_application.documents.for_fee_exemption %>
 
-  <%= render "#{partial_path}/check_fee_form",
+  <%= render "bops_core/#{@form.partial_path}/check_fee_form",
         form_object: @form,
         planning_application: @planning_application,
         show_payment_confirmation: true %>
@@ -61,14 +59,14 @@
 <% else %>
   <p>This fee was calculated based on the services requested by the applicant.</p>
 
-  <%= render "#{partial_path}/fee_exemption_documents", documents: @planning_application.documents.for_fee_exemption %>
-  <%= render "#{partial_path}/payment_information", planning_application: @planning_application %>
+  <%= render "bops_core/#{@form.partial_path}/fee_exemption_documents", documents: @planning_application.documents.for_fee_exemption %>
+  <%= render "bops_core/#{@form.partial_path}/payment_information", planning_application: @planning_application %>
 
   <% if @planning_application.pre_application? %>
-    <%= render "#{partial_path}/fee_calculation", planning_application: @planning_application %>
+    <%= render "bops_core/#{@form.partial_path}/fee_calculation", planning_application: @planning_application %>
   <% end %>
 
-  <%= render "#{partial_path}/check_fee_form",
+  <%= render "bops_core/#{@form.partial_path}/check_fee_form",
         form_object: @form,
         planning_application: @planning_application,
         yes_checked: @planning_application.valid_fee? %>

@@ -5,8 +5,7 @@
   <%= render "planning_applications/validation/ownership_certificates/relevant_documents_accordion" %>
 </div>
 
-<% partial_path = "tasks/check-and-validate/confirm-application-requirements/check-ownership-certificate" %>
-<%= render "#{partial_path}/table" %>
+<%= render "#{@form.partial_path}/table" %>
 
 <% if @form.validation_request&.open_or_pending? %>
   <% if @form.validation_request.open? %>

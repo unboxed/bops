@@ -4,9 +4,7 @@
   <%= render "planning_applications/validation/ownership_certificates/relevant_documents_accordion" %>
 </div>
 
-<% partial_path = "tasks/check-and-validate/confirm-application-requirements/check-ownership-certificate" %>
-
-<%= render "#{partial_path}/table" %>
+<%= render "#{@form.partial_path}/table" %>
 
 <div data-controller="unsaved-changes"
      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
