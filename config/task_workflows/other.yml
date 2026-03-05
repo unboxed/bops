@@ -54,6 +54,10 @@
         - name: Summary of neighbour responses
         - name: Site visit
         - name: Summary of additional evidence
+    - name: Complete assessment
+      section: Complete assessment
+      tasks:
+        - name: Review documents for recommendation
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"

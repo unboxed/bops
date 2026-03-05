@@ -55,6 +55,10 @@
       section: Assess against legislation
       tasks:
         - name: Check if proposal is development
+    - name: Complete assessment
+      section: Complete assessment
+      tasks:
+        - name: Review documents for recommendation
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"
