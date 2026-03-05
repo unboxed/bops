@@ -1,18 +1,12 @@
 <%= render "task_header", task: @task %>
 
 <%= form_with model: @form, url: @form.url do |form| %>
-  <p>This information will <strong>NOT</strong> be made publicly available.</p>
+  <p>This information <strong>WILL</strong> be made publicly available.</p>
 
-  <% if @form.assessment_detail.entry.present? %>
-    <p>
-      <%= render(FormattedContentComponent.new(text: @form.assessment_detail.entry)) %>
-    </p>
-  <% else %>
-    <p>
-      This task is optional. Provide any additional information that will impact
-      the assessment of this application.
-    </p>
-  <% end %>
+  <p>
+    This task is optional. Provide any additional information that will impact
+    the assessment of this application.
+  </p>
 
   <%= form.govuk_error_summary %>
 

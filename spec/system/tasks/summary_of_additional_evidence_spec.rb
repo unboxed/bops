@@ -27,7 +27,6 @@ RSpec.describe "Summary of additional evidence task", type: :system do
         fill_in "tasks_summary_of_additional_evidence_form[entry]", with: "test input"
         click_button "Save changes"
 
-        expect(page).to have_selector("p", text: "test input")
         expect(page).to have_selector("textarea", text: "test input")
         expect(task).to be_in_progress
 
@@ -48,7 +47,6 @@ RSpec.describe "Summary of additional evidence task", type: :system do
             click_link "Summary of additional evidence"
           end
 
-          expect(page).to have_selector("p", text: "blah blah blah incorrect")
           expect(page).to have_selector("textarea", text: "blah blah blah incorrect")
           expect(task).to be_in_progress
 
@@ -56,7 +54,7 @@ RSpec.describe "Summary of additional evidence task", type: :system do
           click_button "Save and mark as complete"
 
           expect(page).to have_content("Summary of additional evidence was successfully saved")
-          expect(page).to have_selector("p", text: "This is the correct result.")
+          expect(page).to have_selector("textarea", text: "This is the correct result.")
           expect(task.reload).to be_completed
         end
       end
