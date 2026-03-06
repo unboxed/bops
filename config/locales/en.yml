@@ -192,6 +192,20 @@ en:
               not_changed: must be edited
             summary_of_work_entry:
               not_changed: must be edited
+        tasks/amenity_form:
+          blank: Amenity assessment cannot be blank
+        tasks/assess_immunity_form:
+          blank: Immunity assessment cannot be blank
+        tasks/evidence_of_immunity_form:
+          blank: Evidence of immunity cannot be blank
+        tasks/site_description_form:
+          blank: Site description cannot be blank
+        tasks/summary_of_additional_evidence:
+          blank: Summary of additional evidence cannot be blank
+        tasks/summary_of_consultation:
+          blank: Summary of consultation cannot be blank
+        tasks/summary_of_works:
+          blank: Summary of works cannot be blank
   activerecord:
     attributes:
       local_authority:
