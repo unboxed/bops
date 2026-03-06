@@ -5,10 +5,11 @@ module PlanningApplications
     class AssessmentReportComponent < ViewComponent::Base
       include AssessmentDetailHelper
 
-      def initialize(planning_application:, show_additional_evidence: false, show_edit_links: true)
+      def initialize(planning_application:, show_additional_evidence: false, show_edit_links: true, task: nil)
         @planning_application = planning_application
         @show_additional_evidence = show_additional_evidence
         @show_edit_links = show_edit_links
+        @task = task
       end
 
       private
@@ -16,7 +17,8 @@ module PlanningApplications
       attr_reader(
         :planning_application,
         :show_additional_evidence,
-        :show_edit_links
+        :show_edit_links,
+        :task
       )
 
       delegate(

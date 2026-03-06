@@ -332,7 +332,10 @@ RSpec.describe "Reviewing assessment summaries" do
             "Summary of neighbour responses", with: "Completed"
           )
         end
-        click_link("Make draft recommendation")
+
+        within "#main-content" do
+          click_link "Make draft recommendation"
+        end
 
         click_button("Update assessment")
         click_link("Review and submit recommendation")
@@ -447,7 +450,10 @@ RSpec.describe "Reviewing assessment summaries" do
         within "#main-content" do
           expect(page).to have_list_item_for("Summary of works", with: "Completed")
         end
-        click_link("Make draft recommendation")
+
+        within "#main-content" do
+          click_link "Make draft recommendation"
+        end
 
         click_button("Update assessment")
         click_link("Review and submit recommendation")
@@ -567,7 +573,10 @@ RSpec.describe "Reviewing assessment summaries" do
             "Site description", with: "Completed"
           )
         end
-        click_link("Make draft recommendation")
+
+        within "#main-content" do
+          click_link "Make draft recommendation"
+        end
 
         click_button("Update assessment")
         click_link("Review and submit recommendation")
@@ -689,7 +698,10 @@ RSpec.describe "Reviewing assessment summaries" do
             "Summary of consultation", with: "Completed"
           )
         end
-        click_link("Make draft recommendation")
+
+        within "#main-content" do
+          click_link "Make draft recommendation"
+        end
 
         click_button("Update assessment")
         click_link("Review and submit recommendation")
@@ -809,7 +821,10 @@ RSpec.describe "Reviewing assessment summaries" do
             "Summary of additional evidence", with: "Completed"
           )
         end
-        click_link("Make draft recommendation")
+
+        within "#main-content" do
+          click_link "Make draft recommendation"
+        end
 
         click_button("Update assessment")
         click_link("Review and submit recommendation")
@@ -919,8 +934,10 @@ RSpec.describe "Reviewing assessment summaries" do
         click_button("Save and mark as complete")
         expect(page).to have_content("Amenity assessment was successfully updated.")
         expect(page).to have_selector("#assessment-information-tasks", text: "Completed")
-        click_link("Make draft recommendation")
 
+        within "#main-content" do
+          click_link "Make draft recommendation"
+        end
         click_button("Update assessment")
         click_link("Review and submit recommendation")
         click_button("Submit recommendation")

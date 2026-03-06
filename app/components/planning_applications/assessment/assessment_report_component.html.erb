@@ -42,7 +42,11 @@
   <% end %>
   <% if show_edit_links && current_user.assessor? %>
     <p class="govuk-body-s">
-      <%= govuk_link_to("Edit constraints", planning_application_validation_constraints_path(@planning_application)) %>
+      <% if task.present? %>
+        <%= govuk_link_to("Edit constraints", task_path(@planning_application, "check-and-validate/check-application-details/check-constraints", return_to: task_path(@planning_application, task))) %>
+      <% else %>
+        <%= govuk_link_to("Edit constraints", planning_application_validation_constraints_path(@planning_application)) %>
+      <% end %>
     </p>
   <% end %>
 </section>
@@ -172,7 +176,11 @@
     <% end %>
     <% if show_edit_links && current_user.assessor? %>
       <p class="govuk-body-s">
-        <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_considerations_path(@planning_application)) %>
+        <% if task.present? %>
+          <%= govuk_link_to("Edit assessment", task_path(@planning_application, "check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance", return_to: task_path(@planning_application, task))) %>
+        <% else %>
+          <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_considerations_path(@planning_application)) %>
+        <% end %>
       </p>
     <% end %>
   </section>
@@ -220,7 +228,11 @@
       </dl>
       <% if show_edit_links && current_user.assessor? %>
         <p class="govuk-body-s">
-          <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_policy_areas_policy_class_path(@planning_application, pa_policy_class)) %>
+          <% if task.present? %>
+            <%= govuk_link_to("Edit assessment", task_path(@planning_application, "check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance", return_to: task_path(@planning_application, task))) %>
+          <% else %>
+            <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_policy_areas_policy_class_path(@planning_application, pa_policy_class)) %>
+          <% end %>
         </p>
       <% end %>
     <% end %>

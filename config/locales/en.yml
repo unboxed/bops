@@ -2720,6 +2720,21 @@ en:
             heading: Summary of consultation responses
             responses: Consultation responses
             warning: This information WILL be made publicly available.
+      complete-assessment:
+        make-draft-recommendation:
+          show:
+            assess_proposal: Assess the proposal
+            assess_recommendation: Assess recommendation
+            error: 'Error:'
+            is_the_use: What is your recommendation?
+            make_draft_recommendation: Make draft recommendation
+            please_provide_supporting: Provide supporting information for the reviewer.
+            refer_to_the: Refer to specific development or local plan policies or permitted development legislation to support your recommendation.
+            state_the_reason: State the reasons for your recommendation.
+            there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href="%{href}">View all requests</a>.
+            this_information_will: This information will appear on the decision notice and the officer report.
+            this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
+            update_assessment: Update assessment
     check-and-validate:
       confirm-application-requirements:
         check-environment-impact-assessment:
@@ -2800,6 +2815,9 @@ en:
       evidence-of-immunity:
         failure: Unable to save evidence of immunity
         success: Evidence of immunity was successfully saved
+      make-draft-recommendation:
+        failure: Failed to save draft recommendation
+        success: Draft recommendation successfully saved
       other-validation-requests:
         failure: Failed to save other validation requests
         success: Other validation requests were successfully saved
