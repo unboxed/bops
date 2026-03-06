@@ -164,8 +164,16 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def view_recommendation
-    @assessor_name = @planning_application.recommendation.assessor.name
-    @recommended_date = @planning_application.recommendation.created_at.to_date.to_fs
+    respond_to do |format|
+      if @planning_application.recommendation.present?
+        @assessor_name = @planning_application.recommendation.assessor.name
+        @recommended_date = @planning_application.recommendation.created_at.to_date.to_fs
+
+        format.html
+      else
+        format.html { redirect_to planning_application_assessment_tasks_path(@planning_application) }
+      end
+    end
   end
 
   def withdraw_recommendation
