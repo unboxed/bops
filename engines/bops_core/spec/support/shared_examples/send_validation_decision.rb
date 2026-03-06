@@ -70,7 +70,7 @@ RSpec.shared_examples "send validation decision task", :capybara do |application
 
       click_button "Mark the application as invalid"
       expect(page).to have_content("An email notification has been sent to the applicant.")
-      expect(page).to have_content("The application is now ready for consultation and assessment.")
+      expect(page).to have_content("Application marked as invalid")
 
       click_link "Check and validate"
 
@@ -133,7 +133,7 @@ RSpec.shared_examples "send validation decision task", :capybara do |application
       end
 
       click_button "Mark the application as invalid"
-      expect(page).to have_content("Validation decision sent")
+      expect(page).to have_content("Application marked as invalid")
 
       click_link "Check and validate"
 
