@@ -63,10 +63,6 @@ local_authority_subdomain do
       get :confirm_validation
       patch :validate
       patch :invalidate
-      get :submit_recommendation
-      get :view_recommendation
-      patch :submit
-      patch :withdraw_recommendation
       patch :assess
       get :edit_public_comment
       get :publish
@@ -126,6 +122,8 @@ local_authority_subdomain do
         resource :confirmation, only: %i[show edit update], controller: "press_notices/confirmations"
         resources :confirmation_requests, only: %i[create], controller: "press_notices/confirmation_requests"
       end
+
+      resource :recommendation, except: %w[new create], path_names: {edit: "submit"}
 
       resources :site_notices do
         resources :confirmation_requests, only: %i[create], controller: "site_notices/confirmation_requests"
