@@ -58,6 +58,7 @@
       section: Complete assessment
       tasks:
         - name: Review documents for recommendation
+        - name: Make draft recommendation
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"

@@ -55,9 +55,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
     end
 
     it "shows the correct status tags at each stage" do
-      expect(list_item("Make draft recommendation")).to have_content("Not started")
+      within "#main-content" do
+        expect(list_item("Make draft recommendation")).to have_content("Not started")
 
-      click_link("Make draft recommendation")
+        click_link("Make draft recommendation")
+      end
 
       within_fieldset("What is your recommendation?") do
         choose("Granted")
@@ -74,14 +76,16 @@ RSpec.describe "Planning Application Assessment", type: :system do
       )
 
       click_button("Save and come back later")
+      within "#main-content" do
+        expect(list_item("Make draft recommendation")).to have_content("In progress")
 
-      expect(list_item("Make draft recommendation")).to have_content("In progress")
-
-      click_link("Make draft recommendation")
+        click_link("Make draft recommendation")
+      end
       click_button("Save and mark as complete")
 
-      expect(list_item("Make draft recommendation")).to have_content("Completed")
-
+      within "#main-content" do
+        expect(list_item("Make draft recommendation")).to have_content("Completed")
+      end
       visit "/planning_applications/#{planning_application.reference}/audits"
       expect(page).to have_content("Decision updated")
       expect(page).to have_content("Changed to: granted")
@@ -132,9 +136,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(list_item("Review and sign-off")).to have_content("Completed")
 
       click_link("Check and assess")
-      within "#complete-assessment-tasks" do
-        ["Not started", "In progress", "Completed"].each do |status|
-          expect(list_item("Make draft recommendation")).not_to have_content(status)
+      within "#main-content" do
+        within "#complete-assessment-tasks" do
+          ["Not started", "In progress", "Completed"].each do |status|
+            expect(list_item("Make draft recommendation")).not_to have_content(status)
+          end
         end
       end
 
@@ -142,7 +148,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       visit "/planning_applications/#{planning_application.reference}"
 
       click_link("Check and assess")
-      click_link("Make draft recommendation")
+      within "#main-content" do
+        click_link("Make draft recommendation")
+      end
 
       fill_in(
         "State the reasons for your recommendation.",
@@ -150,10 +158,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
       )
 
       click_button("Update")
+      within "#main-content" do
+        expect(list_item("Make draft recommendation")).to have_content("Completed")
 
-      expect(list_item("Make draft recommendation")).to have_content("Completed")
-
-      click_link("Review and submit recommendation")
+        click_link("Review and submit recommendation")
+      end
       click_button("Submit recommendation")
 
       expect(list_item("View recommendation")).to have_content("Awaiting determination")
@@ -173,7 +182,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       expect(list_item("Review and sign-off")).to have_content("Completed")
 
       click_link("Check and assess")
-      expect(list_item("Make draft recommendation")).to have_content("Completed")
+      within "#main-content" do
+        expect(list_item("Make draft recommendation")).to have_content("Completed")
+      end
 
       sign_in(assessor)
       visit "/planning_applications/#{planning_application.reference}"
@@ -184,7 +195,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
     context "when clicking Save and mark as complete" do
       context "with no previous recommendations" do
         it "can create a new recommendation, edit it, and submit it" do
-          click_link("Make draft recommendation")
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
           within_fieldset("What is your recommendation?") do
             choose("Granted")
           end
@@ -197,8 +210,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(planning_application.public_comment).to eq("This is a public comment")
           expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
           expect(planning_application.decision).to eq("granted")
-
-          click_link("Make draft recommendation")
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
           expect(page).to have_checked_field("Granted")
           expect(page).to have_field("Provide supporting information for the reviewer.",
             with: "This is a private assessor comment")
@@ -230,9 +244,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
           within "#assess-section" do
             click_link "Check and assess"
           end
-
-          within "#complete-assessment-tasks" do
-            expect(list_item("Make draft recommendation")).to have_content("Completed")
+          within "#main-content" do
+            within "#complete-assessment-tasks" do
+              expect(list_item("Make draft recommendation")).to have_content("Completed")
+            end
           end
 
           perform_enqueued_jobs
@@ -288,7 +303,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "displays the previous recommendations" do
-        click_link("Make draft recommendation")
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
 
         within ".recommendations" do
           expect(page).to have_content("I disagree")
@@ -308,8 +325,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(planning_application.public_comment).to eq("This is so granted and GDPO everything")
         expect(planning_application.recommendation.assessor_comment).to eq("This is a private assessor comment")
         expect(planning_application.decision).to eq("granted")
-
-        click_link("Make draft recommendation")
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
 
         within ".recommendations" do
           expect(page).to have_content("I disagree")
@@ -325,7 +343,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     context "when submitting a recommendation" do
       it "can only be submitted when a planning application is in assessment" do
-        click_link("Make draft recommendation")
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
 
         within_fieldset("What is your recommendation?") do
           choose("Granted")
@@ -372,7 +392,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "allows navigation to assess recommendation page" do
-        click_link("Make draft recommendation")
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
 
         within_fieldset("What is your recommendation?") do
           choose("Granted")
@@ -383,12 +405,15 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link("Review and submit recommendation")
 
         click_link("Edit recommendation")
-
-        expect(page).to have_title("Make draft recommendation")
+        within "#main-content" do
+          expect(page).to have_title("Make draft recommendation")
+        end
       end
 
       it "allows navigation back to the planning application page" do
-        click_link("Make draft recommendation")
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
 
         within_fieldset("What is your recommendation?") do
           choose("Granted")
@@ -408,7 +433,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
         let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application:) }
 
         it "prevents me from submitting the planning application" do
-          click_link("Make draft recommendation")
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
+
           within_fieldset("What is your recommendation?") do
             choose("Granted")
           end
@@ -434,7 +462,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
         let!(:time_extension_request) { create(:time_extension_validation_request, :open, planning_application:, post_validation: true) }
 
         it "allows me to submit the planning application" do
-          click_link("Make draft recommendation")
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
           within_fieldset("What is your recommendation?") do
             choose("Granted")
           end
@@ -453,7 +483,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     context "when it needs to go to committee" do
       it "I can recommend the application go to committee" do
-        click_link("Make draft recommendation")
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
 
         within_fieldset("Does this planning application need to be decided by committee?") do
           choose "Yes"
@@ -470,8 +502,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
         fill_in "State the reasons for your recommendation.", with: "My reason"
 
         click_button("Save and mark as complete")
-
-        click_link("Make draft recommendation")
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
 
         within_fieldset("Does this planning application need to be decided by committee?") do
           expect(page).to have_content("Another reason")
@@ -484,8 +517,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
         end
 
         click_button("Update")
-
-        click_link("Make draft recommendation")
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
 
         within_fieldset("Does this planning application need to be decided by committee?") do
           expect(page).to have_checked_field("The application was made by the local authority")
@@ -494,7 +528,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "shows the right thing when I submit my recommendation" do
-        click_link("Make draft recommendation")
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
 
         within_fieldset("Does this planning application need to be decided by committee?") do
           choose "Yes"
@@ -567,7 +603,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
     context "when clicking Save and come back later" do
       context "with no previous recommendations" do
         it "can create a new recommendation,saves it and come back later" do
-          click_link("Make draft recommendation")
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
           within_fieldset("What is your recommendation?") do
             choose("Granted")
           end
@@ -580,8 +618,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(planning_application.public_comment).to eq("This is a public comment")
           expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
           expect(planning_application.decision).to eq("granted")
-
-          click_link("Make draft recommendation")
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
           expect(page).to have_checked_field("Granted")
           expect(page).to have_content("This is a public comment")
           expect(page).to have_field("Provide supporting information for the reviewer.",
@@ -590,7 +629,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       it "errors if no decision given" do
-        click_link("Make draft recommendation")
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
         click_button "Save and come back later"
 
         expect(page).not_to have_content("Please select Yes or No")
@@ -635,8 +676,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_button("Save and mark as complete")
           click_link("Back")
           click_link("Check and assess")
-          click_link("Make draft recommendation")
-
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
           events = find_all(".recommendation-event")
 
           within(events[0]) do
@@ -891,7 +933,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
     context "when clicking Save and mark as complete" do
       context "with no previous recommendations" do
         it "can create a new recommendation, edit it, and submit it" do
-          click_link("Make draft recommendation")
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
 
           choose "Prior approval required and approved"
 
@@ -911,7 +955,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link("Back")
 
           click_link("Check and assess")
-          click_link("Make draft recommendation")
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
 
           expect(page).to have_checked_field("Prior approval required and approved")
           expect(page).not_to have_checked_field("Prior approval not required")
@@ -936,7 +982,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link("Back")
 
           click_link("Check and assess")
-          click_link("Make draft recommendation")
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
 
           expect(page).not_to have_checked_field("Prior approval required and approved")
           expect(page).to have_checked_field("Prior approval not required")
@@ -971,9 +1019,10 @@ RSpec.describe "Planning Application Assessment", type: :system do
           within "#assess-section" do
             click_link "Check and assess"
           end
-
-          within "#complete-assessment-tasks" do
-            expect(list_item("Make draft recommendation")).to have_content("Completed")
+          within "#main-content" do
+            within "#complete-assessment-tasks" do
+              expect(list_item("Make draft recommendation")).to have_content("Completed")
+            end
           end
 
           perform_enqueued_jobs
