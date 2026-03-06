@@ -109,12 +109,13 @@ RSpec.describe "Reviewing evidence of immunity", type: :system do
         end
         click_link "Check and assess"
 
-        expect(page).to have_list_item_for(
-          "Evidence of immunity",
-          with: "To be reviewed"
-        )
-
-        click_link "Evidence of immunity"
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for(
+            "Evidence of immunity",
+            with: "To be reviewed"
+          )
+        end
+        click_link "Evidence of immunity", class: "app-task-list__link"
 
         expect(page).to have_content("Please re-assess")
       end

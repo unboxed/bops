@@ -288,12 +288,14 @@ RSpec.describe "Permitted development right" do
 
         click_link "Check and assess"
 
-        expect(page).to have_list_item_for(
-          "Assess immunity",
-          with: "Not started"
-        )
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for(
+            "Assess immunity",
+            with: "Not started"
+          )
+        end
 
-        click_link("Assess immunity")
+        click_link("Assess immunity", class: "app-task-list__link")
 
         expect(page).to have_current_path(
           "/planning_applications/#{planning_application.reference}/assessment/assess_immunity_detail_permitted_development_rights/new"

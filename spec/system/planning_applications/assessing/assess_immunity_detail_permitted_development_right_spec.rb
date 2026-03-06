@@ -21,7 +21,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
       sign_in assessor
       visit "/planning_applications/#{reference}"
       click_link("Check and assess")
-      click_link("Assess immunity")
+      click_link("Assess immunity", class: "app-task-list__link")
     end
 
     context "when there are validation errors" do
@@ -211,7 +211,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         expect(page).to have_content("Assess immunity response was successfully updated")
 
         # View show page
-        click_link "Assess immunity"
+        click_link "Assess immunity", class: "app-task-list__link"
 
         expect(page).to have_content("Assess immunity")
         expect(page).to have_css("#planning-application-details")
@@ -248,7 +248,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
         click_button "Save and mark as complete"
         expect(page).to have_content("Assess immunity response was successfully updated")
 
-        click_link "Assess immunity"
+        click_link "Assess immunity", class: "app-task-list__link"
         expect(page).to have_selector("h1", text: "Assess immunity")
 
         click_link "Edit assess immunity"
@@ -274,7 +274,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
           }
         )
 
-        click_link "Assess immunity"
+        click_link "Assess immunity", class: "app-task-list__link"
 
         expect(page).not_to have_content("Have the permitted development rights relevant for this application been removed?")
 
@@ -339,7 +339,7 @@ RSpec.describe "Assess immunity detail permitted development right", type: :syst
       visit "/planning_applications/#{reference}"
 
       click_link "Check and assess"
-      expect(page).not_to have_link("Assess immunity")
+      expect(page).not_to have_css("#assess-immunity-tasks")
 
       expect {
         visit "/planning_applications/#{reference}/assessment/assess_immunity_detail_permitted_development_rights/new"

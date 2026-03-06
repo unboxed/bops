@@ -94,12 +94,13 @@ RSpec.describe "Reviewing immunity enforcement" do
         click_link "Application"
         click_link "Check and assess"
 
-        expect(page).to have_list_item_for(
-          "Assess immunity",
-          with: "To be reviewed"
-        )
-
-        click_link "Assess immunity"
+        within("#assess-immunity-tasks") do
+          expect(page).to have_list_item_for(
+            "Assess immunity",
+            with: "To be reviewed"
+          )
+        end
+        click_link "Assess immunity", class: "app-task-list__link"
         find("span", text: "See previous review immunity detail responses").click
 
         expect(page).to have_content("Please re-assess")

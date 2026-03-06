@@ -44,14 +44,21 @@ class TaskLoader
 
   private
 
+  def task_params_for(node, index)
+    default_params = {
+      "position" => index,
+      "optional" => false,
+      "status_hidden" => false,
+      "hidden" => false
+    }
+
+    params = node.except("tasks")
+    default_params.merge(params)
+  end
+
   def build_tasks_for(parent, nodes)
     Array(nodes).each_with_index do |node, index|
-      params = node.except("tasks").merge("position" => index)
-      params["optional"] ||= false
-      params["hidden"] ||= false
-      params["status_hidden"] ||= false
-
-      task = parent.tasks.build(**params)
+      task = parent.tasks.build(**task_params_for(node, index))
 
       build_tasks_for(task, node["tasks"]) if node["tasks"].present?
     end
@@ -59,10 +66,7 @@ class TaskLoader
 
   def rebuild_tasks_for(parent, nodes)
     Array(nodes).each_with_index do |node, index|
-      params = node.except("tasks").merge("position" => index)
-      params["optional"] ||= false
-      params["hidden"] ||= false
-      params["status_hidden"] ||= false
+      params = task_params_for(node, index)
 
       task = parent.tasks.find_or_create_by!(name: params["name"])
       task.update!(params)

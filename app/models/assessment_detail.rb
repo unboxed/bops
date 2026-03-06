@@ -14,6 +14,8 @@ class AssessmentDetail < ApplicationRecord
     consultation_summary
     neighbour_summary
     amenity
+    assess_immunity
+    evidence_of_immunity
     summary_of_advice
     check_publicity
   ].freeze
@@ -36,6 +38,8 @@ class AssessmentDetail < ApplicationRecord
     additional_evidence
     neighbour_summary
     amenity
+    assess_immunity
+    evidence_of_immunity
     summary_of_advice
     check_publicity
   ].index_with(&:to_s)
@@ -91,7 +95,8 @@ class AssessmentDetail < ApplicationRecord
     return false if accepted? || rejected?
 
     summary_of_work? ||
-      site_description? || amenity? || summary_of_advice? || any_neighbour_responses? ||
+      site_description? || amenity? || assess_immunity? || evidence_of_immunity? ||
+      summary_of_advice? || any_neighbour_responses? ||
       (assessment_complete? && consultation_summary?)
   end
 

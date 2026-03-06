@@ -72,7 +72,7 @@ RSpec.describe "Immunity", type: :system do
       click_link "Check and assess"
       expect(page).to have_content("Note: application may be immune from enforcement")
 
-      click_link "Evidence of immunity"
+      click_link "Evidence of immunity", class: "app-task-list__link"
       expect(page).to have_selector("h1", text: "Evidence of immunity")
 
       click_button "Utility bills (1)"
@@ -89,7 +89,7 @@ RSpec.describe "Immunity", type: :system do
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
       expect(page).to have_content("Evidence of immunity successfully updated")
 
-      click_link "Assess immunity"
+      click_link "Assess immunity", class: "app-task-list__link"
       expect(page).to have_selector("h1", text: "Assess immunity")
 
       choose "Yes, the development is immune"
@@ -175,7 +175,7 @@ RSpec.describe "Immunity", type: :system do
       click_link "Check and assess"
       expect(page).to have_selector("h1", text: "Assess the application")
 
-      click_link "Evidence of immunity"
+      click_link "Evidence of immunity", class: "app-task-list__link"
       expect(page).to have_selector("h1", text: "Evidence of immunity")
 
       # Fill in evidence of immunity again
