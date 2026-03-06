@@ -7,7 +7,7 @@
       locals: {heading: t(".review_and_publish_determination")}
     ) do %>
   <%= render(
-        partial: "submit_recommendation_accordion",
+        partial: "planning_applications/recommendations/submit_recommendation_accordion",
         locals: {planning_application: @planning_application}
       ) %>
   <% content_for :title, "Publish the recommendation" %>
