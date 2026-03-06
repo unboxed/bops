@@ -182,8 +182,9 @@ RSpec.describe "checking publicity" do
           "Check site notice and press notice",
           with: "Completed"
         )
-
-        click_link "Make draft recommendation"
+        within "#main-content" do
+          click_link "Make draft recommendation"
+        end
 
         click_button "Update"
 
@@ -382,8 +383,9 @@ RSpec.describe "checking publicity" do
         with: "Completed"
       )
 
-      click_link "Make draft recommendation"
-
+      within "#main-content" do
+        click_link "Make draft recommendation"
+      end
       click_button "Update"
 
       click_link "Review and submit recommendation"
