@@ -58,6 +58,11 @@
       section: Assess against policies and guidance
       tasks:
         - name: Assess against policies and guidance
+    - name: Complete assessment
+      section: Complete assessment
+      tasks:
+        - name: Add conditions
+        - name: Add pre-commencement conditions
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"
