@@ -2799,7 +2799,7 @@ en:
         success: Red line boundary was successfully saved
       evidence-of-immunity:
         failure: Unable to save evidence of immunity
-        success: Evidence of immunity was successfully saved
+        success: Evidence of immunity successfully updated
       other-validation-requests:
         failure: Failed to save other validation requests
         success: Other validation requests were successfully saved

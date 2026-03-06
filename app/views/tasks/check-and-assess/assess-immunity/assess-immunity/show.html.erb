@@ -1,36 +1,69 @@
 <%= render "task_header", task: @task %>
 
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
-    <%= govuk_warning_text(text: t(".warning")) %>
+<%= render "planning_applications/assessment/permitted_development_rights/information" %>
 
-    <% if @form.assessment_detail.entry.present? %>
-      <h2>Summary</h2>
-      <p>
-        <%= render(FormattedContentComponent.new(text: @form.assessment_detail.entry)) %>
-      </p>
-    <% end %>
+<%= render(
+      PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @form.evidence_groups)
+    ) %>
 
-    <%= render(ReviewerCommentComponent.new(comment: @form.rejected_assessment_detail&.comment)) %>
+<%= render "planning_applications/assessment/permitted_development_rights/previous", permitted_development_rights: @form.permitted_development_rights %>
 
-    <h2><%= @form.assessment_detail.persisted? ? "Edit" : "Add" %> immunity assessment</h2>
-
-    <p><%= t(".guidance") %></p>
-
-    <p><%= t(".consider") %></p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>Whether the development is immune from enforcement action</li>
-      <li>The applicable time limits for enforcement</li>
-      <li>Whether permitted development rights have been removed</li>
-    </ul>
-
-    <%= form_with model: @form, url: @form.url do |form| %>
-      <%= form.govuk_error_summary %>
-
-      <%= form.govuk_text_area(:entry, value: @form.assessment_detail.entry, label: {text: t(".heading"), tag: "h2", size: "m"}, rows: 10) %>
-
-      <%= render "task_submit_buttons", form: %>
+<% if @form.previous_reviews.any? %>
+  <div class="govuk-!-padding-top-5">
+    <%= govuk_details(summary_text: "See previous review immunity detail responses") do %>
+      <div class="comment-component">
+        <% @form.previous_reviews.each do |review_immunity_detail| %>
+          <p>Assessor decision: <%= review_immunity_detail.decision %></p>
+          <p>Reason: <%= review_immunity_detail.decision_reason %></p>
+          <% if review_immunity_detail.summary.present? %>
+            <p>Summary: <%= review_immunity_detail.summary %></p>
+          <% end %>
+          <hr>
+          <% if review_immunity_detail.comment %>
+            <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-0">
+              Reviewer comment
+            </p>
+            <p class="govuk-hint govuk-!-font-size-16 govuk-!-margin-top-1">Sent on <%= review_immunity_detail.created_at.to_fs %> by <%= review_immunity_detail.user.name %></p>
+            <%= render(FormattedContentComponent.new(text: review_immunity_detail.comment, classname: "govuk-body")) %>
+          <% end %>
+        <% end %>
+      </div>
     <% end %>
   </div>
-</div>
+<% end %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_radio_buttons_fieldset(:immunity, legend: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.immunity_legend"), size: "m"}) do %>
+    <%= form.govuk_radio_button(:immunity, true, label: {text: "Yes, the development is immune"}) do %>
+      <%= form.govuk_radio_buttons_fieldset(:immunity_reason, legend: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.immunity_reason_legend"), size: "s"}) do %>
+        <% @form.immunity_reasons.each do |value, label| %>
+          <% if value == "other" %>
+            <%= form.govuk_radio_button(:immunity_reason, value, label: {text: label}) do %>
+              <%= form.govuk_text_area :other_immunity_reason, rows: 6, label: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.other_immunity_reason_label")} %>
+            <% end %>
+          <% else %>
+            <%= form.govuk_radio_button :immunity_reason, value, label: {text: label} %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <%= form.govuk_text_area :summary, rows: 6, label: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.summary_label"), size: "s"}, hint: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.summary_hint")} %>
+    <% end %>
+
+    <%= form.govuk_radio_button(:immunity, false, label: {text: "No, the development is not immune"}) do %>
+      <%= form.govuk_text_area :no_immunity_reason, rows: 6, label: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.no_immunity_reason_label"), size: "s"} %>
+
+      <%= form.govuk_radio_buttons_fieldset(:rights_removed, legend: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.rights_removed_legend"), size: "s"}) do %>
+        <%= form.govuk_radio_button(:rights_removed, true, label: {text: "Yes, permitted development rights have been removed"}) do %>
+          <%= form.govuk_text_area :rights_removed_reason, rows: 6, label: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.rights_removed_reason_label")} %>
+        <% end %>
+
+        <%= form.govuk_radio_button :rights_removed, false, label: {text: "No, permitted development rights have not been removed"} %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <%= render "task_submit_buttons", form: form %>
+<% end %>
