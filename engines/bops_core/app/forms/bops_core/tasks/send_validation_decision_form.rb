@@ -39,7 +39,10 @@ module BopsCore
       def flash(type, controller)
         case type
         when :notice
-          (after_success == "redirect") ? controller.t(".#{slug}.success_html") : nil
+          if after_success == "redirect"
+            key = planning_application.invalidated? ? "invalid_html" : "success_html"
+            controller.t(".#{slug}.#{key}")
+          end
         when :alert
           (after_failure == "redirect") ? controller.t(".#{slug}.failure") : nil
         end

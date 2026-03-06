@@ -2792,6 +2792,7 @@ en:
         success: Successfully updated document review
       send-validation-decision:
         failure: Failed to send validation decision
+        invalid_html: "<strong>Application marked as invalid </strong> <br><br> An email notification has been sent to the applicant."
         success_html: "<strong>Validation decision sent</strong> <br><br> An email notification has been sent to the applicant. The application is now ready for consultation and assessment."
       site-description:
         failure: Unable to save site description
