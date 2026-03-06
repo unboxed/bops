@@ -11,11 +11,9 @@ class PlanningApplicationsController < AuthenticationController
   before_action :build_planning_application, only: %i[new create]
   before_action :ensure_planning_application_is_publishable, only: %i[make_public]
   before_action :ensure_user_is_reviewer_checking_assessment, only: %i[edit_public_comment]
-  before_action :ensure_no_open_post_validation_requests, only: %i[submit]
   before_action :ensure_draft_recommendation_complete, only: :update
   before_action :ensure_site_notice_displayed_at, only: %i[determine]
   before_action :ensure_press_notice_published_at, only: %i[determine]
-  before_action :ensure_planning_application_is_not_preapp, only: %i[submit_recommendation view_recommendation]
   before_action :show_sidebar, only: %i[supply_documents]
 
   before_action :redirect_to_reference_url, only: %i[show edit]
@@ -153,58 +151,6 @@ class PlanningApplicationsController < AuthenticationController
     end
   end
 
-  def submit_recommendation
-    respond_to do |format|
-      if @planning_application.can_submit_recommendation?
-        format.html { render :submit_recommendation }
-      else
-        format.html { render plain: "Not Found", status: :not_found }
-      end
-    end
-  end
-
-  def view_recommendation
-    respond_to do |format|
-      if @planning_application.recommendation.present?
-        @assessor_name = @planning_application.recommendation.assessor.name
-        @recommended_date = @planning_application.recommendation.created_at.to_date.to_fs
-
-        format.html
-      else
-        format.html { redirect_to planning_application_assessment_tasks_path(@planning_application) }
-      end
-    end
-  end
-
-  def withdraw_recommendation
-    respond_to do |format|
-      if @planning_application.may_withdraw_recommendation?
-        @planning_application.withdraw_last_recommendation!
-
-        format.html do
-          redirect_to submit_recommendation_planning_application_path(@planning_application),
-            notice: t(".success")
-        end
-      else
-        format.html { redirect_failed_withdraw_recommendation }
-      end
-    end
-  end
-
-  def submit
-    respond_to do |format|
-      if @planning_application.can_submit_recommendation?
-        @planning_application.submit_recommendation!
-
-        format.html do
-          redirect_to @planning_application, notice: t(".success")
-        end
-      else
-        format.html { redirect_failed_submit_recommendation }
-      end
-    end
-  end
-
   def publish
     respond_to do |format|
       format.html
@@ -304,12 +250,12 @@ class PlanningApplicationsController < AuthenticationController
   end
 
   def redirect_failed_withdraw_recommendation
-    redirect_to view_recommendation_planning_application_path(@planning_application),
+    redirect_to planning_application_recommendation_path(@planning_application),
       alert: t("planning_applications.withdraw_recommendation.failure")
   end
 
   def redirect_failed_submit_recommendation
-    redirect_to submit_recommendation_planning_application_path(@planning_application),
+    redirect_to submit_planning_application_recommendation_path(@planning_application),
       alert: t("planning_applications.submit_recommendation.failure")
   end
 
@@ -335,13 +281,6 @@ class PlanningApplicationsController < AuthenticationController
 
     redirect_to planning_application_assessment_tasks_path(@planning_application),
       alert: t(".not_publishable", application_type: @planning_application.application_type.description)
-  end
-
-  def ensure_no_open_post_validation_requests
-    return if @planning_application.no_open_post_validation_requests_excluding_time_extension?
-
-    flash.now[:alert] = t(".has_open_non_validation_requests_html", href: post_validation_requests_planning_application_validation_validation_requests_path(@planning_application))
-    render :submit_recommendation and return
   end
 
   def ensure_draft_recommendation_complete

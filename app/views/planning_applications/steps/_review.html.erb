@@ -34,7 +34,7 @@
     <% else %>
       <% task_list.with_item(
            title: "View recommendation",
-           href: (@planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?) && view_recommendation_planning_application_path(@planning_application),
+           href: (@planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?) && planning_application_recommendation_path(@planning_application),
            html_attributes: {aria: {describedby: "review_assessment-completed"}}
          ) do |item| %>
         <% if @planning_application.awaiting_determination? || @planning_application.closed_or_cancelled? %>

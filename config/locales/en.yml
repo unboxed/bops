@@ -1849,6 +1849,27 @@ en:
         success: Press notice response has been successfully updated
     publish:
       review_and_publish_determination: Review and publish determination
+    recommendations:
+      destroy:
+        failure: Error withdrawing recommendation - please contact support.
+        success: Recommendation was successfully withdrawn.
+      submit:
+        back: Back
+        decision_notice: Decision notice
+        download_as_pdf: Download as PDF
+        edit_recommendation: Edit recommendation
+        failure: Error submitting recommendation - please contact support.
+        if_you_agree: If you agree with this decision %{report_or_notice}, submit it for review.
+        if_your_reviewer: If the reviewer disagrees with your recommendation they will send it back to you to make changes.
+        review_and_submit_recommendation: Review and submit recommendation
+        submit_recommendation: Submit recommendation
+        the_following_decision: The following decision %{report_or_notice} has been created based on your answers.
+      submit_recommendation_accordion:
+        assessment_report: Assessment report details
+        download_assessment_report: Download assessment report as PDF
+      update:
+        has_open_non_validation_requests_html: This application has open non-validation requests. Please <a class="govuk-notification-banner__link" href="%{href}">review open requests</a> and resolve them before submitting the application for review.
+        success: Recommendation was successfully submitted.
     redact_neighbour_responses:
       update:
         success: Neighbour response was successully updated.
@@ -2142,23 +2163,6 @@ en:
         send_letters_to_neighbours: Send letters to neighbours
       validation:
         check_and_validate: Check and validate
-    submit:
-      has_open_non_validation_requests_html: This application has open non-validation requests. Please <a class="govuk-notification-banner__link" href="%{href}">review open requests</a> and resolve them before submitting the application for review.
-      success: Recommendation was successfully submitted.
-    submit_recommendation:
-      back: Back
-      decision_notice: Decision notice
-      download_as_pdf: Download as PDF
-      edit_recommendation: Edit recommendation
-      failure: Error submitting recommendation - please contact support.
-      if_you_agree: If you agree with this decision %{report_or_notice}, submit it for review.
-      if_your_reviewer: If the reviewer disagrees with your recommendation they will send it back to you to make changes.
-      review_and_submit_recommendation: Review and submit recommendation
-      submit_recommendation: Submit recommendation
-      the_following_decision: The following decision %{report_or_notice} has been created based on your answers.
-    submit_recommendation_accordion:
-      assessment_report: Assessment report details
-      download_assessment_report: Download assessment report as PDF
     tabs:
       all_applications: Live applications
       all_your_applications: Your live applications
@@ -2357,9 +2361,6 @@ en:
         upload_hint_html: Optionally add a <strong>redacted</strong> document to support the decision
         upload_label: Upload a supporting document
       withdrawn: Application has been withdrawn
-    withdraw_recommendation:
-      failure: Error withdrawing recommendation - please contact support.
-      success: Recommendation was successfully withdrawn.
   policy_classes:
     add_comment: Add comment
     comment_added_on: Comment added on %{time} by %{user}
