@@ -2,12 +2,17 @@
 
 require "rails_helper"
 
-RSpec.describe "Review documents for recommendation" do
+RSpec.describe "Review documents for recommendaiton", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let(:task) do
+    planning_application.case_record.find_task_by_slug_path!(
+      "check-and-assess/complete-assessment/review-documents-for-recommendation"
+    )
+  end
 
   let!(:planning_application) do
-    create(:planning_application, :in_assessment, local_authority: default_local_authority)
+    create(:planning_application, :planning_permission, :in_assessment, local_authority: default_local_authority)
   end
 
   let!(:document_with_reference) { create(:document, numbers: "REF222", planning_application:) }
@@ -30,12 +35,13 @@ RSpec.describe "Review documents for recommendation" do
   context "when planning application is in assessment" do
     it "I can view the information on the review documents for recommendation page" do
       click_link "Check and assess"
-      within "#main-content" do
+
+      within(".bops-sidebar") do
         click_link "Review documents for recommendation"
       end
 
       expect(page).to have_current_path(
-        "/planning_applications/#{planning_application.reference}/review/documents"
+        "/planning_applications/#{planning_application.reference}/check-and-assess/complete-assessment/review-documents-for-recommendation"
       )
 
       within("h1") do
@@ -52,23 +58,13 @@ RSpec.describe "Review documents for recommendation" do
         expect(page).to have_content("On decision notice")
         expect(page).to have_content("Publicly available")
       end
-
-      within(".govuk-button-group") do
-        expect(page).to have_button("Save and mark as complete")
-        expect(page).to have_button("Save and come back later")
-        expect(page).to have_link("Back")
-      end
-
-      expect(page).to have_link("Manage documents", href: planning_application_documents_path(planning_application))
     end
 
     it "I can only view active documents on the review documents for recommendation page" do
       click_link "Check and assess"
-      within "#main-content" do
+      within ".bops-sidebar" do
         click_link "Review documents for recommendation"
       end
-
-      expect(page).not_to have_css("#document_#{document_archived.id}")
 
       expect(page).to have_css("#document_#{document_with_reference.id}")
       expect(page).to have_css("#document_#{document_with_reference_and_tags.id}")
@@ -79,7 +75,7 @@ RSpec.describe "Review documents for recommendation" do
 
     it "I can view the document reference and associated tags" do
       click_link "Check and assess"
-      within "#main-content" do
+      within ".bops-sidebar" do
         click_link "Review documents for recommendation"
       end
 
@@ -102,11 +98,12 @@ RSpec.describe "Review documents for recommendation" do
 
     it "I can edit whether documents are on the decision notice / made public and save and mark as complete" do
       click_link "Check and assess"
-      within("#main-content") do
+      within ".bops-sidebar" do
         click_link "Review documents for recommendation"
       end
 
       within(".govuk-table__body") do
+        # Check for documents that are or aren't on decision notice / public
         expect(document_with_reference__decision_notice_checkbox).not_to be_checked
         expect(document_with_reference__publishable_checkbox).not_to be_checked
 
@@ -128,14 +125,12 @@ RSpec.describe "Review documents for recommendation" do
       end
 
       click_button "Save and mark as complete"
-      expect(page).to have_content("Documents were successfully updated.")
+      expect(page).to have_content("Successfully saved document review")
       expect(planning_application.reload.review_documents_for_recommendation_status).to eq("complete")
+      expect(page).to have_selector("h3", text: "Check document details")
 
-      within("#main-content") do
-        click_link "Review documents for recommendation"
-      end
+      expect(task.reload).to be_completed
 
-      # Check for updated documents that are or aren't on decision notice / public
       expect(document_with_reference__decision_notice_checkbox).to be_checked
       expect(document_with_reference__publishable_checkbox).not_to be_checked
       expect(document_with_reference.reload).to have_attributes(
@@ -167,22 +162,23 @@ RSpec.describe "Review documents for recommendation" do
 
     it "I can edit whether documents are on the decision notice / made public and save and come back later" do
       click_link "Check and assess"
-      expect(page).to have_selector("h1", text: "Assess the application")
-      within "#main-content" do
+
+      within ".bops-sidebar" do
         click_link "Review documents for recommendation"
       end
-      expect(page).to have_selector("h1", text: "Review documents for recommendation")
 
       within(".govuk-table__body") do
         document_with_reference_and_tags__decision_notice_checkbox.click
         document_with_reference_and_tags__publishable_checkbox.click
       end
 
-      click_button "Save and come back later"
-      expect(page).to have_content("Documents were successfully updated.")
+      click_button "Save changes"
+      expect(page).to have_content("Successfully saved document review")
       expect(planning_application.reload.review_documents_for_recommendation_status).to eq("in_progress")
+      expect(page).to have_selector("h3", text: "Check document details")
+      expect(task.reload).to be_in_progress
 
-      within "#main-content" do
+      within(".bops-sidebar") do
         click_link "Review documents for recommendation"
       end
 
@@ -190,14 +186,41 @@ RSpec.describe "Review documents for recommendation" do
       expect(document_with_reference_and_tags__publishable_checkbox).to be_checked
     end
 
+    it "I can click a document reference to edit it and be returned to the task page" do
+      click_link "Check and assess"
+
+      within ".bops-sidebar" do
+        click_link "Review documents for recommendation"
+      end
+
+      task_page_path = "/planning_applications/#{planning_application.reference}/check-and-assess/complete-assessment/review-documents-for-recommendation"
+      expect(page).to have_current_path(task_page_path)
+
+      within("#document_#{document_with_reference.id}") do
+        click_link document_with_reference.numbers
+      end
+
+      expect(page).to have_current_path(
+        edit_planning_application_document_path(planning_application, document_with_reference),
+        ignore_query: true
+      )
+      expect(page).to have_selector("h1", text: "Edit supplied document")
+
+      fill_in "Drawing number", with: "REF999"
+
+      click_button "Save"
+
+      expect(page).to have_current_path(task_page_path)
+      expect(document_with_reference.reload.numbers).to eq("REF999")
+    end
+
     context "when a reference hasn't been set", capybara: true do
       it "shows me the link to add a reference" do
         click_link "Check and assess"
-        expect(page).to have_selector("h1", text: "Assess the application")
-        within "#main-content" do
+
+        within(".bops-sidebar") do
           click_link "Review documents for recommendation"
         end
-        expect(page).to have_selector("h1", text: "Review documents for recommendation")
 
         within("#document_#{document_without_reference.id}") do
           expect(page).to have_link(
@@ -207,65 +230,6 @@ RSpec.describe "Review documents for recommendation" do
           expect(page).not_to have_css("govuk-checkboxes")
         end
       end
-
-      it "navigates back to the document review page" do
-        click_link "Check and assess"
-        within "#main-content" do
-          click_link "Review documents for recommendation"
-        end
-        within("#document_#{document_without_reference.id}") do
-          click_link(
-            "Add document reference",
-            href: edit_planning_application_document_path(planning_application, document_without_reference, route: "review")
-          )
-        end
-
-        expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/documents/#{document_without_reference.id}/edit?route=review")
-
-        expect(page).to have_content("Drawing number")
-        fill_in "Drawing number", with: "DOC-REF-01"
-        click_button "Save"
-
-        expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/review/documents")
-      end
-    end
-
-    context "when there is an ActiveRecord Error raised" do
-      before do
-        allow_any_instance_of(Document).to receive(:update!).and_raise(ActiveRecord::ActiveRecordError)
-      end
-
-      it "there is an error message and no update is persisted" do
-        click_link "Check and assess"
-        expect(page).to have_selector("h1", text: "Assess the application")
-
-        within "#main-content" do
-          click_link "Review documents for recommendation"
-        end
-        expect(page).to have_selector("h1", text: "Review documents for recommendation")
-
-        document_with_reference__decision_notice_checkbox.click
-        document_with_reference_and_tags__decision_notice_checkbox.click
-
-        click_button "Save and mark as complete"
-        expect(page).to have_content("Couldn't update documents with error: ActiveRecord::ActiveRecordError. Please contact support.")
-
-        expect(planning_application.review_documents_for_recommendation_status).to eq("not_started")
-        expect(document_with_reference__decision_notice_checkbox).not_to be_checked
-        expect(document_with_reference_and_tags__decision_notice_checkbox).not_to be_checked
-      end
-    end
-  end
-
-  context "when planning application has not been validated yet" do
-    let!(:planning_application) do
-      create(:planning_application, :not_started, local_authority: default_local_authority)
-    end
-
-    it "does not allow me to visit the page" do
-      visit "/planning_applications/#{planning_application.reference}/review/documents"
-
-      expect(page).to have_content("The planning application must be validated before reviewing can begin")
     end
   end
 end

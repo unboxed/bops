@@ -1,0 +1,63 @@
+<%= render "task_header", task: @task %>
+
+<h3 class="govuk-heading-small">Check document details</h3>
+
+<p class="govuk-body">All documents need a reference to be on the decision notice and be made public.</p>
+
+<% if @form.documents.empty? %>
+  <p>There are no active documents.</p>
+<% else %>
+  <%= form_with(model: @form,
+        url: @form.url,
+        data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"}) do |form| %>
+    <%= form.govuk_error_summary %>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header">Document reference</th>
+          <th scope="col" class="govuk-table__header">Tag</th>
+          <th scope="col" class="govuk-table__header">On decision notice</th>
+          <th scope="col" class="govuk-table__header">Publicly available</th>
+        </tr>
+      </thead>
+
+      <tbody class="govuk-table__body">
+        <% @form.documents.each do |document| %>
+          <%= content_tag(:tr, id: dom_id(document)) do %>
+            <td class="govuk-table__cell">
+              <%= govuk_link_to(
+                    document.numbers.presence || document.name,
+                    edit_planning_application_document_path(@planning_application, document, route: "review", return_to: task_path(@planning_application, @task))
+                  ) %>
+            </td>
+            <td class="govuk-table__cell">
+              <% if document.tags.present? %>
+                <% document.tags.each do |tag| %>
+                  <strong class="govuk-tag govuk-tag--turquoise govuk-!-margin-bottom-1"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
+                <% end %>
+              <% else %>
+                <p class="govuk govuk-!-margin-bottom-1">
+                  <em>No tags added</em>
+                </p>
+              <% end %>
+            </td>
+            <% if document.numbers.presence %>
+              <td class="govuk-table__cell">
+                <%= render "tasks/check-and-assess/complete-assessment/review-documents-for-recommendation/checkboxes", document: document, field: "referenced_in_decision_notice" %>
+              </td>
+              <td class="govuk-table__cell">
+                <%= render "tasks/check-and-assess/complete-assessment/review-documents-for-recommendation/checkboxes", document: document, field: "publishable" %>
+              </td>
+            <% else %>
+              <td class="govuk-table__cell text-align-centre" colspan="2">
+                <%= govuk_link_to "Add document reference", edit_planning_application_document_path(@planning_application, document, route: "review") %>
+              </td>
+            <% end %>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+
+   <%= render "task_submit_buttons", form: %>
+  <% end %>
+<% end %>

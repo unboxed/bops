@@ -58,6 +58,10 @@
       section: Assess against policies and guidance
       tasks:
         - name: Assess against policies and guidance
+    - name: Complete assessment
+      section: Complete assessment
+      tasks:
+        - name: Review documents for recommendation
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"
