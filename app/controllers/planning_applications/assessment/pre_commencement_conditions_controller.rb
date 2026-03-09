@@ -68,7 +68,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @condition.destroy
-              redirect_to planning_application_assessment_pre_commencement_conditions_path(@planning_application), notice: t(".success")
+              redirect_to redirect_path, notice: t(".success")
             else
               render :index
             end
@@ -77,6 +77,10 @@ module PlanningApplications
       end
 
       private
+
+      def redirect_path
+        params[:redirect_to].presence || planning_application_assessment_pre_commencement_conditions_path(@planning_application)
+      end
 
       def set_condition_set
         @condition_set = @planning_application.pre_commencement_condition_set

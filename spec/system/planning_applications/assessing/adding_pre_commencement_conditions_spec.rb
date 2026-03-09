@@ -197,7 +197,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
       travel_to(Time.zone.local(2024, 4, 17, 14, 30))
       visit "/planning_applications/#{reference}"
       click_link "Check and assess"
-      click_link "Add pre-commencement conditions"
+      within("#add-pre-commencement-conditions") { click_link "Add pre-commencement conditions" }
 
       within("#condition_#{condition1.id}") do
         expect(page).to have_selector("p strong.govuk-tag", text: "Rejected")
@@ -248,7 +248,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
 
       visit "/planning_applications/#{reference}"
       click_link "Check and assess"
-      click_link "Add pre-commencement conditions"
+      within("#add-pre-commencement-conditions") { click_link "Add pre-commencement conditions" }
 
       within("#condition_#{condition1.id}") do
         expect(page).to have_selector("h2", text: "Title 1")
@@ -263,13 +263,13 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
 
       click_link "Application"
       click_link "Check and assess"
-      click_link "Add pre-commencement conditions"
+      within("#add-pre-commencement-conditions") { click_link "Add pre-commencement conditions" }
 
       expect(page).not_to have_selector("p strong.govuk-tag", text: "Cancelled")
     end
 
     it "I can remove a condition only if it has not been sent to the applicant" do
-      click_link "Add pre-commencement conditions"
+      within("#add-pre-commencement-conditions") { click_link "Add pre-commencement conditions" }
       find("span", text: "Add new pre-commencement condition").click
 
       fill_in "Enter title", with: "Title 1"
@@ -338,7 +338,7 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
     let!(:condition_three) { create(:condition, condition_set:, title: "Title 3", text: "Text 3") }
 
     before do
-      click_link "Add pre-commencement conditions"
+      within("#add-pre-commencement-conditions") { click_link "Add pre-commencement conditions" }
     end
 
     include_examples "Sortable", "pre-commencement condition"

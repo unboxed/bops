@@ -62,6 +62,8 @@
       section: Complete assessment
       tasks:
         - name: Review documents for recommendation
+        - name: Add conditions
+        - name: Add pre-commencement conditions
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"

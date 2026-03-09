@@ -2743,6 +2743,21 @@ en:
             'yes': 'Yes'
             yes_recommended_html: Yes <strong>(recommended based on submission data)</strong>
     update:
+      add-conditions:
+        condition_added: Condition was successfully added
+        condition_deleted: Condition was successfully deleted
+        condition_updated: Condition was successfully updated
+        draft: Conditions draft was saved
+        failure: Failed to save conditions
+        success: Conditions were successfully saved
+      add-pre-commencement-conditions:
+        condition_added: Pre-commencement condition was successfully added
+        condition_deleted: Pre-commencement condition was successfully deleted
+        condition_updated: Pre-commencement condition was successfully updated
+        confirm_sent: Pre-commencement conditions were sent to applicant
+        draft: Pre-commencement conditions draft was saved
+        failure: Failed to save pre-commencement conditions
+        success: Pre-commencement conditions were successfully saved
       add-reporting-details:
         failure: Failed to save reporting details
         success: Reporting details were successfully saved
@@ -2866,6 +2881,7 @@ en:
   validation_requests:
     cancellations:
       create:
+        add-pre-commencement-conditions: Pre-commencement condition agreement request successfully cancelled
         check-and-request-documents: Document request successfully cancelled
         check-description: Description change request successfully cancelled
         check-fee: Fee change request successfully cancelled
