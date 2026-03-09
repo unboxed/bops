@@ -95,7 +95,7 @@ class AssessmentDetail < ApplicationRecord
     return false if accepted? || rejected?
 
     summary_of_work? ||
-      site_description? || amenity? || assess_immunity? || evidence_of_immunity? ||
+      site_description? || amenity? ||
       summary_of_advice? || any_neighbour_responses? ||
       (assessment_complete? && consultation_summary?)
   end

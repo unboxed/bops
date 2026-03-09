@@ -1,7 +1,8 @@
 <div class="govuk-accordion" data-module="govuk-accordion" data-remember-expanded="false">
-  <%= form_with model: [@planning_application, :assessment, @planning_application.immunity_detail],
+  <%= form_with(model: [@planning_application, :assessment, @planning_application.immunity_detail],
+        url: url,
         class: "govuk-!-margin-top-7",
-        id: "immunity-detail-evidence-groups" do |form| %>
+        id: "immunity-detail-evidence-groups") do |form| %>
     <% sections.each_with_index do |section, index| %>
       <div class="govuk-accordion__section">
         <div class="govuk-accordion__section-header display-flex">
@@ -110,26 +111,28 @@
   </div>
 </div>
 
-<div class="govuk-button-group">
-  <%= form_with model: [@planning_application, :assessment, @planning_application.immunity_detail] do |form| %>
-    <% if editable %>
-      <%= form.submit(
-            t("form_actions.save_and_mark_as_complete"),
-            class: "govuk-button",
-            data: {module: "govuk-button"},
-            form: "immunity-detail-evidence-groups"
-          ) %>
-      <%= form.submit(
-            t("form_actions.save_and_come_back_later"),
-            class: "govuk-button govuk-button--secondary",
-            form: "immunity-detail-evidence-groups"
-          ) %>
-    <% end %>
+<% if show_submit_buttons %>
+  <div class="govuk-button-group">
+    <%= form_with model: [@planning_application, :assessment, @planning_application.immunity_detail] do |form| %>
+      <% if editable %>
+        <%= form.submit(
+              t("form_actions.save_and_mark_as_complete"),
+              class: "govuk-button",
+              data: {module: "govuk-button"},
+              form: "immunity-detail-evidence-groups"
+            ) %>
+        <%= form.submit(
+              t("form_actions.save_and_come_back_later"),
+              class: "govuk-button govuk-button--secondary",
+              form: "immunity-detail-evidence-groups"
+            ) %>
+      <% end %>
 
-    <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+      <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
 
-    <% if !editable %>
-      <%= govuk_link_to "Edit evidence of immunity", edit_planning_application_assessment_immunity_detail_path(@planning_application, @planning_application.immunity_detail) %>
+      <% if !editable %>
+        <%= govuk_link_to "Edit evidence of immunity", edit_planning_application_assessment_immunity_detail_path(@planning_application, @planning_application.immunity_detail) %>
+      <% end %>
     <% end %>
-  <% end %>
-</div>
+  </div>
+<% end %>

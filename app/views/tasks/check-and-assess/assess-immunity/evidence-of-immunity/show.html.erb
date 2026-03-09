@@ -2,35 +2,31 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <%= govuk_warning_text(text: t(".warning")) %>
+    <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: @planning_application.immune_proposal_details)) %>
 
-    <% if @form.assessment_detail.entry.present? %>
-      <h2>Summary</h2>
-      <p>
-        <%= render(FormattedContentComponent.new(text: @form.assessment_detail.entry)) %>
-      </p>
+    <% @form.previous_reviewer_comments.each do |review| %>
+      <%= render(ReviewerCommentComponent.new(comment: review)) %>
     <% end %>
 
-    <%= render(ReviewerCommentComponent.new(comment: @form.rejected_assessment_detail&.comment)) %>
+    <%= render(
+          EvidenceGroups::AccordionComponent.new(
+            planning_application: @planning_application,
+            sections: @form.evidence_groups,
+            editable: !@form.read_only?,
+            url: @form.url,
+            show_submit_buttons: false
+          )
+        ) %>
 
-    <h2><%= @form.assessment_detail.persisted? ? "Edit" : "Add" %> evidence of immunity</h2>
-
-    <p><%= t(".guidance") %></p>
-
-    <p><%= t(".consider") %></p>
-
-    <ul class="govuk-list govuk-list--bullet">
-      <li>The sufficiency of the evidence provided</li>
-      <li>The dates covered by the evidence</li>
-      <li>Any gaps in the evidence</li>
-    </ul>
-
-    <%= form_with model: @form, url: @form.url do |form| %>
-      <%= form.govuk_error_summary %>
-
-      <%= form.govuk_text_area(:entry, value: @form.assessment_detail.entry, label: {text: t(".heading"), tag: "h2", size: "m"}, rows: 10) %>
-
-      <%= render "task_submit_buttons", form: %>
+    <% unless @planning_application.determined? || @form.read_only? %>
+      <div class="govuk-button-group">
+        <button type="submit" class="govuk-button" name="task_action" value="save_and_complete" form="immunity-detail-evidence-groups" data-module="govuk-button">
+          Save and mark as complete
+        </button>
+        <button type="submit" class="govuk-button govuk-button--secondary" name="task_action" value="save_draft" form="immunity-detail-evidence-groups" data-module="govuk-button">
+          Save changes
+        </button>
+      </div>
     <% end %>
   </div>
 </div>

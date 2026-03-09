@@ -4,31 +4,58 @@ module Tasks
   class EvidenceOfImmunityForm < Form
     self.task_actions = %w[save_and_complete save_draft]
 
-    attribute :entry, :string
-
     after_initialize do
-      @assessment_detail = planning_application.assessment_details.find_or_initialize_by(category: "evidence_of_immunity")
-      @rejected_assessment_detail = planning_application.rejected_assessment_detail(category: "evidence_of_immunity")
+      @immunity_detail = planning_application.immunity_detail
     end
 
-    attr_reader :assessment_detail, :rejected_assessment_detail
+    attr_reader :immunity_detail
 
-    with_options on: %i[save_and_complete save_draft] do
-      validates :entry, presence: {message: "Evidence of immunity cannot be blank"}
+    delegate :evidence_groups, to: :immunity_detail
+
+    def previous_reviewer_comments
+      @previous_reviewer_comments ||= immunity_detail.reviews.evidence.not_accepted.select { |r| r.comment.present? }
     end
 
     private
 
     def save_draft
       super do
-        @assessment_detail.update!(entry:, assessment_status: :in_progress, user: Current.user)
+        update_immunity_detail!(:in_progress)
       end
     end
 
     def save_and_complete
       super do
-        @assessment_detail.update!(entry:, assessment_status: :complete, user: Current.user)
+        update_immunity_detail!(:complete)
       end
+    end
+
+    def update_immunity_detail!(review_status)
+      current_review = immunity_detail.current_evidence_review
+      review_id = current_review&.id unless review_status == :complete && current_review && !current_review.in_progress?
+
+      immunity_detail.update!(
+        **immunity_detail_params.merge(
+          reviews_attributes: [{
+            status: review_status,
+            specific_attributes: {"review_type" => "evidence"},
+            id: review_id
+          }]
+        )
+      )
+    end
+
+    def immunity_detail_params
+      @params.require(:immunity_detail).permit(
+        evidence_groups_attributes: [
+          :id,
+          :start_date,
+          :end_date,
+          :missing_evidence,
+          :missing_evidence_entry,
+          {comments_attributes: [:text]}
+        ]
+      )
     end
   end
 end
