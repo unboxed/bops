@@ -17,7 +17,6 @@ module BopsSubmissions
 
         BopsApi::PlanningApplicationDependencyJob.perform_later(planning_application:, user:, files:, params:, email_sending_permitted:)
         BopsApi::CreateNeighbourBoundaryGeojsonJob.perform_later(planning_application) if planning_application.consultation
-        BopsApi::PostApplicationToStagingJob.perform_later(local_authority, planning_application) if Bops.env.production?
       end
 
       private
