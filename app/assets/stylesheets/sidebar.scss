@@ -17,8 +17,8 @@ body:has(.bops-fullwidth-container) {
   .govuk-header .govuk-width-container {
     max-width: none;
     margin: 0;
-    padding-left: 20px;
-    padding-right: 20px;
+    @include govuk-responsive-padding(3, "left");
+    @include govuk-responsive-padding(3, "right");
   }
 
   .govuk-main-wrapper {
@@ -37,11 +37,11 @@ body:has(.bops-fullwidth-container) {
     }
 
     .bops-sidebar {
-      padding: 20px;
       border-right: 1px solid $bops-blue-border;
       overflow-y: auto;
       background-color: $bops-light-blue-background;
       @include govuk-font($size: 16);
+      @include govuk-responsive-padding(3, "all");
 
       .govuk-link {
         @include govuk-font($size: 16);

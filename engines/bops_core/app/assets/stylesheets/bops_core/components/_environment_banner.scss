@@ -1,0 +1,17 @@
+.bops-environment-banner {
+  @include govuk-font($size: 16);
+
+  background-color: govuk-colour("yellow");
+  color: govuk-colour("black");
+  padding: govuk-spacing(2) 0;
+}
+
+body:has(.bops-fullwidth-container) {
+  .bops-environment-banner .govuk-width-container {
+    max-width: none;
+    margin: 0;
+
+    @include govuk-responsive-padding(3, "left");
+    @include govuk-responsive-padding(3, "right");
+  }
+}

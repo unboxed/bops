@@ -4,7 +4,7 @@ $govuk-font-family: open-sans, sans-serif;
 @import "govuk-frontend/dist/govuk/all";
 @import "accessible-autocomplete/dist/accessible-autocomplete.min";
 
-@import "banner";
+@import "bops_core/components/environment_banner";
 @import "fonts";
 @import "header";
 @import "notifications";
