@@ -30,15 +30,15 @@ module Tasks
     end
 
     with_options on: :save_and_complete do
-      validates :immunity, inclusion: {in: [true, false], message: "Select Yes or No for whether the development is immune"}
+      validates :immunity, inclusion: {in: [true, false]}
 
-      validates :immunity_reason, inclusion: {in: IMMUNITY_REASONS.keys, message: "Select a reason for immunity"}, if: :immunity?
-      validates :other_immunity_reason, presence: {message: "Provide a reason for immunity"}, if: :other_immunity_reason?
-      validates :summary, presence: {message: "Provide a summary of the immunity assessment"}, if: :immunity?
+      validates :immunity_reason, inclusion: {in: IMMUNITY_REASONS.keys}, if: :immunity?
+      validates :other_immunity_reason, presence: true, if: :other_immunity_reason?
+      validates :summary, presence: true, if: :immunity?
 
-      validates :no_immunity_reason, presence: {message: "Provide a reason why the development is not immune"}, if: :no_immunity?
-      validates :rights_removed, inclusion: {in: [true, false], message: "Select whether permitted development rights have been removed"}, if: :no_immunity?
-      validates :rights_removed_reason, presence: {message: "Describe how permitted development rights have been removed"}, if: :rights_removed?
+      validates :no_immunity_reason, presence: true, if: :no_immunity?
+      validates :rights_removed, inclusion: {in: [true, false]}, if: :no_immunity?
+      validates :rights_removed_reason, presence: true, if: :rights_removed?
     end
 
     def immunity_reasons

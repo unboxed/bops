@@ -192,6 +192,32 @@ en:
               not_changed: must be edited
             summary_of_work_entry:
               not_changed: must be edited
+        tasks/amenity_form:
+          blank: Amenity assessment cannot be blank
+        tasks/assess_immunity_form:
+          attributes:
+            immunity:
+              inclusion: Select Yes or No for whether the development is immune
+            immunity_reason:
+              inclusion: Select a reason for immunity
+            no_immunity_reason:
+              blank: Provide a reason why the development is not immune
+            other_immunity_reason:
+              blank: Provide a reason for immunity
+            rights_removed:
+              inclusion: Select whether permitted development rights have been removed
+            rights_removed_reason:
+              blank: Describe how permitted development rights have been removed
+            summary:
+              blank: Provide a summary of the immunity assessment
+        tasks/site_description_form:
+          blank: Site description cannot be blank
+        tasks/summary_of_additional_evidence:
+          blank: Summary of additional evidence cannot be blank
+        tasks/summary_of_consultation:
+          blank: Summary of consultation cannot be blank
+        tasks/summary_of_works:
+          blank: Summary of works cannot be blank
   activerecord:
     attributes:
       local_authority:
