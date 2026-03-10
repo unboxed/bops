@@ -78,7 +78,6 @@ module BopsApi
         end
 
         CreateNeighbourBoundaryGeojsonJob.perform_later(planning_application) if planning_application.consultation
-        PostApplicationToStagingJob.perform_later(local_authority, planning_application) if Bops.env.production?
 
         planning_application
       end

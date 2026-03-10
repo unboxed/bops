@@ -67,7 +67,6 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
         it "creates a new planning application with expected attributes" do
           expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
-          expect(BopsApi::PostApplicationToStagingJob).not_to have_been_enqueued
 
           expect(planning_application).to have_attributes(
             status: "pending",
@@ -577,12 +576,6 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
           params[:metadata][:source] = "BOPS production"
           Rails.configuration.planx_file_production_api_key = "G41sAys9uPMUVBH5WUKsYE4H"
-        end
-
-        it "calls the post application to staging job" do
-          create_planning_application
-
-          expect(BopsApi::PostApplicationToStagingJob).to have_been_enqueued
         end
 
         it "calls the anonymisation service" do
