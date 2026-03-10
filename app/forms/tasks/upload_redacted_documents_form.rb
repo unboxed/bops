@@ -4,6 +4,8 @@ module Tasks
   class UploadRedactedDocumentsForm < Form
     self.task_actions = %w[save_draft save_and_complete edit_form]
 
+    attribute :documents_params
+
     after_initialize do
       active_documents = planning_application.documents.active
       @documents = active_documents.not_redacted
@@ -43,6 +45,9 @@ module Tasks
           validated: true
         )
       end
+    rescue ActiveRecord::RecordInvalid => e
+      errors.add(:documents_params, "The file type must be JPEG, PNG or PDF")
+      raise e
     end
   end
 end
