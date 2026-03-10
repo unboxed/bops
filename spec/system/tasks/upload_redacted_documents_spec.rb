@@ -152,6 +152,20 @@ RSpec.describe "Upload redacted documents task", type: :system do
 
         expect(task.reload).to be_in_progress
       end
+
+      it "shows an error when uploading a file of invalid type" do
+        within :sidebar do
+          click_link "Upload redacted documents"
+        end
+
+        within(all(".govuk-table__row")[1]) do
+          attach_file("Upload a file", "spec/fixtures/files/images/image.gif")
+        end
+
+        click_button "Save and mark as complete"
+
+        expect(page).to have_content "The file type must be JPEG, PNG or PDF"
+      end
     end
   end
 
