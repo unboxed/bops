@@ -13,6 +13,7 @@ $bops-blue-border: #8eb8dc;
 @import "@x-govuk/govuk-prototype-components/x-govuk/components/sub-navigation/sub-navigation";
 
 // Imports from engines
+@import "bops_core/components/environment_banner";
 @import "bops_core/components/notification_banner";
 @import "bops_core/components/header_bar";
 @import "bops_core/components/side_navigation";
@@ -119,11 +120,6 @@ h3 {
   overflow: hidden;
   margin-bottom: govuk-spacing(6);
   padding: govuk-spacing(2);
-}
-
-.environment-banner {
-  background-color: govuk-colour("yellow");
-  padding: govuk-spacing(1);
 }
 
 .alert__icon {

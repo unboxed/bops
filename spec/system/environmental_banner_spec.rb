@@ -7,7 +7,8 @@ RSpec.describe "Environmental banner" do
   let(:assessor) { create(:user, :assessor, local_authority:) }
 
   before do
-    allow(Bops).to receive(:env).and_return(ActiveSupport::StringInquirer.new("production"))
+    allow(ENV).to receive(:fetch).and_call_original
+    allow(ENV).to receive(:fetch).with("BOPS_ENVIRONMENT", "development").and_return("production")
 
     sign_in assessor
     visit "/"

@@ -36,10 +36,6 @@ module BopsApplicants
       main_app.public_planning_guides_url(host: bops_host)
     end
 
-    def staging_environment?
-      BopsApplicants.env.staging?
-    end
-
     def tag_colour(status)
       case status
       when "supportive"
