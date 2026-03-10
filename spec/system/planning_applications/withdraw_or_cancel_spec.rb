@@ -152,10 +152,7 @@ RSpec.describe "Withdraw or cancel" do
 
     it "does not allow editing the planning application" do
       click_link "Edit details"
-      fill_in "Address 1", with: "Another address"
-      click_button "Save"
-
-      expect(page).to have_selector("[role=alert] li", text: "This application has been determined and cannot be modified.")
+      expect(page).not_to have_field("Address 1")
     end
 
     it "allows editing the documents" do
@@ -240,10 +237,20 @@ RSpec.describe "Withdraw or cancel" do
 
     it "does not allow editing the planning application" do
       click_link "Edit details"
-      fill_in "Address 1", with: "Another address"
+      expect(page).not_to have_field("Address 1")
+    end
+
+    it "allows editing of the alternative reference" do
+      expect(planning_application.reload).to have_attributes(alternative_reference: nil)
+
+      click_link "Edit details"
+      expect(page).to have_content("Only certain details can be changed after determination or withdrawal")
+
+      fill_in "Alternative reference", with: "ALT/REF/26/00001/APP"
       click_button "Save"
 
-      expect(page).to have_selector("[role=alert] li", text: "This application has been closed and cannot be modified.")
+      expect(page).to have_content("Planning application was successfully updated")
+      expect(planning_application.reload).to have_attributes(alternative_reference: "ALT/REF/26/00001/APP")
     end
   end
 
