@@ -4,12 +4,13 @@ module Sortable
   class ListItemComponent < ViewComponent::Base
     include ConditionsHelper
 
-    def initialize(record:, record_class:, record_controller:, record_sortable_url:, edit_record_url:, remove_record_url: nil, cancel_record_url: nil, current_request: nil, show_status_tag: true)
+    def initialize(record:, record_class:, record_controller:, record_sortable_url:, edit_record_url:, position:, remove_record_url: nil, cancel_record_url: nil, current_request: nil, show_status_tag: true)
       @record = record
       @record_class = record_class
       @record_controller = record_controller
       @record_sortable_url = record_sortable_url
       @edit_record_url = edit_record_url
+      @position = position
       @remove_record_url = remove_record_url
       @cancel_record_url = cancel_record_url
       @current_request = current_request
@@ -20,7 +21,7 @@ module Sortable
 
     private
 
-    attr_reader :record, :record_class, :record_controller, :record_sortable_url, :edit_record_url, :remove_record_url, :cancel_record_url, :current_request
+    attr_reader :record, :record_class, :record_controller, :record_sortable_url, :edit_record_url, :position, :remove_record_url, :cancel_record_url, :current_request
 
     def caption_text
       if record.is_a?(Condition) && !record.condition_set.pre_commencement? && record.standard?
@@ -33,7 +34,7 @@ module Sortable
     end
 
     def full_caption_text
-      "#{caption_text} #{record.position}"
+      "#{caption_text} #{position}"
     end
 
     def remove_link

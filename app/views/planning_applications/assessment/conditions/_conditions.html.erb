@@ -4,9 +4,10 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 <ol id="conditions-list" class="govuk-list sortable-list" data-controller="sortable">
-  <% @conditions.select(&:persisted?).sort_by(&:position).each do |condition| %>
+  <% @conditions.select(&:persisted?).sort_by(&:position).each.with_index(1) do |condition, position| %>
     <%= render(Sortable::ListItemComponent.new(
           record: condition,
+          position: position,
           record_class: "condition",
           record_controller: "conditions",
           record_sortable_url: planning_application_assessment_condition_position_path(@planning_application, condition),
