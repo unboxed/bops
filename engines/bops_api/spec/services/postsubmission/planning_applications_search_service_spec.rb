@@ -260,6 +260,30 @@ RSpec.describe BopsApi::Postsubmission::PlanningApplicationsSearchService do
       end
     end
 
+    context "when filtering by decision" do
+      let(:local_authority) { create(:local_authority) }
+
+      let!(:app1) { create(:planning_application, :in_assessment) }
+      let!(:app2) { create(:planning_application, :determined) }
+
+      context "when no applicaton decisions are provided" do
+        let(:params) { {councilDecision: nil} }
+
+        it "returns all applications" do
+          expect(results).to contain_exactly(app1, app2)
+        end
+      end
+
+      context "when one matching application decision is provided" do
+        let(:params) { {councilDecision: "granted"} }
+
+        it "returns only matching applications" do
+          expect(results).not_to include(app1)
+          expect(results).to include(app2)
+        end
+      end
+    end
+
     context "when filtering by alternative reference" do
       let!(:app_with_alt_ref) { create(:planning_application, alternative_reference: "PUBLIC-ALT-REF-123") }
       let!(:app_with_different_alt_ref) { create(:planning_application, alternative_reference: "PUBLIC-OTHER-999") }

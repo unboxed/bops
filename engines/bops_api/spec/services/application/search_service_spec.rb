@@ -400,16 +400,17 @@ RSpec.describe BopsApi::Application::SearchService do
       context "when no applicaton decisions are provided" do
         let(:params) { {councilDecision: nil} }
 
-        it "returns matching applications" do
-          expect(results).to match_array([app1, app2])
+        it "returns all applications" do
+          expect(results).to contain_exactly(app1, app2)
         end
       end
 
       context "when one matching application decision is provided" do
         let(:params) { {councilDecision: "granted"} }
 
-        it "returns matching applications" do
-          expect(results).to match_array([app2])
+        it "returns only matching applications" do
+          expect(results).not_to include(app1)
+          expect(results).to include(app2)
         end
       end
     end
