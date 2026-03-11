@@ -231,7 +231,9 @@ RSpec.describe "Amenity task", type: :system do
 
       # Assessor resubmits recommendation
       visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-      click_link("Make draft recommendation")
+      within "#main-content" do
+        click_link("Make draft recommendation")
+      end
       click_button("Update assessment")
       click_link("Review and submit recommendation")
       click_button("Submit recommendation")
