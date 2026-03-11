@@ -187,9 +187,9 @@ RSpec.describe "checking publicity" do
         end
 
         click_button "Update"
-
-        click_link "Review and submit recommendation"
-
+        within "#main-content" do
+          click_link "Review and submit recommendation"
+        end
         click_button "Submit recommendation"
 
         click_link "Review and sign-off"
@@ -388,7 +388,9 @@ RSpec.describe "checking publicity" do
       end
       click_button "Update"
 
-      click_link "Review and submit recommendation"
+      within "#main-content" do
+        click_link "Review and submit recommendation"
+      end
 
       click_button "Submit recommendation"
 

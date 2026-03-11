@@ -97,8 +97,9 @@ RSpec.shared_examples "Sortable" do |class_name|
       condition_set.validation_requests.each { |vr| vr.update(approved: true) }
       create(:recommendation, :assessment_in_progress, planning_application:)
       click_link "Back"
-      click_link "Review and submit recommendation"
-
+      within "#main-content" do
+        click_link "Review and submit recommendation"
+      end
       within("#conditions-list") do
         expect(page).to have_selector("li:nth-of-type(1)", text: "Title 3")
         expect(page).to have_selector("li:nth-of-type(2)", text: "Title 2")

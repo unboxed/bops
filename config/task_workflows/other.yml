@@ -59,6 +59,7 @@
       tasks:
         - name: Review documents for recommendation
         - name: Make draft recommendation
+        - name: Review and submit recommendation
 - name: "View recommendation"
   section: "Review"
 - name: "Publish determination"

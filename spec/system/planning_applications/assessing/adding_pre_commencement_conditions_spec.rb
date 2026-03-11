@@ -319,7 +319,9 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
 
       visit "/planning_applications/#{reference}"
       click_link "Check and assess"
-      click_link "Review and submit recommendation"
+      within "#main-content" do
+        click_link "Review and submit recommendation"
+      end
 
       within "#conditions-list" do
         within "li:nth-child(1)" do

@@ -182,7 +182,9 @@ RSpec.describe "Add conditions", type: :system, capybara: true do
 
       visit "/planning_applications/#{reference}"
       click_link "Check and assess"
-      click_link "Review and submit recommendation"
+      within "#main-content" do
+        click_link "Review and submit recommendation"
+      end
 
       expect(page).to have_content "Conditions"
       expect(page).to have_content "The development hereby permitted shall be commenced within three years of the date of this permission."

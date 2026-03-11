@@ -96,7 +96,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       click_link("Check and assess")
-      click_link("Review and submit recommendation")
+      within "#main-content" do
+        click_link("Review and submit recommendation")
+      end
       expect(page).to have_content "Draft"
       click_button("Submit recommendation")
 
@@ -229,8 +231,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(planning_application.decision).to eq("refused")
           expect(planning_application.public_comment).to eq("This is a new public comment")
 
-          click_link "Review and submit recommendation"
-
+          within "#main-content" do
+            click_link("Review and submit recommendation")
+          end
           expect(page).to have_content("We certify that on the date of the application")
           expect(page).to have_content("not lawful")
           expect(page).to have_content("aggrieved")
@@ -353,8 +356,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
         fill_in("State the reasons for your recommendation.", with: "This is a public comment")
         fill_in("Provide supporting information for the reviewer.", with: "This is a private assessor comment")
         click_button("Save and mark as complete")
-
-        click_link("Review and submit recommendation")
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
         click_button("Submit recommendation")
 
         expect(page).to have_content("Recommendation was successfully submitted.")
@@ -402,8 +406,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
         fill_in("State the reasons for your recommendation.", with: "This is a public comment")
         click_button("Save and mark as complete")
 
-        click_link("Review and submit recommendation")
-
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
         click_link("Edit recommendation")
         within "#main-content" do
           expect(page).to have_title("Make draft recommendation")
@@ -421,8 +426,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
         fill_in("State the reasons for your recommendation.", with: "This is a public comment")
         click_button("Save and mark as complete")
 
-        click_link("Review and submit recommendation")
-
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
         click_link("Back")
 
         expect(page).to have_title("Planning Application")
@@ -444,7 +450,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           fill_in("Provide supporting information for the reviewer.", with: "This is a private assessor comment")
           click_button("Save and mark as complete")
 
-          click_link("Review and submit recommendation")
+          within "#main-content" do
+            click_link("Review and submit recommendation")
+          end
           click_button("Submit recommendation")
 
           within(".govuk-notification-banner--alert") do
@@ -472,7 +480,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           fill_in("Provide supporting information for the reviewer.", with: "This is a private assessor comment")
           click_button("Save and mark as complete")
 
-          click_link("Review and submit recommendation")
+          within "#main-content" do
+            click_link("Review and submit recommendation")
+          end
           click_button("Submit recommendation")
 
           expect(page).to have_content("Recommendation was successfully submitted.")
@@ -548,8 +558,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
         click_button("Save and mark as complete")
 
-        click_link "Review and submit recommendation"
-
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
         expect(page).to have_content "The following decision report has been created based on your answers."
         expect(page).to have_content "If you agree with this decision report, submit it for review."
 
@@ -660,7 +671,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           )
 
           click_button("Save and mark as complete")
-          click_link("Review and submit recommendation")
+          within "#main-content" do
+            click_link("Review and submit recommendation")
+          end
           click_button("Submit recommendation")
           sign_in(reviewer)
           visit "/planning_applications/#{planning_application.reference}/review/recommendations/#{planning_application.recommendation.id}/edit"
@@ -949,7 +962,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
           expect(planning_application.decision).to eq("granted")
 
-          click_link("Review and submit recommendation")
+          within "#main-content" do
+            click_link("Review and submit recommendation")
+          end
           expect(page).to have_content("Prior Approval - Larger extension to a house: Granted")
 
           click_link("Back")
@@ -976,7 +991,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(planning_application.decision).to eq("not_required")
           expect(planning_application.public_comment).to eq("This is a new public comment")
 
-          click_link "Review and submit recommendation"
+          within "#main-content" do
+            click_link("Review and submit recommendation")
+          end
           expect(page).to have_content("Prior Approval - Larger extension to a house: Not required")
 
           click_link("Back")
@@ -1003,7 +1020,9 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(planning_application.decision).to eq("refused")
           expect(planning_application.public_comment).to eq("This is a new public comment")
 
-          click_link "Review and submit recommendation"
+          within "#main-content" do
+            click_link("Review and submit recommendation")
+          end
           expect(page).to have_content("Prior Approval - Larger extension to a house: Refused")
 
           expect(page).not_to have_content("We certify that on the date of the application")

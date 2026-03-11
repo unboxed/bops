@@ -411,8 +411,9 @@ RSpec.describe "Assessing against policies and guidance", type: :system, js: tru
     within "#make-draft-recommendation" do
       expect(page).to have_content("Completed")
     end
-
-    click_link "Review and submit recommendation"
+    within "#main-content" do
+      click_link "Review and submit recommendation"
+    end
 
     expect(page).to have_selector("h1", text: "Review and submit recommendation")
     expect(page).to have_selector("button", text: "Assessment report details")

@@ -338,7 +338,9 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         click_button("Update assessment")
-        click_link("Review and submit recommendation")
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
         click_button("Submit recommendation")
         sign_out(assessor)
         sign_in(reviewer)
@@ -456,7 +458,9 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         click_button("Update assessment")
-        click_link("Review and submit recommendation")
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
         click_button("Submit recommendation")
         sign_out(assessor)
         sign_in(reviewer)
@@ -579,7 +583,9 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         click_button("Update assessment")
-        click_link("Review and submit recommendation")
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
         click_button("Submit recommendation")
         sign_out(assessor)
         sign_in(reviewer)
@@ -704,7 +710,9 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         click_button("Update assessment")
-        click_link("Review and submit recommendation")
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
         click_button("Submit recommendation")
         sign_out(assessor)
         sign_in(reviewer)
@@ -827,7 +835,9 @@ RSpec.describe "Reviewing assessment summaries" do
         end
 
         click_button("Update assessment")
-        click_link("Review and submit recommendation")
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
         click_button("Submit recommendation")
         sign_out(assessor)
         sign_in(reviewer)
@@ -939,7 +949,9 @@ RSpec.describe "Reviewing assessment summaries" do
           click_link "Make draft recommendation"
         end
         click_button("Update assessment")
-        click_link("Review and submit recommendation")
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
         click_button("Submit recommendation")
         sign_out(assessor)
         sign_in(reviewer)
