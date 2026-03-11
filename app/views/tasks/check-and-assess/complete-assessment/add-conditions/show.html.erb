@@ -13,9 +13,10 @@
   <h2 class="govuk-!-margin-bottom-0">Add, edit and sort conditions</h2>
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <ol id="conditions-list" class="govuk-list sortable-list" data-controller="sortable">
-    <% @form.conditions.each do |condition| %>
+    <% @form.conditions.each.with_index(1) do |condition, position| %>
       <%= render(Sortable::ListItemComponent.new(
             record: condition,
+            position: position,
             record_class: "condition",
             record_controller: "conditions",
             record_sortable_url: planning_application_assessment_condition_position_path(@planning_application, condition),

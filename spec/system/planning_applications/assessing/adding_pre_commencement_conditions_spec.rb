@@ -331,6 +331,165 @@ RSpec.describe "Add pre-commencement conditions", type: :system, capybara: true 
     end
   end
 
+  context "when deleting conditions and checking position renumbering" do
+    it "renumbers positions sequentially after deleting the first condition" do
+      within("#add-pre-commencement-conditions") { click_link "Add pre-commencement conditions" }
+
+      # Add three conditions
+      %w[First Second Third].each do |title|
+        find("span", text: "Add new pre-commencement condition").click
+        fill_in "Enter title", with: "#{title} condition"
+        fill_in "Enter condition", with: "Text for #{title}"
+        fill_in "Enter reason", with: "Reason for #{title}"
+        click_button "Add pre-commencement condition"
+      end
+
+      # Verify initial numbering
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "First condition")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "Second condition")
+      end
+      within("li.sortable-list:nth-of-type(3)") do
+        expect(page).to have_selector("span", text: "Condition 3")
+        expect(page).to have_selector("h2", text: "Third condition")
+      end
+
+      # Delete the first condition
+      within("li.sortable-list:nth-of-type(1)") do
+        accept_confirm(text: "Are you sure?") { click_link("Remove") }
+      end
+
+      # Remaining two should be renumbered 1, 2
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "Second condition")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "Third condition")
+      end
+    end
+
+    it "renumbers positions sequentially after deleting the last condition" do
+      within("#add-pre-commencement-conditions") { click_link "Add pre-commencement conditions" }
+
+      %w[First Second Third].each do |title|
+        find("span", text: "Add new pre-commencement condition").click
+        fill_in "Enter title", with: "#{title} condition"
+        fill_in "Enter condition", with: "Text for #{title}"
+        fill_in "Enter reason", with: "Reason for #{title}"
+        click_button "Add pre-commencement condition"
+      end
+
+      # Delete the last condition
+      within("li.sortable-list:nth-of-type(3)") do
+        accept_confirm(text: "Are you sure?") { click_link("Remove") }
+      end
+
+      # Remaining two should be 1, 2
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "First condition")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "Second condition")
+      end
+    end
+
+    it "renumbers positions sequentially after deleting a middle condition" do
+      within("#add-pre-commencement-conditions") { click_link "Add pre-commencement conditions" }
+
+      %w[First Second Third].each do |title|
+        find("span", text: "Add new pre-commencement condition").click
+        fill_in "Enter title", with: "#{title} condition"
+        fill_in "Enter condition", with: "Text for #{title}"
+        fill_in "Enter reason", with: "Reason for #{title}"
+        click_button "Add pre-commencement condition"
+      end
+
+      # Delete the middle condition
+      within("li.sortable-list:nth-of-type(2)") do
+        accept_confirm(text: "Are you sure?") { click_link("Remove") }
+      end
+
+      # Remaining should be 1, 2
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "First condition")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "Third condition")
+      end
+    end
+
+    it "renumbers to 1 after deleting all but one condition" do
+      within("#add-pre-commencement-conditions") { click_link "Add pre-commencement conditions" }
+
+      %w[First Second Third].each do |title|
+        find("span", text: "Add new pre-commencement condition").click
+        fill_in "Enter title", with: "#{title} condition"
+        fill_in "Enter condition", with: "Text for #{title}"
+        fill_in "Enter reason", with: "Reason for #{title}"
+        click_button "Add pre-commencement condition"
+      end
+
+      # Delete first two conditions, leaving only the third
+      within("li.sortable-list:nth-of-type(1)") do
+        accept_confirm(text: "Are you sure?") { click_link("Remove") }
+      end
+      within("li.sortable-list:nth-of-type(1)") do
+        accept_confirm(text: "Are you sure?") { click_link("Remove") }
+      end
+
+      # Remaining condition should be numbered 1
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "Third condition")
+      end
+      expect(page).not_to have_selector("li.sortable-list:nth-of-type(2)")
+    end
+
+    it "continues sequential numbering when adding a condition after deletion" do
+      within("#add-pre-commencement-conditions") { click_link "Add pre-commencement conditions" }
+
+      %w[First Second].each do |title|
+        find("span", text: "Add new pre-commencement condition").click
+        fill_in "Enter title", with: "#{title} condition"
+        fill_in "Enter condition", with: "Text for #{title}"
+        fill_in "Enter reason", with: "Reason for #{title}"
+        click_button "Add pre-commencement condition"
+      end
+
+      # Delete first condition
+      within("li.sortable-list:nth-of-type(1)") do
+        accept_confirm(text: "Are you sure?") { click_link("Remove") }
+      end
+
+      # Add a new condition
+      find("span", text: "Add new pre-commencement condition").click
+      fill_in "Enter title", with: "New condition"
+      fill_in "Enter condition", with: "New text"
+      fill_in "Enter reason", with: "New reason"
+      click_button "Add pre-commencement condition"
+
+      # Should be numbered sequentially 1, 2
+      within("li.sortable-list:nth-of-type(1)") do
+        expect(page).to have_selector("span", text: "Condition 1")
+        expect(page).to have_selector("h2", text: "Second condition")
+      end
+      within("li.sortable-list:nth-of-type(2)") do
+        expect(page).to have_selector("span", text: "Condition 2")
+        expect(page).to have_selector("h2", text: "New condition")
+      end
+    end
+  end
+
   context "when changing the list position" do
     let(:condition_set) { planning_application.pre_commencement_condition_set }
     let!(:condition_one) { create(:condition, condition_set:, title: "Title 1", text: "Text 1") }

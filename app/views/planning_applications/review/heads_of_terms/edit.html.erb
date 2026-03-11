@@ -19,9 +19,10 @@
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <% if @terms.any? %>
       <ol data-controller="sortable" class="govuk-list sortable-list">
-        <% @terms.each do |term| %>
+        <% @terms.each.with_index(1) do |term, position| %>
           <%= render(Sortable::ListItemComponent.new(
                 record: term,
+                position: position,
                 record_class: "term",
                 record_controller: "",
                 record_sortable_url: planning_application_review_heads_of_terms_item_position_path(@planning_application, term),

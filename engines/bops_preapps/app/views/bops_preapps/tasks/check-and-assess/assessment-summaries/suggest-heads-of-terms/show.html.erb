@@ -12,10 +12,10 @@
   data-controller="sortable"
   id="heads-of-terms-list"
   class="govuk-list sortable-list">
-  <% @form.heads_of_term.not_cancelled_terms.each do |term| %>
-    <% next unless term.persisted? %>
+  <% @form.heads_of_term.not_cancelled_terms.select(&:persisted?).each.with_index(1) do |term, position| %>
     <%= render(Sortable::ListItemComponent.new(
           record: term,
+          position: position,
           record_class: "term",
           record_controller: "terms",
           record_sortable_url: main_app.planning_application_assessment_term_position_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),

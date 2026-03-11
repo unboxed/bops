@@ -19,9 +19,10 @@
     <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
     <% if @conditions.any? %>
       <ol data-controller="sortable" class="govuk-list sortable-list">
-        <% @conditions.each do |condition| %>
+        <% @conditions.each.with_index(1) do |condition, position| %>
           <%= render(Sortable::ListItemComponent.new(
                 record: condition,
+                position: position,
                 record_class: "condition",
                 record_controller: "",
                 record_sortable_url: planning_application_review_conditions_item_position_path(@planning_application, condition),

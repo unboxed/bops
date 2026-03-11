@@ -13,9 +13,10 @@
   <h2 class="govuk-!-margin-bottom-0">Add, edit and sort pre-commencement conditions</h2>
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <ol data-controller="sortable" id="conditions-list" class="govuk-list sortable-list">
-    <% @form.conditions.each do |condition| %>
+    <% @form.conditions.each.with_index(1) do |condition, position| %>
       <%= render(Sortable::ListItemComponent.new(
             record: condition,
+            position: position,
             record_class: "condition",
             record_controller: "pre-commencement-conditions",
             record_sortable_url: planning_application_assessment_pre_commencement_condition_position_path(@planning_application, condition),
