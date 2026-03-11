@@ -18,14 +18,6 @@ class PlanningApplicationsController < AuthenticationController
 
   before_action :redirect_to_reference_url, only: %i[show edit]
 
-  rescue_from PlanningApplication::WithdrawRecommendationError do |_exception|
-    redirect_failed_withdraw_recommendation
-  end
-
-  rescue_from PlanningApplication::SubmitRecommendationError do |_exception|
-    redirect_failed_submit_recommendation
-  end
-
   def index
     redirect_to mine_planning_applications_path(filter_params)
   end
@@ -247,16 +239,6 @@ class PlanningApplicationsController < AuthenticationController
 
   def determination_date_params
     params.require(:planning_application).permit(:determination_date)
-  end
-
-  def redirect_failed_withdraw_recommendation
-    redirect_to planning_application_recommendation_path(@planning_application),
-      alert: t("planning_applications.recommendations.destroy.failure")
-  end
-
-  def redirect_failed_submit_recommendation
-    redirect_to edit_planning_application_recommendation_path(@planning_application),
-      alert: t("planning_applications.recommendations.edit.failure")
   end
 
   def redirect_update_url
