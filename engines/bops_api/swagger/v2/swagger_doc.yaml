@@ -36236,11 +36236,13 @@ paths:
           type: integer
           default: 1
         required: false
-      - name: maxresults
+      - name: resultsPerPage
         in: query
         schema:
           type: integer
           default: 10
+          minimum: 1
+          maximum: 50
         required: false
       - name: q
         in: query
@@ -36359,14 +36361,6 @@ paths:
         description: Filter by alternative reference (case-insensitive partial match)
         schema:
           type: string
-      - name: resultsPerPage
-        in: query
-        schema:
-          type: integer
-          default: 5
-          minimum: 1
-          maximum: 50
-        required: false
       - name: query
         in: query
         schema:

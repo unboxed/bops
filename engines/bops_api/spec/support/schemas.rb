@@ -13,16 +13,25 @@ RSpec.configure do |config|
       resolve_references(schema, definitions)
     end
 
-    def with_search_and_filter_params
+    def with_search_and_filter_params(schema_type: :default)
       parameter name: :page, in: :query, schema: {
         type: :integer,
         default: 1
       }, required: false
 
-      parameter name: :maxresults, in: :query, schema: {
-        type: :integer,
-        default: 10
-      }, required: false
+      if schema_type == :postsubmission
+        parameter name: :resultsPerPage, in: :query, schema: {
+          type: :integer,
+          default: 10,
+          minimum: 1,
+          maximum: BopsApi::Postsubmission::PostsubmissionPagination::MAXRESULTS_LIMIT
+        }, required: false
+      else
+        parameter name: :maxresults, in: :query, schema: {
+          type: :integer,
+          default: 10
+        }, required: false
+      end
 
       parameter name: "q",
         in: :query,

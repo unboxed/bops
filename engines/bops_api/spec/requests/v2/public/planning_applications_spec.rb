@@ -23,9 +23,9 @@ RSpec.describe "BOPS public API" do
   let(:page) { 1 }
   let(:resultsPerPage) { 5 }
   let(:invalidated) { create(:planning_application, :with_boundary_geojson_features, :published, local_authority:, application_type:, description: "This is not valid even if marked as published", status: :invalidated) }
-  let("applicationStatus[]") { [] }
-  let("applicationType[]") { [] }
-  let("councilDecision") { nil }
+  let(:"applicationStatus[]") { [] }
+  let(:"applicationType[]") { [] }
+  let(:councilDecision) { nil }
   let(:orderBy) { "desc" }
   let(:sortBy) { "publishedAt" }
 
@@ -64,14 +64,7 @@ RSpec.describe "BOPS public API" do
       tags "Planning applications"
       produces "application/json"
 
-      with_search_and_filter_params
-
-      parameter name: :resultsPerPage, in: :query, schema: {
-        type: :integer,
-        default: 5,
-        minimum: 1,
-        maximum: BopsApi::Postsubmission::PostsubmissionPagination::MAXRESULTS_LIMIT
-      }, required: false
+      with_search_and_filter_params(schema_type: :postsubmission)
 
       parameter name: :query, in: :query, schema: {
         type: :string,
