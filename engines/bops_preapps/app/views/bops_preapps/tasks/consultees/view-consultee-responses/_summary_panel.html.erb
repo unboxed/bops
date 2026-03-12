@@ -7,28 +7,31 @@
   <div class="govuk-summary-card__content">
     <%= govuk_summary_list(classes: "govuk-summary-list--no-border") do |list| %>
       <% list.with_row do |row| %>
-        <% row.with_key { t(".response_summary.total_consultees") } %>
+        <% row.with_key { t("bops_preapps.tasks.consultees.view-consultee-responses.summary_panel.response_summary.total_consultees") } %>
         <% row.with_value do %>
           <strong><%= summary[:total] %></strong>
         <% end %>
       <% end %>
 
       <% list.with_row do |row| %>
-        <% row.with_key { t(".response_summary.responded") } %>
+        <% row.with_key { t("bops_preapps.tasks.consultees.view-consultee-responses.summary_panel.response_summary.responded") } %>
+
         <% row.with_value do %>
           <span class="govuk-tag govuk-tag--green"><%= summary[:responded] %></span>
         <% end %>
       <% end %>
 
       <% list.with_row do |row| %>
-        <% row.with_key { t(".response_summary.awaiting_response") } %>
+        <% row.with_key { t("bops_preapps.tasks.consultees.view-consultee-responses.summary_panel.response_summary.awaiting_response") } %>
+
         <% row.with_value do %>
           <span class="govuk-tag govuk-tag--yellow"><%= summary[:awaiting] %></span>
         <% end %>
       <% end %>
 
       <% list.with_row do |row| %>
-        <% row.with_key { t(".response_summary.not_consulted") } %>
+        <% row.with_key { t("bops_preapps.tasks.consultees.view-consultee-responses.summary_panel.response_summary.not_consulted") } %>
+
         <% row.with_value do %>
           <span class="govuk-tag govuk-tag--grey"><%= summary[:not_consulted] %></span>
         <% end %>

@@ -8,16 +8,16 @@
     ) %>
 
 <% if enforcements.empty? %>
-  <p><%= t(".no_enforcements") %></p>
+  <p><%= t("bops_enforcements.panel_component.no_enforcements") %></p>
 <% else %>
   <%= helpers.govuk_table(id: "enforcements") do |table| %>
     <% table.with_head do |head| %>
       <% head.with_row do |row| %>
         <% default_attributes.each do |attribute| %>
           <% if attribute == :full_address %>
-            <% row.with_cell(text: t(".#{attribute}"), width: "three-quarters") %>
+            <% row.with_cell(text: t("bops_enforcements.panel_component.#{attribute}"), width: "three-quarters") %>
           <% else %>
-            <% row.with_cell(text: t(".#{attribute}")) %>
+            <% row.with_cell(text: t("bops_enforcements.panel_component.#{attribute}")) %>
           <% end %>
         <% end %>
       <% end %>
