@@ -10,40 +10,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
+ActiveRecord::Schema[8.1].define(version: 2026_01_21_101637) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
   enable_extension "postgis"
 
   create_table "action_text_rich_texts", force: :cascade do |t|
-    t.string "name", null: false
     t.text "body"
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.datetime "updated_at", null: false
     t.index ["record_type", "record_id", "name"], name: "index_action_text_rich_texts_uniqueness", unique: true
   end
 
   create_table "active_storage_attachments", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.bigint "record_id", null: false
     t.bigint "blob_id", null: false
     t.datetime "created_at", precision: nil, null: false
+    t.string "name", null: false
+    t.bigint "record_id", null: false
+    t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
     t.bigint "byte_size", null: false
     t.string "checksum"
+    t.string "content_type"
     t.datetime "created_at", precision: nil, null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
     t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
@@ -55,29 +55,29 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "additional_services", force: :cascade do |t|
-    t.string "type"
+    t.datetime "created_at", null: false
     t.string "name"
     t.bigint "planning_application_id", null: false
-    t.datetime "created_at", null: false
+    t.string "type"
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_additional_services_on_planning_application_id"
   end
 
   create_table "api_users", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "token", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "local_authority_id"
-    t.jsonb "file_downloader", default: {"type" => "NoAuthentication"}
-    t.string "service"
-    t.datetime "revoked_at"
-    t.datetime "last_used_at"
-    t.string "permissions", array: true
     t.string "authentication_type", default: "bearer", null: false
-    t.string "product_id"
     t.string "client_id"
     t.string "client_secret"
+    t.datetime "created_at", null: false
+    t.jsonb "file_downloader", default: {"type" => "NoAuthentication"}
+    t.datetime "last_used_at"
+    t.bigint "local_authority_id"
+    t.string "name", null: false
+    t.string "permissions", array: true
+    t.string "product_id"
+    t.datetime "revoked_at"
+    t.string "service"
+    t.string "token", null: false
+    t.datetime "updated_at", null: false
     t.index ["local_authority_id", "name"], name: "ix_api_users_on_local_authority_id__name", unique: true, where: "(revoked_at IS NULL)"
     t.index ["local_authority_id", "token"], name: "ix_api_users_on_local_authority_id__token", unique: true
     t.index ["local_authority_id"], name: "ix_api_users_on_local_authority_id"
@@ -85,40 +85,40 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "appeals", force: :cascade do |t|
-    t.text "reason", null: false
-    t.string "status", default: "lodged", null: false
-    t.string "decision"
-    t.datetime "lodged_at", null: false
-    t.datetime "validated_at"
-    t.datetime "started_at"
-    t.datetime "determined_at"
-    t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
+    t.string "decision"
+    t.datetime "determined_at"
+    t.datetime "lodged_at", null: false
+    t.bigint "planning_application_id", null: false
+    t.text "reason", null: false
+    t.datetime "started_at"
+    t.string "status", default: "lodged", null: false
     t.datetime "updated_at", null: false
+    t.datetime "validated_at"
     t.index ["planning_application_id"], name: "ix_appeals_on_planning_application_id"
   end
 
   create_table "application_type_configs", force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "part"
-    t.string "section"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "assessment_details", array: true
-    t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
+    t.string "category"
+    t.string "code", null: false
+    t.boolean "configured", default: false, null: false
     t.string "consistency_checklist", array: true
+    t.datetime "created_at", null: false
+    t.string "decisions", default: [], null: false, array: true
+    t.integer "determination_period_days"
+    t.string "disclaimer"
     t.jsonb "document_tags", default: {}, null: false
     t.jsonb "features", default: {}
-    t.string "status", default: "inactive", null: false
-    t.string "code", null: false
-    t.string "suffix", null: false
-    t.integer "determination_period_days"
     t.bigint "legislation_id"
-    t.boolean "configured", default: false, null: false
-    t.string "category"
+    t.string "name", null: false
+    t.integer "part"
     t.string "reporting_types", default: [], null: false, array: true
-    t.string "decisions", default: [], null: false, array: true
-    t.string "disclaimer"
+    t.string "section"
+    t.string "status", default: "inactive", null: false
+    t.string "steps", default: ["validation", "consultation", "assessment", "review"], array: true
+    t.string "suffix", null: false
+    t.datetime "updated_at", null: false
     t.index ["code"], name: "ix_application_type_configs_on_code", unique: true, where: "((status)::text <> 'retired'::text)"
     t.index ["legislation_id"], name: "ix_application_type_configs_on_legislation_id"
     t.index ["suffix"], name: "ix_application_type_configs_on_suffix", unique: true
@@ -126,23 +126,23 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
 
   create_table "application_type_requirements", force: :cascade do |t|
     t.bigint "application_type_id"
-    t.bigint "local_authority_requirement_id", null: false
     t.datetime "created_at", null: false
+    t.bigint "local_authority_requirement_id", null: false
     t.datetime "updated_at", null: false
     t.index ["application_type_id"], name: "ix_application_type_requirements_on_application_type_id"
     t.index ["local_authority_requirement_id"], name: "ix_application_type_requirements_on_local_authority_requirement"
   end
 
   create_table "application_types", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "code", null: false
-    t.string "suffix", null: false
-    t.integer "determination_period_days"
     t.bigint "config_id"
-    t.bigint "local_authority_id"
+    t.datetime "created_at", null: false
+    t.integer "determination_period_days"
     t.string "disclaimer"
+    t.bigint "local_authority_id"
+    t.string "name", null: false
+    t.string "suffix", null: false
+    t.datetime "updated_at", null: false
     t.index ["config_id"], name: "ix_application_types_on_config_id"
     t.index ["local_authority_id", "config_id"], name: "ix_application_types_on_local_authority_id__config_id", unique: true
     t.index ["local_authority_id", "suffix"], name: "ix_application_types_on_local_authority_id__suffix", unique: true
@@ -157,43 +157,43 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "assessment_details", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.text "entry"
     t.string "assessment_status", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "category", null: false
-    t.string "reviewer_verdict"
+    t.datetime "created_at", null: false
+    t.text "entry"
+    t.bigint "planning_application_id", null: false
     t.string "review_status"
+    t.string "reviewer_verdict"
     t.string "summary_tag"
+    t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["planning_application_id"], name: "ix_assessment_details_on_planning_application_id"
     t.index ["user_id"], name: "ix_assessment_details_on_user_id"
   end
 
   create_table "audits", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id"
-    t.string "activity_type", null: false
     t.string "activity_information"
-    t.string "audit_comment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "activity_type", null: false
     t.bigint "api_user_id"
+    t.string "audit_comment"
     t.boolean "automated_activity", default: false, null: false
+    t.datetime "created_at", null: false
+    t.bigint "planning_application_id", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["api_user_id"], name: "index_audits_on_api_user_id"
     t.index ["planning_application_id"], name: "index_audits_on_planning_application_id"
     t.index ["user_id"], name: "index_audits_on_user_id"
   end
 
   create_table "case_records", id: :uuid, default: nil, force: :cascade do |t|
-    t.bigint "local_authority_id", null: false
-    t.string "caseable_type", null: false
     t.bigint "caseable_id", null: false
+    t.string "caseable_type", null: false
     t.datetime "created_at", null: false
+    t.bigint "local_authority_id", null: false
+    t.bigint "submission_id"
     t.datetime "updated_at", null: false
     t.bigint "user_id"
-    t.bigint "submission_id"
     t.index ["caseable_type", "caseable_id"], name: "ix_case_records_on_caseable_type__caseable_id"
     t.index ["local_authority_id"], name: "ix_case_records_on_local_authority_id"
     t.index ["submission_id"], name: "ix_case_records_on_submission_id"
@@ -201,138 +201,138 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "charges", force: :cascade do |t|
-    t.string "description"
     t.decimal "amount"
+    t.datetime "created_at", null: false
+    t.string "description"
     t.date "payment_due_date"
     t.bigint "planning_application_id", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_charges_on_planning_application_id"
   end
 
   create_table "comments", force: :cascade do |t|
-    t.text "text", null: false
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "commentable_type"
     t.bigint "commentable_id"
+    t.string "commentable_type"
+    t.datetime "created_at", null: false
     t.datetime "deleted_at", precision: nil
+    t.text "text", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
     t.index ["user_id"], name: "ix_comments_on_user_id"
   end
 
   create_table "committee_decisions", force: :cascade do |t|
-    t.bigint "planning_application_id"
-    t.boolean "recommend", default: false, null: false
-    t.jsonb "reasons", array: true
-    t.datetime "date_of_committee"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "location"
-    t.string "link"
-    t.string "time"
-    t.datetime "late_comments_deadline"
-    t.text "notification_content"
     t.text "comments"
+    t.datetime "created_at", null: false
+    t.datetime "date_of_committee"
+    t.datetime "late_comments_deadline"
+    t.string "link"
+    t.string "location"
+    t.text "notification_content"
+    t.bigint "planning_application_id"
+    t.jsonb "reasons", array: true
+    t.boolean "recommend", default: false, null: false
+    t.string "time"
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_committee_decisions_on_planning_application_id", unique: true
   end
 
   create_table "condition_sets", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "planning_application_id", null: false
     t.boolean "pre_commencement", default: false, null: false
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_condition_sets_on_planning_application_id"
   end
 
   create_table "conditions", force: :cascade do |t|
-    t.string "title"
-    t.text "text"
+    t.datetime "cancelled_at"
+    t.bigint "condition_set_id"
+    t.datetime "created_at", null: false
+    t.integer "position", default: 0, null: false
     t.text "reason"
     t.boolean "standard"
-    t.datetime "created_at", null: false
+    t.text "text"
+    t.string "title"
     t.datetime "updated_at", null: false
-    t.bigint "condition_set_id"
-    t.integer "position", default: 0, null: false
-    t.datetime "cancelled_at"
     t.index ["condition_set_id"], name: "ix_conditions_on_condition_set_id"
   end
 
   create_table "consideration_sets", force: :cascade do |t|
-    t.bigint "planning_application_id"
     t.datetime "created_at", null: false
+    t.bigint "planning_application_id"
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_consideration_sets_on_planning_application_id"
   end
 
   create_table "considerations", force: :cascade do |t|
-    t.bigint "consideration_set_id"
-    t.string "policy_area", null: false
-    t.jsonb "policy_references", default: [], null: false
-    t.jsonb "policy_guidance", default: [], null: false
     t.text "assessment"
     t.text "conclusion"
-    t.integer "position"
-    t.bigint "submitted_by_id"
+    t.bigint "consideration_set_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "proposal"
-    t.string "summary_tag"
     t.boolean "draft", default: false, null: false
+    t.string "policy_area", null: false
+    t.jsonb "policy_guidance", default: [], null: false
+    t.jsonb "policy_references", default: [], null: false
+    t.integer "position"
+    t.string "proposal"
+    t.bigint "submitted_by_id"
+    t.string "summary_tag"
+    t.datetime "updated_at", null: false
     t.index ["consideration_set_id"], name: "ix_considerations_on_consideration_set_id"
     t.index ["submitted_by_id"], name: "ix_considerations_on_submitted_by_id"
   end
 
   create_table "consistency_checklists", force: :cascade do |t|
-    t.integer "status", null: false
+    t.datetime "created_at", null: false
     t.integer "description_matches_documents", default: 0, null: false
     t.integer "documents_consistent", default: 0, null: false
+    t.bigint "planning_application_id"
     t.integer "proposal_details_match_documents", default: 0, null: false
     t.text "proposal_details_match_documents_comment"
-    t.bigint "planning_application_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "site_map_correct", default: 0, null: false
     t.integer "proposal_measurements_match_documents", default: 0, null: false
+    t.integer "site_map_correct", default: 0, null: false
     t.text "site_map_correct_comment"
+    t.integer "status", null: false
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_consistency_checklists_on_planning_application_id"
   end
 
   create_table "constraints", force: :cascade do |t|
-    t.string "type", null: false
     t.string "category", null: false
-    t.bigint "local_authority_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "searchable_type_code"
+    t.bigint "local_authority_id"
     t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, ((((((COALESCE(category, ''::character varying))::text || ' '::text) || (COALESCE(type, ''::character varying))::text) || ' '::text) || (COALESCE(searchable_type_code, ''::character varying))::text) || ' '::text))", stored: true
+    t.string "searchable_type_code"
+    t.string "type", null: false
+    t.datetime "updated_at", null: false
     t.index ["local_authority_id", "type"], name: "ix_constraints_on_local_authority_id__type", unique: true
     t.index ["local_authority_id"], name: "ix_constraints_on_local_authority_id"
   end
 
   create_table "consultations", force: :cascade do |t|
-    t.date "start_date"
-    t.bigint "planning_application_id"
+    t.uuid "consultee_email_reply_to_id"
+    t.text "consultee_message_body"
+    t.string "consultee_message_subject"
+    t.boolean "consultees_not_required", default: false, null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "status", default: "not_started", null: false
-    t.string "neighbour_letter_text"
     t.date "end_date"
     t.datetime "letter_copy_sent_at"
-    t.jsonb "polygon_geojson"
+    t.string "neighbour_letter_text"
+    t.bigint "planning_application_id"
     t.string "polygon_colour", default: "#d870fc", null: false
+    t.jsonb "polygon_geojson"
     t.geography "polygon_search", limit: {srid: 4326, type: "geometry_collection", geographic: true}
-    t.string "consultee_message_subject"
-    t.text "consultee_message_body"
-    t.uuid "consultee_email_reply_to_id"
-    t.boolean "consultees_not_required", default: false, null: false
+    t.date "start_date"
+    t.string "status", default: "not_started", null: false
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_consultations_on_planning_application_id", unique: true
   end
 
   create_table "consultee_constraints", force: :cascade do |t|
-    t.bigint "consultee_id", null: false
     t.bigint "constraint_id", null: false
+    t.bigint "consultee_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["constraint_id"], name: "ix_consultee_constraints_on_constraint_id"
@@ -341,71 +341,71 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "consultee_emails", force: :cascade do |t|
-    t.bigint "consultee_id", null: false
-    t.string "subject"
     t.text "body"
-    t.datetime "sent_at"
+    t.bigint "consultee_id", null: false
+    t.datetime "created_at", null: false
+    t.string "failure_reason"
     t.uuid "notify_id"
+    t.datetime "sent_at"
     t.string "status", default: "pending", null: false
     t.datetime "status_updated_at"
-    t.string "failure_reason"
-    t.datetime "created_at", null: false
+    t.string "subject"
     t.datetime "updated_at", null: false
     t.index ["consultee_id"], name: "ix_consultee_emails_on_consultee_id"
   end
 
   create_table "consultee_responses", force: :cascade do |t|
     t.bigint "consultee_id", null: false
-    t.string "name"
-    t.string "email"
-    t.text "response"
-    t.datetime "received_at"
-    t.text "redacted_response"
-    t.bigint "redacted_by_id"
-    t.datetime "redacted_at"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "email"
+    t.string "name"
+    t.datetime "received_at"
+    t.datetime "redacted_at"
+    t.bigint "redacted_by_id"
+    t.text "redacted_response"
+    t.text "response"
     t.string "summary_tag"
+    t.datetime "updated_at", null: false
     t.index ["consultee_id"], name: "ix_consultee_responses_on_consultee_id"
     t.index ["redacted_by_id"], name: "ix_consultee_responses_on_redacted_by_id"
   end
 
   create_table "consultees", force: :cascade do |t|
-    t.string "name", null: false
-    t.string "origin", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.bigint "consultation_id"
-    t.string "role"
-    t.string "organisation"
+    t.datetime "created_at", null: false
     t.string "email_address"
-    t.string "status", default: "not_consulted"
-    t.datetime "email_sent_at"
     t.datetime "email_delivered_at"
-    t.datetime "last_email_sent_at"
-    t.datetime "last_email_delivered_at"
+    t.datetime "email_sent_at"
     t.datetime "expires_at"
+    t.datetime "last_email_delivered_at"
+    t.datetime "last_email_sent_at"
     t.datetime "last_response_at"
     t.datetime "magic_link_last_sent_at"
+    t.string "name", null: false
+    t.string "organisation"
+    t.string "origin", null: false
+    t.string "role"
+    t.string "status", default: "not_consulted"
+    t.datetime "updated_at", null: false
     t.index ["consultation_id"], name: "ix_consultees_on_consultation_id"
   end
 
   create_table "contacts", force: :cascade do |t|
-    t.bigint "local_authority_id"
-    t.string "origin", null: false
-    t.string "category", null: false
-    t.string "name", null: false
-    t.string "role"
-    t.string "organisation"
     t.string "address_1"
     t.string "address_2"
-    t.string "town"
+    t.string "category", null: false
     t.string "county"
-    t.string "postcode"
-    t.string "email_address"
-    t.string "phone_number"
-    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((COALESCE(name, ''::character varying))::text || ' '::text) || (COALESCE(role, ''::character varying))::text) || ' '::text) || (COALESCE(organisation, ''::character varying))::text))", stored: true
     t.datetime "created_at", null: false
+    t.string "email_address"
+    t.bigint "local_authority_id"
+    t.string "name", null: false
+    t.string "organisation"
+    t.string "origin", null: false
+    t.string "phone_number"
+    t.string "postcode"
+    t.string "role"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((COALESCE(name, ''::character varying))::text || ' '::text) || (COALESCE(role, ''::character varying))::text) || ' '::text) || (COALESCE(organisation, ''::character varying))::text))", stored: true
+    t.string "town"
     t.datetime "updated_at", null: false
     t.index ["local_authority_id", "category"], name: "ix_contacts_on_local_authority_id__category"
     t.index ["local_authority_id"], name: "ix_contacts_on_local_authority_id"
@@ -414,60 +414,60 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "decisions", force: :cascade do |t|
-    t.string "code", null: false
-    t.string "description", null: false
     t.string "category", null: false
+    t.string "code", null: false
     t.datetime "created_at", null: false
+    t.string "description", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "document_checklist_items", force: :cascade do |t|
     t.string "category", null: false
-    t.jsonb "tags", default: [], null: false
+    t.datetime "created_at", null: false
     t.string "description", null: false
     t.bigint "document_checklist_id", null: false
-    t.datetime "created_at", null: false
+    t.jsonb "tags", default: [], null: false
     t.datetime "updated_at", null: false
     t.index ["document_checklist_id"], name: "ix_document_checklist_items_on_document_checklist_id"
   end
 
   create_table "document_checklists", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
+    t.bigint "planning_application_id", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_document_checklists_on_planning_application_id"
   end
 
   create_table "documents", force: :cascade do |t|
-    t.bigint "planning_application_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "archived_at", precision: nil
-    t.string "archive_reason"
-    t.string "numbers", default: "", null: false
-    t.boolean "publishable", default: false
-    t.boolean "referenced_in_decision_notice", default: false
-    t.boolean "validated"
-    t.text "invalidated_document_reason"
-    t.text "applicant_description"
-    t.bigint "user_id"
     t.bigint "api_user_id"
+    t.text "applicant_description"
+    t.string "archive_reason"
+    t.datetime "archived_at", precision: nil
+    t.boolean "available_to_consultees", default: false, null: false
+    t.uuid "case_record_id"
+    t.boolean "checked", default: false, null: false
+    t.datetime "created_at", null: false
+    t.bigint "document_checklist_items_id"
+    t.bigint "evidence_group_id"
+    t.text "invalidated_document_reason"
+    t.jsonb "metadata", default: {}, null: false
+    t.bigint "neighbour_response_id"
+    t.string "numbers", default: "", null: false
+    t.bigint "owner_id"
+    t.string "owner_type"
+    t.bigint "planning_application_id"
+    t.bigint "press_notice_id"
+    t.boolean "publishable", default: false
     t.datetime "received_at", precision: nil
     t.boolean "redacted", default: false, null: false
-    t.bigint "evidence_group_id"
-    t.bigint "site_visit_id"
-    t.bigint "neighbour_response_id"
+    t.boolean "referenced_in_decision_notice", default: false
     t.bigint "site_notice_id"
-    t.bigint "press_notice_id"
-    t.string "owner_type"
-    t.bigint "owner_id"
-    t.string "tags", default: [], array: true
-    t.bigint "document_checklist_items_id"
-    t.boolean "available_to_consultees", default: false, null: false
+    t.bigint "site_visit_id"
     t.bigint "submission_id"
-    t.jsonb "metadata", default: {}, null: false
-    t.boolean "checked", default: false, null: false
-    t.uuid "case_record_id"
+    t.string "tags", default: [], array: true
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.boolean "validated"
     t.index ["api_user_id"], name: "ix_documents_on_api_user_id"
     t.index ["case_record_id"], name: "ix_documents_on_case_record_id"
     t.index ["document_checklist_items_id"], name: "ix_documents_on_document_checklist_items_id"
@@ -483,183 +483,183 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "enforcements", force: :cascade do |t|
-    t.string "description"
-    t.string "status", default: "not_started", null: false
-    t.boolean "urgent", default: false, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "address_1"
     t.string "address_2"
-    t.string "town"
+    t.geography "boundary", limit: {srid: 4326, type: "geometry_collection", geographic: true}
+    t.datetime "closed_at"
+    t.string "closed_detail"
+    t.string "closed_reason"
     t.string "county"
+    t.datetime "created_at", null: false
+    t.string "description"
+    t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
+    t.datetime "not_started_at"
+    t.datetime "notice_served_at"
     t.string "postcode"
+    t.jsonb "proposal_details"
     t.datetime "received_at", null: false
     t.datetime "started_at"
-    t.datetime "notice_served_at"
-    t.jsonb "proposal_details"
-    t.string "uprn"
-    t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
-    t.geography "boundary", limit: {srid: 4326, type: "geometry_collection", geographic: true}
-    t.datetime "not_started_at"
+    t.string "status", default: "not_started", null: false
+    t.string "town"
     t.datetime "under_investigation_at"
-    t.datetime "closed_at"
-    t.string "closed_reason"
-    t.string "closed_detail"
+    t.datetime "updated_at", null: false
+    t.string "uprn"
+    t.boolean "urgent", default: false, null: false
   end
 
   create_table "environment_impact_assessments", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
     t.string "address"
-    t.integer "fee"
-    t.boolean "required", default: true, null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "email_address"
+    t.integer "fee"
+    t.bigint "planning_application_id", null: false
+    t.boolean "required", default: true, null: false
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_environment_impact_assessments_on_planning_application_id"
   end
 
   create_table "evidence_groups", force: :cascade do |t|
-    t.integer "tag"
-    t.date "start_date"
+    t.string "applicant_comment"
+    t.datetime "created_at", null: false
     t.date "end_date"
+    t.bigint "immunity_detail_id"
     t.boolean "missing_evidence"
     t.string "missing_evidence_entry"
-    t.string "applicant_comment"
-    t.bigint "immunity_detail_id"
-    t.datetime "created_at", null: false
+    t.date "start_date"
+    t.integer "tag"
     t.datetime "updated_at", null: false
     t.index ["immunity_detail_id"], name: "ix_evidence_groups_on_immunity_detail_id"
   end
 
   create_table "fee_calculations", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.decimal "total_fee", precision: 10, scale: 2
-    t.decimal "payable_fee", precision: 10, scale: 2
-    t.decimal "requested_fee", precision: 10, scale: 2
-    t.string "exemptions", default: [], array: true
-    t.string "reductions", default: [], array: true
     t.datetime "created_at", null: false
+    t.string "exemptions", default: [], array: true
+    t.decimal "payable_fee", precision: 10, scale: 2
+    t.bigint "planning_application_id", null: false
+    t.string "reductions", default: [], array: true
+    t.decimal "requested_fee", precision: 10, scale: 2
+    t.decimal "total_fee", precision: 10, scale: 2
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_fee_calculations_on_planning_application_id"
   end
 
   create_table "heads_of_terms", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "planning_application_id", null: false
     t.boolean "public", default: false, null: false
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_heads_of_terms_on_planning_application_id"
   end
 
   create_table "immunity_details", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.date "end_date"
     t.bigint "planning_application_id"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_immunity_details_on_planning_application_id"
   end
 
   create_table "informative_sets", force: :cascade do |t|
-    t.bigint "planning_application_id"
     t.datetime "created_at", null: false
+    t.bigint "planning_application_id"
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_informative_sets_on_planning_application_id"
   end
 
   create_table "informatives", force: :cascade do |t|
-    t.string "title"
-    t.text "text"
-    t.bigint "informative_set_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "informative_set_id"
     t.integer "position"
+    t.text "text"
+    t.string "title"
+    t.datetime "updated_at", null: false
     t.index ["informative_set_id"], name: "ix_informatives_on_informative_set_id"
     t.index ["title", "informative_set_id"], name: "ix_informatives_on_title__informative_set_id", unique: true
   end
 
   create_table "land_owners", force: :cascade do |t|
-    t.bigint "ownership_certificate_id", null: false
-    t.string "name"
     t.string "address_1"
     t.string "address_2"
-    t.string "town"
-    t.string "county"
     t.string "country"
-    t.string "postcode"
+    t.string "county"
+    t.datetime "created_at", null: false
+    t.string "name"
     t.boolean "notice_given", default: true, null: false
     t.datetime "notice_given_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "notice_reason"
+    t.bigint "ownership_certificate_id", null: false
+    t.string "postcode"
+    t.string "town"
+    t.datetime "updated_at", null: false
     t.index ["ownership_certificate_id"], name: "ix_land_owners_on_ownership_certificate_id"
   end
 
   create_table "legislation", force: :cascade do |t|
-    t.string "title"
+    t.datetime "created_at", null: false
     t.string "description"
     t.string "link"
-    t.datetime "created_at", null: false
+    t.string "title"
     t.datetime "updated_at", null: false
   end
 
   create_table "local_authorities", force: :cascade do |t|
-    t.string "subdomain", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "signatory_name"
-    t.string "signatory_job_title"
-    t.text "enquiries_paragraph"
-    t.string "email_address"
-    t.string "feedback_email"
-    t.string "reviewer_group_email"
-    t.string "council_code", null: false
-    t.string "notify_api_key"
-    t.uuid "letter_template_id"
-    t.string "press_notice_email"
-    t.string "short_name", null: false
-    t.string "council_name", null: false
-    t.string "applicants_url", null: false
-    t.uuid "email_reply_to_id"
-    t.boolean "active", default: false, null: false
-    t.string "telephone_number"
-    t.string "document_checklist"
-    t.string "planning_policy_and_guidance"
-    t.string "notify_error_status"
-    t.boolean "planning_history_enabled", default: false, null: false
-    t.string "public_register_base_url"
-    t.string "submission_guidance_url"
-    t.string "submission_url"
-    t.string "privacy_policy_url"
-    t.string "accessibility_postal_address"
-    t.string "accessibility_phone_number"
     t.string "accessibility_email_address"
+    t.string "accessibility_phone_number"
+    t.string "accessibility_postal_address"
+    t.boolean "active", default: false, null: false
+    t.string "applicants_url", null: false
+    t.string "council_code", null: false
+    t.string "council_name", null: false
+    t.datetime "created_at", null: false
+    t.string "document_checklist"
+    t.string "email_address"
+    t.uuid "email_reply_to_id"
     t.uuid "email_template_id"
-    t.uuid "sms_template_id"
-    t.string "site_notice_logo"
-    t.string "site_notice_phone_number"
-    t.string "site_notice_email_address"
-    t.boolean "site_notice_show_assigned_officer", default: false, null: false
     t.boolean "enable_notify", default: true, null: false
     t.text "engagement_statement"
+    t.text "enquiries_paragraph"
+    t.string "feedback_email"
+    t.uuid "letter_template_id"
+    t.string "notify_api_key"
+    t.string "notify_error_status"
+    t.boolean "planning_history_enabled", default: false, null: false
+    t.string "planning_policy_and_guidance"
     t.string "preapp_guidance_url"
+    t.string "press_notice_email"
+    t.string "privacy_policy_url"
+    t.string "public_register_base_url"
+    t.string "reviewer_group_email"
+    t.string "short_name", null: false
+    t.string "signatory_job_title"
+    t.string "signatory_name"
+    t.string "site_notice_email_address"
+    t.string "site_notice_logo"
+    t.string "site_notice_phone_number"
+    t.boolean "site_notice_show_assigned_officer", default: false, null: false
+    t.uuid "sms_template_id"
+    t.string "subdomain", null: false
+    t.string "submission_guidance_url"
+    t.string "submission_url"
+    t.string "telephone_number"
+    t.datetime "updated_at", null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
   create_table "local_authority_informatives", force: :cascade do |t|
-    t.bigint "local_authority_id"
-    t.string "title"
-    t.text "text"
-    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, ((((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(text, ''::text)) || ' '::text))", stored: true
     t.datetime "created_at", null: false
+    t.bigint "local_authority_id"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, ((((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(text, ''::text)) || ' '::text))", stored: true
+    t.text "text"
+    t.string "title"
     t.datetime "updated_at", null: false
     t.index ["local_authority_id"], name: "ix_local_authority_informatives_on_local_authority_id"
   end
 
   create_table "local_authority_policy_areas", force: :cascade do |t|
-    t.bigint "local_authority_id", null: false
-    t.string "description", null: false
-    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
     t.datetime "created_at", null: false
+    t.string "description", null: false
+    t.bigint "local_authority_id", null: false
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
     t.datetime "updated_at", null: false
     t.index ["local_authority_id", "description"], name: "ix_local_authority_policy_areas_on_local_authority_id__descript", unique: true
     t.index ["local_authority_id", "search"], name: "ix_local_authority_policy_areas_on_local_authority_id__search", using: :gin
@@ -675,25 +675,25 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "local_authority_policy_guidances", force: :cascade do |t|
-    t.bigint "local_authority_id", null: false
-    t.string "description", null: false
-    t.string "url"
-    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
     t.datetime "created_at", null: false
+    t.string "description", null: false
+    t.bigint "local_authority_id", null: false
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
     t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["local_authority_id", "description"], name: "ix_local_authority_policy_guidances_on_local_authority_id__desc", unique: true
     t.index ["local_authority_id", "search"], name: "ix_local_authority_policy_guidances_on_local_authority_id__sear", using: :gin
     t.index ["local_authority_id"], name: "ix_local_authority_policy_guidances_on_local_authority_id"
   end
 
   create_table "local_authority_policy_references", force: :cascade do |t|
-    t.bigint "local_authority_id", null: false
     t.string "code", null: false
-    t.string "description", null: false
-    t.string "url"
-    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((code)::text || ' '::text) || (description)::text))", stored: true
     t.datetime "created_at", null: false
+    t.string "description", null: false
+    t.bigint "local_authority_id", null: false
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((code)::text || ' '::text) || (description)::text))", stored: true
     t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["local_authority_id", "code"], name: "ix_local_authority_policy_references_on_local_authority_id__cod", unique: true
     t.index ["local_authority_id", "description"], name: "ix_local_authority_policy_references_on_local_authority_id__des", unique: true
     t.index ["local_authority_id", "search"], name: "ix_local_authority_policy_references_on_local_authority_id__sea", using: :gin
@@ -701,45 +701,45 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "local_authority_requirements", force: :cascade do |t|
-    t.bigint "local_authority_id", null: false
-    t.string "description", null: false
-    t.string "url"
-    t.text "guidelines"
-    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "category", limit: 30, null: false
+    t.datetime "created_at", null: false
+    t.string "description", null: false
+    t.text "guidelines"
+    t.bigint "local_authority_id", null: false
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (description)::text)", stored: true
+    t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["local_authority_id", "description"], name: "ix_local_authority_requirements_on_local_authority_id__descript", unique: true
     t.index ["local_authority_id", "search"], name: "ix_local_authority_requirements_on_local_authority_id__search", using: :gin
     t.index ["local_authority_id"], name: "ix_local_authority_requirements_on_local_authority_id"
   end
 
   create_table "local_policies", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
     t.datetime "created_at", null: false
+    t.bigint "planning_application_id", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_local_policies_on_planning_application_id"
   end
 
   create_table "local_policy_areas", force: :cascade do |t|
     t.string "area"
-    t.string "policies"
-    t.string "guidance"
     t.text "assessment"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "local_policy_id"
     t.text "conclusion"
+    t.datetime "created_at", null: false
+    t.string "guidance"
+    t.bigint "local_policy_id"
+    t.string "policies"
+    t.datetime "updated_at", null: false
     t.index ["local_policy_id"], name: "ix_local_policy_areas_on_local_policy_id"
   end
 
   create_table "meetings", force: :cascade do |t|
+    t.text "comment"
+    t.datetime "created_at", null: false
     t.bigint "created_by_id", null: false
+    t.datetime "occurred_at", null: false
     t.bigint "planning_application_id"
     t.string "status", default: "not_started", null: false
-    t.text "comment"
-    t.datetime "occurred_at", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["created_by_id"], name: "ix_meetings_on_created_by_id"
     t.index ["planning_application_id"], name: "ix_meetings_on_planning_application_id"
@@ -747,42 +747,42 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
 
   create_table "neighbour_letter_batches", force: :cascade do |t|
     t.bigint "consultation_id"
-    t.string "text"
     t.datetime "created_at", null: false
+    t.string "text"
     t.datetime "updated_at", null: false
     t.index ["consultation_id"], name: "ix_neighbour_letter_batches_on_consultation_id"
   end
 
   create_table "neighbour_letters", force: :cascade do |t|
-    t.bigint "neighbour_id", null: false
-    t.string "text"
-    t.string "sent_at"
-    t.jsonb "notify_response"
+    t.bigint "batch_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "failure_reason"
+    t.bigint "neighbour_id", null: false
     t.string "notify_id"
+    t.jsonb "notify_response"
+    t.string "resend_reason"
+    t.string "sent_at"
     t.string "status"
     t.string "status_updated_at"
-    t.string "failure_reason"
-    t.string "resend_reason"
-    t.bigint "batch_id"
+    t.string "text"
+    t.datetime "updated_at", null: false
     t.index ["batch_id"], name: "ix_neighbour_letters_on_batch_id"
     t.index ["neighbour_id"], name: "ix_neighbour_letters_on_neighbour_id"
   end
 
   create_table "neighbour_responses", force: :cascade do |t|
-    t.bigint "neighbour_id"
-    t.string "name"
-    t.string "response"
-    t.string "email"
-    t.datetime "received_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "summary_tag"
-    t.text "redacted_response"
     t.bigint "consultation_id"
+    t.datetime "created_at", null: false
+    t.string "email"
+    t.string "name"
+    t.bigint "neighbour_id"
+    t.datetime "received_at"
     t.bigint "redacted_by_id"
+    t.text "redacted_response"
+    t.string "response"
+    t.string "summary_tag"
     t.string "tags", default: [], array: true
+    t.datetime "updated_at", null: false
     t.index ["consultation_id"], name: "ix_neighbour_responses_on_consultation_id"
     t.index ["neighbour_id"], name: "ix_neighbour_responses_on_neighbour_id"
     t.index ["redacted_by_id"], name: "ix_neighbour_responses_on_redacted_by_id"
@@ -792,108 +792,108 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
     t.string "address"
     t.bigint "consultation_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.boolean "selected", default: true
     t.datetime "last_letter_sent_at"
-    t.string "source"
     t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
+    t.boolean "selected", default: true
+    t.string "source"
+    t.datetime "updated_at", null: false
     t.index "lower((address)::text), consultation_id", name: "index_neighbours_on_lower_address_and_consultation_id", unique: true
     t.index ["consultation_id"], name: "ix_neighbours_on_consultation_id"
   end
 
   create_table "notes", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "user_id", null: false
-    t.text "entry", null: false
     t.datetime "created_at", null: false
+    t.text "entry", null: false
+    t.bigint "planning_application_id", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
     t.index ["planning_application_id"], name: "ix_notes_on_planning_application_id"
     t.index ["user_id"], name: "ix_notes_on_user_id"
   end
 
   create_table "old_policies", force: :cascade do |t|
-    t.string "section", null: false
-    t.string "description", null: false
-    t.integer "status", null: false
-    t.bigint "policy_class_id"
     t.datetime "created_at", null: false
+    t.string "description", null: false
+    t.bigint "policy_class_id"
+    t.string "section", null: false
+    t.integer "status", null: false
     t.datetime "updated_at", null: false
     t.index ["policy_class_id"], name: "ix_old_policies_on_policy_class_id"
   end
 
   create_table "old_policy_classes", force: :cascade do |t|
-    t.string "schedule", null: false
-    t.integer "part", null: false
-    t.string "section", null: false
-    t.string "url"
-    t.string "name", null: false
-    t.bigint "planning_application_id"
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "part", null: false
+    t.bigint "planning_application_id"
+    t.string "schedule", null: false
+    t.string "section", null: false
     t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["planning_application_id"], name: "ix_old_policy_classes_on_planning_application_id"
   end
 
   create_table "ownership_certificates", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
     t.string "certificate_type"
     t.datetime "created_at", null: false
+    t.bigint "planning_application_id", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_ownership_certificates_on_planning_application_id"
   end
 
   create_table "payments", force: :cascade do |t|
     t.decimal "amount"
+    t.bigint "charge_id"
+    t.datetime "created_at", null: false
     t.date "payment_date"
     t.string "payment_type"
     t.string "reference"
-    t.bigint "charge_id"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["charge_id"], name: "ix_payments_on_charge_id"
   end
 
   create_table "permitted_development_rights", force: :cascade do |t|
-    t.string "status", null: false
+    t.boolean "accepted", default: false, null: false
+    t.bigint "assessor_id"
+    t.datetime "created_at", null: false
+    t.bigint "planning_application_id"
     t.boolean "removed"
     t.text "removed_reason"
-    t.bigint "planning_application_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "review_status", default: "review_not_started", null: false
+    t.datetime "reviewed_at", precision: nil
     t.text "reviewer_comment"
     t.boolean "reviewer_edited", default: false, null: false
-    t.boolean "accepted", default: false, null: false
-    t.datetime "reviewed_at", precision: nil
-    t.bigint "assessor_id"
     t.bigint "reviewer_id"
+    t.string "status", null: false
+    t.datetime "updated_at", null: false
     t.index ["assessor_id"], name: "ix_permitted_development_rights_on_assessor_id"
     t.index ["planning_application_id"], name: "ix_permitted_development_rights_on_planning_application_id"
     t.index ["reviewer_id"], name: "ix_permitted_development_rights_on_reviewer_id"
   end
 
   create_table "planning_application_constraint_consultees", force: :cascade do |t|
-    t.bigint "planning_application_constraint_id", null: false
     t.bigint "consultee_id", null: false
     t.datetime "created_at", null: false
+    t.bigint "planning_application_constraint_id", null: false
     t.datetime "updated_at", null: false
     t.index ["consultee_id"], name: "ix_pacc_on_consultee_id"
     t.index ["planning_application_constraint_id", "consultee_id"], name: "ix_pacc_on_constraint_id_and_consultee_id", unique: true
   end
 
   create_table "planning_application_constraints", force: :cascade do |t|
-    t.bigint "planning_application_id"
-    t.bigint "planning_application_constraints_query_id"
     t.bigint "constraint_id"
+    t.boolean "consultation_required", default: true, null: false
+    t.bigint "consultee_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "removed_at"
     t.jsonb "data"
-    t.jsonb "metadata"
     t.boolean "identified", default: false, null: false
     t.string "identified_by", null: false
-    t.bigint "consultee_id"
-    t.boolean "consultation_required", default: true, null: false
+    t.jsonb "metadata"
+    t.bigint "planning_application_constraints_query_id"
+    t.bigint "planning_application_id"
+    t.datetime "removed_at"
     t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
     t.index ["constraint_id"], name: "ix_planning_application_constraints_on_constraint_id"
     t.index ["consultee_id"], name: "ix_planning_application_constraints_on_consultee_id"
     t.index ["planning_application_constraints_query_id"], name: "ix_planning_application_constraints_on_planning_application_con"
@@ -901,20 +901,20 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "planning_application_constraints_queries", force: :cascade do |t|
-    t.jsonb "geojson"
-    t.text "wkt"
-    t.string "planx_query", null: false
-    t.string "planning_data_query", null: false
-    t.bigint "planning_application_id"
     t.datetime "created_at", null: false
+    t.jsonb "geojson"
+    t.bigint "planning_application_id"
+    t.string "planning_data_query", null: false
+    t.string "planx_query", null: false
     t.datetime "updated_at", null: false
+    t.text "wkt"
     t.index ["planning_application_id"], name: "ix_planning_application_constraints_queries_on_planning_applica"
   end
 
   create_table "planning_application_policy_classes", force: :cascade do |t|
+    t.datetime "created_at", null: false
     t.bigint "planning_application_id", null: false
     t.bigint "policy_class_id", null: false
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_planning_application_policy_classes_on_planning_application_"
     t.index ["policy_class_id", "planning_application_id"], name: "ix_pa_policy_classes_on_policy_class_and_pa", unique: true
@@ -922,139 +922,139 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "planning_application_policy_sections", force: :cascade do |t|
-    t.string "status"
+    t.datetime "created_at", null: false
+    t.text "description", null: false
     t.bigint "planning_application_id", null: false
     t.bigint "policy_section_id", null: false
-    t.datetime "created_at", null: false
+    t.string "status"
     t.datetime "updated_at", null: false
-    t.text "description", null: false
     t.index ["planning_application_id"], name: "ix_planning_application_policy_sections_on_planning_application"
     t.index ["policy_section_id"], name: "ix_planning_application_policy_sections_on_policy_section_id"
   end
 
   create_table "planning_application_requirements", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.string "description", null: false
-    t.string "url"
-    t.text "guidelines"
     t.text "additional_comments"
-    t.string "source", default: "BOPS"
     t.string "category", limit: 30
     t.datetime "created_at", null: false
+    t.string "description", null: false
+    t.text "guidelines"
+    t.bigint "planning_application_id", null: false
+    t.string "source", default: "BOPS"
     t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["planning_application_id"], name: "ix_planning_application_requirements_on_planning_application_id"
   end
 
   create_table "planning_applications", force: :cascade do |t|
-    t.date "target_date", null: false
-    t.string "status", default: "pending", null: false
-    t.datetime "started_at", precision: nil
-    t.datetime "determined_at", precision: nil
-    t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.datetime "awaiting_determination_at", precision: nil
-    t.datetime "in_assessment_at", precision: nil
-    t.datetime "to_be_reviewed_at", precision: nil
-    t.jsonb "proposal_details"
+    t.string "address_1"
+    t.string "address_2"
+    t.virtual "address_search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((((((COALESCE(address_1, ''::character varying))::text || ' '::text) || (COALESCE(address_2, ''::character varying))::text) || ' '::text) || (COALESCE(town, ''::character varying))::text) || ' '::text) || (COALESCE(county, ''::character varying))::text) || ' '::text) || (COALESCE(postcode, ''::character varying))::text))", stored: true
+    t.string "agent_address_1"
+    t.string "agent_address_2"
+    t.string "agent_company_name"
+    t.string "agent_country"
+    t.string "agent_county"
+    t.string "agent_email"
     t.string "agent_first_name"
     t.string "agent_last_name"
     t.string "agent_phone"
-    t.string "agent_email"
-    t.string "applicant_first_name"
-    t.string "applicant_last_name"
-    t.string "applicant_email"
-    t.string "applicant_phone"
-    t.bigint "local_authority_id"
-    t.datetime "invalidated_at", precision: nil
-    t.datetime "withdrawn_at", precision: nil
-    t.datetime "returned_at", precision: nil
-    t.string "payment_reference"
-    t.text "closed_or_cancellation_comment"
-    t.string "work_status", default: "proposed"
-    t.string "decision"
-    t.text "public_comment"
-    t.string "address_1"
-    t.string "address_2"
-    t.string "town"
-    t.string "county"
-    t.string "postcode"
-    t.string "uprn"
-    t.jsonb "boundary_geojson"
-    t.string "change_access_id"
-    t.date "expiry_date"
-    t.decimal "payment_amount", precision: 10, scale: 2
-    t.string "result_flag"
-    t.text "result_heading"
-    t.text "result_description"
-    t.string "result_override"
-    t.bigint "api_user_id"
-    t.bigint "boundary_created_by_id"
-    t.datetime "assessment_in_progress_at", precision: nil
-    t.string "ward"
-    t.string "ward_type"
-    t.string "latitude"
-    t.string "longitude"
-    t.datetime "closed_at", precision: nil
-    t.datetime "determination_date", precision: nil
-    t.integer "user_role"
-    t.boolean "updated_address_or_boundary_geojson", default: false
-    t.boolean "constraints_checked", default: false, null: false
-    t.boolean "valid_fee"
-    t.boolean "documents_missing"
-    t.boolean "valid_red_line_boundary"
-    t.decimal "invalid_payment_amount", precision: 10, scale: 2
-    t.bigint "application_number", null: false
-    t.string "parish_name"
-    t.jsonb "feedback", default: {}
-    t.string "reference"
-    t.datetime "validated_at", precision: nil
-    t.datetime "received_at", precision: nil
-    t.string "review_documents_for_recommendation_status", default: "not_started", null: false
-    t.boolean "from_production", default: false
-    t.text "changed_constraints", array: true
-    t.bigint "application_type_id"
-    t.boolean "make_public", default: false
-    t.boolean "legislation_checked", default: false, null: false
-    t.boolean "cil_liable"
-    t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
-    t.datetime "not_started_at"
-    t.boolean "valid_ownership_certificate"
-    t.boolean "valid_description"
-    t.geography "neighbour_boundary_geojson", limit: {srid: 4326, type: "geometry_collection", geographic: true}
-    t.string "documents_status", default: "not_started", null: false
-    t.datetime "in_committee_at"
-    t.boolean "regulation_3", default: false, null: false
-    t.boolean "regulation_4", default: false, null: false
-    t.boolean "ownership_certificate_checked", default: false, null: false
-    t.datetime "published_at"
-    t.boolean "site_history_checked", default: false, null: false
-    t.virtual "address_search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((((((COALESCE(address_1, ''::character varying))::text || ' '::text) || (COALESCE(address_2, ''::character varying))::text) || ' '::text) || (COALESCE(town, ''::character varying))::text) || ' '::text) || (COALESCE(county, ''::character varying))::text) || ' '::text) || (COALESCE(postcode, ''::character varying))::text))", stored: true
-    t.datetime "deleted_at"
-    t.string "previous_references", default: [], array: true
-    t.bigint "recommended_application_type_id"
-    t.bigint "reporting_type_id"
-    t.string "reporting_type_code"
-    t.bigint "submission_id"
-    t.string "map_east"
-    t.string "map_north"
-    t.boolean "section_55_development"
-    t.boolean "consultation_required"
-    t.string "agent_company_name"
-    t.string "agent_address_1"
-    t.string "agent_address_2"
-    t.string "agent_town"
-    t.string "agent_county"
     t.string "agent_postcode"
-    t.string "agent_country"
+    t.string "agent_town"
+    t.string "alternative_reference"
+    t.bigint "api_user_id"
     t.string "applicant_address_1"
     t.string "applicant_address_2"
-    t.string "applicant_town"
-    t.string "applicant_county"
-    t.string "applicant_postcode"
     t.string "applicant_country"
-    t.string "alternative_reference"
+    t.string "applicant_county"
+    t.string "applicant_email"
+    t.string "applicant_first_name"
+    t.string "applicant_last_name"
+    t.string "applicant_phone"
+    t.string "applicant_postcode"
+    t.string "applicant_town"
+    t.bigint "application_number", null: false
+    t.bigint "application_type_id"
+    t.datetime "assessment_in_progress_at", precision: nil
+    t.datetime "awaiting_determination_at", precision: nil
+    t.bigint "boundary_created_by_id"
+    t.jsonb "boundary_geojson"
+    t.string "change_access_id"
+    t.text "changed_constraints", array: true
+    t.boolean "cil_liable"
+    t.datetime "closed_at", precision: nil
+    t.text "closed_or_cancellation_comment"
+    t.boolean "constraints_checked", default: false, null: false
+    t.boolean "consultation_required"
+    t.string "county"
+    t.datetime "created_at", null: false
+    t.string "decision"
+    t.datetime "deleted_at"
+    t.text "description"
+    t.datetime "determination_date", precision: nil
+    t.datetime "determined_at", precision: nil
+    t.boolean "documents_missing"
+    t.string "documents_status", default: "not_started", null: false
+    t.date "expiry_date"
+    t.jsonb "feedback", default: {}
+    t.boolean "from_production", default: false
+    t.datetime "in_assessment_at", precision: nil
+    t.datetime "in_committee_at"
+    t.decimal "invalid_payment_amount", precision: 10, scale: 2
+    t.datetime "invalidated_at", precision: nil
+    t.string "latitude"
+    t.boolean "legislation_checked", default: false, null: false
+    t.bigint "local_authority_id"
+    t.string "longitude"
+    t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
+    t.boolean "make_public", default: false
+    t.string "map_east"
+    t.string "map_north"
+    t.geography "neighbour_boundary_geojson", limit: {srid: 4326, type: "geometry_collection", geographic: true}
+    t.datetime "not_started_at"
+    t.boolean "ownership_certificate_checked", default: false, null: false
+    t.string "parish_name"
+    t.decimal "payment_amount", precision: 10, scale: 2
+    t.string "payment_reference"
+    t.string "postcode"
+    t.string "previous_references", default: [], array: true
+    t.jsonb "proposal_details"
+    t.text "public_comment"
+    t.datetime "published_at"
+    t.datetime "received_at", precision: nil
+    t.bigint "recommended_application_type_id"
+    t.string "reference"
+    t.boolean "regulation_3", default: false, null: false
+    t.boolean "regulation_4", default: false, null: false
+    t.string "reporting_type_code"
+    t.bigint "reporting_type_id"
+    t.text "result_description"
+    t.string "result_flag"
+    t.text "result_heading"
+    t.string "result_override"
+    t.datetime "returned_at", precision: nil
+    t.string "review_documents_for_recommendation_status", default: "not_started", null: false
+    t.boolean "section_55_development"
+    t.boolean "site_history_checked", default: false, null: false
+    t.datetime "started_at", precision: nil
+    t.string "status", default: "pending", null: false
+    t.bigint "submission_id"
+    t.date "target_date", null: false
+    t.datetime "to_be_reviewed_at", precision: nil
+    t.string "town"
+    t.boolean "updated_address_or_boundary_geojson", default: false
+    t.datetime "updated_at", null: false
+    t.string "uprn"
+    t.bigint "user_id"
+    t.integer "user_role"
+    t.boolean "valid_description"
+    t.boolean "valid_fee"
+    t.boolean "valid_ownership_certificate"
+    t.boolean "valid_red_line_boundary"
+    t.datetime "validated_at", precision: nil
+    t.string "ward"
+    t.string "ward_type"
+    t.datetime "withdrawn_at", precision: nil
+    t.string "work_status", default: "proposed"
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "lower(replace((postcode)::text, ' '::text, ''::text))", name: "ix_planning_applications_on_LOWER_replace_postcode"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
@@ -1077,93 +1077,93 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "planx_planning_data", force: :cascade do |t|
-    t.jsonb "entry"
-    t.bigint "planning_application_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "session_id"
+    t.jsonb "entry"
     t.jsonb "params_v1"
     t.jsonb "params_v2"
+    t.bigint "planning_application_id"
+    t.string "session_id"
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_planx_planning_data_on_planning_application_id"
   end
 
   create_table "policy_classes", force: :cascade do |t|
-    t.string "section", null: false
-    t.string "name", null: false
-    t.string "url"
-    t.bigint "policy_part_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.bigint "policy_part_id", null: false
+    t.string "section", null: false
     t.datetime "updated_at", null: false
+    t.string "url"
     t.index ["policy_part_id"], name: "ix_policy_classes_on_policy_part_id"
     t.index ["section", "policy_part_id"], name: "ix_policy_classes_on_section__policy_part_id", unique: true
   end
 
   create_table "policy_parts", force: :cascade do |t|
-    t.integer "number", null: false
-    t.string "name", null: false
-    t.bigint "policy_schedule_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.integer "number", null: false
+    t.bigint "policy_schedule_id", null: false
     t.datetime "updated_at", null: false
     t.index ["number", "policy_schedule_id"], name: "ix_policy_parts_on_number__policy_schedule_id", unique: true
     t.index ["policy_schedule_id"], name: "ix_policy_parts_on_policy_schedule_id"
   end
 
   create_table "policy_schedules", force: :cascade do |t|
-    t.integer "number", null: false
-    t.string "name"
     t.datetime "created_at", null: false
+    t.string "name"
+    t.integer "number", null: false
     t.datetime "updated_at", null: false
     t.index ["number"], name: "ix_policy_schedules_on_number", unique: true
   end
 
   create_table "policy_sections", force: :cascade do |t|
-    t.string "section", null: false
+    t.datetime "created_at", null: false
     t.text "description", null: false
     t.bigint "policy_class_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string "section", null: false
     t.string "title", default: "Other", null: false
+    t.datetime "updated_at", null: false
     t.index ["policy_class_id"], name: "ix_policy_sections_on_policy_class_id"
     t.index ["section", "policy_class_id"], name: "ix_policy_sections_on_section__policy_class_id", unique: true
   end
 
   create_table "press_notices", force: :cascade do |t|
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.date "expiry_date"
+    t.text "other_reason"
     t.bigint "planning_application_id", null: false
-    t.boolean "required", null: false
+    t.datetime "published_at"
     t.jsonb "reasons"
     t.datetime "requested_at"
-    t.datetime "published_at"
-    t.datetime "created_at", null: false
+    t.boolean "required", null: false
     t.datetime "updated_at", null: false
-    t.text "comment"
-    t.text "other_reason"
-    t.date "expiry_date"
     t.index ["planning_application_id"], name: "ix_press_notices_on_planning_application_id"
   end
 
   create_table "proposal_measurements", force: :cascade do |t|
-    t.bigint "planning_application_id"
-    t.float "eaves_height"
-    t.float "depth"
-    t.float "max_height"
     t.datetime "created_at", null: false
+    t.float "depth"
+    t.float "eaves_height"
+    t.float "max_height"
+    t.bigint "planning_application_id"
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_proposal_measurements_on_planning_application_id"
   end
 
   create_table "recommendations", force: :cascade do |t|
-    t.bigint "planning_application_id", null: false
-    t.bigint "assessor_id"
-    t.bigint "reviewer_id"
     t.text "assessor_comment"
-    t.text "reviewer_comment"
-    t.datetime "reviewed_at", precision: nil
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "assessor_id"
     t.boolean "challenged"
-    t.boolean "submitted"
-    t.integer "status", default: 0, null: false
     t.boolean "committee_overturned", default: false, null: false
+    t.datetime "created_at", null: false
+    t.bigint "planning_application_id", null: false
+    t.datetime "reviewed_at", precision: nil
+    t.text "reviewer_comment"
+    t.bigint "reviewer_id"
+    t.integer "status", default: 0, null: false
+    t.boolean "submitted"
+    t.datetime "updated_at", null: false
     t.index ["assessor_id"], name: "index_recommendations_on_assessor_id"
     t.index ["planning_application_id"], name: "index_recommendations_on_planning_application_id"
     t.index ["reviewer_id"], name: "index_recommendations_on_reviewer_id"
@@ -1171,27 +1171,27 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
 
   create_table "refunds", force: :cascade do |t|
     t.decimal "amount"
+    t.datetime "created_at", null: false
     t.date "date"
     t.string "payment_type"
-    t.string "reference"
-    t.string "reason"
     t.bigint "planning_application_id", null: false
-    t.datetime "created_at", null: false
+    t.string "reason"
+    t.string "reference"
     t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_refunds_on_planning_application_id"
   end
 
   create_table "reporting_types", force: :cascade do |t|
+    t.string "categories", default: [], null: false, array: true
     t.string "code", null: false
+    t.virtual "code_prefix", type: :text, as: "regexp_replace((code)::text, '[0-9]+$'::text, ''::text)", stored: true
+    t.virtual "code_suffix", type: :integer, as: "(regexp_replace((code)::text, '^[A-Z]+'::text, ''::text))::integer", stored: true
+    t.datetime "created_at", null: false
     t.string "description", null: false
     t.string "guidance"
     t.string "guidance_link"
     t.string "legislation"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.virtual "code_prefix", type: :text, as: "regexp_replace((code)::text, '[0-9]+$'::text, ''::text)", stored: true
-    t.virtual "code_suffix", type: :integer, as: "(regexp_replace((code)::text, '^[A-Z]+'::text, ''::text))::integer", stored: true
-    t.string "categories", default: [], null: false, array: true
     t.index ["code"], name: "ix_reporting_types_on_code", unique: true
     t.index ["code_prefix", "code_suffix"], name: "ix_reporting_types_on_code_prefix__code_suffix"
   end
@@ -1199,61 +1199,61 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   create_table "reviews", force: :cascade do |t|
     t.string "action"
     t.bigint "assessor_id"
-    t.string "owner_type", null: false
-    t.bigint "owner_id", null: false
-    t.datetime "reviewed_at"
-    t.bigint "reviewer_id"
     t.text "comment"
-    t.string "status", default: "not_started", null: false
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "owner_id", null: false
+    t.string "owner_type", null: false
     t.string "review_status", default: "review_not_started", null: false
+    t.datetime "reviewed_at"
     t.boolean "reviewer_edited", default: false, null: false
+    t.bigint "reviewer_id"
     t.jsonb "specific_attributes"
+    t.string "status", default: "not_started", null: false
+    t.datetime "updated_at", null: false
     t.index ["assessor_id"], name: "ix_reviews_on_assessor_id"
     t.index ["owner_type", "owner_id"], name: "index_reviews_on_reviewable"
     t.index ["reviewer_id"], name: "ix_reviews_on_reviewer_id"
   end
 
   create_table "site_histories", force: :cascade do |t|
-    t.date "date"
-    t.string "application_number"
-    t.string "description"
-    t.string "decision"
-    t.bigint "planning_application_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text "comment"
     t.string "address"
+    t.string "application_number"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.date "date"
+    t.string "decision"
+    t.string "description"
+    t.bigint "planning_application_id", null: false
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_site_histories_on_planning_application_id"
   end
 
   create_table "site_notices", force: :cascade do |t|
-    t.bigint "planning_application_id"
-    t.boolean "required"
     t.text "content"
-    t.datetime "displayed_at"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "displayed_at"
     t.date "expiry_date"
     t.string "internal_team_email"
-    t.integer "quantity", default: 1, null: false
     t.text "location_instructions"
+    t.bigint "planning_application_id"
+    t.integer "quantity", default: 1, null: false
+    t.boolean "required"
+    t.datetime "updated_at", null: false
     t.index ["planning_application_id"], name: "ix_site_notices_on_planning_application_id"
   end
 
   create_table "site_visits", force: :cascade do |t|
-    t.bigint "consultation_id"
-    t.bigint "created_by_id", null: false
-    t.string "status", default: "not_started", null: false
+    t.string "address"
     t.text "comment", null: false
-    t.boolean "decision", null: false
-    t.datetime "visited_at"
+    t.bigint "consultation_id"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.bigint "created_by_id", null: false
+    t.boolean "decision", null: false
     t.bigint "neighbour_id"
     t.bigint "planning_application_id", null: false
-    t.string "address"
+    t.string "status", default: "not_started", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "visited_at"
     t.index ["consultation_id"], name: "ix_site_visits_on_consultation_id"
     t.index ["created_by_id"], name: "ix_site_visits_on_created_by_id"
     t.index ["neighbour_id"], name: "ix_site_visits_on_neighbour_id"
@@ -1261,78 +1261,78 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "submissions", force: :cascade do |t|
-    t.string "status", default: "submitted", null: false
-    t.datetime "started_at"
-    t.datetime "failed_at"
-    t.datetime "completed_at"
-    t.jsonb "request_headers", default: {}, null: false
-    t.jsonb "request_body", default: {}, null: false
-    t.bigint "local_authority_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "external_uuid"
-    t.string "error_message"
     t.jsonb "application_payload", default: {}, null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.string "error_message"
+    t.string "external_uuid"
+    t.datetime "failed_at"
+    t.bigint "local_authority_id", null: false
+    t.jsonb "request_body", default: {}, null: false
+    t.jsonb "request_headers", default: {}, null: false
     t.string "schema"
+    t.datetime "started_at"
+    t.string "status", default: "submitted", null: false
+    t.datetime "updated_at", null: false
     t.index ["external_uuid"], name: "ix_submissions_on_external_uuid", unique: true
     t.index ["local_authority_id"], name: "ix_submissions_on_local_authority_id"
     t.index ["status"], name: "ix_submissions_on_status"
   end
 
   create_table "tasks", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "parent_type", null: false
-    t.uuid "parent_id", null: false
-    t.string "name", null: false
-    t.string "status", default: "not_started"
-    t.string "slug", null: false
-    t.boolean "optional", default: false, null: false
-    t.integer "position"
-    t.datetime "started_at"
     t.datetime "completed_at"
     t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "section"
-    t.string "legacy_url"
     t.boolean "hidden", default: false, null: false
+    t.string "legacy_url"
+    t.string "name", null: false
+    t.boolean "optional", default: false, null: false
+    t.uuid "parent_id", null: false
+    t.string "parent_type", null: false
+    t.integer "position"
+    t.string "section"
+    t.string "slug", null: false
+    t.datetime "started_at"
+    t.string "status", default: "not_started"
     t.boolean "status_hidden", default: false, null: false
+    t.datetime "updated_at", null: false
     t.index ["parent_type", "parent_id", "name"], name: "index_tasks_on_parent_and_name", unique: true
     t.index ["parent_type", "parent_id", "slug"], name: "index_tasks_on_parent_and_slug"
     t.index ["parent_type", "parent_id"], name: "index_tasks_on_parent"
   end
 
   create_table "terms", force: :cascade do |t|
-    t.string "title", null: false
-    t.text "text", null: false
-    t.bigint "heads_of_term_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "position"
     t.datetime "cancelled_at"
+    t.datetime "created_at", null: false
+    t.bigint "heads_of_term_id"
+    t.integer "position"
+    t.text "text", null: false
+    t.string "title", null: false
+    t.datetime "updated_at", null: false
     t.index ["heads_of_term_id"], name: "ix_terms_on_heads_of_term_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: nil
-    t.datetime "remember_created_at", precision: nil
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "role", default: 0
-    t.string "name"
-    t.bigint "local_authority_id"
-    t.integer "consumed_timestep"
-    t.boolean "otp_required_for_login", default: true, null: false
-    t.string "mobile_number"
-    t.integer "otp_delivery_method", default: 0
-    t.string "otp_secret"
+    t.datetime "confirmation_sent_at"
     t.string "confirmation_token"
     t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.string "persistence_token"
+    t.integer "consumed_timestep"
+    t.datetime "created_at", null: false
     t.datetime "deactivated_at"
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.bigint "local_authority_id"
+    t.string "mobile_number"
+    t.string "name"
+    t.integer "otp_delivery_method", default: 0
+    t.boolean "otp_required_for_login", default: true, null: false
+    t.string "otp_secret"
+    t.string "persistence_token"
+    t.datetime "remember_created_at", precision: nil
+    t.datetime "reset_password_sent_at", precision: nil
+    t.string "reset_password_token"
+    t.integer "role", default: 0
+    t.string "unconfirmed_email"
+    t.datetime "updated_at", null: false
     t.index ["confirmation_token"], name: "ix_users_on_confirmation_token", unique: true
     t.index ["deactivated_at"], name: "ix_users_on_deactivated_at"
     t.index ["email", "local_authority_id"], name: "index_users_on_email_and_local_authority_id", unique: true
@@ -1341,30 +1341,30 @@ ActiveRecord::Schema[8.0].define(version: 2026_01_21_101637) do
   end
 
   create_table "validation_requests", force: :cascade do |t|
-    t.string "type", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "planning_application_id"
-    t.datetime "closed_at", precision: nil
-    t.boolean "update_counter", default: false, null: false
-    t.string "state"
-    t.bigint "user_id"
-    t.boolean "post_validation", default: false, null: false
     t.boolean "approved"
+    t.boolean "auto_closed", default: false, null: false
+    t.datetime "auto_closed_at"
+    t.text "cancel_reason"
+    t.datetime "cancelled_at"
+    t.datetime "closed_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "notified_at"
+    t.bigint "old_document_id"
+    t.bigint "owner_id"
+    t.string "owner_type"
+    t.bigint "planning_application_id"
+    t.boolean "post_validation", default: false, null: false
+    t.date "proposed_expiry_date"
     t.text "reason"
     t.string "rejection_reason"
     t.text "response"
-    t.datetime "notified_at"
-    t.datetime "cancelled_at"
-    t.text "cancel_reason"
-    t.boolean "auto_closed", default: false, null: false
-    t.datetime "auto_closed_at"
-    t.bigint "old_document_id"
     t.integer "sequence"
     t.jsonb "specific_attributes"
-    t.string "owner_type"
-    t.bigint "owner_id"
-    t.date "proposed_expiry_date"
+    t.string "state"
+    t.string "type", null: false
+    t.boolean "update_counter", default: false, null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
     t.index ["old_document_id"], name: "ix_validation_requests_on_old_document_id"
     t.index ["owner_type", "owner_id"], name: "index_validation_requests_on_owner"
     t.index ["planning_application_id"], name: "ix_validation_requests_on_planning_application_id"

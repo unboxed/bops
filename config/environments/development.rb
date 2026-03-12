@@ -57,7 +57,7 @@ Rails.application.configure do
 
   if ENV["NOTIFY_API_KEY"].present?
     config.action_mailer.delivery_method = :notify
-    config.action_mailer.notify_settings = { api_key: ENV["NOTIFY_API_KEY"] }
+    config.action_mailer.notify_settings = {api_key: ENV["NOTIFY_API_KEY"]}
   end
 
   # Print deprecation notices to the Rails logger.
@@ -75,20 +75,23 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
+  # Append comments with runtime information tags to SQL queries in logs.
+  config.active_record.query_log_tags_enabled = true
+
+  # Highlight code that enqueued background job in logs.
+  config.active_job.verbose_enqueue_logs = true
+
+  # Highlight code that triggered redirect in logs.
+  config.action_dispatch.verbose_redirect_logs = true
+
   # Raises error for missing translations.
   config.i18n.raise_on_missing_translations = true
 
   # Annotate rendered view with file names.
   config.action_view.annotate_rendered_view_with_filenames = true
 
-  # Highlight code that enqueued background job in logs.
-  config.active_job.verbose_enqueue_logs = true
-
   # Suppress logger output for asset requests.
   config.assets.quiet = true
-
-  # Append comments with runtime information tags to SQL queries in logs.
-  config.active_record.query_log_tags_enabled = true
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.

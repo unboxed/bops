@@ -26,10 +26,13 @@
     <%= govuk_table(id: "policy-references") do |table| %>
       <% table.with_head do |head| %>
         <% head.with_row do |row| %>
-          <% row.with_cell(text: t(".headings.code")) %>
-          <% row.with_cell(text: t(".headings.description")) %>
-          <% row.with_cell(text: t(".headings.policy_areas")) %>
-          <% row.with_cell(text: t(".headings.actions"), classes: %w[govuk-!-text-align-right]) %>
+          <% row.with_cell(text: t("bops_admin.policy_references.index.headings.code")) %>
+
+          <% row.with_cell(text: t("bops_admin.policy_references.index.headings.description")) %>
+
+          <% row.with_cell(text: t("bops_admin.policy_references.index.headings.policy_areas")) %>
+
+          <% row.with_cell(text: t("bops_admin.policy_references.index.headings.actions"), classes: %w[govuk-!-text-align-right]) %>
         <% end %>
       <% end %>
 
@@ -47,14 +50,15 @@
               <% end %>
               <% row.with_cell(text: policy_reference.human_policy_areas) %>
               <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
-                <%= govuk_link_to t(".actions.edit"), edit_policy_reference_path(policy_reference), no_visited_state: true, no_underline: true %>
-                <%= govuk_link_to t(".actions.delete"), policy_reference_path(policy_reference), no_visited_state: true, no_underline: true, class: "govuk-!-margin-left-1", method: :delete, data: {confirm: t(".are_you_sure")} %>
+                <%= govuk_link_to t("bops_admin.policy_references.index.actions.edit"), edit_policy_reference_path(policy_reference), no_visited_state: true, no_underline: true %>
+
+                <%= govuk_link_to t("bops_admin.policy_references.index.actions.delete"), policy_reference_path(policy_reference), no_visited_state: true, no_underline: true, class: "govuk-!-margin-left-1", method: :delete, data: {confirm: t("bops_admin.policy_references.index.are_you_sure")} %>
               <% end %>
             <% end %>
           <% end %>
         <% else %>
           <% body.with_row do |row| %>
-            <% row.with_cell(text: t(".no_policy_references_found"), colspan: 3) %>
+            <% row.with_cell(text: t("bops_admin.policy_references.index.no_policy_references_found"), colspan: 3) %>
           <% end %>
         <% end %>
       <% end %>

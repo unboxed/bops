@@ -23,12 +23,12 @@ module AccordionSections
       if planning_application.postcode.present?
         planning_application.ward_type
       else
-        t(".a_postcode_is")
+        t("accordion_sections.application_information_component.a_postcode_is")
       end
     end
 
     def case_officer
-      planning_application.user&.name || t(".not_assigned")
+      planning_application.user&.name || t("accordion_sections.application_information_component.not_assigned")
     end
 
     def payment_amount
@@ -36,15 +36,15 @@ module AccordionSections
     end
 
     def payment_reference
-      planning_application.payment_reference || t(".exempt")
+      planning_application.payment_reference || t("accordion_sections.application_information_component.exempt")
     end
 
     def alternative_reference
-      planning_application.alternative_reference || t(".not_provided")
+      planning_application.alternative_reference || t("accordion_sections.application_information_component.not_provided")
     end
 
     def work_already_started
-      (planning_application.work_status == "proposed") ? t(".no") : t(".yes")
+      (planning_application.work_status == "proposed") ? t("accordion_sections.application_information_component.no") : t("accordion_sections.application_information_component.yes")
     end
 
     def map_link
@@ -74,10 +74,10 @@ module AccordionSections
       if planning_application.postcode.present?
         safe_join([
           helpers.tag.p(planning_application.ward),
-          helpers.govuk_link_to(t(".view_on_mapit"), mapit_link, new_tab: true)
+          helpers.govuk_link_to(t("accordion_sections.application_information_component.view_on_mapit"), mapit_link, new_tab: true)
         ])
       else
-        t(".a_postcode_is")
+        t("accordion_sections.application_information_component.a_postcode_is")
       end
     end
 
@@ -94,7 +94,7 @@ module AccordionSections
     end
 
     def location
-      govuk_link_to(t(".view_site_on"), map_link, new_tab: true)
+      helpers.govuk_link_to(t("accordion_sections.application_information_component.view_site_on"), map_link, new_tab: true)
     end
   end
 end

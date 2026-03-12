@@ -26,8 +26,9 @@
     <%= govuk_table(id: "policy-areas") do |table| %>
       <% table.with_head do |head| %>
         <% head.with_row do |row| %>
-          <% row.with_cell(text: t(".headings.description")) %>
-          <% row.with_cell(text: t(".headings.actions"), classes: %w[govuk-!-text-align-right]) %>
+          <% row.with_cell(text: t("bops_admin.policy_areas.index.headings.description")) %>
+
+          <% row.with_cell(text: t("bops_admin.policy_areas.index.headings.actions"), classes: %w[govuk-!-text-align-right]) %>
         <% end %>
       <% end %>
 
@@ -37,14 +38,15 @@
             <% body.with_row do |row| %>
               <% row.with_cell(text: policy_area.description) %>
               <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
-                <%= govuk_link_to t(".actions.edit"), edit_policy_area_path(policy_area), no_visited_state: true, no_underline: true %>
-                <%= govuk_link_to t(".actions.delete"), policy_area_path(policy_area), no_visited_state: true, no_underline: true, class: "govuk-!-margin-left-1", method: :delete, data: {confirm: t(".are_you_sure")} %>
+                <%= govuk_link_to t("bops_admin.policy_areas.index.actions.edit"), edit_policy_area_path(policy_area), no_visited_state: true, no_underline: true %>
+
+                <%= govuk_link_to t("bops_admin.policy_areas.index.actions.delete"), policy_area_path(policy_area), no_visited_state: true, no_underline: true, class: "govuk-!-margin-left-1", method: :delete, data: {confirm: t("bops_admin.policy_areas.index.are_you_sure")} %>
               <% end %>
             <% end %>
           <% end %>
         <% else %>
           <% body.with_row do |row| %>
-            <% row.with_cell(text: t(".no_policy_areas_found"), colspan: 3) %>
+            <% row.with_cell(text: t("bops_admin.policy_areas.index.no_policy_areas_found"), colspan: 3) %>
           <% end %>
         <% end %>
       <% end %>

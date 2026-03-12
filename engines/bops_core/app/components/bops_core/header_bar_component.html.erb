@@ -7,7 +7,7 @@
       <li class="bops-header-bar__item--toggle">
         <%= button_tag container_data_attributes[:toggle_condensed_text_value],
               type: "button",
-              class: class_names("button-as-link", govuk_link_classes, toggle[:button_class]),
+              class: class_names("button-as-link", helpers.govuk_link_classes, toggle[:button_class]),
               data: {toggle_target: "button", action: "toggle#click"},
               "aria-expanded": "false" %>
       </li>
@@ -17,15 +17,15 @@
       <% right_items.each do |item| %>
         <li class="bops-header-bar__item">
           <% if item[:href].present? %>
-            <%= govuk_link_to item[:label].to_s, item[:href],
-                  class: class_names(govuk_link_classes, item[:class]),
+            <%= helpers.govuk_link_to item[:label].to_s, item[:href],
+                  class: class_names(helpers.govuk_link_classes, item[:class]),
                   new_tab: "",
                   method: item[:method],
                   data: item[:data] %>
           <% else %>
             <%= button_tag item[:label].to_s,
                   type: item[:type] || "button",
-                  class: class_names("button-as-link", govuk_link_classes, item[:class]),
+                  class: class_names("button-as-link", helpers.govuk_link_classes, item[:class]),
                   data: item[:data] %>
           <% end %>
         </li>

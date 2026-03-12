@@ -3,40 +3,40 @@
     <%= t(".heading") %>
   </h2>
 
-<%= govuk_summary_list(actions: false) do |summary_list|
+<%= helpers.govuk_summary_list(actions: false) do |summary_list|
       summary_list.with_row do |row|
-        row.with_key { t(".name") }
+        row.with_key { t("consultee_summary_component.name") }
         row.with_value { name }
       end
 
       if role?
         summary_list.with_row do |row|
-          row.with_key { t(".role") }
+          row.with_key { t("consultee_summary_component.role") }
           row.with_value { role }
         end
       end
 
       if organisation?
         summary_list.with_row do |row|
-          row.with_key { t(".organisation") }
+          row.with_key { t("consultee_summary_component.organisation") }
           row.with_value { organisation }
         end
       end
 
       summary_list.with_row do |row|
-        row.with_key { t(".email_address") }
+        row.with_key { t("consultee_summary_component.email_address") }
         row.with_value { email_address }
       end
       summary_list.with_row do |row|
-        row.with_key { t(".consulted_at") }
+        row.with_key { t("consultee_summary_component.consulted_at") }
         row.with_value { consulted_at }
       end
       summary_list.with_row do |row|
-        row.with_key { t(".last_received_at") }
+        row.with_key { t("consultee_summary_component.last_received_at") }
         row.with_value { latest_received_at }
       end
       summary_list.with_row do |row|
-        row.with_key { t(".status") }
+        row.with_key { t("consultee_summary_component.status") }
         row.with_value { consultee_status }
       end
     end %>

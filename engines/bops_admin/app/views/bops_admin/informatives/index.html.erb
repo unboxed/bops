@@ -25,9 +25,11 @@
     <%= govuk_table(id: "informatives") do |table| %>
       <% table.with_head do |head| %>
         <% head.with_row do |row| %>
-          <% row.with_cell(text: t(".headings.title")) %>
-          <% row.with_cell(text: t(".headings.text")) %>
-          <% row.with_cell(text: t(".headings.actions"), classes: %w[govuk-!-text-align-right]) %>
+          <% row.with_cell(text: t("bops_admin.informatives.index.headings.title")) %>
+
+          <% row.with_cell(text: t("bops_admin.informatives.index.headings.text")) %>
+
+          <% row.with_cell(text: t("bops_admin.informatives.index.headings.actions"), classes: %w[govuk-!-text-align-right]) %>
         <% end %>
       <% end %>
 
@@ -38,14 +40,15 @@
               <% row.with_cell(text: informative.title, header: true) %>
               <% row.with_cell(text: informative.text) %>
               <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
-                <%= govuk_link_to t(".actions.edit"), edit_informative_path(informative), no_visited_state: true, no_underline: true %>
-                <%= govuk_link_to t(".actions.delete"), informative_path(informative), no_visited_state: true, no_underline: true, class: "govuk-!-margin-left-1", method: :delete, data: {confirm: t(".are_you_sure")} %>
+                <%= govuk_link_to t("bops_admin.informatives.index.actions.edit"), edit_informative_path(informative), no_visited_state: true, no_underline: true %>
+
+                <%= govuk_link_to t("bops_admin.informatives.index.actions.delete"), informative_path(informative), no_visited_state: true, no_underline: true, class: "govuk-!-margin-left-1", method: :delete, data: {confirm: t("bops_admin.informatives.index.are_you_sure")} %>
               <% end %>
             <% end %>
           <% end %>
         <% else %>
           <% body.with_row do |row| %>
-            <% row.with_cell(text: t(".no_informatives_found"), colspan: 3) %>
+            <% row.with_cell(text: t("bops_admin.informatives.index.no_informatives_found"), colspan: 3) %>
           <% end %>
         <% end %>
       <% end %>

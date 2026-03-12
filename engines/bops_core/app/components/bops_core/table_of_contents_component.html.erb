@@ -13,7 +13,7 @@
         <ol class="govuk-list govuk-list--dashed">
           <% section[:links].each do |link| %>
             <% next if link.has_key?(:visible) && !link[:visible] %>
-            <li><%= govuk_link_to link[:text], link[:href] %></li>
+            <li><%= helpers.govuk_link_to link[:text], link[:href] %></li>
           <% end %>
         </ol>
       <% end %>

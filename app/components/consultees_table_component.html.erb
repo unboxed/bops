@@ -1,4 +1,4 @@
-<%= govuk_table(html_attributes: {id: "consultees", data: {consultees_target: "allConsultees"}}) do |table| %>
+<%= helpers.govuk_table(html_attributes: {id: "consultees", data: {consultees_target: "allConsultees"}}) do |table| %>
   <%= table.with_head do |head| %>
     <%= head.with_row do |row|
     row.with_cell(html_attributes:{class: "govuk-!-padding-0"}) do %>
@@ -34,7 +34,7 @@
           <div class="govuk-checkboxes__item">
             <%= fields.check_box :selected, class: "govuk-checkboxes__input" %>
             <%= fields.label :selected, class: "govuk-label govuk-checkboxes__label" do %>
-              <span class="govuk-visually-hidden"><%= t(".select_consultee") %></span>
+              <span class="govuk-visually-hidden"><%= t("consultees_table_component.select_consultee") %></span>
             <% end %>
           </div>
         </div>

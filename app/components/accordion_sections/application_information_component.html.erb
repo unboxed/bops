@@ -1,24 +1,24 @@
 <% if show_edit_link %>
-  <%= govuk_link_to t(".edit_details"), edit_planning_application_path(planning_application), class: "govuk-body" %>
+  <%= helpers.govuk_link_to t(".edit_details"), edit_planning_application_path(planning_application), class: "govuk-body" %>
 <% end %>
 
 <hr>
 
-<%= govuk_summary_list do |list| %>
+<%= helpers.govuk_summary_list do |list| %>
   <% list.with_row do |row|
-       row.with_key { t(".description") }
+       row.with_key { t("accordion_sections.application_information_component.description") }
        row.with_value { render(FormattedContentComponent.new(text: planning_application.description)) }
      end %>
 
   <% list.with_row do |row|
-       row.with_key { t(".type_description") }
+       row.with_key { t("accordion_sections.application_information_component.type_description") }
        row.with_value { type_description }
      end %>
 
   <% if planning_application.pre_application? %>
     <% %i[service_type requested_services].each do |attribute| %>
       <% list.with_row do |row|
-           row.with_key { t(".#{attribute}") }
+           row.with_key { t("accordion_sections.application_information_component.#{attribute}") }
            row.with_value { send(attribute) }
          end %>
     <% end %>
@@ -26,14 +26,14 @@
 
   <% %i[full_address location].each do |attribute| %>
     <% list.with_row do |row|
-         row.with_key { t(".#{attribute}") }
+         row.with_key { t("accordion_sections.application_information_component.#{attribute}") }
          row.with_value { send(attribute) }
        end %>
   <% end %>
 
   <% if planning_application.parish_name.present? %>
     <% list.with_row do |row|
-         row.with_key { t(".parish") }
+         row.with_key { t("accordion_sections.application_information_component.parish") }
          row.with_value { parish_name }
        end %>
   <% end %>
@@ -50,7 +50,7 @@
        session_id
      ].each do |attribute| %>
     <% list.with_row do |row|
-         row.with_key { t(".#{attribute}") }
+         row.with_key { t("accordion_sections.application_information_component.#{attribute}") }
          row.with_value { send(attribute) }
        end %>
   <% end %>

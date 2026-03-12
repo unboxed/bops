@@ -1,7 +1,7 @@
 <section id="application-details-section" class="govuk-!-margin-bottom-7">
   <h3 class="govuk-heading-m"><%= t(".application_details") %></h3>
 
-  <%= govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list|
+  <%= helpers.govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list|
         {
           "Applicant" => planning_application.applicant_name,
           "Application number" => planning_application.reference,
@@ -43,9 +43,9 @@
   <% if show_edit_links && current_user.assessor? %>
     <p class="govuk-body-s">
       <% if task.present? %>
-        <%= govuk_link_to("Edit constraints", task_path(@planning_application, "check-and-validate/check-application-details/check-constraints", return_to: task_path(@planning_application, task))) %>
+        <%= helpers.govuk_link_to("Edit constraints", task_path(@planning_application, "check-and-validate/check-application-details/check-constraints", return_to: task_path(@planning_application, task))) %>
       <% else %>
-        <%= govuk_link_to("Edit constraints", planning_application_validation_constraints_path(@planning_application)) %>
+        <%= helpers.govuk_link_to("Edit constraints", planning_application_validation_constraints_path(@planning_application)) %>
       <% end %>
     </p>
   <% end %>
@@ -177,9 +177,9 @@
     <% if show_edit_links && current_user.assessor? %>
       <p class="govuk-body-s">
         <% if task.present? %>
-          <%= govuk_link_to("Edit assessment", task_path(@planning_application, "check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance", return_to: task_path(@planning_application, task))) %>
+          <%= helpers.govuk_link_to("Edit assessment", task_path(@planning_application, "check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance", return_to: task_path(@planning_application, task))) %>
         <% else %>
-          <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_considerations_path(@planning_application)) %>
+          <%= helpers.govuk_link_to("Edit assessment", edit_planning_application_assessment_considerations_path(@planning_application)) %>
         <% end %>
       </p>
     <% end %>
@@ -201,7 +201,7 @@
       </div>
     </dl>
     <% planning_application_policy_classes.each do |pa_policy_class| %>
-      <p><%= govuk_link_to pa_policy_class.description, pa_policy_class.url %></p>
+      <p><%= helpers.govuk_link_to pa_policy_class.description, pa_policy_class.url %></p>
 
       <dl class="bops-assessment-list">
         <% pa_policy_class.planning_application_policy_sections.each do |pa_policy_section| %>
@@ -229,9 +229,9 @@
       <% if show_edit_links && current_user.assessor? %>
         <p class="govuk-body-s">
           <% if task.present? %>
-            <%= govuk_link_to("Edit assessment", task_path(@planning_application, "check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance", return_to: task_path(@planning_application, task))) %>
+            <%= helpers.govuk_link_to("Edit assessment", task_path(@planning_application, "check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance", return_to: task_path(@planning_application, task))) %>
           <% else %>
-            <%= govuk_link_to("Edit assessment", edit_planning_application_assessment_policy_areas_policy_class_path(@planning_application, pa_policy_class)) %>
+            <%= helpers.govuk_link_to("Edit assessment", edit_planning_application_assessment_policy_areas_policy_class_path(@planning_application, pa_policy_class)) %>
           <% end %>
         </p>
       <% end %>

@@ -40,7 +40,7 @@ module Sortable
     def remove_link
       return if remove_record_url.blank?
 
-      govuk_link_to(
+      helpers.govuk_link_to(
         "Remove",
         remove_record_url,
         method: :delete,
@@ -49,7 +49,7 @@ module Sortable
     end
 
     def edit_link
-      govuk_link_to("Edit", edit_record_url)
+      helpers.govuk_link_to("Edit", edit_record_url)
     end
 
     def cancel_link
@@ -58,7 +58,7 @@ module Sortable
       url = cancel_record_url.presence ||
         cancel_confirmation_planning_application_validation_validation_request_path(current_request.planning_application, current_request)
 
-      govuk_link_to("Cancel", url)
+      helpers.govuk_link_to("Cancel", url)
     end
   end
 end
