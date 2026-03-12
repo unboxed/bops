@@ -8,7 +8,7 @@ module PlanningApplications
       def update
         if @assessment_detail.update(review_assessment_details_params)
           redirect_to(
-            planning_application_review_tasks_path(@planning_application),
+            planning_application_review_tasks_path(@planning_application, anchor: "#{@assessment_detail.category}_section"),
             notice: t(".success", category: @assessment_detail.category.humanize.downcase)
           )
         else
