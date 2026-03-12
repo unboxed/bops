@@ -23,8 +23,6 @@ AllCops:
   Exclude:
     - 'bin/*'
     - 'db/schema.rb'
-    - 'config/environments/**'
-    - 'config/puma.rb'
     - 'storage/**/*'
     - 'tmp/**/*'
     - 'vendor/**/*'
