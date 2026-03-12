@@ -33,7 +33,7 @@ module PlanningApplications
         {href: pagination_url(page: i), number: (i == :gap) ? "…" : i, current: i.is_a?(String)}
       }
 
-      govuk_pagination do |p|
+      helpers.govuk_pagination do |p|
         p.with_previous_page(href: pagination_url(page: @pagy.prev)) if @pagy.page > 1
 
         p.with_items page_data
