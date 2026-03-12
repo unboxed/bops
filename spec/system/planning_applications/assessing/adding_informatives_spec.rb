@@ -294,7 +294,9 @@ RSpec.describe "Add informatives", type: :system do
         # Check the correct order on decision notice
         create(:recommendation, :assessment_in_progress, planning_application:)
         click_link "Back"
-        click_link "Review and submit recommendation"
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
 
         within("#informatives-list") do
           expect(page).to have_selector("li:nth-of-type(1)", text: "Title 3")
@@ -419,7 +421,9 @@ RSpec.describe "Add informatives", type: :system do
 
       visit "/planning_applications/#{planning_application.reference}"
       click_link "Check and assess"
-      click_link "Review and submit recommendation"
+      within "#main-content" do
+        click_link("Review and submit recommendation")
+      end
 
       expect(page).to have_content "Informatives"
       expect(page).to have_content informative.title

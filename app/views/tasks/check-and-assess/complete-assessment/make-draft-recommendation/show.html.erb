@@ -38,40 +38,39 @@
       ) %>
 <% end %>
 
+    <% submitted = @planning_application.may_withdraw_recommendation? %>
     <%= form_with(model: @form,
           url: @form.url,
           data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"}) do |form| %>
       <%= form.govuk_error_summary %>
       <%= return_to_hidden_field %>
 
-      <%= form.govuk_radio_buttons_fieldset(:recommend, legend: {size: "s", text: "Does this planning application need to be decided by committee?"}) do %>
+      <%= form.govuk_radio_buttons_fieldset(:recommend, legend: {size: "s", text: "Does this planning application need to be decided by committee?"}, disabled: submitted) do %>
         <% if @planning_application.committee_decision_rejected_review? %>
           <%= render(ReviewerCommentComponent.new(comment: @planning_application.committee_decision.current_review)) %>
         <% end %>
 
-        <%= form.govuk_radio_button :recommend, true, label: {text: "Yes"}, link_errors: true, checked: form.object.recommend == true do %>
-          <%= form.govuk_check_boxes_fieldset :reasons, legend: {text: "Reason why", size: "s"} do %>
+        <%= form.govuk_radio_button :recommend, true, label: {text: "Yes"}, link_errors: true, checked: form.object.recommend == true, disabled: submitted do %>
+          <%= form.govuk_check_boxes_fieldset :reasons, legend: {text: "Reason why", size: "s"}, disabled: submitted do %>
             <% CommitteeDecision::REASONS.each do |reason| %>
               <% if reason == "Other" %>
-                <%= form.govuk_check_box :other_reasons, reason.to_s, label: {text: reason.to_s}, link_errors: true, checked: form.object.other_reason.present? do %>
+                <%= form.govuk_check_box :other_reasons, reason.to_s, label: {text: reason.to_s}, link_errors: true, checked: form.object.other_reason.present?, disabled: submitted do %>
                   <%= form.govuk_text_area :other_reason, label: {text: "Tell reviewer and the public why the application needs to go to committee."} %>
                 <% end %>
               <% else %>
-                <%= form.govuk_check_box :reasons, reason.to_s, label: {text: reason.to_s}, link_errors: true, checked: form.object.reasons.include?(reason) %>
+                <%= form.govuk_check_box :reasons, reason.to_s, label: {text: reason.to_s}, link_errors: true, checked: form.object.reasons.include?(reason), disabled: submitted %>
               <% end %>
             <% end %>
           <% end %>
         <% end %>
-        <%= form.govuk_radio_button :recommend, false, label: {text: "No"}, checked: form.object.recommend == false %>
+        <%= form.govuk_radio_button :recommend, false, label: {text: "No"}, checked: form.object.recommend == false, disabled: submitted %>
       <% end %>
 
-      <%= form.govuk_collection_radio_buttons(
-            :decision,
-            @planning_application.application_type.all_decisions,
-            :code,
-            :description,
-            legend: {text: t(".is_the_use"), size: "s"}
-          ) %>
+      <%= form.govuk_radio_buttons_fieldset(:decision, legend: {text: t(".is_the_use"), size: "s"}) do %>
+        <% @planning_application.application_type.all_decisions.each do |d| %>
+          <%= form.govuk_radio_button :decision, d.code, label: {text: d.description}, checked: form.object.decision == d.code, disabled: submitted %>
+        <% end %>
+      <% end %>
 
       <div class="govuk-form-group <%= "govuk-form-group--error" if form.object.errors[:public_comment].any? %>">
         <%= form.label(:public_comment, t(".state_the_reason"), class: "govuk-label govuk-label--s") %>
@@ -88,14 +87,20 @@
         <%= form.text_area(
               :public_comment,
               class: "govuk-textarea #{"govuk-textarea--error" if form.object.errors[:public_comment].any?}",
-              rows: 9
+              rows: 9,
+              disabled: submitted
             ) %>
       </div>
       <%= form.govuk_text_area(
             :assessor_comment,
             label: {text: t(".please_provide_supporting"), size: "s"},
             hint: {text: t(".this_information_will_not")},
-            rows: 9
+            rows: 9,
+            disabled: submitted
           ) %>
-       <%= render "task_submit_buttons", form: form %>
+      <% if submitted %>
+        <%= form.govuk_task_button "Withdraw recommendation", action: "withdraw_recommendation", secondary: true %>
+      <% else %>
+        <%= render "task_submit_buttons", form: form %>
+      <% end %>
     <% end %>

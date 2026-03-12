@@ -2762,6 +2762,17 @@ en:
             this_information_will: This information will appear on the decision notice and the officer report.
             this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.
             update_assessment: Update assessment
+        review-and-submit-recommendation:
+          show:
+            decision_notice: Decision notice
+            download_as_pdf: Download as PDF
+            if_you_agree: If you agree with this decision %{report_or_notice}, submit it for review.
+            if_your_reviewer: If the reviewer disagrees with your recommendation they will send it back to you to make changes.
+            submit_recommendation: Submit recommendation
+            submit_recommendation_accordion:
+              assessment_report: Assessment report details
+              download_assessment_report: Download assessment report as PDF
+            the_following_decision: The following decision %{report_or_notice} has been created based on your answers.
     check-and-validate:
       confirm-application-requirements:
         check-environment-impact-assessment:
@@ -2860,12 +2871,17 @@ en:
       make-draft-recommendation:
         failure: Failed to save draft recommendation
         success: Draft recommendation successfully saved
+        withdraw_success: Recommendation successfully withdrawn
       other-validation-requests:
         failure: Failed to save other validation requests
         success: Other validation requests were successfully saved
       permitted-development-rights:
         failure: Failed to update permitted development rights
         success: Successfully confirmed permitted development rights
+      review-and-submit-recommendation:
+        failure: Failed to submit recommendation
+        success: Successfully submitted recommendation for review
+        withdraw_success: Recommendation successfully withdrawn
       review-documents:
         failure: Failed to update document review
         success: Successfully updated document review

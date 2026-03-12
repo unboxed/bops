@@ -2,7 +2,7 @@
 
 module Tasks
   class MakeDraftRecommendationForm < Form
-    self.task_actions = %w[save_and_complete save_draft]
+    self.task_actions = %w[save_and_complete save_draft withdraw_recommendation]
 
     attribute :recommend, :boolean
     attribute :reasons, :list, default: []
@@ -28,6 +28,17 @@ module Tasks
       validates :reasons, presence: {message: "Explain why the application needs to be decided by committee"}, if: :committee_needed?
       validates :decision, presence: true
       validates :public_comment, presence: true
+    end
+
+    def flash(type, controller)
+      return nil unless type == :notice && after_success == "redirect"
+
+      case action
+      when "save_and_complete", "save_draft"
+        controller.t(".make-draft-recommendation.success")
+      when "withdraw_recommendation"
+        controller.t(".make-draft-recommendation.withdraw_success")
+      end
     end
 
     private
@@ -77,6 +88,13 @@ module Tasks
         save_recommendation(status: :assessment_complete)
         save_committee_decision unless recommend.nil?
         planning_application.assess!
+      end
+    end
+
+    def withdraw_recommendation
+      transaction do
+        planning_application.withdraw_last_recommendation!
+        task.in_progress!
       end
     end
 

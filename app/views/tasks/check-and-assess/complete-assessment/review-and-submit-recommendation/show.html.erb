@@ -1,0 +1,23 @@
+<%= render "task_header", task: @task %>
+
+<p><%= t(".the_following_decision", report_or_notice: report_or_notice?(@planning_application)) %></p>
+<%= render "planning_applications/decision_notice", planning_application: @planning_application %>
+<h2><%= t(".submit_recommendation") %></h2>
+<p><%= t(".if_you_agree", report_or_notice: report_or_notice?(@planning_application)) %></p>
+<p><%= t(".if_your_reviewer") %></p>
+
+<% submitted = @planning_application.may_withdraw_recommendation? %>
+
+<p class="govuk-!-margin-top-3">
+  <% unless submitted %>
+    <%= govuk_link_to "Edit recommendation", task_path(@planning_application, "check-and-assess/complete-assessment/make-draft-recommendation", return_to: task_path(@planning_application, @task)) %>
+  <% end %>
+</p>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <% if submitted %>
+    <%= form.govuk_task_button "Withdraw recommendation", action: "withdraw_recommendation", secondary: true %>
+  <% else %>
+    <%= render "task_submit_buttons", form: form, save_draft: false %>
+  <% end %>
+<% end %>

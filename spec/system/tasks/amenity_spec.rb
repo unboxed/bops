@@ -235,7 +235,9 @@ RSpec.describe "Amenity task", type: :system do
         click_link("Make draft recommendation")
       end
       click_button("Update assessment")
-      click_link("Review and submit recommendation")
+      within "#main-content" do
+        click_link("Review and submit recommendation")
+      end
       click_button("Submit recommendation")
 
       # Reviewer returns and sees Updated status
