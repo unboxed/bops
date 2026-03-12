@@ -20,7 +20,7 @@ local_authority_subdomain do
 
   concern :positionable do |options|
     defaults format: "json" do
-      resource :position, {only: %i[update]}.merge(options)
+      resource :position, only: %i[update], **options
     end
   end
 
