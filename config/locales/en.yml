@@ -2803,6 +2803,12 @@ en:
         save_draft: Conditions draft was saved
         success: Conditions were successfully saved
         update_condition: Condition was successfully updated
+      add-informatives:
+        add_informative: Informative was successfully added
+        failure: Failed to add informative
+        save_draft: Informatives draft was saved
+        success: Informatives were successfully saved
+        update_informative: Informative was successfully updated
       add-pre-commencement-conditions:
         add_condition: Pre-commencement condition was successfully added
         confirm_and_send: Pre-commencement conditions were sent to applicant

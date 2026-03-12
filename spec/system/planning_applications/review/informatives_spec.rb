@@ -207,9 +207,10 @@ RSpec.describe "Reviewing informatives", :js do
           sign_in(assessor)
 
           visit "/planning_applications/#{reference}/assessment/tasks"
-          expect(page).to have_list_item_for("Add informatives", with: "To be reviewed")
-
-          click_link "Add informatives"
+          within "#main-content" do
+            expect(page).to have_list_item_for("Add informatives", with: "To be reviewed")
+            click_link "Add informatives"
+          end
 
           expect(page).to have_selector("h1", text: "Add informatives")
           expect(page).to have_content("Please provide more details about the Section 106 agreement")
@@ -230,7 +231,9 @@ RSpec.describe "Reviewing informatives", :js do
           click_button "Save and mark as complete"
           expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
           expect(page).to have_content("Informatives were successfully saved")
-          expect(page).to have_list_item_for("Add informatives", with: "Updated")
+          within "#main-content" do
+            expect(page).to have_list_item_for("Add informatives", with: "Updated")
+          end
 
           travel_to Time.zone.local(2024, 5, 20, 13)
           sign_in(reviewer)

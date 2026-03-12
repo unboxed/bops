@@ -19,9 +19,11 @@ RSpec.describe "Add informatives", type: :system do
     end
 
     it "I can add informatives", js: true do
-      within("#add-informatives") do
-        expect(page).to have_content "Not started"
-        click_link "Add informatives"
+      within "#main-content" do
+        within("#add-informatives") do
+          expect(page).to have_content "Not started"
+          click_link "Add informatives"
+        end
       end
 
       expect(page).to have_selector("h1", text: "Add informatives")
@@ -30,8 +32,9 @@ RSpec.describe "Add informatives", type: :system do
 
       fill_in "Enter a title", with: "Section"
       pick "Section 106", from: "#informative-title-field"
-
-      click_button "Add informative"
+      within "#main-content" do
+        click_button "Add informative"
+      end
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/informatives/edit")
 
       # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
@@ -70,10 +73,11 @@ RSpec.describe "Add informatives", type: :system do
       expect(page).to have_no_selector("details[open]")
 
       click_link "Assess application"
-
-      within("#add-informatives") do
-        expect(page).to have_content "In progress"
-        click_link "Add informatives"
+      within "#main-content" do
+        within("#add-informatives") do
+          expect(page).to have_content "In progress"
+          click_link "Add informatives"
+        end
       end
 
       expect(page).to have_selector("h1", text: "Add informatives")
@@ -88,9 +92,11 @@ RSpec.describe "Add informatives", type: :system do
     end
 
     it "I can save and come back later", :capybara do
-      within("#add-informatives") do
-        expect(page).to have_content "Not started"
-        click_link "Add informatives"
+      within "#main-content" do
+        within("#add-informatives") do
+          expect(page).to have_content "Not started"
+          click_link "Add informatives"
+        end
       end
 
       expect(page).to have_selector("h1", text: "Add informatives")
@@ -113,10 +119,11 @@ RSpec.describe "Add informatives", type: :system do
       click_button "Save and come back later"
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
       expect(page).to have_content("Informatives were successfully saved")
-
-      within("#add-informatives") do
-        expect(page).to have_content "In progress"
-        click_link "Add informatives"
+      within "#main-content" do
+        within("#add-informatives") do
+          expect(page).to have_content "In progress"
+          click_link "Add informatives"
+        end
       end
 
       expect(page).to have_content "Must do 106"
@@ -156,9 +163,10 @@ RSpec.describe "Add informatives", type: :system do
 
     it "I can edit informatives" do
       informative = create(:informative, informative_set: planning_application.informative_set)
-
-      within("#add-informatives") do
-        click_link "Add informatives"
+      within "#main-content" do
+        within("#add-informatives") do
+          click_link "Add informatives"
+        end
       end
 
       expect(page).to have_content informative.text
@@ -181,9 +189,10 @@ RSpec.describe "Add informatives", type: :system do
 
     it "I can delete informatives" do
       informative = create(:informative, informative_set: planning_application.informative_set)
-
-      within("#add-informatives") do
-        click_link "Add informatives"
+      within "#main-content" do
+        within("#add-informatives") do
+          click_link "Add informatives"
+        end
       end
 
       expect(page).to have_content informative.text
@@ -201,7 +210,9 @@ RSpec.describe "Add informatives", type: :system do
       let!(:informative_three) { create(:informative, informative_set:, title: "Title 3", text: "Text 3", position: 3) }
 
       it "I can drag and drop to sort the informatives", :capybara, skip: "flaky" do
-        click_link "Add informatives"
+        within "#main-content" do
+          click_link "Add informatives"
+        end
         expect(page).to have_selector("p", text: "Drag and drop informatives to change the order that they appear in the decision notice.")
 
         informative_one_handle = find("li.sortable-list", text: "Title 1")
@@ -276,7 +287,9 @@ RSpec.describe "Add informatives", type: :system do
         expect(informative_three.reload.position).to eq(1)
 
         click_link "Back"
-        click_link "Add informatives"
+        within "#main-content" do
+          click_link "Add informatives"
+        end
 
         within("li.sortable-list:nth-of-type(1)") do
           expect(page).to have_selector("span", text: "Informative 1")
@@ -307,7 +320,9 @@ RSpec.describe "Add informatives", type: :system do
     end
 
     it "shows errors" do
-      click_link "Add informatives"
+      within "#main-content" do
+        click_link "Add informatives"
+      end
 
       expect(page).to have_content "No informatives added yet"
 
@@ -361,7 +376,7 @@ RSpec.describe "Add informatives", type: :system do
     end
 
     it "I can mark the task as complete" do
-      within("#add-informatives") do
+      within("#main-content") do
         click_link "Add informatives"
       end
 
@@ -374,7 +389,7 @@ RSpec.describe "Add informatives", type: :system do
     end
 
     it "I can mark the task as complete and then add more informatives if I need to" do
-      within("#add-informatives") do
+      within("#main-content") do
         click_link "Add informatives"
       end
 
@@ -383,8 +398,9 @@ RSpec.describe "Add informatives", type: :system do
       within("#add-informatives") do
         expect(page).to have_content "Complete"
       end
-
-      click_link "Add informatives"
+      within "#main-content" do
+        click_link "Add informatives"
+      end
       expect(page).to have_selector("h1", text: "Add informatives")
 
       click_link "Edit informatives"
