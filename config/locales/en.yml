@@ -2797,20 +2797,20 @@ en:
             yes_recommended_html: Yes <strong>(recommended based on submission data)</strong>
     update:
       add-conditions:
-        condition_added: Condition was successfully added
-        condition_deleted: Condition was successfully deleted
-        condition_updated: Condition was successfully updated
-        draft: Conditions draft was saved
+        add_condition: Condition was successfully added
+        delete_condition: Condition was successfully deleted
         failure: Failed to save conditions
+        save_draft: Conditions draft was saved
         success: Conditions were successfully saved
+        update_condition: Condition was successfully updated
       add-pre-commencement-conditions:
-        condition_added: Pre-commencement condition was successfully added
-        condition_deleted: Pre-commencement condition was successfully deleted
-        condition_updated: Pre-commencement condition was successfully updated
-        confirm_sent: Pre-commencement conditions were sent to applicant
-        draft: Pre-commencement conditions draft was saved
+        add_condition: Pre-commencement condition was successfully added
+        confirm_and_send: Pre-commencement conditions were sent to applicant
+        delete_condition: Pre-commencement condition was successfully deleted
         failure: Failed to save pre-commencement conditions
+        save_draft: Pre-commencement conditions draft was saved
         success: Pre-commencement conditions were successfully saved
+        update_condition: Pre-commencement condition was successfully updated
       add-reporting-details:
         failure: Failed to save reporting details
         success: Reporting details were successfully saved
@@ -2871,7 +2871,7 @@ en:
       make-draft-recommendation:
         failure: Failed to save draft recommendation
         success: Draft recommendation successfully saved
-        withdraw_success: Recommendation successfully withdrawn
+        withdraw_recommendation: Recommendation successfully withdrawn
       other-validation-requests:
         failure: Failed to save other validation requests
         success: Other validation requests were successfully saved
@@ -2881,7 +2881,7 @@ en:
       review-and-submit-recommendation:
         failure: Failed to submit recommendation
         success: Successfully submitted recommendation for review
-        withdraw_success: Recommendation successfully withdrawn
+        withdraw_recommendation: Recommendation successfully withdrawn
       review-documents:
         failure: Failed to update document review
         success: Successfully updated document review

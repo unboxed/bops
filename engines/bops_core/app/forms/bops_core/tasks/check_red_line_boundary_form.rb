@@ -64,19 +64,6 @@ module BopsCore
         )
       end
 
-      def flash(type, controller)
-        return nil unless type == :notice && after_success == "redirect"
-
-        case action
-        when "save_and_complete"
-          controller.t(".check-red-line-boundary.success")
-        when "mark_as_valid"
-          controller.t(".check-red-line-boundary.mark_as_valid")
-        when "delete_request"
-          controller.t(".check-red-line-boundary.delete_request")
-        end
-      end
-
       private
 
       def save_and_complete

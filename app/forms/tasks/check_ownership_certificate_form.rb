@@ -50,19 +50,6 @@ module Tasks
       route_for(:edit_task, planning_application, task, validation_request_id: validation_request&.id, return_to: return_to, only_path: true)
     end
 
-    def flash(type, controller)
-      return nil unless type == :notice && after_success == "redirect"
-
-      case action
-      when "save_and_complete", "assessment_complete"
-        controller.t(".check-ownership-certificate.success")
-      when "update_request"
-        controller.t(".check-ownership-certificate.update_request")
-      when "delete_request"
-        controller.t(".check-ownership-certificate.delete_request")
-      end
-    end
-
     def validation_requests
       planning_application.ownership_certificate_validation_requests
     end

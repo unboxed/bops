@@ -86,13 +86,28 @@ module BopsCore
 
       def flash(type, controller)
         return if action == "edit_form"
+        return unless after_success == "redirect"
 
-        case type
+        result = case type
         when :notice
-          (after_success == "redirect") ? controller.t(".#{slug}.success") : nil
+          "success"
         when :alert
-          (after_failure == "redirect") ? controller.t(".#{slug}.failure") : nil
+          "failure"
         end
+
+        return if result.nil?
+
+        keys = []
+
+        if action != "save_and_complete"
+          keys << :".#{slug}.#{action}.#{result}"
+          keys << :".#{slug}.#{action}"
+        end
+
+        keys << :".#{slug}.#{result}"
+
+        msg = keys.shift
+        controller.t(msg, default: keys.map { |key| controller.t(key, default: "") }.compact_blank)
       end
 
       def read_only?

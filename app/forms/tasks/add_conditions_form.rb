@@ -44,23 +44,6 @@ module Tasks
       route_for(:planning_application_assessment_condition, planning_application, condition, redirect_to: url, only_path: true)
     end
 
-    def flash(type, controller)
-      return nil unless type == :notice && after_success == "redirect"
-
-      case action
-      when "save_and_complete"
-        controller.t(".add-conditions.success")
-      when "save_draft"
-        controller.t(".add-conditions.draft")
-      when "add_condition"
-        controller.t(".add-conditions.condition_added")
-      when "update_condition"
-        controller.t(".add-conditions.condition_updated")
-      when "delete_condition"
-        controller.t(".add-conditions.condition_deleted")
-      end
-    end
-
     private
 
     def add_condition

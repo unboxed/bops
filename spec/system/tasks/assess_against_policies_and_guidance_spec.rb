@@ -40,7 +40,7 @@ RSpec.describe "Assess against policies and guidance task", type: :system, js: t
 
     click_button "Add consideration"
 
-    within "div[role=alert]" do
+    within "form div[role=alert]" do
       expect(page).to have_content("Enter the policy area of this consideration")
       expect(page).to have_content("Enter the assessment of this consideration")
       expect(page).to have_content("Enter the conclusion for this consideration")
