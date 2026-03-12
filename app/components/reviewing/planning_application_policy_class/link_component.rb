@@ -4,7 +4,7 @@ module Reviewing
   module PlanningApplicationPolicyClass
     class LinkComponent < ViewComponent::Base
       erb_template <<~ERB
-        <%= govuk_link_to(link_text, link_path, aria: {describedby: link_text}) %>
+        <%= helpers.govuk_link_to(link_text, link_path, aria: {describedby: link_text}) %>
       ERB
 
       def initialize(planning_application_policy_class:)

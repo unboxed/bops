@@ -94,7 +94,7 @@ module AccordionSections
     end
 
     def location
-      govuk_link_to(t(".view_site_on"), map_link, new_tab: true)
+      helpers.govuk_link_to(t(".view_site_on"), map_link, new_tab: true)
     end
   end
 end

@@ -12,7 +12,7 @@ module StatusTags
     end
 
     def call
-      govuk_tag(text: link_text, colour:, html_attributes: @html_attributes.merge({class: "#{@html_attributes[:class]} govuk-tag--status-#{status}"}))
+      helpers.govuk_tag(text: link_text, colour:, html_attributes: @html_attributes.merge({class: "#{@html_attributes[:class]} govuk-tag--status-#{status}"}))
     end
 
     private

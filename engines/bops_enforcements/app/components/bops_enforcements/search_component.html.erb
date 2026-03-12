@@ -14,14 +14,14 @@
           ) %>
     <% end %>
     <%= form.govuk_submit t(".search"), name: "submit", value: "search" %>
-    <%= govuk_button_link_to(
+    <%= helpers.govuk_button_link_to(
           t(".clear_search"),
           clear_search_url,
           secondary: true
         ) %>
   </div>
 
-  <%= govuk_accordion do |accordion| %>
+  <%= helpers.govuk_accordion do |accordion| %>
     <% accordion.with_section(heading_text: "Filters") do %>
       <div class="govuk-accordion__section-content govuk-!-padding-bottom-0">
         <p><strong>Priority</strong></p>

@@ -55,7 +55,7 @@
                         label: {text: "List all the gap(s) in time"},
                         disabled: !editable
                       ) %>
-                  <%= govuk_link_to(
+                  <%= helpers.govuk_link_to(
                         "Request a new document",
                         new_planning_application_validation_validation_request_path(@planning_application, type: "additional_document"),
                         role: "button",
@@ -107,7 +107,7 @@
   <% end %>
   <hr>
   <div class="govuk-!-padding-top-6">
-    <%= govuk_link_to "Manage documents", planning_application_documents_path(@planning_application), class: "govuk-body" %>
+    <%= helpers.govuk_link_to "Manage documents", planning_application_documents_path(@planning_application), class: "govuk-body" %>
   </div>
 </div>
 
@@ -128,10 +128,10 @@
             ) %>
       <% end %>
 
-      <%= govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+      <%= helpers.govuk_button_link_to "Back", planning_application_assessment_tasks_path(@planning_application), secondary: true %>
 
       <% if !editable %>
-        <%= govuk_link_to "Edit evidence of immunity", edit_planning_application_assessment_immunity_detail_path(@planning_application, @planning_application.immunity_detail) %>
+        <%= helpers.govuk_link_to "Edit evidence of immunity", edit_planning_application_assessment_immunity_detail_path(@planning_application, @planning_application.immunity_detail) %>
       <% end %>
     <% end %>
   </div>
