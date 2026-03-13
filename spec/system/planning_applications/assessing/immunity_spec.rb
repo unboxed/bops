@@ -100,7 +100,9 @@ RSpec.describe "Immunity", type: :system do
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
       expect(page).to have_content("Assess immunity response was successfully updated")
 
-      click_link "Make draft recommendation"
+      within "#main-content" do
+        click_link "Make draft recommendation"
+      end
       expect(page).to have_selector("h1", text: "Make draft recommendation")
 
       within_fieldset("What is your recommendation?") do
@@ -118,7 +120,10 @@ RSpec.describe "Immunity", type: :system do
         expect(page).to have_selector("strong", text: "Completed")
       end
 
-      click_link "Review and submit recommendation"
+      within "#main-content" do
+        click_link "Review and submit recommendation"
+      end
+
       expect(page).to have_selector("h1", text: "Review and submit recommendation")
 
       click_button "Submit recommendation"

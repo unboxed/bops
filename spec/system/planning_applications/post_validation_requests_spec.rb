@@ -64,7 +64,10 @@ RSpec.describe "post validation requests" do
 
       it "does not let the assessor submit a recommendation" do
         click_link("Check and assess")
-        click_link("Make draft recommendation")
+
+        within "#main-content" do
+          click_link("Make draft recommendation")
+        end
 
         within_fieldset("What is your recommendation?") do
           choose "Granted"
@@ -81,7 +84,11 @@ RSpec.describe "post validation requests" do
         )
 
         click_button("Save and mark as complete")
-        click_link("Review and submit recommendation")
+
+        within "#main-content" do
+          click_link("Review and submit recommendation")
+        end
+
         click_button("Submit recommendation")
 
         expect(page).to have_content(

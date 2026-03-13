@@ -108,12 +108,14 @@ RSpec.describe "Review committee decision" do
     click_link "Application"
     click_link "Check and assess"
 
-    expect(page).to have_list_item_for(
-      "Make draft recommendation",
-      with: "To be reviewed"
-    )
+    within "#main-content" do
+      expect(page).to have_list_item_for(
+        "Make draft recommendation",
+        with: "To be reviewed"
+      )
 
-    click_link "Make draft recommendation"
+      click_link "Make draft recommendation"
+    end
 
     within(".comment-component") do
       expect(page).to have_content("Reviewer comment")
@@ -125,7 +127,11 @@ RSpec.describe "Review committee decision" do
     end
 
     click_button "Update assessment"
-    click_link "Review and submit recommendation"
+
+    within "#main-content" do
+      click_link "Review and submit recommendation"
+    end
+
     click_button "Submit recommendation"
     click_link "Review and sign-off"
 

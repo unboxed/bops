@@ -192,12 +192,21 @@ RSpec.describe "Permitted development right" do
           )
 
           click_button("Save and mark as complete")
-          click_link("Make draft recommendation")
+
+          within "#main-content" do
+            click_link("Make draft recommendation")
+          end
+
           within_fieldset("What is your recommendation?") do
             choose "Granted"
           end
+
           click_button("Update assessment")
-          click_link("Review and submit recommendation")
+
+          within "#main-content" do
+            click_link("Review and submit recommendation")
+          end
+
           click_button("Submit recommendation")
           click_link("Log out")
           sign_in(reviewer)
