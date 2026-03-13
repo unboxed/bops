@@ -25,19 +25,6 @@ module BopsCore
         end
       end
 
-      def flash(type, controller)
-        return nil unless type == :notice && after_success == "redirect"
-
-        case action
-        when "save_and_complete"
-          controller.t(".check-site-history.success")
-        when "add_site_history"
-          controller.t(".check-site-history.add_site_history")
-        when "save_draft"
-          controller.t(".check-site-history.save_draft")
-        end
-      end
-
       private
 
       def save_and_complete

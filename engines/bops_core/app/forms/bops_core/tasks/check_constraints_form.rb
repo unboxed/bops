@@ -21,20 +21,6 @@ module BopsCore
         params.fetch(param_key, {}).permit(:constraint_id)
       end
 
-      def flash(type, controller)
-        case action
-        when "add_constraint", "remove_constraint", "save_draft"
-          case type
-          when :notice
-            controller.t(".#{slug}.#{action}.success")
-          when :alert
-            controller.t(".#{slug}.#{action}.failure")
-          end
-        else
-          super
-        end
-      end
-
       private
 
       def add_constraint

@@ -4,17 +4,6 @@ module Tasks
   class ReviewAndSubmitRecommendationForm < Form
     self.task_actions = %w[save_and_complete withdraw_recommendation]
 
-    def flash(type, controller)
-      return nil unless type == :notice && after_success == "redirect"
-
-      case action
-      when "save_and_complete"
-        controller.t(".review-and-submit-recommendation.success")
-      when "withdraw_recommendation"
-        controller.t(".review-and-submit-recommendation.withdraw_success")
-      end
-    end
-
     private
 
     def save_and_complete

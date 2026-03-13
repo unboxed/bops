@@ -75,20 +75,6 @@ module BopsCore
         route_for(:edit_task, planning_application, task, site_visit_id: planning_application.site_visits.find(site_visit_id), only_path: true)
       end
 
-      def flash(type, controller)
-        case action
-        when "add_site_visit", "remove_site_visit", "update_site_visit"
-          case type
-          when :notice
-            controller.t(".#{slug}.#{action}.success")
-          when :alert
-            controller.t(".#{slug}.#{action}.failure")
-          end
-        else
-          super
-        end
-      end
-
       private
 
       def site_visits_relation

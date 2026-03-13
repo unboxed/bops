@@ -55,19 +55,6 @@ module BopsCore
         )
       end
 
-      def flash(type, controller)
-        return nil unless type == :notice && after_success == "redirect"
-
-        case action
-        when "save_and_complete"
-          controller.t(".check-fee.success")
-        when "update_request"
-          controller.t(".check-fee.update_request")
-        when "delete_request"
-          controller.t(".check-fee.delete_request")
-        end
-      end
-
       private
 
       def valid_fee?

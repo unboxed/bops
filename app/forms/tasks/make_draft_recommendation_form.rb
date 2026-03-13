@@ -30,17 +30,6 @@ module Tasks
       validates :public_comment, presence: true
     end
 
-    def flash(type, controller)
-      return nil unless type == :notice && after_success == "redirect"
-
-      case action
-      when "save_and_complete", "save_draft"
-        controller.t(".make-draft-recommendation.success")
-      when "withdraw_recommendation"
-        controller.t(".make-draft-recommendation.withdraw_success")
-      end
-    end
-
     private
 
     def committee_needed?

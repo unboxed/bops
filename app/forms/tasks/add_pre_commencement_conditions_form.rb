@@ -67,25 +67,6 @@ module Tasks
       condition_set.validation_requests.any?(&:pending?)
     end
 
-    def flash(type, controller)
-      return nil unless type == :notice && after_success == "redirect"
-
-      case action
-      when "save_and_complete"
-        controller.t(".add-pre-commencement-conditions.success")
-      when "save_draft"
-        controller.t(".add-pre-commencement-conditions.draft")
-      when "add_condition"
-        controller.t(".add-pre-commencement-conditions.condition_added")
-      when "update_condition"
-        controller.t(".add-pre-commencement-conditions.condition_updated")
-      when "delete_condition"
-        controller.t(".add-pre-commencement-conditions.condition_deleted")
-      when "confirm_and_send"
-        controller.t(".add-pre-commencement-conditions.confirm_sent")
-      end
-    end
-
     private
 
     def add_condition
