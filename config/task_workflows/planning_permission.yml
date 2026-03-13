@@ -66,6 +66,7 @@
         - name: Add pre-commencement conditions
         - name: Add informatives
         - name: Make draft recommendation
+        - name: Add heads of terms
         - name: Review and submit recommendation
 - name: "View recommendation"
   section: "Review"
