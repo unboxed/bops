@@ -64,6 +64,7 @@
         - name: Review documents for recommendation
         - name: Add conditions
         - name: Add pre-commencement conditions
+        - name: Add informatives
         - name: Make draft recommendation
         - name: Review and submit recommendation
 - name: "View recommendation"

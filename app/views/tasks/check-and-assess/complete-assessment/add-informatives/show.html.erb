@@ -1,0 +1,58 @@
+<%= render "task_header", task: @task %>
+
+<%= render(ReviewerCommentComponent.new(comment: @form.informative_set.current_review)) %>
+
+<% if @form.informatives.any? %>
+  <h2 class="govuk-!-margin-bottom-0">Add, edit and sort informatives</h2>
+  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  <ol data-controller="sortable" id="informatives-list" class="govuk-list sortable-list">
+    <% @form.informatives.each.with_index(1) do |informative, position| %>
+      <%= render(Sortable::ListItemComponent.new(
+            record: informative,
+            position: position,
+            record_class: "informative",
+            record_controller: "",
+            record_sortable_url: planning_application_assessment_informatives_item_position_path(@planning_application, informative),
+            edit_record_url: @form.edit_informative_url(informative),
+            remove_record_url: @form.remove_informative_url(informative)
+          )) %>
+    <% end %>
+  </ol>
+  <p class="govuk-hint">
+    Drag and drop conditions to change the order that they appear in the decision notice.
+  </p>
+<% else %>
+  <p>
+    <strong>No informatives added yet</strong>
+    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+  </p>
+<% end %>
+
+<%= govuk_details(summary_text: "Add new informative", open: @form.errors.any?) do %>
+  <div data-controller="informative-form">
+    <%= form_with model: @form, url: @form.url do |form| %>
+      <%= form.govuk_error_summary %>
+      <%= form.govuk_fieldset legend: {text: "Add a new informative"} do %>
+        <%= form.govuk_text_field :title,
+              label: {text: "Enter title"},
+              hint: {text: "Start typing to find an existing informative or create a new one"},
+              form_group: {data: {informative_form_target: "container"}},
+              data: {informative_form_target: "titleInput"} %>
+
+        <%= form.govuk_text_area :text,
+              label: {text: "Enter details of the informative"},
+              data: {informative_form_target: "textInput"} %>
+        <div class="govuk-button-group">
+          <%= form.govuk_task_button "Add informative", action: "add_informative", secondary: true %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <div class="govuk-button-group">
+    <%= form.govuk_task_button "Save and mark as complete" %>
+    <%= form.govuk_task_button "Save and come back later", action: "save_draft", secondary: true %>
+  </div>
+<% end %>

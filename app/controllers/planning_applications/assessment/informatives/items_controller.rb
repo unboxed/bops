@@ -29,9 +29,9 @@ module PlanningApplications
           respond_to do |format|
             format.html do
               if @informative.destroy
-                redirect_to edit_planning_application_assessment_informatives_path(@planning_application), notice: t(".success")
+                redirect_to redirect_path, notice: t(".success")
               else
-                redirect_to edit_planning_application_assessment_informatives_path(@planning_application), notice: t(".failure")
+                redirect_to redirect_path, notice: t(".failure")
               end
             end
           end
@@ -49,6 +49,10 @@ module PlanningApplications
 
         def informative_params
           params.require(:informative).permit(:title, :text)
+        end
+
+        def redirect_path
+          params[:redirect_to].presence || edit_planning_application_assessment_informatives_path(@planning_application)
         end
       end
     end
