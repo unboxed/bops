@@ -1,23 +1,31 @@
 <%= render "task_header", task: @task %>
 
-<p><%= t(".the_following_decision", report_or_notice: report_or_notice?(@planning_application)) %></p>
-<%= render "planning_applications/decision_notice", planning_application: @planning_application %>
-<h2><%= t(".submit_recommendation") %></h2>
-<p><%= t(".if_you_agree", report_or_notice: report_or_notice?(@planning_application)) %></p>
-<p><%= t(".if_your_reviewer") %></p>
-
+<% has_recommendation = @planning_application.recommendation.present? %>
 <% submitted = @planning_application.may_withdraw_recommendation? %>
 
-<p class="govuk-!-margin-top-3">
+<% if has_recommendation %>
+  <p><%= t(".the_following_decision", report_or_notice: report_or_notice?(@planning_application)) %></p>
+  <%= render "planning_applications/decision_notice", planning_application: @planning_application %>
+  <h2><%= t(".submit_recommendation") %></h2>
+  <p><%= t(".if_you_agree", report_or_notice: report_or_notice?(@planning_application)) %></p>
+  <p><%= t(".if_your_reviewer") %></p>
+<% end %>
+
+<div class="govuk-!-margin-top-3">
   <% unless submitted %>
-    <%= govuk_link_to "Edit recommendation", task_path(@planning_application, "check-and-assess/complete-assessment/make-draft-recommendation", return_to: task_path(@planning_application, @task)) %>
+    <% if has_recommendation %>
+      <%= govuk_link_to "Edit recommendation", task_path(@planning_application, "check-and-assess/complete-assessment/make-draft-recommendation", return_to: task_path(@planning_application, @task)) %>
+    <% else %>
+      <p>No recommendation has been made on this application.</p>
+      <%= govuk_link_to "Make draft recommendation", task_path(@planning_application, "check-and-assess/complete-assessment/make-draft-recommendation", return_to: task_path(@planning_application, @task)) %>
+    <% end %>
   <% end %>
-</p>
+</div>
 
 <%= form_with model: @form, url: @form.url do |form| %>
   <% if submitted %>
     <%= form.govuk_task_button "Withdraw recommendation", action: "withdraw_recommendation", secondary: true %>
-  <% else %>
+  <% elsif has_recommendation %>
     <%= render "task_submit_buttons", form: form, save_draft: false %>
   <% end %>
 <% end %>
