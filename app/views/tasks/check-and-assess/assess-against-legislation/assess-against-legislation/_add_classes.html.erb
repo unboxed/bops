@@ -1,0 +1,26 @@
+<%= form.govuk_check_boxes_fieldset :classes, legend: {text: "Add classes to assess"} do %>
+  <%= form.hidden_field :part %>
+
+  <p>
+    Select the relevant class(es) to assess. Classes are defined in
+    The Town and Country Planning (General Permitted Development)
+    (England) Order 2015 (GPDO), Schedule 2, Part <%= @form.policy_part.number %>.
+  </p>
+
+  <p>
+    <%= govuk_link_to "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/#{@form.policy_part.number}", new_tab: "" do %>
+      Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+    <% end %>
+  </p>
+
+  <% @form.policy_classes_menu.each do |id, section, name| %>
+    <%= form.govuk_check_box :classes, id,
+          label: {text: "Class #{section}"}, hint: {text: name},
+          disabled: id.in?(@form.assessment_area_ids),
+          checked: id.in?(@form.assessment_area_ids) %>
+  <% end %>
+<% end %>
+
+<%= form.govuk_task_button "Continue", action: "add_assessment_area" do %>
+  <%= form.govuk_task_button "Back", action: "add_part", secondary: true %>
+<% end %>

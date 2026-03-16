@@ -1,0 +1,95 @@
+<%= render "task_header", task: @task, heading: "Assess – #{@form.assessment_area_name}" %>
+
+<%= render(ReviewerCommentComponent.new(comment: @form.assessment_area.current_review)) %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+    <%= form_with model: @form, url: @form.assessment_area_url do |form| %>
+      <%= form.govuk_error_summary %>
+
+      <h2>
+        <%= @form.assessment_area_description %>
+      </h2>
+
+      <p>
+        Complete the assessment to show whether the application complies or
+        does not comply with the selected legislative class. You can add comments
+        to provide more information to support your assessment.
+      </p>
+
+      <p>
+        <%= govuk_link_to @form.assessment_area_legislation_url, new_tab: "" do %>
+          Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+        <% end %>
+      </p>
+
+      <%= govuk_section_break(visible: true, size: "l") %>
+
+      <% @form.assessment_area_sections.each do |section| %>
+        <h3 class="govuk-!-margin-bottom-1">
+          <%= @form.policy_reference(section) %>
+        </h3>
+
+        <div class="govuk-grid-row">
+          <div class="govuk-grid-column-two-thirds">
+            <p>
+              <%= section.description %>
+            </p>
+
+            <% if comment = section.last_comment %>
+              <%= govuk_inset_text(classes: "govuk-!-margin-top-3") do %>
+                <%= simple_format(comment.text, class: "govuk-!-margin-bottom-1") %>
+
+                <p class="govuk-body-s">
+                  <strong><%= comment.user.name %>, <%= comment.created_at.to_fs %></strong>
+                </p>
+
+                <% if section.previous_comments.any? %>
+                  <%= govuk_details do |details| %>
+                    <% details.with_summary_html do %>
+                      <span class="govuk-!-font-size-16">Previous comments</span>
+                    <% end %>
+
+                    <ul class="govuk-list">
+                      <% section.previous_comments.reverse_each do |comment| %>
+                        <li>
+                          <%= simple_format(comment.text, class: "govuk-!-margin-bottom-1") %>
+
+                          <p class="govuk-body-s">
+                            <strong><%= comment.user.name %>, <%= comment.created_at.to_fs %></strong>
+                          </p>
+                        </li>
+                      <% end %>
+                    </ul>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+
+        <%= form.fields_for :"sections[]", section do |fields| %>
+          <%= fields.govuk_radio_buttons_fieldset :status, inline: true, small: true, legend: {size: "s", text: "Status"} do %>
+            <%= fields.govuk_radio_button :status, "complies", label: {text: "Complies", class: "govuk-!-text-no-wrap"} %>
+            <%= fields.govuk_radio_button :status, "does_not_comply", label: {text: "Does not comply", class: "govuk-!-text-wrap-nowrap"} %>
+            <%= fields.govuk_radio_button :status, "to_be_determined", label: {text: "To be determined", class: "govuk-!-text-wrap-nowrap"} %>
+          <% end %>
+
+          <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+              <%= fields.fields_for :comments, section.comments.new do |comment| %>
+                <%= comment.govuk_text_area :text, rows: 3, width: "two-thirds", label: {text: "Add comment", size: "s"} %>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+
+        <%= govuk_section_break(visible: true, size: "l") %>
+      <% end %>
+
+      <%= form.govuk_task_button "Save assessment", action: "update_assessment" do %>
+        <%= govuk_button_link_to "Back", task_path(@planning_application, @task), secondary: true %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -60,6 +60,7 @@
       section: Assess against legislation
       tasks:
         - name: Check if proposal is development
+        - name: Assess against legislation
     - name: Complete assessment
       section: Complete assessment
       tasks:

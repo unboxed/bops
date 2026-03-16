@@ -13,6 +13,7 @@ class PlanningApplicationPolicyClass < ApplicationRecord
   end
 
   after_create :initialize_planning_application_policy_sections
+  after_destroy :destroy_planning_application_policy_sections
 
   delegate :section, :name, :url, :description, to: :policy_class
 
@@ -75,5 +76,13 @@ class PlanningApplicationPolicyClass < ApplicationRecord
         policy_section:
       )
     end
+  end
+
+  def destroy_planning_application_policy_sections
+    policy_section_ids = policy_class.policy_section_ids
+    policy_sections = planning_application.planning_application_policy_sections
+    policy_sections = policy_sections.where(policy_section_id: policy_section_ids)
+
+    policy_sections.destroy_all
   end
 end

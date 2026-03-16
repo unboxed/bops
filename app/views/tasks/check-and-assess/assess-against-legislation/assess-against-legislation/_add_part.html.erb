@@ -1,0 +1,21 @@
+<%= form.govuk_radio_buttons_fieldset :part, legend: {text: "Select the part"} do %>
+  <p>
+    Select the relevant part of the legislation for your assessment.
+    Parts are defined in The Town and Country Planning (General Permitted Development)
+    (England) Order 2015 (GPDO), Schedule 2.
+  </p>
+
+  <p>
+    <%= govuk_link_to "https://www.legislation.gov.uk/uksi/2015/596/schedule/2", new_tab: "" do %>
+      Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+    <% end %>
+  </p>
+
+  <% @form.policy_parts.each do |part| %>
+    <%= form.govuk_radio_button :part, part.number, label: {text: "Part #{part.number} - #{part.name}"} %>
+  <% end %>
+<% end %>
+
+<%= form.govuk_task_button "Continue", action: "add_classes" do %>
+  <%= form.govuk_task_button "Back", action: "default", secondary: true %>
+<% end %>

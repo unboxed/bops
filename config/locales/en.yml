@@ -2840,6 +2840,11 @@ en:
       amenity:
         failure: Unable to save amenity assessment
         success: Amenity assessment was successfully saved
+      assess-against-legislation:
+        add_assessment_area: Policy class was successfully added
+        failure: Failed to save assessment against legislation
+        success: Assessment against legislation successfully saved
+        update_assessment: Assessment for policy class successfully saved
       assess-against-policies-and-guidance:
         failure: Failed to add policy area assessment
         success: Policy area assessment successfully added
