@@ -1,0 +1,51 @@
+<%= render "task_header", task: @task %>
+
+<%= render(ReviewerCommentComponent.new(comment: @form.heads_of_terms.current_review)) %>
+
+<% if @planning_application.pre_application? %>
+  <p><%= t(".preapp_reminder") %></p>
+<% end %>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<ol
+  data-controller="sortable"
+  id="heads-of-terms-list"
+  class="govuk-list sortable-list">
+  <% @form.heads_of_terms.not_cancelled_terms.select(&:persisted?).each.with_index(1) do |term, position| %>
+    <%= render(Sortable::ListItemComponent.new(
+          record: term,
+          position: position,
+          record_class: "term",
+          record_controller: "terms",
+          record_sortable_url: planning_application_assessment_term_position_path(@planning_application, term),
+          edit_record_url: edit_task_component_path(@planning_application, @task, term),
+          remove_record_url: planning_application_assessment_term_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
+          current_request: term.current_validation_request,
+          show_status_tag: !@planning_application.pre_application?
+        )) %>
+  <% end %>
+</ol>
+
+<p><%= t(".drag_and_drop") %></p>
+
+<div class="govuk-!-margin-bottom-8">
+  <details class="govuk-details" <%= "open" if @form.term.errors.any? %>>
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text"> Add a new heads of terms </span>
+    </summary>
+
+    <%= render "#{@form.partial_path}/form" %>
+    <hr
+      class="
+        govuk-section-break govuk-section-break--m
+        govuk-section-break--visible
+      ">
+  </details>
+</div>
+
+<div class="govuk-button-group">
+  <%= form_with model: @form.term, url: @form.url do |form| %>
+    <%= render "task_submit_buttons", form: %>
+  <% end %>
+</div>

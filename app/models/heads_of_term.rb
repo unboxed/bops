@@ -39,7 +39,7 @@ class HeadsOfTerm < ApplicationRecord
       create_heads_of_terms_review!
     end
 
-    latest_validation_request.send_post_validation_request_email
+    latest_validation_request&.send_post_validation_request_email
   end
 
   def not_cancelled_terms

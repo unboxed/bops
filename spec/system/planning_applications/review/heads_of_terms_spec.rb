@@ -81,13 +81,14 @@ RSpec.describe "Reviewing heads of terms", type: :system, capybara: true do
 
         visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
-        expect(page).to have_list_item_for(
-          "Add heads of terms",
-          with: "To be reviewed"
-        )
+        within "#main-content" do
+          expect(page).to have_list_item_for(
+            "Add heads of terms",
+            with: "To be reviewed"
+          )
 
-        click_link "Add heads of terms"
-
+          click_link "Add heads of terms"
+        end
         expect(page).to have_content("I don't think you've assessed heads of terms correctly")
       end
     end

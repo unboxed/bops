@@ -88,7 +88,9 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       click_button "Confirm and send to applicant"
       expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed and sent to the applicant")
 
-      click_link "Add heads of terms"
+      within "#main-content" do
+        click_link "Add heads of terms"
+      end
 
       within("#term_#{Term.first.id}") do
         expect(page).to have_selector(".govuk-tag", text: "Awaiting response")
@@ -126,7 +128,10 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       travel_to(Time.zone.local(2024, 4, 17, 14, 30))
       visit "/planning_applications/#{reference}"
       click_link "Check and assess"
-      click_link "Add heads of terms"
+
+      within "#main-content" do
+        click_link "Add heads of terms"
+      end
 
       within("#term_#{term1.id}") do
         expect(page).to have_selector("p strong.govuk-tag", text: "Rejected")
@@ -176,7 +181,9 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       visit "/planning_applications/#{reference}"
       click_link "Check and assess"
 
-      click_link "Add heads of terms"
+      within "#main-content" do
+        click_link "Add heads of terms"
+      end
 
       within("#term_#{term1.id}") do
         expect(page).to have_selector("h2", text: "Title 1")
@@ -191,14 +198,20 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
 
       click_link "Application"
       click_link "Check and assess"
-      click_link "Add heads of term"
+
+      within "#main-content" do
+        click_link "Add heads of terms"
+      end
 
       expect(page).not_to have_selector("p strong.govuk-tag", text: "Cancelled")
     end
   end
 
   it "I can remove a term only if it has not been sent to the applicant" do
-    click_link "Add heads of terms"
+    within "#main-content" do
+      click_link "Add heads of terms"
+    end
+
     expect(page).to have_selector("h1", text: "Add heads of terms")
 
     toggle "Add a new heads of terms"
@@ -233,7 +246,9 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     click_button "Confirm and send to applicant"
     expect(page).to have_selector("[role=alert] p", text: "Head of terms have been confirmed and sent to the applicant")
 
-    click_link "Add heads of terms"
+    within "#main-content" do
+      click_link "Add heads of terms"
+    end
 
     within("#heads-of-terms-list li:last-child") do
       expect(page).to have_selector("h2", text: "Another title")
@@ -248,7 +263,10 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
     let!(:term_three) { create(:term, heads_of_term:, title: "Title 3", text: "Text 3", position: 3) }
 
     it "I can drag and drop to sort the heads of terms" do
-      click_link "Add heads of term"
+      within "#main-content" do
+        click_link "Add heads of terms"
+      end
+
       expect(page).to have_selector("p", text: "Drag and drop heads of terms to change the order that they appear in the decision notice.")
 
       term_one_handle = find("li.sortable-list", text: "Title 1")
@@ -323,7 +341,10 @@ RSpec.describe "Add heads of terms", type: :system, capybara: true do
       expect(term_three.reload.position).to eq(1)
 
       click_link "Back"
-      click_link "Add heads of terms"
+
+      within "#main-content" do
+        click_link "Add heads of terms"
+      end
 
       within("li.sortable-list:nth-of-type(1)") do
         expect(page).to have_selector("span", text: "Heads of term 1")

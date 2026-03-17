@@ -1,0 +1,26 @@
+<%= form_with model: @form, url: @form.url do |form| %>
+  <fieldset class="govuk-fieldset govuk-!-margin-top-3">
+    <legend class="govuk-fieldset__legend">
+      <h2 class="govuk-heading-s">
+        <% if @form.term.new_record? %>
+          Add a new heads of term
+        <% else %>
+          Edit heads of term
+        <% end %>
+      </h2>
+    </legend>
+
+    <%= form.govuk_error_summary %>
+
+    <%= form.govuk_text_field :title, label: {text: "Enter title"} %>
+    <%= form.govuk_text_area :text, rows: 5, label: {text: "Enter details"} %>
+
+    <% if @form.term.new_record? %>
+      <%= form.govuk_task_button "Save", action: "add_term", secondary: true %>
+    <% else %>
+      <%= form.govuk_task_button "Save", action: "update_term" do %>
+        <%= govuk_button_link_to "Back", task_path(@planning_application, @task), secondary: true %>
+      <% end %>
+    <% end %>
+  </fieldset>
+<% end %>
