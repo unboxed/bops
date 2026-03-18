@@ -254,11 +254,21 @@ module PlanningApplications
       end
 
       def check_and_request_documents_task_path
-        BopsPreapps::Engine.routes.url_helpers.task_path(
-          reference: @planning_application.reference,
-          slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents"
-        )
+        return unless redirect_to_check_and_request_documents_task?
+
+        if @planning_application.pre_application?
+          BopsPreapps::Engine.routes.url_helpers.task_path(
+            reference: @planning_application.reference,
+            slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents"
+          )
+        else
+          task_path(
+            reference: @planning_application.reference,
+            slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents"
+          )
+        end
       end
+      helper_method :check_and_request_documents_task_path
 
       def set_validation_request
         return if params[:id].blank?

@@ -45,7 +45,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       )
     end
 
-    it "I can mark documents as invalid and edit/delete the validation request", :capybara do
+    it "I can mark documents as invalid and edit/delete the validation request", :capybara, show_sidebar: false do
       click_link "Check and validate"
       within "#main-content" do
         click_link "Review documents"
@@ -594,6 +594,8 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       request.state = "closed"
       request.save!
       request.old_document.archive("replaced by new document")
+
+      visit "/planning_applications/#{planning_application.reference}"
 
       find("span", text: "Documents").click
       click_link "Manage documents"
