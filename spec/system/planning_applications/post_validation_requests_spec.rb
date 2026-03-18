@@ -96,7 +96,7 @@ RSpec.describe "post validation requests" do
         )
       end
 
-      it "lets the assessor cancel the request" do
+      it "lets the assessor cancel the request", show_sidebar: false do
         visit "/planning_applications/#{planning_application.reference}/documents"
         document_row = row_with_content("Document requested: Floor plan")
 

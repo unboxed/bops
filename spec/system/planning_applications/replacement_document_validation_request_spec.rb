@@ -577,7 +577,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
       expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails + 1)
     end
 
-    it "allows new replacement requests to be responded to" do
+    it "allows new replacement requests to be responded to", show_sidebar: false do
       click_link "Check and assess"
       find("span", text: "Documents").click
       click_link "Request replacement"

@@ -285,12 +285,14 @@ module PlanningApplications
       end
 
       def redirect_to_check_red_line_boundary_task?
+        return false unless use_new_sidebar_layout?(@planning_application)
+
         !@validation_request.post_validation? &&
           @validation_request.type == "RedLineBoundaryChangeValidationRequest"
       end
 
       def redirect_to_check_and_request_documents_task?
-        return false unless @planning_application.pre_application?
+        return false unless use_new_sidebar_layout?(@planning_application)
 
         @validation_request.type.in?(%w[ReplacementDocumentValidationRequest AdditionalDocumentValidationRequest])
       end
