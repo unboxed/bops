@@ -11,6 +11,8 @@ RSpec.configure do |config|
       ensure
         Rails.configuration.use_new_sidebar_layout = existing_value
       end
+    else
+      example.run
     end
   end
 end
