@@ -9,7 +9,6 @@ class SendPressNoticeEmailJob < ApplicationJob
 
     ApplicationRecord.transaction do
       PlanningApplicationMailer.press_notice_mail(press_notice).deliver_now
-
       press_notice.touch(:requested_at)
       press_notice.audits.create!(
         user: user,

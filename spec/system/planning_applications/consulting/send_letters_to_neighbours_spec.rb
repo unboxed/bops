@@ -3,7 +3,7 @@
 require "rails_helper"
 require "faraday"
 
-RSpec.describe "Send letters to neighbours", :js, type: :system do
+RSpec.describe "Send letters to neighbours", :js, show_sidebar: false, type: :system do
   let(:api_user) { create(:api_user, :planx) }
   let(:default_local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }

@@ -1,0 +1,73 @@
+<%= render "task_header", task: @task %>
+<% if @form.press_notices.any? %>
+  <% unless @form.press_notice.published_at %>
+    <% if @form.press_notice.requested_at? %>
+      <div class="govuk-inset-text display-flex govuk-!-padding-top-5">
+        <p class="govuk-body govuk-!-margin-right-2">
+          <%= time_tag(@form.press_notice.requested_at, format: t(".requested_on")) %>
+        </p>
+        <p>
+          <strong class="govuk-tag">Emailed</strong>
+        </p>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+<% if @form.press_notices.where(required: true).any? %>
+  <%= govuk_table do |table|
+        table.with_head do |head|
+          head.with_row do |row|
+            row.with_cell(text: "Document")
+            row.with_cell(text: "Status")
+            row.with_cell(text: "Date requested")
+            row.with_cell(text: "Date published")
+            row.with_cell(text: "Actions")
+          end
+        end
+
+        table.with_body do |body|
+          @form.press_notices.where(required: true).find_each do |press_notice|
+            body.with_row do |row|
+              row.with_cell do
+                if press_notice.documents.with_file_attachment.any?
+                  press_notice.documents.with_file_attachment.each do |document|
+                    concat(content_tag(:p, document_thumbnail_link(document, thumbnail_args: {resize: "300x212"}), class: "govuk-!-margin-bottom-1"))
+                  end
+                else
+                  concat(content_tag(:p, "No document provided", class: "govuk-body"))
+                end
+              end
+              row.with_cell { press_notice.published_at? ? govuk_tag(text: "Published", colour: "green") : govuk_tag(text: "Not yet published", colour: "grey") }
+              row.with_cell(text: press_notice.requested_at&.strftime("%-d %b %Y") || "–")
+              row.with_cell(text: press_notice.published_at&.strftime("%-d %b %Y") || "–")
+              row.with_cell do
+                govuk_link_to(
+                  press_notice.published_at? ? "Edit publication details" : "Confirm publication",
+                  @form.edit_press_notice_url(press_notice)
+                )
+              end
+            end
+          end
+        end
+      end %>
+    <% if @form.press_notices.first.published_at.present? %>
+      <p class="govuk-body">
+        <%= govuk_link_to "Add a new press notice response", @form.press_notice_task_url %>
+      </p>
+    <% end %>
+<% elsif @form.press_notices.any? %>
+  <div class="govuk-inset-text">
+    Press notice has been marked as <%= @form.press_notice.required ? "required and email notification has been sent to #{@planning_application.local_authority.press_notice_email}." : "not required" %>
+  </div>
+<% else %>
+  <div class="govuk-inset-text">
+    No press notices have been requested
+  </div>
+<% end %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+  <div class="govuk-button-group">
+    <%= render "task_submit_buttons", form: form, save_draft: false %>
+  </div>
+<% end %>

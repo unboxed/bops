@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Press notice" do
+RSpec.describe "Press notice", show_sidebar: false, type: :system do
   let!(:local_authority) { create(:local_authority, :default, press_notice_email: "pressnotice@example.com") }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
 
@@ -31,7 +31,9 @@ RSpec.describe "Press notice" do
 
     it "I can see the relevant information on the press notice page" do
       click_link "Consultees, neighbours and publicity"
-      click_link "Press notice"
+      within "#main-content" do
+        click_link "Press notice"
+      end
 
       within("#planning-application-details") do
         expect(page).to have_content("Press notice")
@@ -45,8 +47,9 @@ RSpec.describe "Press notice" do
     context "when a press notice is required" do
       it "I get an error when not providing a reason" do
         click_link "Consultees, neighbours and publicity"
-        click_link "Press notice"
-
+        within "#main-content" do
+          click_link "Press notice"
+        end
         choose("Yes")
         click_button("Save and mark as complete")
 
@@ -58,7 +61,9 @@ RSpec.describe "Press notice" do
 
       it "I provide reasons why a press notice is required" do
         click_link "Consultees, neighbours and publicity"
-        click_link "Press notice"
+        within "#main-content" do
+          click_link "Press notice"
+        end
 
         choose("Yes")
         check("The application is for a Major Development")
@@ -67,7 +72,7 @@ RSpec.describe "Press notice" do
         click_button("Save and mark as complete")
         expect(page).to have_content("Press notice response has been successfully added")
 
-        within("#publicity-section") do
+        within("#main-content") do
           expect(page).to have_content("Completed")
           click_link("Press notice")
         end
@@ -116,7 +121,9 @@ RSpec.describe "Press notice" do
 
       it "I provide a standard reason and another reason why a press notice is required" do
         click_link "Consultees, neighbours and publicity"
-        click_link "Press notice"
+        within "#main-content" do
+          click_link "Press notice"
+        end
 
         choose("Yes")
         check("The application is for a Major Development")
@@ -127,8 +134,9 @@ RSpec.describe "Press notice" do
         )
 
         click_button("Save and mark as complete")
-        click_link("Press notice")
-
+        within "#main-content" do
+          click_link "Press notice"
+        end
         expect(find_by_id("press-notice-required-true-field")).to be_checked
         expect(find_by_id("press-notice-reasons-major-development-field")).to be_checked
         expect(find_by_id("press-notice-reasons-other-field")).to be_checked
@@ -159,8 +167,9 @@ RSpec.describe "Press notice" do
 
       it "I provide another reason why a press notice is required" do
         click_link "Consultees, neighbours and publicity"
-        click_link "Press notice"
-
+        within "#main-content" do
+          click_link "Press notice"
+        end
         choose("Yes")
         check("Other")
         fill_in(
@@ -169,8 +178,9 @@ RSpec.describe "Press notice" do
         )
 
         click_button("Save and mark as complete")
-        click_link("Press notice")
-
+        within "#main-content" do
+          click_link "Press notice"
+        end
         expect(find_by_id("press-notice-required-true-field")).to be_checked
         expect(find_by_id("press-notice-reasons-other-field")).to be_checked
 
@@ -202,7 +212,9 @@ RSpec.describe "Press notice" do
         delivered_emails = ActionMailer::Base.deliveries.count
 
         click_link "Consultees, neighbours and publicity"
-        click_link "Press notice"
+        within "#main-content" do
+          click_link "Press notice"
+        end
         choose("Yes")
         check("The application is for a Major Development")
         click_button("Save and mark as complete")
@@ -219,7 +231,9 @@ RSpec.describe "Press notice" do
           delivered_emails = ActionMailer::Base.deliveries.count
 
           click_link "Consultees, neighbours and publicity"
-          click_link "Press notice"
+          within "#main-content" do
+            click_link "Press notice"
+          end
           choose("Yes")
           check("The application is for a Major Development")
           expect(page).to have_content("No press notice email has been set. This can be done by an administrator in the admin dashboard.")
@@ -236,7 +250,9 @@ RSpec.describe "Press notice" do
 
         it "I cannot edit or submit the press notice response" do
           click_link "Consultees, neighbours and publicity"
-          click_link "Press notice"
+          within "#main-content" do
+            click_link "Press notice"
+          end
 
           expect(find_by_id("press-notice-required-true-field")).to be_disabled
           expect(find_by_id("press-notice-required-field")).to be_disabled
@@ -251,13 +267,14 @@ RSpec.describe "Press notice" do
     context "when a press notice is not required" do
       it "I can mark it as not required" do
         click_link "Consultees, neighbours and publicity"
-        click_link "Press notice"
-
+        within "#main-content" do
+          click_link "Press notice"
+        end
         choose("No")
 
         click_button("Save and mark as complete")
         expect(page).to have_content("Press notice response has been successfully added")
-        within("#publicity-section") do
+        within("#main-content") do
           expect(page).to have_content("Completed")
           click_link("Press notice")
         end
@@ -283,7 +300,9 @@ RSpec.describe "Press notice" do
         delivered_emails = ActionMailer::Base.deliveries.count
 
         click_link "Consultees, neighbours and publicity"
-        click_link "Press notice"
+        within "#main-content" do
+          click_link "Press notice"
+        end
         choose("No")
         click_button("Save and mark as complete")
 
@@ -297,13 +316,15 @@ RSpec.describe "Press notice" do
 
         it "I can mark a press notice as not required after it was marked as required" do
           click_link "Consultees, neighbours and publicity"
-          click_link "Press notice"
-
+          within "#main-content" do
+            click_link "Press notice"
+          end
           choose("No")
 
           click_button("Save and mark as complete")
-          click_link("Press notice")
-
+          within "#main-content" do
+            click_link "Press notice"
+          end
           expect(find_by_id("press-notice-required-field")).to be_checked
 
           expect(PressNotice.last).to have_attributes(
@@ -323,7 +344,9 @@ RSpec.describe "Press notice" do
 
         it "I can modify the reasons to why the press notice is required" do
           click_link "Consultees, neighbours and publicity"
-          click_link "Press notice"
+          within "#main-content" do
+            click_link "Press notice"
+          end
           expect(find_by_id("press-notice-reasons-other-field")).to be_checked
 
           check("The application is for a Major Development")
@@ -331,8 +354,9 @@ RSpec.describe "Press notice" do
           uncheck("Other")
 
           click_button("Save and mark as complete")
-          click_link("Press notice")
-
+          within "#main-content" do
+            click_link "Press notice"
+          end
           expect(find_by_id("press-notice-required-true-field")).to be_checked
           expect(find_by_id("press-notice-reasons-major-development-field")).to be_checked
           expect(find_by_id("press-notice-reasons-public-interest-field")).to be_checked
@@ -368,14 +392,16 @@ RSpec.describe "Press notice" do
 
         it "I can mark the press notice as not required when it" do
           click_link "Consultees, neighbours and publicity"
-          click_link "Press notice"
-
+          within "#main-content" do
+            click_link "Press notice"
+          end
           choose("Yes")
           check("The application is for a Major Development")
 
           click_button("Save and mark as complete")
-          click_link("Press notice")
-
+          within "#main-content" do
+            click_link "Press notice"
+          end
           expect(find_by_id("press-notice-required-true-field")).to be_checked
           expect(find_by_id("press-notice-reasons-major-development-field")).to be_checked
 
@@ -425,7 +451,7 @@ RSpec.describe "Press notice" do
       it "I can view the relevant information" do
         click_link "Consultees, neighbours and publicity"
 
-        within("#confirm-press-notice") do
+        within("#main-content") do
           expect(page).to have_content("Not started")
           click_link("Confirm press notice")
         end
@@ -446,9 +472,11 @@ RSpec.describe "Press notice" do
         expect(page).to have_content("Upload evidence of the press notice publication.")
       end
 
-      it "there is a validation error when saving unsupported file type" do
+      it "there is a validation error when saving unsupported file type", capybara: true do
         click_link "Consultees, neighbours and publicity"
-        click_link "Confirm press notice"
+        within "#main-content" do
+          click_link "Confirm press notice"
+        end
         click_link "Confirm publication"
 
         attach_file("Upload photo(s)", "spec/fixtures/files/images/image.gif")
@@ -461,7 +489,7 @@ RSpec.describe "Press notice" do
         expect(consultation.end_date.to_date).to eq("Thu, 12 Oct 2023".to_date)
 
         click_link "Consultees, neighbours and publicity"
-        within("#confirm-press-notice") do
+        within("#main-content") do
           click_link("Confirm press notice")
         end
         click_link "Confirm publication"
@@ -513,7 +541,7 @@ RSpec.describe "Press notice" do
         click_button "Save"
         expect(page).to have_content("Press notice response has been successfully updated")
 
-        within("#confirm-press-notice") do
+        within("#main-content") do
           expect(page).to have_content("Complete")
           click_link("Confirm press notice")
         end
@@ -542,7 +570,9 @@ RSpec.describe "Press notice" do
         click_link "Edit publication details"
         fill_in "Optional comment", with: "Edited press notice comment"
         click_button "Save"
-        click_link "Confirm press notice"
+        within("#main-content") do
+          click_link("Confirm press notice")
+        end
         expect(page).to have_selector("p", text: "Comments: Edited press notice comment")
 
         travel 1.hour
@@ -552,7 +582,9 @@ RSpec.describe "Press notice" do
         click_button "Save and mark as complete"
         perform_enqueued_jobs
 
-        click_link "Confirm press notice"
+        within("#main-content") do
+          click_link("Confirm press notice")
+        end
         expect(page).to have_selector("p", text: "Date requested: #{PressNotice.last.requested_at.to_date.to_fs}")
 
         # View past press notices
@@ -576,7 +608,9 @@ RSpec.describe "Press notice" do
 
         it "I can confirm the press notice details and consultation period is extended by 30 days" do
           click_link "Consultees, neighbours and publicity"
-          click_link "Confirm press notice"
+          within("#main-content") do
+            click_link("Confirm press notice")
+          end
           click_link "Confirm publication"
 
           within("#published-at-field") do
@@ -596,7 +630,9 @@ RSpec.describe "Press notice" do
 
       it "I cannot confirm the press notice" do
         click_link "Consultees, neighbours and publicity"
-        expect(page).not_to have_content("Confirm press notice")
+        within "#main-content" do
+          expect(page).not_to have_content("Confirm press notice")
+        end
 
         visit "/planning_applications/#{planning_application.reference}/press_notice/confirmation"
         expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/consultation")

@@ -2805,6 +2805,21 @@ en:
             no_recommended_html: No <strong>(recommended based on submission data)</strong>
             'yes': 'Yes'
             yes_recommended_html: Yes <strong>(recommended based on submission data)</strong>
+    consultees-neighbours-and-publicity:
+      publicity:
+        confirm-press-notice:
+          edit:
+            optional_comment: Optional comment
+            photos_hint: Provide documentary evidence of the press notice being published
+            published_at: What date was the press notice published?
+            requested_on: Press notice requested on %-d %B %Y
+            upload_photos: Upload photo(s)
+          show:
+            optional_comment: Optional comment
+            photos_hint: Provide documentary evidence of the press notice being published
+            published_at: What date was the press notice published?
+            requested_on: Press notice requested on %-d %B %Y
+            upload_photos: Upload photo(s)
     update:
       add-conditions:
         add_condition: Condition was successfully added
@@ -2889,7 +2904,10 @@ en:
         success: Site history was successfully marked as reviewed
       confirm-community-infrastructure-levy-cil:
         failure: Failed to confirm CIL liability check
-        success: Successfully confirmed CIL liabilityß
+        success: Successfully confirmed CIL liability
+      confirm-press-notice:
+        failure: Failed to confirm press notice publication
+        success: Successfully confirmed press notice publication
       draw-red-line-boundary:
         failure: Draw a red line boundary
         success: Red line boundary was successfully saved
@@ -2906,6 +2924,9 @@ en:
       permitted-development-rights:
         failure: Failed to update permitted development rights
         success: Successfully confirmed permitted development rights
+      press-notice:
+        failure: Failed to save press notice requirement
+        success: Successfully saved press notice requirement
       review-and-submit-recommendation:
         failure: Failed to submit recommendation
         success: Successfully submitted recommendation for review
