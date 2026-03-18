@@ -53,15 +53,19 @@ module PlanningApplications
           respond_to do |format|
             format.html do
               if @planning_application_policy_class.destroy
-                redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
+                redirect_to redirect_path, notice: t(".success")
               else
-                render :edit
+                redirect_to redirect_path, notice: t(".failure")
               end
             end
           end
         end
 
         private
+
+        def redirect_path
+          params[:redirect_to].presence || planning_application_assessment_tasks_path(@planning_application)
+        end
 
         def find_policy_parts
           @policy_parts = PolicySchedule.schedule_2.policy_parts

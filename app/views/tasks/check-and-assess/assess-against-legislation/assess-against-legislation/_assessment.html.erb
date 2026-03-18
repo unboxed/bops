@@ -1,0 +1,46 @@
+<% if @form.assessment_areas.any? %>
+  <%= govuk_table(id: "assessment-areas") do |table| %>
+    <% table.with_caption(size: "m", text: "Assessment areas") %>
+
+    <% table.with_head do |head| %>
+      <% head.with_row do |row| %>
+        <% row.with_cell(text: "Name") %>
+        <% row.with_cell(text: "Status") %>
+        <% row.with_cell(text: "Actions", numeric: true) %>
+      <% end %>
+    <% end %>
+
+    <% table.with_body do |body| %>
+      <% @form.assessment_areas.each do |area| %>
+        <% body.with_row do |row| %>
+          <% row.with_cell do %>
+            <%= @form.assessment_area_name(area) %>
+          <% end %>
+
+          <% row.with_cell do %>
+            <% if @form.complies?(area) %>
+              <%= govuk_tag(text: "Complies", colour: "green") %>
+            <% elsif @form.does_not_comply?(area) %>
+              <%= govuk_tag(text: "Does not comply", colour: "red") %>
+            <% else %>
+              <%= govuk_tag(text: "To be determined", colour: "grey") %>
+            <% end %>
+          <% end %>
+
+          <% row.with_cell(numeric: true) do %>
+            <%= govuk_link_to "Assess", @form.edit_assessment_area_url(area), class: "govuk-!-margin-right-1" %>
+            <%= govuk_link_to "Remove", @form.remove_assessment_area_url(area), method: :delete, data: {confirm: "Are you sure? This cannot be undone."} %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% else %>
+  <p>No assessment areas have been added yet</p>
+<% end %>
+
+<% if @planning_application.can_assess? %>
+  <p>
+    <%= form.govuk_task_button "Add new assessment area", action: "add_part", secondary: true %>
+  </p>
+<% end %>

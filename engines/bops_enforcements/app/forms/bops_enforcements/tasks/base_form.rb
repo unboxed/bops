@@ -9,6 +9,10 @@ module BopsEnforcements
       attr_reader :task, :case_record
       delegate :parent, :slug, to: :task
 
+      with_options instance_writer: false do
+        class_attribute :after_success, default: "redirect"
+      end
+
       def initialize(task)
         @task = task
         @case_record = @task.case_record

@@ -35,7 +35,11 @@ module BopsCore
       respond_to do |format|
         format.html do
           if @form.update(task_params)
-            redirect_to @form.redirect_url, notice: @form.flash(:notice, self)
+            if @form.after_success == "redirect"
+              redirect_to @form.redirect_url, notice: @form.flash(:notice, self)
+            else
+              render template_for(:show)
+            end
           else
             render template_for(failure_template), alert: @form.flash(:alert, self)
           end

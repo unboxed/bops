@@ -1,0 +1,11 @@
+<% if @planning_application.no_policy_classes_after_assessment? %>
+  <p>No policy classes were added.</p>
+<% else %>
+  <% if @planning_application.section_55_development? %>
+    <%= render "#{@form.partial_path}/assessment", form: form %>
+  <% else %>
+    <p>Not required as application has been classed as not being development.</p>
+  <% end %>
+<% end %>
+
+<%= render "task_submit_buttons", form: form %>

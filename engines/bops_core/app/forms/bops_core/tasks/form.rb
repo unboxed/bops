@@ -48,9 +48,9 @@ module BopsCore
       end
 
       def update(params)
+        self.action = validate_task_action(params)
         assign_attributes(form_params(params))
 
-        self.action = validate_task_action(params)
         return false unless valid?(action.to_sym)
 
         run_callbacks :update do
