@@ -17,7 +17,7 @@ RSpec.describe "Dashboard", type: :system do
 
     it "doesn't allow access to the dashboard" do
       expect(page).to have_current_path("/users/sign_in")
-      expect(page).to have_content("Invalid Email or password.")
+      expect(page).to have_content("Invalid email or password.")
     end
   end
 
@@ -26,7 +26,7 @@ RSpec.describe "Dashboard", type: :system do
 
     it "doesn't allow access to the dashboard" do
       expect(page).to have_current_path("/users/sign_in")
-      expect(page).to have_content("Invalid Email or password.")
+      expect(page).to have_content("Invalid email or password.")
     end
   end
 
@@ -35,7 +35,7 @@ RSpec.describe "Dashboard", type: :system do
 
     it "doesn't allow access to the dashboard" do
       expect(page).to have_current_path("/users/sign_in")
-      expect(page).to have_content("Invalid Email or password.")
+      expect(page).to have_content("Invalid email or password.")
     end
   end
 

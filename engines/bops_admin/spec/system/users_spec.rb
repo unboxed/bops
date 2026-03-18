@@ -299,7 +299,7 @@ RSpec.describe "Users" do
       fill_in("user[password]", with: deactivated_user.password)
       click_button("Log in")
 
-      expect(page).to have_text("Invalid Email or password.")
+      expect(page).to have_text("Invalid email or password.")
       expect(page).not_to have_text("Signed in successfully.")
     end
   end
