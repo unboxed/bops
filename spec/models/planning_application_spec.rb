@@ -705,7 +705,7 @@ RSpec.describe PlanningApplication do
         end
 
         it "is the time of the last successfully closed request" do
-          expect(planning_application.valid_from_date).to eq Time.next_immediate_business_day(1.day.ago)
+          expect(planning_application.valid_from_date).to eq Time.next_immediate_business_day(1.day.ago).beginning_of_day
         end
       end
 

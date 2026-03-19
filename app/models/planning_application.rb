@@ -543,11 +543,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def valid_from_date
-    if validation_requests.closed.any?
-      Time.next_immediate_business_day(last_validation_request_date)
-    else
-      received_at
-    end
+    validation_requests.valid_from_date(received_at)
   end
 
   def submit_recommendation!
@@ -836,10 +832,6 @@ class PlanningApplication < ApplicationRecord
 
   def latest_auto_closed_description_request
     description_change_validation_requests.where(auto_closed: true).order(created_at: :desc).last
-  end
-
-  def last_validation_request_date
-    validation_requests.closed.max_by(&:updated_at).updated_at
   end
 
   def no_open_post_validation_requests_excluding_time_extension?

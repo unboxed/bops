@@ -182,6 +182,73 @@ RSpec.describe ValidationRequest do
     end
   end
 
+  describe "class methods" do
+    describe ".valid_from_date" do
+      let(:received_at) { "2026-03-19 13:30:00".in_time_zone }
+      let(:planning_application) { create(:planning_application, :not_started, received_at:) }
+      let(:validation_requests) { planning_application.validation_requests }
+
+      subject { validation_requests.valid_from_date(received_at) }
+
+      context "when there are no validation requests" do
+        it "returns the received_at timestamp" do
+          expect(subject).to eq("2026-03-19 13:30:00".in_time_zone)
+        end
+      end
+
+      context "when there are only cancelled validation requests" do
+        before do
+          create(:other_change_validation_request, :cancelled, planning_application:, cancelled_at: "2026-03-24 11:15:00")
+        end
+
+        it "returns the received_at timestamp" do
+          expect(subject).to eq("2026-03-19 13:30:00".in_time_zone)
+        end
+      end
+
+      context "when there is a closed description change request" do
+        before do
+          create(:description_change_validation_request, :closed, planning_application:, closed_at: "2026-03-24 11:15:00")
+        end
+
+        it "returns the received_at timestamp" do
+          expect(subject).to eq("2026-03-19 13:30:00".in_time_zone)
+        end
+      end
+
+      context "when there is a closed other change request within business hours" do
+        before do
+          create(:other_change_validation_request, :closed, planning_application:, closed_at: "2026-03-24 11:15:00")
+        end
+
+        it "returns the closed at timestamp with the time set to midnight" do
+          expect(subject).to eq("2026-03-24 00:00:00".in_time_zone)
+        end
+      end
+
+      context "when there is a closed other change request outside of business hours" do
+        before do
+          create(:other_change_validation_request, :closed, planning_application:, closed_at: "2026-03-21 11:15:00")
+        end
+
+        it "returns the next business day with the time set to midnight" do
+          expect(subject).to eq("2026-03-23 00:00:00".in_time_zone)
+        end
+      end
+
+      context "when there is a closed other change request and a later closed description change request" do
+        before do
+          create(:other_change_validation_request, :closed, planning_application:, closed_at: "2026-03-24 11:15:00")
+          create(:description_change_validation_request, :closed, planning_application:, closed_at: "2026-03-26 10:45:00")
+        end
+
+        it "returns the closed at timestamp of the other change request with the time set to midnight" do
+          expect(subject).to eq("2026-03-24 00:00:00".in_time_zone)
+        end
+      end
+    end
+  end
+
   describe "instance methods" do
     describe "#cancel_request!" do
       before { Current.user = request.user }
