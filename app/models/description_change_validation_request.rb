@@ -36,6 +36,10 @@ class DescriptionChangeValidationRequest < ValidationRequest
     skip_applicant_approval.in? ["true", true]
   end
 
+  def changes_valid_from_date?
+    false
+  end
+
   private
 
   def create_audit!

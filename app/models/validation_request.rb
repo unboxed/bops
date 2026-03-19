@@ -120,6 +120,24 @@ class ValidationRequest < ApplicationRecord
     def grouped_by_type
       by_created_at.group_by(&:type_symbol)
     end
+
+    def valid_from_date(received_at)
+      if (last_date = last_change_to_valid_from_date)
+        Time.next_immediate_business_day(last_date).at_beginning_of_day
+      else
+        received_at
+      end
+    end
+
+    private
+
+    def last_change_to_valid_from_date
+      closed.select(&:changes_valid_from_date?).map(&:closed_at).max
+    end
+  end
+
+  def changes_valid_from_date?
+    true
   end
 
   def type_symbol
@@ -279,6 +297,10 @@ class ValidationRequest < ApplicationRecord
 
   def partial_name
     model_name.singular
+  end
+
+  def closed_at
+    super || updated_at
   end
 
   private
