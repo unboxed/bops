@@ -22,6 +22,14 @@ module Tasks
 
     attr_reader :heads_of_terms, :term
 
+    def url
+      if @term.new_record?
+        super
+      else
+        task_component_path(planning_application, slug: task.full_slug, id: @term.id)
+      end
+    end
+
     private
 
     def save_and_complete

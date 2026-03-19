@@ -44,7 +44,7 @@ RSpec.describe "Add heads of terms task", type: :system do
   context "with existing heads of terms" do
     before { Current.user = user }
 
-    let!(:term) { create(:term, heads_of_term:) }
+    let!(:term) { create(:term, heads_of_term:, title: "Original term title") }
     let!(:term_2) { create(:term, heads_of_term:, title: "Term 2", text: "Details about term two") }
 
     it "can edit and term and fields are pre-populated" do
@@ -65,6 +65,7 @@ RSpec.describe "Add heads of terms task", type: :system do
 
       expect(page).to have_content("Term was successfully updated")
       expect(page).to have_content("Updated term title")
+      expect(page).not_to have_content("Original term title")
     end
 
     it "can delete a term", :capybara do
