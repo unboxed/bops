@@ -356,7 +356,7 @@ GEM
     jmespath (1.6.2)
     jsbundling-rails (1.1.1)
       railties (>= 6.0.0)
-    json (2.19.1)
+    json (2.19.2)
     json-schema (4.3.1)
       addressable (>= 2.8)
     json_schemer (2.3.0)
