@@ -85,3 +85,7 @@ en:
       check-consultees:
         failure: Failed to save consultee review
         success: Consultees were successfully marked as reviewed
+  users:
+    sessions:
+      create:
+        two_factor_invalid: The code you entered was invalid, check that you entered it correctly
