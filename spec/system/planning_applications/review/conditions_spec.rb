@@ -98,7 +98,7 @@ RSpec.describe "Reviewing conditions" do
         expect(other_condition.reason).to eq "This is different reason"
       end
 
-      it "I can return to officer" do
+      it "I can return to officer", show_sidebar: false do
         within("#review-conditions") do
           expect(page).to have_content("Review conditions")
           expect(page).to have_content("Not started")

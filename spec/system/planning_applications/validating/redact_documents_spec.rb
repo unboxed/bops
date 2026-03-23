@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Redact documents" do
+RSpec.describe "Redact documents", show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
 
   let!(:planning_application) do

@@ -208,12 +208,12 @@ RSpec.describe "Make draft recommendation task", type: :system do
   end
 
   context "when a return_to param is present" do
-    let(:assessment_tasks_path) do
-      "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    let(:planning_application_path) do
+      "/planning_applications/#{planning_application.reference}"
     end
 
     it "redirects to the return_to URL after saving" do
-      visit "#{task_path}?return_to=#{assessment_tasks_path}"
+      visit "#{task_path}?return_to=#{planning_application_path}"
 
       within_fieldset("Does this planning application need to be decided by committee?") do
         choose "No"
@@ -227,7 +227,7 @@ RSpec.describe "Make draft recommendation task", type: :system do
 
       click_button "Save and mark as complete"
 
-      expect(page).to have_current_path(assessment_tasks_path, ignore_query: true)
+      expect(page).to have_current_path(planning_application_path, ignore_query: true)
     end
   end
 end

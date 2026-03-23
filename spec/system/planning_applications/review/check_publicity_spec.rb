@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "checking publicity" do
+RSpec.describe "checking publicity", show_sidebar: false, type: :system do
   let!(:local_authority) { create(:local_authority, :default, press_notice_email: "pressnotices@example.com") }
 
   let!(:assessor) do

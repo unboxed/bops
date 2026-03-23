@@ -67,7 +67,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
   end
 
   context "when invalidation updates an additional document validation request" do
-    it "updates the notified_at date of an open request when application is invalidated" do
+    it "updates the notified_at date of an open request when application is invalidated", show_sidebar: false do
       new_planning_application = create(:planning_application, :not_started, local_authority: default_local_authority)
 
       request = create(
@@ -168,16 +168,11 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
       create(:document, :archived, :with_file, planning_application:)
     end
 
-    it "I can see the list of active documents when I go to validate", :capybara do
+    it "I can see the list of active documents when I go to validate", :capybara, show_sidebar: false do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
 
-      within :sidebar do
-        expect(page).to have_link("Check and request documents")
-      end
-
-      within :sidebar do
-        click_link "Check and request documents"
-      end
+      expect(page).to have_link("Check and request documents")
+      click_link "Check and request documents"
 
       expect(page).to have_content("Check and request documents")
       expect(page).to have_content("Check all necessary documents have been provided and add requests for any missing documents.")
@@ -356,13 +351,11 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
         end
       end
 
-      it "I can delete the additional document validation request", :capybara do
+      it "I can delete the additional document validation request", :capybara, show_sidebar: false do
         visit "/planning_applications/#{planning_application.reference}/validation/tasks"
         expect(page).to have_selector("h1", text: "Check the application")
 
-        within :sidebar do
-          click_link "Check and request documents"
-        end
+        click_link "Check and request documents"
         expect(page).to have_content("Check for missing documents")
 
         accept_confirm(text: "Are you sure?") do

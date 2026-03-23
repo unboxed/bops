@@ -24,7 +24,7 @@ RSpec.describe "Constraints" do
   end
 
   context "when application is not started or invalidated" do
-    it "displays the constraints" do
+    it "displays the constraints", show_sidebar: false do
       within("h1") do
         expect(page).to have_text("Check the constraints")
       end

@@ -28,11 +28,7 @@ RSpec.describe "Assess against legislation", type: :system do
 
     it "requires the application to be checked if it is development" do
       click_link "Check and assess"
-      expect(page).to have_selector("h1", text: "Assess the application")
-
-      within :sidebar do
-        click_link "Assess against legislation"
-      end
+      click_link "Assess against legislation"
 
       expect(page).to have_selector("h1", text: "Assess against legislation")
       expect(page).to have_content("Proposal not checked if it is development")
@@ -40,11 +36,7 @@ RSpec.describe "Assess against legislation", type: :system do
 
     it "tells the officer that assessment is not required when it is not development" do
       click_link "Check and assess"
-      expect(page).to have_selector("h1", text: "Assess the application")
-
-      within :sidebar do
-        click_link "Check if proposal is development"
-      end
+      click_link "Check if proposal is development"
 
       expect(page).to have_selector("h1", text: "Check if proposal is development")
 
@@ -55,9 +47,7 @@ RSpec.describe "Assess against legislation", type: :system do
       click_button "Save and mark as complete"
       expect(page).to have_content("Section 55 development was successfully updated")
 
-      within :sidebar do
-        click_link "Assess against legislation"
-      end
+      click_link "Assess against legislation"
 
       expect(page).to have_selector("h1", text: "Assess against legislation")
       expect(page).to have_content("Not required as application has been classed as not being development")
@@ -67,11 +57,8 @@ RSpec.describe "Assess against legislation", type: :system do
       expect(task.reload).not_to be_completed
 
       click_link "Check and assess"
-      expect(page).to have_selector("h1", text: "Assess the application")
 
-      within :sidebar do
-        click_link "Check if proposal is development"
-      end
+      click_link "Check if proposal is development"
 
       expect(page).to have_selector("h1", text: "Check if proposal is development")
 
@@ -82,9 +69,7 @@ RSpec.describe "Assess against legislation", type: :system do
       click_button "Save and mark as complete"
       expect(page).to have_content("Section 55 development was successfully updated")
 
-      within :sidebar do
-        click_link "Assess against legislation"
-      end
+      click_link "Assess against legislation"
 
       expect(page).to have_selector("h1", text: "Assess against legislation")
 
@@ -181,11 +166,8 @@ RSpec.describe "Assess against legislation", type: :system do
 
     it "doesn't have a 'Assess against legislation' task" do
       click_link "Check and assess"
-      expect(page).to have_selector("h1", text: "Assess the application")
 
-      within :sidebar do
-        expect(page).not_to have_link("Assess against legislation")
-      end
+      expect(page).not_to have_link("Assess against legislation")
     end
   end
 

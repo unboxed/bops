@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application show page", type: :system do
+RSpec.describe "Planning Application show page", show_sidebar: false, type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }

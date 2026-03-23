@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Add informatives", type: :system do
+RSpec.describe "Add informatives", show_sidebar: false, type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, :planx, local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -18,7 +18,7 @@ RSpec.describe "Add informatives", type: :system do
       click_link "Check and assess"
     end
 
-    it "I can add informatives", js: true do
+    it "I can add informatives", :js do
       within "#main-content" do
         within("#add-informatives") do
           expect(page).to have_content "Not started"

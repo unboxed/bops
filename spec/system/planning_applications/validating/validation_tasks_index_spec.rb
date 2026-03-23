@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Validation tasks" do
+RSpec.describe "Validation tasks", show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -16,6 +16,12 @@ RSpec.describe "Validation tasks" do
   before do
     sign_in assessor
     visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+  end
+
+  context "when sidebar is enabled", :show_sidebar do
+    it "redirects to the first available task" do
+      expect(page).to have_current_path(%r{^/planning_applications/#{planning_application.reference}/check-and-validate})
+    end
   end
 
   context "when application is not started or invalidated" do

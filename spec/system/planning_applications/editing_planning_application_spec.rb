@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "editing planning application" do
+RSpec.describe "editing planning application", show_sidebar: false, type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
 

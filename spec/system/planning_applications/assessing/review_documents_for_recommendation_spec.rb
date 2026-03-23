@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Review documents for recommendation" do
+RSpec.describe "Review documents for recommendation", show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -190,7 +190,7 @@ RSpec.describe "Review documents for recommendation" do
       expect(document_with_reference_and_tags__publishable_checkbox).to be_checked
     end
 
-    context "when a reference hasn't been set", capybara: true do
+    context "when a reference hasn't been set", :capybara do
       it "shows me the link to add a reference" do
         click_link "Check and assess"
         expect(page).to have_selector("h1", text: "Assess the application")

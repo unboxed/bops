@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Requesting other changes to a planning application" do
+RSpec.describe "Requesting other changes to a planning application", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -26,7 +26,7 @@ RSpec.describe "Requesting other changes to a planning application" do
       create(:fee_change_validation_request, planning_application:)
     end
 
-    it "does not show in the other validation issues task list" do
+    it "does not show in the other validation issues task list", show_sidebar: false do
       visit "/planning_applications/#{planning_application.reference}/validation/tasks"
       within("#other-change-validation-tasks") do
         expect(page).to have_link(

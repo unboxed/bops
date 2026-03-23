@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning History" do
+RSpec.describe "Planning History", show_sidebar: false, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default, :planning_history) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 

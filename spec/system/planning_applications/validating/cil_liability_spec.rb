@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
+RSpec.describe "Community Infrastructure Levy (CIL)", show_sidebar: false, type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
@@ -159,6 +159,7 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
 
       context "and no size is given" do
         let(:planx_size) { nil }
+
         it "shows relevant liability information" do
           visit "/planning_applications/#{planning_application.reference}/validation/tasks"
           within "#main-content" do
@@ -181,7 +182,7 @@ RSpec.describe "Community Infrastructure Levy (CIL)", type: :system do
     end
   end
 
-  context "when CIL liability feature is disabled" do
+  context "when CIL liability feature is disabled", :show_sidebar do
     let!(:planning_application) do
       create(:planning_application, :not_started, :pre_application, local_authority: default_local_authority)
     end
