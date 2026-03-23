@@ -30,10 +30,6 @@ export default class extends Controller {
     return document.getElementById("address-container")
   }
 
-  getHiddenAddressesField() {
-    return document.getElementById("addresses-hidden")
-  }
-
   setupEventListeners() {
     this.map.addEventListener("geojsonChange", this.debouncedGeojsonChange)
     this.resetBtn.addEventListener("click", this.clearAddresses)
@@ -85,8 +81,6 @@ export default class extends Controller {
 
   clearAddresses = () => {
     this.getAddressContainer().innerHTML = ""
-    this.removeHiddenAddressInputs()
-    this.removeHiddenSourceInputs()
   }
 
   appendAddressesToPage(addresses) {
@@ -107,8 +101,8 @@ export default class extends Controller {
         count + index,
       )
 
-      this.getHiddenAddressesField().appendChild(addressHiddenInput)
-      this.getHiddenAddressesField().appendChild(sourceHiddenInput)
+      addressDiv.appendChild(addressHiddenInput)
+      addressDiv.appendChild(sourceHiddenInput)
 
       container.appendChild(addressDiv)
     })
@@ -232,22 +226,6 @@ export default class extends Controller {
     if (spinner) {
       spinner.remove()
     }
-  }
-
-  removeHiddenAddressInputs() {
-    const hiddenInputs = this.getHiddenAddressesField().querySelectorAll(
-      `input[type="hidden"][name="${this.data.get("name")}"]`,
-    )
-
-    hiddenInputs.forEach((input) => input.parentNode.removeChild(input))
-  }
-
-  removeHiddenSourceInputs() {
-    const hiddenInputs = this.getHiddenAddressesField().querySelectorAll(
-      `input[type="hidden"][name="consultation[neighbours_attributes][][source]"`,
-    )
-
-    hiddenInputs.forEach((input) => input.parentNode.removeChild(input))
   }
 
   showTotalResults(totalResults) {
