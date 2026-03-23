@@ -1,6 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static values = {
+    createButtons: Boolean,
+  }
+
   connect() {
     this.map = this.getMapElement()
     this.resetBtn = this.getResetButton()
@@ -107,14 +111,16 @@ export default class extends Controller {
       container.appendChild(addressDiv)
     })
 
-    const submitButton = document.getElementById("submit-button")
+    if (this.createButtonsValue) {
+      const submitButton = document.getElementById("submit-button")
 
-    if (addresses.length > 0 && submitButton === null) {
-      const btn = this.createAddNeighboursButton()
-      const submitButtonDiv = document.querySelector(".submit-buttons")
-      const backButton = document.querySelector(".back-button")
+      if (addresses.length > 0 && submitButton === null) {
+        const btn = this.createAddNeighboursButton()
+        const submitButtonDiv = document.querySelector(".submit-buttons")
+        const backButton = document.querySelector(".back-button")
 
-      submitButtonDiv.insertBefore(btn, backButton)
+        submitButtonDiv.insertBefore(btn, backButton)
+      }
     }
   }
 

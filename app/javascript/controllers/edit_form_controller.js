@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["container"]
+  static targets = ["container", "form", "buttons"]
 
   handleClick(event) {
     event.preventDefault()
@@ -10,9 +10,7 @@ export default class extends Controller {
     this.containerTarget
       .querySelector("p")
       .classList.add("govuk-!-display-none")
-    this.containerTarget
-      .querySelector("form")
-      .classList.remove("govuk-!-display-none")
-    event.currentTarget.parentElement.classList.add("govuk-!-display-none")
+    this.formTarget.classList.remove("govuk-!-display-none")
+    this.buttonsTarget.classList.add("govuk-!-display-none")
   }
 }
