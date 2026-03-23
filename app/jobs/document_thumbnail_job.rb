@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class DocumentThumbnailJob < ApplicationJob
-  queue_as :default
+  queue_as :low_priority
 
   def perform(document_id)
     document = Document.find(document_id)
