@@ -7,7 +7,7 @@ def toggle_accordion(text)
   find_all("span", text:).first.click
 end
 
-RSpec.describe "View history of letters to neighbours", type: :system do
+RSpec.describe "View history of letters to neighbours", show_sidebar: false, type: :system do
   let(:api_user) { create(:api_user, :planx) }
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }

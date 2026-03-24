@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Consultation", type: :system, js: true do
+RSpec.describe "Consultation", show_sidebar: false, type: :system, js: true do
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
   let(:administrator) { create(:user, :administrator, local_authority:) }

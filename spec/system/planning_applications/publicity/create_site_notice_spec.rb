@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Create a site notice", js: true do
+RSpec.describe "Create a site notice", show_sidebar: false, js: true do
   let(:default_local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, :planx, local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }

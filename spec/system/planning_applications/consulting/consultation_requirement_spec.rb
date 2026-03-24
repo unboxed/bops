@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Consultation requirement", type: :system do
+RSpec.describe "Consultation requirement", type: :system, capybara: true do
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
 
@@ -79,7 +79,7 @@ RSpec.describe "Consultation requirement", type: :system do
     end
   end
 
-  context "when the planning application is not a pre-application" do
+  context "when the planning application is not a pre-application", show_sidebar: false do
     let(:application_type) { create(:application_type, :planning_permission, local_authority:) }
     let(:planning_application) do
       create(

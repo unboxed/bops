@@ -81,7 +81,7 @@ RSpec.describe "Consultation", type: :system, js: true do
     )
   end
 
-  it "sends emails to consultees" do
+  it "sends emails to consultees", show_sidebar: false do
     sign_in assessor
 
     visit "/planning_applications/#{planning_application.reference}"
@@ -441,7 +441,7 @@ RSpec.describe "Consultation", type: :system, js: true do
     end
   end
 
-  context "when the application has not been started" do
+  context "when the application has not been started", show_sidebar: false do
     let(:planning_application) do
       create(
         :planning_application,
@@ -470,7 +470,7 @@ RSpec.describe "Consultation", type: :system, js: true do
     end
   end
 
-  context "when the application has been invalidated" do
+  context "when the application has been invalidated", show_sidebar: false do
     let(:planning_application) do
       create(
         :planning_application,

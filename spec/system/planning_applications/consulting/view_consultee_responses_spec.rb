@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "View consultee responses", type: :system, capybara: true, js: true do
+RSpec.describe "View consultee responses", show_sidebar: false, type: :system, capybara: true, js: true do
   let(:api_user) { create(:api_user, :planx) }
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
