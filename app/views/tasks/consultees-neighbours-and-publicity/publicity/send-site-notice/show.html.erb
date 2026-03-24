@@ -1,0 +1,50 @@
+<%= render "task_header", task: @task %>
+
+<% if @planning_application.environment_impact_assessment&.required? %>
+  <strong class="govuk-tag">
+    Subject to EIA
+  </strong>
+<% end %>
+
+<% if @planning_application.site_notices.exists? %>
+  <%= render "planning_applications/site_notices/status",
+        planning_application: @planning_application,
+        site_notice: @planning_application.last_site_notice,
+        config: current_local_authority.site_notice %>
+  <details class="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Add new site notice
+      </span>
+    </summary>
+    <div class="govuk-!-padding-top-3">
+      <%= render "tasks/consultees-neighbours-and-publicity/publicity/send-site-notice/add_site_notice_form" %>
+    </div>
+  </details>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <div class="govuk-button-group" id="site-notice-form-actions">
+      <%= render "task_submit_buttons", form: form, save_draft: false %>
+    </div>
+  <% end %>
+<% elsif @planning_application.audits.exists?(activity_type: "site_notice_not_required") %>
+  <div class="govuk-inset-text">
+    Site notice has been marked as not required
+  </div>
+  <details class="govuk-details">
+    <summary class="govuk-details__summary">
+      <span class="govuk-details__summary-text">
+        Add site notice
+      </span>
+    </summary>
+    <div class="govuk-!-padding-top-3">
+      <%= render "tasks/consultees-neighbours-and-publicity/publicity/send-site-notice/add_site_notice_form" %>
+    </div>
+  </details>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <div class="govuk-button-group" id="site-notice-form-actions">
+      <%= render "task_submit_buttons", form: form, save_draft: false %>
+    </div>
+  <% end %>
+<% else %>
+  <%= render "tasks/consultees-neighbours-and-publicity/publicity/send-site-notice/form" %>
+<% end %>

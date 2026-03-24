@@ -2937,6 +2937,15 @@ en:
       review-documents-for-recommendation:
         failure: Failed to save document review
         success: Successfully saved document review
+      send-site-notice:
+        create_site_notice:
+          failure: Failed to create site notice
+          success: Site notice successfully created
+        email_site_notice:
+          failure: Failed to email site notice
+          success: Site notice email successfully sent
+        failure: Failed to save site notice task
+        success: Successfully saved site notice task
       send-validation-decision:
         failure: Failed to send validation decision
         invalid_html: "<strong>Application marked as invalid </strong> <br><br> An email notification has been sent to the applicant."
