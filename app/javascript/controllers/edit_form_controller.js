@@ -1,16 +1,16 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static targets = ["container"]
+
   handleClick(event) {
     event.preventDefault()
 
-    event.currentTarget.parentElement.parentElement.classList.remove(
-      "flex-between",
-    )
-    event.currentTarget.parentElement.parentElement
-      .querySelector(".govuk-body")
+    this.containerTarget.classList.remove("flex-between")
+    this.containerTarget
+      .querySelector("p")
       .classList.add("govuk-!-display-none")
-    event.currentTarget.parentElement.parentElement
+    this.containerTarget
       .querySelector("form")
       .classList.remove("govuk-!-display-none")
     event.currentTarget.parentElement.classList.add("govuk-!-display-none")
