@@ -1,0 +1,48 @@
+<%= form_with model: @form, url: @form.url do |form| %>
+  <div data-controller="show-hide-form">
+    <%= form.govuk_error_summary %>
+
+    <%= form.govuk_radio_buttons_fieldset(
+          :required,
+          legend: {text: "Does this application require a site notice?", size: "m"}
+        ) do %>
+      <%= form.govuk_radio_button :required, true, label: {text: "Yes"}, data: {action: "change->show-hide-form#handleEvent"} %>
+      <%= form.govuk_radio_button :required, false, label: {text: "No"}, data: {action: "change->show-hide-form#handleEvent"} %>
+    <% end %>
+
+    <%= tag.div(id: "site-notice-options", class: class_names("govuk-!-display-none": @form.errors.blank?)) do %>
+      <%= form.govuk_number_field :quantity,
+            label: {text: t("planning_applications.site_notices.quantity.label")},
+            width: "one-quarter",
+            min: 1 %>
+
+      <%= form.govuk_text_area :location_instructions,
+            label: {text: t("planning_applications.site_notices.location_instructions.label")}, hint: {text: t("planning_applications.site_notices.location_instructions.hint")},
+            rows: 5 %>
+
+      <div class="grey-box" id="email-site-notice">
+        <%= form.govuk_radio_buttons_fieldset(
+              :delivery_method,
+              legend: {text: "Email the site notice", size: "m"},
+              hint: {text: "If you are printing the site notice yourself, you can skip this step."}
+            ) do %>
+          <%= form.govuk_radio_button :delivery_method, :internal_team, label: {text: "Send it by email to internal team to post"} do %>
+            <%= form.govuk_text_field :internal_team_email, label: {text: "Internal team email"} %>
+          <% end %>
+          <%= form.govuk_radio_button :delivery_method, :applicant, label: {text: "Send it by email to applicant"} %>
+        <% end %>
+        <%= form.govuk_task_button "Email site notice", action: "email_site_notice" %>
+      </div>
+
+      <h3>OR</h3>
+
+      <div class="grey-box" id="print-site-notice">
+        <%= form.govuk_date_field :displayed_at, legend: {text: "Print the site notice"}, hint: {text: "Create and then download a PDF which you can print. Enter the date the site notice will be displayed"} %>
+        <%= form.govuk_task_button "Create site notice", action: "create_site_notice" %>
+      </div>
+    <% end %>
+  </div>
+  <div class="govuk-button-group" id="site-notice-form-actions">
+    <%= render "task_submit_buttons", form: form, save_draft: false %>
+  </div>
+<% end %>
