@@ -1,6 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
+  static values = {
+    createButtons: Boolean,
+  }
+
   connect() {
     this.map = this.getMapElement()
     this.resetBtn = this.getResetButton()
@@ -28,10 +32,6 @@ export default class extends Controller {
 
   getAddressContainer() {
     return document.getElementById("address-container")
-  }
-
-  getHiddenAddressesField() {
-    return document.getElementById("addresses-hidden")
   }
 
   setupEventListeners() {
@@ -85,8 +85,6 @@ export default class extends Controller {
 
   clearAddresses = () => {
     this.getAddressContainer().innerHTML = ""
-    this.removeHiddenAddressInputs()
-    this.removeHiddenSourceInputs()
   }
 
   appendAddressesToPage(addresses) {
@@ -107,20 +105,22 @@ export default class extends Controller {
         count + index,
       )
 
-      this.getHiddenAddressesField().appendChild(addressHiddenInput)
-      this.getHiddenAddressesField().appendChild(sourceHiddenInput)
+      addressDiv.appendChild(addressHiddenInput)
+      addressDiv.appendChild(sourceHiddenInput)
 
       container.appendChild(addressDiv)
     })
 
-    const submitButton = document.getElementById("submit-button")
+    if (this.createButtonsValue) {
+      const submitButton = document.getElementById("submit-button")
 
-    if (addresses.length > 0 && submitButton === null) {
-      const btn = this.createAddNeighboursButton()
-      const submitButtonDiv = document.querySelector(".submit-buttons")
-      const backButton = document.querySelector(".back-button")
+      if (addresses.length > 0 && submitButton === null) {
+        const btn = this.createAddNeighboursButton()
+        const submitButtonDiv = document.querySelector(".submit-buttons")
+        const backButton = document.querySelector(".back-button")
 
-      submitButtonDiv.insertBefore(btn, backButton)
+        submitButtonDiv.insertBefore(btn, backButton)
+      }
     }
   }
 
@@ -232,22 +232,6 @@ export default class extends Controller {
     if (spinner) {
       spinner.remove()
     }
-  }
-
-  removeHiddenAddressInputs() {
-    const hiddenInputs = this.getHiddenAddressesField().querySelectorAll(
-      `input[type="hidden"][name="${this.data.get("name")}"]`,
-    )
-
-    hiddenInputs.forEach((input) => input.parentNode.removeChild(input))
-  }
-
-  removeHiddenSourceInputs() {
-    const hiddenInputs = this.getHiddenAddressesField().querySelectorAll(
-      `input[type="hidden"][name="consultation[neighbours_attributes][][source]"`,
-    )
-
-    hiddenInputs.forEach((input) => input.parentNode.removeChild(input))
   }
 
   showTotalResults(totalResults) {

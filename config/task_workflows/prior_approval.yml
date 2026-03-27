@@ -36,12 +36,16 @@
 - name: "Consultees, neighbours and publicity"
   section: "Consultation"
   tasks:
-  - name: Publicity
-    section: Publicity
-    tasks:
-      - name: Send site notice
-      - name: Press notice
-      - name: Confirm press notice
+    - name: Neighbours
+      section: Neighbours
+      tasks:
+        - name: Add and assign neighbours
+    - name: Publicity
+      section: Publicity
+      tasks:
+        - name: Send site notice
+        - name: Press notice
+        - name: Confirm press notice
 - name: "Check and assess"
   section: "Assessment"
   tasks:

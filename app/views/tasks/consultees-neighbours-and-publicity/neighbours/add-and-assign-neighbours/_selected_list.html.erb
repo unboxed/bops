@@ -1,0 +1,35 @@
+<% if planning_application.consultation.neighbours.select(&:persisted?).any? %>
+  <div
+    id="selected-neighbours-list"
+    class="govuk-!-margin-top-5 govuk-!-margin-bottom-8">
+    <%= govuk_accordion do |accordion| %>
+      <% accordion.with_section(heading_text: "Neighbours already selected") do %>
+        <% planning_application.consultation.neighbours.select(&:persisted?).sort_by(&:id).each do |neighbour| %>
+          <hr>
+          <div
+            class="flex-between"
+            data-controller="edit-form"
+            data-edit-form-target="container">
+            <p class="govuk-!-margin-top-1"><%= neighbour.address %></p>
+
+            <%= tag.div data: {edit_form_target: "form"},
+                  class: "govuk-!-display-none" do %>
+              <%= form.govuk_error_summary %>
+              <%= form.hidden_field :id, value: neighbour.id %>
+              <%= form.govuk_text_field :address, name: "neighbour[#{neighbour.id}][address]", value: neighbour.address %>
+              <br>
+
+              <%= form.govuk_task_button "Save", action: :edit_neighbour, secondary: true %>
+            <% end %>
+
+            <div class="neighbour-action-links" data-edit-form-target="buttons">
+              <%= govuk_link_to "Edit", "#", data: {action: "click->edit-form#handleClick"} %>
+
+              <%= govuk_link_to "Remove", planning_application_consultation_neighbour_path(planning_application, neighbour, redirect_to: task_path(planning_application, @task.full_slug)), method: :delete %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>
