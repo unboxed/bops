@@ -21,7 +21,10 @@ module Tasks
       with_options format: {with: URI::MailTo::EMAIL_REGEXP} do
         validates :internal_team_email, allow_blank: true
       end
+      validate :public_portal_must_be_active
+      validate :application_must_be_assigned
     end
+
     attr_reader :site_notice, :site_notices
 
     private
@@ -51,6 +54,19 @@ module Tasks
           create_audit_log
         end
       end
+    end
+
+    def public_portal_must_be_active
+      return if planning_application.make_public?
+      return if required == false
+
+      errors.add :base, :invalid, message: "The public portal must be made active before sending a site notice"
+    end
+
+    def application_must_be_assigned
+      return if planning_application.user.present?
+
+      errors.add :base, :invalid, message: "The application must be assigned to a case officer before sending a site notice"
     end
 
     def build_site_notice
