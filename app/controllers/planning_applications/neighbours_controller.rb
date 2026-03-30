@@ -48,7 +48,7 @@ module PlanningApplications
 
       respond_to do |format|
         format.html do
-          redirect_to planning_application_consultation_neighbours_path(@planning_application)
+          redirect_to params[:redirect_to].presence || planning_application_consultation_neighbours_path(@planning_application)
         end
       end
     end

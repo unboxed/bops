@@ -2821,6 +2821,8 @@ en:
             requested_on: Press notice requested on %-d %B %Y
             upload_photos: Upload photo(s)
     update:
+      add-and-assign-neighbours:
+        success: Addresses have been successfully added
       add-conditions:
         add_condition: Condition was successfully added
         delete_condition: Condition was successfully deleted

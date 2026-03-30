@@ -1,10 +1,10 @@
 <% if @consultation.neighbours.select(&:persisted?).any? %>
   <div id="selected-neighbours-list" class="govuk-!-margin-top-5 govuk-!-margin-bottom-8">
     <%= govuk_accordion do |accordion| %>
-      <% accordion.with_section(heading_text: "Neighours already selected") do %>
+      <% accordion.with_section(heading_text: "Neighbours already selected") do %>
         <% @consultation.neighbours.select(&:persisted?).sort_by(&:id).each do |neighbour| %>
         <hr>
-        <div class="flex-between" data-controller="edit-form">
+        <div class="flex-between" data-controller="edit-form" data-edit-form-target="container">
           <div class="govuk-!-width-three-quarters govuk-!-margin-top-1">
             <p>
               <%= neighbour.address %>
@@ -13,7 +13,7 @@
 
           <%= form_with(
                 model: neighbour,
-                data: {action: "submit->submit-form#handleSubmit"},
+                data: {action: "submit->submit-form#handleSubmit", edit_form_target: "form"},
                 url: planning_application_consultation_neighbour_path(planning_application, neighbour),
                 class: "govuk-!-display-none"
               ) do |form| %>
@@ -26,7 +26,7 @@
                 ) %>
           <% end %>
 
-          <div class="neighbour-action-links">
+            <div class="neighbour-action-links" data-edit-form-target="buttons">
             <%= govuk_link_to(
                   "Edit",
                   "#",

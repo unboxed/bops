@@ -33,10 +33,6 @@ export default class extends Controller {
     return document.getElementById("manual-address-container")
   }
 
-  getHiddenAddressesField() {
-    return document.getElementById("manual-addresses-hidden")
-  }
-
   appendAddress(address) {
     const container = this.getAddressContainer()
 
@@ -54,8 +50,8 @@ export default class extends Controller {
       count,
     )
 
-    this.getHiddenAddressesField().appendChild(addressHiddenInput)
-    this.getHiddenAddressesField().appendChild(sourceHiddenInput)
+    addressDiv.appendChild(addressHiddenInput)
+    addressDiv.appendChild(sourceHiddenInput)
 
     container.appendChild(addressDiv)
 
@@ -140,13 +136,7 @@ export default class extends Controller {
 
       const targetId = event.target.dataset.addressEntryDivId
       const addressDiv = document.getElementById(targetId)
-      const hiddenInputId = `hidden-${targetId}`
-      const hiddenInput = document.getElementById(hiddenInputId)
-      const hiddenSourceId = hiddenInputId.replace("address", "source")
-      const hiddenSourceInput = document.getElementById(hiddenSourceId)
       addressDiv.remove()
-      hiddenInput.remove()
-      hiddenSourceInput.remove()
     })
     return link
   }
