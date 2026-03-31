@@ -22,7 +22,7 @@
     "sortablejs": "^1.15.2",
     "stimulus": "^1.1.1",
     "toastr": "^2.1.4",
-    "trix": "^2.1.17"
+    "trix": "^2.1.18"
   },
   "resolutions": {
     "is-svg": "^4.2.2"
