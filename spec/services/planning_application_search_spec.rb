@@ -144,6 +144,9 @@ RSpec.describe PlanningApplicationSearch do
   end
 
   describe "#filtered_planning_applications" do
+    before do
+      travel_to("2022-02-01")
+    end
     context "when is search without params" do
       let(:params) do
         ActionController::Parameters.new
@@ -153,11 +156,11 @@ RSpec.describe PlanningApplicationSearch do
         expect(search.filtered_planning_applications).to eq([
           prior_approval_not_started,
           ldc_not_started,
-          prior_approval_in_assessment,
+          pre_application_in_assessment,
           householder_application_for_planning_permission_in_assessment,
+          prior_approval_in_assessment,
           ldc_in_assessment_2,
-          ldc_in_assessment_1,
-          pre_application_in_assessment
+          ldc_in_assessment_1
         ])
       end
     end
