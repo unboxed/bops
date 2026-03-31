@@ -8,7 +8,7 @@ class SendPressNoticeEmailJob < ApplicationJob
     return if press_notice.press_notice_email.blank?
 
     ApplicationRecord.transaction do
-      PlanningApplicationMailer.press_notice_mail(press_notice).deliver_now
+      PlanningApplicationMailer.press_notice_mail(press_notice).deliver_later
       press_notice.touch(:requested_at)
       press_notice.audits.create!(
         user: user,
