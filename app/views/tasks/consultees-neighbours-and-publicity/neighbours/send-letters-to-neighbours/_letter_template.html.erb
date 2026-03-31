@@ -1,0 +1,48 @@
+<div data-controller="neighbours">
+   <div class="govuk-hint govuk-!-margin-bottom-0 govuk-!-margin-top-8">Step 3</div>
+  <%= form.govuk_collection_select :template,
+        ["Notification", "Renotification"],
+        :itself,
+        :itself,
+        label: {text: "Choose which letter to send", size: "m"},
+        data: {
+          action: "change->neighbours#toggleTemplates"
+        } %>
+
+  <div id="renotification-form" class="govuk-!-display-none">
+    <%= form.hidden_field :resend_existing, value: "false" %>
+    <%= form.govuk_text_area :resend_reason, label: {text: "Resend reason"}, hint: {text: "Enter a reason for renotification. This text will appear at the beginning of the letter."} %>
+  </div>
+</div>
+
+<details class="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      View/edit letter template
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <%= form.label :neighbour_letter_text, "Neighbour letter", class: "govuk-!-display-none" %>
+    <div class="govuk-inset-text">
+      <p>Text marked with a # (hashtag) will appear as a header in the printed letter.</p>
+      <p>Text marked with a * (asterisk) will appear as a bullet point in the printed letter.</p>
+      <% if @planning_application.prior_approval? %>
+        <p>
+          Measurements in the letter have been taken from PlanX. If measurements are incorrect, <%= link_to "change the measurements in the consistency checklist", new_planning_application_assessment_consistency_checklist_path(planning_application) %> then return to this template.
+        </p>
+      <% end %>
+    </div>
+    <%= form.text_area :neighbour_letter_text, value: I18n.t("neighbour_letter_template.consultation.#{planning_application.application_type.name}"), rows: 25, class: "govuk-body neighbour-letter-template" %>
+  </div>
+</details>
+
+<div class="govuk-hint govuk-!-margin-bottom-0 govuk-!-margin-top-8">Step 4</div>
+<div class="govuk-form-group">
+  <%= form.label :deadline_extension, "Set response period", class: "govuk-label govuk-label--m" %>
+  <p class="govuk-hint">Enter the number of days that neighbours have to respond.</p>
+
+ <div class="govuk-input__wrapper">
+    <%= form.govuk_text_field :deadline_extension, placeholder: "", class: "govuk-input", label: -> {}, value: 21, required: true %>
+    <div class="govuk-input__suffix" aria-hidden="true">days</div>
+  </div>
+</div>

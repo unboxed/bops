@@ -1,0 +1,117 @@
+<div id="selected-neighbours-list" data-controller="neighbours">
+  <%= govuk_link_to "< Back to add neighbours", planning_application_consultation_neighbours_path(@planning_application), class: "govuk-body" %>
+
+  <div class="govuk-hint govuk-!-margin-bottom-0 govuk-!-margin-top-4">
+    Step 2
+  </div>
+
+  <h2 class="govuk-!-margin-top-1">Review neighbours to send letters to</h2>
+
+  <p>Review the list and check the addresses you want to send</p>
+
+  <% if consultation.neighbours.any? %>
+    <% if @planning_application.local_authority.notify_error_status.present? %>
+      <div class="govuk-error-summary" data-module="govuk-error-summary">
+        <div role="alert">
+          <h2 class="govuk-error-summary__title">
+            There is a problem
+          </h2>
+          <div class="govuk-error-summary__body">
+            <ul class="govuk-list govuk-error-summary__list">
+              <li>
+                Some letters could not be sent due to a misconfiguration. An
+                administrator needs to review the GOV.UK Notify settings for
+                this account.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    <% end %>
+    <table class="govuk-table" id="selected-neighbours-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          <th scope="col" class="govuk-table__header govuk-!-padding-0">
+            <div
+              class="govuk-checkboxes govuk-checkboxes--small"
+              data-module="govuk-checkboxes">
+              <div class="govuk-checkboxes__item">
+                <%= check_box_tag("toggle-consultees", "1", true, class: "govuk-checkboxes__input",
+                      name: nil,
+                      data: {
+                        action: "change->neighbours#toggleNeighbours"
+                      }) %>
+                <label
+                  class="govuk-label govuk-checkboxes__label"
+                  for="toggle-neighbours">
+                  <span class="govuk-visually-hidden"> Select all neighbours </span>
+                </label>
+              </div>
+            </div>
+          </th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-half">
+            Address list
+          </th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+            Source
+          </th>
+          <th scope="col" class="govuk-table__header">Status</th>
+          <th
+            scope="col"
+            class="govuk-table__header govuk-table__header--numeric">
+            Last contacted
+          </th>
+        </tr>
+      </thead>
+      <%= form.fields_for :neighbours, consultation.neighbours do |neighbour| %>
+        <tbody class="govuk-table__body">
+          <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-padding-0">
+              <div
+                class="govuk-checkboxes govuk-checkboxes--small"
+                data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item">
+                  <%= neighbour.check_box :selected, class: "govuk-checkboxes__input" %>
+                  <%= neighbour.label :selected, class: "govuk-label govuk-checkboxes__label" do %>
+                    <span class="govuk-visually-hidden"><%= "Select #{neighbour.object.address}" %></span>
+                  <% end %>
+                </div>
+              </div>
+            </td>
+            <td class="govuk-table__cell govuk-!-width-one-third">
+              <%= neighbour.object.address.upcase %>
+            </td>
+            <td class="govuk-table__cell">
+              <%= neighbour.object.source.humanize %>
+            </td>
+            <td class="govuk-table__cell">
+              <% if neighbour.object.last_letter.blank? %>
+                <%= render(StatusTags::LetterComponent.new(status: "new")) %>
+              <% else %>
+                <%= render(StatusTags::LetterComponent.new(status: NeighbourLetter::STATUSES[neighbour.object.last_letter.status&.to_sym])) %>
+              <% end %>
+            </td>
+            <td
+              class="
+                govuk-table__cell govuk-table__cell--numeric
+                govuk-!-width-one-quarter
+              ">
+              <% if neighbour.object.last_letter.blank? %>
+                -
+              <% elsif neighbour.object.last_letter.status_updated_at.present? %>
+                <%= neighbour.object.last_letter.status_updated_at.to_date.to_fs(:day_month_year_slashes) %>
+              <% else %>
+                <%= neighbour.object.last_letter.created_at.to_fs(:day_month_year_slashes) %>
+              <% end %>
+            </td>
+          </tr>
+        </tbody>
+      <% end %>
+    </table>
+  <% else %>
+    <p>
+      You have not selected any neighbours.
+      <%= link_to "Go back to select and add neighbours", planning_application_consultation_neighbours_path(@planning_application) %>
+    </p>
+  <% end %>
+</div>
