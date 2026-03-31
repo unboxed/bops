@@ -2818,7 +2818,7 @@ en:
         remove_all:
           failure: Failed to remove all neighbour addresses
           success: Successfully removed all neighbour addresses
-        success: Successfully saved add and assign neighbours task
+        success: Addresses have been successfully added
       add-conditions:
         add_condition: Condition was successfully added
         delete_condition: Condition was successfully deleted
@@ -2938,6 +2938,11 @@ en:
       review-documents-for-recommendation:
         failure: Failed to save document review
         success: Successfully saved document review
+      send-letters-to-neighbours:
+        send_letters:
+          failure: Failed to send letters to neighbours
+          success: Letters have been sent to neighbours
+        success: Neighbour letters were successfully updated
       send-site-notice:
         create_site_notice:
           failure: Failed to create site notice
