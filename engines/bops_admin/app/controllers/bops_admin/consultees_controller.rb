@@ -2,7 +2,7 @@
 
 module BopsAdmin
   class ConsulteesController < ApplicationController
-    self.page_key = "applications"
+    self.page_key = "consultees"
 
     before_action :set_consultees, only: %i[index]
     before_action :build_consultee, only: %i[new create]

@@ -19,38 +19,38 @@ RSpec.describe "Service navigation", type: :system do
   it "highlights Applications on the consultees page" do
     visit "/admin/consultees"
 
-    expect(page).to have_selector("a[aria-current]", text: "Applications")
+    expect(page).to have_selector("a[aria-current]", text: "Consultees")
   end
 
   it "highlights Policies on the policies page" do
     visit "/admin/policy"
 
-    expect(page).to have_selector("a[aria-current]", text: "Policies")
+    expect(page).to have_selector("a[aria-current]", text: "LPA config")
   end
 
   context "when viewing policy nested pages" do
-    it "highlights Policies on the informatives page" do
+    it "highlights LPA config on the informatives page" do
       visit "/admin/informatives"
 
-      expect(page).to have_selector("a[aria-current]", text: "Policies")
+      expect(page).to have_selector("a[aria-current]", text: "LPA config")
     end
 
-    it "highlights Policies on the policy areas page" do
+    it "highlights LPA config on the policy areas page" do
       visit "/admin/policy/areas"
 
-      expect(page).to have_selector("a[aria-current]", text: "Policies")
+      expect(page).to have_selector("a[aria-current]", text: "LPA config")
     end
 
-    it "highlights Policies on the policy guidances page" do
+    it "highlights LPA config on the policy guidances page" do
       visit "/admin/policy/guidance"
 
-      expect(page).to have_selector("a[aria-current]", text: "Policies")
+      expect(page).to have_selector("a[aria-current]", text: "LPA config")
     end
 
-    it "highlights Policies on the policy references page" do
+    it "highlights LPA config on the policy references page" do
       visit "/admin/policy/references"
 
-      expect(page).to have_selector("a[aria-current]", text: "Policies")
+      expect(page).to have_selector("a[aria-current]", text: "LPA config")
     end
   end
 
