@@ -1,0 +1,56 @@
+<%= render "task_header", task: @task %>
+
+<% if flash[:sent_neighbour_letters].present? %>
+  <div
+    class="govuk-notification-banner govuk-notification-banner--success"
+    role="alert"
+    aria-labelledby="govuk-notification-banner-title"
+    data-module="govuk-notification-banner">
+    <div class="govuk-notification-banner__header">
+      <h2
+        class="govuk-notification-banner__title"
+        id="govuk-notification-banner-title">
+        Success
+      </h2>
+    </div>
+    <div class="govuk-notification-banner__content">
+      <h3 class="govuk-notification-banner__heading">
+        Letters have been sent to neighbours and a copy of the letter has been
+        sent to the applicant.
+      </h3>
+      <p>
+        Contact
+        <a class="govuk-notification-banner__link" href="https://www.notifications.service.gov.uk/support">GOV.UK Notify</a>
+        if you think there’s a problem.
+      </p>
+    </div>
+  </div>
+<% end %>
+
+<% if @form.consultation.neighbour_review&.to_be_reviewed? %>
+  <div class="govuk-inset-text">
+    <h3>
+      Reviewer requested changes
+    </h3>
+
+    <p><%= @form.consultation.neighbour_review.comment %></p>
+  </div>
+<% end %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= render "#{@form.partial_path}/list", planning_application: @planning_application, consultation: @form.consultation, form: form %>
+
+  <%= render "#{@form.partial_path}/letter_template", planning_application: @planning_application, consultation: @form.consultation, form: form %>
+
+  <div class="govuk-button-group govuk-!-margin-top-5 align-buttons">
+    <%= form.govuk_task_button "Send letters", action: :send_letters, secondary: true %>
+  </div>
+<% end %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.hidden_field :neighbour_letter_text %>
+
+  <%= render "task_submit_buttons", form: %>
+<% end %>
