@@ -1,0 +1,38 @@
+<% if @form.site_notices.any? %>
+  <%= govuk_table do |table| %>
+    <% table.with_head do |head| %>
+      <% head.with_row do |row| %>
+        <% row.with_cell(text: "Details") %>
+        <% row.with_cell(text: "Created on") %>
+        <% row.with_cell(text: "Display date") %>
+        <% row.with_cell(text: "Status") %>
+        <% row.with_cell(text: "Actions") %>
+      <% end %>
+    <% end %>
+    <% table.with_body do |body| %>
+      <% @form.site_notices.each_with_index do |site_notice, index| %>
+        <% body.with_row do |row| %>
+          <% row.with_cell do %>
+            <%= @form.site_notice_audits[(index + 1)].audit_comment %><br>
+            <%= govuk_link_to "Download site notice PDF", "#", data: {action: "click->site-notice#downloadPdf"} %>
+          <% end %>
+          <% row.with_cell do %>
+            <%= @form.site_notice_audits[(index + 1)]&.created_at&.to_fs(:day_month_year_slashes) %>
+          <% end %>
+          <% row.with_cell do %>
+            <%= site_notice.displayed_at&.to_fs(:day_month_year_slashes)  || "–" %>
+          <% end %>
+          <% row.with_cell do %>
+            <%  site_notice.documents.any? ? govuk_tag(text: "Displayed", colour: "green") : govuk_tag(text: "Not yet displayed", colour: "grey")%> 
+          <% end %>
+          <% row.with_cell do %>
+            <%= govuk_link_to(
+              site_notice.documents.any? ? "Edit" : "Confirm display details",
+              @form.edit_site_notice_url(site_notice)
+            ) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

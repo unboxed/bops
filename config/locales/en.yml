@@ -2910,6 +2910,9 @@ en:
       confirm-press-notice:
         failure: Failed to confirm press notice publication
         success: Successfully confirmed press notice publication
+      confirm-site-notice:
+        failure: Failed to confirm site notice publication
+        success: Successfully confirmed site notice publication
       draw-red-line-boundary:
         failure: Draw a red line boundary
         success: Red line boundary was successfully saved

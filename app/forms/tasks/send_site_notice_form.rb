@@ -12,6 +12,7 @@ module Tasks
     attribute :delivery_method, :string
 
     after_initialize do
+      @site_notices = planning_application.site_notices.to_a
       @site_notice = planning_application.site_notices.new
     end
 
@@ -26,6 +27,14 @@ module Tasks
     end
 
     attr_reader :site_notice, :site_notices
+
+    def site_notice_audits
+      planning_application.audits.where(activity_type: "site_notice_created").order(:created_at)
+    end
+
+    def edit_site_notice_url(site_notice)
+      route_for(:edit_task_component, planning_application, slug: task.full_slug, id: site_notice.id, only_path: true)
+    end
 
     private
 

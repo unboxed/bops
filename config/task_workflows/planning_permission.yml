@@ -44,6 +44,7 @@
       section: Publicity
       tasks:
         - name: Send site notice
+        - name: Confirm site notice
         - name: Press notice
         - name: Confirm press notice
 - name: "Check and assess"
