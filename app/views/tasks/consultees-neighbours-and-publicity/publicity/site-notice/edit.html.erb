@@ -1,0 +1,18 @@
+<%= render "task_header", task: @task %>
+
+<h3>Confirm site notice is displayed</h3>
+<%= form_with(model: @form, url: @form.confirm_display_url, class: "govuk-!-margin-top-5") do |form| %>
+  <%= form.govuk_error_summary %>
+
+  <%= form.govuk_date_field :displayed_at, legend: {text: "1. What date was the site notice displayed?"} %>
+
+  <%= form.govuk_file_field :documents,
+        label: {text: "2. Upload evidence of site notice in place", size: "m"},
+        hint: {text: "Add any photos of the site notice being displayed"},
+        accept: acceptable_file_mime_types,
+        multiple: true %>
+  <div class="govuk-button-group" id="site-notice-confirm-actions">
+    <%= form.govuk_task_button "Confirm display", action: "confirm_display" %>
+    <%= govuk_button_link_to "Back", "#", secondary: true %>
+  </div>
+<% end %>

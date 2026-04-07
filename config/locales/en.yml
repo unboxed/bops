@@ -2955,6 +2955,18 @@ en:
       site-description:
         failure: Unable to save site description
         success: Site description successfully saved
+      site-notice:
+        confirm_display:
+          failure: Unable to save display details
+          success: Successfully saved display details
+        create_site_notice:
+          failure: Unable to generate site notice
+          success: Successfully generated site notice
+        failure: Unable to save site notice task
+        mark_not_required:
+          failure: Unable to mark site notice as not required
+          success: Successfully marked site notice as not required
+        success: Successfully saved site notice task
       site-visit:
         add_site_visit:
           failure: Failed to save site visit
