@@ -1,54 +1,51 @@
 <%= render "task_header", task: @task %>
 
-<%= content_tag :div, class: "govuk-grid-column-full", data: {
-      controller: "address-fill polygon-search",
-      address_fill_url: os_places_api_index_path,
-      address_fill_id: "neighbour-address",
-      address_fill_name: "consultation[neighbours_attributes][][address]",
-      polygon_search_url: search_addresses_by_polygon_path(planning_application: @planning_application),
-      polygon_search_id: "neighbour-addresses",
-      polygon_search_name: "consultation[neighbours_attributes][][address]"
-    } do %>
-  <%= render ErrorSummaryComponent.new(errors: @planning_application.consultation.errors) %>
+<div class="govuk-grid-row">
+  <%= content_tag :div, class: "govuk-grid-column-full", data: {
+        controller: "address-fill polygon-search",
+        address_fill_url: os_places_api_index_path,
+        address_fill_id: "neighbour-address",
+        address_fill_name: "consultation[neighbours_attributes][][address]",
+        polygon_search_url: search_addresses_by_polygon_path(planning_application: @planning_application),
+        polygon_search_id: "neighbour-addresses",
+        polygon_search_name: "consultation[neighbours_attributes][][address]"
+      } do %>
 
-  <%= render "#{@form.partial_path}/select_neighbours", planning_application: @planning_application %>
+    <%= render "#{@form.partial_path}/select_neighbours", planning_application: @planning_application %>
 
-  <details class="govuk-details govuk-!-margin-top-3">
-    <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text"> Manually add addresses </span>
-    </summary>
-    <div class="govuk-details__text">
-      <div class="govuk-!-padding-bottom-5">
-        <label for="neighbour-address" class="govuk-heading-s">Search neighbours by address</label>
-        <span id="neighbour-address-hint" class="govuk-hint"> Start typing address or postcode </span>
+    <%= form_with model: @form, url: @form.url, id: "consultation-neighbour-addresses-form", scope: :consultation do |form| %>
+      <%= form.govuk_text_area :polygon_geojson, label: {class: "govuk-visually-hidden"}, class: "govuk-visually-hidden" %>
 
-        <div id="neighbour-address-container"></div>
+      <div id="address-container" class="govuk-!-margin-top-1">
       </div>
-    </div>
-  </details>
 
-  <% if @planning_application.neighbour_addresses_inline.any? %>
-    <h3 class="govuk-!-margin-top-5">Neighbours submitted by applicant</h3>
-    <ul class="govuk-list">
-      <% @planning_application.neighbour_addresses_inline.each do |address| %>
-        <li><%= address %></li>
-      <% end %>
-    </ul>
-  <% end %>
+      <div id="manual-address-container" class="govuk-!-margin-top-1">
+      </div>
 
-  <%= form_with model: @form, url: @form.url, id: "consultation-neighbour-addresses-form", scope: :consultation do |form| %>
-    <%= form.govuk_error_summary %>
+      <%= form.govuk_task_button "Add addresses", action: "add_addresses", secondary: true %>
+    <% end %>
 
-    <%= form.govuk_text_area :polygon_geojson, label: {class: "govuk-visually-hidden"}, class: "govuk-visually-hidden" %>
-
-    <div id="address-container" class="govuk-!-margin-top-1">
-      <p class="address"></p>
+    <div class="govuk-form-group">
+      <label class="govuk-label govuk-label--s" for="neighbour-address">
+        Manually add an address
+      </label>
+      <div class="govuk-hint"> Start typing address or postcode</div>
+      <div id="neighbour-address-container"></div>
     </div>
 
-    <div id="manual-address-container"></div>
+    <% if @planning_application.neighbour_addresses_inline.any? %>
+      <h3 class="govuk-!-margin-top-5">Neighbours submitted by applicant</h3>
+      <ul class="govuk-list">
+        <% @planning_application.neighbour_addresses_inline.each do |address| %>
+          <li><%= address %></li>
+        <% end %>
+      </ul>
+    <% end %>
 
-    <%= render "#{@form.partial_path}/selected_list", planning_application: @planning_application, form: form %>
+    <%= form_with model: @form, url: @form.url, scope: :consultation do |form| %>
+      <%= render "#{@form.partial_path}/selected_list", planning_application: @planning_application, form: form %>
 
-    <%= render "task_submit_buttons", form: form %>
+      <%= render "task_submit_buttons", form: form %>
+    <% end %>
   <% end %>
-<% end %>
+</div>

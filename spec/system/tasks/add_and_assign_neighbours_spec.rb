@@ -19,7 +19,9 @@ RSpec.describe "Add and assign neighbours task", :capybara, type: :system do
     stub_any_os_places_api_request
 
     sign_in assessor
+
     visit "/planning_applications/#{planning_application.reference}/#{slug}"
+    expect(page).to have_selector("h1", text: "Add and assign neighbours")
   end
 
   it "displays the planning application address, reference, and addresses submitted by applicant" do
@@ -32,38 +34,29 @@ RSpec.describe "Add and assign neighbours task", :capybara, type: :system do
   end
 
   it "allows me to add addresses manually" do
-    # Rspec doesn't like the govuk design extra details link, so this is clicking "Manually add addresses"
-    page.find("summary", text: /Manually add addresses/).click
-
     allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).with("60-").and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, E16LT"}}]}))
 
-    fill_in "Search neighbours by address", with: "60-"
-    # # Something weird is happening with the javascript, so having to double click for it to register
-    # # This doesn't happen in "real life"
-    page.find(:xpath, "//li[text()='60-62, Commercial Street, E16LT']").click
+    fill_in "Manually add an address", with: "60-"
+    pick "60-62, Commercial Street, E16LT", from: "neighbour-address"
 
     within("#manual-address-container") do
       expect(page).to have_content("60-62, Commercial Street, E16LT")
     end
 
+    click_button "Add addresses"
+    expect(page).to have_content("Successfully added neighbour addresses")
+
     allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).with("61-").and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "61-62, Commercial Street, E16LT"}}]}))
 
-    fill_in "Search neighbours by address", with: "61-"
-    page.find(:xpath, "//li[text()='61-62, Commercial Street, E16LT']").click
-
-    # seems to need clicking outside the box in order for the save changes to work.
-    # again, this doesn't happen in real life.
-    page.find("#manual-address-container").click
+    fill_in "Manually add an address", with: "61-"
+    pick "61-62, Commercial Street, E16LT", from: "neighbour-address"
 
     within("#manual-address-container") do
       expect(page).to have_content("61-62, Commercial Street, E16LT")
     end
 
-    expect(page).not_to have_content("Contacted neighbours")
-
-    click_button "Save changes"
-
-    expect(page).to have_content("Addresses have been successfully added")
+    click_button "Add addresses"
+    expect(page).to have_content("Successfully added neighbour addresses")
 
     within("#selected-neighbours-list") do
       expect(page).to have_content("60-62, Commercial Street, E16LT")
@@ -72,19 +65,16 @@ RSpec.describe "Add and assign neighbours task", :capybara, type: :system do
   end
 
   it "allows me to delete addresses" do
-    page.find("summary", text: /Manually add addresses/).click
-
     allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).with("60-").and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, E16LT"}}]}))
-    fill_in "Search neighbours by address", with: "60-"
 
-    page.find(:xpath, "//li[text()='60-62, Commercial Street, E16LT']").click
-
-    expect(page).to have_content("60-62, Commercial Street, E16LT")
-
-    click_link "Remove"
-    click_link "Remove" # As above, seems to need clicking twice
+    fill_in "Manually add an address", with: "60-"
+    pick "60-62, Commercial Street, E16LT", from: "neighbour-address"
 
     within("#manual-address-container") do
+      expect(page).to have_content("60-62, Commercial Street, E16LT")
+
+      click_link "Remove"
+
       expect(page).not_to have_content("60-62, Commercial Street, E16LT")
     end
   end
@@ -214,13 +204,8 @@ RSpec.describe "Add and assign neighbours task", :capybara, type: :system do
       # Nothing is persisted to the database at this point
       expect(Neighbour.all.length).to eq(0)
 
-      # seems to need clicking outside the box in order for the save changes to work.
-      # again, this doesn't happen in real life.
-      page.find("#address-container").click
-
-      click_button "Save changes"
-
-      expect(page).to have_content("Addresses have been successfully added")
+      click_button "Add addresses"
+      expect(page).to have_content("Successfully added neighbour addresses")
 
       within("#selected-neighbours-list") do
         expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
@@ -241,7 +226,7 @@ RSpec.describe "Add and assign neighbours task", :capybara, type: :system do
       expect(page).not_to have_css("#address-1")
       expect(page).not_to have_content("6, COXSON WAY, LONDON, SE1 2XB")
 
-      click_button "Save changes"
+      click_button "Add addresses"
 
       within("#selected-neighbours-list") do
         expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
@@ -416,7 +401,7 @@ RSpec.describe "Add and assign neighbours task", :capybara, type: :system do
           expect(page).to have_content("85, GRANGE WALK, LONDON, SE1 3DT")
         end
 
-        click_button "Save changes"
+        click_button "Add addresses"
 
         within("#selected-neighbours-list") do
           expect(page).to have_content("82, GRANGE WALK, LONDON, SE1 3DT")
@@ -438,78 +423,49 @@ RSpec.describe "Add and assign neighbours task", :capybara, type: :system do
 
     it "I can add addresses manually after using the polygon" do
       within("#address-container") do
-        within(".address-entry#neighbour-addresses-0") do
-          expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-0"]', text: "Remove")
-        end
-        within(".address-entry#neighbour-addresses-1") do
-          expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-1"]', text: "Remove")
-        end
+        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+        expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
       end
 
-      # Rspec doesn't like the govuk design extra details link, so this is clicking "Manually add addresses"
-      page.find("summary", text: /Manually add addresses/).click
-
       allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).with("60-").and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, E16LT"}}]}))
-      fill_in "Search neighbours by address", with: "60-"
-      # # Something weird is happening with the javascript, so having to double click for it to register
-      # # This doesn't happen in "real life"
-      page.find(:xpath, "//li[text()='60-62, Commercial Street, E16LT']").click
+
+      fill_in "Manually add an address", with: "60-"
+      pick "60-62, Commercial Street, E16LT", from: "neighbour-address"
 
       within("#manual-address-container") do
         expect(page).to have_content("60-62, Commercial Street, E16LT")
       end
 
-      # seems to need clicking outside the box in order for the save changes to work.
-      # again, this doesn't happen in real life.
-      page.find("#manual-address-container").click
+      click_button "Add addresses"
 
-      click_button "Save changes"
-
-      expect(page).to have_content("Addresses have been successfully added")
-      expect(page).to have_content "60-62, Commercial Street, E16LT"
+      expect(page).to have_content("Successfully added neighbour addresses")
       expect(page).to have_content "5, COXSON WAY, LONDON, SE1 2XB"
       expect(page).to have_content "6, COXSON WAY, LONDON, SE1 2XB"
+      expect(page).to have_content "60-62, Commercial Street, E16LT"
     end
 
     it "I can add addresses with the polygon after adding manually" do
-      # Rspec doesn't like the govuk design extra details link, so this is clicking "Manually add addresses"
-      page.find("summary", text: /Manually add addresses/).click
-
       allow_any_instance_of(Apis::OsPlaces::Query).to receive(:find_addresses).with("60-").and_return(instance_double(Faraday::Response, status: 200, body: {header: {}, results: [{DPA: {ADDRESS: "60-62, Commercial Street, E16LT"}}]}))
 
-      fill_in "Search neighbours by address", with: "60-"
-      # # Something weird is happening with the javascript, so having to double click for it to register
-      # # This doesn't happen in "real life"
-      page.find(:xpath, "//li[text()='60-62, Commercial Street, E16LT']").click
-
-      # seems to need clicking outside the box in order for the save changes to work.
-      # again, this doesn't happen in real life.
-      page.find("#manual-address-container").click
+      fill_in "Manually add an address", with: "60-"
+      pick "60-62, Commercial Street, E16LT", from: "neighbour-address"
 
       mock_csrf_token
       # Mimic drawing the polygon on the map
       dispatch_geojson_event(geojson)
 
       within("#address-container") do
-        within(".address-entry#neighbour-addresses-1") do
-          expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
-          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-1"]', text: "Remove")
-        end
-        within(".address-entry#neighbour-addresses-2") do
-          expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
-          expect(page).to have_selector('a.govuk-link[data-address-entry-div-id="neighbour-addresses-2"]', text: "Remove")
-        end
+        expect(page).to have_content("5, COXSON WAY, LONDON, SE1 2XB")
+        expect(page).to have_content("6, COXSON WAY, LONDON, SE1 2XB")
       end
 
       within("#manual-address-container") do
         expect(page).to have_content("60-62, Commercial Street, E16LT")
       end
 
-      click_button "Save changes"
+      click_button "Add addresses"
 
-      expect(page).to have_content("Addresses have been successfully added")
+      expect(page).to have_content("Successfully added neighbour addresses")
       expect(page).to have_content "60-62, Commercial Street, E16LT"
       expect(page).to have_content "5, COXSON WAY, LONDON, SE1 2XB"
       expect(page).to have_content "6, COXSON WAY, LONDON, SE1 2XB"

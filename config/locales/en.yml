@@ -2822,7 +2822,18 @@ en:
             upload_photos: Upload photo(s)
     update:
       add-and-assign-neighbours:
-        success: Addresses have been successfully added
+        add_addresses:
+          failure: Unable to add neighbour addresses
+          no_addresses: Use the map or manual address search to add addresses
+          success: Successfully added neighbour addresses
+        edit_neighbour:
+          failure: Failed to update the address
+          success: Updated the address successfully
+        failure: Unable to save add and assign neighbours task
+        remove_all:
+          failure: Failed to remove all neighbour addresses
+          success: Successfully removed all neighbour addresses
+        success: Successfully saved add and assign neighbours task
       add-conditions:
         add_condition: Condition was successfully added
         delete_condition: Condition was successfully deleted
