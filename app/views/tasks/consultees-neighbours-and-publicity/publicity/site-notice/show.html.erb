@@ -1,9 +1,7 @@
 <%= render "task_header", task: @task %>
 
 <% if @planning_application.environment_impact_assessment&.required? %>
-  <strong class="govuk-tag">
-    Subject to EIA
-  </strong>
+ <%= govuk_tag(text: "Subject to EIA", colour: "blue") %>
 <% end %>
 
 <% if params[:new] %>
