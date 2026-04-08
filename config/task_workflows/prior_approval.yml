@@ -43,7 +43,7 @@
     - name: Publicity
       section: Publicity
       tasks:
-        - name: Send site notice
+        - name: Site notice
         - name: Press notice
         - name: Confirm press notice
 - name: "Check and assess"
