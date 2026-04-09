@@ -1,0 +1,43 @@
+<%= render "task_header", task: @task %>
+
+<h2>Confirm press notice publication</h2>
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= hidden_field_tag :id, @form.press_notice.id %>
+  <%= form.govuk_error_summary %>
+
+  <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+      <%= form.govuk_date_field(:published_at,
+            rows: 6,
+            id: "published-at-field",
+            legend: {size: "s", text: "When was the press notice published?"},
+            hint: {text: "Must fall within consultation period (#{@planning_application.consultation.start_date.to_fs} to #{@planning_application.consultation.end_date.to_fs})"}) %>
+
+      <% if @form.press_notice.documents.with_file_attachment.any? %>
+        <div class="govuk-form-group">
+          <p class="govuk-label govuk-label--s">Uploaded photos</p>
+          <% @form.press_notice.documents.with_file_attachment.each do |document| %>
+            <p class="govuk-!-margin-bottom-1">
+              <%= document_thumbnail_link(document, thumbnail_args: {resize: "300x212"}) %>
+            </p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <%= form.govuk_file_field :documents,
+            label: {size: "s", text: "Upload evidence of publication"},
+            hint: {text: "A photo or scan of the published notice."},
+            accept: acceptable_file_mime_types,
+            multiple: true %>
+
+      <%= form.govuk_text_area(:comment,
+            rows: 3,
+            label: {size: "s",
+                    text: "Comment (optional)"},
+            hint: {text: "For example, which publication and page number"}) %>
+    </fieldset>
+
+    <%= form.govuk_task_button "Confirm publication", action: "confirm_publication" %>
+    <%= back_link %>
+  </div>
+<% end %>

@@ -2938,6 +2938,9 @@ en:
         failure: Failed to update permitted development rights
         success: Successfully confirmed permitted development rights
       press-notice:
+        email_press_notice:
+          failure: Unable to send press notice email
+          success: Successfully sent press notice email
         failure: Failed to save press notice requirement
         success: Successfully saved press notice requirement
       review-and-submit-recommendation:
