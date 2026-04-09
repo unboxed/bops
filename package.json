@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "@hotwired/stimulus": "^3.2.1",
-    "@opensystemslab/map": "^1.0.0-alpha.5",
+    "@opensystemslab/map": "^1.0.0-alpha.11",
     "@rails/actiontext": "^7.2.201",
     "@rails/activestorage": "^7.2.201",
     "@rails/request.js": "^0.0.9",
