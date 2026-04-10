@@ -1,0 +1,64 @@
+<%= govuk_summary_card(title: "Press notice #{index + 1}", html_attributes: {class: "govuk-!-margin-top-6"}) do |card| %>
+  <% card.with_summary_list do |summary_list| %>
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { "Reasons" } %>
+      <% row.with_value do %>
+        <ul class="govuk-list">
+          <% press_notice.reasons.each do |reason| %>
+            <li>
+              <% if reason == "other" %>
+                <%= press_notice.other_reason %>
+              <% else %>
+                <%= t(reason, scope: :press_notice_reasons) %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    <% end %>
+
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { "Sent to" } %>
+      <% row.with_value { @planning_application.local_authority.press_notice_email } %>
+    <% end %>
+
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { "Requested" } %>
+      <% row.with_value { press_notice.requested_at&.to_fs } %>
+    <% end %>
+
+    <% summary_list.with_row do |row| %>
+      <% row.with_key { "Status" } %>
+      <% row.with_value do %>
+        <% if press_notice.published_at? %>
+          <strong class="govuk-tag govuk-tag--green">Displayed</strong>
+        <% else %>
+          <strong class="govuk-tag govuk-tag--blue">Requested</strong>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <% summary_list.with_row do |row| %>
+      <% row.with_key(classes: "govuk-summary-list__key", html_attributes: {style: "vertical-align: top"}) { "Evidence" } %>
+      <% row.with_value do %>
+        <% if press_notice.published_at? %>
+          <% press_notice.documents.each do |document| %>
+            <div class="display-flex govuk-!-margin-bottom-2">
+              <div class="govuk-!-margin-right-3">
+                <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
+              </div>
+              <div>
+                <p class="govuk-!-margin-bottom-1"><%= truncate(document.name.to_s, length: 50) %></p>
+                <p class="govuk-!-margin-bottom-1">Published: <%= press_notice.published_at.to_date.to_fs %></p>
+                <p class="govuk-!-margin-bottom-1"><%= press_notice.comment.presence %></p>
+                <%= govuk_link_to "Edit publication details", @form.edit_press_notice_url(press_notice), no_visited_state: true %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <%= govuk_link_to "Upload evidence", @form.edit_press_notice_url(press_notice) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
