@@ -149,7 +149,7 @@ class PlanningApplicationMailer < ApplicationMailer
   def press_notice_mail(press_notice)
     @press_notice = press_notice
     @planning_application = press_notice.planning_application
-    @confirm_press_notice_task = @planning_application.case_record.find_task_by_slug_path("consultees-neighbours-and-publicity/publicity/confirm-press-notice")
+    @press_notice_task = @planning_application.case_record.find_task_by_slug_path("consultees-neighbours-and-publicity/publicity/press-notice")
     email = press_notice.press_notice_email
 
     view_mail(email_template_id, headers_for(subject(:press_notice_mail), email))
