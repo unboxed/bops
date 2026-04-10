@@ -2805,21 +2805,6 @@ en:
             no_recommended_html: No <strong>(recommended based on submission data)</strong>
             'yes': 'Yes'
             yes_recommended_html: Yes <strong>(recommended based on submission data)</strong>
-    consultees-neighbours-and-publicity:
-      publicity:
-        confirm-press-notice:
-          edit:
-            optional_comment: Optional comment
-            photos_hint: Provide documentary evidence of the press notice being published
-            published_at: What date was the press notice published?
-            requested_on: Press notice requested on %-d %B %Y
-            upload_photos: Upload photo(s)
-          show:
-            optional_comment: Optional comment
-            photos_hint: Provide documentary evidence of the press notice being published
-            published_at: What date was the press notice published?
-            requested_on: Press notice requested on %-d %B %Y
-            upload_photos: Upload photo(s)
     update:
       add-and-assign-neighbours:
         add_addresses:
