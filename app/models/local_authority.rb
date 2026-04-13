@@ -29,19 +29,28 @@ class LocalAuthority < ApplicationRecord
   has_many :neighbour_responses, through: :consultations
   has_many :enforcements, through: :case_records, source: :caseable, source_type: "Enforcement"
 
-  class Accessibility < Struct.new(:postal_address, :phone_number, :email_address); end
-  class SiteNotice < Struct.new(:logo, :phone_number, :email_address, :show_assigned_officer); end
+  module Configuration
+    class Accessibility < Struct.new(:postal_address, :phone_number, :email_address); end
+    class Consultation < Struct.new(:postal_address); end
+    class SiteNotice < Struct.new(:logo, :phone_number, :email_address, :show_assigned_officer); end
+  end
 
   composed_of :accessibility,
-    class_name: "LocalAuthority::Accessibility",
+    class_name: "LocalAuthority::Configuration::Accessibility",
     allow_nil: true, mapping: [
       %w[accessibility_postal_address postal_address],
       %w[accessibility_phone_number phone_number],
       %w[accessibility_email_address email_address]
     ]
 
+  composed_of :consultation,
+    class_name: "LocalAuthority::Configuration::Consultation",
+    allow_nil: true, mapping: [
+      %w[consultation_postal_address postal_address]
+    ]
+
   composed_of :site_notice,
-    class_name: "LocalAuthority::SiteNotice",
+    class_name: "LocalAuthority::Configuration::SiteNotice",
     allow_nil: true, mapping: [
       %w[site_notice_logo logo],
       %w[site_notice_phone_number phone_number],
@@ -79,6 +88,10 @@ class LocalAuthority < ApplicationRecord
     validates :accessibility_postal_address, presence: true
     validates :accessibility_phone_number, presence: true
     validates :accessibility_email_address, email: true, presence: true
+  end
+
+  with_options on: :consultation do
+    validates :consultation_postal_address, presence: true
   end
 
   with_options on: :notify do

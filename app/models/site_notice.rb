@@ -71,7 +71,7 @@ class SiteNotice < ApplicationRecord
       site_address: planning_application.full_address,
       applicant_name: "#{planning_application.applicant_first_name} #{planning_application.applicant_last_name}",
       application_link:,
-      council_address: I18n.t("council_addresses.#{planning_application.local_authority.subdomain}"),
+      council_address: planning_application.local_authority.consultation_postal_address,
       consultation_end_date: consultation_end_date.to_date.to_fs,
       site_notice_display_date: displayed_at&.to_date&.to_fs || Time.zone.today.to_fs,
       legislation_title: planning_application.application_type.legislation_title,

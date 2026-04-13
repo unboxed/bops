@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_01_21_101637) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_13_194539) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -608,6 +608,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_01_21_101637) do
     t.string "accessibility_postal_address"
     t.boolean "active", default: false, null: false
     t.string "applicants_url", null: false
+    t.string "consultation_postal_address"
     t.string "council_code", null: false
     t.string "council_name", null: false
     t.datetime "created_at", null: false

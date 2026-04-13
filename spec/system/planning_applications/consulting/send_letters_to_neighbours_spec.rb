@@ -68,7 +68,7 @@ RSpec.describe "Send letters to neighbours", :js, show_sidebar: false, type: :sy
 
       expect(planning_application.consultation.reload.letter_copy_sent_at).to eq(Time.zone.local(2023, 9, 1, 10))
 
-      expect(NeighbourLetter.last.text).to include("A prior approval application has been made for the development described below:")
+      expect(NeighbourLetter.last.text).to include("An application has been made for the development described below:")
 
       # View audit log
       visit "/planning_applications/#{reference}/audits"
@@ -330,7 +330,7 @@ RSpec.describe "Send letters to neighbours", :js, show_sidebar: false, type: :sy
         with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
 
       expect_any_instance_of(Notifications::Client).to receive(:send_letter).with(template_id: anything,
-        personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs}\n\n# The Town and Country Planning \(General Permitted Development\) \(England\) Order 2015 Part 1, Class A\r?\n\r?\nDear Resident/))).and_call_original
+        personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# The Town and Country Planning \(General Permitted Development\) \(England\) Order 2015 Part 1, Class A/))).and_call_original
 
       click_button "Confirm and send letters"
       expect(page).to have_current_path("/planning_applications/#{reference}/consultation/neighbour_letters")
@@ -352,7 +352,7 @@ RSpec.describe "Send letters to neighbours", :js, show_sidebar: false, type: :sy
           with: "Previous letter mistakenly listed applicant's address as Buckingham Palace.")
 
         expect_any_instance_of(Notifications::Client).to receive(:send_letter).with(template_id: anything,
-          personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs}\n\n# The Town and Country Planning \(General Permitted Development\) \(England\) Order 2015 Part 1, Class A\r\n\r\nDear Resident/))).and_call_original
+          personalisation: hash_including(message: match_regex(/# Application updated\nThis application has been updated. Reason: Previous letter mistakenly listed applicant's address as Buckingham Palace.\n\n# The Town and Country Planning \(General Permitted Development\) \(England\) Order 2015 Part 1, Class A/))).and_call_original
 
         click_button "Confirm and send letters"
         expect(page).to have_current_path("/planning_applications/#{reference}/consultation/neighbour_letters")

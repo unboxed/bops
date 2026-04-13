@@ -432,6 +432,8 @@ en:
               blank: Enter a phone number for the applicants accessibility page
             accessibility_postal_address:
               blank: Enter a postal address for the applicants accessibility page
+            consultation_postal_address:
+              blank: Enter a postal address for neighbours to send comments to
             email_template_id:
               blank: Enter the ID of the email template you will be using
             letter_template_id:
@@ -1126,9 +1128,7 @@ en:
     - Landscaping
     successfully_created: Check against policy and guidance response was successfully created
     successfully_updated: Check against policy and guidance response was successfully updated
-  neighbour_letter_header:
-    planning_permission: Submit your comments by {{closing_date}}
-    prior_approval: Submit your comments by {{closing_date}}
+  neighbour_letter_header: Comment on a planning application
   neighbour_responses_by_summary_tag:
     one: There is 1 %{tag}
     other: There are %{count} %{tag}s

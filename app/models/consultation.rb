@@ -249,7 +249,7 @@ class Consultation < ApplicationRecord
   end
 
   def neighbour_letter_header
-    body = I18n.t("neighbour_letter_header.#{planning_application.application_type.name}")
+    body = I18n.t(:neighbour_letter_header)
 
     defaults = {
       closing_date: letter_closing_date.to_fs,
@@ -260,7 +260,7 @@ class Consultation < ApplicationRecord
   end
 
   def neighbour_letter_body(body = nil)
-    body ||= I18n.t("neighbour_letter_template.consultation.#{planning_application.application_type.name}")
+    body ||= I18n.t(:"neighbour_letter_template.consultation")
 
     defaults = {
       expiry_date: planning_application.expiry_date.to_date.to_fs,
@@ -274,7 +274,7 @@ class Consultation < ApplicationRecord
       max_height: planning_application&.proposal_measurement&.max_height,
       eaves_height: planning_application&.proposal_measurement&.eaves_height,
       assigned_officer: assigned_officer,
-      council_address: I18n.t("council_addresses.#{local_authority.subdomain}"),
+      council_address: local_authority.consultation_postal_address,
       application_link: public_register_url,
       legislation_title: planning_application.application_type.legislation_title
     }
@@ -283,7 +283,7 @@ class Consultation < ApplicationRecord
   end
 
   def neighbour_letter_content(body = nil)
-    "# #{neighbour_letter_header}\n\n#{neighbour_letter_body(body)}"
+    neighbour_letter_body(body)
   end
 
   def neighbour_letter_text
