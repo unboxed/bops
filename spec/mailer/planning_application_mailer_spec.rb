@@ -1481,7 +1481,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
     it "includes the bops request url" do
       expect(mail_body).to include(
-        "You can view the application at http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/publicity/confirm-press-notice."
+        "You can view the application at http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/publicity/press-notice."
       )
     end
 
@@ -1498,7 +1498,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           "This application is subject to an Environmental Impact Assessment (EIA)."
         )
         expect(mail_body).to include(
-          "You can view the application and Environmental Statement at http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/publicity/confirm-press-notice."
+          "You can view the application and Environmental Statement at http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/publicity/press-notice."
         )
       end
     end

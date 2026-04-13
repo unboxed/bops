@@ -1,71 +1,60 @@
 <%= render "task_header", task: @task %>
 
-<% unless @form.press_notice.new_record? %>
-  <% if @form.press_notice.published_at? %>
+<% if params[:new] %>
+  <div class="govuk-form-group">
     <div class="govuk-inset-text">
-      Press notice published on <%= @form.press_notice.published_at.to_date.to_fs %>
+        <% if @form.press_notice.press_notice_email.present? %>
+          An email request for publication will be sent to <strong><%= @planning_application.local_authority.press_notice_email %></strong>.
+        <% else %>
+          No press notice email has been set. This can be done by an administrator in the admin dashboard.
+        <% end %>
     </div>
-  <% else %>
-    <div class="govuk-inset-text">
-      Press notice has been marked as <%= @form.press_notice.required ? "required and email notification has been sent to #{@planning_application.local_authority.press_notice_email}." : "not required" %>
-    </div>
-  <% end %>
-<% end %>
+  </div>
+  <%= form_with model: @form, url: @form.url(new: true) do |form| %>
+    <% form.hidden_field :required, value: true %>
+    <%= form.govuk_error_summary %>
 
-<%= form_with model: @form, url: @form.url do |form| %>
-  <%= hidden_field_tag :new, true if @form.press_notice.new_record? %>
-  <%= form.govuk_error_summary %>
-
-  <%= form.govuk_radio_buttons_fieldset(
-        :required,
-        legend: -> {
-          if @form.press_notice.new_record?
-            content_tag(:h2, "Does this application require a press notice?", class: "govuk-heading-m")
-          else
-            content_tag(:h2, "Press notice details", class: "govuk-heading-m")
-          end
-        }
-      ) do %>
-
-    <%= form.govuk_radio_button(
-          :required, true, disabled: @form.press_notice.published_at?, label: {text: "Yes"}
-        ) do %>
-
-      <%= form.govuk_check_boxes_fieldset :reasons, legend: -> { "" } do %>
-        <% PressNotice::REASONS.each do |reason| %>
-          <% if reason == :other %>
-            <%= form.govuk_check_box_divider "or" %>
-            <%= form.govuk_check_box :reasons, reason.to_s, disabled: @form.press_notice.published_at?, label: {text: t(reason, scope: :press_notice_reasons)} do %>
-              <%= form.govuk_text_area :other_reason, disabled: @form.press_notice.published_at?, label: {text: t("press_notice_reasons.other_reason")} %>
-            <% end %>
-          <% else %>
-            <%= form.govuk_check_box :reasons, reason.to_s, disabled: @form.press_notice.published_at?, label: {text: t(reason, scope: :press_notice_reasons)} %>
+    <%= form.govuk_check_boxes_fieldset :reasons, legend: -> { content_tag(:h2, "Statutory reasons for press notice", class: "govuk-heading-m") } do %>
+      <% PressNotice::REASONS.each do |reason| %>
+        <% if reason == :other %>
+          <%= form.govuk_check_box_divider "or" %>
+          <%= form.govuk_check_box :reasons, reason.to_s, label: {text: t(reason, scope: :press_notice_reasons)} do %>
+            <%= form.govuk_text_area :other_reason, label: {text: t("press_notice_reasons.other_reason")} %>
           <% end %>
+        <% else %>
+          <%= form.govuk_check_box :reasons, reason.to_s, label: {text: t(reason, scope: :press_notice_reasons)} %>
         <% end %>
       <% end %>
-      <% unless @form.press_notice.published_at? %>
-        <div class="govuk-form-group">
-          <div class="govuk-inset-text">
-              <% if @form.press_notice.press_notice_email.present? %>
-                An email notification will be sent to <strong><%= @planning_application.local_authority.press_notice_email %></strong> if a press notice is required.
-              <% else %>
-                No press notice email has been set. This can be done by an administrator in the admin dashboard.
-              <% end %>
-          </div>
-        </div>
-      <% end %>
     <% end %>
+    <%= form.govuk_task_button "Send request", action: "email_press_notice" %>
+    <%= govuk_button_link_to "Back", @form.press_notice_url, secondary: true %>
 
-    <%= form.govuk_radio_button(
-          :required, false, disabled: @form.press_notice.published_at?, label: {text: "No"}
-        ) %>
   <% end %>
 
-  <% if @form.press_notice.published_at? %>
-    <p class="govuk-body">
-      <%= govuk_link_to "Add a new press notice response", @form.new_press_notice_url %>
-    </p>
+<% elsif @form.press_notices.where(required: true).any? %>
+  <% @planning_application.press_notices.required.each_with_index do |press_notice, index| %>
+    <%= render "tasks/consultees-neighbours-and-publicity/publicity/press-notice/table", press_notice: press_notice, index: index %>
   <% end %>
-
-  <%= render "task_submit_buttons", form: form, save_draft: false %>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <div class="govuk-button-group" id="press-notice-form-actions">
+      <%= render "task_submit_buttons", form: form, save_draft: false %>
+    </div>
+  <% end %>
+<% elsif @form.press_notices.where.not(id: nil).empty? %>
+  <p class="govuk-body govuk-!-margin-top-4"> No press notices have been created for this application</p>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <div class="govuk-button-group" id="press-notice-form-actions">
+      <%= govuk_button_link_to "Create press notice", @form.new_press_notice_url %>
+      <%= form.govuk_task_button "Mark as not required", action: "mark_not_required", secondary: true %>
+    </div>
+  <% end %>
+<% else %>
+  <div class="govuk-inset-text">
+    Press notices are not required for this application
+  </div>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <div class="govuk-button-group" id="press-notice-form-actions">
+      <%= govuk_button_link_to "Create press notice", @form.new_press_notice_url %>
+    </div>
+  <% end %>
 <% end %>
