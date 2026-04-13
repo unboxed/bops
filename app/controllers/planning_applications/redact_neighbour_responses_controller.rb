@@ -5,6 +5,7 @@ module PlanningApplications
     before_action :set_planning_application
     before_action :set_consultation
     before_action :set_neighbour_response
+    before_action :show_sidebar
 
     def edit
       respond_to do |format|
@@ -45,7 +46,17 @@ module PlanningApplications
     end
 
     def neighbour_responses_path
-      planning_application_consultation_neighbour_responses_path(@planning_application)
+      if @planning_application.case_record.find_task_by_slug_path("consultees-neighbours-and-publicity/neighbours/view-neighbour-responses")
+        task_path(@planning_application, slug: "consultees-neighbours-and-publicity/neighbours/view-neighbour-responses")
+      else
+        planning_application_consultation_neighbour_responses_path(@planning_application)
+      end
+    end
+
+    def show_sidebar
+      @show_sidebar = if use_new_sidebar_layout?(@planning_application)
+        @planning_application.case_record.tasks.find_by(section: "Consultation")
+      end
     end
   end
 end

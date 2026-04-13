@@ -41,6 +41,7 @@
       tasks:
         - name: Add and assign neighbours
         - name: Send letters to neighbours
+        - name: View neighbour responses
     - name: Publicity
       section: Publicity
       tasks:
