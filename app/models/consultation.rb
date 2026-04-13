@@ -316,9 +316,23 @@ class Consultation < ApplicationRecord
     end_date >= Time.zone.today
   end
 
+  def polygon_geojson
+    value = super
+    value.is_a?(String) ? JSON.parse(value) : value
+  end
+
+  def polygon_geojson_before_type_cast
+    polygon_geojson.to_json
+  end
+
   def polygon_geojson=(value)
-    self.polygon_search = geometry_collection(value) if value.present? && JSON.parse(value).present?
-    super
+    if value.is_a?(String) && value.present?
+      parsed = JSON.parse(value)
+      self.polygon_search = geometry_collection(value) if parsed.present?
+      super(parsed)
+    else
+      super
+    end
   end
 
   def polygon_fill_colour

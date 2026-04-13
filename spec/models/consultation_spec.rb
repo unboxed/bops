@@ -238,6 +238,43 @@ RSpec.describe Consultation do
     end
   end
 
+  describe "#polygon_geojson=" do
+    let(:consultation) { create(:consultation) }
+
+    let(:valid_geojson) do
+      {
+        "type" => "FeatureCollection",
+        "features" => [
+          {
+            "type" => "Feature",
+            "properties" => {},
+            "geometry" => {
+              "type" => "Polygon",
+              "coordinates" => [
+                [
+                  [-0.07739927369747812, 51.501345554406896],
+                  [-0.0778893839394212, 51.501002280754676],
+                  [-0.07690508968054104, 51.50102474569704],
+                  [-0.07676672973966252, 51.50128963605792],
+                  [-0.07739927369747812, 51.501345554406896]
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    end
+
+    context "with valid GeoJSON" do
+      it "sets polygon_search from the geojson" do
+        consultation.polygon_geojson = valid_geojson.to_json
+
+        expect(consultation.polygon_search).to be_present
+        expect(consultation.polygon_geojson).to eq(valid_geojson)
+      end
+    end
+  end
+
   describe "#polygon_search_and_boundary_geojson" do
     let!(:consultation) { create(:consultation, :with_polygon_search, planning_application:) }
 
