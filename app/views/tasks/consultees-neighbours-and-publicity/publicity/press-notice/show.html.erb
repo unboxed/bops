@@ -38,6 +38,8 @@
   <%= form_with model: @form, url: @form.url do |form| %>
     <div class="govuk-button-group" id="press-notice-form-actions">
       <%= render "task_submit_buttons", form: form, save_draft: false %>
+      <%= govuk_button_link_to "Add another press notice", @form.new_press_notice_url, secondary: true, class: "govuk-!-margin-left-3" %>
+
     </div>
   <% end %>
 <% elsif @form.press_notices.where.not(id: nil).empty? %>
