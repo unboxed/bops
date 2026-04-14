@@ -154,14 +154,6 @@ RSpec.describe "Press notice task", js: true do
         requested_at: Time.zone.now,
         created_at: 2.hours.ago)
     end
-    let!(:newer_press_notice) do
-      create(:press_notice,
-        planning_application:,
-        required: true,
-        reasons: %w[environment],
-        requested_at: Time.zone.now,
-        created_at: 1.hour.ago)
-    end
 
     before do
       within :sidebar do
@@ -169,7 +161,19 @@ RSpec.describe "Press notice task", js: true do
       end
     end
 
-    it "displays press notices with the most recently created first" do
+    it "allows adding of a second press notice" do
+      cards = all(".govuk-summary-card")
+      expect(cards.length).to eq(1)
+
+      expect(page).to have_content("The application is for a Major Development")
+      click_link "Add another press notice"
+      check "An environmental statement accompanies this application"
+
+      click_button "Send request"
+
+      expect(page).to have_content("Successfully sent press notice email")
+      expect(task.reload).to be_in_progress
+      expect(page).to have_content("An environmental statement accompanies this application")
       cards = all(".govuk-summary-card")
       expect(cards.length).to eq(2)
 
