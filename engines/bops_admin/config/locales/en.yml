@@ -164,6 +164,16 @@ en:
         constraints: Constraints
       update:
         successfully_updated: Constraint successfully updated
+    consultation:
+      edit:
+        about_consultation: This information is used in consultations with neighbours, etc.
+        consultation: Manage consultation information
+      form:
+        contact_details: Contact details
+        postal_address: Postal address
+        submit: Submit
+      update:
+        success: Consultation information successfully updated
     consultees:
       create:
         consultee_successfully_created: Consultee successfully created

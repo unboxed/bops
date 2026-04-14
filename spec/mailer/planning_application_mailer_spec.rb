@@ -930,7 +930,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
 
       allow(Current).to receive(:user).and_return(:assessor)
 
-      consultation.update(neighbour_letter_text: consultation.neighbour_letter_content)
+      consultation.update!(neighbour_letter_text: consultation.neighbour_letter_content)
     end
 
     it "sets the subject" do
@@ -965,7 +965,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "Submit your comments by #{(1.business_day.from_now + 21.days).to_date.to_fs}"
       )
       expect(mail_body).to include(
-        "A prior approval application has been made for the development described below:"
+        "An application has been made for the development described below:"
       )
       expect(mail_body).to include(
         "https://planningregister.org/planx/#{planning_application.reference}"
@@ -980,7 +980,11 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     context "when the letter is sent outside working hours" do
       before do
         travel_to("19:00")
-        consultation.update(start_date: 2.days.ago, end_date: (2.days.ago + 21.days))
+
+        consultation.update!(
+          neighbour_letter_text: consultation.neighbour_letter_content,
+          start_date: 2.days.ago, end_date: (2.days.ago + 21.days)
+        )
       end
 
       it "correctly sets the response date based on the next business day" do
