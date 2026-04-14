@@ -14,7 +14,9 @@ module Tasks
 
     after_initialize do
       @site_notice = if params[:id].present?
-        planning_application.site_notices.find(params[:id])
+        planning_application.site_notices.find(params[:id]).tap do |sn|
+          self.displayed_at ||= sn.displayed_at
+        end
       else
         planning_application.site_notices.new
       end

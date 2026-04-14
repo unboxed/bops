@@ -102,6 +102,7 @@ RSpec.describe "Site notice task", js: true do
       expect(page).to have_content("Site notice 1")
 
       within ".govuk-summary-card" do
+        expect(page).to have_content("2")
         expect(page).to have_content("Near the main entrance and rear gate")
         expect(page).to have_selector("strong.govuk-tag", text: "Sent")
         expect(page).to have_link("Confirm display")
@@ -178,6 +179,7 @@ RSpec.describe "Site notice task", js: true do
       within(cards[0]) do
         expect(page).to have_content("Site notice 1")
         expect(page).to have_content("Front entrance")
+        expect(page).to have_content("Sent")
       end
 
       within(cards[1]) do
@@ -192,7 +194,7 @@ RSpec.describe "Site notice task", js: true do
       end
 
       fill_in "Day", with: "10"
-      fill_in "Month", with: "2"
+      fill_in "Month", with: "3"
       fill_in "Year", with: "2026"
       attach_file "2. Upload evidence of site notice in place", "spec/fixtures/files/images/existing-floorplan.png"
       click_button "Confirm display"
