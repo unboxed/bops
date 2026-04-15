@@ -86,8 +86,8 @@ RSpec.describe "Send letters to neighbours task", :capybara, type: :system do
 
       expect {
         click_button "Send letters"
+        expect(page).to have_content("Letters have been sent to neighbours")
       }.to change(NeighbourLetter, :count).by(2)
-      expect(page).to have_content("Letters have been sent to neighbours")
 
       expect(planning_application.consultation.reload.letter_copy_sent_at).to eq(Time.zone.local(2023, 9, 1, 10))
 
