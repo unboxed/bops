@@ -1,0 +1,47 @@
+<%= render "task_header", task: @task %>
+
+<% if params[:new] %>
+    <h2>Add new neighbour response</h2>
+    <%= form_with(model: @form, url: @form.new_neighbour_response_url) do |form| %>
+      <%= form.govuk_error_summary %>
+      <%= form.govuk_text_field :name %>
+      <%= form.govuk_text_field :email %>
+      <%= form.govuk_select :address, @form.consultation.selected_neighbour_addresses, options: {include_blank: true}, label: {text: "Select an existing neighbour address"} %>
+      <%= form.govuk_text_field :new_address, label: {text: "Or add a new neighbour address"} %>
+      <%= form.govuk_date_field :received_at, legend: {text: "Response received on", size: "s", tag: "p"} %>
+      <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Is the response", size: "m"} do %>
+          <%= form.govuk_radio_button :summary_tag, "supportive", label: {text: "Supportive"} %>
+          <%= form.govuk_radio_button :summary_tag, "neutral", label: {text: "Neutral"} %>
+          <%= form.govuk_radio_button :summary_tag, "objection", label: {text: "An objection"} %>
+      <% end %>
+      <%= form.govuk_collection_check_boxes :tags, NeighbourResponse::TAGS.map, :to_s, :to_s, legend: {text: "Tags", size: "m"} %>
+      <%= form.govuk_text_area :response, hint: {text: "This won't be made public"} %>
+      <%= form.govuk_file_field :files,
+            label: {text: "Upload documents"},
+            hint: {text: "Add any documents that the respondent sent."},
+            multiple: true %>
+      <div class="govuk-button-group">
+        <%= form.govuk_task_button "Save response", action: "add_neighbour_response" %>
+        <%= back_link %>
+      </div>
+    <% end %>
+<% else %>
+    <% if @planning_application.consultation.end_date %>
+        <h2 class="govuk-!-margin-top-7">Date consultation will end</h2>
+        <p><%= @planning_application.consultation.end_date.to_fs %></p>
+    <% end %>
+
+    <h2 class="govuk-!-margin-top-7">Responses (<%= @form.neighbour_responses.count %>)</h2>
+    <% if @form.neighbour_responses.any? %>
+        <%= render "tasks/consultees-neighbours-and-publicity/neighbours/view-neighbour-responses/responses", neighbour_responses: @form.neighbour_responses %>
+    <% else %>
+        <p>No neighbour responses yet</p>
+    <% end %>
+
+    <%= govuk_link_to "Add neighbour response", @form.new_neighbour_response_url %>
+    <%= form_with model: @form, url: @form.url do |form| %>
+      <div class="govuk-button-group govuk-!-margin-top-5">
+        <%= render "task_submit_buttons", form: form, save_draft: false %>
+      </div>
+    <% end %>
+<% end %>

@@ -2998,6 +2998,15 @@ en:
       upload-redacted-documents:
         failure: Failed to upload redacted documents
         success: Redacted documents successfully uploaded
+      view-neighbour-responses:
+        add_neighbour_response:
+          failure: Failed to save neighbour response
+          success: Successfully saved neighbour response
+        failure: Failed to save neighbour response task
+        success: Successfully saved neighbour response task
+        update_neighbour_response:
+          failure: Failed to update neighbour response
+          success: Successfully updated neighbour response
   time:
     formats:
       default: "%-d %B %Y"

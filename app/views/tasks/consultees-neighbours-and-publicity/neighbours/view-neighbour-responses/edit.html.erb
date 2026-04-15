@@ -1,0 +1,29 @@
+<%= render "task_header", task: @task %>
+<h2>Edit neighbour response</h2>
+<%= form_with(model: @form, url: @form.update_neighbour_response_url) do |form| %>
+  <%= form.govuk_error_summary %>
+  <%= form.govuk_text_field :name %>
+  <%= form.govuk_text_field :email %>
+  <%= form.govuk_select :address, @form.consultation.selected_neighbour_addresses, options: {include_blank: true}, label: {text: "Select an existing neighbour address"} %>
+  <%= form.govuk_text_field :new_address, label: {text: "Or add a new neighbour address"} %>
+  <%= form.govuk_date_field :received_at, legend: {text: "Response received on", size: "s", tag: "p"} %>
+  <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Is the response", size: "m"} do %>
+    <%= form.govuk_radio_button :summary_tag, "supportive", label: {text: "Supportive"} %>
+    <%= form.govuk_radio_button :summary_tag, "neutral", label: {text: "Neutral"} %>
+    <%= form.govuk_radio_button :summary_tag, "objection", label: {text: "An objection"} %>
+  <% end %>
+  <%= form.govuk_collection_check_boxes :tags, NeighbourResponse::TAGS.map, :to_s, :to_s, legend: {text: "Tags", size: "m"} %>
+  <div class="govuk-form-group">
+    <p class="govuk-label govuk-label--s">Response</p>
+    <p class="govuk-hint">This won't be made public</p>
+    <p class="govuk-body"><%= @form.neighbour_response.response %></p>
+  </div>
+  <%= form.govuk_file_field :files,
+        label: {text: "Upload documents"},
+        hint: {text: "Add any documents that the respondent sent."},
+        multiple: true %>
+  <div class="govuk-button-group">
+    <%= form.govuk_task_button "Update response", action: "update_neighbour_response" %>
+    <%= back_link %>
+  </div>
+<% end %>
