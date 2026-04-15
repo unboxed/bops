@@ -2,7 +2,7 @@
   <% card.with_summary_list do |summary_list| %>
     <% summary_list.with_row do |row| %>
       <% row.with_key { "Quantity" } %>
-      <% row.with_value { site_notice.quantity } %>
+      <% row.with_value { site_notice.quantity.to_s } %>
     <% end %>
 
     <% summary_list.with_row do |row| %>
@@ -51,7 +51,7 @@
     <% summary_list.with_row do |row| %>
       <% row.with_key { "Status" } %>
       <% row.with_value do %>
-        <% if site_notice.displayed_at? %>
+        <% if site_notice.displayed_at? && site_notice.documents.any? %>
           <strong class="govuk-tag govuk-tag--green">Displayed</strong>
         <% else %>
           <strong class="govuk-tag govuk-tag--blue">Sent</strong>
@@ -62,7 +62,7 @@
     <% summary_list.with_row do |row| %>
       <% row.with_key(classes: "govuk-summary-list__key") { "Display details" } %>
       <% row.with_value do %>
-        <% if site_notice.displayed_at? %>
+        <% if site_notice.displayed_at? && site_notice.documents.any? %>
           <% site_notice.documents.each do |document| %>
             <div class="display-flex govuk-!-margin-bottom-2">
               <div class="govuk-!-margin-right-3">
