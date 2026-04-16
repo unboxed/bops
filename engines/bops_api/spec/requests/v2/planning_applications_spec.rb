@@ -363,54 +363,6 @@ RSpec.describe "BOPS API" do
           type: :integer
         }
       }
-
-      response "200", "returns determined planning applications" do
-        example "application/json", :default, json_fixture_api("examples/planning_applications/determined.json")
-
-        let(:page) { 1 }
-
-        run_test! do |response|
-          data = JSON.parse(response.body)
-          metadata = data["metadata"]
-
-          expect(metadata).to eq(
-            {
-              "page" => 1,
-              "results" => 5,
-              "from" => 1,
-              "to" => 3,
-              "total_pages" => 1,
-              "total_results" => 3
-            }
-          )
-
-          statuses = data["data"].pluck("status").uniq
-          expect(statuses).to eq(["determined"])
-        end
-      end
-
-      response "200", "returns determined planning applications with given ids" do
-        example "application/json", :ids, json_fixture_api("examples/planning_applications/determined.json")
-
-        let(:page) { 1 }
-        let("ids[]") { determined_planning_applications[0, 2].map(&:id) }
-
-        run_test! do |response|
-          data = JSON.parse(response.body)
-          metadata = data["metadata"]
-
-          expect(metadata).to eq(
-            {
-              "page" => 1,
-              "results" => 5,
-              "from" => 1,
-              "to" => 2,
-              "total_pages" => 1,
-              "total_results" => 2
-            }
-          )
-        end
-      end
     end
   end
 

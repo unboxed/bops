@@ -15,17 +15,6 @@ module BopsApi
         end
       end
 
-      def determined
-        # This endpoint is unauthenticated for public access
-        @pagy, @planning_applications = query_service(
-          determined_planning_applications_scope
-        ).call
-
-        respond_to do |format|
-          format.json
-        end
-      end
-
       def show
         @planning_application = find_planning_application params[:id]
 
