@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "bops/initial_task_redirector"
+
 get "/map_proxy/(*path)", to: "map_proxy#proxy", as: "os_proxy"
 
 devise_subdomain do
@@ -242,9 +244,9 @@ local_authority_subdomain do
 
       resource :consultation_requirement, only: %i[edit update]
 
-      resource :validation, only: :show, controller: "validation/base"
       namespace :validation do
-        get "/tasks", to: "base#show"
+        get "/", to: redirect(Bops::InitialTaskRedirector.new("Validation"))
+        get "/tasks", to: redirect(Bops::InitialTaskRedirector.new("Validation"))
 
         resources :constraints, only: %i[index create destroy] do
           patch :update, on: :collection
