@@ -124,9 +124,9 @@
           rows: [
             [
               @form.press_notice.reason,
-              @form.site_notice.published_at&.to_fs(:day_month_year_slashes) || "–",
-              @form.site_notice.uploaded_by&.name || "–",
-              @form.site_notice.expiry_date&.to_fs(:day_month_year_slashes) || "–"
+              @form.press_notice.displayed_at&.to_fs(:day_month_year_slashes) || "–",
+              @form.press_notice.uploaded_by&.name || "–",
+              @form.press_notice.expiry_date&.to_fs(:day_month_year_slashes) || "–"
             ]
           ]
         ) %>
