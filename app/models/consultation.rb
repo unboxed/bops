@@ -317,8 +317,13 @@ class Consultation < ApplicationRecord
   end
 
   def polygon_geojson=(value)
-    self.polygon_search = geometry_collection(value) if value.present? && JSON.parse(value).present?
-    super
+    if value.present?
+      parsed = JSON.parse(value)
+      self.polygon_search = geometry_collection(value) if parsed.present?
+      super(parsed)
+    else
+      super
+    end
   end
 
   def polygon_fill_colour

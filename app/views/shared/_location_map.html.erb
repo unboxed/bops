@@ -72,7 +72,10 @@
     const map = document.querySelector("my-map");
 
     map.addEventListener("geojsonChange", ({ detail: geoJSON }) => {
-      document.querySelector("[id^='<%= locals[:geojson_field] %>']").value = JSON.stringify(geoJSON["EPSG:3857"]);
+      const geojson = geoJSON["EPSG:3857"];
+      if (geojson !== undefined) {
+        document.querySelector("[id^='<%= locals[:geojson_field] %>']").value = JSON.stringify(geojson);
+      }
     });
   <% end %>
 
