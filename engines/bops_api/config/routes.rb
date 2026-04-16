@@ -25,7 +25,6 @@ BopsApi::Engine.routes.draw do
       resources :neighbour_responses, only: [:index]
 
       resources :planning_applications, only: [:index, :show, :create] do
-        get :determined, on: :collection
         get :submission, on: :member
         get :search, on: :collection
 
