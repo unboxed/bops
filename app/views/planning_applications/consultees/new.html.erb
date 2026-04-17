@@ -24,6 +24,9 @@
       <%= form.govuk_error_summary %>
 
       <%= form.hidden_field :constraint, value: @constraint.id %>
+      <% if params[:task_slug].present? %>
+        <%= hidden_field_tag :task_slug, params[:task_slug] %>
+      <% end %>
       <%= form.govuk_collection_check_boxes :consultee_ids,
             @consultation.consultees,
             :id,
@@ -34,7 +37,8 @@
 
       <div class="govuk-button-group">
         <%= form.submit "Assign consultees", class: "govuk-button", data: {module: "govuk-button"} %>
-        <%= govuk_button_link_to "Back", planning_application_consultation_path(@planning_application), secondary: true %>
+        <% back_path = params[:task_slug].present? ? task_path(@planning_application, params[:task_slug]) : planning_application_consultation_path(@planning_application) %>
+        <%= govuk_button_link_to "Back", back_path, secondary: true %>
       </div>
     <% end %>
   <% end %>

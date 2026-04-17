@@ -53,7 +53,7 @@
                   <% if use_preapps_routes %>
                     <%= govuk_link_to "Assign another consultee", bops_preapps.new_consultee_path(reference: planning_application.reference, constraint_id: constraint.id, task_slug: task_slug) %>
                   <% else %>
-                    <%= govuk_link_to "Assign another consultee", main_app.new_planning_application_consultee_path(planning_application, constraint: constraint) %>
+                    <%= govuk_link_to "Assign another consultee", main_app.new_planning_application_consultee_path(planning_application, constraint: constraint, task_slug: task_slug) %>
                   <% end %>
                 </div>
               <% end %>
@@ -61,7 +61,7 @@
               <% if use_preapps_routes %>
                 <%= govuk_link_to "Assign consultee", bops_preapps.new_consultee_path(reference: planning_application.reference, constraint_id: constraint.id, task_slug: task_slug) %>
               <% else %>
-                <%= govuk_link_to "Assign consultee", main_app.new_planning_application_consultee_path(planning_application, constraint: constraint) %>
+                <%= govuk_link_to "Assign consultee", main_app.new_planning_application_consultee_path(planning_application, constraint: constraint, task_slug: task_slug) %>
               <% end %>
             <% else %>
               &ndash;
@@ -101,7 +101,7 @@
                     <% remove_path = if use_preapps_routes
                          bops_preapps.constraint_consultee_path(reference: planning_application.reference, id: constraint_consultee.id, task_slug: task_slug)
                        else
-                         main_app.planning_application_consultees_constraint_consultee_path(planning_application, constraint_consultee)
+                         main_app.planning_application_consultees_constraint_consultee_path(planning_application, constraint_consultee, task_slug: task_slug)
                        end %>
                     <%= govuk_link_to "Remove",
                           remove_path,

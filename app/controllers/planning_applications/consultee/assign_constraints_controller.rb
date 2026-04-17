@@ -10,7 +10,7 @@ module PlanningApplications
         respond_to do |format|
           if planning_application_constraint.update(assignment_params)
             format.html do
-              redirect_to planning_application_consultees_url(@planning_application)
+              redirect_to redirect_url
             end
           else
             format.html { render :index }
@@ -19,6 +19,14 @@ module PlanningApplications
       end
 
       private
+
+      def redirect_url
+        if params[:task_slug].present?
+          task_path(@planning_application, params[:task_slug])
+        else
+          planning_application_consultees_url(@planning_application)
+        end
+      end
 
       def planning_application_constraint
         PlanningApplicationConstraint.find(constraint_id)

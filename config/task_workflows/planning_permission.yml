@@ -36,6 +36,12 @@
 - name: "Consultees, neighbours and publicity"
   section: "Consultation"
   tasks:
+    - name: Consultees
+      section: Consultees
+      tasks:
+        - name: Add and assign consultees
+        - name: Send emails to consultees
+        - name: View consultee responses
     - name: Neighbours
       section: Neighbours
       tasks:
