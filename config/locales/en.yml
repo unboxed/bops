@@ -2692,6 +2692,36 @@ en:
     validation_decision_component:
       send_validation_decision: Send validation decision
   tasks:
+    consultees-neighbours-and-publicity:
+      consultees:
+        add-and-assign-consultees:
+          show:
+            assign_consultees_heading: Assign consultees
+            select_constraints_description: Review the planning constraints and select which ones require consultation.
+            select_constraints_heading: Select constraints that require consultation
+        send-emails-to-consultees:
+          show:
+            confirmation_message: Send emails to consultees?
+            error_message: 'Error: Unable to add the consultee to the list'
+            header: Select the consultees to consult
+            prompt_message: Please search for a consultee first
+            response_period:
+              hint: Enter the number of days that consultees have to respond.
+              label: Set response period
+            submit: Send emails to consultees
+        view-consultee-responses:
+          show:
+            no_consultees: No consultees have been added yet. Add consultees and send emails before viewing responses.
+          summary_panel:
+            response_summary:
+              awaiting_response: Awaiting response
+              not_consulted: Not consulted
+              responded: Responded
+              title: Response summary
+              total_consultees: Total consultees
+          consultee_tabs:
+            no_consultees_in_tab: No consultees in this category.
+            tabs_title: Consultee responses
     check-and-assess:
       assess-against-policies-and-guidance:
         assess-against-policies-and-guidance:
@@ -2806,6 +2836,10 @@ en:
             'yes': 'Yes'
             yes_recommended_html: Yes <strong>(recommended based on submission data)</strong>
     update:
+      add-and-assign-consultees:
+        failure: Unable to save consultee assignments
+        save_draft: Consultee assignments draft was saved
+        success: Consultees have been successfully assigned
       add-and-assign-neighbours:
         add_addresses:
           failure: Unable to add neighbour addresses
@@ -2938,6 +2972,9 @@ en:
       review-documents-for-recommendation:
         failure: Failed to save document review
         success: Successfully saved document review
+      send-emails-to-consultees:
+        failure: Failed to send emails to consultees
+        success: Emails have been sent to the selected consultees
       send-letters-to-neighbours:
         send_letters:
           failure: Failed to send letters to neighbours
@@ -2998,6 +3035,10 @@ en:
       upload-redacted-documents:
         failure: Failed to upload redacted documents
         success: Redacted documents successfully uploaded
+      view-consultee-responses:
+        failure: Failed to save consultee responses review
+        save_draft: Consultee responses review draft was saved
+        success: Consultee responses review was successfully saved
       view-neighbour-responses:
         add_neighbour_response:
           failure: Failed to save neighbour response
