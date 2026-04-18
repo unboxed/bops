@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "bops/initial_task_redirector"
+
 get "/map_proxy/(*path)", to: "map_proxy#proxy", as: "os_proxy"
 
 devise_subdomain do
@@ -237,15 +239,8 @@ local_authority_subdomain do
       resource :consultation_requirement, only: %i[edit update]
 
       namespace :validation do
-        root to: "base#index"
-
-        resources :tasks, only: :index
-
-        resource :cil_liability, only: %i[edit update], controller: :cil_liability
-
-        resource :environment_impact_assessment, only: %i[new create edit show update]
-
-        resource :reporting_type, only: %i[show edit update]
+        get "/", to: redirect(Bops::InitialTaskRedirector.new("Validation"))
+        get "/tasks", to: redirect(Bops::InitialTaskRedirector.new("Validation"))
 
         resources :constraints, only: %i[index create destroy] do
           patch :update, on: :collection
@@ -257,23 +252,7 @@ local_authority_subdomain do
           resources :redactions, only: %i[index create]
         end
 
-        resource :ownership_certificate do
-          patch :validate
-        end
-
         resource :description_changes, only: %i[show] do
-          patch :validate
-        end
-
-        resource :fee_items, only: %i[show] do
-          patch :validate
-        end
-
-        resource :sitemap, only: %i[show edit update] do
-          patch :validate
-        end
-
-        resource :time_extensions, only: %i[show] do
           patch :validate
         end
 
@@ -295,8 +274,6 @@ local_authority_subdomain do
         resources :description_change_validation_requests, controller: :validation_requests
         resources :ownership_certificate_validation_requests, controller: :validation_requests
         resources :time_extension_validation_requests, controller: :validation_requests
-
-        resource :legislation, only: %i[show update]
       end
 
       namespace :review do
