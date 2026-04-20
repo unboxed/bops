@@ -19,7 +19,7 @@ class SiteNotice < ApplicationRecord
   delegate :local_authority, to: :planning_application
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
-  scope :required, -> { where(required: true) }
+  scope :required, -> { where(required: true).order(id: :asc) }
 
   validates :required, inclusion: {in: [true, false]}
   validates :quantity,
