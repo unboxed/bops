@@ -57,6 +57,9 @@
           <strong class="govuk-tag govuk-tag--blue">Sent</strong>
         <% end %>
       <% end %>
+      <% unless site_notice.displayed_at? && site_notice.documents.any? %>
+        <% row.with_action(text: "Send reminder", href: planning_application_site_notice_confirmation_requests_path(@planning_application, site_notice), visually_hidden_text: "for site notice #{index + 1}") %>
+      <% end %>
     <% end %>
 
     <% summary_list.with_row do |row| %>

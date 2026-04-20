@@ -131,6 +131,7 @@ class PlanningApplicationMailer < ApplicationMailer
     @planning_application = site_notice.planning_application
     @local_authority = @planning_application.local_authority
     @site_notice = site_notice
+    @site_notice_task = @planning_application.case_record&.find_task_by_slug_path("consultees-neighbours-and-publicity/publicity/site-notice")
     @user = user
     reference = @planning_application.reference
     email = @site_notice.internal_team_email
@@ -159,6 +160,7 @@ class PlanningApplicationMailer < ApplicationMailer
     @planning_application = press_notice.planning_application
     @local_authority = @planning_application.local_authority
     @press_notice = press_notice
+    @press_notice_task = @planning_application.case_record&.find_task_by_slug_path("consultees-neighbours-and-publicity/publicity/press-notice")
     @user = user
     reference = @planning_application.reference
     email = @press_notice.press_notice_email

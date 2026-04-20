@@ -65,6 +65,16 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
     PlanningApplicationMailer.press_notice_mail(PressNotice.required.last)
   end
 
+  def site_notice_confirmation_request_mail
+    site_notice = SiteNotice.where.not(internal_team_email: nil).last
+    PlanningApplicationMailer.site_notice_confirmation_request_mail(site_notice, site_notice.planning_application.user)
+  end
+
+  def press_notice_confirmation_request_mail
+    press_notice = PressNotice.required.last
+    PlanningApplicationMailer.press_notice_confirmation_request_mail(press_notice, press_notice.planning_application.user)
+  end
+
   private
 
   def planning_application
