@@ -28,7 +28,7 @@
         planning_application: @planning_application,
         consultation: @planning_application.consultation,
         show_assign: true,
-        use_preapps_routes: true,
+        use_preapps_routes: @planning_application.pre_application?,
         task_slug: @task.full_slug %>
 <% end %>
 
