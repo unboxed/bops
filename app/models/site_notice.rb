@@ -6,15 +6,20 @@ class SiteNotice < ApplicationRecord
   SAFE_TAGS = %w[div h1 h2 h3 p ul li table tr td th hr].freeze
   SAFE_ATTRIBUTES = %w[style].freeze
 
+  include Auditable
   include DateValidateable
   include Consultable
 
+  public :audit!
+
   belongs_to :planning_application
+  has_many :audits, as: :auditable
   has_many :documents, as: :owner, dependent: :destroy, autosave: true
 
   delegate :local_authority, to: :planning_application
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
+  scope :required, -> { where(required: true) }
 
   validates :required, inclusion: {in: [true, false]}
   validates :quantity,
@@ -38,6 +43,7 @@ class SiteNotice < ApplicationRecord
   before_create :ensure_publicity_feature!
 
   after_update :extend_consultation!, if: :saved_change_to_displayed_at?
+  after_save :audit_site_notice!, if: :audit_required?
 
   attr_reader :method
 
@@ -142,5 +148,13 @@ class SiteNotice < ApplicationRecord
 
   def document_presence
     errors.add(:documents, "Upload a photo or document of the site notice to continue") if documents.empty?
+  end
+
+  def audit_required?
+    saved_change_to_required? && !required?
+  end
+
+  def audit_site_notice!
+    audit!(activity_type: "site_notice_not_required", audit_comment: "Site notice has been marked as not required")
   end
 end

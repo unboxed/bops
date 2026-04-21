@@ -12,7 +12,7 @@
 
     <% summary_list.with_row do |row| %>
       <% row.with_key { "Arranged via" } %>
-      <% row.with_value { audit.audit_comment } %>
+      <% row.with_value { site_notice.audits.find_by(activity_type: "site_notice_created")&.audit_comment } %>
     <% end %>
 
     <% summary_list.with_row do |row| %>
