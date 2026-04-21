@@ -44,14 +44,14 @@ RSpec.describe "Site notice task", js: true do
       end
     end
 
-    it "creates an audit but no site notices" do
+    it "creates an audit and not required site notice" do
       expect(page).to have_content("No site notices have been created for this application")
       expect(task.reload).to be_not_started
 
       click_button "Mark as not required"
 
       expect(page).to have_content("Successfully marked site notice as not required")
-      expect(planning_application.site_notices.count).to eq(0)
+      expect(planning_application.site_notices.count).to eq(1)
       expect(page).to have_content("Site notices are not required for this application")
 
       expect(planning_application.audits.where(activity_type: "site_notice_not_required").count).to eq(1)
@@ -67,6 +67,7 @@ RSpec.describe "Site notice task", js: true do
       end
 
       expect(page).to have_content("Site notices are not required for this application")
+      expect(planning_application.site_notices.required.count).to eq(0)
 
       click_link "Create site notice"
 
@@ -77,7 +78,7 @@ RSpec.describe "Site notice task", js: true do
       click_button "Send site notice"
 
       expect(page).to have_content("Successfully generated site notice")
-      expect(planning_application.site_notices.count).to eq(1)
+      expect(planning_application.site_notices.required.count).to eq(1)
       expect(task.reload).to be_in_progress
     end
   end

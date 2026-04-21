@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_16_090501) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_21_135314) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -176,6 +176,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_16_090501) do
     t.string "activity_type", null: false
     t.bigint "api_user_id"
     t.string "audit_comment"
+    t.bigint "auditable_id"
+    t.string "auditable_type"
     t.boolean "automated_activity", default: false, null: false
     t.datetime "created_at", null: false
     t.bigint "planning_application_id", null: false

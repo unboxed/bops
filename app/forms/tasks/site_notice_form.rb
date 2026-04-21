@@ -13,6 +13,7 @@ module Tasks
     attribute :documents, array: true
 
     after_initialize do
+      @site_notices = planning_application.site_notices
       @site_notice = if params[:id].present?
         planning_application.site_notices.find(params[:id]).tap do |sn|
           self.displayed_at ||= sn.displayed_at
@@ -38,7 +39,7 @@ module Tasks
       route_for(:task_component, planning_application, slug: task.full_slug, id: site_notice.id, only_path: true)
     end
 
-    attr_reader :site_notice
+    attr_reader :site_notice, :site_notices
 
     with_options on: :create_site_notice do
       validates :quantity, presence: {message: "Enter number of site notices"}
@@ -86,13 +87,7 @@ module Tasks
 
     def mark_not_required
       transaction do
-        Audit.create!(
-          planning_application_id: planning_application.id,
-          user: Current.user,
-          activity_type: "site_notice_not_required",
-          audit_comment: "Site notice was marked as not required"
-        )
-
+        site_notice.update!(required: false)
         task.completed!
       end
     end
@@ -117,12 +112,7 @@ module Tasks
     end
 
     def create_audit(comment)
-      Audit.create!(
-        planning_application_id: planning_application.id,
-        user: Current.user,
-        activity_type: "site_notice_created",
-        audit_comment: comment
-      )
+      site_notice.audit!(activity_type: "site_notice_created", audit_comment: comment)
     end
 
     def build_site_notice

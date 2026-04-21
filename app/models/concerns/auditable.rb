@@ -7,14 +7,16 @@ module Auditable
     private
 
     def audit!(activity_type:, activity_information: nil, audit_comment: nil)
-      audits.create!(
+      audit_attrs = {
         user: current_user,
         activity_type:,
         activity_information:,
         audit_comment:,
         api_user: current_api_user,
         automated_activity: no_current_user?
-      )
+      }
+      audit_attrs[:planning_application] = planning_application if respond_to?(:planning_application, true)
+      audits.create!(audit_attrs)
     end
 
     def no_current_user?

@@ -4,6 +4,7 @@ class Audit < ApplicationRecord
   belongs_to :planning_application
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
+  belongs_to :auditable, polymorphic: true, optional: true
 
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :with_user_and_api_user, -> { preload(:user, :api_user) }
