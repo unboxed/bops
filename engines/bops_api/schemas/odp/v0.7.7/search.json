@@ -1,9 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "metadata": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "page": {
           "type": "integer"
@@ -35,6 +37,7 @@
     },
     "links": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "first": {
           "type": "string"
@@ -56,15 +59,18 @@
       "items": [
         {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "application": {
               "$ref": "#/definitions/ApplicationOverview"
             },
             "property": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "address": {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "latitude": {
                       "type": "number"
@@ -102,6 +108,7 @@
                   "type": "object",
                   "anyOf": [
                     {
+                      "additionalProperties": false,
                       "properties": {
                         "site": {
                           "type": "object",
@@ -149,6 +156,7 @@
                       "required": ["site"]
                     },
                     {
+                      "additionalProperties": false,
                       "properties": {
                         "site": {
                           "type": "object",
@@ -214,6 +222,7 @@
             },
             "proposal": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "description": {
                   "type": "string"
@@ -222,6 +231,7 @@
                   "anyOf": [
                     {
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
                         "code": {
                           "type": "string"
@@ -249,6 +259,7 @@
             },
             "applicant": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "address": {
                   "anyOf": [
@@ -262,6 +273,7 @@
                   "anyOf": [
                     {
                       "type": "object",
+                      "additionalProperties": false,
                       "properties": {
                         "address": {
                           "anyOf": [
@@ -294,6 +306,7 @@
               "anyOf": [
                 {
                   "type": "object",
+                  "additionalProperties": false,
                   "properties": {
                     "name": {
                       "type": ["string"]
@@ -305,19 +318,10 @@
                   "type": "null"
                 }
               ]
-            }
+            },
+            "applicationFee": {}
           },
-          "required": ["applicant", "application", "property", "proposal"]
-        }
-      ]
-    },
-    "applicationFee": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ApplicationFee"
-        },
-        {
-          "$ref": "#/definitions/ApplicationFeeNotApplicable"
+          "required": ["applicant", "application", "property", "proposal", "applicationFee"]
         }
       ]
     }

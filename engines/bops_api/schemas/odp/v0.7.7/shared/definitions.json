@@ -4,9 +4,11 @@
     "ApplicationOverview": {
       "$id": "#ApplicationOverview",
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "type": {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "value": {
               "type": "string"
@@ -46,7 +48,10 @@
         "status": {
           "type": "string"
         },
-        "session_id": {
+        "sessionId": {
+          "type": ["string", "null"]
+        },
+        "alternativeReference": {
           "type": ["string", "null"]
         },
         "determinedAt": {
@@ -58,6 +63,7 @@
         },
         "consultation": {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "startDate": {
               "type": ["string", "null"],
@@ -74,6 +80,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "comment": {
                     "type": "string"
@@ -93,6 +100,7 @@
               "type": "array",
               "items": {
                 "type": "object",
+                "additionalProperties": false,
                 "properties": {
                   "comment": {
                     "type": "string"
@@ -112,6 +120,7 @@
           "anyOf": [
             {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "required": {
                   "type": "boolean"
@@ -147,6 +156,7 @@
     "PostSubmissionPagination": {
       "$id": "#PostSubmissionPagination",
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "resultsPerPage": {
           "type": "integer"

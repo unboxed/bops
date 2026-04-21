@@ -21,6 +21,8 @@ RSpec.configure do |config|
   shared_definitions_json = BopsApi::Schemas.find!("shared/definitions", version:).value
   comments_public_json = BopsApi::Schemas.find!("comments_public", version:).value
   comments_specialist_json = BopsApi::Schemas.find!("comments_specialist", version:).value
+  show_json = BopsApi::Schemas.find!("show", version:).value
+  public_show_json = BopsApi::Schemas.find!("public/show", version:).value
 
   keys = %w[
     additionalProperties
@@ -58,6 +60,10 @@ RSpec.configure do |config|
   comments_public = comments_public_json.slice(*keys).deep_transform_values(&transformer)
 
   comments_specialist = comments_specialist_json.slice(*keys).deep_transform_values(&transformer)
+
+  show = show_json.slice(*keys).deep_transform_values(&transformer)
+
+  public_show = public_show_json.slice(*keys).deep_transform_values(&transformer)
 
   config.openapi_specs = {
     "v2/swagger_doc.yaml" => {
@@ -109,6 +115,10 @@ RSpec.configure do |config|
           CommentsPublicResponse: comments_public,
 
           CommentsSpecialistResponse: comments_specialist,
+
+          Show: show,
+
+          PublicShow: public_show,
 
           Healthcheck: {
             type: "object",

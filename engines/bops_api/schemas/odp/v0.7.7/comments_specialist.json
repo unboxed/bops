@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "additionalProperties": false,
   "required": [
     "pagination",
     "data"
@@ -11,6 +12,7 @@
     },
     "data": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "summary",
         "comments"
@@ -18,6 +20,7 @@
       "properties": {
         "summary": {
           "type": "object",
+          "additionalProperties": false,
           "required": [
             "totalComments",
             "totalConsulted",
@@ -32,6 +35,7 @@
             },
             "sentiment": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "approved": {
                   "type": "integer"
@@ -50,6 +54,7 @@
           "type": "array",
           "items": {
             "type": "object",
+            "additionalProperties": false,
             "required": [
               "id",
               "firstConsultedAt",
@@ -91,6 +96,7 @@
                 "type": "array",
                 "items": {
                   "type": "object",
+                  "additionalProperties": false,
                   "required": [
                     "id",
                     "sentiment",
@@ -115,6 +121,7 @@
                     },
                     "metadata": {
                       "type": "object",
+                      "additionalProperties": false,
                       "required": [
                         "submittedAt"
                       ],

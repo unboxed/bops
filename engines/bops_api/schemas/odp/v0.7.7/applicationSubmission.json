@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "application": {
       "$ref": "#/definitions/ApplicationOverview"
@@ -27,7 +28,7 @@
             }
           },
           "required": [
-            "data"    
+            "data"
           ]
         },
         {

@@ -1,18 +1,21 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "pagination": {
       "$ref": "#/definitions/PostSubmissionPagination"
     },
     "summary": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "totalComments": {
           "type": "integer"
         },
         "sentiment": {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "supportive": {
               "type": "integer"
@@ -33,6 +36,7 @@
       "items": [
         {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "id": {
               "type": "integer"

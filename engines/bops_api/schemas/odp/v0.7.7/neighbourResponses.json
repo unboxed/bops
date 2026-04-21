@@ -1,27 +1,62 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
+  "additionalProperties": false,
   "properties": {
     "metadata": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
+        "page": {
+          "type": "integer"
+        },
         "results": {
+          "type": "integer"
+        },
+        "from": {
+          "type": "integer"
+        },
+        "to": {
+          "type": "integer"
+        },
+        "totalPages": {
           "type": "integer"
         },
         "totalResults": {
           "type": "integer"
         }
       },
-      "required": ["results", "totalResults"]
+      "required": ["page", "results", "from", "to", "totalPages", "totalResults"]
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "first": {
+          "type": "string"
+        },
+        "last": {
+          "type": "string"
+        },
+        "prev": {
+          "type": ["string", "null"]
+        },
+        "next": {
+          "type": ["string", "null"]
+        }
+      },
+      "required": ["first", "last", "prev", "next"]
     },
     "responses": {
       "type": "array",
       "items": [
         {
           "type": "object",
+          "additionalProperties": false,
           "properties": {
             "application": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "reference": {
                   "type": ["string", "null"]
@@ -38,6 +73,7 @@
             },
             "respondent": {
               "type": "object",
+              "additionalProperties": false,
               "properties": {
                 "postcode": {
                   "type": ["string", "null"]
@@ -63,5 +99,5 @@
       ]
     }
   },
-  "required": ["metadata", "responses"]
+  "required": ["metadata", "links", "responses"]
 }

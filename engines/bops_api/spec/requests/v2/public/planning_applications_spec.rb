@@ -271,7 +271,19 @@ RSpec.describe "BOPS public API" do
         description: "The planning application reference"
       }
 
+      it "validates successfully against the example public show json" do
+        resolved_schema = load_and_resolve_schema(
+          name: "public/show",
+          version: BopsApi::Schemas::DEFAULT_ODP_VERSION
+        )
+        schemer = JSONSchemer.schema(resolved_schema)
+        example_json = example_fixture("public/show.json")
+
+        expect(schemer.valid?(example_json)).to eq(true)
+      end
+
       response "200", "returns a planning application given a reference" do
+        schema "$ref" => "#/components/schemas/PublicShow"
         example "application/json", :default, example_fixture("public/show.json")
 
         let!(:planning_application) { planning_applications.first }
