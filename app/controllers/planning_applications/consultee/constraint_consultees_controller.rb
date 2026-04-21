@@ -9,10 +9,18 @@ module PlanningApplications
       def destroy
         constraint_consultee.destroy!
 
-        redirect_to planning_application_consultees_url(@planning_application), notice: t("consultee_constraint_consultees.destroy.success")
+        redirect_to redirect_url, notice: t("consultee_constraint_consultees.destroy.success")
       end
 
       private
+
+      def redirect_url
+        if params[:task_slug].present?
+          task_path(@planning_application, params[:task_slug])
+        else
+          planning_application_consultees_url(@planning_application)
+        end
+      end
 
       def constraint_consultee
         @constraint_consultee ||= ::PlanningApplicationConstraintConsultee
