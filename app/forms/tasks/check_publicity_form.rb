@@ -10,5 +10,21 @@ module Tasks
     end
 
     attr_reader :press_notice, :site_notice
+
+    def site_notice_not_required?
+      !site_notice&.required? && planning_application.site_notices.any?
+    end
+
+    def site_notice_resolved?
+      site_notice&.complete?
+    end
+
+    def site_notice_url
+      task_path(planning_application, slug: "/#{task.parent.full_slug}/site-notice", return_to: task.full_slug)
+    end
+
+    def press_notice_url
+      task_path(planning_application, slug: "/#{task.parent.full_slug}/press-notice", return_to: task.full_slug)
+    end
   end
 end
