@@ -184,6 +184,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_135314) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["api_user_id"], name: "index_audits_on_api_user_id"
+    t.index ["auditable_type", "auditable_id"], name: "ix_audits_on_auditable_type__auditable_id"
     t.index ["planning_application_id"], name: "index_audits_on_planning_application_id"
     t.index ["user_id"], name: "index_audits_on_user_id"
   end
