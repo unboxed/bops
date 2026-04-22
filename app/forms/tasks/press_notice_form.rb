@@ -53,6 +53,15 @@ module Tasks
       route_for(:edit_task_component, planning_application, slug: task.full_slug, id: press_notice.id, only_path: true)
     end
 
+    def failure_template
+      case action
+      when "confirm_publication"
+        :edit
+      else
+        super
+      end
+    end
+
     private
 
     def other_reason_selected?
