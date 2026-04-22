@@ -2,7 +2,7 @@
 
 module Tasks
   class SendLettersToNeighboursForm < Form
-    self.task_actions = %w[save_and_complete save_draft send_letters]
+    self.task_actions = %w[send_letters]
 
     attribute :deadline_extension, :integer
     attribute :neighbour_letter_text, :string
@@ -18,18 +18,6 @@ module Tasks
 
     private
 
-    def save_and_complete
-      super do
-        update_consultation!
-      end
-    end
-
-    def save_draft
-      super do
-        update_consultation!
-      end
-    end
-
     def send_letters
       update_consultation!
       deliver_letters!
@@ -37,7 +25,7 @@ module Tasks
       create_review!
       record_audit_for_letters_sent!
 
-      @task.in_progress!
+      @task.complete!
     end
 
     def neighbours_to_contact

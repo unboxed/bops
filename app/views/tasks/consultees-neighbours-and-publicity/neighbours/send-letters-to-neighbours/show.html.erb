@@ -31,12 +31,6 @@
   <%= render "#{@form.partial_path}/letter_template", planning_application: @planning_application, consultation: @form.consultation, form: form %>
 
   <div class="govuk-button-group govuk-!-margin-top-5 align-buttons">
-    <%= form.govuk_task_button "Send letters", action: :send_letters, secondary: true %>
+    <%= form.govuk_task_button "Send letters", action: :send_letters %>
   </div>
-<% end %>
-
-<%= form_with model: @form, url: @form.url do |form| %>
-  <%= form.hidden_field :neighbour_letter_text %>
-
-  <%= render "task_submit_buttons", form: %>
 <% end %>

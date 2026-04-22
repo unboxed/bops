@@ -13,29 +13,28 @@ class LetterSendingService
     @letter_type = letter_type
   end
 
-  def deliver!(neighbour)
+  def deliver!(neighbour, text: letter_content, batch: nil)
     return if resend_reason.nil? && NeighbourLetter.find_by(neighbour:).present? && consultation_letter?
 
-    letter_record = NeighbourLetter.new(neighbour:, text: letter_content, resend_reason:)
+    if resend_reason.present?
+      text = "# Application updated\nThis application has been updated. Reason: #{resend_reason}\n\n" + text
+    end
+
+    letter_record = NeighbourLetter.new(neighbour:, text:, resend_reason:)
 
     ActiveRecord::Base.transaction do
       letter_record.save!
       consultation.start_deadline if consultation_letter?
     end
 
-    if @batch
-      @batch.neighbour_letters << letter_record
+    if batch
+      batch.neighbour_letters << letter_record
+      batch.update!(text:)
     end
-
-    if resend_reason.present?
-      @letter_content.prepend "# Application updated\nThis application has been updated. Reason: #{resend_reason}\n\n"
-    end
-
-    @batch&.update!(text: letter_content)
 
     return if @local_authority.notify_error_status.present?
 
-    personalisation = {message: letter_content, heading:}
+    personalisation = {message: text, heading:}
     personalisation.merge! neighbour.format_address_lines
 
     begin
@@ -64,10 +63,9 @@ class LetterSendingService
   end
 
   def deliver_batch!(neighbours)
-    @batch = consultation.neighbour_letter_batches.new(text: letter_content)
-
+    batch = consultation.neighbour_letter_batches.new(text: letter_content)
     neighbours.each do |neighbour|
-      deliver!(neighbour)
+      deliver!(neighbour, text: letter_content, batch:)
     rescue => e
       Appsignal.send_error(e)
       next
