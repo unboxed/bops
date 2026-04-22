@@ -36485,16 +36485,6 @@ paths:
                         address:
                     officer:
                       name: Zena Spinka
-                    applicationFee:
-                      id: 144
-                      planning_application_id: 144
-                      total_fee:
-                      payable_fee:
-                      requested_fee:
-                      exemptions: []
-                      reductions: []
-                      created_at: '2025-03-04T14:36:33.003+00:00'
-                      updated_at: '2025-03-04T14:36:33.003+00:00'
                     data:
                       appeal:
                         reason: too slow!
