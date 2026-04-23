@@ -88,16 +88,19 @@ jobs:
         run: |
           sudo rm /etc/apt/sources.list.d/microsoft-prod.list
           sudo apt-get update
+        timeout-minutes: 1
 
       - name: Install file previewing tools
         if: "${{ inputs.want-pdf }}"
         run: |
           sudo apt-get install -y ghostscript poppler-utils imagemagick
+        timeout-minutes: 1
 
       - name: Install postgres client
         shell: bash
         run: |
           sudo apt-get -yqq install libpq-dev
+        timeout-minutes: 1
 
       - name: Setup test database
         env:
