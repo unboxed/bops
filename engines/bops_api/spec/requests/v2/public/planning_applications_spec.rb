@@ -288,14 +288,17 @@ RSpec.describe "BOPS public API" do
           version: BopsApi::Schemas::DEFAULT_ODP_VERSION
         ).value
 
-        expect(schema["additionalProperties"]).to eq(false)
-
-        schemer = JSONSchemer.schema(schema["properties"]["proposal"])
+        proposal_schema = schema["properties"]["proposal"]
         valid_proposal = {"description" => "test", "ownerIsPlanningAuthority" => false, "reportingType" => nil}
         invalid_proposal = valid_proposal.merge("secretField" => "this should be caught")
 
-        expect(schemer.valid?(valid_proposal)).to eq(true)
-        expect(schemer.valid?(invalid_proposal)).to eq(false)
+        expect(
+          JSON::Validator.fully_validate(proposal_schema, valid_proposal, noAdditionalProperties: true)
+        ).to be_empty
+
+        errors = JSON::Validator.fully_validate(proposal_schema, invalid_proposal, noAdditionalProperties: true)
+        expect(errors).not_to be_empty
+        expect(errors.first).to include("secretField")
       end
 
       response "200", "returns a planning application given a reference" do

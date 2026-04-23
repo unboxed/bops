@@ -21137,26 +21137,30 @@ components:
           - string
           - 'null'
         receivedAt:
-          format: datetime
+          format: date-time
           type: string
         validAt:
-          format: datetime
+          format: date-time
           type:
           - string
           - 'null'
         publishedAt:
-          format: datetime
+          format: date-time
           type:
           - string
           - 'null'
         status:
           type: string
-        session_id:
+        sessionId:
+          type:
+          - string
+          - 'null'
+        alternativeReference:
           type:
           - string
           - 'null'
         determinedAt:
-          format: datetime
+          format: date-time
           type:
           - string
           - 'null'
@@ -21189,7 +21193,7 @@ components:
                   comment:
                     type: string
                   receivedAt:
-                    format: datetime
+                    format: date-time
                     type: string
                   summaryTag:
                     type: string
@@ -21205,7 +21209,7 @@ components:
                   comment:
                     type: string
                   receivedAt:
-                    format: datetime
+                    format: date-time
                     type: string
                 required:
                 - comment
@@ -21224,7 +21228,7 @@ components:
                 - string
                 - 'null'
               publishedAt:
-                format: datetime
+                format: date-time
                 type:
                 - string
                 - 'null'
@@ -21537,15 +21541,13 @@ components:
                   required:
                   - name
                 - type: 'null'
+              applicationFee: {}
             required:
             - applicant
             - application
             - property
             - proposal
-        applicationFee:
-          anyOf:
-          - "$ref": "#/components/definitions/ApplicationFee"
-          - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
+            - applicationFee
       required:
       - metadata
       - links
@@ -21563,6 +21565,8 @@ components:
             totalPages:
               type: integer
             totalResults:
+              type: integer
+            totalAvailableItems:
               type: integer
           required:
           - currentPage
@@ -21753,10 +21757,6 @@ components:
             - application
             - property
             - proposal
-        applicationFee:
-          anyOf:
-          - "$ref": "#/components/definitions/ApplicationFee"
-          - "$ref": "#/components/definitions/ApplicationFeeNotApplicable"
       required:
       - pagination
       - data
@@ -21807,9 +21807,13 @@ components:
             properties:
               name:
                 type: string
+              referencesInDocument:
+                type: array
+                items:
+                  type: array
               url:
                 type: string
-                format: url
+                format: uri
               type:
                 type: array
                 items:
@@ -21823,7 +21827,7 @@ components:
                   - value
                   - description
               createdAt:
-                format: datetime
+                format: date-time
                 type:
                 - string
                 - 'null'
@@ -21835,7 +21839,7 @@ components:
                 type: object
                 properties:
                   byteSize:
-                    type: number
+                    type: integer
                   contentType:
                     type: string
                 required:
@@ -21866,13 +21870,45 @@ components:
         metadata:
           type: object
           properties:
+            page:
+              type: integer
             results:
+              type: integer
+            from:
+              type: integer
+            to:
+              type: integer
+            totalPages:
               type: integer
             totalResults:
               type: integer
           required:
+          - page
           - results
+          - from
+          - to
+          - totalPages
           - totalResults
+        links:
+          type: object
+          properties:
+            first:
+              type: string
+            last:
+              type: string
+            prev:
+              type:
+              - string
+              - 'null'
+            next:
+              type:
+              - string
+              - 'null'
+          required:
+          - first
+          - last
+          - prev
+          - next
         responses:
           type: array
           items:
@@ -21893,7 +21929,7 @@ components:
                 - reference
                 - address
               receivedAt:
-                format: datetime
+                format: date-time
                 type:
                 - string
                 - 'null'
@@ -21922,6 +21958,7 @@ components:
             - text
       required:
       - metadata
+      - links
       - responses
       type: object
     NeighbourResponseSubmission:
@@ -22026,10 +22063,10 @@ components:
                 - boolean
                 - 'null'
               created_at:
-                format: datetime
+                format: date-time
                 type: string
               notified_at:
-                format: datetime
+                format: date-time
                 type:
                 - string
                 - 'null'
@@ -22057,12 +22094,12 @@ components:
                 - 'null'
                 - string
               cancelled_at:
-                format: datetime
+                format: date-time
                 type:
                 - string
                 - 'null'
               closed_at:
-                format: datetime
+                format: date-time
                 type:
                 - string
                 - 'null'
@@ -22121,7 +22158,7 @@ components:
               comment:
                 type: string
               receivedAt:
-                format: datetime
+                format: date-time
                 type:
                 - string
                 - 'null'
@@ -22238,6 +22275,508 @@ components:
       required:
       - pagination
       - data
+      type: object
+    PlanningApplication:
+      properties:
+        agent_first_name:
+          type:
+          - string
+          - 'null'
+        agent_last_name:
+          type:
+          - string
+          - 'null'
+        agent_phone:
+          type:
+          - string
+          - 'null'
+        agent_email:
+          type:
+          - string
+          - 'null'
+        agent_company_name:
+          type:
+          - string
+          - 'null'
+        agent_address_1:
+          type:
+          - string
+          - 'null'
+        agent_address_2:
+          type:
+          - string
+          - 'null'
+        agent_town:
+          type:
+          - string
+          - 'null'
+        agent_county:
+          type:
+          - string
+          - 'null'
+        agent_postcode:
+          type:
+          - string
+          - 'null'
+        applicant_first_name:
+          type:
+          - string
+          - 'null'
+        applicant_last_name:
+          type:
+          - string
+          - 'null'
+        applicant_phone:
+          type:
+          - string
+          - 'null'
+        applicant_email:
+          type:
+          - string
+          - 'null'
+        applicant_address_1:
+          type:
+          - string
+          - 'null'
+        applicant_address_2:
+          type:
+          - string
+          - 'null'
+        applicant_town:
+          type:
+          - string
+          - 'null'
+        applicant_county:
+          type:
+          - string
+          - 'null'
+        applicant_postcode:
+          type:
+          - string
+          - 'null'
+        user_role:
+          type:
+          - string
+          - 'null'
+        awaiting_determination_at:
+          type:
+          - string
+          - 'null'
+        to_be_reviewed_at:
+          type:
+          - string
+          - 'null'
+        created_at:
+          type: string
+        description:
+          type:
+          - string
+          - 'null'
+        determined_at:
+          type:
+          - string
+          - 'null'
+        determination_date:
+          type:
+          - string
+          - 'null'
+        id:
+          type: integer
+        invalidated_at:
+          type:
+          - string
+          - 'null'
+        in_assessment_at:
+          type:
+          - string
+          - 'null'
+        payment_reference:
+          type:
+          - string
+          - 'null'
+        payment_amount:
+          type:
+          - string
+          - 'null'
+        alternative_reference:
+          type:
+          - string
+          - 'null'
+        result_flag:
+          type:
+          - string
+          - 'null'
+        result_heading:
+          type:
+          - string
+          - 'null'
+        result_description:
+          type:
+          - string
+          - 'null'
+        result_override:
+          type:
+          - string
+          - 'null'
+        returned_at:
+          type:
+          - string
+          - 'null'
+        started_at:
+          type:
+          - string
+          - 'null'
+        status:
+          type: string
+        target_date:
+          type:
+          - string
+          - 'null'
+        withdrawn_at:
+          type:
+          - string
+          - 'null'
+        work_status:
+          type:
+          - string
+          - 'null'
+        boundary_geojson: {}
+        assigned_user_name:
+          type: string
+        assigned_user_role:
+          type: string
+        ownership_certificate:
+          type: string
+        application_type:
+          type: string
+        reference:
+          type: string
+        reference_in_full:
+          type: string
+        site:
+          type: object
+          properties:
+            address_1:
+              type:
+              - string
+              - 'null'
+            address_2:
+              type:
+              - string
+              - 'null'
+            county:
+              type:
+              - string
+              - 'null'
+            town:
+              type:
+              - string
+              - 'null'
+            postcode:
+              type:
+              - string
+              - 'null'
+            uprn:
+              type:
+              - string
+              - 'null'
+            latitude:
+              type:
+              - number
+              - 'null'
+            longitude:
+              type:
+              - number
+              - 'null'
+          required:
+          - address_1
+          - address_2
+          - county
+          - town
+          - postcode
+          - uprn
+          - latitude
+          - longitude
+        received_date:
+          type:
+          - string
+          - 'null'
+        validAt:
+          type:
+          - string
+          - 'null'
+        publishedAt:
+          type:
+          - string
+          - 'null'
+        decision:
+          type: string
+        constraints:
+          type: array
+          items:
+            type: string
+        documents:
+          type: array
+          items:
+            type: object
+            properties:
+              url:
+                type: string
+              created_at:
+                type:
+                - string
+                - 'null'
+              tags:
+                type: array
+                items:
+                  type: string
+              numbers:
+                type:
+                - string
+                - 'null'
+              applicant_description:
+                type:
+                - string
+                - 'null'
+            required:
+            - url
+        published_comments:
+          type: array
+          items:
+            type: object
+            properties:
+              comment:
+                type:
+                - string
+                - 'null'
+              received_at:
+                type:
+                - string
+                - 'null'
+              summary_tag:
+                type:
+                - string
+                - 'null'
+            required:
+            - comment
+            - received_at
+            - summary_tag
+        consultee_comments:
+          type: array
+          items:
+            type: object
+            properties:
+              comment:
+                type:
+                - string
+                - 'null'
+              received_at:
+                type:
+                - string
+                - 'null'
+            required:
+            - comment
+            - received_at
+        consultation:
+          type: object
+          properties:
+            end_date:
+              type:
+              - string
+              - 'null'
+          required:
+          - end_date
+        make_public:
+          type: boolean
+      required:
+      - id
+      - status
+      - created_at
+      - description
+      - application_type
+      - reference
+      - reference_in_full
+      - site
+      - make_public
+      type: object
+    PublicPlanningApplication:
+      properties:
+        application:
+          "$ref": "#/components/definitions/ApplicationOverview"
+        property:
+          type: object
+          properties:
+            address:
+              type: object
+              properties:
+                latitude:
+                  type: number
+                longitude:
+                  type: number
+                title:
+                  type: string
+                singleLine:
+                  type: string
+                uprn:
+                  type: string
+                town:
+                  type: string
+                postcode:
+                  type: string
+              required:
+              - latitude
+              - longitude
+              - title
+              - singleLine
+              - uprn
+              - town
+              - postcode
+            boundary:
+              type: object
+              properties:
+                site: {}
+              required:
+              - site
+          required:
+          - address
+          - boundary
+        proposal:
+          type: object
+          properties:
+            description:
+              type: string
+            reportingType:
+              anyOf:
+              - type: object
+                properties:
+                  code:
+                    type: string
+                  description:
+                    type: string
+                required:
+                - code
+                - description
+              - type: 'null'
+            ownerIsPlanningAuthority:
+              type: boolean
+          required:
+          - description
+          - ownerIsPlanningAuthority
+          - reportingType
+        applicant:
+          type: object
+          properties:
+            type:
+              anyOf:
+              - type: string
+              - type: 'null'
+            address:
+              anyOf:
+              - "$ref": "#/components/definitions/Address"
+              - type: 'null'
+            ownership:
+              anyOf:
+              - "$ref": "#/components/definitions/Ownership"
+              - type: 'null'
+            agent:
+              anyOf:
+              - type: object
+                properties:
+                  address:
+                    anyOf:
+                    - "$ref": "#/components/definitions/Address"
+                    - type: 'null'
+              - type: 'null'
+          required:
+          - type
+          - address
+          - ownership
+          - agent
+        officer:
+          anyOf:
+          - type: object
+            properties:
+              name:
+                type: string
+            required:
+            - name
+          - type: 'null'
+        data:
+          type: object
+          properties:
+            appeal:
+              type: object
+              properties:
+                reason:
+                  type: string
+                lodgedDate:
+                  type: string
+                  format: date
+                validatedDate:
+                  type: string
+                  format: date
+                startedDate:
+                  type: string
+                  format: date
+                decisionDate:
+                  type: string
+                  format: date
+                decision:
+                  type: string
+                files:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      referencesInDocument:
+                        type: array
+                        items:
+                          type: array
+                      url:
+                        type: string
+                      type:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            value:
+                              type: string
+                            description:
+                              type: string
+                          required:
+                          - value
+                          - description
+                      createdAt:
+                        format: date-time
+                        type:
+                        - string
+                        - 'null'
+                      applicantDescription:
+                        type:
+                        - string
+                        - 'null'
+                      metadata:
+                        type: object
+                        properties:
+                          byteSize:
+                            type: integer
+                          contentType:
+                            type: string
+                        required:
+                        - byteSize
+                        - contentType
+                    required:
+                    - name
+                    - url
+                    - type
+                    - metadata
+      required:
+      - application
+      - property
+      - proposal
+      - applicant
       type: object
     Healthcheck:
       type: object
@@ -34942,6 +35481,8 @@ paths:
                     consultation:
                       end_date: '2023-08-21'
                     make_public: false
+              schema:
+                "$ref": "#/components/schemas/PlanningApplication"
         '404':
           description: when no planning application can be found
           content:
@@ -36534,6 +37075,8 @@ paths:
                           metadata:
                             byteSize: 258315
                             contentType: image/png
+              schema:
+                "$ref": "#/components/schemas/PublicPlanningApplication"
   "/api/v2/public/planning_applications/{reference}/submission":
     get:
       summary: Retrieves the planning application submission given a reference

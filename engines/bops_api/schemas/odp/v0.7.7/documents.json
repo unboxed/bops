@@ -1,11 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "additionalProperties": false,
   "properties": {
     "metadata": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "results": {
           "type": "integer"
@@ -24,7 +22,6 @@
       "items": [
         {
           "type": "object",
-          "additionalProperties": false,
           "properties": {
             "name": {
               "type": "string"
@@ -43,7 +40,6 @@
               "type": "array",
               "items": {
                 "type": "object",
-                "additionalProperties": false,
                 "properties": {
                   "value": {
                     "type": "string"
@@ -64,7 +60,6 @@
             },
             "metadata": {
               "type": "object",
-              "additionalProperties": false,
               "properties": {
                 "byteSize": {
                   "type": "integer"
@@ -82,7 +77,6 @@
     },
     "decisionNotice": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "name": {
           "type": "string"

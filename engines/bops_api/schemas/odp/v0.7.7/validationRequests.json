@@ -1,11 +1,9 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "additionalProperties": false,
   "properties": {
     "metadata": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "page": {
           "type": "integer"
@@ -37,7 +35,6 @@
     },
     "links": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "first": {
           "type": "string"
@@ -69,11 +66,9 @@
       "type": "array",
       "items": {
         "type": "object",
-        "additionalProperties": false,
         "properties": {
           "planning_application": {
             "type": "object",
-            "additionalProperties": false,
             "properties": {
               "reference": {
                 "type": "string"

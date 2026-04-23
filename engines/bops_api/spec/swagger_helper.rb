@@ -8,6 +8,7 @@ Dir[BopsApi::Engine.root.join("spec/support/**/*.rb")].each { |f| require f }
 RSpec.configure do |config|
   config.openapi_root = BopsApi::Engine.root.join("swagger").to_s
   config.openapi_format = :yaml
+  config.openapi_no_additional_properties = true
 
   version = BopsApi::Schemas::DEFAULT_ODP_VERSION
   submission_json = BopsApi::Schemas.find!("submission", version:).value

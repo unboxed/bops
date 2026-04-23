@@ -1,18 +1,15 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "additionalProperties": false,
   "properties": {
     "application": {
       "$ref": "#/definitions/ApplicationOverview"
     },
     "property": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "address": {
           "type": "object",
-          "additionalProperties": false,
           "properties": {
             "latitude": {
               "type": "number"
@@ -48,7 +45,6 @@
         },
         "boundary": {
           "type": "object",
-          "additionalProperties": false,
           "properties": {
             "site": {}
           },
@@ -59,7 +55,6 @@
     },
     "proposal": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "description": {
           "type": "string"
@@ -68,7 +63,6 @@
           "anyOf": [
             {
               "type": "object",
-              "additionalProperties": false,
               "properties": {
                 "code": {
                   "type": "string"
@@ -96,7 +90,6 @@
     },
     "applicant": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "type": {
           "anyOf": [{ "type": "string" }, { "type": "null" }]
@@ -121,7 +114,6 @@
           "anyOf": [
             {
               "type": "object",
-              "additionalProperties": false,
               "properties": {
                 "address": {
                   "anyOf": [
@@ -143,7 +135,6 @@
       "anyOf": [
         {
           "type": "object",
-          "additionalProperties": false,
           "properties": {
             "name": {
               "type": "string"
@@ -158,11 +149,9 @@
     },
     "data": {
       "type": "object",
-      "additionalProperties": false,
       "properties": {
         "appeal": {
           "type": "object",
-          "additionalProperties": false,
           "properties": {
             "reason": {
               "type": "string"
@@ -190,7 +179,6 @@
               "type": "array",
               "items": {
                 "type": "object",
-                "additionalProperties": false,
                 "properties": {
                   "name": {
                     "type": "string"
@@ -208,7 +196,6 @@
                     "type": "array",
                     "items": {
                       "type": "object",
-                      "additionalProperties": false,
                       "properties": {
                         "value": {
                           "type": "string"
@@ -229,7 +216,6 @@
                   },
                   "metadata": {
                     "type": "object",
-                    "additionalProperties": false,
                     "properties": {
                       "byteSize": {
                         "type": "integer"
