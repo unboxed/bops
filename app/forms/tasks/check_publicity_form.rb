@@ -20,11 +20,11 @@ module Tasks
     end
 
     def site_notice_url
-      task_path(planning_application, slug: "/#{task.parent.full_slug}/site-notice", return_to: task.full_slug)
+      task_path(planning_application, slug: "consultees-neighbours-and-publicity/publicity/site-notice", return_to: task.full_slug)
     end
 
     def press_notice_url
-      task_path(planning_application, slug: "/#{task.parent.full_slug}/press-notice", return_to: task.full_slug)
+      task_path(planning_application, slug: "consultees-neighbours-and-publicity/publicity/press-notice", return_to: task.full_slug)
     end
   end
 end
