@@ -67,6 +67,15 @@ module Tasks
       condition_set.validation_requests.any?(&:pending?)
     end
 
+    def failure_template
+      case action
+      when "update_condition"
+        :edit
+      else
+        super
+      end
+    end
+
     private
 
     def add_condition

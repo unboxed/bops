@@ -75,6 +75,15 @@ module BopsCore
         route_for(:edit_task, planning_application, task, site_visit_id: planning_application.site_visits.find(site_visit_id), only_path: true)
       end
 
+      def failure_template
+        case action
+        when "update_site_visit"
+          :edit
+        else
+          super
+        end
+      end
+
       private
 
       def site_visits_relation

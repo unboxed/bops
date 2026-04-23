@@ -118,6 +118,10 @@ module BopsCore
         "tasks/#{task.full_slug}"
       end
 
+      def failure_template
+        :show
+      end
+
       private
 
       def form_params(params)

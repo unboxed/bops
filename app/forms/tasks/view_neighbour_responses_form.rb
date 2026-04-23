@@ -62,6 +62,15 @@ module Tasks
       route_for(:task_component, planning_application, slug: task.full_slug, id: neighbour_response.id, only_path: true)
     end
 
+    def failure_template
+      case action
+      when "update_neighbour_response"
+        :edit
+      else
+        super
+      end
+    end
+
     private
 
     def address_or_new_address_present

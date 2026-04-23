@@ -66,6 +66,15 @@ module Tasks
       errors.add(:displayed_at, "Display date must be on or after today") if displayed_at < Date.current
     end
 
+    def failure_template
+      case action
+      when "confirm_display"
+        :edit
+      else
+        super
+      end
+    end
+
     private
 
     def form_params(params)

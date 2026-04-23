@@ -44,6 +44,15 @@ module Tasks
       route_for(:planning_application_assessment_condition, planning_application, condition, redirect_to: url, only_path: true)
     end
 
+    def failure_template
+      case action
+      when "update_condition"
+        :edit
+      else
+        super
+      end
+    end
+
     private
 
     def add_condition

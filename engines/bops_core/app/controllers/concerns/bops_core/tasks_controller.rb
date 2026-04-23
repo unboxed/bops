@@ -41,7 +41,7 @@ module BopsCore
               render template_for(:show)
             end
           else
-            render template_for(failure_template), alert: @form.flash(:alert, self)
+            render template_for(@form.failure_template), alert: @form.flash(:alert, self)
           end
         end
       end
@@ -89,12 +89,6 @@ module BopsCore
       return path if path
 
       raise ActionView::MissingTemplate.new(paths, suffix, prefixes, false, action)
-    end
-
-    def failure_template
-      return :edit if params[:task_action].in?(%w[update_site_visit update_condition confirm_publication confirm_display])
-
-      :show
     end
   end
 end
