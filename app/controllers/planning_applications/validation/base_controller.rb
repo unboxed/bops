@@ -7,10 +7,6 @@ module PlanningApplications
       before_action :redirect_to_reference_url
       before_action :show_sidebar
 
-      def index
-        redirect_to planning_application_validation_tasks_url(@planning_application)
-      end
-
       private
 
       def show_sidebar
