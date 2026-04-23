@@ -1663,4 +1663,133 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
   end
+
+  describe "#site_notice_confirmation_request_mail" do
+    let(:user) { create(:user, local_authority:) }
+    let(:application_type) { create(:application_type, :planning_permission) }
+
+    let(:site_notice) do
+      create(
+        :site_notice,
+        planning_application:,
+        internal_team_email: "sitenotices@example.com"
+      )
+    end
+
+    let(:mail) do
+      described_class.site_notice_confirmation_request_mail(site_notice, user)
+    end
+
+    let(:mail_body) { mail.body.encoded }
+
+    it "emails the internal team" do
+      expect(mail.to).to contain_exactly("sitenotices@example.com")
+    end
+
+    it "sets the subject" do
+      travel_to("2022-01-01") do
+        expect(mail.subject).to eq(
+          "Request for confirmation of a site notice for #{planning_application.reference}"
+        )
+      end
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include("## Application reference number: #{planning_application.reference}")
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include("Address: #{planning_application.address}")
+    end
+
+    it "includes the case officer name" do
+      expect(mail_body).to include("Case officer: #{user.name}")
+    end
+
+    it "includes the task edit url when the task exists" do
+      expect(mail_body).to include(
+        "http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/publicity/site-notice/#{site_notice.id}/edit"
+      )
+    end
+
+    context "when no task exists" do
+      before do
+        allow(planning_application.case_record).to receive(:find_task_by_slug_path).and_return(nil)
+      end
+
+      it "includes the fallback site notice edit url" do
+        expect(mail_body).to include(
+          "http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/site_notices/#{site_notice.id}/edit"
+        )
+      end
+    end
+  end
+
+  describe "#press_notice_confirmation_request_mail" do
+    let!(:local_authority) do
+      create(
+        :local_authority,
+        :default,
+        press_notice_email: "pressnotice@example.com"
+      )
+    end
+    let(:user) { create(:user, local_authority:) }
+    let(:application_type) { create(:application_type, :planning_permission) }
+
+    let(:press_notice) do
+      create(
+        :press_notice,
+        :required,
+        planning_application:
+      )
+    end
+
+    let(:mail) do
+      described_class.press_notice_confirmation_request_mail(press_notice, user)
+    end
+
+    let(:mail_body) { mail.body.encoded }
+
+    it "emails the press notice team" do
+      expect(mail.to).to contain_exactly("pressnotice@example.com")
+    end
+
+    it "sets the subject" do
+      travel_to("2022-01-01") do
+        expect(mail.subject).to eq(
+          "Request for confirmation of a press notice for #{planning_application.reference}"
+        )
+      end
+    end
+
+    it "includes the reference" do
+      expect(mail_body).to include("## Application reference number: #{planning_application.reference}")
+    end
+
+    it "includes the address" do
+      expect(mail_body).to include("Address: #{planning_application.address}")
+    end
+
+    it "includes the case officer name" do
+      expect(mail_body).to include("Case officer: #{user.name}")
+    end
+
+    it "includes the task edit url when the task exists" do
+      expect(mail_body).to include(
+        "http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/publicity/press-notice/#{press_notice.id}/edit"
+      )
+    end
+
+    context "when no task exists" do
+      before do
+        allow(planning_application.case_record).to receive(:find_task_by_slug_path).and_return(nil)
+      end
+
+      it "includes the fallback press notice confirmation url" do
+        expect(mail_body).to include(
+          "http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/press_notice/confirmation"
+        )
+      end
+    end
+  end
 end

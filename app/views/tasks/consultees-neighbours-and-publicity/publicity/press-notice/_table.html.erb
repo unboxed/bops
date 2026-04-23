@@ -36,6 +36,9 @@
           <strong class="govuk-tag govuk-tag--blue">Requested</strong>
         <% end %>
       <% end %>
+      <% unless press_notice.published_at? %>
+        <% row.with_action(text: "Send reminder", href: planning_application_press_notice_confirmation_requests_path(@planning_application, press_notice), visually_hidden_text: "for press notice #{index + 1}") %>
+      <% end %>
     <% end %>
 
     <% summary_list.with_row do |row| %>
