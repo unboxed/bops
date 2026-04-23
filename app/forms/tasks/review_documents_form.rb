@@ -14,7 +14,7 @@ module Tasks
 
     with_options on: :save_document do
       validates :validated, inclusion: {in: [true, false, "true", "false"], message: "Select whether the document is valid"}
-      validates :invalidated_document_reason, presence: {message: "List all issues with the document"}, if: :document_invalid?
+      validates :invalidated_document_reason, presence: {message: "List all issues with the document"}, unless: :validated
       validates :numbers, presence: {message: "Enter a document reference number"}, if: :referenced_in_decision_notice?
     end
 
@@ -40,10 +40,6 @@ module Tasks
 
     private
 
-    def document_invalid?
-      validated.to_s == "false"
-    end
-
     def referenced_in_decision_notice?
       referenced_in_decision_notice.to_s == "true"
     end
@@ -63,11 +59,11 @@ module Tasks
         referenced_in_decision_notice: referenced_in_decision_notice,
         available_to_consultees: available_to_consultees,
         validated: validated,
-        invalidated_document_reason: document_invalid? ? invalidated_document_reason : nil,
+        invalidated_document_reason: invalidated_document_reason.presence,
         tags: tags || []
       )
 
-      if document_invalid?
+      unless validated
         document.planning_application.replacement_document_validation_requests.create!(
           old_document: document,
           reason: invalidated_document_reason,
