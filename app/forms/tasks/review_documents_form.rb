@@ -74,6 +74,8 @@ module Tasks
           user: Current.user
         )
       end
+
+      true
     end
   end
 end
