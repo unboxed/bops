@@ -19,7 +19,10 @@
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dd class="govuk-summary-list__value">
-            <strong>Description: </strong><%= site_history.description %>
+            <strong>Address: </strong><%= site_history.address %>
+            <div class="govuk-!-margin-top-2">
+              <strong>Description: </strong><%= site_history.description %>
+            </div>
             <div class="govuk-!-margin-top-2">
               <% if site_history.comment %>
               <strong>Officer comment:</strong> <%= site_history.comment %>
