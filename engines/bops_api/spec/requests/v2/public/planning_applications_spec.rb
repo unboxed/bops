@@ -282,8 +282,24 @@ RSpec.describe "BOPS public API" do
         expect(schemer.valid?(example_json)).to eq(true)
       end
 
+      it "rejects responses with undeclared additional properties" do
+        schema = BopsApi::Schemas.find!(
+          "public/show",
+          version: BopsApi::Schemas::DEFAULT_ODP_VERSION
+        ).value
+
+        expect(schema["additionalProperties"]).to eq(false)
+
+        schemer = JSONSchemer.schema(schema["properties"]["proposal"])
+        valid_proposal = {"description" => "test", "ownerIsPlanningAuthority" => false, "reportingType" => nil}
+        invalid_proposal = valid_proposal.merge("secretField" => "this should be caught")
+
+        expect(schemer.valid?(valid_proposal)).to eq(true)
+        expect(schemer.valid?(invalid_proposal)).to eq(false)
+      end
+
       response "200", "returns a planning application given a reference" do
-        schema "$ref" => "#/components/schemas/PublicShow"
+        schema "$ref" => "#/components/schemas/PublicPlanningApplication"
         example "application/json", :default, example_fixture("public/show.json")
 
         let!(:planning_application) { planning_applications.first }

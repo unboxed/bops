@@ -116,9 +116,9 @@ RSpec.configure do |config|
 
           CommentsSpecialistResponse: comments_specialist,
 
-          Show: show,
+          PlanningApplication: show,
 
-          PublicShow: public_show,
+          PublicPlanningApplication: public_show,
 
           Healthcheck: {
             type: "object",

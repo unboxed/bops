@@ -389,7 +389,7 @@ RSpec.describe "BOPS API" do
       end
 
       response "200", "returns a planning application given an ID" do
-        schema "$ref" => "#/components/schemas/Show"
+        schema "$ref" => "#/components/schemas/PlanningApplication"
         example "application/json", :default, json_fixture_api("examples/planning_applications/show.json")
 
         let(:planning_application) { planning_applications.first }
@@ -409,7 +409,7 @@ RSpec.describe "BOPS API" do
       end
 
       response "200", "returns a planning application given a reference" do
-        schema "$ref" => "#/components/schemas/Show"
+        schema "$ref" => "#/components/schemas/PlanningApplication"
         example "application/json", :default, json_fixture_api("examples/planning_applications/show.json")
 
         let(:planning_application) { planning_applications.first }

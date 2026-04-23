@@ -68,7 +68,7 @@
               "required": ["reference", "address"]
             },
             "receivedAt": {
-              "format": "datetime",
+              "format": "date-time",
               "type": ["string", "null"]
             },
             "respondent": {

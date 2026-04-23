@@ -221,7 +221,7 @@
                     }
                   },
                   "createdAt": {
-                    "format": "datetime",
+                    "format": "date-time",
                     "type": ["string", "null"]
                   },
                   "applicantDescription": {
@@ -232,7 +232,7 @@
                     "additionalProperties": false,
                     "properties": {
                       "byteSize": {
-                        "type": "number"
+                        "type": "integer"
                       },
                       "contentType": {
                         "type": "string"

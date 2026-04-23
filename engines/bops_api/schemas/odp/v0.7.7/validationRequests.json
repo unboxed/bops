@@ -90,11 +90,11 @@
             "type": ["boolean", "null"]
           },
           "created_at": {
-            "format": "datetime",
+            "format": "date-time",
             "type": "string"
           },
           "notified_at": {
-            "format": "datetime",
+            "format": "date-time",
             "type": ["string", "null"]
           },
           "reason": {
@@ -117,11 +117,11 @@
             "type": ["null", "string"]
           },
           "cancelled_at": {
-            "format": "datetime",
+            "format": "date-time",
             "type": ["string", "null"]
           },
           "closed_at": {
-            "format": "datetime",
+            "format": "date-time",
             "type": ["string", "null"]
           },
           "specific_attributes": {

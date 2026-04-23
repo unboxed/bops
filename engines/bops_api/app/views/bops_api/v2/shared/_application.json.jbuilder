@@ -17,7 +17,6 @@ json.application do
   json.status planning_application.appeal_display_status || planning_application.status
   json.session_id planning_application.session_id
   json.alternative_reference planning_application.alternative_reference
-  json.secret_test_field "this should be caught"
 
   if (consultation = planning_application.consultation)
     json.consultation do
