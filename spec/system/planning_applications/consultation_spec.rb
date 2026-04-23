@@ -79,7 +79,7 @@ RSpec.describe "Consultation", show_sidebar: false, type: :system do
       within("#confirm-site-notice-warning .govuk-warning-text") do
         expect(page).to have_link(
           "Confirm site notice display date",
-          href: edit_planning_application_site_notice_path(planning_application, site_notice)
+          href: "/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/publicity/site-notice"
         )
       end
     end
@@ -88,7 +88,7 @@ RSpec.describe "Consultation", show_sidebar: false, type: :system do
       within("#confirm-press-notice-warning .govuk-warning-text") do
         expect(page).to have_link(
           "Confirm press notice publication date",
-          href: "/planning_applications/#{planning_application.reference}/press_notice/confirmation"
+          href: "/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/publicity/press-notice"
         )
       end
     end
