@@ -11,7 +11,7 @@
   <div class="govuk-grid-row govuk-!-margin-top-6">
     <div class="govuk-grid-column-full">
       <%= render partial: "tasks/consultees-neighbours-and-publicity/consultees/view-consultee-responses/consultee_tabs",
-            locals: {tabs: tabs, planning_application: @planning_application, show_action: !@planning_application.determined?} %>
+            locals: {tabs: tabs, planning_application: @planning_application, task: @task, show_action: !@planning_application.determined?} %>
     </div>
   </div>
 <% else %>
