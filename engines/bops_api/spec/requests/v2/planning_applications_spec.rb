@@ -380,7 +380,16 @@ RSpec.describe "BOPS API" do
         description: "The planning application reference or ID"
       }
 
+      it "validates successfully against the example show json" do
+        resolved_schema = load_and_resolve_schema(name: "show", version: BopsApi::Schemas::DEFAULT_ODP_VERSION)
+        schemer = JSONSchemer.schema(resolved_schema)
+        example_json = example_fixture("show.json")
+
+        expect(schemer.valid?(example_json)).to eq(true)
+      end
+
       response "200", "returns a planning application given an ID" do
+        schema "$ref" => "#/components/schemas/PlanningApplication"
         example "application/json", :default, json_fixture_api("examples/planning_applications/show.json")
 
         let(:planning_application) { planning_applications.first }
@@ -400,6 +409,7 @@ RSpec.describe "BOPS API" do
       end
 
       response "200", "returns a planning application given a reference" do
+        schema "$ref" => "#/components/schemas/PlanningApplication"
         example "application/json", :default, json_fixture_api("examples/planning_applications/show.json")
 
         let(:planning_application) { planning_applications.first }

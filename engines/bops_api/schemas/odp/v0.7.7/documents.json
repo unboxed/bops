@@ -26,9 +26,15 @@
             "name": {
               "type": "string"
             },
+            "referencesInDocument": {
+              "type": "array",
+              "items": {
+                "type": "array"
+              }
+            },
             "url": {
               "type": "string",
-              "format": "url"
+              "format": "uri"
             },
             "type": {
               "type": "array",
@@ -46,17 +52,17 @@
               }
             },
             "createdAt": {
-              "format": "datetime",
+              "format": "date-time",
               "type": ["string", "null"]
             },
             "applicantDescription": {
-              "type": ["string","null"]
+              "type": ["string", "null"]
             },
             "metadata": {
               "type": "object",
               "properties": {
                 "byteSize": {
-                  "type": "number"
+                  "type": "integer"
                 },
                 "contentType": {
                   "type": "string"

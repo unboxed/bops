@@ -2,9 +2,135 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "properties": {
-    "application": {
-      "$ref": "#/definitions/ApplicationOverview"
-    }
+    "agent_first_name": { "type": ["string", "null"] },
+    "agent_last_name": { "type": ["string", "null"] },
+    "agent_phone": { "type": ["string", "null"] },
+    "agent_email": { "type": ["string", "null"] },
+    "agent_company_name": { "type": ["string", "null"] },
+    "agent_address_1": { "type": ["string", "null"] },
+    "agent_address_2": { "type": ["string", "null"] },
+    "agent_town": { "type": ["string", "null"] },
+    "agent_county": { "type": ["string", "null"] },
+    "agent_postcode": { "type": ["string", "null"] },
+    "applicant_first_name": { "type": ["string", "null"] },
+    "applicant_last_name": { "type": ["string", "null"] },
+    "applicant_phone": { "type": ["string", "null"] },
+    "applicant_email": { "type": ["string", "null"] },
+    "applicant_address_1": { "type": ["string", "null"] },
+    "applicant_address_2": { "type": ["string", "null"] },
+    "applicant_town": { "type": ["string", "null"] },
+    "applicant_county": { "type": ["string", "null"] },
+    "applicant_postcode": { "type": ["string", "null"] },
+    "user_role": { "type": ["string", "null"] },
+    "awaiting_determination_at": { "type": ["string", "null"] },
+    "to_be_reviewed_at": { "type": ["string", "null"] },
+    "created_at": { "type": "string" },
+    "description": { "type": ["string", "null"] },
+    "determined_at": { "type": ["string", "null"] },
+    "determination_date": { "type": ["string", "null"] },
+    "id": { "type": "integer" },
+    "invalidated_at": { "type": ["string", "null"] },
+    "in_assessment_at": { "type": ["string", "null"] },
+    "payment_reference": { "type": ["string", "null"] },
+    "payment_amount": { "type": ["string", "null"] },
+    "alternative_reference": { "type": ["string", "null"] },
+    "result_flag": { "type": ["string", "null"] },
+    "result_heading": { "type": ["string", "null"] },
+    "result_description": { "type": ["string", "null"] },
+    "result_override": { "type": ["string", "null"] },
+    "returned_at": { "type": ["string", "null"] },
+    "started_at": { "type": ["string", "null"] },
+    "status": { "type": "string" },
+    "target_date": { "type": ["string", "null"] },
+    "withdrawn_at": { "type": ["string", "null"] },
+    "work_status": { "type": ["string", "null"] },
+    "boundary_geojson": {},
+    "assigned_user_name": { "type": "string" },
+    "assigned_user_role": { "type": "string" },
+    "ownership_certificate": { "type": "string" },
+    "application_type": { "type": "string" },
+    "reference": { "type": "string" },
+    "reference_in_full": { "type": "string" },
+    "site": {
+      "type": "object",
+      "properties": {
+        "address_1": { "type": ["string", "null"] },
+        "address_2": { "type": ["string", "null"] },
+        "county": { "type": ["string", "null"] },
+        "town": { "type": ["string", "null"] },
+        "postcode": { "type": ["string", "null"] },
+        "uprn": { "type": ["string", "null"] },
+        "latitude": { "type": ["number", "null"] },
+        "longitude": { "type": ["number", "null"] }
+      },
+      "required": ["address_1", "address_2", "county", "town", "postcode", "uprn", "latitude", "longitude"]
+    },
+    "received_date": { "type": ["string", "null"] },
+    "validAt": { "type": ["string", "null"] },
+    "publishedAt": { "type": ["string", "null"] },
+    "decision": { "type": "string" },
+    "constraints": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "url": { "type": "string" },
+          "created_at": { "type": ["string", "null"] },
+          "tags": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "numbers": { "type": ["string", "null"] },
+          "applicant_description": { "type": ["string", "null"] }
+        },
+        "required": ["url"]
+      }
+    },
+    "published_comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "comment": { "type": ["string", "null"] },
+          "received_at": { "type": ["string", "null"] },
+          "summary_tag": { "type": ["string", "null"] }
+        },
+        "required": ["comment", "received_at", "summary_tag"]
+      }
+    },
+    "consultee_comments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "comment": { "type": ["string", "null"] },
+          "received_at": { "type": ["string", "null"] }
+        },
+        "required": ["comment", "received_at"]
+      }
+    },
+    "consultation": {
+      "type": "object",
+      "properties": {
+        "end_date": { "type": ["string", "null"] }
+      },
+      "required": ["end_date"]
+    },
+    "make_public": { "type": "boolean" }
   },
-  "required": ["application"]
+  "required": [
+    "id",
+    "status",
+    "created_at",
+    "description",
+    "application_type",
+    "reference",
+    "reference_in_full",
+    "site",
+    "make_public"
+  ]
 }

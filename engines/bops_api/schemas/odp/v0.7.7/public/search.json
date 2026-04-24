@@ -16,6 +16,9 @@
         },
         "totalResults": {
           "type": "integer"
+        },
+        "totalAvailableItems": {
+          "type": "integer"
         }
       },
       "required": [
@@ -282,16 +285,6 @@
             }
           },
           "required": ["applicant", "application", "property", "proposal"]
-        }
-      ]
-    },
-    "applicationFee": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ApplicationFee"
-        },
-        {
-          "$ref": "#/definitions/ApplicationFeeNotApplicable"
         }
       ]
     }

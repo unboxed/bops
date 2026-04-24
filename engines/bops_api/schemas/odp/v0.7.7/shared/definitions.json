@@ -32,25 +32,28 @@
           "type": ["string", "null"]
         },
         "receivedAt": {
-          "format": "datetime",
+          "format": "date-time",
           "type": "string"
         },
         "validAt": {
-          "format": "datetime",
+          "format": "date-time",
           "type": ["string", "null"]
         },
         "publishedAt": {
-          "format": "datetime",
+          "format": "date-time",
           "type": ["string", "null"]
         },
         "status": {
           "type": "string"
         },
-        "session_id": {
+        "sessionId": {
+          "type": ["string", "null"]
+        },
+        "alternativeReference": {
           "type": ["string", "null"]
         },
         "determinedAt": {
-          "format": "datetime",
+          "format": "date-time",
           "type": ["string", "null"]
         },
         "decision": {
@@ -79,7 +82,7 @@
                     "type": "string"
                   },
                   "receivedAt": {
-                    "format": "datetime",
+                    "format": "date-time",
                     "type": "string"
                   },
                   "summaryTag": {
@@ -98,7 +101,7 @@
                     "type": "string"
                   },
                   "receivedAt": {
-                    "format": "datetime",
+                    "format": "date-time",
                     "type": "string"
                   }
                 },
@@ -120,7 +123,7 @@
                   "type": ["string", "null"]
                 },
                 "publishedAt": {
-                  "format": "datetime",
+                  "format": "date-time",
                   "type": ["string", "null"]
                 }
               },

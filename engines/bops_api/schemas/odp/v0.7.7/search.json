@@ -305,19 +305,10 @@
                   "type": "null"
                 }
               ]
-            }
+            },
+            "applicationFee": {}
           },
-          "required": ["applicant", "application", "property", "proposal"]
-        }
-      ]
-    },
-    "applicationFee": {
-      "anyOf": [
-        {
-          "$ref": "#/definitions/ApplicationFee"
-        },
-        {
-          "$ref": "#/definitions/ApplicationFeeNotApplicable"
+          "required": ["applicant", "application", "property", "proposal", "applicationFee"]
         }
       ]
     }

@@ -45,7 +45,7 @@
               "type": "string"
             },
             "receivedAt": {
-              "format": "datetime",
+              "format": "date-time",
               "type": ["string", "null"]
             }
           },
