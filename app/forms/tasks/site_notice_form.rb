@@ -75,6 +75,15 @@ module Tasks
       end
     end
 
+    def flash(type, controller)
+      case action
+      when "create_site_notice"
+        flash_for_create_site_notice(type, controller)
+      else
+        super
+      end
+    end
+
     private
 
     def form_params(params)
@@ -91,7 +100,7 @@ module Tasks
     def application_must_be_assigned
       return if planning_application.user.present?
 
-      errors.add :base, :invalid, message: "The application must be assigned to a case officer before sending a site notice"
+      errors.add :base, :invalid, message: "The application must be assigned to a case officer"
     end
 
     def mark_not_required
@@ -117,6 +126,26 @@ module Tasks
         end
         create_audit(comment)
         task.in_progress!
+      end
+    end
+
+    def flash_for_create_site_notice(type, controller)
+      result = case type
+      when :notice
+        "success"
+      when :alert
+        "failure"
+      end
+
+      return if result.nil?
+
+      if result == "failure" && planning_application.user.blank?
+        controller.t(
+          :".#{slug}.#{action}.assign_user_html",
+          href: controller.planning_application_assign_users_path(planning_application)
+        )
+      else
+        controller.t(:".#{slug}.#{action}.#{result}")
       end
     end
 

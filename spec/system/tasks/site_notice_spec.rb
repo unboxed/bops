@@ -224,4 +224,36 @@ RSpec.describe "Site notice task", js: true do
       end
     end
   end
+
+  describe "creating a single site notice with no user" do
+    let!(:planning_application_2) do
+      create(:planning_application,
+        :from_planx_prior_approval,
+        :with_boundary_geojson,
+        :published,
+        application_type:,
+        local_authority: default_local_authority,
+        agent_email: "agent@example.com",
+        applicant_email: "applicant@example.com")
+    end
+
+    before do
+      visit "/planning_applications/#{planning_application_2.reference}"
+      click_link "Consultees, neighbours and publicity"
+      within :sidebar do
+        click_link "Site notice"
+      end
+
+      click_link "Create site notice"
+    end
+
+    it "displays the relevant error messages" do
+      fill_in "Quantity", with: "2"
+      choose "Print the site notice"
+
+      click_button "Send site notice"
+
+      expect(page).to have_content("The planning application must be assigned to an officer before you can create a site notice.")
+    end
+  end
 end
