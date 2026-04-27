@@ -144,8 +144,48 @@ RSpec.describe "Press notice task", js: true do
     end
   end
 
+  describe "sending a reminder for a press notice" do
+    let!(:press_notice) do
+      create(:press_notice, :required,
+        planning_application:,
+        created_at: 2.hours.ago)
+    end
+
+    before do
+      within :sidebar do
+        click_link "Press notice"
+      end
+    end
+
+    it "enqueues a confirmation request job for the correct press notice and shows a success message" do
+      expect do
+        within(".govuk-summary-card") { click_button "Send reminder" }
+        expect(page).to have_content("Successfully sent press notice reminder")
+      end.to have_enqueued_job(SendPressNoticeConfirmationRequestJob).with(press_notice, assessor).exactly(:once)
+    end
+
+    context "with multiple press notices" do
+      let!(:newer_press_notice) do
+        create(:press_notice, :required,
+          planning_application:,
+          reasons: %w[major_development],
+          created_at: 1.hour.ago)
+      end
+
+      it "enqueues the job only for the press notice whose reminder was clicked" do
+        expect do
+          within(".govuk-summary-card", text: "An environmental statement accompanies this application") do
+            click_button "Send reminder"
+          end
+          expect(page).to have_content("Successfully sent press notice reminder")
+        end.to have_enqueued_job(SendPressNoticeConfirmationRequestJob)
+          .with(press_notice, assessor)
+          .exactly(:once)
+      end
+    end
+  end
+
   describe "adding multiple press notices" do
-    # Use factories with different created_at values to ensure deterministic ordering
     let!(:older_press_notice) do
       create(:press_notice,
         planning_application:,

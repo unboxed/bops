@@ -1,4 +1,11 @@
 <%= govuk_summary_card(title: "Site notice #{index + 1}", html_attributes: {class: "govuk-!-margin-top-6"}) do |card| %>
+    <% unless site_notice.displayed_at? %>
+      <% card.with_action do %>
+        <%= form_with model: @form, url: @form.confirmation_request_url(site_notice) do |form| %>
+          <%= form.govuk_task_button_link "Send reminder", action: "send_confirmation_request" %>
+        <% end %>
+      <% end %>
+  <% end %>
   <% card.with_summary_list do |summary_list| %>
     <% summary_list.with_row do |row| %>
       <% row.with_key { "Quantity" } %>
@@ -56,9 +63,6 @@
         <% else %>
           <strong class="govuk-tag govuk-tag--blue">Sent</strong>
         <% end %>
-      <% end %>
-      <% unless site_notice.displayed_at? && site_notice.documents.any? %>
-        <% row.with_action(text: "Send reminder", href: planning_application_site_notice_confirmation_requests_path(@planning_application, site_notice), visually_hidden_text: "for site notice #{index + 1}") %>
       <% end %>
     <% end %>
 

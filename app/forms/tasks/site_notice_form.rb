@@ -2,7 +2,7 @@
 
 module Tasks
   class SiteNoticeForm < Form
-    self.task_actions = %w[save_and_complete create_site_notice email_site_notice mark_not_required confirm_display]
+    self.task_actions = %w[save_and_complete create_site_notice email_site_notice mark_not_required confirm_display send_confirmation_request]
 
     attribute :required, :boolean
     attribute :quantity, :integer, default: 1
@@ -37,6 +37,10 @@ module Tasks
 
     def confirm_display_url
       route_for(:task_component, planning_application, slug: task.full_slug, id: site_notice.id, only_path: true)
+    end
+
+    def confirmation_request_url(site_notice)
+      task_component_path(planning_application, slug: task.full_slug, id: site_notice.id, only_path: true)
     end
 
     attr_reader :site_notice, :site_notices
@@ -170,6 +174,12 @@ module Tasks
         displayed_at: displayed_at,
         documents: documents
       )
+    end
+
+    def send_confirmation_request
+      transaction do
+        SendSiteNoticeConfirmationRequestJob.perform_later(site_notice, Current.user)
+      end
     end
   end
 end
