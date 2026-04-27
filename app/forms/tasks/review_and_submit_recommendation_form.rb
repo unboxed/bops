@@ -12,6 +12,8 @@ module Tasks
           planning_application.submit_recommendation!
         end
       end
+    rescue PlanningApplication::SubmitRecommendationError
+      false
     end
 
     def withdraw_recommendation
