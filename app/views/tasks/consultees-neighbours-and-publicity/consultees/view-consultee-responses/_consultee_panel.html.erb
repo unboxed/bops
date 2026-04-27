@@ -1,4 +1,4 @@
-<%# locals: (consultee:, planning_application:, show_divider: true, show_action: true) %>
+<%# locals: (consultee:, planning_application:, task: nil, show_divider: true, show_action: true) %>
 
 <article class="consultee-panel">
   <div class="consultee-panel__heading">
@@ -29,7 +29,8 @@
     <div class="consultee-panel__actions">
       <% if consultee.has_responses? %>
         <div class="consultee-panel__action">
-          <%= govuk_link_to consultee.view_all_responses_label, consultee.view_all_responses_path %>
+          <% view_path = task ? planning_application_consultee_path(planning_application, consultee.consultee, task_slug: task.full_slug) : consultee.view_all_responses_path %>
+          <%= govuk_link_to consultee.view_all_responses_label, view_path %>
         </div>
       <% end %>
       <div class="consultee-panel__action">

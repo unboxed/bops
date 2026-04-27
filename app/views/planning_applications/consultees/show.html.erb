@@ -19,7 +19,8 @@
     <%= render ConsulteeResponseListComponent.new(responses: @consultee.responses, redact_and_publish: true) %>
 
     <div class="govuk-button-group govuk-!-margin-top-5">
-      <%= govuk_button_link_to "Back", planning_application_consultees_responses_path(@planning_application), secondary: true %>
+      <% back_path = params[:task_slug].present? ? task_path(@planning_application, params[:task_slug]) : planning_application_consultees_responses_path(@planning_application) %>
+      <%= govuk_button_link_to "Back", back_path, secondary: true %>
     </div>
   </div>
 </div>

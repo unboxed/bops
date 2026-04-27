@@ -1,4 +1,4 @@
-<%# locals: (tabs:, planning_application:, show_action: true) %>
+<%# locals: (tabs:, planning_application:, task: nil, show_action: true) %>
 
 <div class="govuk-tabs" data-module="govuk-tabs">
   <h2 class="govuk-tabs__title"><%= t(".tabs_title") %></h2>
@@ -25,6 +25,7 @@
                 locals: {
                   consultee: consultee_presenter,
                   planning_application: planning_application,
+                  task: task,
                   show_divider: presenter_index < consultee_list.size - 1,
                   show_action: show_action
                 } %>
