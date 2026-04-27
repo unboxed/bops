@@ -55,7 +55,7 @@
         - name: Site description
         - name: Summary of consultation
         - name: Site visit
-        - name: Summary of additional evidence
+        - name: Other considerations
     - name: Assess against legislation
       section: Assess against legislation
       tasks:

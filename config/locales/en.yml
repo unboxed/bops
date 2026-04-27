@@ -1420,7 +1420,6 @@ en:
           updated:
             success: Summary of works was successfully updated.
       assessment_report_component:
-        additional_evidence: Summary of additional evidence
         application_details: Application details
         assessment_against_legislation: Assessment against legislation
         assessment_against_policies_and_guidance: Policies and guidance
@@ -1435,6 +1434,7 @@ en:
         no_considerations_assessed: There is no assessment against policies and guidance
         no_documents_listed: There are no documents listed on the decision notice.
         no_legislation_assessed: There is no legislation assessment for this application.
+        other_considerations: Other considerations
         site_history: Site history
         summary_of_works: Summary of works
       base:
@@ -2960,6 +2960,9 @@ en:
         failure: Failed to save draft recommendation
         success: Draft recommendation successfully saved
         withdraw_recommendation: Recommendation successfully withdrawn
+      other-considerations:
+        failure: Other considerations summary failed to save
+        success: Other considerations summary was successfully saved
       other-validation-requests:
         failure: Failed to save other validation requests
         success: Other validation requests were successfully saved
@@ -3031,9 +3034,6 @@ en:
         update_site_visit:
           failure: Failed to update site visit
           success: Site visit successfully updated
-      summary-of-additional-evidence:
-        failure: Summary of additional evidence failed to save
-        success: Summary of additional evidence was successfully saved
       summary-of-consultation:
         failure: Summary of consultation failed to save
         success: Successfully saved summary of consultation
