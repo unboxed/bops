@@ -152,6 +152,44 @@ RSpec.describe "Site notice task", js: true do
     end
   end
 
+  describe "sending a reminder for a site notice" do
+    let!(:site_notice) do
+      create(:site_notice,
+        planning_application:,
+        created_at: 2.hours.ago)
+    end
+
+    before do
+      within :sidebar do
+        click_link "Site notice"
+      end
+    end
+
+    it "enqueues a confirmation request job for the correct site notice and shows a success message" do
+      expect do
+        within(".govuk-summary-card") { click_button "Send reminder" }
+        expect(page).to have_content("Successfully sent site notice reminder")
+      end.to have_enqueued_job(SendSiteNoticeConfirmationRequestJob).with(site_notice, assessor).exactly(:once)
+    end
+
+    context "with multiple site notices" do
+      let!(:newer_site_notice) do
+        create(:site_notice,
+          planning_application:,
+          created_at: 1.hour.ago)
+      end
+
+      it "enqueues the job only for the site notice whose reminder was clicked" do
+        expect do
+          click_button "Send reminder"
+          expect(page).to have_content("Successfully sent site notice reminder")
+        end.to have_enqueued_job(SendSiteNoticeConfirmationRequestJob)
+          .with(site_notice, assessor)
+          .exactly(:once)
+      end
+    end
+  end
+
   describe "adding multiple site notices" do
     before do
       within :sidebar do

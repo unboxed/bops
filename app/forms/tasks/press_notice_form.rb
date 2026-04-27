@@ -4,7 +4,7 @@ module Tasks
   class PressNoticeForm < Form
     include DateValidateable
 
-    self.task_actions = %w[save_and_complete mark_not_required email_press_notice confirm_publication]
+    self.task_actions = %w[save_and_complete mark_not_required email_press_notice confirm_publication send_confirmation_request]
 
     attribute :required, :boolean
     attribute :reasons, :list, default: []
@@ -51,6 +51,10 @@ module Tasks
 
     def edit_press_notice_url(press_notice)
       route_for(:edit_task_component, planning_application, slug: task.full_slug, id: press_notice.id, only_path: true)
+    end
+
+    def confirmation_request_url(press_notice)
+      task_component_path(planning_application, slug: task.full_slug, id: press_notice.id, only_path: true)
     end
 
     def failure_template
@@ -108,6 +112,12 @@ module Tasks
         )
         SendPressNoticeEmailJob.perform_later(press_notice, Current.user)
         task.in_progress!
+      end
+    end
+
+    def send_confirmation_request
+      transaction do
+        SendPressNoticeConfirmationRequestJob.perform_later(press_notice, Current.user)
       end
     end
   end

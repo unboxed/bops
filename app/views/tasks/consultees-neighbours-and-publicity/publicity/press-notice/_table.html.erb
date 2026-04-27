@@ -1,4 +1,11 @@
 <%= govuk_summary_card(title: "Press notice #{index + 1}", html_attributes: {class: "govuk-!-margin-top-6"}) do |card| %>
+  <% unless press_notice.published_at? %>
+    <% card.with_action do %>
+      <%= form_with model: @form, url: @form.confirmation_request_url(press_notice) do |form| %>
+        <%= form.govuk_task_button_link "Send reminder", action: "send_confirmation_request" %>
+      <% end %>
+    <% end %>
+  <% end %>
   <% card.with_summary_list do |summary_list| %>
     <% summary_list.with_row do |row| %>
       <% row.with_key { "Reasons" } %>
@@ -35,9 +42,6 @@
         <% else %>
           <strong class="govuk-tag govuk-tag--blue">Requested</strong>
         <% end %>
-      <% end %>
-      <% unless press_notice.published_at? %>
-        <% row.with_action(text: "Send reminder", href: planning_application_press_notice_confirmation_requests_path(@planning_application, press_notice), visually_hidden_text: "for press notice #{index + 1}") %>
       <% end %>
     <% end %>
 

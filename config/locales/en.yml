@@ -2971,6 +2971,9 @@ en:
           failure: Unable to send press notice email
           success: Successfully sent press notice email
         failure: Failed to save press notice requirement
+        send_confirmation_request:
+          failure: Failed to send press notice reminder
+          success: Successfully sent press notice reminder
         success: Successfully saved press notice requirement
       review-and-submit-recommendation:
         failure: Failed to submit recommendation
@@ -3017,6 +3020,9 @@ en:
         mark_not_required:
           failure: Unable to mark site notice as not required
           success: Successfully marked site notice as not required
+        send_confirmation_request:
+          failure: Failed to send site notice reminder
+          success: Successfully sent site notice reminder
         success: Successfully saved site notice task
       site-visit:
         add_site_visit:
