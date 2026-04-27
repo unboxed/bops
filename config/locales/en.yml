@@ -3011,6 +3011,7 @@ en:
           failure: Unable to save display details
           success: Successfully saved display details
         create_site_notice:
+          assign_user_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">assigned to an officer</a> before you can create a site notice.
           failure: Unable to generate site notice
           success: Successfully generated site notice
         failure: Unable to save site notice task
