@@ -9,7 +9,7 @@
       <%= form.govuk_text_area :reason, value: @form.condition.reason, label: {text: "Enter a reason for this condition"} %>
       <div class="govuk-button-group">
         <%= form.govuk_task_button "Save condition", action: "update_condition" %>
-        <%= govuk_button_link_to "Back", task_path(@planning_application, @task), secondary: true %>
+        <%= govuk_button_link_to "Back", @task.url, secondary: true %>
       </div>
     <% end %>
   </div>

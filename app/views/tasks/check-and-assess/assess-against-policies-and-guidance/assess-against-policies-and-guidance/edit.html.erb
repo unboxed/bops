@@ -75,7 +75,7 @@
 
       <%= hidden_field_tag :task_action, "update_consideration" %>
       <%= form.govuk_submit "Save consideration" do %>
-        <%= govuk_button_link_to "Back", task_path(@planning_application, @task), secondary: true %>
+        <%= govuk_button_link_to "Back", @task.url, secondary: true %>
       <% end %>
     <% end %>
   </div>

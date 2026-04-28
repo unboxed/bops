@@ -88,7 +88,7 @@
       <% end %>
 
       <%= form.govuk_task_button "Save assessment", action: "update_assessment" do %>
-        <%= govuk_button_link_to "Back", task_path(@planning_application, @task), secondary: true %>
+        <%= govuk_button_link_to "Back", @task.url, secondary: true %>
       <% end %>
     <% end %>
   </div>

@@ -81,6 +81,10 @@ class Task < ApplicationRecord
     tasks.first&.first_child
   end
 
+  def url(**args)
+    @url ||= case_record.url_helpers.task_path(case_record.caseable, self, **args)
+  end
+
   private
 
   def raise_not_saved(transition)

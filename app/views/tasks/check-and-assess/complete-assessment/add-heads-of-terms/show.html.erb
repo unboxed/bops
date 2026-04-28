@@ -20,7 +20,7 @@
           record_controller: "terms",
           record_sortable_url: planning_application_assessment_term_position_path(@planning_application, term),
           edit_record_url: edit_task_component_path(@planning_application, @task, term),
-          remove_record_url: planning_application_assessment_term_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
+          remove_record_url: planning_application_assessment_term_path(@planning_application, term, redirect_to: @task.url),
           current_request: term.current_validation_request,
           show_status_tag: !@planning_application.pre_application?
         )) %>

@@ -21,10 +21,10 @@
   <p class="govuk-!-margin-top-3">
     <% unless submitted %>
       <% if has_recommendation %>
-        <%= govuk_link_to "Edit recommendation", task_path(@planning_application, "check-and-assess/complete-assessment/make-draft-recommendation", return_to: task_path(@planning_application, @task)) %>
+        <%= govuk_link_to "Edit recommendation", task_path(@planning_application, "check-and-assess/complete-assessment/make-draft-recommendation", return_to: @task.url) %>
       <% else %>
         <p>No recommendation has been made on this application.</p>
-        <%= govuk_link_to "Make draft recommendation", task_path(@planning_application, "check-and-assess/complete-assessment/make-draft-recommendation", return_to: task_path(@planning_application, @task)) %>
+        <%= govuk_link_to "Make draft recommendation", task_path(@planning_application, "check-and-assess/complete-assessment/make-draft-recommendation", return_to: @task.url) %>
       <% end %>
     <% end %>
   </p>

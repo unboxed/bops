@@ -139,7 +139,7 @@ module BopsCore
     end
 
     def return_to_or_task_path(planning_application, task)
-      params[:return_to].presence || task_path(planning_application, task)
+      params[:return_to].presence || task.url
     end
   end
 end

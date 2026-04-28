@@ -8,7 +8,7 @@
       <%= form.govuk_text_area :text, value: @form.informative.text, label: {text: "Enter details of the informative"} %>
       <div class="govuk-button-group">
         <%= form.govuk_task_button "Save informative", action: "update_informative" %>
-        <%= govuk_button_link_to "Back", task_path(@planning_application, @task), secondary: true %>
+        <%= govuk_button_link_to "Back", @task.url, secondary: true %>
       </div>
     <% end %>
   </div>

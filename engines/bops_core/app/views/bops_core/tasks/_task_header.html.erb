@@ -3,8 +3,8 @@
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
 
-<% unless current_page?(task_path(@planning_application, task)) %>
-  <% add_parent_breadcrumb_link task.title, task_path(@planning_application, task) %>
+<% unless current_page?(task.url) %>
+  <% add_parent_breadcrumb_link task.title, task.url %>
 <% end %>
 
 <% page_heading = heading || task.title %>

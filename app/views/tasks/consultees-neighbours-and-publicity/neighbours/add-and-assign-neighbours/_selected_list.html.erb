@@ -25,7 +25,7 @@
             <div class="neighbour-action-links" data-edit-form-target="buttons">
               <%= govuk_link_to "Edit", "#", data: {action: "click->edit-form#handleClick"} %>
 
-              <%= govuk_link_to "Remove", planning_application_consultation_neighbour_path(planning_application, neighbour, redirect_to: task_path(planning_application, @task.full_slug)), method: :delete %>
+              <%= govuk_link_to "Remove", planning_application_consultation_neighbour_path(planning_application, neighbour, redirect_to: @task.url), method: :delete %>
             </div>
           </div>
         <% end %>

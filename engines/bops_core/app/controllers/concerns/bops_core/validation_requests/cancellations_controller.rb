@@ -70,7 +70,7 @@ module BopsCore
       end
 
       def after_cancel_path
-        task_path(@planning_application, @task)
+        @task.url
       end
 
       def cancellation_form_url

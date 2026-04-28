@@ -12,7 +12,7 @@
           locals: {
             editable: true,
             task_slug: @task.full_slug,
-            return_to: task_path(@planning_application, @task)
+            return_to: @task.url
           } %>
   </ol>
   <p><%= t(".drag_and_drop") %></p>

@@ -19,7 +19,7 @@
       <%= form.govuk_task_button "Save", action: "add_term", secondary: true %>
     <% else %>
       <%= form.govuk_task_button "Save", action: "update_term" do %>
-        <%= govuk_button_link_to "Back", task_path(@planning_application, @task), secondary: true %>
+        <%= govuk_button_link_to "Back", @task.url, secondary: true %>
       <% end %>
     <% end %>
   </fieldset>

@@ -27,7 +27,7 @@
             <td class="govuk-table__cell">
               <%= govuk_link_to(
                     document.numbers.presence || document.name,
-                    edit_planning_application_document_path(@planning_application, document, route: "review", return_to: task_path(@planning_application, @task))
+                    edit_planning_application_document_path(@planning_application, document, route: "review", return_to: @task.url)
                   ) %>
             </td>
             <td class="govuk-table__cell">

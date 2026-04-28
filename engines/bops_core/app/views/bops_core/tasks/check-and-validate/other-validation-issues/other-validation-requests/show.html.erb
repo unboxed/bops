@@ -18,7 +18,7 @@
         <% @form.each_validation_request do |validation_request| %>
           <% body.with_row do |row| %>
             <% row.with_cell do %>
-              <%= govuk_link_to(main_app.planning_application_validation_validation_request_path(@planning_application, validation_request, redirect_to: task_path(@planning_application, @task))) do %>
+              <%= govuk_link_to(main_app.planning_application_validation_validation_request_path(@planning_application, validation_request, redirect_to: @task.url)) do %>
                 <%= truncate(validation_request.reason, length: 50) %>
               <% end %>
             <% end %>
@@ -39,7 +39,7 @@
 
   <% unless @planning_application.determined? %>
     <p class="govuk-body govuk-!-margin-bottom-9">
-      <%= govuk_link_to "Add other validation request", main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "other_change", redirect_to: task_path(@planning_application, @task)) %>
+      <%= govuk_link_to "Add other validation request", main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "other_change", redirect_to: @task.url) %>
     </p>
   <% end %>
 

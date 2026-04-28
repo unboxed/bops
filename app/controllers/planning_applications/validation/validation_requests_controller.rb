@@ -240,33 +240,13 @@ module PlanningApplications
       end
 
       def check_red_line_boundary_task_path
-        if @planning_application.pre_application?
-          BopsPreapps::Engine.routes.url_helpers.task_path(
-            reference: @planning_application.reference,
-            slug: CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG
-          )
-        else
-          task_path(
-            planning_application_reference: @planning_application.reference,
-            slug: CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG
-          )
-        end
+        @planning_application.url_helpers.task_path(@planning_application, slug: CaseRecord::CHECK_RED_LINE_BOUNDARY_SLUG)
       end
 
       def check_and_request_documents_task_path
         return unless redirect_to_check_and_request_documents_task?
 
-        if @planning_application.pre_application?
-          BopsPreapps::Engine.routes.url_helpers.task_path(
-            reference: @planning_application.reference,
-            slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents"
-          )
-        else
-          task_path(
-            reference: @planning_application.reference,
-            slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents"
-          )
-        end
+        @planning_application.url_helpers.task_path(@planning_application, slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents")
       end
       helper_method :check_and_request_documents_task_path
 

@@ -19,7 +19,7 @@
 <% end %>
 <%= link_to_if(current_user.assessor?,
       "Edit constraints",
-      task_path(@planning_application, "check-and-validate/check-application-details/check-constraints", return_to: task_path(@planning_application, @task)),
+      task_path(@planning_application, "check-and-validate/check-application-details/check-constraints", return_to: @task.url),
       class: "govuk-link") {} %>
 </section>
 
@@ -28,7 +28,7 @@
 <%= render "planning_applications/assessment/site_histories/table",
       site_histories: @planning_application.site_histories.all,
       show_action: true %>
-<%= govuk_link_to "Edit site history", task_path(@planning_application, "check-and-assess/check-application/check-site-history", return_to: task_path(@planning_application, @task)) %>
+<%= govuk_link_to "Edit site history", task_path(@planning_application, "check-and-assess/check-application/check-site-history", return_to: @task.url) %>
 
 <hr>
 <% if @planning_application.possibly_immune? %>
