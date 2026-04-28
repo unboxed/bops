@@ -41,6 +41,10 @@ module Tasks
       @assessment_areas ||= planning_application_policy_classes
     end
 
+    def grouped_policy_sections
+      @grouped_policy_sections ||= assessment_area_sections.group_by { |section| section.policy_section.title }.in_order_of(:first, PolicySection::TITLES)
+    end
+
     def assessment_area_ids
       @assessment_area_ids ||= assessment_areas.pluck(:policy_class_id)
     end
@@ -66,7 +70,7 @@ module Tasks
     end
 
     def policy_reference(section, area: assessment_area)
-      "#{area.policy_class.section}.#{section.section}"
+      (area.policy_class.section == section.section) ? section.section : "#{area.policy_class.section}.#{section.section}"
     end
 
     def complies?(area)
