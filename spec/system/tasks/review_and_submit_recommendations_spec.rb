@@ -19,6 +19,7 @@ RSpec.describe "Review and submit recommendation task", type: :system do
       "check-and-assess/complete-assessment/review-and-submit-recommendation"
     )
   end
+
   before do
     create(:decision, :householder_granted)
     create(:decision, :householder_refused)
@@ -93,6 +94,21 @@ RSpec.describe "Review and submit recommendation task", type: :system do
       expect(page).to have_content("Recommendation successfully withdrawn")
       expect(planning_application.reload.status).to eq("in_assessment")
       expect(task.reload).to be_in_progress
+    end
+  end
+
+  context "when there are open post-validation requests" do
+    before do
+      create(:red_line_boundary_change_validation_request, :post_validation, :open, planning_application:)
+
+      within ".bops-sidebar" do
+        click_link "Review and submit recommendation"
+      end
+    end
+
+    it "displays an error message" do
+      click_button "Save and mark as complete"
+      expect(page).to have_content("All post-validation requests must be resolved before submitting")
     end
   end
 end
