@@ -26,6 +26,8 @@ module BopsUploads
       case @parent
       when CaseRecord
         @case_record = @parent
+      when LocalAuthority
+        @local_authority = @parent
       when PlanningApplication
         @planning_application = @parent
       when Submission
@@ -36,7 +38,14 @@ module BopsUploads
     end
 
     def local_authority_matches?
-      @parent && @parent.local_authority == current_local_authority
+      return false unless @parent
+
+      case @parent
+      when LocalAuthority
+        @parent == current_local_authority
+      else
+        @parent.local_authority == current_local_authority
+      end
     end
 
     def raise_not_found

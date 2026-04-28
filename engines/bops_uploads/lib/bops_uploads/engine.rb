@@ -38,6 +38,8 @@ module BopsUploads
             parent_record(record.consideration_set)
           when Document, ConsiderationSet
             record.parent_record
+          when LocalAuthority
+            record
           else
             raise ArgumentError, "Unexpected record type in chain: #{record.inspect}"
           end

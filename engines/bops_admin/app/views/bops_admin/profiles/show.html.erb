@@ -30,7 +30,7 @@
                 </a>
               <% else %>
                 <a href="#">
-                  Enter a valid <%= t(current_local_authority.notify_error_status.delete_prefix("bad_")) %> for the configured GOV.UK Notify account
+                  Enter a valid <%= t(".#{current_local_authority.notify_error_status.delete_prefix("bad_")}") %> for the configured GOV.UK Notify account
                 </a>
               <% end %>
             </li>
@@ -58,6 +58,17 @@
           <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".signatory_job_title_hint") %></div>
           <p>
             <%= current_local_authority.signatory_job_title %>
+          </p>
+        </li>
+        <li>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".signatory_signature") %></h2>
+          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".signatory_signature_hint") %></div>
+          <p>
+            <% if current_local_authority.signature.attached? %>
+              <%= image_tag main_app.uploaded_file_url(current_local_authority.signature.blob), alt: "Signatory signature", style: "max-width: 200px" %>
+            <% else %>
+              -
+            <% end %>
           </p>
         </li>
         <li>
