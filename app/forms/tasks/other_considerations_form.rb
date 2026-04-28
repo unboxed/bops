@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Tasks
-  class SummaryOfAdditionalEvidenceForm < Form
+  class OtherConsiderationsForm < Form
     include AssessmentDetailConcern
 
     def category = "additional_evidence"

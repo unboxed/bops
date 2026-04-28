@@ -2,10 +2,10 @@
 
 require "rails_helper"
 
-RSpec.describe "Summary of additional evidence task", type: :system do
+RSpec.describe "Other considerations task", type: :system do
   let(:user) { create(:user, local_authority:) }
   let(:local_authority) { create(:local_authority, :default) }
-  let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/summary-of-additional-evidence") }
+  let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/other-considerations") }
 
   %i[planning_permission lawfulness_certificate prior_approval].each do |application_type|
     context "for a #{application_type.to_s.humanize.downcase} case" do
@@ -21,10 +21,10 @@ RSpec.describe "Summary of additional evidence task", type: :system do
 
       it "can have a summary added" do
         within :sidebar do
-          click_link "Summary of additional evidence"
+          click_link "Other considerations"
         end
 
-        fill_in "tasks_summary_of_additional_evidence_form[entry]", with: "test input"
+        fill_in "tasks_other_considerations_form[entry]", with: "test input"
         click_button "Save changes"
 
         expect(page).to have_selector("textarea", text: "test input")
@@ -32,7 +32,7 @@ RSpec.describe "Summary of additional evidence task", type: :system do
 
         click_button "Save and mark as complete"
 
-        expect(page).to have_content("Summary of additional evidence was successfully saved")
+        expect(page).to have_content("Other considerations summary was successfully saved")
         expect(task.reload).to be_completed
       end
 
@@ -44,16 +44,16 @@ RSpec.describe "Summary of additional evidence task", type: :system do
 
         it "can edit the summary" do
           within :sidebar do
-            click_link "Summary of additional evidence"
+            click_link "Other considerations"
           end
 
           expect(page).to have_selector("textarea", text: "blah blah blah incorrect")
           expect(task).to be_in_progress
 
-          fill_in "tasks_summary_of_additional_evidence_form[entry]", with: "This is the correct result."
+          fill_in "tasks_other_considerations_form[entry]", with: "This is the correct result."
           click_button "Save and mark as complete"
 
-          expect(page).to have_content("Summary of additional evidence was successfully saved")
+          expect(page).to have_content("Other considerations summary was successfully saved")
           expect(page).to have_selector("textarea", text: "This is the correct result.")
           expect(task.reload).to be_completed
         end

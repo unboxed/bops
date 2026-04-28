@@ -111,8 +111,8 @@
   </section>
 <% end %>
 <% if show_additional_evidence && additional_evidence.present? %>
-  <section id="additional-evidence-section" class="govuk-!-margin-bottom-7">
-    <h3 class="govuk-heading-m"><%= t(".additional_evidence") %></h3>
+  <section id="other-considerations-section" class="govuk-!-margin-bottom-7">
+    <h3 class="govuk-heading-m"><%= t(".other_considerations") %></h3>
     <%= render(FormattedContentComponent.new(text: additional_evidence.entry)) %>
   </section>
 <% end %>

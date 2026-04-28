@@ -825,8 +825,8 @@ RSpec.describe "Planning Application Assessment", show_sidebar: false, type: :sy
           expect(page).to have_selector("p", text: "Traffic: Traffic comments summary")
         end
 
-        within("#additional-evidence-section") do
-          expect(page).to have_selector("h3", text: "Summary of additional evidence")
+        within("#other-considerations-section") do
+          expect(page).to have_selector("h3", text: "Other considerations")
           expect(page).to have_content("An additional evidence entry")
         end
 
