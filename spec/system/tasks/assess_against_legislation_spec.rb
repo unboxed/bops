@@ -31,7 +31,7 @@ RSpec.describe "Assess against legislation", type: :system do
       click_link "Assess against legislation"
 
       expect(page).to have_selector("h1", text: "Assess against legislation")
-      expect(page).to have_content("Proposal not checked if it is development")
+      expect(page).to have_content("Proposal not checked if it is not development")
     end
 
     it "tells the officer that assessment is not required when it is not development" do
