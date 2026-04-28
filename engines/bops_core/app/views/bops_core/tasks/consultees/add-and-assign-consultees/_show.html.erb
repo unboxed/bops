@@ -1,0 +1,8 @@
+<% case @form.action %>
+<% when "edit_consultees", "add_consultee", "remove_consultee" %>
+  <%= render "bops_core/tasks/consultees/add-and-assign-consultees/edit_consultees" %>
+<% when "add_consultee", "remove_consultee" %>
+  <%= render "bops_core/tasks/consultees/add-and-assign-consultees/edit" %>
+<% else %>
+  <%= render "bops_core/tasks/consultees/add-and-assign-consultees/default" %>
+<% end %>

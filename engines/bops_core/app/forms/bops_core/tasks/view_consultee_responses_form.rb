@@ -12,7 +12,7 @@ module BopsCore
       end
 
       def consultees
-        @consultees ||= consultation&.consultees&.sorted || []
+        @consultees ||= consultation&.consultees&.sorted&.reject(&:not_required?) || []
       end
 
       def response_summary

@@ -68,12 +68,24 @@ class Consultee < ApplicationRecord
     where.missing(:planning_application_constraint_consultees)
   }
 
+  def not_required?
+    planning_application_constraints.any? && planning_application_constraints.none?(&:consultation_required?)
+  end
+
   def suffix?
     role? || organisation?
   end
 
   def suffix
     [role, organisation].compact_blank.join(", ").presence
+  end
+
+  def name_and_role
+    [name, role].compact_blank.join(", ").presence
+  end
+
+  def summary
+    [name, role, organisation].compact_blank.join(", ").presence
   end
 
   def expired?(now = Time.current)

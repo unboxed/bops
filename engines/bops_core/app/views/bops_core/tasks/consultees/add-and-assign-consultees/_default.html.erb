@@ -1,0 +1,94 @@
+<%= render "task_header", task: @task %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <% if @form.constraints.none? %>
+    <%= govuk_inset_text do %>
+      <p>No planning constraints have been identified. You can still add consultees manually.</p>
+    <% end %>
+  <% else %>
+    <p>
+      Consultees have been automatically matched to the identified planning constraints.
+      Check the assignments are correct, make any changes, then confirm.
+    </p>
+
+    <% @form.constraints.each do |constraint| %>
+      <%= govuk_summary_card(title: constraint.description) do |card| %>
+        <% card.with_action do %>
+          <%= govuk_link_to "Change", edit_task_component_path(@planning_application, @task, constraint), no_visited_state: true %>
+        <% end %>
+
+        <% if constraint.consultation_required? %>
+          <% if constraint.consultees.any? %>
+            <% card.with_summary_list(actions: false) do |summary_list| %>
+              <% constraint.consultees.each do |consultee| %>
+                <% summary_list.with_row do |row| %>
+                  <% if consultee.organisation? %>
+                    <% row.with_key do %>
+                      <%= consultee.organisation %>
+                    <% end %>
+
+                    <% row.with_value do %>
+                      <%= consultee.name_and_role %>
+                    <% end %>
+                  <% else %>
+                    <% row.with_key do %>
+                      <%= consultee.name %>
+                    <% end %>
+
+                    <% row.with_value do %>
+                      <%= consultee.role %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= govuk_tag(text: "Unassigned", colour: "red") %>
+          <% end %>
+        <% else %>
+          <%= govuk_tag(text: "Not needed", colour: "grey") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if @form.consultees.any? %>
+    <%= govuk_summary_card(title: "Other") do |card| %>
+      <% card.with_action do %>
+        <%= form.govuk_task_button_link "Change", action: "edit_consultees" %>
+      <% end %>
+
+      <% card.with_summary_list(actions: false) do |summary_list| %>
+        <% @form.consultees.each do |consultee| %>
+          <% summary_list.with_row do |row| %>
+            <% if consultee.organisation? %>
+              <% row.with_key do %>
+                <%= consultee.organisation %>
+              <% end %>
+
+              <% row.with_value do %>
+                <%= consultee.name_and_role %>
+              <% end %>
+            <% else %>
+              <% row.with_key do %>
+                <%= consultee.name %>
+              <% end %>
+
+              <% row.with_value do %>
+                <%= consultee.role %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <p>
+      <%= form.govuk_task_button_link "Add other consultees", action: "edit_consultees" %>
+    </p>
+  <% end %>
+
+  <%= govuk_section_break(size: "m") %>
+
+  <%= render "task_submit_buttons", form: form %>
+<% end %>

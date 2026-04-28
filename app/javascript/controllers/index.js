@@ -44,6 +44,10 @@ import ConsulteesController from "./consultees_controller.js"
 
 application.register("consultees", ConsulteesController)
 
+import ContactsController from "@/bops_core/controllers/contacts_controller.js"
+
+application.register("contacts", ContactsController)
+
 import DeleteRecordController from "./delete_record_controller.js"
 
 application.register("delete-record", DeleteRecordController)

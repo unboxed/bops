@@ -116,8 +116,26 @@ en:
               total_consultees: Total consultees
       update:
         add-and-assign-consultees:
-          failure: Failed to save consultee assignments
-          success: Consultee assignments were successfully saved
+          add_constraint_consultee:
+            failure: Unable to add consultee to constraint
+            success: Consultee was successfully added to constraint
+          add_consultee:
+            failure: Unable to add other consultee
+            success: Other consultee was successfully added
+          failure: Unable to complete consultee assignments
+          remove_constraint_consultee:
+            failure: Unable to remove consultee from constraint
+            success: Consultee was successfully removed from constraint
+          remove_consultee:
+            failure: Unable to remove other consultee
+            success: Other consultee was successfully removed
+          save_draft:
+            failure: Unable to save consultee assignments
+            success: Consultee assignments were successfully saved
+          success: Consultee assignments were successfully completed
+          update_constraint:
+            failure: Unable to save constraint
+            success: Constraint was successfully saved
         add-reporting-details:
           failure: Failed to save reporting details
           success: Reporting details were successfully saved

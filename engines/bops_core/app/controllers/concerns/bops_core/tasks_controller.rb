@@ -37,8 +37,10 @@ module BopsCore
           if @form.update(task_params)
             if @form.after_success == "redirect"
               redirect_to @form.redirect_url, notice: @form.flash(:notice, self)
+            elsif @form.after_success == "render_with_flash"
+              render template_for(@form.success_template), notice: @form.flash(:notice, self)
             else
-              render template_for(:show)
+              render template_for(@form.success_template)
             end
           else
             render template_for(@form.failure_template), alert: @form.flash(:alert, self)
