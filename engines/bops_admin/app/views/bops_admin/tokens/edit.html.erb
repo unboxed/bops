@@ -43,6 +43,10 @@
         <% end %>
       <% end %>
 
+      <%= form.govuk_check_boxes_fieldset(:paused, multiple: false, legend: {text: t(".legends.paused")}, hint: {text: t(".hints.paused")}) do %>
+        <%= form.govuk_check_box :paused, "1", "0", multiple: false, label: {text: t(".labels.paused")} %>
+      <% end %>
+
       <%= render "file_downloader", form: form, file_downloader: @token.file_downloader %>
 
       <%= form.govuk_submit(t(".submit")) do %>

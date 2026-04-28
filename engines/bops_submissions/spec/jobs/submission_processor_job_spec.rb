@@ -3,18 +3,11 @@
 require "rails_helper"
 
 RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
-  let!(:submission) { create(:submission, :planning_portal, status: "submitted") }
-
-  before do
-    allow(Submission)
-      .to receive(:find)
-      .with(submission.id)
-      .and_return(submission)
-  end
+  let!(:submission) { create(:submission, :planning_portal, status: "started") }
 
   describe "#perform" do
     context "when everything succeeds" do
-      it "starts, processes, and completes the submission in order" do
+      it "processes and completes the submission in order" do
         extractor = instance_double(BopsSubmissions::ZipExtractionService)
         allow(BopsSubmissions::ZipExtractionService)
           .to receive(:new)
@@ -29,12 +22,11 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
           .and_return(creator)
         allow(creator).to receive(:call!)
 
-        expect(submission).to receive(:start!).ordered
         expect(extractor).to receive(:call).ordered
         expect(creator).to receive(:call!).ordered
         expect(submission).to receive(:complete!).ordered
 
-        described_class.perform_now(submission.id, current_api_user: nil)
+        described_class.perform_now(submission)
       end
     end
 
@@ -50,31 +42,12 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
       end
 
       it "calls start!, then fail!, updates the error, and re-raises" do
-        expect(submission).to receive(:start!).ordered.and_call_original
-        expect(submission).to receive(:fail!).ordered.and_call_original
-        expect(submission).to receive(:update!).with(error_message: "An error!").ordered.and_call_original
-
         expect {
-          described_class.perform_now(submission.id, current_api_user: nil)
+          described_class.perform_now(submission)
         }.to raise_error(StandardError, "An error!")
 
         expect(submission.reload.status).to eq("failed")
         expect(submission.error_message).to eq("An error!")
-      end
-    end
-
-    context "when the submission cannot be found" do
-      before do
-        allow(Submission).to receive(:find).with(1).and_raise(ActiveRecord::RecordNotFound.new("not found"))
-        allow(Appsignal).to receive(:report_error)
-      end
-
-      it "reports the RecordNotFound to AppSignal and re-raises" do
-        expect(Appsignal).to receive(:report_error).with(instance_of(ActiveRecord::RecordNotFound))
-
-        expect {
-          described_class.perform_now(1, current_api_user: nil)
-        }.to raise_error(ActiveRecord::RecordNotFound, "not found")
       end
     end
 
@@ -97,14 +70,8 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
           .and_return(creator)
         allow(creator).to receive(:call!).and_raise(ArgumentError, "Submission has no JSON")
 
-        expect(submission).to receive(:start!).ordered
-        expect(extractor).to receive(:call).ordered
-        expect(creator).to receive(:call!).ordered
-        expect(submission).to receive(:fail!).ordered.and_call_original
-        expect(submission).to receive(:update!).with(error_message: "Submission has no JSON").ordered.and_call_original
-
         expect {
-          described_class.perform_now(submission.id, current_api_user: nil)
+          described_class.perform_now(submission)
         }.to raise_error(ArgumentError, "Submission has no JSON")
 
         expect(submission.reload.status).to eq("failed")
@@ -130,13 +97,31 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
         create(:application_type, :minor)
 
         expect {
-          described_class.perform_now(submission.id, current_api_user: nil)
+          described_class.perform_now(submission)
         }.not_to raise_error
 
         pa = PlanningApplication.last
         expect(pa).to be_present
         expect(pa.case_record.submission_id).to eq(submission.id)
         expect(pa.local_authority_id).to eq(submission.local_authority_id)
+      end
+    end
+
+    context "when the submission has an api_user (odp PlanX flow)" do
+      let!(:api_user) { create(:api_user, :planx) }
+      let!(:odp_submission) do
+        create(:submission, status: "started", api_user: api_user, local_authority: api_user.local_authority)
+      end
+
+      it "passes submission.api_user as the user to PlanxCreationService" do
+        creator = instance_double(BopsSubmissions::Application::PlanxCreationService)
+        expect(BopsSubmissions::Application::PlanxCreationService)
+          .to receive(:new)
+          .with(hash_including(submission: odp_submission, user: api_user))
+          .and_return(creator)
+        allow(creator).to receive(:call!)
+
+        described_class.perform_now(odp_submission)
       end
     end
   end

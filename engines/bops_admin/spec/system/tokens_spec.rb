@@ -29,12 +29,14 @@ RSpec.describe "API Tokens", :capybara do
         expect(page).to have_selector("th:nth-child(1)", text: "Name")
         expect(page).to have_selector("th:nth-child(2)", text: "Service")
         expect(page).to have_selector("th:nth-child(3)", text: "Last used at")
+        expect(page).to have_selector("th:nth-child(4)", text: "Status")
       end
 
       within "tbody tr:nth-child(1)" do
         expect(page).to have_selector("td:nth-child(1)", text: "Active Token")
         expect(page).to have_selector("td:nth-child(2)", text: "PlanX")
         expect(page).to have_selector("td:nth-child(3)", text: "Tue, 15 Oct 2024 11:30:00 +0100")
+        expect(page).to have_selector("td:nth-child(4)", text: "Active")
       end
     end
   end
@@ -93,6 +95,32 @@ RSpec.describe "API Tokens", :capybara do
         expect(page).to have_selector("td:nth-child(1)", text: "Active Token")
         expect(page).to have_selector("td:nth-child(4)", text: "Tue, 22 Oct 2024 11:30:00 +0100")
       end
+    end
+  end
+
+  it "allows a token to be paused and unpaused" do
+    visit "/admin/tokens"
+
+    within "#active table tbody tr:nth-child(1)" do
+      click_link "Edit"
+    end
+
+    expect(page).to have_selector("h1", text: "Edit API token")
+    check "Hold submissions for manual review"
+    click_button "Save"
+
+    expect(page).to have_selector("[role=alert] p", text: "API token successfully updated")
+
+    within "#active table tbody tr:nth-child(1)" do
+      expect(page).to have_selector("td:nth-child(4)", text: "Paused")
+      click_link "Edit"
+    end
+
+    uncheck "Hold submissions for manual review"
+    click_button "Save"
+
+    within "#active table tbody tr:nth-child(1)" do
+      expect(page).to have_selector("td:nth-child(4)", text: "Active")
     end
   end
 

@@ -30,7 +30,8 @@ RSpec.describe BopsSubmissions::CreationService, type: :service do
     )
   end
 
-  subject(:service) { described_class.new(params:, headers:, local_authority:) }
+  let(:api_user) { create(:api_user, :planx, local_authority:) }
+  subject(:service) { described_class.new(params:, headers:, local_authority:, api_user:) }
 
   it "creates a submission with filtered headers and permitted params" do
     expect {
@@ -47,5 +48,12 @@ RSpec.describe BopsSubmissions::CreationService, type: :service do
     headers.env["Authorization"] = "xxxxxx"
     submission = service.call
     expect(submission.request_headers).not_to have_key("Authorization")
+  end
+
+  it "associates the submission with the supplied api_user" do
+    api_user = create(:api_user, :planx, local_authority:)
+    submission = described_class.new(params:, headers:, local_authority:, api_user:).call
+
+    expect(submission.api_user).to eq(api_user)
   end
 end

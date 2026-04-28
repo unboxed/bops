@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_21_135314) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_30_154433) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -72,6 +72,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_135314) do
     t.datetime "last_used_at"
     t.bigint "local_authority_id"
     t.string "name", null: false
+    t.boolean "paused", default: false, null: false
     t.string "permissions", array: true
     t.string "product_id"
     t.datetime "revoked_at"
@@ -1265,6 +1266,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_135314) do
   end
 
   create_table "submissions", force: :cascade do |t|
+    t.bigint "api_user_id"
     t.jsonb "application_payload", default: {}, null: false
     t.datetime "completed_at"
     t.datetime "created_at", null: false
@@ -1278,6 +1280,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_21_135314) do
     t.datetime "started_at"
     t.string "status", default: "submitted", null: false
     t.datetime "updated_at", null: false
+    t.index ["api_user_id"], name: "ix_submissions_on_api_user_id"
     t.index ["external_uuid"], name: "ix_submissions_on_external_uuid", unique: true
     t.index ["local_authority_id"], name: "ix_submissions_on_local_authority_id"
     t.index ["status"], name: "ix_submissions_on_status"

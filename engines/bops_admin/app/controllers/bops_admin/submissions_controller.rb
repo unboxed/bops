@@ -5,7 +5,7 @@ module BopsAdmin
     self.page_key = "submissions"
 
     before_action :set_submissions, only: %i[index]
-    before_action :set_submission, only: %i[show]
+    before_action :set_submission, only: %i[show update]
     before_action :set_planning_application, only: %i[show]
 
     rescue_from Pagy::OverflowError do
@@ -21,6 +21,14 @@ module BopsAdmin
     def show
       respond_to do |format|
         format.html
+      end
+    end
+
+    def update
+      if @submission.start!
+        redirect_to submission_path(@submission), notice: t(".success")
+      else
+        redirect_to submission_path(@submission), alert: t(".not_eligible")
       end
     end
 

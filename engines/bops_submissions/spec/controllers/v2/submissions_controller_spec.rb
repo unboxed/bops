@@ -92,6 +92,14 @@ RSpec.describe BopsSubmissions::V2::SubmissionsController, type: :controller do
         expect(response).to have_http_status(:ok)
         expect(response).to render_template("bops_submissions/v2/submissions/create")
       end
+
+      it "stamps the authenticated api_user onto the submission" do
+        post :create, as: :json, body: body.to_json
+
+        perform_enqueued_jobs
+
+        expect(Submission.last.api_user).to eq(local_authority.api_users.first)
+      end
     end
 
     context "without the correct schema parameter" do
@@ -107,6 +115,29 @@ RSpec.describe BopsSubmissions::V2::SubmissionsController, type: :controller do
         }.not_to change(Submission, :count)
 
         expect(response).to have_http_status(:internal_server_error)
+      end
+    end
+
+    context "when the API token is paused" do
+      let(:body) { json_data.merge(schema: "planning-portal") }
+      let(:api_user) { local_authority.api_users.first }
+
+      before do
+        api_user.update!(paused: true)
+        expect(BopsSubmissions::Application::PlanningPortalCreationService).not_to receive(:new)
+      end
+
+      it "persists the submission but does not enqueue the processor job" do
+        expect {
+          post :create, as: :json, body: body.to_json
+        }.to change(Submission, :count).by(1)
+
+        expect(BopsSubmissions::SubmissionProcessorJob)
+          .not_to have_been_enqueued
+
+        expect(response).to have_http_status(:ok)
+        expect(Submission.last.status).to eq("submitted")
+        expect(Submission.last.api_user).to eq(api_user)
       end
     end
   end
