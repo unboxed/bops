@@ -1,9 +1,14 @@
 <%= render "task_header", task: @task %>
 
 <% if @planning_application.section_55_development.nil? %>
-  <%= govuk_warning_text(text: "Proposal not checked if it is development") %>
-  <p>Before assessing against legislation, the proposal must be checked to see whether it is development or not.</p>
-  <p><%= govuk_link_to "Check if proposal is development", task_path(@planning_application, "check-and-assess/assess-against-legislation/check-if-proposal-is-development") %></p>
+  <%= govuk_warning_text(text: "Proposal not checked if it is not development") %>
+  <p>
+    Before assessing against legislation, the proposal must be checked to see
+    whether it is development or not.
+  </p>
+  <p>
+    <%= govuk_link_to "Check if proposal is development", task_path(@planning_application, "check-and-assess/assess-against-legislation/check-if-proposal-is-development") %>
+  </p>
 <% else %>
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= form.govuk_error_summary %>

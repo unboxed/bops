@@ -14,10 +14,10 @@
   <% end %>
 
   <% table.with_body do |body| %>
-    <% consultees_unassigned = consultation.consultees.unassigned %>
+    <% consultees_unassigned = consultation&.consultees&.unassigned %>
     <% constraints = planning_application.planning_application_constraints %>
 
-    <% if constraints.none? && consultees_unassigned.none? %>
+    <% if constraints.none? && consultees_unassigned&.none? %>
       <% body.with_row(classes: "govuk-table__row", html_attributes: {data: {consultees_target: "noConsultees"}}) do |row| %>
         <% row.with_cell(
              colspan: 4,
@@ -117,8 +117,7 @@
           <% end %>
         <% end %>
       <% end %>
-
-      <% consultees_unassigned.find_each do |consultee| %>
+      <% consultees_unassigned&.find_each do |consultee| %>
         <% body.with_row do |row| %>
           <% row.with_cell(classes: "consultee-table__constraint", text: "Other") %>
 
