@@ -4,7 +4,9 @@ BopsAdmin::Engine.routes.draw do
   root to: redirect("dashboard")
 
   resource :dashboard, only: %i[show]
-  resource :profile, only: %i[show edit update]
+  resource :profile, only: %i[show edit update] do
+    member { delete :remove_signature }
+  end
   resource :accessibility, only: %i[edit update], controller: "accessibility"
   resource :consultation, only: %i[edit update], controller: "consultation"
   resource :site_notices, only: %i[edit update]

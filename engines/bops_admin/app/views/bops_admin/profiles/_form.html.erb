@@ -16,7 +16,7 @@
               </a>
             <% else %>
               <a href="#">
-                Enter a valid <%= t(current_local_authority.notify_error_status.delete_prefix("bad_")) %> for the configured GOV.UK Notify account
+                Enter a valid <%= t(".#{current_local_authority.notify_error_status.delete_prefix("bad_")}") %> for the configured GOV.UK Notify account
               </a>
             <% end %>
           </li>
@@ -41,6 +41,31 @@
         hint: {text: t(".signatory_job_title_hint")},
         class: "govuk-input--width-30"
       ) %>
+
+  <% if current_local_authority.signature.attached? %>
+    <div class="govuk-form-group">
+      <p class="govuk-label govuk-label--m"><%= t(".current_signature") %></p>
+      <%= image_tag main_app.uploaded_file_url(current_local_authority.signature.blob), alt: "Signatory signature", style: "max-width: 200px" %><br>
+      <%= govuk_button_link_to t(".remove_signature"), remove_signature_profile_path, secondary: true, class: "govuk-!-margin-top-2", method: :delete %>
+    </div>
+  <% end %>
+
+  <div class="govuk-form-group" data-controller="clear-form">
+    <label class="govuk-label govuk-label--m" for="local_authority_signature">
+      <%= t(".signatory_signature") %>
+    </label>
+    <div id="local_authority_signature-hint" class="govuk-hint">
+      <%= t(".signatory_signature_hint") %>
+    </div>
+    <div class="display-flex" style="align-items: center; gap: 1rem; flex-wrap: nowrap;">
+      <%= form.file_field(:signature,
+            class: "govuk-file-upload",
+            multiple: true,
+            accept: acceptable_file_mime_types,
+            "aria-describedby": "local_authority_signature-hint") %>
+      <%= govuk_link_to "clear", "#", no_visited_state: true, data: {action: "click->clear-form#handleClick"} %>
+    </div>
+  </div>
 
   <%= form.govuk_text_field(
         :enquiries_paragraph,

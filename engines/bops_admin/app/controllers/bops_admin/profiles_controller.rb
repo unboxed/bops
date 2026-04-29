@@ -26,11 +26,17 @@ module BopsAdmin
       end
     end
 
+    def remove_signature
+      current_local_authority.signature.purge
+      redirect_to edit_profile_path, notice: t(".signature_successfully_removed")
+    end
+
     private
 
     def local_authority_params
       params.require(:local_authority).permit(
         :signatory_name,
+        :signature,
         :signatory_job_title,
         :enquiries_paragraph,
         :engagement_statement,

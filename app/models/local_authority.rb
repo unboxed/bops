@@ -4,6 +4,7 @@ class LocalAuthority < ApplicationRecord
   include StoreModel::NestedAttributes
 
   with_options dependent: :destroy do
+    has_one_attached :signature
     has_many :users
     has_many :planning_applications, -> { kept }
     has_many :constraints
