@@ -86,7 +86,7 @@ module BopsCore
 
       def flash(type, controller)
         return if action == "edit_form"
-        return unless after_success == "redirect"
+        return if after_success == "render"
 
         result = case type
         when :notice
@@ -116,6 +116,10 @@ module BopsCore
 
       def partial_path
         "tasks/#{task.full_slug}"
+      end
+
+      def success_template
+        :show
       end
 
       def failure_template

@@ -37,7 +37,7 @@ class PlanningApplicationConstraint < ApplicationRecord
   end
 
   def description
-    metadata["description"] if metadata
+    metadata && metadata["description"] || constraint.type_code
   end
 
   def dataset

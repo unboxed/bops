@@ -73,9 +73,8 @@ RSpec.describe "Pre-application consultation workflow", type: :system do
       expect(page).to have_selector("h1", text: "Add and assign consultees")
       expect(page).to have_selector(:active_sidebar_task, "Add and assign consultees")
 
-      expect(page).to have_content("Select constraints that require consultation")
-      expect(page).to have_content("Assign consultees to each constraint")
-
+      expect(page).to have_content("No planning constraints have been identified")
+      expect(page).to have_content("You can still add consultees manually")
       click_button "Save changes"
 
       expect(page).to have_content("Consultee assignments were successfully saved")
@@ -84,7 +83,7 @@ RSpec.describe "Pre-application consultation workflow", type: :system do
 
       click_button "Save and mark as complete"
 
-      expect(page).to have_content("Consultee assignments were successfully saved")
+      expect(page).to have_content("Consultee assignments were successfully completed")
       expect(task("Add and assign consultees").reload).to be_completed
       expect(page).to have_selector(:completed_sidebar_task, "Add and assign consultees")
 

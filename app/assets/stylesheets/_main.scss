@@ -341,6 +341,7 @@ h3 {
 .button-as-link {
   border: none;
   background: none;
+  box-shadow: none;
   padding: 0;
   color: govuk-colour("blue");
   font-family: $govuk-font-family;
@@ -349,14 +350,18 @@ h3 {
   text-decoration: underline;
   text-decoration-thickness: $govuk-link-underline-thickness;
   text-underline-offset: $govuk-link-underline-offset;
+  width: auto;
 
   &:active {
     color: govuk-colour("black");
+    top: initial;
   }
 
   &:hover {
+    background: none;
     color: govuk-colour("dark-blue");
     cursor: pointer;
+    text-decoration: underline;
     text-decoration-thickness: $govuk-link-hover-underline-thickness;
   }
 
@@ -368,6 +373,12 @@ h3 {
       0 4px govuk-colour("black");
     text-decoration: none;
     outline: none;
+  }
+}
+
+.govuk-summary-card__title-wrapper {
+  .button-as-link {
+    font-weight: bold;
   }
 }
 

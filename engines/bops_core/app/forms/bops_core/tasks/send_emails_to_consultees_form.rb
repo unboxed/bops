@@ -36,7 +36,7 @@ module BopsCore
       end
 
       def consultees
-        consultation.consultees
+        consultation.consultees.reject(&:not_required?)
       end
 
       private

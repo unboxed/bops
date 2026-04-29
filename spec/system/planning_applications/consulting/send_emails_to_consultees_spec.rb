@@ -535,16 +535,20 @@ RSpec.describe "Consultation", type: :system, js: true do
       click_link "Add and assign consultees"
       expect(page).to have_selector("h1", text: "Add and assign consultees")
 
-      fill_in "Search for consultees", with: "GLA"
+      click_button "Add other consultees"
+      expect(page).to have_selector("h1", text: "Add other consultee")
+
+      fill_in "Search for a consultee", with: "GLA"
       expect(page).to have_selector("#add-consultee__listbox li:first-child", text: "Consultations (Planning Department, GLA)")
 
       pick "Consultations (Planning Department, GLA)", from: "#add-consultee"
-      expect(page).to have_field("Search for consultees", with: "Consultations")
+      expect(page).to have_field("Search for a consultee", with: "Consultations")
 
-      click_button "Add consultee"
+      click_button "Assign"
+      expect(page).to have_content("Other consultee was successfully added")
 
-      within ".consultee-table tbody" do
-        expect(page).to have_content("Planning Department, GLA")
+      within ".govuk-summary-list" do
+        expect(page).to have_content("Consultations, Planning Department")
       end
 
       within ".bops-sidebar" do

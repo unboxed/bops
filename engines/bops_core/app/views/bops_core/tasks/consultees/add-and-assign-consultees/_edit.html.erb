@@ -1,0 +1,89 @@
+<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Application", main_app.planning_application_path(@planning_application) %>
+<% add_parent_breadcrumb_link @task.title, task_path(@planning_application, @task) %>
+
+<% content_for :page_title do %>
+  Edit constraint &mdash; <%= t("page_title") %>
+<% end %>
+
+<h1><%= @form.constraint.description %></h1>
+
+<% if @form.constraint.identified? %>
+  <p>Automatically identified from planning constraints</p>
+<% end %>
+
+<%= form_with model: @form, url: @form.constraint_url do |form| %>
+  <%= form.govuk_radio_buttons_fieldset(:consultation_required, legend: {size: "m", text: "Is consultation needed for this constraint?"}) do %>
+    <%= form.govuk_radio_button :consultation_required, true, label: {text: "Yes"} do %>
+      <% @form.consultees.each do |consultee| %>
+        <%= govuk_summary_list(actions: false, classes: "govuk-!-margin-bottom-3") do |summary_list| %>
+          <% summary_list.with_row do |row| %>
+            <% row.with_key { "Name / Role" } %>
+            <% row.with_value { consultee.name_and_role } %>
+          <% end %>
+
+          <% if consultee.organisation? %>
+            <% summary_list.with_row do |row| %>
+              <% row.with_key { "Organisation" } %>
+              <% row.with_value { consultee.organisation } %>
+            <% end %>
+          <% end %>
+
+          <% summary_list.with_row do |row| %>
+            <% row.with_key { "Email" } %>
+            <% row.with_value { consultee.email_address } %>
+          <% end %>
+
+          <% summary_list.with_row do |row| %>
+            <% row.with_key { "Type / Status" } %>
+            <% row.with_value do %>
+              <% if consultee.internal? %>
+                <%= govuk_tag(text: "Internal", colour: "blue") %>
+              <% else %>
+                <%= govuk_tag(text: "External", colour: "pink") %>
+              <% end %>
+
+              <%= render StatusTags::BaseComponent.new(status: consultee.status) %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% if consultee.not_consulted? %>
+          <p>
+            <%= govuk_link_to("Remove", @form.remove_consultee_url(consultee), method: :patch, data: {confirm: "Are you sure? This cannot be undone."}) %>
+          </p>
+        <% end %>
+
+        <%= govuk_section_break(size: "m") %>
+      <% end %>
+
+      <%= stimulus_tag("contacts") do %>
+        <%= form.govuk_fieldset(legend: {text: "Add consultee"}) do %>
+          <%= form.hidden_field :contact_id, value: nil, data: {contacts_target: "input"} %>
+
+          <div class="govuk-!-margin-bottom-3">
+            <label for="add-consultee" class="govuk-label govuk-label--s">
+              Search for a consultee
+            </label>
+
+            <div class="govuk-hint">
+              Search by name, organisation or role
+            </div>
+
+            <div
+              id="add-consultee-container"
+              class="govuk-!-width-two-thirds govuk-!-display-inline-block govuk-!-margin-right-1"
+              data-contacts-target="container"></div>
+            <%= form.govuk_task_button "Assign", action: "add_constraint_consultee", secondary: true %>
+          </div>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= form.govuk_radio_button :consultation_required, false, label: {text: "No"} %>
+  <% end %>
+
+  <%= govuk_section_break(size: "m") %>
+
+  <%= form.govuk_task_button "Save and return", action: "update_constraint" %>
+<% end %>

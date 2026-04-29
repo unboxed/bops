@@ -4,6 +4,7 @@ module BopsPreapps
   module ApplicationHelper
     include BopsCore::ApplicationHelper
     include BopsCore::DocumentHelper
+    include BopsCore::StimulusHelper
     include ::DocumentHelper
     include ::ValidationRequestHelper
     include BreadcrumbNavigationHelper
