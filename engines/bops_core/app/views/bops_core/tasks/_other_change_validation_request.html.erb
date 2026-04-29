@@ -16,7 +16,7 @@
   <%= render "validation_request_status", validation_request: %>
 
   <td class="govuk-table__cell">
-    <%= govuk_link_to main_app.planning_application_validation_validation_request_path(@planning_application, validation_request, redirect_to: task_path(@planning_application, @task)) do %>
+    <%= govuk_link_to main_app.planning_application_validation_validation_request_path(@planning_application, validation_request, redirect_to: @task.url) do %>
       <%= @planning_application.validated? ? "View" : "View and update" %>
     <% end %>
   </td>

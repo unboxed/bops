@@ -34,7 +34,7 @@
                   <div class="align-items-center justify-end gap-2">
                     <%= form_with model: @form, url: @form.url do |form| %>
                       <%= form.hidden_field :requirement_id, value: requirement.id %>
-                      <%= govuk_link_to("Edit", main_app.edit_planning_application_assessment_requirement_path(@planning_application, requirement, redirect_to: task_path(@planning_application, @task)), no_visited_state: true, no_underline: true) %>
+                      <%= govuk_link_to("Edit", main_app.edit_planning_application_assessment_requirement_path(@planning_application, requirement, redirect_to: @task.url), no_visited_state: true, no_underline: true) %>
                       <span>|</span>
 
                       <%= form.govuk_task_button "Remove", action: "remove_requirement", class: "button-as-link",

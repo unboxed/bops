@@ -41,7 +41,7 @@ module ValidationRequestHelper
 
   def show_validation_request_url(application, request, return_to: nil)
     if application.pre_application? && (task_slug = preapps_task_slug_for(request))
-      BopsPreapps::Engine.routes.url_helpers.task_path(
+      application.url_helpers.task_path(
         reference: application.reference,
         slug: task_slug,
         return_to: return_to

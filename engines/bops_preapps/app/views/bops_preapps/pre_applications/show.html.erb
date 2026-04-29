@@ -7,7 +7,7 @@
       <% tasks.each do |task| %>
         <% task_list.with_item(
              title: task.name,
-             href: task_path(@planning_application, task),
+             href: task.url,
              status: task_status_tag(task)
            ) %>
       <% end %>

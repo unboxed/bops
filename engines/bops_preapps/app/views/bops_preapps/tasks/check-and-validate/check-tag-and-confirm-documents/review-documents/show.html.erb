@@ -36,7 +36,7 @@
                      ) do |row| %>
                 <%= row.with_cell do %>
                   <p>
-                    <%= govuk_link_to(truncate(document.reference_or_name, length: 50), document_link_path(document, redirect_to: task_path(@planning_application, @task))) %>
+                    <%= govuk_link_to(truncate(document.reference_or_name, length: 50), document_link_path(document, redirect_to: @task.url)) %>
                   </p>
 
                   <% if document.tags.present? %>

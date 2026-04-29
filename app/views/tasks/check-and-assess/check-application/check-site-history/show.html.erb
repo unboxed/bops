@@ -11,7 +11,7 @@
 <%= render "planning_applications/assessment/site_histories/table",
       site_histories: @planning_application.site_histories.all,
       show_action: true,
-      return_to: return_to_or_task_path(@planning_application, @task) %>
+      return_to: return_to_or_task_path(@task) %>
 
 <div data-controller="unsaved-changes"
      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"><%= govuk_details(summary_text: "Add a new site history", open: @planning_application.site_histories.last&.errors&.any?) do %>

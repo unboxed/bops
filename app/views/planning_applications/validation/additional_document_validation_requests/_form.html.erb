@@ -5,34 +5,33 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <div data-controller="unsaved-changes"
-         data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+    <div
+      data-controller="unsaved-changes"
+      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
       <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request,
             data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
-      <%= form.govuk_error_summary %>
+        <%= form.govuk_error_summary %>
 
-      <% return_to = local_assigns[:return_to].presence || params[:return_to].presence %>
-      <% if return_to.nil? && @planning_application.pre_application? %>
-        <% return_to = BopsPreapps::Engine.routes.url_helpers.task_path(
-             reference: @planning_application.reference,
-             slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents"
-           ) %>
-      <% end %>
-      <%= form.hidden_field(:return_to, value: return_to) if return_to.present? %>
+        <% return_to = local_assigns[:return_to].presence || params[:return_to].presence %>
+        <% if return_to.nil? && @planning_application.pre_application? %>
+          <% return_to = @planning_application.url_helpers.task_path(@planning_application.reference, slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents") %>
+        <% end %>
 
-      <%= form.govuk_text_field :document_request_type,
-            label: {size: "m", text: "Please specify the new document type:"},
-            hint: {text: "Eg. Existing floor plans"} %>
+        <%= form.hidden_field(:return_to, value: return_to) if return_to.present? %>
 
-      <%= form.govuk_text_area :reason,
-            label: {size: "m", text: "Please specify the reason you have requested this document?"},
-            rows: 5 %>
+        <%= form.govuk_text_field :document_request_type,
+              label: {size: "m", text: "Please specify the new document type:"},
+              hint: {text: "Eg. Existing floor plans"} %>
 
-      <%= form.hidden_field :type, value: AdditionalDocumentValidationRequest.name %>
+        <%= form.govuk_text_area :reason,
+              label: {size: "m", text: "Please specify the reason you have requested this document?"},
+              rows: 5 %>
 
-      <%= render "shared/planning_guides_link" %>
+        <%= form.hidden_field :type, value: AdditionalDocumentValidationRequest.name %>
 
-      <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
+        <%= render "shared/planning_guides_link" %>
+
+        <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
       <% end %>
     </div>
   </div>

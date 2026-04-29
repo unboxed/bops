@@ -1125,6 +1125,14 @@ class PlanningApplication < ApplicationRecord
     find_proposal_detail("What type of pre-application are you applying for?")&.first&.response_values&.first
   end
 
+  def url_helpers
+    if pre_application?
+      BopsPreapps::Engine.routes.url_helpers
+    else
+      Rails.application.routes.url_helpers
+    end
+  end
+
   private
 
   def create_fee_calculation

@@ -3,10 +3,13 @@
 <% end %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
+
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+
 <% if @planning_application.not_started? %>
   <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) %>
 <% end %>
+
 <% content_for :title, "Description change" %>
 
 <%= render(
@@ -18,14 +21,12 @@
   <div class="govuk-grid-column-two-thirds">
     <% if @planning_application.application_type.description_change_requires_validation? %>
       <h3 class="govuk-!-margin-top-3">
-       Update the description or suggest a new description to the applicant
+        Update the description or suggest a new description to the applicant
       </h3>
-
     <% else %>
       <h2 class="govuk-!-margin-top-3">
         Update description
       </h2>
-
       <p>
         This will be applied immediately.
       </p>
@@ -38,51 +39,56 @@
       <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
     </div>
 
-    <div data-controller="unsaved-changes"
-         data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+    <div
+      data-controller="unsaved-changes"
+      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
       <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request,
             data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
-      <%= form.govuk_error_summary %>
+        <%= form.govuk_error_summary %>
 
-      <% if @planning_application.latest_rejected_description_change.present? %>
-        <p>
-          <strong>
-            Rejected proposed description
-          </strong>
-        </p>
-        <%= render(FormattedContentComponent.new(text: @planning_application.latest_rejected_description_change.proposed_description)) %>
-        <p>
-          <span class="govuk-caption-m">
-            Applicant rejected this description because: <%= @planning_application.latest_rejected_description_change.rejection_reason %>
-          </span>
-        </p>
-      <% end %>
-      <%= form.hidden_field(:type, value: "DescriptionChangeValidationRequest") %>
-      <%= form.govuk_text_area :proposed_description,
-            value: @planning_application.description,
-            label: {size: "s", text: "Enter an amended description"},
-            rows: 5 %>
-      <% if params[:return_to].present? %>
-        <%= form.hidden_field(:return_to, value: params[:return_to]) %>
-      <% elsif @planning_application.pre_application? && @planning_application.not_started? %>
-        <%= form.hidden_field(:return_to, value: BopsPreapps::Engine.routes.url_helpers.task_path(reference: @planning_application.reference, slug: "check-and-validate/check-application-details/check-description")) %>
-      <% elsif @planning_application.not_started? %>
-        <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>
-      <% else %>
-        <%= form.hidden_field(:return_to, value: @back_path) %>
-      <% end %>
-      <% if @planning_application.application_type.description_change_requires_validation? %>
-        <div class="display govuk-!-margin-top-3">
-          <%= form.govuk_radio_buttons_fieldset(:skip_applicant_approval, legend: {size: "m", text: "Does this description change require applicant's agreement?"}) do %>
-            <%= form.govuk_radio_button :skip_applicant_approval, false, label: {text: "Yes, applicant agreement needed"} do %>
-              <p>The new description will be sent to the applicant to approve. If the applicant does not respond within 5 days, the amended description will be automatically accepted.</p>
+        <% if @planning_application.latest_rejected_description_change.present? %>
+          <p><strong> Rejected proposed description </strong></p>
+          <%= render(FormattedContentComponent.new(text: @planning_application.latest_rejected_description_change.proposed_description)) %>
+          <p>
+            <span class="govuk-caption-m">
+              Applicant rejected this description because:
+              <%= @planning_application.latest_rejected_description_change.rejection_reason %>
+            </span>
+          </p>
+        <% end %>
+
+        <%= form.hidden_field(:type, value: "DescriptionChangeValidationRequest") %>
+        <%= form.govuk_text_area :proposed_description,
+              value: @planning_application.description,
+              label: {size: "s", text: "Enter an amended description"},
+              rows: 5 %>
+        <% if params[:return_to].present? %>
+          <%= form.hidden_field(:return_to, value: params[:return_to]) %>
+        <% elsif @planning_application.pre_application? && @planning_application.not_started? %>
+          <%= form.hidden_field(:return_to, value: @planning_application.url_helpers.task_path(reference: @planning_application.reference, slug: "check-and-validate/check-application-details/check-description")) %>
+        <% elsif @planning_application.not_started? %>
+          <%= form.hidden_field(:return_to, value: planning_application_validation_tasks_path(@planning_application)) %>
+        <% else %>
+          <%= form.hidden_field(:return_to, value: @back_path) %>
+        <% end %>
+
+        <% if @planning_application.application_type.description_change_requires_validation? %>
+          <div class="display govuk-!-margin-top-3">
+            <%= form.govuk_radio_buttons_fieldset(:skip_applicant_approval, legend: {size: "m", text: "Does this description change require applicant's agreement?"}) do %>
+              <%= form.govuk_radio_button :skip_applicant_approval, false, label: {text: "Yes, applicant agreement needed"} do %>
+                <p>
+                  The new description will be sent to the applicant to approve.
+                  If the applicant does not respond within 5 days, the amended
+                  description will be automatically accepted.
+                </p>
+              <% end %>
+              <%= form.govuk_radio_button :skip_applicant_approval, true, label: {text: "No, update description immediately"} do %>
+                <p>The applicant will be notified of the new description.</p>
+              <% end %>
             <% end %>
-            <%= form.govuk_radio_button :skip_applicant_approval, true, label: {text: "No, update description immediately"} do %>
-              <p>The applicant will be notified of the new description.</p>
-            <% end %>
-          <% end %>
-        </div>
-      <% end %>
+          </div>
+        <% end %>
+
         <div class="govuk-button-group">
           <%= form.govuk_submit @planning_application.application_type.description_change_requires_validation? ? "Update description" : "Save and mark as complete" %>
           <%= back_link unless @planning_application.pre_application? %>

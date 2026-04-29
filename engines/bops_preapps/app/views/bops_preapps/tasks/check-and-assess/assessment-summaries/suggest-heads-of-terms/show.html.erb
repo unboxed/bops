@@ -18,9 +18,9 @@
           position: position,
           record_class: "term",
           record_controller: "terms",
-          record_sortable_url: main_app.planning_application_assessment_term_position_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
-          edit_record_url: main_app.edit_planning_application_assessment_term_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
-          remove_record_url: main_app.planning_application_assessment_term_path(@planning_application, term, redirect_to: task_path(@planning_application, @task)),
+          record_sortable_url: main_app.planning_application_assessment_term_position_path(@planning_application, term, redirect_to: @task.url),
+          edit_record_url: main_app.edit_planning_application_assessment_term_path(@planning_application, term, redirect_to: @task.url),
+          remove_record_url: main_app.planning_application_assessment_term_path(@planning_application, term, redirect_to: @task.url),
           current_request: term.current_validation_request,
           show_status_tag: !@planning_application.pre_application?
         )) %>
@@ -36,7 +36,7 @@
     </summary>
 
     <div>
-      <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/suggest-heads-of-terms/form", url: main_app.planning_application_assessment_terms_path(@planning_application, redirect_to: task_path(@planning_application, @task)) %>
+      <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/suggest-heads-of-terms/form", url: main_app.planning_application_assessment_terms_path(@planning_application, redirect_to: @task.url) %>
     </div>
     <hr
       class="

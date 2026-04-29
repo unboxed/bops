@@ -89,6 +89,10 @@ class Enforcement < ApplicationRecord
     model_name.singular
   end
 
+  def url_helpers
+    BopsEnforcements::Engine.routes.url_helpers
+  end
+
   private
 
   def factory

@@ -27,14 +27,8 @@ class SidebarComponent < ViewComponent::Base
       render_section(task, top_level:)
     else
       is_active = current_task?(task)
-      target = if planning_application.pre_application?
-        BopsPreapps::Engine.routes.url_helpers.task_path(@case_record,
-          slug: task.full_slug, reference: planning_application_reference)
-      else
-        task_path(planning_application_reference, slug: task.full_slug)
-      end
       link_options = is_active ? {"aria-current" => "page"} : {}
-      link = helpers.govuk_link_to(task.name, target, **link_options)
+      link = helpers.govuk_link_to(task.name, task.url, **link_options)
       content = if task.status_hidden?
         safe_join([invisible_status_placeholder, link], " ")
       else
@@ -58,10 +52,7 @@ class SidebarComponent < ViewComponent::Base
           helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
           "Consultation"
         ]),
-        BopsPreapps::Engine.routes.url_helpers.task_path(
-          planning_application,
-          consultation_task
-        ),
+        consultation_task.url,
         class: "bops-sidebar__link"
       )
 
@@ -74,10 +65,7 @@ class SidebarComponent < ViewComponent::Base
           helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
           "Assessment"
         ]),
-        BopsPreapps::Engine.routes.url_helpers.task_path(
-          planning_application,
-          assessment_task
-        ),
+        assessment_task.url,
         class: "bops-sidebar__link"
       )
 

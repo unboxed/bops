@@ -28,10 +28,6 @@ class AuthenticationController < ApplicationController
 
     return unless task
 
-    if @planning_application.pre_application?
-      redirect_to BopsPreapps::Engine.routes.url_helpers.task_path(@planning_application, task)
-    else
-      redirect_to task_path(@planning_application, task)
-    end
+    redirect_to task.url
   end
 end
