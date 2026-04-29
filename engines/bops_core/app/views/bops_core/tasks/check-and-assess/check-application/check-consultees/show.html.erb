@@ -4,17 +4,17 @@
   <%= render ErrorSummaryComponent.new(errors: @form.errors) %>
 <% end %>
 
-<% if @planning_application.consultation_required == false %>
-  <div class="grey-border-box">
-    <p><strong>Consultation has been marked as not required</strong></p>
-    <p>
-      To start the consultation process, first complete the
-      <%= link_to "Determine consultation requirement", @form.determine_consultation_requirement_task_path %>
-      task.
-    </p>
-  </div>
-<% else %>
-  <% if @planning_application.consultation_required.nil? %>
+<% if @planning_application.pre_application? %>
+  <% if @planning_application.consultation_required == false %>
+    <div class="grey-border-box">
+      <p><strong>Consultation has been marked as not required</strong></p>
+      <p>
+        To start the consultation process, first complete the
+        <%= link_to "Determine consultation requirement", @form.determine_consultation_requirement_task_path %>
+        task.
+      </p>
+    </div>
+  <% elsif @planning_application.consultation_required.nil? %>
     <div class="grey-border-box">
       <p><strong>Consultation hasn't been started yet</strong></p>
       <p>
@@ -24,13 +24,13 @@
       </p>
     </div>
   <% end %>
-  <%= render "shared/consultees_table",
-        planning_application: @planning_application,
-        consultation: @planning_application.consultation,
-        show_assign: true,
-        use_preapps_routes: @planning_application.pre_application?,
-        task_slug: @task.full_slug %>
 <% end %>
+<%= render "shared/consultees_table",
+      planning_application: @planning_application,
+      consultation: @planning_application.consultation,
+      show_assign: true,
+      use_preapps_routes: @planning_application.pre_application?,
+      task_slug: @task.full_slug %>
 
 <p><%= govuk_link_to "Add consultees", @form.add_consultees_task_path %></p>
 
