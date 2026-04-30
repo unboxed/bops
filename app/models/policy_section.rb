@@ -25,7 +25,7 @@ class PolicySection < ApplicationRecord
   }
 
   def full_section
-    "#{policy_class.section}.#{section}"
+    (policy_class.section == section) ? policy_class.section : "#{policy_class.section}.#{section}"
   end
 
   def planning_application_policy_section

@@ -370,7 +370,7 @@ en:
           description_label: Description
           remove: Remove
           save: Save
-          section_hint: Enter section number, such as "1a, 1d(ii), 2b(i)(aa)"
+          section_hint: Enter section number, such as "1a, 1d(ii), 2b(i)(aa)", or use class code (i.e., "%{class}") to hide section number
           section_label: Section
           title_hint: Enter section title, such as "Development not permitted, conditions"
           title_label: Title

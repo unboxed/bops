@@ -69,10 +69,6 @@ module Tasks
       planning_application_policy_sections.select { |section| section_ids.include?(section.policy_section_id) }
     end
 
-    def policy_reference(section, area: assessment_area)
-      (area.policy_class.section == section.section) ? section.section : "#{area.policy_class.section}.#{section.section}"
-    end
-
     def complies?(area)
       assessment_area_sections(area).all?(&:complies?)
     end

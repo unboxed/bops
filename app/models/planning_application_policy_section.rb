@@ -27,7 +27,7 @@ class PlanningApplicationPolicySection < ApplicationRecord
     %i[complies does_not_comply to_be_determined].index_with(&:to_s),
     default: :to_be_determined
 
-  delegate :section, :title, to: :policy_section
+  delegate :section, :title, :full_section, to: :policy_section
   delegate :policy_class, to: :policy_section
 
   def set_description
