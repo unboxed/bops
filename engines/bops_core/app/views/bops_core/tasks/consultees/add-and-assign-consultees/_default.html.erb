@@ -1,6 +1,7 @@
 <%= render "task_header", task: @task %>
 
 <%= form_with model: @form, url: @form.url do |form| %>
+  <%= return_to_hidden_field %>
   <% if @form.constraints.none? %>
     <%= govuk_inset_text do %>
       <p>No planning constraints have been identified. You can still add consultees manually.</p>

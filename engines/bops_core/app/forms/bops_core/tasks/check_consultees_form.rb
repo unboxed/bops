@@ -10,11 +10,15 @@ module BopsCore
       end
 
       def add_consultees_task_path
-        task_path(planning_application, "consultees/add-and-assign-consultees")
+        if planning_application.pre_application?
+          task_path(planning_application, "consultees/add-and-assign-consultees", return_to: task.url)
+        else
+          task_path(planning_application, "consultees-neighbours-and-publicity/consultees/add-and-assign-consultees", return_to: task.url)
+        end
       end
 
       def determine_consultation_requirement_task_path
-        task_path(planning_application, "consultees/determine-consultation-requirement")
+        task_path(planning_application, "consultees/determine-consultation-requirement", return_to: task.url)
       end
 
       private

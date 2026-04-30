@@ -12,6 +12,26 @@ RSpec.describe "Check consultees task", type: :system do
       end
 
       it_behaves_like "check consultees task", application_type
+
+      context "checking page content" do
+        let(:user) { create(:user, local_authority:) }
+
+        before do
+          sign_in(user)
+          visit "/planning_applications/#{planning_application.reference}/check-and-assess/check-application/check-consultees"
+        end
+
+        it "shows the Add consultees link with the correct return path", :capybara do
+          expect(page).to have_link(
+            "Add consultees",
+            href: task_path(
+              planning_application,
+              "consultees-neighbours-and-publicity/consultees/add-and-assign-consultees",
+              return_to: task_path(planning_application, "check-and-assess/check-application/check-consultees")
+            )
+          )
+        end
+      end
     end
   end
 end
