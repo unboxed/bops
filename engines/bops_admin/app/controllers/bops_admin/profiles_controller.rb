@@ -36,7 +36,6 @@ module BopsAdmin
     def local_authority_params
       params.require(:local_authority).permit(
         :signatory_name,
-        :signature,
         :signatory_job_title,
         :enquiries_paragraph,
         :engagement_statement,
@@ -53,6 +52,7 @@ module BopsAdmin
         :public_register_base_url,
         :preapp_guidance_url,
         :privacy_policy_url,
+        :signature,
         :submission_guidance_url,
         :submission_url
       )
