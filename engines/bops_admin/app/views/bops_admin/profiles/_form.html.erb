@@ -60,7 +60,6 @@
     <div class="display-flex" style="align-items: center; gap: 1rem; flex-wrap: nowrap;">
       <%= form.file_field(:signature,
             class: "govuk-file-upload",
-            multiple: true,
             accept: acceptable_file_mime_types,
             "aria-describedby": "local_authority_signature-hint") %>
       <%= govuk_link_to "clear", "#", no_visited_state: true, data: {action: "click->clear-form#handleClick"} %>

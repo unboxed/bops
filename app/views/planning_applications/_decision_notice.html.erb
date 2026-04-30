@@ -194,8 +194,9 @@
   </h3>
   <p class="govuk-!-margin-bottom-0">
     <%= planning_application.local_authority.signatory_name %><br>
-    <%= planning_application.local_authority.signatory_job_title %><br>
+    <%= planning_application.local_authority.signatory_job_title %>
     <% if  planning_application.local_authority.signature.present? %>
+      <br>
       <%= image_tag main_app.url_for(planning_application.local_authority.signature.blob), alt: "Signatory signature", style: "max-width: 150px" %>
     <% end %>
   </p>
