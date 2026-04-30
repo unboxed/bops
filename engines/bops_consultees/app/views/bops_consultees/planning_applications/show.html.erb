@@ -131,7 +131,7 @@
     <% unless @planning_application.consultee_responses_closed? %>
       <%= render "bops_consultees/consultee_responses/form", planning_application: @planning_application, consultee_response: @consultee_response, sgid: params[:sgid] %>
       <hr class="govuk-!-margin-top-5 govuk-!-margin-bottom-5">
-      <%= render ConsulteeResponseListComponent.new(responses: @consultee.responses, redact_and_publish: false) %>
+      <%= render BopsCore::ConsulteeResponseListComponent.new(responses: @consultee.responses, redact_and_publish: false) %>
     <% end %>
   </div>
 </div>

@@ -232,6 +232,12 @@ local_authority_subdomain do
 
         resources :neighbour_responses, except: %i[show destroy]
         resources :redact_neighbour_responses, only: %i[edit update]
+
+        scope module: :consultation do
+          resources :consultees, only: [] do
+            resources :responses, only: %i[index new create edit update]
+          end
+        end
       end
 
       resource :consultation_requirement, only: %i[edit update]
