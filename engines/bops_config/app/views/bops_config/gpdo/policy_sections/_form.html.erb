@@ -2,7 +2,7 @@
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_select(:title, PolicySection::TITLES, label: {text: "Title"}, hint: {text: "Select a title for the section"}) %>
-  <%= form.govuk_text_field :section, label: {text: t(".section_label")}, hint: {text: t(".section_hint")} %>
+  <%= form.govuk_text_field :section, label: {text: t(".section_label")}, hint: {text: t(".section_hint", class: @policy_class.section)} %>
   <%= form.govuk_text_area :description, rows: 10, label: {text: t(".description_label")}, hint: {text: t(".description_hint")} %>
 
   <%= form.govuk_submit(t(".save")) do %>
@@ -12,7 +12,7 @@
             warning: true,
             method: :delete,
             data: {confirm: "Are you sure?"}) %>
-      <% end %>
+    <% end %>
   <% end %>
 
   <%= govuk_button_link_to t("back"), gpdo_policy_schedule_policy_part_policy_class_policy_sections_path(@schedule.number, @part.number, @policy_class.section), secondary: true %>
