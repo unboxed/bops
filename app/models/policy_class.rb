@@ -10,7 +10,7 @@ class PolicyClass < ApplicationRecord
   attr_readonly :section
 
   with_options presence: true do
-    validates :section, uniqueness: {scope: :policy_part}
+    validates :section, uniqueness: {scope: :policy_part}, exclusion: {in: ["."], message: "Class number may not be ‘.’"}
     validates :name
   end
 

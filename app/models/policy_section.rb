@@ -14,7 +14,7 @@ class PolicySection < ApplicationRecord
   has_many :planning_applications, through: :planning_application_policy_sections
 
   with_options presence: true do
-    validates :section, uniqueness: {scope: :policy_class}
+    validates :section, uniqueness: {scope: :policy_class}, exclusion: {in: ["."], message: "Section number may not be ‘.’"}
     validates :description
   end
 

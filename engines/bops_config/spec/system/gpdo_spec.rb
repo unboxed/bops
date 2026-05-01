@@ -323,6 +323,16 @@ RSpec.describe "GPDO", type: :system do
       end
     end
 
+    it "cannot create a class with an invalid name" do
+      visit "/gpdo/schedule/2/part/1/class"
+      click_link "Create new class"
+
+      fill_in "Class", with: "."
+      fill_in "Description", with: "invalid class"
+      click_button "Save"
+      expect(page).to have_selector("[role=alert] li", text: "Class number may not be ‘.’")
+    end
+
     it "allows editing the policy class" do
       visit "/gpdo/schedule/2/part/1/class/B/edit"
       within(".govuk-breadcrumbs__list") do
@@ -418,6 +428,16 @@ RSpec.describe "GPDO", type: :system do
           expect(page).to have_content("if the dwellinghouse is located on article 2(3) land")
         end
       end
+    end
+
+    it "cannot create a section with an invalid name" do
+      visit "/gpdo/schedule/2/part/1/class/AA/section"
+      click_link "Create new policy section"
+
+      fill_in "Section", with: "."
+      fill_in "Description", with: "invalid section"
+      click_button "Save"
+      expect(page).to have_selector("[role=alert] li", text: "Section number may not be ‘.’")
     end
 
     it "allows editing the policy section" do
