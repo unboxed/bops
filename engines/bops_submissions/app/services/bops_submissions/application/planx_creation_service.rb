@@ -3,7 +3,7 @@
 module BopsSubmissions
   module Application
     class PlanxCreationService
-      def initialize(local_authority: nil, user: nil, params: nil, submission: nil, email_sending_permitted: false)
+      def initialize(user:, local_authority: nil, params: nil, submission: nil, email_sending_permitted: false)
         @local_authority = local_authority
         @user = user
         @params = params

@@ -28,6 +28,7 @@ class ApiUser < ApplicationRecord
   has_secure_token :token, length: 36
 
   scope :active, -> { where(revoked_at: nil) }
+  scope :paused, -> { where(paused: true) }
   scope :revoked, -> { where.not(revoked_at: nil) }
   scope :by_name, -> { reorder(:name) }
 

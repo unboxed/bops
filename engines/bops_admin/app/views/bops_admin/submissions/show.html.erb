@@ -11,6 +11,14 @@
   <div class="govuk-grid-column-full">
     <h1>Submission</h1>
 
+    <% if @submission.submitted? %>
+      <%= govuk_notification_banner(title_text: t(".awaiting_review.title")) do %>
+        <p class="govuk-notification-banner__heading">
+          <%= t(".awaiting_review.body") %>
+        </p>
+      <% end %>
+    <% end %>
+
     <%= govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list| %>
       <% {
            "Submission service reference" => @submission.application_reference,
@@ -116,12 +124,24 @@
         and case id:
         <%= @submission.case_record.id + "." %>
       </p>
+    <% elsif @submission.submitted? %>
+      <p><%= t(".awaiting_review.no_application_yet") %></p>
+    <% elsif @submission.started? %>
+      <p><%= t(".processing.body") %></p>
     <% else %>
       <p>There is no case associated with this submission.</p>
     <% end %>
 
-    <div class="govuk-button-group">
-      <%= back_link %>
-    </div>
+    <% if @submission.submitted? %>
+      <%= form_with model: @submission, url: submission_path(@submission), method: :patch do |form| %>
+        <%= form.govuk_submit(t(".submit_button")) do %>
+          <%= back_link %>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="govuk-button-group">
+        <%= back_link %>
+      </div>
+    <% end %>
   </div>
 </div>

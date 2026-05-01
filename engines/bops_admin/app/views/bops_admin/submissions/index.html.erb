@@ -12,6 +12,14 @@
       <%= t(".submissions") %>
     </h1>
 
+    <% if current_local_authority.paused_api_users? %>
+      <%= govuk_notification_banner(title_text: t(".paused_banner.title")) do %>
+        <p class="govuk-body">
+          <%= t(".paused_banner.body_html") %>
+        </p>
+      <% end %>
+    <% end %>
+
     <div class="govuk-inset-text">
       Planning applications with a <strong>Completed</strong> submission status may temporarily show a <strong>Pending</strong> application status before appearing in BOPS.
       Applications pending for more than 10 minutes will trigger an error for the development team to investigate.

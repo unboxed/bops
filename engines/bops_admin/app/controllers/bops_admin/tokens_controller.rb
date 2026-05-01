@@ -77,7 +77,7 @@ module BopsAdmin
     end
 
     def token_attributes
-      %i[name service authentication_type product_id client_id client_secret]
+      %i[name service authentication_type product_id client_id client_secret paused]
     end
 
     def file_downloader_attributes

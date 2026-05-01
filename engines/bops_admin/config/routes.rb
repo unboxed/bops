@@ -50,5 +50,5 @@ BopsAdmin::Engine.routes.draw do
     patch :reactivate, on: :member
   end
 
-  resources :submissions, only: %i[index show]
+  resources :submissions, only: %i[index show update]
 end

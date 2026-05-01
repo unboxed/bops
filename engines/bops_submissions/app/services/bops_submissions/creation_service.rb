@@ -13,19 +13,21 @@ module BopsSubmissions
       Referer
     ].freeze
 
-    def initialize(params:, headers:, local_authority:, schema: nil)
+    def initialize(params:, headers:, local_authority:, api_user:, schema: nil)
       @params = params
       @headers = headers
       @local_authority = local_authority
+      @api_user = api_user
       @schema = schema
     end
 
-    attr_reader :params, :headers, :local_authority, :schema
+    attr_reader :params, :headers, :local_authority, :api_user, :schema
 
     def call
       submission = local_authority.submissions.create!(
         request_headers: filtered_request_headers,
         request_body: params,
+        api_user: api_user,
         schema:
       )
 

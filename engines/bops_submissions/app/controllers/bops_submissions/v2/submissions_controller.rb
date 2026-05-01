@@ -8,7 +8,7 @@ module BopsSubmissions
 
       def create
         @submission = creation_service.call
-        SubmissionProcessorJob.perform_later(@submission.id, @current_api_user)
+        @submission.start!
 
         respond_to do |format|
           format.json
@@ -22,6 +22,7 @@ module BopsSubmissions
           params: submission_params,
           headers: request.headers,
           local_authority: current_local_authority,
+          api_user: @current_api_user,
           schema:
         )
       end

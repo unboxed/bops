@@ -243,6 +243,10 @@ class LocalAuthority < ApplicationRecord
     subdomain
   end
 
+  def paused_api_users?
+    api_users.active.paused.exists?
+  end
+
   private
 
   def protocol

@@ -4,6 +4,7 @@ class Submission < ApplicationRecord
   include AASM
 
   belongs_to :local_authority
+  belongs_to :api_user, optional: true
   has_one :case_record, dependent: :nullify
   has_many :documents, dependent: :destroy
 
@@ -21,14 +22,18 @@ class Submission < ApplicationRecord
 
   scope :by_created_at_desc, -> { order(created_at: :desc) }
 
-  aasm column: :status, timestamps: true do
+  aasm column: :status, timestamps: true, whiny_transitions: false do
     state :submitted, initial: true
     state :started
     state :failed
     state :completed
 
     event :start do
-      transitions from: [:failed, :submitted], to: :started
+      transitions from: [:failed, :submitted], to: :started, unless: :api_user_paused?
+
+      after do
+        BopsSubmissions::SubmissionProcessorJob.perform_later(self)
+      end
     end
 
     event :fail do
@@ -64,5 +69,9 @@ class Submission < ApplicationRecord
 
   def odp?
     schema == "odp"
+  end
+
+  def api_user_paused?
+    api_user&.paused?
   end
 end

@@ -134,20 +134,20 @@ RSpec.describe Submission do
     context "event guards" do
       it "won't complete before start" do
         expect(submission.may_complete?).to be_falsey
-        expect { submission.complete! }.to raise_error(AASM::InvalidTransition)
+        expect(submission.complete!).to be(false)
       end
 
       it "won't fail after completion" do
         submission.start!
         submission.complete!
         expect(submission.may_fail?).to be_falsey
-        expect { submission.fail! }.to raise_error(AASM::InvalidTransition)
+        expect(submission.fail!).to be(false)
       end
 
       it "won't start twice" do
         submission.start!
         expect(submission.may_start?).to be_falsey
-        expect { submission.start! }.to raise_error(AASM::InvalidTransition)
+        expect(submission.start!).to be(false)
       end
 
       it "allows fail from started" do
