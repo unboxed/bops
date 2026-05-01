@@ -21,7 +21,7 @@ class PolicySection < ApplicationRecord
   validates :title, inclusion: {in: TITLES}
 
   scope :grouped_and_ordered_by_title, -> {
-    group_by(&:title)
+    group_by(&:title).in_order_of(:first, PolicySection::TITLES)
   }
 
   def full_section
