@@ -1,4 +1,4 @@
-<div data-controller="unsaved-changes"
+<div data-controller="unsaved-changes consultees"
      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
   <%= form_with model: @form, url: @form.url,
         data: {consultees_target: "form", unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
