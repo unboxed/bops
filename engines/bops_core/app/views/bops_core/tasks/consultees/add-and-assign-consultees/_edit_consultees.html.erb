@@ -52,6 +52,7 @@
   <% end %>
 
   <%= form_with model: @form, url: @form.url do |form| %>
+    <%= return_to_hidden_field %>
     <%= stimulus_tag("contacts") do %>
       <%= form.govuk_fieldset(legend: {text: "Add another consultee"}) do %>
         <%= form.hidden_field :contact_id, value: nil, data: {contacts_target: "input"} %>
@@ -75,7 +76,7 @@
       <% end %>
     <% end %>
 
-    <%= govuk_button_link_to "Save and return", task_path(@planning_application, @task) %>
+    <%= govuk_button_link_to "Save and return", return_to_or_task_path(@task) %>
   <% end %>
 <% else %>
   <% content_for :page_title do %>
@@ -83,6 +84,7 @@
   <% end %>
 
   <%= form_with model: @form, url: @form.url do |form| %>
+    <%= return_to_hidden_field %>
     <%= stimulus_tag("contacts") do %>
       <%= form.govuk_fieldset(legend: {text: "Add other consultee", tag: "h1", size: "l"}) do %>
         <%= form.hidden_field :contact_id, value: nil, data: {contacts_target: "input"} %>
@@ -105,6 +107,6 @@
       <% end %>
     <% end %>
 
-    <%= govuk_button_link_to "Save and return", task_path(@planning_application, @task) %>
+    <%= govuk_button_link_to "Save and return", return_to_or_task_path(@task) %>
   <% end %>
 <% end %>
