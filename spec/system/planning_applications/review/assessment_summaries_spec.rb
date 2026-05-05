@@ -137,109 +137,117 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
     let!(:supportive_response2) { create(:neighbour_response, neighbour: neighbour3, summary_tag: "supportive") }
     let!(:neutral_response) { create(:neighbour_response, neighbour: neighbour2, summary_tag: "neutral") }
 
-    it "shows validation errors when returning without comments" do
-      visit "/planning_applications/#{planning_application.reference}/review/tasks"
-      expect(page).to have_selector("h2.bops-task-accordion-heading", text: "Review assessment summaries")
-
-      # Neighbour summary
-      click_button "Summary of neighbour responses"
-      within("#neighbour_summary_footer") do
-        click_button("Save and mark as complete")
-      end
-      expect(page).to have_selector("[role=alert] li", text: "Determine whether this is correct")
-      within("#neighbour_summary_section") do
-        expect(find("button")[:"aria-expanded"]).to eq("true")
-      end
-      within("#neighbour_summary_footer") do
-        expect(page).to have_selector("p.govuk-error-message", text: "Determine whether this is correct")
+    context "shows validation errors when returning without comments" do
+      before do
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
+        expect(page).to have_selector("h2.bops-task-accordion-heading", text: "Review assessment summaries")
       end
 
-      within("#neighbour_summary_footer") do
-        choose "Return with comments"
-        click_button("Save and mark as complete")
+      it "Neighbour summary" do
+        click_button "Summary of neighbour responses"
+        within("#neighbour_summary_footer") do
+          click_button("Save and mark as complete")
+        end
+        expect(page).to have_selector("[role=alert] li", text: "Determine whether this is correct")
+        within("#neighbour_summary_section") do
+          expect(find("button")[:"aria-expanded"]).to eq("true")
+        end
+        within("#neighbour_summary_footer") do
+          expect(page).to have_selector("p.govuk-error-message", text: "Determine whether this is correct")
+        end
+
+        within("#neighbour_summary_footer") do
+          choose "Return with comments"
+          click_button("Save and mark as complete")
+        end
+
+        expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
+        within("#neighbour_summary_section") do
+          expect(find("button")[:"aria-expanded"]).to eq("true")
+        end
+        within("#neighbour_summary_footer") do
+          expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+        end
       end
 
-      expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
-      within("#neighbour_summary_section") do
-        expect(find("button")[:"aria-expanded"]).to eq("true")
-      end
-      within("#neighbour_summary_footer") do
-        expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+      it "Summary of works" do
+        click_button "Summary of works"
+        within("#summary_of_work_footer") do
+          choose "Return with comments"
+          click_button("Save and mark as complete")
+        end
+
+        expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
+        within("#summary_of_work_section") do
+          expect(find("button")[:"aria-expanded"]).to eq("true")
+        end
+        within("#summary_of_work_footer") do
+          expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+        end
       end
 
-      # Summary of works
-      click_button "Summary of works"
-      within("#summary_of_work_footer") do
-        choose "Return with comments"
-        click_button("Save and mark as complete")
+      it "Consultation" do
+        click_button "Consultation"
+        within("#consultation_summary_footer") do
+          choose "Return with comments"
+          click_button("Save and mark as complete")
+        end
+
+        expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
+        within("#consultation_summary_section") do
+          expect(find("button")[:"aria-expanded"]).to eq("true")
+        end
+        within("#consultation_summary_footer") do
+          expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+        end
       end
 
-      expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
-      within("#summary_of_work_section") do
-        expect(find("button")[:"aria-expanded"]).to eq("true")
-      end
-      within("#summary_of_work_footer") do
-        expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+      it "Site description" do
+        click_button "Site description"
+        within("#site_description_footer") do
+          choose "Return with comments"
+          click_button("Save and mark as complete")
+        end
+
+        expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
+        within("#site_description_section") do
+          expect(find("button")[:"aria-expanded"]).to eq("true")
+        end
+        within("#site_description_footer") do
+          expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+        end
       end
 
-      # Consultation
-      click_button "Consultation"
-      within("#consultation_summary_footer") do
-        choose "Return with comments"
-        click_button("Save and mark as complete")
+      it "Additional evidence" do
+        click_button "Summary of additional evidence"
+        within("#additional_evidence_footer") do
+          choose "Return with comments"
+          click_button("Save and mark as complete")
+        end
+
+        expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
+        within("#additional_evidence_section") do
+          expect(find("button")[:"aria-expanded"]).to eq("true")
+        end
+        within("#additional_evidence_footer") do
+          expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+        end
       end
 
-      expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
-      within("#consultation_summary_section") do
-        expect(find("button")[:"aria-expanded"]).to eq("true")
-      end
-      within("#consultation_summary_footer") do
-        expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
-      end
+      it "Amenity" do
+        click_button "Amenity"
+        within("#amenity_footer") do
+          choose "Return with comments"
+          click_button("Save and mark as complete")
+        end
 
-      # Site description
-      click_button "Site description"
-      within("#site_description_footer") do
-        choose "Return with comments"
-        click_button("Save and mark as complete")
-      end
-
-      expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
-      within("#site_description_section") do
-        expect(find("button")[:"aria-expanded"]).to eq("true")
-      end
-      within("#site_description_footer") do
-        expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
-      end
-
-      # Additional evidence
-      click_button "Summary of additional evidence"
-      within("#additional_evidence_footer") do
-        choose "Return with comments"
-        click_button("Save and mark as complete")
-      end
-
-      expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
-      within("#additional_evidence_section") do
-        expect(find("button")[:"aria-expanded"]).to eq("true")
-      end
-      within("#additional_evidence_footer") do
-        expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
-      end
-
-      # Amenity
-      click_button "Amenity"
-      within("#amenity_footer") do
-        choose "Return with comments"
-        click_button("Save and mark as complete")
-      end
-
-      expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
-      within("#amenity_section") do
-        expect(find("button")[:"aria-expanded"]).to eq("true")
-      end
-      within("#amenity_footer") do
-        expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+        expect(page).to have_selector("[role=alert] li", text: "You must add a comment")
+        within("#amenity_section") do
+          expect(find("button")[:"aria-expanded"]).to eq("true")
+        end
+        within("#amenity_footer") do
+          expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+        end
       end
     end
 
