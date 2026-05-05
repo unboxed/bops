@@ -6,6 +6,7 @@ RSpec.describe "Assess against legislation", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:api_user) { create(:api_user, :validation_requests_ro, local_authority:) }
   let(:assessor) { create(:user, :assessor, local_authority:) }
+  let(:reviewer) { create(:user, :reviewer, local_authority:) }
   let(:reference) { planning_application.reference }
 
   let!(:schedule) { create(:policy_schedule, number: 2, name: "Permitted development rights") }
@@ -144,6 +145,13 @@ RSpec.describe "Assess against legislation", type: :system do
       expect(page).to have_content("Assessment against legislation successfully saved")
 
       expect(task.reload).to be_completed
+
+      sign_out(assessor)
+      sign_in(reviewer)
+
+      visit "/planning_applications/#{reference}/review/tasks"
+      click_link "Review assessment against legislation"
+      expect(page).to have_content("Review assessment of Part 1, Class B Not started")
     end
   end
 
