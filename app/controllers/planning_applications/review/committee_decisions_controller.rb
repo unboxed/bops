@@ -4,6 +4,7 @@ module PlanningApplications
   module Review
     class CommitteeDecisionsController < BaseController
       before_action :set_committee_decision
+      before_action :set_task, only: :update
 
       def edit
       end
@@ -15,6 +16,8 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @committee_decision.update(committee_decision_params)
+              @task.action_required! if @task && return_to_officer?
+
               redirect_to planning_application_review_tasks_path(@planning_application, anchor: "recommendation_to_committee_section"), notice: t(".success")
             else
               flash.now[:alert] = @committee_decision.errors.messages.values.flatten.join(", ")
@@ -28,6 +31,10 @@ module PlanningApplications
 
       def set_committee_decision
         @committee_decision = @planning_application.committee_decision
+      end
+
+      def set_task
+        @task = @planning_application.case_record.find_task_by_slug_path("check-and-assess/complete-assessment/make-draft-recommendation")
       end
 
       def committee_decision_params

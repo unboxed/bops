@@ -250,6 +250,9 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
       end
 
       it "summary of neighbour responses" do
+        task = planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/summary-of-neighbour-responses")
+        task.start!
+
         click_button "Summary of neighbour responses"
         within("#neighbour_summary_section") do
           expect(find(".govuk-tag")).to have_content("Not started")
@@ -298,6 +301,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         within("#neighbour_summary_section") do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
+
+        expect(task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
@@ -376,6 +381,9 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
       end
 
       it "summary of works" do
+        task = planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/summary-of-works")
+        task.start!
+
         click_button "Summary of works"
         within("#summary_of_work_section") do
           expect(find(".govuk-tag")).to have_content("Not started")
@@ -422,6 +430,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         within("#summary_of_work_section") do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
+
+        expect(task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
@@ -496,6 +506,9 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
       end
 
       it "site description" do
+        task = planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/site-description")
+        task.start!
+
         click_button "Site description"
         within("#site_description_section") do
           expect(find(".govuk-tag")).to have_content("Not started")
@@ -543,6 +556,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         within("#site_description_section") do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
+
+        expect(task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
@@ -621,6 +636,9 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
       end
 
       it "summary of consultation" do
+        task = planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/summary-of-consultation")
+        task.start!
+
         planning_application.application_type.assessment_details << "consultation_summary"
         planning_application.application_type.save
 
@@ -670,6 +688,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         within("#consultation_summary_section") do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
+
+        expect(task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
@@ -748,6 +768,9 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
       end
 
       it "summary of additional evidence" do
+        task = planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/other-considerations")
+        task.start!
+
         click_button "Summary of additional evidence"
         within("#additional_evidence_section") do
           expect(find(".govuk-tag")).to have_content("Not started")
@@ -794,6 +817,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         within("#additional_evidence_section") do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
+
+        expect(task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
@@ -873,6 +898,9 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
       end
 
       it "amenity" do
+        task = planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/amenity")
+        task.start!
+
         click_button "Amenity assessment"
         within("#amenity_section") do
           expect(find(".govuk-tag")).to have_content("Not started")
@@ -919,6 +947,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         within("#amenity_section") do
           expect(find(".govuk-tag")).to have_content("Awaiting changes")
         end
+
+        expect(task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day

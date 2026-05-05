@@ -12,7 +12,7 @@ class Task < ApplicationRecord
   validates :slug, :name, presence: true, strict: true
   validates :status, inclusion: STATUSES
 
-  aasm column: :status, whiny_persistence: true do
+  aasm column: :status, enum: true, whiny_persistence: true do
     state :not_started, initial: true
     state :in_progress, :completed, :cannot_start_yet, :action_required
 
