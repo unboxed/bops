@@ -45,7 +45,7 @@ class Submission < ApplicationRecord
     end
   end
 
-  store_accessor :application_payload, :json_file, :other_files
+  store_accessor :application_payload, :json_file, :site_location_file, :other_files
 
   def application_reference
     @application_reference ||= request_body["applicationRef"] || request_body["metadata"]["id"]

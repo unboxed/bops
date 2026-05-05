@@ -11,44 +11,56 @@ RSpec.describe BopsSubmissions::Parsers::ProposalParser do
     end
 
     context "with valid params" do
+      let(:application_file) { json_fixture_submissions("files/applications/PT-10087984.json") }
+      let(:site_location_file) { json_fixture_submissions("SiteLocationWGS84.geojson") }
+
       let(:params) {
-        json_fixture_submissions("files/applications/PT-10087984.json")
+        application_file.merge("polygon" => site_location_file)
       }
 
       it "returns a correctly formatted proposal hash" do
         expect(parse_proposal).to eq(
           description: "\nDH Test Description",
-          boundary_geojson: {"geometry" => {
-                               "coordinates" => [
-                                 [
-                                   [
-                                     [-0.116792, 51.460787],
-                                     [-0.117213, 51.4607],
-                                     [-0.117229, 51.46057],
-                                     [-0.117112, 51.46055],
-                                     [-0.117002, 51.460567],
-                                     [-0.116942, 51.460605],
-                                     [-0.116982, 51.460721],
-                                     [-0.116752, 51.460765],
-                                     [-0.116792, 51.460787]
-                                   ]
-                                 ]
-                               ],
-                               "type" => "MultiPolygon"
-                             },
-                             "id" => "099bc773-098d-44e9-9344-26d9e9c8c4ef",
-                             "properties" => {"boundaryType" => "MY_BOUNDARY"},
-                             "type" => "Feature"}
+          boundary_geojson: {
+            "features" => [
+              {
+                "geometry" => {
+                  "coordinates" => [
+                    [
+                      [
+                        [-0.11486488, 51.46137222],
+                        [-0.11510252, 51.46131714],
+                        [-0.11511232, 51.46130650],
+                        [-0.11507089, 51.46119388],
+                        [-0.11483910, 51.46122927],
+                        [-0.11483654, 51.46122158],
+                        [-0.11453008, 51.46126971],
+                        [-0.11459268, 51.46141011],
+                        [-0.11486488, 51.46137222]
+                      ]
+                    ]
+                  ],
+                  "type" => "MultiPolygon"
+                },
+                "id" => "a79d0fa9-5a89-4be4-a411-756d5e382285",
+                "properties" => {
+                  "boundaryType" => "MY_BOUNDARY"
+                },
+                "type" => "Feature"
+              }
+            ],
+            "type" => "FeatureCollection"
+          }
         )
       end
     end
 
     context "with missing polygon" do
-      let(:params) do
-        fixture = json_fixture_submissions("files/applications/PT-10087984.json")
-        fixture["polygon"] = nil
-        fixture
-      end
+      let(:application_file) { json_fixture_submissions("files/applications/PT-10087984.json") }
+
+      let(:params) {
+        application_file.merge("polygon" => nil)
+      }
 
       it "returns description and nil boundary_geojson" do
         expect(parse_proposal).to eq(

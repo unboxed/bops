@@ -57,7 +57,7 @@ module BopsSubmissions
           "AddressParser" => data.dig("applicationData", "siteLocation"),
           "ApplicationTypeParser" => data,
           "FeeParser" => data["feeCalculationSummary"],
-          "ProposalParser" => data
+          "ProposalParser" => data.merge("polygon" => submission.site_location_file)
         }.transform_keys { |key| Parsers.const_get(key) }
       end
 
