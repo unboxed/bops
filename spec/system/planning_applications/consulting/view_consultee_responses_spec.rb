@@ -220,8 +220,8 @@ RSpec.describe "View consultee responses", show_sidebar: false, type: :system, c
 
         within ".consultee-response:first-of-type" do
           expect(page).to have_selector("p time", text: "Received on #{today.to_fs}")
-          expect(page).to have_selector("p span", text: "No objection")
-          expect(page).to have_selector("p span", text: "Private")
+          expect(page).to have_selector("p .govuk-tag", text: "No objection")
+          expect(page).to have_selector("p .govuk-tag", text: "Private")
           expect(page).to have_selector("p", text: "We are happy for this application to proceed")
 
           click_link "Redact and publish"
@@ -238,7 +238,7 @@ RSpec.describe "View consultee responses", show_sidebar: false, type: :system, c
 
       within "#consultee-responses" do
         within ".consultee-response:first-of-type" do
-          expect(page).to have_selector("p span", text: "Published")
+          expect(page).to have_selector("p .govuk-tag", text: "Published")
         end
       end
 
@@ -417,8 +417,8 @@ RSpec.describe "View consultee responses", show_sidebar: false, type: :system, c
 
         within ".consultee-response:first-of-type" do
           expect(page).to have_selector("p time", text: "Received on #{today.to_fs}")
-          expect(page).to have_selector("p span", text: "No objection")
-          expect(page).to have_selector("p span", text: "Private")
+          expect(page).to have_selector("p .govuk-tag", text: "No objection")
+          expect(page).to have_selector("p .govuk-tag", text: "Private")
           expect(page).to have_selector("p", text: "We are happy for this application to proceed")
 
           click_link "Redact and publish"
@@ -435,7 +435,7 @@ RSpec.describe "View consultee responses", show_sidebar: false, type: :system, c
 
       within "#consultee-responses" do
         within ".consultee-response:first-of-type" do
-          expect(page).to have_selector("p span", text: "Published")
+          expect(page).to have_selector("p .govuk-tag", text: "Published")
         end
       end
 

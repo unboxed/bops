@@ -29,12 +29,11 @@
     <div class="consultee-panel__actions">
       <% if consultee.has_responses? %>
         <div class="consultee-panel__action">
-          <% view_path = task ? planning_application_consultee_path(planning_application, consultee.consultee, task_slug: task.full_slug) : consultee.view_all_responses_path %>
-          <%= govuk_link_to consultee.view_all_responses_label, view_path %>
+          <%= govuk_link_to consultee.view_all_responses_label, planning_application_consultation_consultee_responses_path(planning_application, consultee.consultee, task_slug: task.full_slug) %>
         </div>
       <% end %>
       <div class="consultee-panel__action">
-        <%= govuk_link_to consultee.upload_new_response_label, consultee.upload_new_response_path %>
+        <%= govuk_link_to consultee.upload_new_response_label, new_planning_application_consultation_consultee_response_path(planning_application, consultee.consultee, task_slug: task.full_slug) %>
       </div>
     </div>
   <% end %>

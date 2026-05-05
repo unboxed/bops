@@ -1722,6 +1722,12 @@ en:
     confirm_validation:
       success: Application is ready for assessment and an email notification has been sent.
       validate_application: Validate application
+    consultation:
+      responses:
+        create:
+          success: Response was successfully uploaded.
+        update:
+          success: Response was successfully published.
     consultation_requirements:
       back: Back
       feature_disabled: Consultation is not available for this application type.

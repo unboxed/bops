@@ -1,0 +1,42 @@
+<%= render "task_header", task: @task, heading: "Redact comment" %>
+
+<%= render ConsulteeSummaryComponent.new(consultee: @consultee) %>
+
+<details class="govuk-details" data-module="govuk-details">
+  <summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+      What you need to redact
+    </span>
+  </summary>
+  <div class="govuk-details__text">
+    <%= t("redaction_guidelines_html") %>
+  </div>
+</details>
+
+<%= form_with(
+      model: @consultee_response,
+      class: "govuk-!-margin-top-5",
+      url: planning_application_consultation_consultee_response_path(@planning_application, @consultee, @consultee_response, task_slug: @task.full_slug),
+      method: :patch,
+      data: {controller: "reset-text"}
+    ) do |form| %>
+  <%= form.govuk_error_summary %>
+  <%= form.govuk_text_area :response,
+        rows: 8,
+        label: {size: "l", text: "Full comment"},
+        data: {reset_text_target: "source"},
+        readonly: true %>
+  <%= form.govuk_text_area :redacted_response, class: "govuk-textarea", rows: 8, data: {reset_text_target: "destination"}, label: -> do
+        form.label(:redacted_response, "Redacted comment", class: "govuk-label govuk-label--l") +
+          content_tag(:span, "Replace text you want to redact with [redacted] then save to publish the comment.", class: "govuk-hint") +
+          button_tag("Reset comment", type: "button", class: "button-as-link govuk-!-margin-bottom-3", data: {action: "click->reset-text#reset"})
+      end %>
+
+  <div class="govuk-button-group govuk-!-margin-top-5">
+    <%= form.submit(
+          "Save and publish",
+          class: "govuk-button govuk-button--primary"
+        ) %>
+    <%= govuk_button_link_to "Back", planning_application_consultation_consultee_responses_path(@planning_application, @consultee, task_slug: @task.full_slug), secondary: true %>
+  </div>
+<% end %>

@@ -16,7 +16,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <%= render ConsulteeSummaryComponent.new(consultee: @consultee) %>
-    <%= render ConsulteeResponseListComponent.new(responses: @consultee.responses, redact_and_publish: true) %>
+    <%= render BopsCore::ConsulteeResponseListComponent.new(responses: @consultee.responses, redact_and_publish: true) %>
 
     <div class="govuk-button-group govuk-!-margin-top-5">
       <% back_path = params[:task_slug].present? ? task_path(@planning_application, params[:task_slug]) : planning_application_consultees_responses_path(@planning_application) %>

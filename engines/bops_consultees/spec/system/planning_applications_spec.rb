@@ -68,8 +68,8 @@ RSpec.describe "Planning applications", type: :system do
 
           within ".consultee-response:first-of-type" do
             expect(page).to have_selector("p time", text: "Received on #{today.to_fs}")
-            expect(page).to have_selector("p span", text: "No objection")
-            expect(page).to have_selector("p span", text: "Private")
+            expect(page).to have_selector("p .govuk-tag", text: "No objection")
+            expect(page).to have_selector("p .govuk-tag", text: "Private")
             expect(page).to have_selector("p", text: "We are happy for this application to proceed")
           end
 
@@ -81,8 +81,8 @@ RSpec.describe "Planning applications", type: :system do
 
           within ".consultee-response:first-of-type" do
             expect(page).to have_selector("p time", text: "Received on #{today.to_fs}")
-            expect(page).to have_selector("p span", text: "Amendments needed")
-            expect(page).to have_selector("p span", text: "Private")
+            expect(page).to have_selector("p .govuk-tag", text: "Amendments needed")
+            expect(page).to have_selector("p .govuk-tag", text: "Private")
             expect(page).to have_selector("p", text: "On further reflection we believe the applicant should reduce the size and scale of the proposed development")
           end
         end

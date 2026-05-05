@@ -1,8 +1,0 @@
-<div id="consultee-responses" class="consultee-responses">
-  <h2>
-    <%= t(".heading") %>
-  </h2>
-  <% responses.reverse_each do |response| %>
-    <%= render ConsulteeResponseComponent.new(response: response, redact_and_publish: redact_and_publish) %>
-  <% end %>
-</div>
