@@ -293,12 +293,25 @@ RSpec.describe "Submissions", type: :system do
     end
 
     context "when the LPA has a paused API token" do
-      before { create(:api_user, :planning_portal, local_authority:, paused: true) }
+      let!(:paused_api_user) { create(:api_user, :planning_portal, local_authority:, paused: true) }
 
       it "shows the paused-tokens banner on the index" do
         visit "/admin/submissions"
 
         expect(page).to have_content("API tokens paused")
+      end
+
+      it "lets the admin manually submit a submission held by the paused token" do
+        submission.update!(api_user: paused_api_user)
+
+        visit "/admin/submissions/#{submission.id}"
+
+        expect {
+          click_button "Submit application"
+        }.to have_enqueued_job(BopsSubmissions::SubmissionProcessorJob).with(submission)
+
+        expect(page).to have_content("Application submitted")
+        expect(submission.reload.status).to eq("started")
       end
     end
 

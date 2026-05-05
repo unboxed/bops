@@ -8,7 +8,7 @@ module BopsSubmissions
 
       def create
         @submission = creation_service.call
-        @submission.start!
+        @submission.start! unless @current_api_user&.paused?
 
         respond_to do |format|
           format.json
