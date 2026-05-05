@@ -29,7 +29,7 @@ class Submission < ApplicationRecord
     state :completed
 
     event :start do
-      transitions from: [:failed, :submitted], to: :started, unless: :api_user_paused?
+      transitions from: [:failed, :submitted], to: :started
 
       after do
         BopsSubmissions::SubmissionProcessorJob.perform_later(self)
@@ -69,9 +69,5 @@ class Submission < ApplicationRecord
 
   def odp?
     schema == "odp"
-  end
-
-  def api_user_paused?
-    api_user&.paused?
   end
 end

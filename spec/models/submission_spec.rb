@@ -113,6 +113,13 @@ RSpec.describe Submission do
         expect { submission.start! }.to change(submission, :status).from("submitted").to("started")
         expect(submission.started_at).to eq(Time.current)
       end
+
+      it "transitions even when the api_user is paused (manual override)" do
+        api_user = create(:api_user, :planning_portal, local_authority: submission.local_authority, paused: true)
+        submission.update!(api_user: api_user)
+
+        expect { submission.start! }.to change(submission, :status).from("submitted").to("started")
+      end
     end
 
     describe "#fail!" do
