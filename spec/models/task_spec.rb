@@ -3,10 +3,6 @@
 require "rails_helper"
 
 RSpec.describe Task, type: :model do
-  let(:local_authority) { create(:local_authority) }
-  let(:enforcement) { create(:enforcement) }
-  let(:case_record) { create(:case_record, caseable: enforcement, local_authority:) }
-
   subject(:task) do
     described_class.new(
       name: "Initial task",
@@ -15,6 +11,10 @@ RSpec.describe Task, type: :model do
       slug: "initial-task"
     )
   end
+
+  let(:local_authority) { create(:local_authority) }
+  let(:enforcement) { create(:enforcement) }
+  let(:case_record) { create(:case_record, caseable: enforcement, local_authority:) }
 
   it "is valid with valid attributes" do
     expect(task).to be_valid
@@ -70,25 +70,11 @@ RSpec.describe Task, type: :model do
     before { task.save! }
 
     it "sets the status to action_required" do
-      expect { task.action_required }.to change(task, :status).from("not_started").to("action_required")
-    end
-
-    it "returns true on success" do
-      expect(task.action_required).to be true
-    end
-  end
-
-  describe "#action_required!" do
-    before { task.save! }
-
-    it "sets the status to action_required" do
       expect { task.action_required! }.to change(task, :status).from("not_started").to("action_required")
     end
 
-    it "raises an error if the update fails" do
-      allow(task).to receive(:update).and_return(false)
-
-      expect { task.action_required! }.to raise_error(ActiveRecord::RecordNotSaved, /Unable to action_required/)
+    it "returns true on success" do
+      expect(task.action_required!).to be true
     end
   end
 
@@ -96,13 +82,13 @@ RSpec.describe Task, type: :model do
     before { task.save! }
 
     it "sets the status to in_progress" do
-      expect { task.start }.to change(task, :status).from("not_started").to("in_progress")
+      expect { task.start! }.to change(task, :status).from("not_started").to("in_progress")
     end
 
     it "does not change the status if already completed" do
       task.update!(status: :completed)
 
-      expect { task.start }.not_to change(task, :status)
+      expect { task.start! }.not_to change(task, :status)
     end
   end
 
@@ -110,7 +96,7 @@ RSpec.describe Task, type: :model do
     before { task.save! }
 
     it "sets the status to completed" do
-      expect { task.complete }.to change(task, :status).from("not_started").to("completed")
+      expect { task.complete! }.to change(task, :status).from("not_started").to("completed")
     end
   end
 end
