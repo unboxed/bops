@@ -19,7 +19,7 @@ RSpec.describe "Add informatives task", type: :system do
     click_link "Check and assess"
   end
 
-  it "can add a informative", capybara: true do
+  it "can add a informative" do
     within :sidebar do
       click_link "Add informatives"
     end
