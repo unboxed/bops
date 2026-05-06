@@ -21,7 +21,8 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
           :submission,
           :planning_portal,
           local_authority: local_authority,
-          json_file: json_fixture_submissions("files/applications/PT-10087984.json")
+          json_file: json_fixture_submissions("files/applications/PT-10087984.json"),
+          site_location_file: json_fixture_submissions("SiteLocationWGS84.geojson")
         )
       end
 
@@ -53,7 +54,7 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
           longitude: "-0.116898",
           application_type_id: ApplicationType.find_by(code: "pp.full.minor").id
         )
-        expect(pa.boundary_geojson["geometry"]).to include("type" => "MultiPolygon")
+        expect(pa.boundary_geojson.dig("features", 0, "geometry")).to include("type" => "MultiPolygon")
       end
 
       it "sets application_type to minor" do

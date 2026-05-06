@@ -11,6 +11,7 @@ module BopsSubmissions
 
     ATTACHABLE_EXTENSIONS = %w[.pdf .docx .doc .jpg .jpeg .png].freeze
     APPLICATION_FILE = "Application.json"
+    SITE_LOCATION_FILE = "SiteLocationWGS84.geojson"
 
     def initialize(submission:)
       @submission = submission
@@ -131,15 +132,17 @@ module BopsSubmissions
       if ATTACHABLE_EXTENSIONS.include?(ext)
         attach_to_submission(name, io)
       elsif name == APPLICATION_FILE
-        update_json_file(io)
+        update_json_file(io, :json_file)
+      elsif name == SITE_LOCATION_FILE
+        update_json_file(io, :site_location_file)
       else
         store_other_file(name)
       end
     end
 
-    def update_json_file(io)
+    def update_json_file(io, attribute)
       content = io.read
-      submission.update!(json_file: JSON.parse(content))
+      submission.update!(attribute => JSON.parse(content))
     end
 
     def store_other_file(name)

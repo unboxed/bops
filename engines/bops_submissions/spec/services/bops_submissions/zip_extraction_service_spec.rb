@@ -9,6 +9,12 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
       zos.put_next_entry("Application.json")
       zos.write json_data.to_json
 
+      zos.put_next_entry("SiteLocation.geojson")
+      zos.write site_location_geojson.to_json
+
+      zos.put_next_entry("SiteLocationWGS84.geojson")
+      zos.write site_location_wgs84_geojson.to_json
+
       zos.put_next_entry("valid.pdf")
       zos.write "%PDF-1.4 dummy content"
 
@@ -36,6 +42,10 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
     )
   end
 
+  let(:application_json) { json_fixture_submissions("files/applications/#{zip_name}.json") }
+  let(:site_location_geojson) { json_fixture_submissions("SiteLocation.geojson") }
+  let(:site_location_wgs84_geojson) { json_fixture_submissions("SiteLocationWGS84.geojson") }
+
   let(:json_data) { {"foo" => "bar"} }
 
   let(:service) { described_class.new(submission:) }
@@ -47,7 +57,8 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
       submission.reload
 
       expect(submission.json_file).to eq(json_data)
-      expect(submission.application_payload["other_files"]).to eq([{"name" => "notes.txt"}])
+      expect(submission.site_location_file).to match(a_hash_including("type" => "FeatureCollection"))
+      expect(submission.application_payload["other_files"]).to eq([{"name" => "SiteLocation.geojson"}, {"name" => "notes.txt"}])
 
       docs = submission.documents.order(:created_at)
       filenames = docs.map { |d| d.metadata["filename"] }
@@ -79,7 +90,7 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
       submission.reload
 
       expect(submission.json_file).to eq(json_data)
-      expect(submission.application_payload["other_files"]).to eq([{"name" => "notes.txt"}])
+      expect(submission.application_payload["other_files"]).to eq([{"name" => "SiteLocation.geojson"}, {"name" => "notes.txt"}])
 
       docs = submission.documents.order(:created_at)
       filenames = docs.map { |d| d.metadata["filename"] }
