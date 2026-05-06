@@ -9,56 +9,55 @@
 
 <% if @planning_application_policy_class.policy_class.policy_sections.any? %>
   <%= govuk_error_summary(@review) %>
-
   <%= form_with url: planning_application_review_policy_areas_policy_class_path(@planning_application, @planning_application_policy_class), method: :patch, html: {data: unsaved_changes_data} do |form| %>
-    <%= govuk_table(id: "policy-sections") do |table| %>
-      <% table.with_head do |head| %>
-        <% head.with_row do |row| %>
-          <% row.with_cell(text: "Policy reference") %>
-          <% PlanningApplicationPolicySection.statuses.keys.each do |status| %>
-            <% row.with_cell(text: status.humanize) %>
-          <% end %>
-        <% end %>
-      <% end %>
+    <% @policy_sections.each do |title, policy_sections| %>
+      <div class="govuk-summary-card" id="<%= title.parameterize %>">
+        <div class="govuk-summary-card__title-wrapper">
+          <h2 class="govuk-summary-card__title"><%= title %></h2>
+        </div>
 
-      <% table.with_body do |body| %>
-        <% @planning_application_policy_class.planning_application_policy_sections.each do |pa_policy_section| %>
-          <% policy_section = pa_policy_section.policy_section %>
-          <% body.with_row(html_attributes: {id: "policy-section-#{policy_section.id}"}) do |row| %>
-            <% row.with_cell do %>
-              <p><strong><%= @planning_application_policy_class.policy_class.section %>.<%= policy_section.section %></strong></p>
-              <%= render(FormattedContentComponent.new(text: pa_policy_section&.description || policy_section.description)) %>
+        <div class="govuk-summary-card__content">
+          <% policy_sections.each_with_index do |policy_section, index| %>
+            <div id="<%= dom_id(policy_section.policy_section) %>">
+              <% if index > 0 %>
+                <%= govuk_section_break(visible: true, size: "l") %>
+              <% end %>
 
-              <%= form.govuk_text_area "planning_application_policy_sections[#{policy_section.id}][comments_attributes][0][text]",
+              <h3 class="govuk-!-margin-bottom-1">
+                <%= policy_section.full_section %>
+              </h3>
+
+              <p><%= policy_section.description %></p>
+
+              <%= form.govuk_text_area "planning_application_policy_sections[#{policy_section.policy_section.id}][comments_attributes][0][text]",
                     label: {text: "Add comment", class: "govuk-label govuk-label--s"},
-                    value: pa_policy_section&.last_comment&.text,
+                    value: policy_section&.last_comment&.text,
                     class: "govuk-textarea govuk-!-margin-bottom-2",
                     rows: 2 %>
 
-              <% if pa_policy_section %>
-                <%= render(
-                      partial: "shared/policy_classes/previous_comments",
-                      locals: {previous_comments: pa_policy_section.previous_comments}
-                    ) %>
-              <% end %>
-            <% end %>
-            <% PlanningApplicationPolicySection.statuses.keys.each do |status| %>
-              <% row.with_cell do %>
-                <div class="govuk-radios govuk-radios--small">
-                  <%= form.govuk_radio_button(
-                        "planning_application_policy_sections[#{policy_section.id}][status]",
-                        status,
-                        checked: pa_policy_section.status == status,
-                        label: {hidden: true},
-                        disabled: true,
-                        class: "govuk-radios__input"
-                      ) %>
-                </div>
-              <% end %>
-            <% end %>
+              <%= render(
+                    partial: "shared/policy_classes/previous_comments",
+                    locals: {previous_comments: policy_section.previous_comments}
+                  ) %>
+
+              <div class="display-flex">
+                <% PlanningApplicationPolicySection.statuses.keys.each do |status| %>
+                  <div class="govuk-radios govuk-radios--small">
+                    <%= form.govuk_radio_button(
+                          "planning_application_policy_sections[#{policy_section.policy_section.id}][status]",
+                          status,
+                          checked: policy_section.status == status,
+                          label: {text: status.humanize},
+                          disabled: true,
+                          class: "govuk-radios__input"
+                        ) %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
           <% end %>
-        <% end %>
-      <% end %>
+        </div>
+      </div>
     <% end %>
 
     <fieldset class="govuk-fieldset govuk-!-padding-bottom-5">

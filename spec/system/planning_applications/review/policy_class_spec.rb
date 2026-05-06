@@ -68,16 +68,16 @@ RSpec.describe "Reviewing Policy Class", show_sidebar: false, type: :system do
         click_on "Review assessment of Part 1, Class A"
         expect(page).to have_selector("h1", text: "Review - Part 1, Class A")
 
-        expect(page).to have_css("#policy-section-#{policy_section1a.id}")
-        expect(page).to have_css("#policy-section-#{policy_section1b.id}")
-        expect(page).to have_css("#policy-section-#{policy_section2bii.id}")
+        expect(page).to have_css("#policy_section_#{policy_section1a.id}")
+        expect(page).to have_css("#policy_section_#{policy_section1b.id}")
+        expect(page).to have_css("#policy_section_#{policy_section2bii.id}")
 
         expect(page).to have_field("planning-application-policy-sections-#{policy_section1a.id}-status-complies-field", disabled: true)
         expect(page).to have_field("planning-application-policy-sections-#{policy_section1b.id}-status-does-not-comply-field", disabled: true)
         expect(page).to have_field("planning-application-policy-sections-#{policy_section2bii.id}-status-does-not-comply-field", disabled: true)
 
         choose "Agree"
-        within("#policy-section-#{policy_section2bii.id}") do
+        within("#policy_section_#{policy_section2bii.id}") do
           fill_in("Add comment", with: "Reviewer comment")
         end
         click_button("Save and come back later")
@@ -85,7 +85,7 @@ RSpec.describe "Reviewing Policy Class", show_sidebar: false, type: :system do
         expect(list_item("Review assessment of Part 1, Class A")).to have_content("In progress")
         click_link("Part 1, Class A")
 
-        within("#policy-section-#{policy_section2bii.id}") do
+        within("#policy_section_#{policy_section2bii.id}") do
           expect(page).to have_field("Add comment", with: "Reviewer comment")
 
           find("span", text: "Previous comments").click

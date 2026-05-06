@@ -7,6 +7,7 @@ module PlanningApplications
         before_action :find_planning_application_policy_class, only: %i[show edit update]
         before_action :build_form, only: %i[edit update]
         before_action :set_review, only: %i[show edit update]
+        before_action :set_policy_sections, only: %i[edit update]
 
         def index
           respond_to do |format|
@@ -63,6 +64,10 @@ module PlanningApplications
 
         def set_review
           @review = @planning_application_policy_class.current_review
+        end
+
+        def set_policy_sections
+          @policy_sections = @planning_application_policy_class.planning_application_policy_sections.group_by { |section| section.title }.in_order_of(:first, PolicySection::TITLES)
         end
       end
     end
