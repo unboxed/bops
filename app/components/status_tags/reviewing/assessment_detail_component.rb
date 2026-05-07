@@ -17,7 +17,7 @@ module StatusTags
       attr_reader :planning_application, :assessment_detail
 
       def status
-        if assessment_detail_update_required?(assessment_detail)
+        if assessment_detail.update_required?
           :awaiting_changes
         elsif updated?
           :updated
@@ -29,8 +29,7 @@ module StatusTags
       end
 
       def updated?
-        recommendation_submitted_and_unchallenged? &&
-          assessment_detail_updated?(assessment_detail)
+        assessment_detail_updated?(assessment_detail)
       end
     end
   end
