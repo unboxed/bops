@@ -6,6 +6,7 @@ module PlanningApplications
       before_action :set_consideration_set
       before_action :set_considerations
       before_action :set_review
+      before_action :set_task, only: :update
 
       def edit
         respond_to do |format|
@@ -17,6 +18,8 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @review.update(review_params)
+              @task.action_required! if @task && return_to_officer?
+
               redirect_to tasks_url(anchor: "review-considerations", next: true), notice: t(".success")
             else
               @show_header_bar = false
@@ -40,10 +43,18 @@ module PlanningApplications
         @review = @consideration_set.current_review
       end
 
+      def set_task
+        @task = @planning_application.case_record.find_task_by_slug_path("check-and-assess/assessment-summaries/planning-considerations-and-advice")
+      end
+
       def review_params
         params.require(:review_considerations)
           .permit(:action, :comment, :review_status)
           .merge(reviewer: current_user, reviewed_at: Time.current)
+      end
+
+      def return_to_officer?
+        params.dig(:assessment_considerations, :action) == "rejected"
       end
     end
   end

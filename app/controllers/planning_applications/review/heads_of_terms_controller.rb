@@ -8,6 +8,7 @@ module PlanningApplications
       before_action :set_heads_of_terms
       before_action :set_terms
       before_action :set_review
+      before_action :set_task, only: :update
 
       before_action :redirect_to_review_tasks, if: :heads_of_terms_not_started?
 
@@ -21,6 +22,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @review.update(review_params)
+              @task.action_required! if @task && return_to_officer?
               redirect_to tasks_url(anchor: "review-heads-of-terms", next: true), notice: t(".success")
             else
               render :tasks, alert: t(".failure_html")
@@ -43,6 +45,10 @@ module PlanningApplications
         @review = @heads_of_terms.current_review
       end
 
+      def set_task
+        @task = @planning_application.case_record.find_task_by_slug_path("check-and-assess/complete-assessment/add-heads-of-terms")
+      end
+
       def review_params
         params.require(:review_heads_of_terms)
           .permit(:action, :comment, :review_status)
@@ -55,6 +61,10 @@ module PlanningApplications
 
       def heads_of_terms_not_started?
         @review.not_started?
+      end
+
+      def return_to_officer?
+        params.dig(:review_heads_of_terms, :action) == "rejected"
       end
     end
   end

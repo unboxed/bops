@@ -20,6 +20,15 @@ class AssessmentDetail < ApplicationRecord
     check_publicity
   ].freeze
 
+  TASK_SLUGS = {
+    additional_evidence: "check-and-assess/assessment-summaries/other-considerations",
+    amenity: "check-and-assess/assessment-summaries/amenity",
+    consultation_summary: "check-and-assess/assessment-summaries/summary-of-consultation",
+    neighbour_summary: "check-and-assess/assessment-summaries/summary-of-neighbour-responses",
+    site_description: "check-and-assess/assessment-summaries/site-description",
+    summary_of_work: "check-and-assess/assessment-summaries/summary-of-works"
+  }.freeze
+
   enum :review_status, %i[
     in_progress
     complete
@@ -87,6 +96,14 @@ class AssessmentDetail < ApplicationRecord
 
   def to_be_reviewed?
     update_required?
+  end
+
+  def task_slug
+    TASK_SLUGS[category.to_sym]
+  end
+
+  def task
+    planning_application.case_record.find_task_by_slug_path(task_slug)
   end
 
   private

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Task < ApplicationRecord
+  include AASM
+
   STATUSES = %w[not_started in_progress completed cannot_start_yet action_required]
   enum :status, STATUSES.index_by(&:to_sym)
 
@@ -10,33 +12,30 @@ class Task < ApplicationRecord
   validates :slug, :name, presence: true, strict: true
   validates :status, inclusion: STATUSES
 
+  aasm column: :status, enum: true, whiny_persistence: true do
+    state :not_started, initial: true
+    state :in_progress, :completed, :cannot_start_yet, :action_required
+
+    event :start do
+      transitions from: :completed, to: :completed
+      transitions from: %i[not_started in_progress], to: :in_progress
+    end
+
+    event :complete do
+      transitions from: %i[not_started in_progress action_required completed], to: :completed
+    end
+
+    event :cannot_start_yet do
+      transitions to: :cannot_start_yet
+    end
+
+    event :action_required do
+      transitions to: :action_required
+    end
+  end
+
   after_initialize do
     self.slug ||= name.to_s.parameterize
-    self.status ||= "not_started"
-  end
-
-  def start
-    completed? || update(status: :in_progress)
-  end
-
-  def start!
-    start || raise_not_saved("start")
-  end
-
-  def complete
-    update(status: :completed)
-  end
-
-  def complete!
-    complete || raise_not_saved("complete")
-  end
-
-  def action_required
-    update(status: :action_required)
-  end
-
-  def action_required!
-    action_required || raise_not_saved("action_required")
   end
 
   def full_slug
