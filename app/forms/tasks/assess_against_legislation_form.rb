@@ -128,6 +128,22 @@ module Tasks
       params.fetch(param_key, {}).permit(*permitted_attributes)
     end
 
+    def save_draft
+      super do
+        planning_application_policy_classes.find_each do |policy_class|
+          policy_class.current_review.update!(status: :in_progress)
+        end
+      end
+    end
+
+    def save_and_complete
+      super do
+        planning_application_policy_classes.find_each do |policy_class|
+          policy_class.current_review.update!(status: :complete)
+        end
+      end
+    end
+
     def default
       true
     end
