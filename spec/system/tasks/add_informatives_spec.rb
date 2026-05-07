@@ -115,6 +115,33 @@ RSpec.describe "Add informatives task", type: :system do
     expect(task.reload).to be_in_progress
   end
 
+  context "when the reviewer has rejected the informatives" do
+    let(:reviewer) { create(:user, :reviewer, local_authority:, name: "Bella Jones") }
+
+    let!(:rejected_review) do
+      planning_application.informative_set.reviews.create!(
+        action: "rejected",
+        comment: "Please revise the informatives",
+        reviewer: reviewer
+      )
+    end
+
+    before do
+      task.complete!
+    end
+
+    it "shows the reviewer comment" do
+      within :sidebar do
+        click_link "Add informatives"
+      end
+
+      within(".comment-component") do
+        expect(page).to have_content("Reviewer comment")
+        expect(page).to have_content("Please revise the informatives")
+      end
+    end
+  end
+
   context "when changing the list position" do
     let(:informative_set) { planning_application.informative_set }
     let!(:informative_one) { create(:informative, informative_set:, title: "Title 1", text: "Text 1", position: 1) }

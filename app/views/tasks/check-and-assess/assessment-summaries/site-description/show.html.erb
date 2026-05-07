@@ -4,6 +4,8 @@
     <%= govuk_link_to t(".view_site_on_map"), map_link(@planning_application.full_address), new_tab: true %>
 </p>
 
+<%= render(ReviewerCommentComponent.new(comment: @form.rejected_assessment_detail&.comment)) %>
+
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
   <%= form.govuk_text_area(:entry, rows: 10, value: @form.assessment_detail.entry, label: {text: t(".heading"), tag: "h2", size: "m"}) do %>

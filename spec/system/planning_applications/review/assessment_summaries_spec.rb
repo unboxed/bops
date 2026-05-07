@@ -168,6 +168,21 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         within("#neighbour_summary_footer") do
           expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
         end
+
+        within("#neighbour_summary_footer") do
+          fill_in "Add a comment", with: "Summary needs revision"
+          click_button("Save and mark as complete")
+        end
+        expect(page).to have_content("Review of neighbour summary was successfully updated")
+
+        sign_out(reviewer)
+        sign_in(assessor)
+        visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/summary-of-neighbour-responses"
+
+        within(".comment-component") do
+          expect(page).to have_content("Reviewer comment")
+          expect(page).to have_content("Summary needs revision")
+        end
       end
 
       it "Summary of works" do
@@ -183,6 +198,21 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
         within("#summary_of_work_footer") do
           expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+        end
+
+        within("#summary_of_work_footer") do
+          fill_in "Add a comment", with: "Summary needs revision"
+          click_button("Save and mark as complete")
+        end
+        expect(page).to have_content("Review of summary of work was successfully updated")
+
+        sign_out(reviewer)
+        sign_in(assessor)
+        visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/summary-of-works"
+
+        within(".comment-component") do
+          expect(page).to have_content("Reviewer comment")
+          expect(page).to have_content("Summary needs revision")
         end
       end
 
@@ -200,6 +230,21 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         within("#consultation_summary_footer") do
           expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
         end
+
+        within("#consultation_summary_footer") do
+          fill_in "Add a comment", with: "Summary needs revision"
+          click_button("Save and mark as complete")
+        end
+        expect(page).to have_content("Review of consultation summary was successfully updated")
+
+        sign_out(reviewer)
+        sign_in(assessor)
+        visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/summary-of-consultation"
+
+        within(".comment-component") do
+          expect(page).to have_content("Reviewer comment")
+          expect(page).to have_content("Summary needs revision")
+        end
       end
 
       it "Site description" do
@@ -216,10 +261,25 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         within("#site_description_footer") do
           expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
         end
+
+        within("#site_description_footer") do
+          fill_in "Add a comment", with: "Summary needs revision"
+          click_button("Save and mark as complete")
+        end
+        expect(page).to have_content("Review of site description was successfully updated")
+
+        sign_out(reviewer)
+        sign_in(assessor)
+        visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/site-description"
+
+        within(".comment-component") do
+          expect(page).to have_content("Reviewer comment")
+          expect(page).to have_content("Summary needs revision")
+        end
       end
 
       it "Additional evidence" do
-        click_button "Summary of additional evidence"
+        click_button "Other considerations"
         within("#additional_evidence_footer") do
           choose "Return with comments"
           click_button("Save and mark as complete")
@@ -231,6 +291,21 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
         within("#additional_evidence_footer") do
           expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+        end
+
+        within("#additional_evidence_footer") do
+          fill_in "Add a comment", with: "Summary needs revision"
+          click_button("Save and mark as complete")
+        end
+        expect(page).to have_content("Review of additional evidence was successfully updated")
+
+        sign_out(reviewer)
+        sign_in(assessor)
+        visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/other-considerations"
+
+        within(".comment-component") do
+          expect(page).to have_content("Reviewer comment")
+          expect(page).to have_content("Summary needs revision")
         end
       end
 
@@ -247,6 +322,21 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
         within("#amenity_footer") do
           expect(page).to have_selector("p.govuk-error-message", text: "You must add a comment")
+        end
+
+        within("#amenity_footer") do
+          fill_in "Add a comment", with: "Summary needs revision"
+          click_button("Save and mark as complete")
+        end
+        expect(page).to have_content("Review of amenity was successfully updated")
+
+        sign_out(reviewer)
+        sign_in(assessor)
+        visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/amenity"
+
+        within(".comment-component") do
+          expect(page).to have_content("Reviewer comment")
+          expect(page).to have_content("Summary needs revision")
         end
       end
     end
@@ -775,11 +865,11 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         expect(page).to have_content("Recommendation was successfully reviewed")
       end
 
-      it "summary of additional evidence" do
+      it "other considerations" do
         task = planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/other-considerations")
         task.start!
 
-        click_button "Summary of additional evidence"
+        click_button "Other considerations"
         within("#additional_evidence_section") do
           expect(find(".govuk-tag")).to have_content("Not started")
 
@@ -840,9 +930,9 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
 
         within "#main-content" do
           expect(page).to have_list_item_for(
-            "Summary of additional evidence", with: "To be reviewed"
+            "Other considerations", with: "To be reviewed"
           )
-          click_link("Summary of additional evidence")
+          click_link("Other considerations")
         end
 
         within(".comment-component") do
@@ -859,7 +949,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         expect(page).to have_content("Additional evidence was successfully updated.")
         within "#main-content" do
           expect(page).to have_list_item_for(
-            "Summary of additional evidence", with: "Completed"
+            "Other considerations", with: "Completed"
           )
         end
 

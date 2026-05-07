@@ -41,7 +41,7 @@ RSpec.describe "Assessment tasks", show_sidebar: false, type: :system do
           within("#assessment-information-tasks") do
             expect(page).to have_content("Assessment summaries")
             expect(page).to have_link("Summary of works")
-            expect(page).to have_link("Summary of additional evidence")
+            expect(page).to have_link("Other considerations")
             expect(page).to have_link("Site description")
             expect(page).to have_link("Summary of consultation")
           end
@@ -82,7 +82,7 @@ RSpec.describe "Assessment tasks", show_sidebar: false, type: :system do
           within("#assessment-information-tasks") do
             expect(page).to have_content("Assessment summaries")
             expect(page).to have_link("Summary of works")
-            expect(page).to have_link("Summary of additional evidence")
+            expect(page).to have_link("Other considerations")
             expect(page).to have_link("Site description")
             expect(page).not_to have_link("Summary of consultation")
             expect(page).to have_link("Amenity")

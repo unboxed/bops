@@ -2,6 +2,7 @@
 
 module Tasks
   class SummaryOfNeighbourResponsesForm < Form
+    def category = "neighbour_summary"
     self.task_actions = %w[save_and_complete save_draft]
 
     ALL_TAGS = (NeighbourResponse::TAGS.dup << :untagged).freeze
@@ -12,11 +13,12 @@ module Tasks
 
     after_initialize do
       @assessment_detail = planning_application.assessment_details.find_or_initialize_by(category: "neighbour_summary")
+      @rejected_assessment_detail = planning_application.rejected_assessment_detail(category:)
       @neighbour_responses = planning_application.consultation.neighbour_responses
       populate_from_entry
     end
 
-    attr_reader :assessment_detail, :neighbour_responses
+    attr_reader :assessment_detail, :rejected_assessment_detail, :neighbour_responses
 
     with_options on: :save_and_complete do
       validate :all_summaries_present, if: :neighbour_responses?

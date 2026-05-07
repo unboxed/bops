@@ -107,4 +107,31 @@ RSpec.describe "Add heads of terms task", type: :system do
     expect(page).to have_content("Successfully updated heads of terms")
     expect(task.reload).to be_in_progress
   end
+
+  context "when the reviewer has rejected the heads of terms" do
+    let(:reviewer) { create(:user, :reviewer, local_authority:, name: "Bella Jones") }
+
+    let!(:rejected_review) do
+      planning_application.heads_of_term.reviews.create!(
+        action: "rejected",
+        comment: "Please revise the heads of terms",
+        reviewer: reviewer
+      )
+    end
+
+    before do
+      task.complete!
+    end
+
+    it "shows the reviewer comment" do
+      within :sidebar do
+        click_link "Add heads of terms"
+      end
+
+      within(".comment-component") do
+        expect(page).to have_content("Reviewer comment")
+        expect(page).to have_content("Please revise the heads of terms")
+      end
+    end
+  end
 end

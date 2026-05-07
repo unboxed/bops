@@ -207,6 +207,34 @@ RSpec.describe "Make draft recommendation task", type: :system do
     end
   end
 
+  context "when the reviewer has rejected the recommendation" do
+    let(:reviewer) { create(:user, :reviewer, local_authority:, name: "Bella Jones") }
+    let!(:committee_decision) { create(:committee_decision, planning_application:) }
+
+    let!(:rejected_review) do
+      committee_decision.reviews.create!(
+        action: "rejected",
+        comment: "Please revise the recommendation",
+        reviewer: reviewer
+      )
+    end
+
+    before do
+      task.complete!
+    end
+
+    it "shows the reviewer comment" do
+      within ".bops-sidebar" do
+        click_link "Make draft recommendation"
+      end
+
+      within(".comment-component") do
+        expect(page).to have_content("Reviewer comment")
+        expect(page).to have_content("Please revise the recommendation")
+      end
+    end
+  end
+
   context "when a return_to param is present" do
     let(:planning_application_path) do
       "/planning_applications/#{planning_application.reference}"

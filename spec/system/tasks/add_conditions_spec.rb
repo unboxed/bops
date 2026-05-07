@@ -139,4 +139,31 @@ RSpec.describe "Add conditions task", type: :system do
       expect(page).to have_content("Review conditions")
     end
   end
+
+  context "when the reviewer has rejected the conditions" do
+    let(:reviewer) { create(:user, :reviewer, local_authority:, name: "Bella Jones") }
+
+    let!(:rejected_review) do
+      planning_application.condition_set.reviews.create!(
+        action: "rejected",
+        comment: "Please revise the conditions",
+        reviewer: reviewer
+      )
+    end
+
+    before do
+      task.complete!
+    end
+
+    it "shows the reviewer comment" do
+      within :sidebar do
+        click_link "Add conditions"
+      end
+
+      within(".comment-component") do
+        expect(page).to have_content("Reviewer comment")
+        expect(page).to have_content("Please revise the conditions")
+      end
+    end
+  end
 end
