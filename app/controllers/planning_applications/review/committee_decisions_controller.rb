@@ -16,7 +16,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @committee_decision.update(committee_decision_params)
-              @task.action_required! if @task && return_to_officer?
+              reset_assessment_tasks! if return_to_officer?
 
               redirect_to planning_application_review_tasks_path(@planning_application, anchor: "recommendation_to_committee_section"), notice: t(".success")
             else

@@ -61,6 +61,20 @@ module PlanningApplications
       def tasks_url(options = {})
         planning_application_review_tasks_url(@planning_application, options)
       end
+
+      def draft_recommendation_task
+        @planning_application.case_record.find_task_by_slug_path("check-and-assess/complete-assessment/make-draft-recommendation")
+      end
+
+      def submit_recommendation_task
+        @planning_application.case_record.find_task_by_slug_path("check-and-assess/complete-assessment/review-and-submit-recommendation")
+      end
+
+      def reset_assessment_tasks!
+        @task&.action_required!
+        draft_recommendation_task&.action_required!
+        submit_recommendation_task&.action_required!
+      end
     end
   end
 end
