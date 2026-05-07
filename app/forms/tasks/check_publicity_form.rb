@@ -2,6 +2,9 @@
 
 module Tasks
   class CheckPublicityForm < Form
+    include AssessmentDetailConcern
+
+    def category = "check_publicity"
     self.task_actions = %w[save_and_complete save_draft]
 
     after_initialize do

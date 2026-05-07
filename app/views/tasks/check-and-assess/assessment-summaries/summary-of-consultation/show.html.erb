@@ -27,6 +27,8 @@
   </p>
 <% end %>
 
+<%= render(ReviewerCommentComponent.new(comment: @form.rejected_assessment_detail&.comment)) %>
+
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
   <%= form.govuk_text_area(:entry, rows: 10, value: @form.assessment_detail.entry, label: {text: t(".heading"), tag: "h2", size: "m"}) do %>

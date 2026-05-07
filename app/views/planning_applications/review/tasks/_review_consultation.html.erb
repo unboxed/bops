@@ -1,6 +1,6 @@
 <%= bops_task_accordion(id: "review-consultation") do |accordion| %>
   <% accordion.with_heading(text: "Review consultation") %>
-  <%= accordion.with_section(id: "review-neighbour-responses", expanded: @neighbour_review.errors.any?) do |section| %>
+  <%= accordion.with_section(id: "review-neighbour-notifications", expanded: @neighbour_review.errors.any?) do |section| %>
     <% section.with_heading(text: "Check neighbour notifications") %>
 
     <% section.with_status do %>
@@ -10,6 +10,9 @@
             )
           ) %>
     <% end %>
+
+    <% section.with_block(id: "neighbour-notifications") do %>
+      <p>See the table above for a list of <%= govuk_link_to "neighbours contacted", "#neighbours" %>.</p>    <% end %>
 
     <% section.with_footer do %>
       <%= render(

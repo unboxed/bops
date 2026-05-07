@@ -3,6 +3,9 @@
 <%= render "shared/notification_banner",
       title: "View neighbour responses",
       heading: t("neighbour_responses_by_summary_tag", tag: "neighbour response", count: @form.neighbour_responses.count) %>
+
+<%= render(ReviewerCommentComponent.new(comment: @form.rejected_assessment_detail&.comment)) %>
+
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
 

@@ -2,6 +2,9 @@
 
 module Tasks
   class SummaryOfNeighbourResponsesForm < Form
+    include AssessmentDetailConcern
+
+    def category = "neighbour_summary"
     self.task_actions = %w[save_and_complete save_draft]
 
     ALL_TAGS = (NeighbourResponse::TAGS.dup << :untagged).freeze
