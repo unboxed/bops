@@ -53,7 +53,11 @@ module Tasks
     end
 
     def create_review!
-      consultation.create_neighbour_review! if consultation.neighbour_review.blank? || consultation.neighbour_review.to_be_reviewed?
+      if consultation.neighbour_review.blank?
+        consultation.create_neighbour_review!
+      elsif consultation.neighbour_review.to_be_reviewed?
+        consultation.create_neighbour_review!(status: "updated")
+      end
     end
 
     def record_audit_for_letters_sent!

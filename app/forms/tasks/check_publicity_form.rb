@@ -2,16 +2,16 @@
 
 module Tasks
   class CheckPublicityForm < Form
+    include AssessmentDetailConcern
+
     def category = "check_publicity"
-    self.task_actions = %w[save_and_complete save_draft]
 
     after_initialize do
       @site_notice = planning_application.site_notices.last
       @press_notice = planning_application.press_notice
-      @rejected_assessment_detail = planning_application.rejected_assessment_detail(category:)
     end
 
-    attr_reader :press_notice, :site_notice, :rejected_assessment_detail
+    attr_reader :press_notice, :site_notice
 
     def site_notice_not_required?
       !site_notice&.required? && planning_application.site_notices.any?
@@ -28,5 +28,9 @@ module Tasks
     def press_notice_url
       task_path(planning_application, slug: "consultees-neighbours-and-publicity/publicity/press-notice", return_to: task.full_slug)
     end
+
+    private
+
+    def requires_entry? = false
   end
 end
