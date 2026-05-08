@@ -79,15 +79,13 @@ module Tasks
     private
 
     def add_condition
-      condition_set.conditions.create!(title:, text:, reason:).tap do
-        task.start! unless task.in_progress?
-      end
+      condition_set.conditions.create!(title:, text:, reason:)
+      task.start!
     end
 
     def update_condition
-      condition.update!(title:, text:, reason:).tap do
-        task.start! unless task.in_progress?
-      end
+      condition.update!(title:, text:, reason:)
+      task.start!
     end
 
     def delete_condition
@@ -95,9 +93,8 @@ module Tasks
     end
 
     def confirm_and_send
-      condition_set.confirm_pending_requests!.tap do
-        task.start! unless task.in_progress?
-      end
+      condition_set.confirm_pending_requests!
+      task.start!
     end
 
     def save_draft

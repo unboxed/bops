@@ -56,15 +56,13 @@ module Tasks
     private
 
     def add_condition
-      condition_set.conditions.create!(title:, text:, reason:, standard: false).tap do
-        task.start! unless task.in_progress?
-      end
+      condition_set.conditions.create!(title:, text:, reason:, standard: false)
+      task.start!
     end
 
     def update_condition
-      condition.update!(title:, text:, reason:).tap do
-        task.start! unless task.in_progress?
-      end
+      condition.update!(title:, text:, reason:)
+      task.start!
     end
 
     def delete_condition
