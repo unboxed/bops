@@ -342,6 +342,9 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
     end
 
     context "when reviewer submits their review" do
+      let(:draft_recommendation_task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/complete-assessment/make-draft-recommendation") }
+      let(:submit_recommendation_task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/complete-assessment/review-and-submit-recommendation") }
+
       before do
         travel_to(Time.zone.local(2024, 11, 28, 12, 30))
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
@@ -401,6 +404,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
 
         expect(task.reload).to be_action_required
+        expect(draft_recommendation_task.reload).to be_action_required
+        expect(submit_recommendation_task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
@@ -530,6 +535,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
 
         expect(task.reload).to be_action_required
+        expect(draft_recommendation_task.reload).to be_action_required
+        expect(submit_recommendation_task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
@@ -656,6 +663,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
 
         expect(task.reload).to be_action_required
+        expect(draft_recommendation_task.reload).to be_action_required
+        expect(submit_recommendation_task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
@@ -788,6 +797,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
 
         expect(task.reload).to be_action_required
+        expect(draft_recommendation_task.reload).to be_action_required
+        expect(submit_recommendation_task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
@@ -917,6 +928,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
 
         expect(task.reload).to be_action_required
+        expect(draft_recommendation_task.reload).to be_action_required
+        expect(submit_recommendation_task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
@@ -1047,6 +1060,8 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
 
         expect(task.reload).to be_action_required
+        expect(draft_recommendation_task.reload).to be_action_required
+        expect(submit_recommendation_task.reload).to be_action_required
 
         sign_out(reviewer)
         travel 1.day
