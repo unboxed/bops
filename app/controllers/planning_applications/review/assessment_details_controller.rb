@@ -8,7 +8,7 @@ module PlanningApplications
 
       def update
         if @assessment_detail.update(review_assessment_details_params)
-          @task.action_required! if @task && return_to_officer?
+          reset_assessment_tasks! if return_to_officer?
 
           redirect_to(
             planning_application_review_tasks_path(@planning_application, anchor: "#{@assessment_detail.category}_section"),

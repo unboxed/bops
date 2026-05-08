@@ -18,7 +18,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @review.update(review_params)
-              @task.action_required! if @task && return_to_officer?
+              reset_assessment_tasks! if return_to_officer?
 
               redirect_to tasks_url(anchor: "review-considerations", next: true), notice: t(".success")
             else
