@@ -41,7 +41,7 @@
   </div>
 <% end %>
 
-<%= render(ReviewerCommentComponent.new(comment: @rejected_assessment_detail&.comment)) %>
+<%= render(ReviewerCommentComponent.new(comment: @form.rejected_assessment_detail&.comment)) %>
 <div id="site-notice-check">
   <h2><%= t(".check_site_notice") %></h2>
 

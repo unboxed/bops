@@ -21,7 +21,7 @@ RSpec.describe "Additional evidence", show_sidebar: false, type: :system do
 
       within("#assessment-information-tasks") do
         expect(page).to have_content("Not started")
-        click_link "Summary of additional evidence"
+        click_link "Other considerations"
       end
 
       expect(page).to have_current_path(
@@ -39,12 +39,12 @@ RSpec.describe "Additional evidence", show_sidebar: false, type: :system do
       )
     end
 
-    it "I can save and come back later when adding or editing additional evidence" do
+    it "I can save and come back later when adding or editing other considerations" do
       expect(list_item("Check and assess")).to have_content("Not started")
 
       click_link "Check and assess"
       within "#main-content" do
-        click_link "Summary of additional evidence"
+        click_link "Other considerations"
       end
 
       fill_in "assessment_detail[entry]", with: "A draft entry for the additional evidence"
@@ -55,9 +55,8 @@ RSpec.describe "Additional evidence", show_sidebar: false, type: :system do
       within("#assessment-information-tasks") do
         expect(page).to have_content("In progress")
       end
-
       within "#main-content" do
-        click_link "Summary of additional evidence"
+        click_link "Other considerations"
       end
       expect(page).to have_content("Edit additional evidence")
       expect(page).to have_content("A draft entry for the additional evidence")
@@ -77,7 +76,7 @@ RSpec.describe "Additional evidence", show_sidebar: false, type: :system do
     it "I can save and mark as complete when adding additional evidence" do
       click_link "Check and assess"
       within "#main-content" do
-        click_link "Summary of additional evidence"
+        click_link "Other considerations"
       end
 
       fill_in "assessment_detail[entry]", with: "A complete entry for the additional evidence"
@@ -90,7 +89,7 @@ RSpec.describe "Additional evidence", show_sidebar: false, type: :system do
       end
 
       within "#main-content" do
-        click_link "Summary of additional evidence"
+        click_link "Other considerations"
       end
       expect(page).to have_content("A complete entry for the additional evidence")
 

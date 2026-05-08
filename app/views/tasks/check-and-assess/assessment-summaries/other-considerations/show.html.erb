@@ -8,6 +8,8 @@
     the assessment of this application.
   </p>
 
+  <%= render(ReviewerCommentComponent.new(comment: @form.rejected_assessment_detail&.comment)) %>
+
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_text_area(:entry, value: @form.assessment_detail.entry, label: nil, rows: 10) %>

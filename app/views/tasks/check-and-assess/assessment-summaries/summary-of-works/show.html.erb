@@ -2,14 +2,14 @@
 
 <%= govuk_warning_text(text: "This information WILL be made publicly available.") %>
 
+<%= render(ReviewerCommentComponent.new(comment: @form.rejected_assessment_detail&.comment)) %>
+
 <% if @form.assessment_detail.present? %>
   <h2>Summary</h2>
   <p>
     <%= render(FormattedContentComponent.new(text: @form.assessment_detail.entry)) %>
   </p>
 <% end %>
-
-<%= render(ReviewerCommentComponent.new(comment: @rejected_assessment_detail&.comment)) %>
 
 <h2><%= @form.assessment_detail.persisted? ? "Edit" : "Add" %> summary</h2>
 

@@ -265,4 +265,31 @@ RSpec.describe "Add pre-commencement conditions task", type: :system do
       end
     end
   end
+
+  context "when the reviewer has rejected the pre-commencement conditions" do
+    let(:reviewer) { create(:user, :reviewer, local_authority:, name: "Bella Jones") }
+
+    let!(:rejected_review) do
+      planning_application.pre_commencement_condition_set.reviews.create!(
+        action: "rejected",
+        comment: "Please revise the pre-commencement conditions",
+        reviewer: reviewer
+      )
+    end
+
+    before do
+      task.complete!
+    end
+
+    it "shows the reviewer comment" do
+      within :sidebar do
+        click_link "Add pre-commencement conditions"
+      end
+
+      within(".comment-component") do
+        expect(page).to have_content("Reviewer comment")
+        expect(page).to have_content("Please revise the pre-commencement conditions")
+      end
+    end
+  end
 end

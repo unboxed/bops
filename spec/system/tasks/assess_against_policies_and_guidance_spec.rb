@@ -103,6 +103,33 @@ RSpec.describe "Assess against policies and guidance task", type: :system, js: t
     expect(task.reload).to be_in_progress
   end
 
+  context "when the reviewer has rejected the policies and guidance assessment" do
+    let(:reviewer) { create(:user, :reviewer, local_authority:, name: "Bella Jones") }
+
+    let!(:rejected_review) do
+      planning_application.consideration_set.reviews.create!(
+        action: "rejected",
+        comment: "Please revise the policies and guidance assessment",
+        reviewer: reviewer
+      )
+    end
+
+    before do
+      task.complete!
+    end
+
+    it "shows the reviewer comment" do
+      within ".bops-sidebar" do
+        click_link "Assess against policies and guidance"
+      end
+
+      within(".comment-component") do
+        expect(page).to have_content("Reviewer comment")
+        expect(page).to have_content("Please revise the policies and guidance assessment")
+      end
+    end
+  end
+
   context "when a consideration exists" do
     let!(:consideration) do
       create(:consideration,
