@@ -21,6 +21,7 @@ module PlanningApplications
           format.html do
             if @review.update(review_params)
               reset_assessment_tasks! if return_to_officer?
+
               redirect_to tasks_url(anchor: "review-pre-commencement-conditions", next: true), notice: t(".success")
             else
               render :tasks, alert: t(".failure_html")
@@ -46,7 +47,15 @@ module PlanningApplications
       def review_params
         params.require(:review_pre_commencement_conditions)
           .permit(:action, :comment, :review_status)
-          .merge(reviewer: current_user, reviewed_at: Time.current)
+          .merge(reviewer: current_user, reviewed_at: Time.current, status:)
+      end
+
+      def status
+        if return_to_officer?
+          :to_be_reviewed
+        else
+          :complete
+        end
       end
 
       def conditions_not_started?
