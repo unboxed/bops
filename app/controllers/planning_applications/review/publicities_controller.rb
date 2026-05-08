@@ -44,14 +44,6 @@ module PlanningApplications
         ).merge(review_status: :complete, assessment_status:)
       end
 
-      def assessment_status
-        if return_to_officer?
-          :to_be_reviewed
-        elsif mark_as_complete?
-          :complete
-        end
-      end
-
       def return_to_officer?
         params.dig(:review, :action) == "rejected"
       end

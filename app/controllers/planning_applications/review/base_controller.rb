@@ -75,6 +75,14 @@ module PlanningApplications
         draft_recommendation_task&.action_required!
         submit_recommendation_task&.action_required!
       end
+
+      def assessment_status
+        if return_to_officer?
+          :to_be_reviewed
+        else
+          :complete
+        end
+      end
     end
   end
 end

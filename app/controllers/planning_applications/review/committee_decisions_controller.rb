@@ -45,19 +45,11 @@ module PlanningApplications
             reviews_attributes: {
               reviewed_at: Time.current,
               reviewer: current_user,
-              status:,
+              status: assessment_status,
               review_status:,
               id: @committee_decision.current_review.id
             }
           )
-      end
-
-      def status
-        if return_to_officer?
-          :to_be_reviewed
-        elsif mark_as_complete?
-          :complete
-        end
       end
 
       def return_to_officer?

@@ -64,15 +64,7 @@ module PlanningApplications
         def review_params
           params.require(:review)
             .permit(:review_status, :action, :comment)
-            .merge(reviewer: current_user, reviewed_at: Time.current, status:)
-        end
-
-        def status
-          if return_to_officer?
-            :to_be_reviewed
-          else
-            :complete
-          end
+            .merge(reviewer: current_user, reviewed_at: Time.current, status: assessment_status)
         end
 
         def set_review
