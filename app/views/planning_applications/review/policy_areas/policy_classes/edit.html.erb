@@ -29,31 +29,40 @@
 
               <p><%= policy_section.description %></p>
 
-              <%= form.govuk_text_area "planning_application_policy_sections[#{policy_section.policy_section.id}][comments_attributes][0][text]",
-                    label: {text: "Add comment", class: "govuk-label govuk-label--s"},
-                    value: policy_section&.last_comment&.text,
-                    class: "govuk-textarea govuk-!-margin-bottom-2",
-                    rows: 2 %>
+              <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                  <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                    Status
+                  </legend>
 
-              <%= render(
-                    partial: "shared/policy_classes/previous_comments",
-                    locals: {previous_comments: policy_section.previous_comments}
-                  ) %>
-
-              <div class="display-flex">
-                <% PlanningApplicationPolicySection.statuses.keys.each do |status| %>
-                  <div class="govuk-radios govuk-radios--small">
-                    <%= form.govuk_radio_button(
-                          "planning_application_policy_sections[#{policy_section.policy_section.id}][status]",
-                          status,
-                          checked: policy_section.status == status,
-                          label: {text: status.humanize},
-                          disabled: true,
-                          class: "govuk-radios__input"
-                        ) %>
+                  <div
+                    class="govuk-radios govuk-radios--inline govuk-radios--small"
+                    data-module="govuk-radios">
+                    <% PlanningApplicationPolicySection.statuses.keys.each do |status| %>
+                      <%= form.govuk_radio_button(
+                            "planning_application_policy_sections[#{policy_section.policy_section.id}][status]",
+                            status,
+                            checked: policy_section.status == status,
+                            label: {text: status.humanize, class: "govuk-!-text-wrap-nowrap"},
+                            disabled: true,
+                            class: "govuk-radios__input"
+                          ) %>
+                    <% end %>
                   </div>
-                <% end %>
+                </fieldset>
               </div>
+
+              <%= govuk_details(summary_text: "Edit comment (optional)", open: policy_section&.last_comment&.text&.present?) do %>
+                <%= form.govuk_text_area "planning_application_policy_sections[#{policy_section.policy_section.id}][comments_attributes][0][text]",
+                      label: {text: "Edit comment",
+                              class: "govuk-label govuk-label--s"},
+                      value: policy_section&.last_comment&.text,
+                      class: "govuk-textarea govuk-!-margin-bottom-2",
+                      rows: 2 %>
+
+                <%= render partial: "shared/policy_classes/previous_comments",
+                      locals: {previous_comments: policy_section.previous_comments} %>
+              <% end %>
             </div>
           <% end %>
         </div>

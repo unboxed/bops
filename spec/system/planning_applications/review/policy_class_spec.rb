@@ -78,7 +78,7 @@ RSpec.describe "Reviewing Policy Class", show_sidebar: false, type: :system do
 
         choose "Agree"
         within("#policy_section_#{policy_section2bii.id}") do
-          fill_in("Add comment", with: "Reviewer comment")
+          fill_in("Edit comment", with: "Reviewer comment")
         end
         click_button("Save and come back later")
 
@@ -86,7 +86,7 @@ RSpec.describe "Reviewing Policy Class", show_sidebar: false, type: :system do
         click_link("Part 1, Class A")
 
         within("#policy_section_#{policy_section2bii.id}") do
-          expect(page).to have_field("Add comment", with: "Reviewer comment")
+          expect(page).to have_field("Edit comment", with: "Reviewer comment")
 
           find("span", text: "Previous comments").click
           expect(page).to have_content("A comment")
