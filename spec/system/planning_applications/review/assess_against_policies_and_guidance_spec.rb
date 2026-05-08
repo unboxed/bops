@@ -241,6 +241,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", :js, show_s
 
       expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks?next=true")
       expect(page).to have_content("Review of assessment against policy and guidance successfully updated")
+      expect(page).to have_content("Review assessment against policies and guidance Awaiting changes")
 
       within("#review-considerations") do
         expect(page).to have_selector(".govuk-tag", text: "Awaiting changes")

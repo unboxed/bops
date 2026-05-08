@@ -50,11 +50,19 @@ module PlanningApplications
       def review_params
         params.require(:review_considerations)
           .permit(:action, :comment, :review_status)
-          .merge(reviewer: current_user, reviewed_at: Time.current)
+          .merge(reviewer: current_user, reviewed_at: Time.current, status:)
+      end
+
+      def status
+        if return_to_officer?
+          :to_be_reviewed
+        else
+          :complete
+        end
       end
 
       def return_to_officer?
-        params.dig(:assessment_considerations, :action) == "rejected"
+        params.dig(:review_considerations, :action) == "rejected"
       end
     end
   end

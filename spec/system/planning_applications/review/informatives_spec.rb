@@ -185,6 +185,7 @@ RSpec.describe "Reviewing informatives", :js, show_sidebar: false, type: :system
           end
 
           expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks?next=true")
+          expect(page).to have_content("Review informatives Awaiting changes")
 
           # The page redirects back to itself so sometimes have_current_path doesn't wait for the redirect
           with_retry do
