@@ -56,6 +56,7 @@
                 <%= form.govuk_text_area "planning_application_policy_sections[#{policy_section.policy_section.id}][comments_attributes][0][text]",
                       label: {text: "Edit comment",
                               class: "govuk-label govuk-label--s"},
+                      hint: {text: "Policy comment for the final report. This information WILL be made publicly available."},
                       value: policy_section&.last_comment&.text,
                       class: "govuk-textarea govuk-!-margin-bottom-2",
                       rows: 2 %>
@@ -77,7 +78,8 @@
             ) do %>
           <%= form.govuk_text_area(
                 :comment,
-                label: {text: "Add a comment"},
+                label: {text: "Add a comment to the officer"},
+                hint: {text: "This information will NOT be made publicly available."},
                 rows: 6,
                 name: "review[comment]",
                 value: @planning_application_policy_class.current_review.comment
