@@ -29,12 +29,12 @@ class PlanningApplicationPolicyClass < ApplicationRecord
 
   def update_review(params)
     status = params[:status] || params[:review_status]
-    case status
+    case status.to_s
     when "complete"
       mark_as_complete(params)
     when "in_progress"
       mark_as_in_progress(params)
-    when "review_complete", "review_in_progress"
+    when "review_complete", "review_in_progress", "to_be_reviewed"
       update_current_review(params)
     else
       raise ArgumentError, "Unexpected review status: #{status.inspect}"

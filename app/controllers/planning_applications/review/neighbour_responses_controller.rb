@@ -45,16 +45,8 @@ module PlanningApplications
           reviewed_at: Time.current,
           reviewer: current_user,
           review_status: "review_complete",
-          status:
+          status: assessment_status
         )
-      end
-
-      def status
-        if return_to_officer?
-          :to_be_reviewed
-        elsif mark_as_complete?
-          :complete
-        end
       end
 
       def consultation_status

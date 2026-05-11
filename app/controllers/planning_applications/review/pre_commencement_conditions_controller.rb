@@ -6,6 +6,7 @@ module PlanningApplications
       before_action :set_condition_set
       before_action :set_conditions
       before_action :set_review
+      before_action :set_task, only: %i[update]
 
       before_action :redirect_to_review_tasks, if: :conditions_not_started?
 
@@ -19,6 +20,8 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @review.update(review_params)
+              reset_assessment_tasks! if return_to_officer?
+
               redirect_to tasks_url(anchor: "review-pre-commencement-conditions", next: true), notice: t(".success")
             else
               render :tasks, alert: t(".failure_html")
@@ -44,11 +47,19 @@ module PlanningApplications
       def review_params
         params.require(:review_pre_commencement_conditions)
           .permit(:action, :comment, :review_status)
-          .merge(reviewer: current_user, reviewed_at: Time.current)
+          .merge(reviewer: current_user, reviewed_at: Time.current, status: assessment_status)
       end
 
       def conditions_not_started?
         @review.not_started?
+      end
+
+      def set_task
+        @task = @planning_application.case_record.find_task_by_slug_path("check-and-assess/complete-assessment/add-pre-commencement-conditions")
+      end
+
+      def return_to_officer?
+        params.dig(:review_pre_commencement_conditions, :action) == "rejected"
       end
     end
   end
