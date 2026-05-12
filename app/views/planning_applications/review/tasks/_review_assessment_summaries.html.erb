@@ -50,6 +50,8 @@
               )
             ) %>
 
+        <%= render(ReviewerCommentComponent.new(comment: assessment_detail.latest_reviewer_comment)) %>
+
         <%= render(
               Reviewing::AssessmentDetails::PreviousSummariesComponent.new(
                 planning_application: planning_application,

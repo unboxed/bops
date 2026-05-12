@@ -4,7 +4,6 @@ module StatusTags
   module Reviewing
     class AssessmentDetailComponent < StatusTags::BaseComponent
       include AssessmentDetailable
-      include Recommendable
 
       def initialize(assessment_detail:, planning_application:)
         @planning_application = planning_application
