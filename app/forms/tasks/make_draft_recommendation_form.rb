@@ -49,17 +49,13 @@ module Tasks
     end
 
     def save_committee_decision
-      if planning_application.committee_decision.present?
-        planning_application.committee_decision.tap do |cd|
-          cd.update!(reasons: updated_reasons, recommend: recommend)
-          cd.current_review.updated!
-        end
-      else
-        CommitteeDecision.new(
-          planning_application: planning_application,
-          recommend: recommend,
-          reasons: updated_reasons
-        ).save!
+      decision = CommitteeDecision.find_or_create_by!(planning_application:)
+
+      if decision.reasons != updated_reasons || decision.recommend != recommend
+        decision.update!(reasons: updated_reasons, recommend:)
+        decision.current_review.updated!
+      elsif decision.current_review.review_complete?
+        decision.create_review(review_status: :review_complete)
       end
     end
 
