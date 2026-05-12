@@ -41,6 +41,18 @@ module Tasks
 
     private
 
+    def save_draft
+      super do
+        informative_set.update_review(status: "in_progress", assessor: Current.user)
+      end
+    end
+
+    def save_and_complete
+      super do
+        informative_set.update_review(status: "complete", assessor: Current.user)
+      end
+    end
+
     def add_informative
       informative_set.informatives.create!(title:, text:)
       task.start!

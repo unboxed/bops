@@ -17,11 +17,13 @@ module Tasks
       attr_reader :assessment_detail, :category, :rejected_assessment_detail
 
       with_options on: %i[save_and_complete save_draft] do
-        validates :entry, presence: true
+        validates :entry, presence: true, if: :requires_entry?
       end
     end
 
     private
+
+    def requires_entry? = true
 
     def category = nil
 

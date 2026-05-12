@@ -382,8 +382,8 @@ class Consultation < ApplicationRecord
     neighbour_reviews.max_by(&:created_at)
   end
 
-  def create_neighbour_review!
-    neighbour_reviews.create!(status: "complete", assessor: Current.user)
+  def create_neighbour_review!(status: "complete")
+    neighbour_reviews.create!(status:, assessor: Current.user)
   end
 
   def consultees_checked?

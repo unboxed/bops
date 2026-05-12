@@ -77,7 +77,8 @@ module Tasks
 
     def save_and_complete
       super do
-        condition_set.create_or_update_review!("complete")
+        status = condition_set.current_review&.to_be_reviewed? ? "updated" : "complete"
+        condition_set.create_or_update_review!(status)
       end
     end
   end

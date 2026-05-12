@@ -4,9 +4,11 @@
     <% section.with_heading(text: "Check neighbour notifications") %>
 
     <% section.with_status do %>
+      <% neighbour_review = @planning_application.consultation.neighbour_review %>
       <%= render(
             StatusTags::ReviewComponent.new(
-              review_item: @planning_application.consultation.neighbour_review
+              review_item: neighbour_review,
+              updated: neighbour_review&.updated?
             )
           ) %>
     <% end %>
@@ -26,8 +28,9 @@
     <% section.with_heading(text: "Check publicity") %>
     <% section.with_status do %>
       <%= render(
-            StatusTags::ReviewComponent.new(
-              review_item: @planning_application.existing_or_new_check_publicity
+            StatusTags::Reviewing::AssessmentDetailComponent.new(
+              planning_application: @planning_application,
+              assessment_detail: @planning_application.existing_or_new_check_publicity
             )
           ) %>
     <% end %>

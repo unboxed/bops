@@ -34,7 +34,11 @@ module Tasks
 
     def save_and_complete
       super do
-        @heads_of_terms.confirm_pending_requests! unless planning_application.pre_application?
+        if heads_of_terms.current_review&.to_be_reviewed?
+          heads_of_terms.reviews.create!(assessor: Current.user, status: "updated")
+        else
+          heads_of_terms.confirm_pending_requests! unless planning_application.pre_application?
+        end
       end
     end
 

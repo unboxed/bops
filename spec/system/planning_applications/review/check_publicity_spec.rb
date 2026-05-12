@@ -196,7 +196,7 @@ RSpec.describe "checking publicity", show_sidebar: false, type: :system do
 
         within("#review-publicities") do
           expect(page).to have_content("Check publicity")
-          expect(page).to have_content("Not started")
+          expect(page).to have_content("Updated")
         end
       end
 
@@ -398,7 +398,7 @@ RSpec.describe "checking publicity", show_sidebar: false, type: :system do
 
       within("#review-publicities") do
         expect(page).to have_content("Check publicity")
-        expect(page).to have_content("Not started")
+        expect(page).to have_content("Updated")
       end
     end
 

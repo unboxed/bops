@@ -2,8 +2,9 @@
 
 module Tasks
   class SummaryOfNeighbourResponsesForm < Form
+    include AssessmentDetailConcern
+
     def category = "neighbour_summary"
-    self.task_actions = %w[save_and_complete save_draft]
 
     ALL_TAGS = (NeighbourResponse::TAGS.dup << :untagged).freeze
     ENTRY_BOUNDARY = /(?=#{ALL_TAGS.map { |t| Regexp.escape("#{t.to_s.humanize}: ") }.join("|")})/
@@ -12,13 +13,11 @@ module Tasks
     attribute :untagged, :string
 
     after_initialize do
-      @assessment_detail = planning_application.assessment_details.find_or_initialize_by(category: "neighbour_summary")
-      @rejected_assessment_detail = planning_application.rejected_assessment_detail(category:)
       @neighbour_responses = planning_application.consultation.neighbour_responses
       populate_from_entry
     end
 
-    attr_reader :assessment_detail, :rejected_assessment_detail, :neighbour_responses
+    attr_reader :neighbour_responses
 
     with_options on: :save_and_complete do
       validate :all_summaries_present, if: :neighbour_responses?
@@ -56,15 +55,15 @@ module Tasks
       end.join
     end
 
-    def save_draft
-      super do
-        @assessment_detail.update!(entry: formatted_entry, assessment_status: :in_progress, user: Current.user)
-      end
-    end
+    def requires_entry? = false
 
-    def save_and_complete
-      super do
-        @assessment_detail.update!(entry: formatted_entry, assessment_status: :complete, user: Current.user)
+    def build_or_update_assessment_detail!(assessment_status:)
+      if @rejected_assessment_detail.present?
+        @assessment_detail = planning_application.assessment_details.create!(
+          category:, entry: formatted_entry, assessment_status:, user: Current.user
+        )
+      else
+        @assessment_detail.update!(entry: formatted_entry, assessment_status:, user: Current.user)
       end
     end
   end
