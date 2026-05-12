@@ -47,6 +47,7 @@
       <%= render "tasks/consultees-neighbours-and-publicity/publicity/site-notice/table", site_notice: site_notice, index: index %>
   <% end %>
   <%= form_with model: @form, url: @form.url do |form| %>
+    <%= return_to_hidden_field %>
     <div class="govuk-button-group">
       <%= render "task_submit_buttons", form: form, save_draft: false %>
       <%= govuk_button_link_to "Add another site notice", @form.new_site_notice_url, secondary: true, class: "govuk-!-margin-left-3" %>
@@ -55,6 +56,7 @@
 <% elsif @form.site_notices.where.not(id: nil).empty? %>
   <p class="govuk-body govuk-!-margin-top-4"> No site notices have been created for this application</p>
   <%= form_with model: @form, url: @form.url do |form| %>
+    <%= return_to_hidden_field %>
     <div class="govuk-button-group" id="site-notice-form-actions">
       <%= govuk_button_link_to "Create site notice", @form.new_site_notice_url %>
       <%= form.govuk_task_button "Mark as not required", action: "mark_not_required", secondary: true %>
@@ -65,6 +67,7 @@
     Site notices are not required for this application
   </div>
   <%= form_with model: @form, url: @form.url do |form| %>
+    <%= return_to_hidden_field %>
     <div class="govuk-button-group" id="site-notice-form-actions">
       <%= govuk_button_link_to "Create site notice", @form.new_site_notice_url %>
       <%= form.govuk_task_button "Mark as not required", action: "mark_not_required", secondary: true %>

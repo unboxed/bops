@@ -13,6 +13,7 @@
 
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
+  <%= return_to_hidden_field %>
 
   <%= form.govuk_text_area(:entry, value: @form.assessment_detail.entry, rows: 10, label: {text: t(".heading"), tag: "h2", size: "m"}) do %>
     <p><%= t(".guidance") %></p>

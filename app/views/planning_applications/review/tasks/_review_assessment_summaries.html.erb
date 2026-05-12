@@ -34,7 +34,7 @@
               View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %>
             </p>
             <p>
-              <%= govuk_link_to "View neighbour responses", planning_application_consultation_neighbour_responses_path(@planning_application), new_tab: true %>
+              <%= govuk_link_to "View neighbour responses", task_path(slug: "consultees-neighbours-and-publicity/neighbours/view-neighbour-responses", return_to: planning_application_review_tasks_path(@planning_application)), new_tab: true %>
             </p>
           <% else %>
             <p>
@@ -57,9 +57,9 @@
               )
             ) %>
 
-        <%= govuk_link_to "Edit", edit_planning_application_assessment_assessment_detail_path(
-              @planning_application, assessment_detail, category: assessment_detail.category
-            ) %>
+        <% if (slug = assessment_detail.task_slug) %>
+          <%= govuk_link_to "Edit", task_path(@planning_application, slug: slug, return_to: planning_application_review_tasks_path(@planning_application, anchor: "#{assessment_detail.category}_section")) %>
+        <% end %>
       <% end %>
 
       <% section.with_footer(id: "#{assessment_detail.category}_footer") do %>

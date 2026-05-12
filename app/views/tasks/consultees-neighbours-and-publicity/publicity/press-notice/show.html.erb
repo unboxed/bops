@@ -36,6 +36,7 @@
     <%= render "tasks/consultees-neighbours-and-publicity/publicity/press-notice/table", press_notice: press_notice, index: index %>
   <% end %>
   <%= form_with model: @form, url: @form.url do |form| %>
+    <%= return_to_hidden_field %>
     <div class="govuk-button-group" id="press-notice-form-actions">
       <%= render "task_submit_buttons", form: form, save_draft: false %>
       <%= govuk_button_link_to "Add another press notice", @form.new_press_notice_url, secondary: true, class: "govuk-!-margin-left-3" %>
@@ -45,6 +46,7 @@
 <% elsif @form.press_notices.where.not(id: nil).empty? %>
   <p class="govuk-body govuk-!-margin-top-4"> No press notices have been created for this application</p>
   <%= form_with model: @form, url: @form.url do |form| %>
+    <%= return_to_hidden_field %>
     <div class="govuk-button-group" id="press-notice-form-actions">
       <%= govuk_button_link_to "Create press notice", @form.new_press_notice_url %>
       <%= form.govuk_task_button "Mark as not required", action: "mark_not_required", secondary: true %>
@@ -55,6 +57,7 @@
     Press notices are not required for this application
   </div>
   <%= form_with model: @form, url: @form.url do |form| %>
+    <%= return_to_hidden_field %>
     <div class="govuk-button-group" id="press-notice-form-actions">
       <%= govuk_button_link_to "Create press notice", @form.new_press_notice_url %>
     </div>

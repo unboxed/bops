@@ -28,6 +28,7 @@
 
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
+  <%= return_to_hidden_field %>
 
   <%= form.govuk_radio_buttons_fieldset(:immunity, legend: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.immunity_legend"), size: "m"}) do %>
     <%= form.govuk_radio_button(:immunity, true, label: {text: "Yes, the development is immune"}) do %>

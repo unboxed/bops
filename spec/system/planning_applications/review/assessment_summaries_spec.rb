@@ -350,7 +350,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
       end
 
-      it "summary of neighbour responses" do
+      it "summary of neighbour responses", capubara: true do
         task = planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/summary-of-neighbour-responses")
         task.start!
 
@@ -364,7 +364,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
             expect(page).to have_content("neighbour summary")
             expect(page).to have_link(
               "Edit",
-              href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{neighbour_summary.id}/edit?category=neighbour_summary"
+              href: task_path(planning_application, "check-and-assess/assessment-summaries/summary-of-neighbour-responses", return_to: planning_application_review_tasks_path(planning_application, anchor: "neighbour_summary_section"))
             )
           end
         end
@@ -495,7 +495,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
             expect(page).to have_content("summary of works assessment")
             expect(page).to have_link(
               "Edit",
-              href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{summary_of_work.id}/edit?category=summary_of_work"
+              href: task_path(planning_application, "check-and-assess/assessment-summaries/summary-of-works", return_to: planning_application_review_tasks_path(planning_application, anchor: "summary_of_work_section"))
             )
           end
         end
@@ -623,7 +623,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
             expect(page).to have_link("View site on Google Maps (opens in new tab)")
             expect(page).to have_link(
               "Edit",
-              href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{site_description.id}/edit?category=site_description"
+              href: task_path(planning_application, "check-and-assess/assessment-summaries/site-description", return_to: planning_application_review_tasks_path(planning_application, anchor: "site_description_section"))
             )
           end
         end
@@ -757,7 +757,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
             expect(page).to have_content("consultation summary")
             expect(page).to have_link(
               "Edit",
-              href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{consultation_summary.id}/edit?category=consultation_summary"
+              href: task_path(planning_application, "check-and-assess/assessment-summaries/summary-of-consultation", return_to: planning_application_review_tasks_path(planning_application, anchor: "consultation_summary_section"))
             )
           end
         end
@@ -888,7 +888,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
             expect(page).to have_content("additional evidence")
             expect(page).to have_link(
               "Edit",
-              href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{additional_evidence.id}/edit?category=additional_evidence"
+              href: task_path(planning_application, "check-and-assess/assessment-summaries/other-considerations", return_to: planning_application_review_tasks_path(planning_application, anchor: "additional_evidence_section"))
             )
           end
         end
@@ -1020,7 +1020,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
             expect(page).to have_content("amenity")
             expect(page).to have_link(
               "Edit",
-              href: "/planning_applications/#{planning_application.reference}/assessment/assessment_details/#{amenity.id}/edit?category=amenity"
+              href: task_path(planning_application, "check-and-assess/assessment-summaries/amenity", return_to: planning_application_review_tasks_path(planning_application, anchor: "amenity_section"))
             )
           end
         end

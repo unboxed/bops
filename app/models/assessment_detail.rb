@@ -23,7 +23,9 @@ class AssessmentDetail < ApplicationRecord
   TASK_SLUGS = {
     additional_evidence: "check-and-assess/assessment-summaries/other-considerations",
     amenity: "check-and-assess/assessment-summaries/amenity",
+    assess_immunity: "check-and-assess/assess-immunity/assess-immunity",
     consultation_summary: "check-and-assess/assessment-summaries/summary-of-consultation",
+    evidence_of_immunity: "check-and-assess/assess-immunity/evidence-of-immunity",
     neighbour_summary: "check-and-assess/assessment-summaries/summary-of-neighbour-responses",
     site_description: "check-and-assess/assessment-summaries/site-description",
     summary_of_work: "check-and-assess/assessment-summaries/summary-of-works"

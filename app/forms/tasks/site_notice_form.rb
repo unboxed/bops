@@ -23,24 +23,32 @@ module Tasks
       end
     end
 
+    def redirect_url(options = {})
+      if action == "create_site_notice"
+        task_path(planning_application, task, return_to: return_to, only_path: true)
+      else
+        super
+      end
+    end
+
     def new_site_notice_url
-      route_for(:task, planning_application, slug: task.full_slug, new: true, only_path: true)
+      task_path(planning_application, task, new: true, return_to: return_to)
     end
 
     def back_url
-      route_for(:task, planning_application, slug: task.full_slug, only_path: true)
+      url(return_to: return_to)
     end
 
     def edit_site_notice_url(site_notice)
-      route_for(:edit_task_component, planning_application, slug: task.full_slug, id: site_notice.id, only_path: true)
+      edit_task_component_path(planning_application, slug: task.full_slug, id: site_notice.id)
     end
 
     def confirm_display_url
-      route_for(:task_component, planning_application, slug: task.full_slug, id: site_notice.id, only_path: true)
+      task_component_path(planning_application, slug: task.full_slug, id: site_notice.id)
     end
 
     def confirmation_request_url(site_notice)
-      task_component_path(planning_application, slug: task.full_slug, id: site_notice.id, only_path: true)
+      task_component_path(planning_application, slug: task.full_slug, id: site_notice.id)
     end
 
     attr_reader :site_notice, :site_notices
