@@ -20,11 +20,7 @@
       <% section.with_heading(text: "Review evidence of immunity") %>
 
       <% section.with_status do %>
-        <%= render(
-              StatusTags::ReviewComponent.new(
-                review_item: @planning_application.immunity_detail.current_evidence_review
-              )
-            ) %>
+        <%= render StatusTags::ReviewComponent.new(review_item: @planning_application.immunity_detail.current_evidence_review) %>
       <% end %>
 
       <% section.with_block do %>
@@ -45,11 +41,7 @@
       <% section.with_heading(text: "Review assessment of immunity") %>
 
       <% section.with_status do %>
-        <%= render(
-              StatusTags::ReviewComponent.new(
-                review_item: @planning_application.immunity_detail.current_enforcement_review
-              )
-            ) %>
+        <%= render StatusTags::ReviewComponent.new(review_item: @planning_application.immunity_detail.current_enforcement_review) %>
       <% end %>
 
       <% section.with_block do %>
@@ -67,12 +59,7 @@
     <% accordion.with_section(id: "review-permitted-development-rights", expanded: @permitted_development_right.errors.any?) do |section| %>
       <%= section.with_heading(text: "Review permitted development rights") %>
       <% section.with_status do %>
-        <%= render(
-              StatusTags::ReviewComponent.new(
-                review_item: @permitted_development_right,
-                updated: @permitted_development_right.status == "updated"
-              )
-            ) %>
+        <%= render StatusTags::ReviewComponent.new(review_item: @permitted_development_right) %>
       <% end %>
       <% section.with_block do %>
         <%= render(partial: "planning_applications/review/permitted_development_rights/summary") %>

@@ -22,10 +22,7 @@ module TaskListItems
       end
 
       def status_tag_component
-        StatusTags::ReviewComponent.new(
-          review_item: current_review,
-          updated: current_review.updated?
-        )
+        StatusTags::ReviewComponent.new(review_item: current_review)
       end
 
       def link_active?

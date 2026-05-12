@@ -4,13 +4,7 @@
     <% section.with_heading(text: "Check neighbour notifications") %>
 
     <% section.with_status do %>
-      <% neighbour_review = @planning_application.consultation.neighbour_review %>
-      <%= render(
-            StatusTags::ReviewComponent.new(
-              review_item: neighbour_review,
-              updated: neighbour_review&.updated?
-            )
-          ) %>
+      <%= render StatusTags::ReviewComponent.new(review_item: @planning_application.consultation.neighbour_review) %>
     <% end %>
 
     <% section.with_block(id: "neighbour-notifications") do %>
