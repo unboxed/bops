@@ -94,7 +94,7 @@ jobs:
         if: "${{ inputs.want-pdf }}"
         run: |
           sudo apt-get install -y ghostscript poppler-utils imagemagick
-        timeout-minutes: 1
+        timeout-minutes: 5
 
       - name: Install postgres client
         shell: bash
