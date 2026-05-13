@@ -19,7 +19,7 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
       visit "/planning_applications/#{reference}/review/tasks"
       within("##{section_id}") { expect(page).to have_content("Not started") }
 
-      click_button expand_button
+      find("##{section_id} .bops-task-accordion__section-header button").click
       within("##{section_id}") do
         choose "Return with comments"
         fill_in "Add a comment", with: comment_text
@@ -62,7 +62,7 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
         end
       end
 
-      click_button expand_button
+      find("##{section_id} .bops-task-accordion__section-header button").click
       within("##{section_id}") do
         choose accept_label
         click_button "Save and mark as complete"
@@ -82,7 +82,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "summary of works" do
       let(:section_id) { "summary_of_work_section" }
-      let(:expand_button) { "Summary of works" }
       let(:accept_label) { "Accept" }
       let(:assessor_task_slug) { "check-and-assess/assessment-summaries/summary-of-works" }
       let(:assessor_task_label) { "Summary of works" }
@@ -99,7 +98,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "site description" do
       let(:section_id) { "site_description_section" }
-      let(:expand_button) { "Site description" }
       let(:accept_label) { "Accept" }
       let(:assessor_task_slug) { "check-and-assess/assessment-summaries/site-description" }
       let(:revised_entry) { "Updated site description" }
@@ -115,7 +113,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "additional evidence", :pending do
       let(:section_id) { "additional_evidence_section" }
-      let(:expand_button) { "Summary of additional evidence" }
       let(:accept_label) { "Accept" }
       let(:assessor_task_slug) { "check-and-assess/assessment-summaries/other-considerations" }
 
@@ -130,7 +127,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "consultation summary" do
       let(:section_id) { "consultation_summary_section" }
-      let(:expand_button) { "Consultation" }
       let(:accept_label) { "Accept" }
       let(:assessor_task_slug) { "check-and-assess/assessment-summaries/summary-of-consultation" }
       let(:revised_entry) { "Updated consultation summary" }
@@ -146,7 +142,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "neighbour summary" do
       let(:section_id) { "neighbour_summary_section" }
-      let(:expand_button) { "Summary of neighbour responses" }
       let(:accept_label) { "Accept" }
       let(:assessor_task_slug) { "check-and-assess/assessment-summaries/summary-of-neighbour-responses" }
 
@@ -163,7 +158,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "amenity" do
       let(:section_id) { "amenity_section" }
-      let(:expand_button) { "Amenity assessment" }
       let(:accept_label) { "Accept" }
 
       let!(:detail) do
@@ -177,7 +171,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "considerations", :pending do
       let(:section_id) { "review-considerations" }
-      let(:expand_button) { "Review assessment against policies and guidance" }
       let(:accept_label) { "Agree" }
       let(:assessor_task_slug) { "check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance" }
 
@@ -191,7 +184,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "conditions", :pending do
       let(:section_id) { "review-conditions" }
-      let(:expand_button) { "Review conditions" }
       let(:accept_label) { "Agree" }
       let(:assessor_task_slug) { "check-and-assess/complete-assessment/add-conditions" }
 
@@ -205,7 +197,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "pre-commencement conditions", :pending do
       let(:section_id) { "review-pre-commencement-conditions" }
-      let(:expand_button) { "Review pre-commencement conditions" }
       let(:accept_label) { "Agree" }
       let(:assessor_task_slug) { "check-and-assess/complete-assessment/add-pre-commencement-conditions" }
 
@@ -219,7 +210,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "informatives", :pending do
       let(:section_id) { "review-informatives" }
-      let(:expand_button) { "Review informatives" }
       let(:accept_label) { "Agree" }
       let(:assessor_task_slug) { "check-and-assess/complete-assessment/add-informatives" }
 
@@ -233,7 +223,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "heads of terms", :pending do
       let(:section_id) { "review-heads-of-terms" }
-      let(:expand_button) { "Review heads of terms" }
       let(:accept_label) { "Agree" }
       let(:assessor_task_slug) { "check-and-assess/complete-assessment/add-heads-of-terms" }
 
@@ -247,7 +236,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "check neighbour notifications", :pending do
       let(:section_id) { "review-neighbour-responses" }
-      let(:expand_button) { "Check neighbour notifications" }
       let(:accept_label) { "Agree" }
 
       before do
@@ -260,7 +248,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "check publicity", :pending do
       let(:section_id) { "review-publicities" }
-      let(:expand_button) { "Check publicity" }
       let(:accept_label) { "Agree" }
 
       let!(:site_notice) { create(:site_notice, planning_application:) }
@@ -280,7 +267,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
     describe "permitted development rights", :pending do
       let(:section_id) { "review-permitted-development-rights" }
-      let(:expand_button) { "Review permitted development rights" }
       let(:accept_label) { "Agree" }
       let(:assessor_task_slug) { "check-and-assess/check-application/permitted-development-rights" }
 
