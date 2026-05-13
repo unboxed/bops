@@ -87,7 +87,7 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
       let(:assessor_task_label) { "Summary of works" }
       let(:revised_entry) { "Updated summary" }
 
-      let!(:detail) do
+      before do
         create(:assessment_detail, :summary_of_work,
           assessment_status: :complete, planning_application:, user: assessor,
           entry: "Original summary")
@@ -102,7 +102,7 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
       let(:assessor_task_slug) { "check-and-assess/assessment-summaries/site-description" }
       let(:revised_entry) { "Updated site description" }
 
-      let!(:detail) do
+      before do
         create(:assessment_detail, :site_description,
           assessment_status: :complete, planning_application:, user: assessor,
           entry: "Original site description")
@@ -116,7 +116,7 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
       let(:accept_label) { "Accept" }
       let(:assessor_task_slug) { "check-and-assess/assessment-summaries/other-considerations" }
 
-      let!(:detail) do
+      before do
         create(:assessment_detail, :additional_evidence,
           assessment_status: :complete, planning_application:, user: assessor,
           entry: "Original additional evidence")
@@ -131,7 +131,7 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
       let(:assessor_task_slug) { "check-and-assess/assessment-summaries/summary-of-consultation" }
       let(:revised_entry) { "Updated consultation summary" }
 
-      let!(:detail) do
+      before do
         create(:assessment_detail, :consultation_summary,
           assessment_status: :complete, planning_application:, user: assessor,
           entry: "Original consultation summary")
@@ -147,7 +147,8 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
       let!(:neighbour) { create(:neighbour, consultation: planning_application.consultation) }
       let!(:response) { create(:neighbour_response, neighbour:, summary_tag: "objection") }
-      let!(:detail) do
+
+      before do
         create(:assessment_detail, :neighbour_summary,
           assessment_status: :complete, planning_application:, user: assessor,
           entry: "Original neighbour summary")
@@ -160,7 +161,7 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
       let(:section_id) { "amenity_section" }
       let(:accept_label) { "Accept" }
 
-      let!(:detail) do
+      before do
         create(:assessment_detail, :amenity,
           assessment_status: :complete, planning_application:, user: assessor,
           entry: "Original amenity assessment")
