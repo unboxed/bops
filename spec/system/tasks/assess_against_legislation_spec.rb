@@ -146,8 +146,7 @@ RSpec.describe "Assess against legislation", type: :system do
 
       expect(task.reload).to be_completed
 
-      sign_out(assessor)
-      sign_in(reviewer)
+      switch_user(reviewer)
 
       visit "/planning_applications/#{reference}/review/tasks"
       click_link "Review assessment against legislation"

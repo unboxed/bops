@@ -130,8 +130,7 @@ RSpec.describe "Immunity", show_sidebar: false, type: :system do
       expect(page).to have_current_path("/planning_applications/#{reference}")
       expect(page).to have_content("Recommendation was successfully submitted")
 
-      sign_out(assessor)
-      sign_in(reviewer)
+      switch_user(reviewer)
 
       visit "/planning_applications/#{reference}"
       expect(page).to have_selector("h1", text: "Application")
@@ -171,8 +170,7 @@ RSpec.describe "Immunity", show_sidebar: false, type: :system do
       expect(page).to have_current_path("/planning_applications/#{reference}/review/tasks")
       expect(page).to have_content("Review immunity details was successfully updated for enforcement")
 
-      sign_out(reviewer)
-      sign_in(assessor)
+      switch_user(assessor)
 
       visit "/planning_applications/#{reference}"
       expect(page).to have_selector("h1", text: "Application")
@@ -223,8 +221,7 @@ RSpec.describe "Immunity", show_sidebar: false, type: :system do
       expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
       expect(page).to have_content("Assess immunity response was successfully updated")
 
-      sign_out(assessor)
-      sign_in(reviewer)
+      switch_user(reviewer)
 
       visit "/planning_applications/#{reference}"
       expect(page).to have_selector("h1", text: "Application")

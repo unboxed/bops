@@ -103,8 +103,7 @@ RSpec.describe "Reviewing pre-commencement conditions", show_sidebar: false, typ
         expect(current_review.comment).to eq "I don't think you've assessed conditions correctly"
         expect(current_review.status).to eq "to_be_reviewed"
 
-        sign_out(reviewer)
-        sign_in(assessor)
+        switch_user(assessor)
 
         visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 

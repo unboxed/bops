@@ -42,8 +42,7 @@ RSpec.describe "Recommending and submitting a pre-application report" do
     click_button "Confirm and submit recommendation"
     expect(page).to have_selector("[role=alert] p", text: "Pre-application report submitted for review")
 
-    sign_out(assessor)
-    sign_in(reviewer)
+    switch_user(reviewer)
 
     visit "/reports/planning_applications/#{reference}"
     expect(page).to have_selector("h1", text: "Pre-application report")
@@ -61,8 +60,7 @@ RSpec.describe "Recommending and submitting a pre-application report" do
 
     expect(BopsReports::SendReportEmailJob).not_to have_been_enqueued
 
-    sign_out(reviewer)
-    sign_in(assessor)
+    switch_user(assessor)
 
     visit "/reports/planning_applications/#{reference}"
     expect(page).to have_selector("h1", text: "Pre-application report")
@@ -72,8 +70,7 @@ RSpec.describe "Recommending and submitting a pre-application report" do
     click_button "Confirm and submit recommendation"
     expect(page).to have_selector("[role=alert] p", text: "Pre-application report submitted for review")
 
-    sign_out(assessor)
-    sign_in(reviewer)
+    switch_user(reviewer)
 
     visit "/reports/planning_applications/#{reference}"
     expect(page).to have_selector("h1", text: "Pre-application report")

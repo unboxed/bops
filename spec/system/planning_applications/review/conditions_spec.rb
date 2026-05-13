@@ -127,8 +127,7 @@ RSpec.describe "Reviewing conditions" do
         expect(current_review.comment).to eq "I don't think you've assessed conditions correctly"
         expect(current_review.status).to eq "to_be_reviewed"
 
-        sign_out(reviewer)
-        sign_in(assessor)
+        switch_user(assessor)
 
         visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
@@ -151,8 +150,7 @@ RSpec.describe "Reviewing conditions" do
         click_button "Add condition to list"
         click_button "Save and mark as complete"
 
-        sign_out(assessor)
-        sign_in(reviewer)
+        switch_user(reviewer)
 
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
 

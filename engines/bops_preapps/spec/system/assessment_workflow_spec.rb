@@ -263,8 +263,7 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
       expect(page).to have_content("Pre-application report submitted for review")
       expect(task("Review and submit pre-application").reload).to be_completed
 
-      sign_out(assessor)
-      sign_in(reviewer)
+      switch_user(reviewer)
 
       visit "/reports/planning_applications/#{reference}?origin=review_and_submit_pre_application"
 
@@ -278,8 +277,7 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
       expect(page).to have_content("Pre-application report has been sent back to the case officer for amendments")
       expect(task("Review and submit pre-application").reload).to be_action_required
 
-      sign_out(reviewer)
-      sign_in(assessor)
+      switch_user(assessor)
 
       visit "/planning_applications/#{reference}/assessment/tasks"
 
@@ -295,8 +293,7 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
       expect(page).to have_content("Pre-application report submitted for review")
       expect(task("Review and submit pre-application").reload).to be_completed
 
-      sign_out(assessor)
-      sign_in(reviewer)
+      switch_user(reviewer)
 
       visit "/reports/planning_applications/#{reference}?origin=review_and_submit_pre_application"
 

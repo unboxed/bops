@@ -175,8 +175,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
         expect(page).to have_content("Review of neighbour summary was successfully updated")
 
-        sign_out(reviewer)
-        sign_in(assessor)
+        switch_user(assessor)
         visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/summary-of-neighbour-responses"
 
         within(".comment-component") do
@@ -206,8 +205,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
         expect(page).to have_content("Review of summary of work was successfully updated")
 
-        sign_out(reviewer)
-        sign_in(assessor)
+        switch_user(assessor)
         visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/summary-of-works"
 
         within(".comment-component") do
@@ -237,8 +235,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
         expect(page).to have_content("Review of consultation summary was successfully updated")
 
-        sign_out(reviewer)
-        sign_in(assessor)
+        switch_user(assessor)
         visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/summary-of-consultation"
 
         within(".comment-component") do
@@ -268,8 +265,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
         expect(page).to have_content("Review of site description was successfully updated")
 
-        sign_out(reviewer)
-        sign_in(assessor)
+        switch_user(assessor)
         visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/site-description"
 
         within(".comment-component") do
@@ -299,8 +295,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
         expect(page).to have_content("Review of additional evidence was successfully updated")
 
-        sign_out(reviewer)
-        sign_in(assessor)
+        switch_user(assessor)
         visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/other-considerations"
 
         within(".comment-component") do
@@ -330,8 +325,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
         end
         expect(page).to have_content("Review of amenity was successfully updated")
 
-        sign_out(reviewer)
-        sign_in(assessor)
+        switch_user(assessor)
         visit "/planning_applications/#{planning_application.reference}/check-and-assess/assessment-summaries/amenity"
 
         within(".comment-component") do
@@ -450,8 +444,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
           click_link("Review and submit recommendation")
         end
         click_button("Submit recommendation")
-        sign_out(assessor)
-        sign_in(reviewer)
+        switch_user(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
         click_link("Review and sign-off")
@@ -577,8 +570,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
           click_link("Review and submit recommendation")
         end
         click_button("Submit recommendation")
-        sign_out(assessor)
-        sign_in(reviewer)
+        switch_user(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
         click_link("Review and sign-off")
@@ -709,8 +701,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
           click_link("Review and submit recommendation")
         end
         click_button("Submit recommendation")
-        sign_out(assessor)
-        sign_in(reviewer)
+        switch_user(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
         click_link("Review and sign-off")
@@ -843,8 +834,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
           click_link("Review and submit recommendation")
         end
         click_button("Submit recommendation")
-        sign_out(assessor)
-        sign_in(reviewer)
+        switch_user(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
         click_link("Review and sign-off")
@@ -975,8 +965,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
           click_link("Review and submit recommendation")
         end
         click_button("Submit recommendation")
-        sign_out(assessor)
-        sign_in(reviewer)
+        switch_user(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
         click_link("Review and sign-off")
@@ -1096,8 +1085,7 @@ RSpec.describe "Reviewing assessment summaries", show_sidebar: false, type: :sys
           click_link("Review and submit recommendation")
         end
         click_button("Submit recommendation")
-        sign_out(assessor)
-        sign_in(reviewer)
+        switch_user(reviewer)
         visit "/planning_applications/#{planning_application.reference}"
 
         click_link("Review and sign-off")
