@@ -235,8 +235,7 @@ RSpec.describe "Amenity task", :show_sidebar, type: :system do
       click_button("Save and mark as complete")
 
       # Reviewer returns and sees Updated status
-      sign_out(assessor)
-      sign_in(reviewer)
+      switch_user(reviewer)
       visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       # within("#amenity_section") do

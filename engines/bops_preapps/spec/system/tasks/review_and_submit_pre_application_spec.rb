@@ -74,8 +74,7 @@ RSpec.describe "Review and submit pre-application task", type: :system do
     click_button "Confirm and submit recommendation"
     expect(task.reload.status).to eq("completed")
 
-    sign_out(assessor)
-    sign_in(reviewer)
+    switch_user(reviewer)
 
     visit "/reports/planning_applications/#{planning_application.reference}?origin=review_and_submit_pre_application"
 
@@ -88,8 +87,7 @@ RSpec.describe "Review and submit pre-application task", type: :system do
     expect(page).to have_selector("[role=alert] p", text: "Pre-application report has been sent back to the case officer for amendments")
     expect(task.reload.status).to eq("action_required")
 
-    sign_out(reviewer)
-    sign_in(assessor)
+    switch_user(assessor)
 
     visit_task_list
     click_review_and_submit_task
@@ -98,8 +96,7 @@ RSpec.describe "Review and submit pre-application task", type: :system do
     expect(page).to have_selector("[role=alert] p", text: "Pre-application report submitted for review")
     expect(task.reload.status).to eq("completed")
 
-    sign_out(assessor)
-    sign_in(reviewer)
+    switch_user(reviewer)
 
     visit "/reports/planning_applications/#{planning_application.reference}?origin=review_and_submit_pre_application"
 

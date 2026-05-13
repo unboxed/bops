@@ -76,8 +76,7 @@ RSpec.describe "Reviewing heads of terms", :capybara, show_sidebar: false, type:
           action: "rejected", status: "to_be_reviewed", comment: "I don't think you've assessed heads of terms correctly"
         )
 
-        sign_out(reviewer)
-        sign_in(assessor)
+        switch_user(assessor)
 
         visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
