@@ -139,7 +139,8 @@ module Tasks
     def save_and_complete
       super do
         planning_application_policy_classes.find_each do |policy_class|
-          policy_class.current_review.update!(status: :complete)
+          status = policy_class.current_review&.to_be_reviewed? ? "updated" : "complete"
+          policy_class.current_review.update!(status: status)
         end
       end
     end

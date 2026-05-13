@@ -40,6 +40,13 @@ module Tasks
       consideration_for_edit.valid?(:assess) && consideration_for_edit.save
     end
 
+    def save_and_complete
+      super do
+        status = review&.to_be_reviewed? ? "updated" : "complete"
+        review&.update!(status: status)
+      end
+    end
+
     def add_consideration
       consideration_params = @params[:consideration]&.permit(
         :policy_area, :assessment, :conclusion,
