@@ -42,11 +42,11 @@ module Tasks
     attr_reader :press_notice, :press_notices
 
     def new_press_notice_url
-      route_for(:task, planning_application, slug: task.full_slug, new: true, only_path: true)
+      route_for(:task, planning_application, slug: task.full_slug, new: true, only_path: true, return_to: return_to)
     end
 
     def press_notice_url
-      route_for(:task, planning_application, slug: task.full_slug, only_path: true)
+      route_for(:task, planning_application, slug: task.full_slug, only_path: true, return_to: return_to)
     end
 
     def edit_press_notice_url(press_notice)

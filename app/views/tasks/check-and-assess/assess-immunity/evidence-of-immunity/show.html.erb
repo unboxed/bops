@@ -19,6 +19,7 @@
         ) %>
 
     <% unless @planning_application.determined? || @form.read_only? %>
+      <%= return_to_hidden_field %>
       <div class="govuk-button-group">
         <button type="submit" class="govuk-button" name="task_action" value="save_and_complete" form="immunity-detail-evidence-groups" data-module="govuk-button">
           Save and mark as complete

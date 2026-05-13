@@ -8,6 +8,7 @@
 
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_error_summary %>
+  <%= return_to_hidden_field %>
 
   <% NeighbourResponse::TAGS.select { |tag| @form.neighbour_responses.any? { |r| r.tags.include?(tag.to_s) } }.each do |tag| %>
     <%= govuk_accordion(html_attributes: {id: "neighbour-response-accordion-#{tag}"}) do |accordion| %>
