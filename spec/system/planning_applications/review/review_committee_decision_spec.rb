@@ -2,21 +2,13 @@
 
 require "rails_helper"
 
-RSpec.describe "Review committee decision", show_sidebar: false, type: :system do
-  let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:reviewer) do
-    create(:user,
-      :reviewer,
-      local_authority: default_local_authority)
-  end
-  let!(:assessor) do
-    create(:user,
-      :assessor,
-      local_authority: default_local_authority)
-  end
-  let!(:planning_application) do
-    create(:planning_application, :awaiting_determination, :with_recommendation, local_authority: default_local_authority, user: assessor, in_assessment_at: Time.zone.local(2024, 11, 20, 12, 30))
-  end
+RSpec.describe "Review committee decision", type: :system do
+  let(:local_authority) { create(:local_authority, :default) }
+  let(:reviewer) { create(:user, :reviewer, local_authority:) }
+  let(:assessor) { create(:user, :assessor, local_authority:) }
+  let(:planning_application) {
+    create(:planning_application, :awaiting_determination, :with_recommendation, local_authority:, user: assessor, in_assessment_at: Time.zone.local(2024, 11, 20, 12, 30))
+  }
 
   before do
     create(:decision, :ldc_granted)
@@ -108,14 +100,7 @@ RSpec.describe "Review committee decision", show_sidebar: false, type: :system d
     click_link "Application"
     click_link "Check and assess"
 
-    within "#main-content" do
-      expect(page).to have_list_item_for(
-        "Make draft recommendation",
-        with: "To be reviewed"
-      )
-
-      click_link "Make draft recommendation"
-    end
+    click_link "Make draft recommendation"
 
     within(".comment-component") do
       expect(page).to have_content("Reviewer comment")
@@ -126,14 +111,13 @@ RSpec.describe "Review committee decision", show_sidebar: false, type: :system d
       choose "No"
     end
 
-    click_button "Update assessment"
+    click_button "Save and mark as complete"
 
-    within "#main-content" do
-      click_link "Review and submit recommendation"
-    end
+    click_link "Review and submit recommendation"
 
-    click_button "Submit recommendation"
-    click_link "Review and sign-off"
+    click_button "Save and mark as complete"
+
+    visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
     within("#recommendation_to_committee_section") do
       expect(find(".govuk-tag")).to have_content("Updated")
@@ -149,6 +133,60 @@ RSpec.describe "Review committee decision", show_sidebar: false, type: :system d
 
     within("#recommendation_to_committee_section") do
       expect(find(".govuk-tag")).to have_content("Completed")
+    end
+  end
+
+  context "when reviewing other aspects of assessment" do
+    before do
+      detail = planning_application.assessment_details.find_or_initialize_by(category: :summary_of_work)
+      detail.update!(entry: "moo", assessment_status: :complete, user: Current.user)
+
+      planning_application.committee_decision.update!(recommend: true, reasons: ["The first reason"])
+
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
+    end
+
+    it "reviewer can disagree with other aspects of assessment", :capybara do
+      click_button "Summary of works"
+      within("#summary_of_work_section") do
+        within("#summary_of_work_footer") do
+          choose "Return with comments"
+          fill_in "Add a comment", with: "No"
+          click_button "Save and mark as complete"
+        end
+      end
+
+      click_button "Recommendation to committee"
+      within("#recommendation_to_committee_section") do
+        expect(find(".govuk-tag")).to have_content("Not started")
+
+        within("#recommendation_to_committee_footer") do
+          choose "Agree"
+          click_button "Save and mark as complete"
+        end
+      end
+
+      expect(page).to have_content "Review of committee decision recommendation updated successfully"
+
+      within("#recommendation_to_committee_section") do
+        expect(find(".govuk-tag")).to have_content("Completed")
+      end
+
+      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      click_link "Make draft recommendation"
+      click_button "Withdraw recommendation"
+      click_button "Save and mark as complete"
+      click_link "Review and submit recommendation"
+      click_button "Save and mark as complete"
+
+      expect(page).to have_content "Successfully submitted recommendation for review"
+
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
+
+      click_button "Recommendation to committee"
+      within("#recommendation_to_committee_section") do
+        expect(find(".govuk-tag")).to have_content("Completed")
+      end
     end
   end
 end
