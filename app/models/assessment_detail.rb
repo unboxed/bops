@@ -107,7 +107,7 @@ class AssessmentDetail < ApplicationRecord
   end
 
   def task
-    planning_application.case_record.find_task_by_slug_path(task_slug)
+    @task ||= planning_application.case_record.find_task_by_slug_path(task_slug)
   end
 
   private
