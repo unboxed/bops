@@ -119,8 +119,8 @@ class CommitteeDecision < ApplicationRecord
     (reasons_changed? || recommend_changed?) && current_review.to_be_reviewed? && current_review.review_complete?
   end
 
-  def create_review
-    reviews.create!(assessor: Current.user, owner_type: "CommitteeDecision", owner_id: id, status: "complete")
+  def create_review(**params)
+    reviews.create!(assessor: Current.user, owner_type: "CommitteeDecision", owner_id: id, status: "complete", **params)
   end
 
   def ensure_planning_application_not_closed_or_cancelled

@@ -2,9 +2,9 @@
 
 module StatusTags
   class ReviewComponent < StatusTags::BaseComponent
-    def initialize(review_item:, updated: false)
+    def initialize(review_item:, updated: nil)
       @review_item = review_item
-      @updated = updated
+      @updated = updated.nil? ? review_item&.updated? : updated
       super(status:)
     end
 

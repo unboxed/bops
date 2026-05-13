@@ -2,12 +2,7 @@
   <% section.with_heading(text: "Review conditions") %>
 
   <% section.with_status do %>
-    <%= render(
-          StatusTags::ReviewComponent.new(
-            review_item: current_review,
-            updated: current_review.updated?
-          )
-        ) %>
+    <%= render StatusTags::ReviewComponent.new(review_item: current_review) %>
   <% end %>
 
   <% section.with_block do %>
