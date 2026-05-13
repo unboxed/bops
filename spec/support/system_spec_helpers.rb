@@ -79,6 +79,11 @@ module SystemSpecHelpers
     end
   end
 
+  def switch_user(user)
+    sign_out :user
+    sign_in user
+  end
+
   def on_subdomain(subdomain)
     previous_app_host = Capybara.app_host
     Capybara.app_host = "http://#{subdomain}.bops.services"

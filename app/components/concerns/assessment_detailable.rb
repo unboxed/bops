@@ -20,8 +20,7 @@ module AssessmentDetailable
     end
 
     def assessment_detail_update_required?(assessment_detail)
-      planning_application.recommendation&.rejected? &&
-        assessment_detail&.update_required?
+      assessment_detail&.update_required?
     end
 
     def rejected_assessment_detail_for_category?(category)

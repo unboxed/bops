@@ -86,6 +86,10 @@ class AssessmentDetail < ApplicationRecord
     comment || build_comment
   end
 
+  def latest_reviewer_comment
+    comment || planning_application.rejected_assessment_detail(category: category)&.comment
+  end
+
   def update_required?
     review_complete? && rejected?
   end
