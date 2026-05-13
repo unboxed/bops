@@ -264,6 +264,31 @@ RSpec.describe "Submissions", type: :system do
     end
   end
 
+  context "when a submission has failed processing" do
+    let!(:submission) { create(:submission, :failed, local_authority:) }
+
+    it "does not show the button or awaiting-review banner once the submission has started" do
+      submission.start!
+
+      visit "/admin/submissions/#{submission.id}"
+
+      expect(page).not_to have_button("Submit application")
+    end
+
+    it "lets the admin manually submit a failed submission" do
+      visit "/admin/submissions/#{submission.id}"
+
+      expect {
+        click_button "Submit application"
+      }.to have_enqueued_job(BopsSubmissions::SubmissionProcessorJob).with(submission)
+
+      expect(page).to have_current_path("/admin/submissions/#{submission.id}")
+      expect(page).to have_content("Application submitted")
+      expect(page).not_to have_button("Submit application")
+      expect(submission.reload.status).to eq("started")
+    end
+  end
+
   context "when adding a submission to BOPS manually" do
     let(:api_user) { create(:api_user, :planning_portal, local_authority:, paused: false) }
     let!(:submission) { create(:submission, :planning_portal, local_authority:, api_user:) }

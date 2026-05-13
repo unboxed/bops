@@ -132,7 +132,7 @@
       <p>There is no case associated with this submission.</p>
     <% end %>
 
-    <% if @submission.submitted? %>
+    <% if @submission.submitted? || @submission.failed? %>
       <%= form_with model: @submission, url: submission_path(@submission), method: :patch do |form| %>
         <%= form.govuk_submit(t(".submit_button")) do %>
           <%= back_link %>
