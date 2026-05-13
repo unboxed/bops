@@ -111,7 +111,7 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
       it_behaves_like "a consistent review task"
     end
 
-    describe "additional evidence", :pending do
+    describe "additional evidence" do
       let(:section_id) { "additional_evidence_section" }
       let(:accept_label) { "Accept" }
       let(:assessor_task_slug) { "check-and-assess/assessment-summaries/other-considerations" }
