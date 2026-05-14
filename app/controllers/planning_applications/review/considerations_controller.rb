@@ -44,7 +44,7 @@ module PlanningApplications
       end
 
       def set_task
-        @task = @planning_application.case_record.find_task_by_slug_path("check-and-assess/assessment-summaries/planning-considerations-and-advice")
+        @task = @planning_application.case_record.find_task_by_slug_path("check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance")
       end
 
       def review_params
