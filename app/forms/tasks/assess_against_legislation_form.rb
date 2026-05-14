@@ -17,6 +17,10 @@ module Tasks
       validates :classes, presence: {message: "Select classes from GPDO Schedule 2"}
     end
 
+    with_options on: :save_and_complete do
+      validate :all_policies_are_determined
+    end
+
     delegate :policy_classes, to: :policy_part
     delegate :planning_application_policy_classes, to: :planning_application
     delegate :planning_application_policy_sections, to: :planning_application
@@ -177,6 +181,13 @@ module Tasks
 
     def policy_part_numbers
       policy_parts.map(&:number)
+    end
+
+    def all_policies_are_determined
+      policies = planning_application_policy_sections
+      return if policies.none?(&:to_be_determined?)
+
+      errors.add(:base, "All policies must be assessed")
     end
   end
 end
