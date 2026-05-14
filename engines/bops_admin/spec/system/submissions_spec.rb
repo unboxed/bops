@@ -264,24 +264,8 @@ RSpec.describe "Submissions", type: :system do
     end
   end
 
-  context "when adding a submission to BOPS manually" do
-    let!(:submission) { create(:submission, :planning_portal, local_authority:) }
-
-    it "shows a Submit application button for a submitted planning portal submission and enqueues the processor job" do
-      visit "/admin/submissions/#{submission.id}"
-
-      expect(page).to have_content("Awaiting review")
-
-      expect {
-        click_button "Submit application"
-      }.to have_enqueued_job(BopsSubmissions::SubmissionProcessorJob).with(submission)
-
-      expect(page).to have_current_path("/admin/submissions/#{submission.id}")
-      expect(page).to have_content("Application submitted")
-      expect(page).not_to have_content("Awaiting review")
-      expect(page).not_to have_button("Submit application")
-      expect(submission.reload.status).to eq("started")
-    end
+  context "when a submission has failed processing" do
+    let!(:submission) { create(:submission, :failed, local_authority:) }
 
     it "does not show the button or awaiting-review banner once the submission has started" do
       submission.start!
@@ -289,11 +273,28 @@ RSpec.describe "Submissions", type: :system do
       visit "/admin/submissions/#{submission.id}"
 
       expect(page).not_to have_button("Submit application")
-      expect(page).not_to have_content("Awaiting review")
     end
 
+    it "lets the admin manually submit a failed submission" do
+      visit "/admin/submissions/#{submission.id}"
+
+      expect {
+        click_button "Submit application"
+      }.to have_enqueued_job(BopsSubmissions::SubmissionProcessorJob).with(submission)
+
+      expect(page).to have_current_path("/admin/submissions/#{submission.id}")
+      expect(page).to have_content("Application submitted")
+      expect(page).not_to have_button("Submit application")
+      expect(submission.reload.status).to eq("started")
+    end
+  end
+
+  context "when adding a submission to BOPS manually" do
+    let(:api_user) { create(:api_user, :planning_portal, local_authority:, paused: false) }
+    let!(:submission) { create(:submission, :planning_portal, local_authority:, api_user:) }
+
     context "when the LPA has a paused API token" do
-      let!(:paused_api_user) { create(:api_user, :planning_portal, local_authority:, paused: true) }
+      let(:api_user) { create(:api_user, :planning_portal, local_authority:, paused: true) }
 
       it "shows the paused-tokens banner on the index" do
         visit "/admin/submissions"
@@ -301,16 +302,28 @@ RSpec.describe "Submissions", type: :system do
         expect(page).to have_content("API tokens paused")
       end
 
-      it "lets the admin manually submit a submission held by the paused token" do
-        submission.update!(api_user: paused_api_user)
+      it "does not show the button or awaiting-review banner once the submission has started" do
+        submission.start!
 
         visit "/admin/submissions/#{submission.id}"
+
+        expect(page).not_to have_button("Submit application")
+        expect(page).not_to have_content("Awaiting review")
+      end
+
+      it "lets the admin manually submit a submission held by the paused token" do
+        visit "/admin/submissions/#{submission.id}"
+
+        expect(page).to have_content("Awaiting review")
 
         expect {
           click_button "Submit application"
         }.to have_enqueued_job(BopsSubmissions::SubmissionProcessorJob).with(submission)
 
+        expect(page).to have_current_path("/admin/submissions/#{submission.id}")
         expect(page).to have_content("Application submitted")
+        expect(page).not_to have_content("Awaiting review")
+        expect(page).not_to have_button("Submit application")
         expect(submission.reload.status).to eq("started")
       end
     end
