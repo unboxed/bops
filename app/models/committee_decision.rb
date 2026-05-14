@@ -90,6 +90,10 @@ class CommitteeDecision < ApplicationRecord
     current_review&.rejected?
   end
 
+  def create_review(**params)
+    reviews.create!(assessor: Current.user, owner_type: "CommitteeDecision", owner_id: id, status: "complete", **params)
+  end
+
   private
 
   def assigned_officer
@@ -117,10 +121,6 @@ class CommitteeDecision < ApplicationRecord
     return if current_review.nil?
 
     (reasons_changed? || recommend_changed?) && current_review.to_be_reviewed? && current_review.review_complete?
-  end
-
-  def create_review(**params)
-    reviews.create!(assessor: Current.user, owner_type: "CommitteeDecision", owner_id: id, status: "complete", **params)
   end
 
   def ensure_planning_application_not_closed_or_cancelled
