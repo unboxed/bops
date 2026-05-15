@@ -19,7 +19,9 @@ class User < ApplicationRecord
   include EmailConfirmable
 
   has_many :case_records, dependent: :nullify
-  has_many :planning_applications, -> { kept }, through: :case_record, dependent: :nullify
+  has_many :planning_applications, -> { kept }, through: :case_records,
+    source: :caseable, source_type: "PlanningApplication",
+    dependent: :nullify
   has_many :audits, dependent: :nullify
   has_many :comments, dependent: :nullify
   belongs_to :local_authority, optional: true
