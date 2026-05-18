@@ -136,7 +136,8 @@ local_authority_subdomain do
       resources :notes, only: %i[index create]
 
       namespace :assessment do
-        root to: "base#index"
+        get "/", to: redirect(Bops::InitialTaskRedirector.new("Assessment"))
+        get "/tasks", to: redirect(Bops::InitialTaskRedirector.new("Assessment"))
 
         resource :report_download, only: :show
         resources :assess_immunity_detail_permitted_development_rights, only: %i[new create]
