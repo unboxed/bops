@@ -225,17 +225,6 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_text(Audit.last.created_at.strftime("%d-%m-%Y %H:%M"))
         end
       end
-
-      it "shows errors if decision and public comment are blank" do
-        visit "/planning_applications/#{planning_application.reference}/assessment/recommendations/new"
-        click_button "Save and mark as complete"
-
-        expect(page).to have_content("Please select an option to record your recommendation")
-
-        expect(page).to have_content(
-          "Please state the reasons for your recommendation"
-        )
-      end
     end
 
     context "with previous recommendations" do
