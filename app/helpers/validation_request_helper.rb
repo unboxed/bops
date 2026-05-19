@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ValidationRequestHelper
-  PREAPPS_TASK_SLUGS = {
+  TASK_SLUGS = {
     "FeeChangeValidationRequest" => "check-and-validate/check-application-details/check-fee",
     "DescriptionChangeValidationRequest" => "check-and-validate/check-application-details/check-description",
     "RedLineBoundaryChangeValidationRequest" => "check-and-validate/check-application-details/check-red-line-boundary",
@@ -40,7 +40,7 @@ module ValidationRequestHelper
   end
 
   def show_validation_request_url(application, request, return_to: nil)
-    if application.pre_application? && (task_slug = preapps_task_slug_for(request))
+    if application.pre_application? && (task_slug = task_slug_for(request))
       application.url_helpers.task_path(
         reference: application.reference,
         slug: task_slug,
@@ -53,8 +53,8 @@ module ValidationRequestHelper
     end
   end
 
-  def preapps_task_slug_for(request)
-    PREAPPS_TASK_SLUGS[request.type]
+  def task_slug_for(request)
+    TASK_SLUGS[request.type]
   end
 
   def show_additional_document_validation_request_url(application, request)
