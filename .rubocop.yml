@@ -50,6 +50,7 @@ Style/VisitLiteral:
     - 'lib/**/*'
   IgnoreHelpers:
     - current_path
+    - current_url
 
 Style/NoFetchWithLiteralNilDefault:
   Enabled: true

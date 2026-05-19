@@ -167,32 +167,23 @@ RSpec.describe "checking publicity", show_sidebar: false, type: :system do
 
         click_link "Check and assess"
 
-        expect(page).to have_list_item_for(
-          "Check site notice and press notice",
-          with: "To be reviewed"
-        )
-
-        click_link "Check site notice and press notice"
+        click_link "Check publicity"
 
         expect(page).to have_content "Check this"
 
         click_button "Save and mark as complete"
 
-        expect(page).to have_list_item_for(
-          "Check site notice and press notice",
-          with: "Completed"
-        )
-        within "#main-content" do
-          click_link "Make draft recommendation"
-        end
+        click_link "Make draft recommendation"
+        within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
 
-        click_button "Update"
-        within "#main-content" do
-          click_link "Review and submit recommendation"
-        end
-        click_button "Submit recommendation"
+        click_button "Save and mark as complete"
+        expect(page).to have_content("Draft recommendation successfully saved")
 
-        click_link "Review and sign-off"
+        click_link "Review and submit recommendation"
+        click_button "Save and mark as complete"
+        expect(page).to have_content("Successfully submitted recommendation for review")
+
+        visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
         within("#review-publicities") do
           expect(page).to have_content("Check publicity")
@@ -367,34 +358,22 @@ RSpec.describe "checking publicity", show_sidebar: false, type: :system do
 
       click_link "Check and assess"
 
-      expect(page).to have_list_item_for(
-        "Check site notice and press notice",
-        with: "To be reviewed"
-      )
-
-      click_link "Check site notice and press notice"
+      click_link "Check publicity"
 
       expect(page).to have_content "Check this"
 
       click_button "Save and mark as complete"
 
-      expect(page).to have_list_item_for(
-        "Check site notice and press notice",
-        with: "Completed"
-      )
+      click_link "Make draft recommendation"
+      within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
+      click_button "Save and mark as complete"
+      expect(page).to have_content("Draft recommendation successfully saved")
 
-      within "#main-content" do
-        click_link "Make draft recommendation"
-      end
-      click_button "Update"
+      click_link "Review and submit recommendation"
+      click_button "Save and mark as complete"
+      expect(page).to have_content("Successfully submitted recommendation for review")
 
-      within "#main-content" do
-        click_link "Review and submit recommendation"
-      end
-
-      click_button "Submit recommendation"
-
-      click_link "Review and sign-off"
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       within("#review-publicities") do
         expect(page).to have_content("Check publicity")

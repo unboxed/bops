@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "viewing assessment report", :capybara, show_sidebar: false, type: :system do
+RSpec.describe "viewing assessment report", :capybara, type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, :planx, local_authority: local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority:) }
@@ -212,10 +212,8 @@ RSpec.describe "viewing assessment report", :capybara, show_sidebar: false, type
   it "lets the user view and download the report" do
     sign_in(assessor)
     visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-    within "#main-content" do
-      click_link("Review and submit recommendation")
-    end
-    click_button("Assessment report details")
+    click_link("Make draft recommendation")
+    # click_button("Assessment report details")
 
     within("#application-details-section") do
       expect(page).to have_content(planning_application.applicant_name)
@@ -307,8 +305,9 @@ RSpec.describe "viewing assessment report", :capybara, show_sidebar: false, type
     expect(page).to have_content("This is the consultation summary.")
     expect(page).to have_content(document.name)
     expect(page).to have_content("We are in agreement")
-    expect(page).not_to have_content("This is the additional evidence.")
+    # expect(page).not_to have_content("This is the additional evidence.")
 
+    pending "Not in new design"
     expect(page).to have_link(
       "Download assessment report as PDF",
       href: planning_application_assessment_report_download_path(

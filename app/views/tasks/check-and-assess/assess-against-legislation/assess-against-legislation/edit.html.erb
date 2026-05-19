@@ -47,7 +47,7 @@
                   <%= simple_format(comment.text, class: "govuk-!-margin-bottom-1") %>
 
                   <p class="govuk-body-s">
-                    <strong><%= comment.user.name %>, <%= comment.created_at.to_fs %></strong>
+                    <strong><%= comment.user&.name %>, <%= comment.created_at.to_fs %></strong>
                   </p>
 
                   <% if section.previous_comments.any? %>

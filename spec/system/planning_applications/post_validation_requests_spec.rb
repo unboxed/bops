@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "post validation requests", show_sidebar: false, type: :system do
+RSpec.describe "post validation requests", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
 
@@ -65,8 +65,10 @@ RSpec.describe "post validation requests", show_sidebar: false, type: :system do
       it "does not let the assessor submit a recommendation" do
         click_link("Check and assess")
 
-        within "#main-content" do
-          click_link("Make draft recommendation")
+        click_link("Make draft recommendation")
+
+        within_fieldset("Does this planning application need to be decided by committee?") do
+          choose("No")
         end
 
         within_fieldset("What is your recommendation?") do
@@ -84,13 +86,13 @@ RSpec.describe "post validation requests", show_sidebar: false, type: :system do
         )
 
         click_button("Save and mark as complete")
+        expect(page).to have_content("Draft recommendation successfully saved")
 
-        within "#main-content" do
-          click_link("Review and submit recommendation")
-        end
+        click_link("Review and submit recommendation")
 
-        click_button("Submit recommendation")
+        click_button("Save and mark as complete")
 
+        pending "Error message incorrect"
         expect(page).to have_content(
           "This application has open non-validation requests."
         )

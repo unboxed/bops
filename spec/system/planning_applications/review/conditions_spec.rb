@@ -98,7 +98,7 @@ RSpec.describe "Reviewing conditions" do
         expect(other_condition.reason).to eq "This is different reason"
       end
 
-      it "I can return to officer", show_sidebar: false do
+      it "I can return to officer" do
         within("#review-conditions") do
           expect(page).to have_content("Review conditions")
           expect(page).to have_content("Not started")
@@ -131,23 +131,17 @@ RSpec.describe "Reviewing conditions" do
 
         visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
-        within("#complete-assessment-tasks") do
-          expect(page).to have_list_item_for(
-            "Add conditions",
-            with: "To be reviewed"
-          )
-
-          click_link "Add conditions"
-        end
+        click_link "Add conditions"
 
         expect(page).to have_content("I don't think you've assessed conditions correctly")
 
         within("#conditions-list li:last-of-type") do
           click_link "Edit"
         end
+        fill_in "Enter title", with: "Some title"
         fill_in "Enter a reason for this condition", with: "A better response"
 
-        click_button "Add condition to list"
+        click_button "Save condition"
         click_button "Save and mark as complete"
 
         switch_user(reviewer)

@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing Policy Class", show_sidebar: false, type: :system do
+RSpec.describe "Reviewing Policy Class", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
 
   let(:reviewer) do
@@ -20,6 +20,7 @@ RSpec.describe "Reviewing Policy Class", show_sidebar: false, type: :system do
       :planning_application,
       :awaiting_determination,
       :with_recommendation,
+      section_55_development: true,
       local_authority: default_local_authority,
       decision: :granted
     )
@@ -115,32 +116,27 @@ RSpec.describe "Reviewing Policy Class", show_sidebar: false, type: :system do
         click_on "Edit review of Part 1, Class A"
         fill_in "Add a comment", with: "Rejection reason edited"
         click_button("Save and mark as complete")
+        expect(page).to have_content("Success")
 
         sign_in assessor
-
-        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-
-        expect(list_item("Part 1, Class A")).to have_content("To be reviewed")
 
         # Updating policy section description
         policy_section2bii.update!(description: "A new description")
 
-        click_link("Part 1, Class A")
-        within("#reviewer_comment") do
-          expect(page).to have_content("Reviewer comment:")
-          expect(page).to have_content("Rejection reason edited")
-        end
+        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
 
-        within("#policy-section-#{policy_section2bii.id}") do
-          # Description at time of assessment should be present
-          expect(page).to have_content("description for section 2bb(ii)")
-          expect(page).not_to have_content("A new description")
+        click_link "Assess against legislation"
+        click_link("Assess")
+        expect(page).to have_content("Reviewer comment")
+        expect(page).to have_content("Rejection reason edited")
 
-          choose(option: "complies")
-        end
+        # Description at time of assessment should be present
+        expect(page).to have_content("description for section 2bb(ii)")
+        expect(page).not_to have_content("A new description")
+
+        choose("tasks_assess_against_legislation_form[sections][#{policy_section2bii.id}][status]", option: "complies")
+        click_button("Save assessment")
         click_button("Save and mark as complete")
-
-        expect(list_item("Part 1, Class A")).to have_content("Complete")
 
         sign_in reviewer
         visit "/planning_applications/#{planning_application.reference}/review/tasks"
@@ -149,6 +145,7 @@ RSpec.describe "Reviewing Policy Class", show_sidebar: false, type: :system do
         expect(list_item("Review assessment of Part 1, Class A")).to have_content("Updated")
         click_link("Review assessment of Part 1, Class A")
 
+        click_link "Edit review of Part 1, Class A"
         choose "Agree"
         click_on "Save and mark as complete"
 
