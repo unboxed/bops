@@ -16,6 +16,7 @@ class CommitteeDecision < ApplicationRecord
 
   after_create :create_review
   before_update :create_review, if: :should_create_review?
+  after_update :mark_review_updated!, if: -> { reasons_changed? || recommend_changed? }
 
   accepts_nested_attributes_for :reviews
 
@@ -121,6 +122,10 @@ class CommitteeDecision < ApplicationRecord
     return if current_review.nil?
 
     (reasons_changed? || recommend_changed?) && current_review.to_be_reviewed? && current_review.review_complete?
+  end
+
+  def mark_review_updated!
+    current_review.updated!
   end
 
   def ensure_planning_application_not_closed_or_cancelled
