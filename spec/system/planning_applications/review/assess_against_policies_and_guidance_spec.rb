@@ -27,53 +27,13 @@ RSpec.describe "Reviewing assessment against policies and guidance", :js, type: 
     before do
       travel_to Time.zone.local(2024, 7, 23, 11)
 
-      sign_in(assessor)
-      visit "/planning_applications/#{reference}/assessment"
-      click_link "Assess against policies and guidance"
-
-      expect(page).to have_selector("h1", text: "Assess against policies and guidance")
-      within_fieldset("Add a new consideration") do
-        with_retry do
-          fill_in "Enter policy area", with: "Design"
-          expect(page).to have_selector(:autoselect_option, ["#consideration-policy-area-field", "Design"])
-
-          pick "Design", from: "#consideration-policy-area-field"
-        end
-
-        with_retry do
-          fill_in "Enter policy references", with: "Wall"
-          expect(page).to have_selector(:autoselect_option, ["#policyReferencesAutoComplete", "PP100 - Wall materials"])
-
-          pick "PP100 - Wall materials", from: "#policyReferencesAutoComplete"
-        end
-
-        with_retry do
-          fill_in "Enter policy references", with: "Roofing"
-          expect(page).to have_selector(:autoselect_option, ["#policyReferencesAutoComplete", "PP101 - Roofing materials"])
-
-          pick "PP101 - Roofing materials", from: "#policyReferencesAutoComplete"
-        end
-
-        with_retry do
-          fill_in "Enter policy guidance", with: "Design"
-          expect(page).to have_selector(:autoselect_option, ["#policyGuidanceAutoComplete", "Design Guidance"])
-
-          pick "Design Guidance", from: "#policyGuidanceAutoComplete"
-        end
-
-        fill_in "Enter assessment", with: "Uses red brick with grey slates"
-        fill_in "Enter conclusion", with: "Complies with design guidance policies"
-      end
-
-      click_button "Add consideration"
-      expect(page).to have_content("Policy area assessment successfully added")
-
-      within ".sortable-list li:nth-of-type(1)" do
-        expect(page).to have_selector("h2", text: "Design")
-      end
-
-      click_button "Save and mark as complete"
-      expect(page).to have_content("Policy area assessment successfully added")
+      create(:consideration,
+        policy_area: "Design",
+        policy_references: [{code: "PP100", reference: "Wall materials"}, {code: "PP101", reference: "Roofing materials"}],
+        assessment: "Uses red brick with grey slates",
+        conclusion: "Complies with design guidance policies",
+        consideration_set: planning_application.consideration_set)
+      consideration_set.current_review.complete!
 
       sign_in(reviewer)
       visit "/planning_applications/#{reference}/review/tasks"
