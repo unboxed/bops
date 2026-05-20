@@ -44,6 +44,7 @@ class Audit < ApplicationRecord
     started
     withdrawn
     closed
+    deleted
     heads_of_terms_validation_request_sent_post_validation
     heads_of_terms_validation_request_added
     heads_of_terms_validation_request_cancelled_post_validation

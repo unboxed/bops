@@ -673,6 +673,7 @@ en:
       consultee_response_uploaded: Consultee response uploaded
       consultees_reconsulted: Reconsultation emails sent
       created: Application created by %{args}
+      deleted: Application deleted
       description_change_validation_request_added: 'Added: description change request (description#%{args})'
       description_change_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (description#%{sequence})'

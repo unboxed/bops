@@ -80,6 +80,7 @@ RSpec.describe "Withdraw or cancel" do
       planning_application.reload
 
       expect(planning_application.deleted_at).not_to be_nil
+      expect(planning_application.audits.last.activity_type).to eq("deleted")
 
       expect {
         visit "/planning_applications/#{planning_application.reference}"

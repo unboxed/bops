@@ -227,6 +227,8 @@ class PlanningApplication < ApplicationRecord
   after_update :address_or_boundary_geojson_updated?
   after_update :update_consultation_status, if: :saved_change_to_consultation_required?
 
+  after_discard { audit!(activity_type: "deleted", audit_comment: "Deleted at #{deleted_at}") }
+
   accepts_nested_attributes_for :recommendations
   accepts_nested_attributes_for :documents, reject_if: proc { |attributes| attributes["file"].blank? }
   accepts_nested_attributes_for :constraints
