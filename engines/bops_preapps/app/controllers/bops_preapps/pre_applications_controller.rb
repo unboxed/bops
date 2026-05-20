@@ -25,7 +25,7 @@ module BopsPreapps
     private
 
     def set_planning_application
-      @planning_application = PlanningApplication.find_by(reference: params[:id])
+      @planning_application = current_local_authority.planning_applications.find_by(reference: params[:id])
     end
 
     def set_case_record
