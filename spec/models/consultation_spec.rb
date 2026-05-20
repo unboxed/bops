@@ -275,6 +275,43 @@ RSpec.describe Consultation do
     end
   end
 
+  describe "#polygon_geojson_before_type_cast" do
+    let(:consultation) { create(:consultation) }
+
+    let(:valid_geojson) do
+      {
+        "type" => "FeatureCollection",
+        "features" => [
+          {
+            "type" => "Feature",
+            "properties" => {},
+            "geometry" => {
+              "type" => "Polygon",
+              "coordinates" => [
+                [
+                  [-0.07739927369747812, 51.501345554406896],
+                  [-0.0778893839394212, 51.501002280754676],
+                  [-0.07690508968054104, 51.50102474569704],
+                  [-0.07676672973966252, 51.50128963605792],
+                  [-0.07739927369747812, 51.501345554406896]
+                ]
+              ]
+            }
+          }
+        ]
+      }
+    end
+
+    it "returns a JSON string when the attribute holds a Hash" do
+      consultation.polygon_geojson = valid_geojson.to_json
+
+      result = consultation.polygon_geojson_before_type_cast
+
+      expect(result).to be_a(String)
+      expect(JSON.parse(result)).to eq(valid_geojson)
+    end
+  end
+
   describe "#polygon_search_and_boundary_geojson" do
     let!(:consultation) { create(:consultation, :with_polygon_search, planning_application:) }
 
