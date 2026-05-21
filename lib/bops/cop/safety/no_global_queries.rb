@@ -6,7 +6,7 @@ module Bops
       class NoGlobalQueries < RuboCop::Cop::Base
         def on_send(node)
           return unless node.receiver
-          return unless node.receiver.source == "PlanningApplication"
+          return unless %w[PlanningApplication CaseRecord].include? node.receiver.source
           return unless %i[find_by find_by!
             find_or_create_by find_or_create_by!
             find_or_initialize_by
