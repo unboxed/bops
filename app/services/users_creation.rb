@@ -27,9 +27,10 @@ class UsersCreation
 
   def importer
     normalized_email = normalize_email(email)
-    return nil if User.exists?(email: normalized_email)
+    # A global check here because the user email must be unique across all local authorities.
+    return nil if User.exists?(email: normalized_email) # rubocop:disable Safety/NoGlobalQueries
 
-    user = User.new(**user_attributes.merge(email: normalized_email))
+    user = local_authority.users.new(**user_attributes.merge(email: normalized_email))
 
     user.skip_confirmation_notification! if user.deactivated_at.present?
 
