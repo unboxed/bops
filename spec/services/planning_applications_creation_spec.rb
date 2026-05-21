@@ -60,7 +60,7 @@ RSpec.describe PlanningApplicationsCreation do
         described_class.new(**params).perform
       }.to change(PlanningApplication, :count).by(1)
 
-      pa = PlanningApplication.find_by(uprn: "10000000001")
+      pa = local_authority.planning_applications.find_by(uprn: "10000000001")
       expect(pa).to have_attributes(
         address_1: "1 High Street",
         agent_first_name: "Alice",
@@ -153,7 +153,7 @@ RSpec.describe PlanningApplicationsCreation do
         described_class.new(**params).perform
       }.to change(PlanningApplication, :count).by(1)
 
-      pa = PlanningApplication.find_by(uprn: "10000000001")
+      pa = local_authority.planning_applications.find_by(uprn: "10000000001")
       expect(pa).to have_attributes(
         address_1: "1 High Street",
         agent_first_name: "Alice",

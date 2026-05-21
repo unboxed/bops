@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe BopsApi::Filters::CouncilDecisionFilter do
   let(:local_authority) { create(:local_authority) }
-  let(:scope) { PlanningApplication.where(local_authority: local_authority) }
+  let(:scope) { local_authority.planning_applications }
   let(:filter) { described_class.new }
 
   describe "#applicable?" do

@@ -9,7 +9,9 @@ class SiteNoticesCreation
     required
   ].freeze
 
-  def initialize(**params)
+  def initialize(local_authority:, **params)
+    @local_authority = local_authority
+
     ATTRIBUTES.each do |attribute|
       value = params[attribute]
       value = value.is_a?(String) ? value.strip : value
@@ -23,6 +25,7 @@ class SiteNoticesCreation
 
   private
 
+  attr_reader :local_authority
   attr_reader(*ATTRIBUTES)
 
   def importer
@@ -39,7 +42,7 @@ class SiteNoticesCreation
   end
 
   def find_index(reference)
-    PlanningApplication
+    local_authority.planning_applications
       .where("previous_references @> ARRAY[?]::varchar[]", reference)
       .pick(:id)
   end

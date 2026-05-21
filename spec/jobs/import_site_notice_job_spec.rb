@@ -3,10 +3,10 @@
 require "rails_helper"
 
 RSpec.describe ImportSiteHistoryJob do
-  let!(:local_authority) { create(:local_authority, :default) }
+  let!(:local_authority) { create(:local_authority) }
   let!(:case_record) { build(:case_record, local_authority:) }
   let!(:application_type) { create(:application_type, :planning_permission) }
-  let!(:planning_application) { create(:planning_application, local_authority: local_authority, case_record: case_record, application_type: application_type, previous_references: ["APP/2025/1234", "OLD/0001"]) }
+  let!(:planning_application) { create(:planning_application, local_authority:, case_record: case_record, application_type: application_type, previous_references: ["APP/2025/1234", "OLD/0001"]) }
   let!(:csv_path) { Rails.root.join("tmp/SiteNoticesBuckinghamshire.csv") }
 
   before do
