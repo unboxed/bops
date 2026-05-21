@@ -316,6 +316,10 @@ class Consultation < ApplicationRecord
     end_date >= Time.zone.today
   end
 
+  def polygon_geojson_before_type_cast
+    polygon_geojson.to_json
+  end
+
   def polygon_geojson=(value)
     if value.present?
       parsed = JSON.parse(value)
