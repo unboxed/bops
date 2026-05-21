@@ -57,6 +57,11 @@ Style/NoFetchWithLiteralNilDefault:
 Style/UseGovukLinkHelper:
   Enable: true
 
+Safety/NoGlobalQueries:
+  Enable: true
+  Exclude:
+    - 'db/migrate/*'
+
 # We use the strong_migrations gem to catch any schema changes that might affect
 # performance but it can't see what change_table does so don't require its use.
 Rails/BulkChangeTable:
