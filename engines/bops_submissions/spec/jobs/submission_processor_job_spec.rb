@@ -100,7 +100,7 @@ RSpec.describe BopsSubmissions::SubmissionProcessorJob, type: :job do
           described_class.perform_now(submission)
         }.not_to raise_error
 
-        pa = PlanningApplication.last
+        pa = submission.local_authority.planning_applications.last
         expect(pa).to be_present
         expect(pa.case_record.submission_id).to eq(submission.id)
         expect(pa.local_authority_id).to eq(submission.local_authority_id)

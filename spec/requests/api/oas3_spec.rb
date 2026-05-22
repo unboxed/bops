@@ -8,7 +8,7 @@ RSpec.describe "The Open API Specification document" do
   let!(:local_authority) { create(:local_authority, :default) }
   let!(:api_user) { create(:api_user, permissions: %w[validation_request:read planning_application:read], local_authority:) }
   let!(:application_type) { create(:application_type, :ldc_proposed) }
-  let(:result) { PlanningApplication.last }
+  let(:result) { local_authority.planning_applications.last }
 
   before do
     stub_planx_api_response_for("POLYGON ((-0.07716178894042969 51.50094238217541, -0.07645905017852783 51.50053497847238, -0.07615327835083008 51.50115276135022, -0.07716178894042969 51.50094238217541))").to_return(

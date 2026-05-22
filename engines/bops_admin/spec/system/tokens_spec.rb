@@ -5,7 +5,7 @@ require "rails_helper"
 RSpec.describe "API Tokens", :capybara do
   let(:local_authority) { create(:local_authority, :default) }
   let(:user) { create(:user, :administrator, local_authority:) }
-  let(:last_token) { ApiUser.last }
+  let(:last_token) { local_authority.api_users.last }
 
   around do |example|
     travel_to("2024-10-22T10:30:00Z") { example.run }
