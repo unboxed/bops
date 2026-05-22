@@ -74,7 +74,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
 
-    let(:mail_body) { mail.body.encoded }
+    let(:mail_body) { mail.body.raw_source }
 
     it "sets the subject" do
       expect(mail.subject).to eq(
@@ -135,8 +135,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       end
 
       it "includes the name of the agent in the body if agent is present" do
-        expect(mail.body.encoded).to include(planning_application.agent_first_name)
-        expect(mail.body.encoded).to include(planning_application.agent_last_name)
+        expect(mail_body).to include(planning_application.agent_first_name)
+        expect(mail_body).to include(planning_application.agent_last_name)
       end
 
       it "includes the name of the applicant in the body if no agent is present" do
@@ -144,8 +144,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         mail = described_class.decision_notice_mail(planning_application.reload, host,
           [planning_application.agent_email, planning_application.applicant_email])
 
-        expect(mail.body.encoded).to include(planning_application.applicant_first_name)
-        expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+        expect(mail.body.raw_source).to include(planning_application.applicant_first_name)
+        expect(mail.body.raw_source).to include(planning_application.applicant_last_name)
       end
     end
   end
@@ -172,7 +172,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.invalidation_notice_mail(planning_application)
     end
 
-    let(:mail_body) { invalidation_mail.body.encoded }
+    let(:mail_body) { invalidation_mail.body.raw_source }
 
     it "emails only the agent when the agent is present" do
       expect(invalidation_mail.to).to eq([planning_application.agent_email])
@@ -222,7 +222,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
 
-    let(:mail_body) { validation_mail.body.encoded }
+    let(:mail_body) { validation_mail.body.raw_source }
 
     it "sets the subject" do
       expect(validation_mail.subject).to eq(
@@ -260,7 +260,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.validation_request_mail(planning_application)
     end
 
-    let(:mail_body) { validation_request_mail.body.encoded }
+    let(:mail_body) { validation_request_mail.body.raw_source }
 
     it "emails only the agent when the agent is present" do
       expect(validation_request_mail.to).to eq([planning_application.agent_email])
@@ -306,16 +306,16 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the name of the agent in the body if agent is present" do
-      expect(validation_request_mail.body.encoded).to include(planning_application.agent_first_name)
-      expect(validation_request_mail.body.encoded).to include(planning_application.agent_last_name)
+      expect(mail_body).to include(planning_application.agent_first_name)
+      expect(mail_body).to include(planning_application.agent_last_name)
     end
 
     it "includes the name of the applicant in the body if no agent is present" do
       planning_application.update!(agent_first_name: "")
       mail = described_class.validation_request_mail(planning_application.reload)
 
-      expect(mail.body.encoded).to include(planning_application.applicant_first_name)
-      expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+      expect(mail.body.raw_source).to include(planning_application.applicant_first_name)
+      expect(mail.body.raw_source).to include(planning_application.applicant_last_name)
     end
 
     describe "pre-apps" do
@@ -346,7 +346,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.post_validation_request_mail(planning_application, validation_request)
     end
 
-    let(:mail_body) { post_validation_request_mail.body.encoded }
+    let(:mail_body) { post_validation_request_mail.body.raw_source }
 
     context "when agent is present" do
       it "emails only the agent when the agent is present" do
@@ -374,8 +374,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       it "includes the name of the applicant in the body" do
         mail = described_class.post_validation_request_mail(planning_application.reload, validation_request)
 
-        expect(mail.body.encoded).to include(planning_application.applicant_first_name)
-        expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+        expect(mail.body.raw_source).to include(planning_application.applicant_first_name)
+        expect(mail.body.raw_source).to include(planning_application.applicant_last_name)
       end
     end
 
@@ -456,7 +456,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.pre_commencement_condition_request_mail(planning_application, validation_request)
     end
 
-    let(:mail_body) { pre_commencement_condition_request_mail.body.encoded }
+    let(:mail_body) { pre_commencement_condition_request_mail.body.raw_source }
 
     context "when agent is present" do
       it "emails only the agent when the agent is present" do
@@ -484,8 +484,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       it "includes the name of the applicant in the body" do
         mail = described_class.post_validation_request_mail(planning_application.reload, validation_request)
 
-        expect(mail.body.encoded).to include(planning_application.applicant_first_name)
-        expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+        expect(mail.body.raw_source).to include(planning_application.applicant_first_name)
+        expect(mail.body.raw_source).to include(planning_application.applicant_last_name)
       end
     end
 
@@ -546,7 +546,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.cancelled_validation_request_mail(planning_application)
     end
 
-    let(:mail_body) { cancelled_validation_request_mail.body.encoded }
+    let(:mail_body) { cancelled_validation_request_mail.body.raw_source }
 
     it "emails only the agent when the agent is present" do
       expect(cancelled_validation_request_mail.to).to eq([planning_application.agent_email])
@@ -588,16 +588,16 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the name of the agent in the body if agent is present" do
-      expect(cancelled_validation_request_mail.body.encoded).to include(planning_application.agent_first_name)
-      expect(cancelled_validation_request_mail.body.encoded).to include(planning_application.agent_last_name)
+      expect(mail_body).to include(planning_application.agent_first_name)
+      expect(mail_body).to include(planning_application.agent_last_name)
     end
 
     it "includes the name of the applicant in the body if no agent is present" do
       planning_application.update!(agent_first_name: "")
       mail = described_class.cancelled_validation_request_mail(planning_application.reload)
 
-      expect(mail.body.encoded).to include(planning_application.applicant_first_name)
-      expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+      expect(mail.body.raw_source).to include(planning_application.applicant_first_name)
+      expect(mail.body.raw_source).to include(planning_application.applicant_last_name)
     end
   end
 
@@ -609,7 +609,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
 
-    let(:mail_body) { mail.body.encoded }
+    let(:mail_body) { mail.body.raw_source }
 
     it "sets the subject" do
       expect(mail.subject).to eq(
@@ -726,7 +726,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         )
       end
 
-      let(:mail_body) { description_change_mail.body.encoded }
+      let(:mail_body) { description_change_mail.body.raw_source }
 
       it "sets the subject" do
         expect(description_change_mail.subject).to eq(
@@ -773,7 +773,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         )
       end
 
-      let(:mail_body) { description_closure_mail.body.encoded }
+      let(:mail_body) { description_closure_mail.body.raw_source }
 
       it "sets the subject" do
         expect(description_closure_mail.subject).to eq(
@@ -818,7 +818,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.validation_request_closure_mail(planning_application)
     end
 
-    let(:mail_body) { validation_request_closure_mail.body.encoded }
+    let(:mail_body) { validation_request_closure_mail.body.raw_source }
 
     it "emails only the agent when the agent is present" do
       expect(validation_request_closure_mail.to).to eq([planning_application.agent_email])
@@ -876,16 +876,16 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the name of the agent in the body if agent is present" do
-      expect(validation_request_closure_mail.body.encoded).to include(planning_application.agent_first_name)
-      expect(validation_request_closure_mail.body.encoded).to include(planning_application.agent_last_name)
+      expect(mail_body).to include(planning_application.agent_first_name)
+      expect(mail_body).to include(planning_application.agent_last_name)
     end
 
     it "includes the name of the applicant in the body if no agent is present" do
       planning_application.update!(agent_first_name: "")
       mail = described_class.validation_request_closure_mail(planning_application.reload)
 
-      expect(mail.body.encoded).to include(planning_application.applicant_first_name)
-      expect(mail.body.encoded).to include(planning_application.applicant_last_name)
+      expect(mail.body.raw_source).to include(planning_application.applicant_first_name)
+      expect(mail.body.raw_source).to include(planning_application.applicant_last_name)
     end
   end
 
@@ -918,7 +918,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.neighbour_consultation_letter_copy_mail(planning_application, planning_application.agent_email)
     end
 
-    let(:mail_body) { neighbour_consultation_letter_copy_mail.body.encoded }
+    let(:mail_body) { neighbour_consultation_letter_copy_mail.body.raw_source }
 
     before do
       travel_to("2022-01-01") do
@@ -973,8 +973,8 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
     end
 
     it "includes the name of the agent in the body if agent is present" do
-      expect(neighbour_consultation_letter_copy_mail.body.encoded).to include(planning_application.agent_first_name)
-      expect(neighbour_consultation_letter_copy_mail.body.encoded).to include(planning_application.agent_last_name)
+      expect(mail_body).to include(planning_application.agent_first_name)
+      expect(mail_body).to include(planning_application.agent_last_name)
     end
 
     context "when the letter is sent outside working hours" do
@@ -1036,7 +1036,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.site_notice_mail(planning_application, planning_application.applicant_email)
     end
 
-    let(:mail_body) { site_notice_mail.body.encoded }
+    let(:mail_body) { site_notice_mail.body.raw_source }
 
     before do
       travel_to("2022-01-01") do
@@ -1113,7 +1113,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.internal_team_site_notice_mail(planning_application, planning_application.applicant_email)
     end
 
-    let(:mail_body) { internal_team_site_notice_mail.body.encoded }
+    let(:mail_body) { internal_team_site_notice_mail.body.raw_source }
 
     before do
       travel_to("2022-01-01") do
@@ -1187,7 +1187,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         )
       end
 
-      let(:mail_body) { mail.body.encoded }
+      let(:mail_body) { mail.body.raw_source }
 
       it "sets the subject" do
         expect(mail.subject).to eq(
@@ -1244,7 +1244,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         described_class.invalidation_notice_mail(planning_application)
       end
 
-      let(:mail_body) { invalidation_mail.body.encoded }
+      let(:mail_body) { invalidation_mail.body.raw_source }
 
       it "sets the subject" do
         expect(invalidation_mail.subject).to eq(
@@ -1265,7 +1265,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           planning_application.agent_email
         )
       end
-      let(:mail_body) { validation_mail.body.encoded }
+      let(:mail_body) { validation_mail.body.raw_source }
 
       it "sets the subject" do
         expect(validation_mail.subject).to eq(
@@ -1283,7 +1283,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       let(:validation_request_mail) do
         described_class.validation_request_mail(planning_application)
       end
-      let(:mail_body) { validation_request_mail.body.encoded }
+      let(:mail_body) { validation_request_mail.body.raw_source }
 
       it "sets the subject" do
         expect(validation_request_mail.subject).to eq(
@@ -1327,7 +1327,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           planning_application.agent_email
         )
       end
-      let(:mail_body) { mail.body.encoded }
+      let(:mail_body) { mail.body.raw_source }
 
       it "sets the subject" do
         expect(mail.subject).to eq(
@@ -1372,7 +1372,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           )
         end
 
-        let(:mail_body) { description_change_mail.body.encoded }
+        let(:mail_body) { description_change_mail.body.raw_source }
 
         it "sets the subject" do
           expect(description_change_mail.subject).to eq(
@@ -1389,7 +1389,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
           )
         end
 
-        let(:mail_body) { description_closure_mail.body.encoded }
+        let(:mail_body) { description_closure_mail.body.raw_source }
 
         it "sets the subject" do
           expect(description_closure_mail.subject).to eq(
@@ -1439,7 +1439,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.press_notice_mail(press_notice)
     end
 
-    let(:mail_body) { press_notice_mail.body.encoded }
+    let(:mail_body) { press_notice_mail.body.raw_source }
 
     it "emails the press notice team" do
       expect(press_notice_mail.to).to eq(["pressnotice@example.com"])
@@ -1569,7 +1569,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.send_committee_decision_mail(planning_application, reviewer)
     end
 
-    let(:mail_body) { send_committee_decision_mail.body.encoded }
+    let(:mail_body) { send_committee_decision_mail.body.raw_source }
 
     before do
       travel_to("2024-10-22") do
@@ -1629,7 +1629,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       )
     end
 
-    let(:mail_body) { report_mail.body.encoded }
+    let(:mail_body) { report_mail.body.raw_source }
 
     before do
       travel_to("2024-10-22") do
@@ -1680,7 +1680,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.site_notice_confirmation_request_mail(site_notice, user)
     end
 
-    let(:mail_body) { mail.body.encoded }
+    let(:mail_body) { mail.body.raw_source }
 
     it "emails the internal team" do
       expect(mail.to).to contain_exactly("sitenotices@example.com")
@@ -1748,7 +1748,7 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       described_class.press_notice_confirmation_request_mail(press_notice, user)
     end
 
-    let(:mail_body) { mail.body.encoded }
+    let(:mail_body) { mail.body.raw_source }
 
     it "emails the press notice team" do
       expect(mail.to).to contain_exactly("pressnotice@example.com")
