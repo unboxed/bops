@@ -29,7 +29,7 @@ LocalAuthority.find_each do |lpa|
   end
 end
 
-User.find_or_create_by!(role: "global_administrator") do |user|
+User.find_or_create_by!(role: "global_administrator") do |user| # rubocop:disable Safety/NoGlobalQueries
   user.role = "global_administrator"
   user.password = password[Rails.env]
   user.otp_required_for_login = false

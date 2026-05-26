@@ -2,7 +2,7 @@
 
 require "bops_config_helper"
 
-RSpec.describe "Local Authorities", type: :system, capybara: true do
+RSpec.describe "Local Authorities", :capybara, type: :system do
   before do
     local_authority = create(:local_authority, :southwark)
     create(:api_user, :validation_requests_ro, name: "bops-applicants", local_authority:, token: "bops_letmeinpleasethisisabsolutelysecurereally_")
@@ -127,7 +127,7 @@ RSpec.describe "Local Authorities", type: :system, capybara: true do
 
     local_authority = LocalAuthority.find_by!(council_code: "COV")
     administrator = local_authority.users.first!
-    api_user = ApiUser.find_by!(local_authority:, name: "bops-applicants")
+    api_user = local_authority.api_users.find_by!(name: "bops-applicants")
 
     expect(local_authority).to have_attributes(
       short_name: "Coventry",

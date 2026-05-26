@@ -65,12 +65,9 @@ class PlanningApplicationsCreation
   attr_reader(*ATTRIBUTES)
 
   def importer
-    pa = PlanningApplication.find_or_initialize_by(
-      local_authority: planning_application_attributes[:local_authority],
-      reference: reference
-    )
-    pa.update!(case_record: CaseRecord.new(local_authority: planning_application_attributes[:local_authority]),
-               **planning_application_attributes)
+    local_authority = planning_application_attributes[:local_authority]
+    pa = local_authority.planning_applications.find_or_initialize_by(reference: reference)
+    pa.update!(case_record: local_authority.case_records.new, **planning_application_attributes)
   rescue => e
     Rails.logger.debug { "[IMPORT ERROR] #{e.class}: #{e.message}" }
     Rails.logger.debug pa.errors.full_messages.join(", ") if pa

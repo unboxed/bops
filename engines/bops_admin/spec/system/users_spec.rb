@@ -7,7 +7,7 @@ RSpec.describe "Users" do
   let(:user) { create(:user, :administrator, local_authority:, name: "Carrie Taylor") }
   let(:last_email) { ActionMailer::Base.deliveries.last }
   let(:secure_password) { PasswordGenerator.call }
-  let(:last_user) { User.last }
+  let(:last_user) { local_authority.users.last }
   let(:last_user_reset_token) { last_user.send_reset_password_instructions }
 
   before do

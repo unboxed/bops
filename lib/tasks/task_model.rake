@@ -63,10 +63,12 @@ namespace :task_model do
 
     # case records with top-level tasks (sections) but no subtasks
     # i.e. cases created before the tasks were fully defined.
+    # rubocop:disable Safety/NoGlobalQueries
     scope = CaseRecord.left_joins(tasks: :tasks)
       .where(tasks: {parent_type: "CaseRecord"}, tasks_tasks: {id: nil})
       .where.not(tasks: {section: "Review"}) # excluding review, because we expect it to have no subtasks
       .distinct
+    # rubocop:enable Safety/NoGlobalQueries
 
     scope.find_each do |case_record|
       next unless case_record.caseable_type == "PlanningApplication"

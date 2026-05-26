@@ -95,7 +95,7 @@ RSpec.describe "Planning Application index page", type: :system do
 
       context "when one gets marked as started" do
         before do
-          app = PlanningApplication.prior_approvals.not_started.last
+          app = local_authority.planning_applications.prior_approvals.not_started.last
           app.update!(validated_at: Time.zone.today)
           app.start
           app.save!

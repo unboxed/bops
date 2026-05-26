@@ -20,7 +20,7 @@ RSpec.describe UsersCreation do
         described_class.new(**params).perform
       }.to change(User, :count).by(1)
 
-      u = User.find_by(email: "alice.planner@example.com")
+      u = User.find_by(email: "alice.planner@example.com") # rubocop:disable Safety/NoGlobalQueries
       expect(u).to have_attributes(
         name: "Alice Planner",
         email: "alice.planner@example.com",
@@ -48,7 +48,7 @@ RSpec.describe UsersCreation do
         described_class.new(**params).perform
       }.to change(User, :count).by(1)
 
-      u = User.find_by(email: "bob.planner@example.com")
+      u = User.find_by(email: "bob.planner@example.com") # rubocop:disable Safety/NoGlobalQueries
       expect(u).to have_attributes(
         name: "Bob Planner",
         email: "bob.planner@example.com",

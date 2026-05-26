@@ -6,7 +6,7 @@ RSpec.describe "Local authority users", type: :system do
   let(:user) { create(:user, :global_administrator, name: "Clark Kent", local_authority: nil) }
   let(:local_authority) { create(:local_authority, :default) }
   let(:last_email) { ActionMailer::Base.deliveries.last }
-  let(:last_user) { User.last }
+  let(:last_user) { local_authority.users.last }
 
   before do
     sign_in(user)

@@ -5,6 +5,7 @@ module Bops
   end
 end
 
+require_relative "cop/safety/no_global_queries"
 require_relative "cop/style/have_current_path_literal"
 require_relative "cop/style/visit_literal"
 require_relative "cop/style/fetch_literal_nil"

@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe BopsCore::Filters::TextSearch::DescriptionSearch do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:scope) { PlanningApplication.where(local_authority: local_authority) }
+  let(:scope) { local_authority.planning_applications }
 
   let!(:chimney_application) do
     create(:planning_application, local_authority:, description: "Add a chimney stack to the roof")

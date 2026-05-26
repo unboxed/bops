@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe BopsCore::Filters::TextSearch::ReferenceSearch do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:scope) { PlanningApplication.where(local_authority: local_authority) }
+  let(:scope) { local_authority.planning_applications }
 
   let!(:matching_app) do
     create(:planning_application, local_authority:)

@@ -53,7 +53,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
     end
 
     context "when successfully calling the service with params" do
-      let(:planning_application) { PlanningApplication.last }
+      let(:planning_application) { local_authority.planning_applications.last }
       let(:documents) { planning_application.documents }
       let(:planning_application_constraints) { planning_application.planning_application_constraints }
 
@@ -162,7 +162,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
           expect(OwnershipCertificate.last).to have_attributes(
             certificate_type: "b",
-            planning_application_id: PlanningApplication.last.id
+            planning_application_id: local_authority.planning_applications.last.id
           )
 
           expect(LandOwner.last).to have_attributes(
@@ -319,7 +319,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
 
           expect(OwnershipCertificate.last).to have_attributes(
             certificate_type: "a",
-            planning_application_id: PlanningApplication.last.id
+            planning_application_id: local_authority.planning_applications.last.id
           )
         end
 
@@ -411,7 +411,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
           expect(DocumentChecklist.last.document_checklist_items.length).to eq 8
 
           expect(DocumentChecklist.last).to have_attributes(
-            planning_application_id: PlanningApplication.last.id
+            planning_application_id: local_authority.planning_applications.last.id
           )
 
           expect(DocumentChecklist.last.document_checklist_items).to include(
@@ -465,7 +465,7 @@ RSpec.describe BopsApi::Application::CreationService, type: :service do
         it "creates neighbour boundary geojson" do
           create_planning_application
           perform_enqueued_jobs
-          expect(PlanningApplication.last.neighbour_boundary_geojson).not_to be nil
+          expect(local_authority.planning_applications.last.neighbour_boundary_geojson).not_to be_nil
         end
       end
 

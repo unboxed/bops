@@ -6,7 +6,7 @@ RSpec.describe BopsApi::Sorting::Sorter do
   describe "#call" do
     context "with default fields" do
       let(:local_authority) { create(:local_authority) }
-      let(:scope) { PlanningApplication.where(local_authority: local_authority) }
+      let(:scope) { local_authority.planning_applications }
       let(:sorter) { described_class.new }
 
       let!(:old_app) do

@@ -3,19 +3,19 @@
 require "rails_helper"
 
 RSpec.describe "Send notification to neighbours of committee" do
-  let!(:default_local_authority) { create(:local_authority, :default) }
+  let!(:local_authority) { create(:local_authority, :default) }
   let!(:reviewer) do
     create(:user,
       :reviewer,
-      local_authority: default_local_authority)
+      local_authority:)
   end
   let!(:assessor) do
     create(:user,
       :assessor,
-      local_authority: default_local_authority)
+      local_authority:)
   end
   let!(:planning_application) do
-    create(:planning_application, :planning_permission, :awaiting_determination, :with_recommendation, local_authority: default_local_authority, user: assessor)
+    create(:planning_application, :planning_permission, :awaiting_determination, :with_recommendation, local_authority:, user: assessor)
   end
 
   before do
@@ -28,7 +28,7 @@ RSpec.describe "Send notification to neighbours of committee" do
 
   context "when the assessor has not recommended the application go to committee" do
     it "does not show the option to send to committee" do
-      visit "/planning_applications/#{PlanningApplication.last.id}/review/tasks"
+      visit "/planning_applications/#{local_authority.planning_applications.last.id}/review/tasks"
 
       expect(page).to have_content("Review and sign-off")
 
@@ -44,7 +44,7 @@ RSpec.describe "Send notification to neighbours of committee" do
     end
 
     it "does not show the option to send to committee" do
-      visit "/planning_applications/#{PlanningApplication.last.id}/review/tasks"
+      visit "/planning_applications/#{local_authority.planning_applications.last.id}/review/tasks"
 
       expect(page).to have_content("Review and sign-off")
 
@@ -80,7 +80,7 @@ RSpec.describe "Send notification to neighbours of committee" do
     end
 
     it "can send notifications to neighbours who have commented" do
-      visit "/planning_applications/#{PlanningApplication.last.id}/review/tasks"
+      visit "/planning_applications/#{local_authority.planning_applications.last.id}/review/tasks"
 
       click_link "Notify neighbours of committee meeting"
 
@@ -137,7 +137,7 @@ RSpec.describe "Send notification to neighbours of committee" do
     end
 
     it "shows errors" do
-      visit "/planning_applications/#{PlanningApplication.last.id}/review/tasks"
+      visit "/planning_applications/#{local_authority.planning_applications.last.id}/review/tasks"
 
       click_link "Notify neighbours of committee meeting"
 

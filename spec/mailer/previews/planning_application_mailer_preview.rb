@@ -78,6 +78,6 @@ class PlanningApplicationMailerPreview < ActionMailer::Preview
   private
 
   def planning_application
-    @planning_application ||= PlanningApplication.last
+    @planning_application ||= PlanningApplication.last # rubocop:disable Safety/NoGlobalQueries
   end
 end

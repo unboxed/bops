@@ -67,7 +67,7 @@ module BopsConfig
     end
 
     def build_local_authority
-      api_user = ApiUser.find_by!(name: "bops-applicants")
+      api_user = ApiUser.find_by!(name: "bops-applicants") # rubocop:disable Safety/NoGlobalQueries
 
       @local_authority = LocalAuthority.new do |la|
         la.api_users.new(name: "bops-applicants", token: api_user.token, permissions: api_user.permissions)

@@ -6,7 +6,7 @@ RSpec.describe "Users", type: :system do
   let(:user) { create(:user, :global_administrator, name: "Clark Kent", local_authority: nil) }
   let(:last_email) { ActionMailer::Base.deliveries.last }
   let(:secure_password) { PasswordGenerator.call }
-  let(:last_user) { User.last }
+  let(:last_user) { User.last } # rubocop:disable Safety/NoGlobalQueries
   let(:last_user_reset_token) { last_user.send_reset_password_instructions }
 
   before do

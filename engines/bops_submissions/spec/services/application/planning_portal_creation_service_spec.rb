@@ -28,7 +28,7 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
 
       it "creates a new planning application with expected attributes" do
         expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
-        pa = PlanningApplication.last
+        pa = local_authority.planning_applications.last
         expect(pa).to have_attributes(
           status: "not_started",
           description: "\nDH Test Description",
@@ -59,7 +59,7 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
 
       it "sets application_type to minor" do
         create_planning_application
-        pa = PlanningApplication.last
+        pa = local_authority.planning_applications.last
         expect(pa.application_type.code).to eq("pp.full.minor")
       end
     end
@@ -84,7 +84,7 @@ RSpec.describe BopsSubmissions::Application::PlanningPortalCreationService, type
 
       it "still creates a planning application, leaving missing values" do
         expect { create_planning_application }.to change(PlanningApplication, :count).by(1)
-        pa = PlanningApplication.last
+        pa = local_authority.planning_applications.last
 
         expect(pa.payment_amount).to eq(0.0)
         expect(pa.payment_reference).to be_nil

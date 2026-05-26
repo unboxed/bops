@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe BopsCore::Filters::TextSearch::CascadingSearch do
   let(:local_authority) { create(:local_authority, :default) }
-  let(:scope) { PlanningApplication.where(local_authority: local_authority) }
+  let(:scope) { local_authority.planning_applications }
   let(:filter) { described_class.new }
 
   let!(:app_with_reference) do
