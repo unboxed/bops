@@ -13,7 +13,7 @@ RSpec.describe UserMailer, type: :mailer do
       )
     end
 
-    let(:mail_body) { mail.body.encoded }
+    let(:mail_body) { mail.body.raw_source }
 
     it "sets subject" do
       travel_to("2022-01-01 00:00:00 GMT") do
@@ -59,29 +59,15 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it "includes user's current otp" do
-      expect(mail.body.encoded).to include(
+      expect(mail.body.raw_source).to include(
         "#{user.current_otp} is your Back Office Planning System verification code."
       )
     end
 
     it "includes the otp expiry" do
-      expect(mail.body.encoded).to include(
+      expect(mail.body.raw_source).to include(
         "It will expire in 5 minutes."
       )
-    end
-
-    matcher :have_notify_header do |name, expected|
-      match do |mail|
-        mail.header[name]&.unparsed_value == expected
-      end
-
-      match_when_negated do |name|
-        mail.header[name].blank?
-      end
-
-      failure_message do |mail|
-        "expected message to have notify header #{name.inspect} matching #{expected.inspect} but it was #{mail.header[name]&.unparsed_value.inspect}"
-      end
     end
 
     context "when the GOV.UK Notify account is enabled" do
@@ -90,8 +76,8 @@ RSpec.describe UserMailer, type: :mailer do
       end
 
       it "has the correct configuration" do
-        expect(mail).to have_notify_header("template-id", "c56d9346-02be-4812-af6b-e254269c98d7")
-        expect(mail).to have_notify_header("reply-to-id", "4896bb50-4f4c-4b4d-ad67-2caddddde125")
+        expect(mail.message.template_id).to eq("c56d9346-02be-4812-af6b-e254269c98d7")
+        expect(mail.message.reply_to_id).to eq("4896bb50-4f4c-4b4d-ad67-2caddddde125")
 
         expect(delivery_method).to be_an_instance_of(Mail::Notify::DeliveryMethod)
         expect(delivery_method.settings).to match(
@@ -106,8 +92,8 @@ RSpec.describe UserMailer, type: :mailer do
       end
 
       it "has the correct configuration" do
-        expect(mail).to have_notify_header("template-id", "f51c953c-d3e3-4126-86f3-0d8927023472")
-        expect(mail).to have_notify_header("reply-to-id", "3d0d2d5d-9b30-454c-9391-096ed8fef1d6")
+        expect(mail.message.template_id).to eq("f51c953c-d3e3-4126-86f3-0d8927023472")
+        expect(mail.message.reply_to_id).to eq("3d0d2d5d-9b30-454c-9391-096ed8fef1d6")
 
         expect(delivery_method).to be_an_instance_of(Mail::Notify::DeliveryMethod)
         expect(delivery_method.settings).to match(
@@ -128,7 +114,7 @@ RSpec.describe UserMailer, type: :mailer do
       )
     end
 
-    let(:mail_body) { mail.body.encoded }
+    let(:mail_body) { mail.body.raw_source }
 
     it "sets subject" do
       travel_to("2022-01-01 00:00:00 GMT") do
@@ -168,7 +154,7 @@ RSpec.describe UserMailer, type: :mailer do
         "Set password instructions"
       )
       expect(mail.to).to contain_exactly("heidi@example.com")
-      expect(mail.body.encoded).to include(
+      expect(mail.body.raw_source).to include(
         "Welcome to the Back-office Planning System"
       )
     end
