@@ -2,6 +2,13 @@
   overflow-wrap: anywhere;
 }
 
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .redacted-document-table {
   .govuk-form-group {
     margin-bottom: 0;

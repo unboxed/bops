@@ -56,6 +56,7 @@ local_authority_subdomain do
     get "/policy/guidance", to: "policy_guidances#index"
     get "/policy/references", to: "policy_references#index"
     get "/requirements", to: "requirements#index"
+    get "/conditions", to: "conditions#index"
   end
 
   resources :planning_applications, param: :reference, except: %i[destroy] do

@@ -129,6 +129,38 @@ en:
         view_and_or_edit: View and/or edit
       update:
         success: Application profile successfully updated
+    conditions:
+      create:
+        condition_successfully_created: Condition successfully created
+      destroy:
+        condition_successfully_destroyed: Condition successfully deleted
+        condition_unsuccessfully_destroyed: Unable to delete condition - please contact support
+      edit:
+        edit_condition: Edit condition
+      form:
+        labels:
+          reason: Reason for condition
+          text: Condition
+          title: Title
+        submit: Submit
+      index:
+        actions:
+          delete: Delete
+          edit: Edit
+        add_condition: Add condition
+        are_you_sure: Are you sure you want to delete this condition?
+        conditions: Manage conditions
+        find_conditions: Find condition
+        headings:
+          actions: Actions
+          reason: Reason for condition
+          text: Condition
+          title: Title
+        no_conditions_found: No conditions found
+      new:
+        add_condition: Add a new condition
+      update:
+        condition_successfully_updated: Condition successfully updated
     constraints:
       create:
         successfully_created: Constraint successfully created

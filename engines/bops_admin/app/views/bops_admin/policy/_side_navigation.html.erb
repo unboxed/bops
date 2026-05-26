@@ -16,4 +16,8 @@
   <% nav.with_section(title: "Requirements", index: 4) do |section| %>
     <% section.with_navigation_item(text: "Manage requirements", href: requirements_path, current: (current == "requirements")) %>
   <% end %>
+
+    <% nav.with_section(title: "Conditions", index: 5) do |section| %>
+    <% section.with_navigation_item(text: "Manage conditions", href: conditions_path, current: (current == "conditions")) %>
+  <% end %>
 <% end %>
