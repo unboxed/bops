@@ -136,6 +136,63 @@ RSpec.describe "Review committee decision", type: :system do
     end
   end
 
+  context "when resubmitting after the reviewer returned with comments" do
+    before do
+      planning_application.committee_decision.update!(
+        recommend: true,
+        reasons: ["The application is on council owned land"]
+      )
+
+      click_button "Recommendation to committee"
+      within("#recommendation_to_committee_section") do
+        within("#recommendation_to_committee_footer") do
+          choose "Return with comments"
+          fill_in "Add a comment", with: "Please reconsider"
+          click_button "Save and mark as complete"
+        end
+      end
+
+      click_link "Sign off recommendation"
+      choose "No (return the case for assessment)"
+      fill_in "Explain to the officer why the case is being returned", with: "Please reconsider"
+      click_button "Save and mark as complete"
+
+      click_link "Application"
+      click_link "Check and assess"
+      click_link "Make draft recommendation"
+    end
+
+    it "does not show 'Updated' when the assessor resubmits without changing the recommendation" do
+      # Do NOT change the answer — keep the existing recommend value
+      click_button "Save and mark as complete"
+
+      click_link "Review and submit recommendation"
+      click_button "Save and mark as complete"
+
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
+
+      within("#recommendation_to_committee_section") do
+        expect(find(".govuk-tag")).not_to have_content("Updated")
+      end
+    end
+
+    it "shows 'Updated' when the assessor resubmits with a changed recommendation" do
+      within_fieldset("Does this planning application need to be decided by committee?") do
+        choose "No"
+      end
+      click_button "Save and mark as complete"
+
+      click_link "Review and submit recommendation"
+      click_button "Save and mark as complete"
+
+      visit "/planning_applications/#{planning_application.reference}/review/tasks"
+
+      within("#recommendation_to_committee_section") do
+        expect(find(".govuk-tag")).to have_content("Updated")
+      end
+    end
+  end
+
   context "when reviewing other aspects of assessment" do
     before do
       detail = planning_application.assessment_details.find_or_initialize_by(category: :summary_of_work)

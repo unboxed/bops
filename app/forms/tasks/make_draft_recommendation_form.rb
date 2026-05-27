@@ -56,9 +56,10 @@ module Tasks
       decision.update!(reasons: updated_reasons, recommend:)
 
       if decision.current_review.comment.present?
-        # Being resubmitted in response to reviewer feedback
-        # Need to mark updated even if no change.
-        decision.current_review.updated!
+        # Being resubmitted in response to reviewer feedback.
+        # Only mark as updated if the assessor actually changed the answer —
+        # otherwise the existing "Awaiting changes" status carries through.
+        decision.current_review.updated! if decision_changed
       elsif decision.current_review.review_complete? && !decision_changed
         # Resubmitting assessment for other reasons; if no change to decision, mark as complete
         decision.create_review(review_status: :review_complete)
