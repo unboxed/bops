@@ -27,7 +27,7 @@ RSpec.describe "Draw red line boundary task", type: :system do
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+    visit "/planning_applications/#{planning_application.reference}/validation"
   end
 
   it "shows the task in the sidebar with not started status" do

@@ -9,7 +9,7 @@ RSpec.describe "Add reporting details task", type: :system do
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+    visit "/planning_applications/#{planning_application.reference}/validation"
   end
 
   %i[planning_permission prior_approval lawfulness_certificate].each do |application_type|

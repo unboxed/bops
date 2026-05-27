@@ -12,7 +12,7 @@ RSpec.describe "Review documents task", type: :system do
   before do
     Rails.application.load_seed
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/validation/tasks"
+    visit "/planning_applications/#{planning_application.reference}/validation"
   end
 
   it "highlights the active task in the sidebar" do

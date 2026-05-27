@@ -42,7 +42,7 @@ module PlanningApplications
             if @planning_application.constraints_checked!
               redirect_to redirect_path, notice: t(".success")
             else
-              redirect_to planning_application_validation_tasks_path(@planning_application),
+              redirect_to planning_application_validation_path(@planning_application),
                 alert: t(".failure")
             end
           end
@@ -67,7 +67,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        params[:return_to].presence || planning_application_validation_tasks_path(@planning_application)
+        params[:return_to].presence || planning_application_validation_path(@planning_application)
       end
     end
   end

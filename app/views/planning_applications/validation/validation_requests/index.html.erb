@@ -11,7 +11,7 @@
 <% content_for :title, post_validation_requests_index? ? "Post-validation requests" : "Validation requests" %>
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
-<% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_tasks_path(@planning_application) unless post_validation_requests_index? %>
+<% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_path(@planning_application) unless post_validation_requests_index? %>
 
 <%= render(
       partial: "shared/proposal_header",
@@ -57,7 +57,7 @@
     <% if post_validation_requests_index? %>
       <%= govuk_button_link_to "Back", @planning_application, secondary: true %>
     <% else %>
-      <%= govuk_button_link_to "Back", planning_application_validation_tasks_path(@planning_application), secondary: true %>
+      <%= govuk_button_link_to "Back", planning_application_validation_path(@planning_application), secondary: true %>
     <% end %>
   </div>
 </div>
