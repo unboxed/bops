@@ -21,6 +21,7 @@ class AuthenticationController < ApplicationController
     end
   end
 
+  # to be removed after merge of assessment removal
   def redirect_to_initial_task
     return unless use_new_sidebar_layout?(@planning_application)
 

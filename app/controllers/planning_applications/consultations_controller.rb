@@ -8,7 +8,6 @@ module PlanningApplications
     before_action :set_consultation
     before_action :redirect_to_application_page, unless: :public_or_preapp?
     before_action :show_sidebar
-    before_action :redirect_to_initial_task, only: :show
 
     def show
       respond_to do |format|
@@ -35,12 +34,6 @@ module PlanningApplications
     end
 
     private
-
-    def show_sidebar
-      @show_sidebar = if use_new_sidebar_layout?(@planning_application)
-        @planning_application.case_record.tasks.find_by(section: "Consultation")
-      end
-    end
 
     def consultation_params
       params.fetch(:consultation, {}).permit(:neighbour_letter_text, :resend_existing, :resend_reason, :end_date)

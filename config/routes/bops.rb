@@ -193,7 +193,8 @@ local_authority_subdomain do
         resources :constraint_consultees, only: %i[destroy]
       end
 
-      resource :consultation, only: %i[show edit update] do
+      resource :consultation, only: %i[edit update] do
+        get "/", to: redirect(Bops::InitialTaskRedirector.new("Consultation"))
         resources :neighbours, only: %i[index create update destroy]
 
         resources :neighbour_letters, only: %i[index update destroy] do
