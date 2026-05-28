@@ -7,24 +7,6 @@ module PlanningApplications
         before_action :set_informative_set
         before_action :set_informative
 
-        def edit
-          respond_to do |format|
-            format.html
-          end
-        end
-
-        def update
-          respond_to do |format|
-            format.html do
-              if @informative.update(informative_params)
-                redirect_to edit_planning_application_assessment_informatives_path(@planning_application), notice: t(".success")
-              else
-                render :edit
-              end
-            end
-          end
-        end
-
         def destroy
           respond_to do |format|
             format.html do
@@ -52,7 +34,7 @@ module PlanningApplications
         end
 
         def redirect_path
-          params[:redirect_to].presence || edit_planning_application_assessment_informatives_path(@planning_application)
+          params[:redirect_to]
         end
       end
     end

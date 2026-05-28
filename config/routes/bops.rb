@@ -175,8 +175,8 @@ local_authority_subdomain do
         end
         resources :consideration_guidances, except: %i[show new]
 
-        resource :informatives, only: %i[destroy] do
-          resources :items, only: %i[update destroy], module: :informatives do
+        resource :informatives, only: %i[] do
+          resources :items, only: %i[destroy], module: :informatives do
             concerns :positionable
           end
         end
