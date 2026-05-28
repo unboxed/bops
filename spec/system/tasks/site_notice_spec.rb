@@ -294,4 +294,65 @@ RSpec.describe "Site notice task", js: true do
       expect(page).to have_content("The planning application must be assigned to an officer before you can create a site notice.")
     end
   end
+
+  describe "creating a single site notice with different delivery methods" do
+    before do
+      within :sidebar do
+        click_link "Site notice"
+      end
+    end
+
+    it "sends the site notice to the agent" do
+      click_link "Create site notice"
+
+      fill_in "Quantity", with: "2"
+      fill_in "Where should notices be displayed?", with: "Near the main entrance and rear gate"
+      choose "Send it by email to agent/ applicant"
+
+      expect(page).to have_content("The site notice will be emailed to #{planning_application.agent_email} with instructions on how to print, protect and display it.")
+
+      click_button "Send site notice"
+
+      expect(page).to have_content("Site notice was emailed to the agent/ applicant")
+    end
+
+    it "sends the site notice to the applicant when there is no agent" do
+      planning_application.update!(agent_email: nil)
+      click_link "Create site notice"
+
+      fill_in "Quantity", with: "2"
+      fill_in "Where should notices be displayed?", with: "Near the main entrance and rear gate"
+      choose "Send it by email to agent/ applicant"
+
+      expect(page).to have_content("The site notice will be emailed to #{planning_application.applicant_email} with instructions on how to print, protect and display it.")
+
+      click_button "Send site notice"
+
+      expect(page).to have_content("Site notice was emailed to the agent/ applicant")
+    end
+  end
+
+  context "when it's an EIA application" do
+    before do
+      create(:environment_impact_assessment, planning_application:)
+      planning_application.environment_impact_assessment.update(address: "123 street", fee: 19, email_address: "planner@council.com")
+      click_link "Site notice"
+      eia = planning_application.environment_impact_assessment
+      pp eia&.required?
+      pp eia.with_address_email_and_fee?
+    end
+
+    it "shows the correct information" do
+      click_link "Create site notice"
+
+      fill_in "Quantity", with: "2"
+      fill_in "Where should notices be displayed?", with: "Anywhere"
+      choose "Send it by email to agent/ applicant"
+      click_button "Send site notice"
+      expect(page).to have_content("Subject to EIA")
+
+      expect(planning_application.site_notice.content).to include "This application is subject to an Environmental Impact Assessment (EIA)."
+      expect(planning_application.site_notice.content).to include "You can request a hard copy for a fee of £19 by emailing planner@council.com or in person at 123 street."
+    end
+  end
 end

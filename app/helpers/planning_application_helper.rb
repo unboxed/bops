@@ -61,19 +61,11 @@ module PlanningApplicationHelper
   end
 
   def confirm_site_notice_path(planning_application)
-    if planning_application.case_record&.find_task_by_slug_path(CaseRecord::CONFIRM_SITE_NOTICE_SLUG)
-      task_path(planning_application, slug: CaseRecord::CONFIRM_SITE_NOTICE_SLUG)
-    else
-      edit_planning_application_site_notice_path(planning_application, planning_application.site_notice)
-    end
+    task_path(planning_application, slug: CaseRecord::CONFIRM_SITE_NOTICE_SLUG)
   end
 
   def confirm_press_notice_path(planning_application)
-    if planning_application.case_record&.find_task_by_slug_path(CaseRecord::CONFIRM_PRESS_NOTICE_SLUG)
-      task_path(planning_application, slug: CaseRecord::CONFIRM_PRESS_NOTICE_SLUG)
-    else
-      planning_application_press_notice_confirmation_path(planning_application)
-    end
+    task_path(planning_application, slug: CaseRecord::CONFIRM_PRESS_NOTICE_SLUG)
   end
 
   def appeal_link_and_translation(planning_application)

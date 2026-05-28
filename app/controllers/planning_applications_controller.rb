@@ -275,7 +275,7 @@ class PlanningApplicationsController < AuthenticationController
   def ensure_site_notice_displayed_at
     return unless @planning_application.site_notice_needs_displayed_at?
 
-    flash.now[:alert] = t(".confirm_site_notice_displayed_at_html", href: edit_planning_application_site_notice_path(@planning_application, @planning_application.site_notice))
+    flash.now[:alert] = t(".confirm_site_notice_displayed_at_html", href: confirm_site_notice_path(@planning_application))
     render :publish and return
   end
 

@@ -142,6 +142,23 @@ RSpec.describe "Press notice task", js: true do
       expect(page).to have_content("Successfully saved press notice requirement")
       expect(task.reload).to be_completed
     end
+
+    context "when no press notice email is configured" do
+      let(:default_local_authority) { create(:local_authority, :default, press_notice_email: nil) }
+
+      it "shows a warning and does not send an email" do
+        delivered_emails = ActionMailer::Base.deliveries.count
+
+        expect(page).to have_content("No press notice email has been set.")
+
+        check "The application is for a Major Development"
+        click_button "Send request"
+
+        perform_enqueued_jobs
+
+        expect(ActionMailer::Base.deliveries.count).to eql(delivered_emails)
+      end
+    end
   end
 
   describe "sending a reminder for a press notice" do
@@ -256,6 +273,28 @@ RSpec.describe "Press notice task", js: true do
 
       within ".govuk-error-summary" do
         expect(page).to have_content("Please select when press notice was published")
+      end
+    end
+
+    it "shows a validation error when published date is before the consultation start" do
+      fill_in "Day", with: "10"
+      fill_in "Month", with: "1"
+      fill_in "Year", with: "2026"
+      click_button "Confirm publication"
+
+      within ".govuk-error-summary" do
+        expect(page).to have_content("Date must be on or after the consultation start date")
+      end
+    end
+
+    it "shows a validation error when published date is after the consultation end" do
+      fill_in "Day", with: "1"
+      fill_in "Month", with: "3"
+      fill_in "Year", with: "2026"
+      click_button "Confirm publication"
+
+      within ".govuk-error-summary" do
+        expect(page).to have_content("Date must be on or before the consultation end date")
       end
     end
 
