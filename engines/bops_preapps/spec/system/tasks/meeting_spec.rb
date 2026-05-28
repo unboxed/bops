@@ -12,7 +12,7 @@ RSpec.describe "Meeting", type: :system do
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
   end
 
   it "Allows adding a meeting" do

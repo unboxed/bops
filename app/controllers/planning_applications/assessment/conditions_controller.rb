@@ -63,10 +63,10 @@ module PlanningApplications
         current_review = @condition_set.current_review || @condition_set.reviews.new
         if current_review.status == "to_be_reviewed"
           @condition_set.reviews.create!(status: "updated")
-          redirect_to planning_application_assessment_tasks_path(@planning_application),
+          redirect_to planning_application_assessment_path(@planning_application),
             notice: I18n.t("conditions.update.success")
         elsif current_review.update(status:)
-          redirect_to planning_application_assessment_tasks_path(@planning_application),
+          redirect_to planning_application_assessment_path(@planning_application),
             notice: I18n.t("conditions.update.success")
         else
           render :index

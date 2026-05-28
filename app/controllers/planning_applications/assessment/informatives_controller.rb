@@ -43,7 +43,7 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @informative_set.update_review(review_params)
-              redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
+              redirect_to planning_application_assessment_path(@planning_application), notice: t(".success")
             else
               render :edit
             end

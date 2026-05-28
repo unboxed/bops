@@ -22,6 +22,6 @@
 
   <%= form.govuk_submit(t("form_actions.save_and_mark_as_complete"), name: "permitted_development_right[status]", value: "complete") do %>
     <%= form.govuk_submit(t("form_actions.save_and_come_back_later"), name: "permitted_development_right[status]", value: "in_progress", secondary: true) %>
-    <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+    <%= govuk_button_link_to(t("back"), planning_application_assessment_path(@planning_application), secondary: true) %>
   <% end %>
 <% end %>

@@ -175,7 +175,7 @@ module PlanningApplications
         elsif redirect_to_check_red_line_boundary_task?
           check_red_line_boundary_task_path
         elsif @planning_application.validated?
-          planning_application_assessment_tasks_path(@planning_application)
+          planning_application_assessment_path(@planning_application)
         elsif @validation_request.type == "ReplacementDocumentValidationRequest"
           supply_documents_planning_application_path(@planning_application)
         else

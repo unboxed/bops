@@ -24,7 +24,7 @@ RSpec.describe "Review and submit pre-application task", type: :system do
   end
 
   def visit_task_list
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
   end
 
   def click_review_and_submit_task

@@ -123,7 +123,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
         # Updating policy section description
         policy_section2bii.update!(description: "A new description")
 
-        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment"
 
         click_link "Assess against legislation"
         click_link("Assess")

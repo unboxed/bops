@@ -78,7 +78,7 @@ module BopsReports
       end
 
       def assessment_tasks_url
-        main_app.planning_application_assessment_tasks_url(@planning_application)
+        main_app.planning_application_assessment_url(@planning_application)
       end
 
       def application_url

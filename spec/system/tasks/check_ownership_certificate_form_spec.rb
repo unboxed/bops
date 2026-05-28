@@ -305,7 +305,7 @@ RSpec.describe "Check ownership certificate task", type: :system do
     let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/check-application/check-ownership-certificate") }
 
     before do
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment"
     end
 
     it "completes the task without creating a validation request" do

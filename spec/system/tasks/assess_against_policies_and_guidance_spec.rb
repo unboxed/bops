@@ -30,7 +30,7 @@ RSpec.describe "Assess against policies and guidance task", type: :system, js: t
 
     sign_in assessor
 
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
   end
 
   it "shows errors when required fields are missing" do

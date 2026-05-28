@@ -58,7 +58,7 @@ RSpec.describe "editing planning application", :pending, type: :system do
     )
 
     expect(page).to have_current_path(
-      "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      "/planning_applications/#{planning_application.reference}/assessment"
     )
 
     click_link("Check application details")

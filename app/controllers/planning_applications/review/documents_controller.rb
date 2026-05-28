@@ -24,7 +24,7 @@ module PlanningApplications
           end
         end
 
-        redirect_to planning_application_assessment_tasks_path(@planning_application),
+        redirect_to planning_application_assessment_path(@planning_application),
           notice: t(".success")
       rescue ActiveRecord::ActiveRecordError => e
         redirect_to planning_application_review_documents_path(@planning_application),

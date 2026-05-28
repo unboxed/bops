@@ -105,7 +105,7 @@ RSpec.describe "Reviewing pre-commencement conditions", type: :system do
 
         switch_user(assessor)
 
-        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment"
 
         click_link "Add pre-commencement conditions"
 

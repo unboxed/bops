@@ -215,7 +215,7 @@ RSpec.describe "Reviewing assessment against policies and guidance", :js, type: 
       travel_to Time.zone.local(2024, 7, 23, 12)
       sign_in(assessor)
 
-      visit "/planning_applications/#{reference}/assessment/tasks"
+      visit "/planning_applications/#{reference}/assessment"
 
       click_link "Assess against policies and guidance"
 

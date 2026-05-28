@@ -206,7 +206,7 @@ RSpec.describe "Immunity", type: :system do
       fill_in "Describe how permitted development rights have been removed", with: "A reason"
 
       click_button "Save and mark as complete"
-      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
+      expect(page).to have_current_path("/planning_applications/#{reference}/assessment")
       expect(page).to have_content("Assess immunity response was successfully updated")
 
       switch_user(reviewer)

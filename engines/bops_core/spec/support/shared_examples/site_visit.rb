@@ -8,7 +8,7 @@ RSpec.shared_examples "site visit task", :capybara do |application_type, slug_pa
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
   end
 
   it "allows adding a site visit" do

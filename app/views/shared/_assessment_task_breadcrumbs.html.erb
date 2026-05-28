@@ -8,7 +8,7 @@
    ) %>
 <% add_parent_breadcrumb_link(
      t(".assess_application"),
-     planning_application_assessment_tasks_path(planning_application)
+     planning_application_assessment_path(planning_application)
    ) %>
 <% if current_page = local_assigns.fetch(:current_page, nil).presence %>
   <%= content_for(:title, current_page) %>

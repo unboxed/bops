@@ -211,7 +211,7 @@ RSpec.describe "viewing assessment report", :capybara, type: :system do
 
   it "lets the user view and download the report" do
     sign_in(assessor)
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
     click_link("Make draft recommendation")
     # click_button("Assessment report details")
 

@@ -7,7 +7,7 @@ RSpec.shared_examples "check consultees task", :capybara do |application_type|
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
   end
 
   it "Can complete and submit the form" do

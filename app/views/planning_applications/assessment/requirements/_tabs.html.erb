@@ -64,7 +64,7 @@
         <%= form.govuk_submit("Add requirements", secondary: true, class: "govuk-!-margin-bottom-2") %>
       <% else %>
         <%= form.govuk_submit("Add requirements") do %>
-          <%= govuk_button_link_to t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true %>
+          <%= govuk_button_link_to t("back"), planning_application_assessment_path(@planning_application), secondary: true %>
         <% end %>
       <% end %>
     <% end %>

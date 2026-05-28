@@ -9,7 +9,7 @@ RSpec.describe "Assessment tasks", type: :system do
   before do
     sign_in assessor
 
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
   end
 
   context "when the planning application is in_assessment, I can assess the planning application" do

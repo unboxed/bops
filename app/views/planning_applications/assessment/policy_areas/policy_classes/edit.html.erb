@@ -88,9 +88,9 @@
 
     <%= form.govuk_submit "Save and mark as complete", name: "review[status]", value: "complete" do %>
       <%= form.govuk_submit "Save and come back later", name: "review[status]", value: "in_progress", secondary: true %>
-      <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+      <%= govuk_button_link_to(t("back"), planning_application_assessment_path(@planning_application), secondary: true) %>
     <% end %>
   <% end %>
 <% else %>
-  <%= govuk_button_link_to(t("back"), planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+  <%= govuk_button_link_to(t("back"), planning_application_assessment_path(@planning_application), secondary: true) %>
 <% end %>

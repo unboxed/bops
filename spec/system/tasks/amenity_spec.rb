@@ -228,7 +228,7 @@ RSpec.describe "Amenity task", :show_sidebar, type: :system do
       expect(page).to have_content("Amenity assessment was successfully saved")
 
       # Assessor resubmits recommendation
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment"
       click_link("Make draft recommendation")
       click_button("Save and mark as complete")
       click_link("Review and submit recommendation")

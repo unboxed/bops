@@ -78,7 +78,7 @@ RSpec.describe "Reviewing heads of terms", :capybara, type: :system do
 
         switch_user(assessor)
 
-        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment"
 
         click_link "Add heads of terms"
         expect(page).to have_content("I don't think you've assessed heads of terms correctly")

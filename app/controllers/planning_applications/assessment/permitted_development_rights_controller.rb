@@ -64,12 +64,12 @@ module PlanningApplications
         if @planning_application.awaiting_determination?
           planning_application_review_tasks_path(@planning_application)
         else
-          planning_application_assessment_tasks_path(@planning_application)
+          planning_application_assessment_path(@planning_application)
         end
       end
 
       def redirect_failed_create_error(error)
-        redirect_to planning_application_assessment_tasks_path(@planning_application), alert: error.message
+        redirect_to planning_application_assessment_path(@planning_application), alert: error.message
       end
     end
   end

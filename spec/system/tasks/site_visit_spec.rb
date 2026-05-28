@@ -23,7 +23,7 @@ RSpec.describe "Site visit task", type: :system do
 
     before do
       sign_in(user)
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment"
     end
 
     it "doesn't have a site visit task" do

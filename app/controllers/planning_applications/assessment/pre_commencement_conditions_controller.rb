@@ -110,7 +110,7 @@ module PlanningApplications
         if send_to_applicant?
           planning_application_assessment_pre_commencement_conditions_path(@planning_application)
         else
-          planning_application_assessment_tasks_path(@planning_application)
+          planning_application_assessment_path(@planning_application)
         end
       end
     end

@@ -16,7 +16,7 @@ RSpec.describe "Check if proposal is development task", type: :system do
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
   end
 
   it "shows the task in the sidebar" do

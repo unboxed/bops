@@ -207,7 +207,7 @@ RSpec.describe "Reviewing informatives", :js, type: :system do
           travel_to Time.zone.local(2024, 5, 20, 12)
           sign_in(assessor)
 
-          visit "/planning_applications/#{reference}/assessment/tasks"
+          visit "/planning_applications/#{reference}/assessment"
           click_link "Add informatives"
 
           expect(page).to have_selector("h1", text: "Add informatives")

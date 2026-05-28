@@ -85,7 +85,7 @@ module PlanningApplications
       end
 
       def return_path
-        params[:return_to].presence || planning_application_assessment_tasks_path(@planning_application)
+        params[:return_to].presence || planning_application_assessment_path(@planning_application)
       end
     end
   end

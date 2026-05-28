@@ -15,7 +15,7 @@ RSpec.describe "Suggest heads of terms task", type: :system do
     travel_to(Time.zone.local(2024, 4, 17, 12, 30))
     sign_in assessor
 
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
 
     within ".bops-sidebar" do
       click_link "Suggest heads of terms"

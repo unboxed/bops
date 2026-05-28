@@ -22,7 +22,7 @@ module PlanningApplications
 
           format.html
         else
-          format.html { redirect_to planning_application_assessment_tasks_path(@planning_application) }
+          format.html { redirect_to planning_application_assessment_path(@planning_application) }
         end
       end
     end

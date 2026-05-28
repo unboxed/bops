@@ -248,7 +248,7 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
 
     it "handles the full review workflow with action_required status" do
       sign_in(assessor)
-      visit "/planning_applications/#{reference}/assessment/tasks"
+      visit "/planning_applications/#{reference}/assessment"
 
       expect(page).to have_selector(:sidebar)
 
@@ -279,7 +279,7 @@ RSpec.describe "Pre-application assessment workflow", type: :system do
 
       switch_user(assessor)
 
-      visit "/planning_applications/#{reference}/assessment/tasks"
+      visit "/planning_applications/#{reference}/assessment"
 
       expect(page).to have_selector(:action_required_sidebar_task, "Review and submit pre-application")
 

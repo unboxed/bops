@@ -30,7 +30,7 @@ module PlanningApplications
             @planning_application.planning_application_policy_classes.find_or_create_by!(policy_class_id: policy_class.id)
           end
 
-          redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
+          redirect_to planning_application_assessment_path(@planning_application), notice: t(".success")
         end
 
         def edit
@@ -43,7 +43,7 @@ module PlanningApplications
           @form.update(policy_section_status_params)
 
           if @planning_application_policy_class.update_review(review_params)
-            redirect_to planning_application_assessment_tasks_path(@planning_application), notice: t(".success")
+            redirect_to planning_application_assessment_path(@planning_application), notice: t(".success")
           else
             render :edit
           end
@@ -64,7 +64,7 @@ module PlanningApplications
         private
 
         def redirect_path
-          params[:redirect_to].presence || planning_application_assessment_tasks_path(@planning_application)
+          params[:redirect_to].presence || planning_application_assessment_path(@planning_application)
         end
 
         def find_policy_parts

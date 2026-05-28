@@ -16,7 +16,7 @@ RSpec.describe "Planning History", type: :system do
     let!(:refused_site_history) { create(:site_history, :refused, planning_application:) }
 
     before do
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment"
       click_link "Check site history"
     end
 
@@ -71,7 +71,7 @@ RSpec.describe "Planning History", type: :system do
     let(:planning_application) { create(:planning_application, :in_assessment, uprn: "10008104351", local_authority:) }
 
     before do
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment"
       click_link "Check site history"
     end
 

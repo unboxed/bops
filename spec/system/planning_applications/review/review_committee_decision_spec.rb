@@ -172,7 +172,7 @@ RSpec.describe "Review committee decision", type: :system do
         expect(find(".govuk-tag")).to have_content("Completed")
       end
 
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment"
       click_link "Make draft recommendation"
       click_button "Withdraw recommendation"
       click_button "Save and mark as complete"

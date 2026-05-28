@@ -51,7 +51,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       create(:decision, :ldc_refused)
 
       sign_in assessor
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment"
     end
 
     it "shows the correct status tags at each stage" do
@@ -808,7 +808,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       create(:decision, :pa_refused)
 
       sign_in assessor
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment"
     end
 
     context "when clicking Save and mark as complete" do
