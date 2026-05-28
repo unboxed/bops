@@ -78,7 +78,7 @@ module Tasks
         planning_application.update!(decision: decision, public_comment: public_comment)
         save_recommendation(status: :assessment_complete)
         save_committee_decision unless recommend.nil?
-        planning_application.assess!
+        planning_application.assess! unless planning_application.to_be_reviewed?
       end
     end
 

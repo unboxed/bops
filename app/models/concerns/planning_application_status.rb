@@ -66,7 +66,8 @@ module PlanningApplicationStatus
       end
 
       event :assess do
-        transitions from: %i[in_assessment assessment_in_progress to_be_reviewed], to: :in_assessment,
+        transitions from: :to_be_reviewed, to: :to_be_reviewed
+        transitions from: %i[in_assessment assessment_in_progress], to: :in_assessment,
           guard: :decision_present?
       end
 
@@ -142,7 +143,7 @@ module PlanningApplicationStatus
       end
 
       event :submit do
-        transitions from: %i[in_assessment in_committee], to: :awaiting_determination,
+        transitions from: %i[in_assessment in_committee to_be_reviewed], to: :awaiting_determination,
           guards: %i[decision_present? no_open_post_validation_requests_excluding_time_extension?] do
           after { recommendation.update!(submitted: true) }
         end
