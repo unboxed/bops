@@ -141,7 +141,7 @@ local_authority_subdomain do
 
         resource :report_download, only: :show
         resources :assessment_details, except: %i[destroy index]
-        resources :conditions, except: %i[new show] do
+        resources :conditions, only: %i[destroy] do
           concerns :positionable, module: :conditions
         end
         resources :pre_commencement_conditions, except: %i[new show] do
