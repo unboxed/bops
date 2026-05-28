@@ -203,8 +203,6 @@ local_authority_subdomain do
         end
       end
 
-      resource :consultation_requirement, only: %i[edit update]
-
       namespace :validation do
         get "/", to: redirect(Bops::InitialTaskRedirector.new("Validation"))
         get "/tasks", to: redirect(Bops::InitialTaskRedirector.new("Validation"))
