@@ -144,7 +144,7 @@ local_authority_subdomain do
         resources :conditions, only: %i[destroy] do
           concerns :positionable, module: :conditions
         end
-        resources :pre_commencement_conditions, except: %i[new show] do
+        resources :pre_commencement_conditions, only: %i[destroy] do
           concerns :positionable, module: :pre_commencement_conditions
         end
         resource :consistency_checklist, except: %i[destroy]
