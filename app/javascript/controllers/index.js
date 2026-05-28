@@ -32,6 +32,10 @@ import ConditionsController from "./conditions_controller.js"
 
 application.register("conditions", ConditionsController)
 
+import ConditionFormController from "./condition_form_controller.js"
+
+application.register("condition-form", ConditionFormController)
+
 import ConsiderationFormController from "./consideration_form_controller.js"
 
 application.register("consideration-form", ConsiderationFormController)

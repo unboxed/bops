@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_30_154433) do
+ActiveRecord::Schema[8.1].define(version: 2026_05_26_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -648,6 +648,18 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_30_154433) do
     t.string "telephone_number"
     t.datetime "updated_at", null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
+  end
+
+  create_table "local_authority_conditions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.bigint "local_authority_id"
+    t.text "reason"
+    t.virtual "search", type: :tsvector, as: "to_tsvector('simple'::regconfig, ((((((COALESCE(title, ''::character varying))::text || ' '::text) || COALESCE(text, ''::text)) || ' '::text) || COALESCE(reason, ''::text)) || ' '::text))", stored: true
+    t.boolean "standard", default: false, null: false
+    t.text "text"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["local_authority_id"], name: "ix_local_authority_conditions_on_local_authority_id"
   end
 
   create_table "local_authority_informatives", force: :cascade do |t|

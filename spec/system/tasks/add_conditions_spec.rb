@@ -35,6 +35,7 @@ RSpec.describe "Add conditions task", type: :system do
     end
 
     toggle "Add condition"
+    fill_in "Enter title", with: "Custom title"
     fill_in "Enter condition", with: "New custom condition"
     fill_in "Enter a reason for this condition", with: "Custom reason"
     click_button "Add condition to list"

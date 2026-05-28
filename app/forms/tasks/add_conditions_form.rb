@@ -20,6 +20,7 @@ module Tasks
     attr_reader :condition_set, :conditions
 
     with_options on: %i[add_condition update_condition] do
+      validates :title, presence: {message: "Enter title"}
       validates :text, presence: {message: "Enter condition"}
       validates :reason, presence: {message: "Enter a reason for this condition"}
     end

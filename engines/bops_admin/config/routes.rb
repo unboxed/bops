@@ -31,6 +31,7 @@ BopsAdmin::Engine.routes.draw do
     resources :informatives
     resources :requirements
     resources :constraints
+    resources :conditions
   end
 
   scope "/policy" do

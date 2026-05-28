@@ -1,0 +1,10 @@
+<%= form.govuk_error_summary %>
+<%= form.govuk_fieldset(legend: {text: nil}) do %>
+  <%= form.govuk_text_field :title, label: {text: t(".labels.title")} %>
+  <%= form.govuk_text_area :text, width: "one-half", rows: 10, label: {text: t(".labels.text")} %>
+  <%= form.govuk_text_area :reason, width: "one-half", rows: 10, label: {text: t(".labels.reason")} %>
+<% end %>
+
+<%= form.govuk_submit(t(".submit")) do %>
+<%= back_link %>
+<% end %>

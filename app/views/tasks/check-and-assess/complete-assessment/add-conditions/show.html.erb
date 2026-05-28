@@ -34,16 +34,27 @@
 <%= govuk_details(summary_text: "Add condition",
       open: @form.conditions.empty?,
       classes: "govuk-details--borderless govuk-!-margin-top-6") do %>
-  <h3>Add a new condition</h3>
-  <%= form_with model: @form, url: @form.url, data: {controller: "reset-text"} do |form| %>
-    <%= form.govuk_error_summary %>
-    <%= form.govuk_text_field :title, label: {text: "Enter title"} %>
-    <%= form.govuk_text_area :text, label: {text: "Enter condition"}, data: {reset_text_target: "destination"} %>
-    <%= form.govuk_text_area :reason, label: {text: "Enter a reason for this condition"}, data: {reset_text_target: "destination"} %>
-    <div class="govuk-button-group">
-      <%= form.govuk_task_button "Add condition to list", action: "add_condition", secondary: true %>
-    </div>
-  <% end %>
+  <div data-controller="condition-form">
+    <h3>Add a new condition</h3>
+    <%= form_with model: @form, url: @form.url, data: {controller: "reset-text"} do |form| %>
+      <%= form.govuk_error_summary %>
+      <%= form.govuk_text_field :title,
+            label: {text: "Enter title"},
+            hint: {text: "Start typing to find an existing condition or create a new one"},
+            form_group: {data: {condition_form_target: "container"}},
+            data: {condition_form_target: "titleInput"} %>
+
+      <%= form.govuk_text_area :text,
+            label: {text: "Enter condition"},
+            data: {reset_text_target: "destination", condition_form_target: "textInput"} %>
+      <%= form.govuk_text_area :reason,
+            label: {text: "Enter a reason for this condition"},
+            data: {reset_text_target: "destination", condition_form_target: "reasonInput"} %>
+      <div class="govuk-button-group">
+        <%= form.govuk_task_button "Add condition to list", action: "add_condition", secondary: true %>
+      </div>
+    <% end %>
+  </div>
 <% end %>
 
 <%= form_with model: @form, url: @form.url do |form| %>

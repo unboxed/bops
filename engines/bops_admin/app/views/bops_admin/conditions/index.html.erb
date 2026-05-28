@@ -1,0 +1,66 @@
+<% content_for :page_title do %>
+  <%= t(".conditions") %> - <%= t("page_title") %>
+<% end %>
+
+<% add_parent_breadcrumb_link "Home", root_path %>
+
+<% content_for :title, t(".conditions") %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-quarter">
+    <%= render "side_navigation", current: "conditions" %>
+  </div>
+  <div class="govuk-grid-column-three-quarters">
+    <h1>
+      <%= t(".conditions") %>
+    </h1>
+
+    <%= form_with url: conditions_path, class: "govuk-!-margin-bottom-7", method: :get do |form| %>
+      <%= form.govuk_text_field :q, value: params[:q], width: "two-thirds", label: {text: t(".find_conditions"), hidden: true} %>
+      <%= form.govuk_submit t(".find_conditions") do %>
+        <%= govuk_link_to t(".add_condition"), new_condition_path, no_visited_state: true %>
+      <% end %>
+    <% end %>
+
+    <%= govuk_table(id: "conditions") do |table| %>
+      <% table.with_head do |head| %>
+        <% head.with_row do |row| %>
+          <% row.with_cell(text: t("bops_admin.conditions.index.headings.title")) %>
+
+          <% row.with_cell(text: t("bops_admin.conditions.index.headings.text")) %>
+
+          <% row.with_cell(text: t("bops_admin.conditions.index.headings.reason")) %>
+
+          <% row.with_cell(text: t("bops_admin.conditions.index.headings.actions"), classes: %w[govuk-!-text-align-right]) %>
+        <% end %>
+      <% end %>
+
+      <% table.with_body do |body| %>
+        <% if @conditions.present? %>
+          <% @conditions.each do |condition| %>
+            <% body.with_row do |row| %>
+              <% row.with_cell(text: condition.title, header: true) %>
+              <% row.with_cell do %>
+                <span class="line-clamp-3"><%= condition.text %></span>
+              <% end %>
+              <% row.with_cell do %>
+                <span class="line-clamp-3"><%= condition.reason %></span>
+              <% end %>
+              <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
+                <%= govuk_link_to t("bops_admin.conditions.index.actions.edit"), edit_condition_path(condition), no_visited_state: true, no_underline: true %>
+
+                <%= govuk_link_to t("bops_admin.conditions.index.actions.delete"), condition_path(condition), no_visited_state: true, no_underline: true, class: "govuk-!-margin-left-1", method: :delete, data: {confirm: t("bops_admin.conditions.index.are_you_sure")} %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% else %>
+          <% body.with_row do |row| %>
+            <% row.with_cell(text: t("bops_admin.conditions.index.no_conditions_found"), colspan: 4) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
+    <%= govuk_pagination(pagy: @pagy) if @pagy.pages > 1 %>
+  </div>
+</div>
