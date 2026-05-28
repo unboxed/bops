@@ -154,7 +154,7 @@ local_authority_subdomain do
         resource :permitted_development_rights, only: %i[show edit update]
 
         namespace :policy_areas do
-          resources :policy_classes, except: %i[show]
+          resources :policy_classes, only: :destroy
         end
         resources :site_histories, except: %i[new show] do
           post :confirm, on: :collection

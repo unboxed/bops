@@ -228,11 +228,7 @@
       </dl>
       <% if show_edit_links && current_user.assessor? %>
         <p class="govuk-body-s">
-          <% if task.present? %>
-            <%= helpers.govuk_link_to("Edit assessment", task_path(@planning_application, "check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance", return_to: task.url)) %>
-          <% else %>
-            <%= helpers.govuk_link_to("Edit assessment", edit_planning_application_assessment_policy_areas_policy_class_path(@planning_application, pa_policy_class)) %>
-          <% end %>
+          <%= helpers.govuk_link_to("Edit assessment", task_path(@planning_application, "check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance", return_to: task.url)) %>
         </p>
       <% end %>
     <% end %>
