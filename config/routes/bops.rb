@@ -173,7 +173,7 @@ local_authority_subdomain do
             concerns :positionable
           end
         end
-        resources :consideration_guidances, except: %i[show]
+        resources :consideration_guidances, except: %i[show new]
 
         resource :informatives, only: %i[destroy] do
           resources :items, only: %i[update destroy], module: :informatives do
