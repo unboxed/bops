@@ -168,7 +168,7 @@ local_authority_subdomain do
         resources :recommendations, only: %i[new create update]
         resource :recommendations, only: %i[edit]
 
-        resource :considerations, only: %i[show] do
+        resource :considerations, only: %i[edit update] do
           resources :items, only: %i[edit update destroy], module: :considerations do
             concerns :positionable
           end
