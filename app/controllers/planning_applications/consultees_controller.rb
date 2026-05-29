@@ -28,6 +28,7 @@ module PlanningApplications
     def index
       respond_to do |format|
         format.html
+        redirect_to planning_application_consultation_path(@planning_application)
       end
     end
 

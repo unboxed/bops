@@ -174,7 +174,7 @@ local_authority_subdomain do
       end
 
       resources :consultees, only: %i[index create show new] do
-        resources :responses, controller: "consultee/responses", except: %i[show destroy]
+        # resources :responses, controller: "consultee/responses", except: %i[show destroy]
       end
 
       namespace :consultee, as: :consultees do
