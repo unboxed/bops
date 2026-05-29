@@ -18,6 +18,6 @@
 
   <div class="govuk-button-group">
     <%= form.submit "Assign consultees", class: "govuk-button", data: {module: "govuk-button"} %>
-    <%= govuk_button_link_to "Back", route_for(:task, @planning_application, @task), secondary: true %>
+    <%= govuk_button_link_to "Back", @task.url, secondary: true %>
   </div>
 <% end %>

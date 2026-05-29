@@ -72,7 +72,7 @@ module BopsCore
       end
 
       def edit_url
-        route_for(:edit_task, planning_application, task, site_visit_id: planning_application.site_visits.find(site_visit_id), only_path: true)
+        edit_task_path(planning_application, task, site_visit_id: planning_application.site_visits.find(site_visit_id))
       end
 
       def failure_template

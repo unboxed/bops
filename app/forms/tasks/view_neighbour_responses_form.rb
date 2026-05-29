@@ -51,15 +51,15 @@ module Tasks
     attr_reader :neighbour_response, :neighbour_responses, :consultation
 
     def new_neighbour_response_url
-      route_for(:task, planning_application, slug: task.full_slug, new: true, only_path: true)
+      task_path(planning_application, slug: task.full_slug, new: true)
     end
 
     def edit_neighbour_response_url(neighbour_response)
-      route_for(:edit_task_component, planning_application, slug: task.full_slug, id: neighbour_response.id, only_path: true)
+      edit_task_component_path(planning_application, slug: task.full_slug, id: neighbour_response.id)
     end
 
     def update_neighbour_response_url
-      route_for(:task_component, planning_application, slug: task.full_slug, id: neighbour_response.id, only_path: true)
+      task_component_path(planning_application, slug: task.full_slug, id: neighbour_response.id)
     end
 
     def failure_template
