@@ -57,28 +57,6 @@ RSpec.describe "Consultation", show_sidebar: false, type: :system, js: true do
     visit "/planning_applications/#{planning_application.reference}/consultation"
   end
 
-  it "lists constraints on the selection page" do
-    click_link "Add and assign consultees"
-
-    conservation_row = row_with_content("Conservation area")
-    listed_row = row_with_content("Listed building outline")
-
-    expect(conservation_row).to have_text("Assign consultee")
-    expect(listed_row).to have_text("Assign consultee")
-  end
-
-  it "allows adding a consultee" do
-    click_link "Add and assign consultees"
-    choose_consultee(
-      search_term: "Tree Officer",
-      option_text: "Chris Wood (Tree Officer, PlanX Council)"
-    )
-
-    click_button "Add consultee"
-
-    expect(page).to have_selector(".govuk-table__row", text: "Other Chris Wood")
-  end
-
   it "auto assigns consultees mapped to constraints" do
     suggested_contact = create(
       :contact,
@@ -98,8 +76,10 @@ RSpec.describe "Consultation", show_sidebar: false, type: :system, js: true do
 
     click_link "Add and assign consultees"
 
-    row = row_with_content("Historic England")
-    expect(row).to have_text("Conservation area Historic England")
+    within(".govuk-summary-card:nth-of-type(3)") do
+      expect(page).to have_content("Conservation area")
+      expect(page).to have_content("Historic England")
+    end
   end
 
   it "shows consultees linked to constraints via the admin interface" do
@@ -128,166 +108,75 @@ RSpec.describe "Consultation", show_sidebar: false, type: :system, js: true do
 
     click_link "Add and assign consultees"
 
-    row = row_with_content("Historic England")
-    expect(row).to have_text("Conservation area Historic England")
-  end
-
-  it "allows associating a consultee with a constraint" do
-    click_link "Add and assign consultees"
-
-    choose_consultee(
-      search_term: "Tree Officer",
-      option_text: "Chris Wood (Tree Officer, PlanX Council)"
-    )
-    click_button "Add consultee"
-
-    within(row_with_content("Conservation area")) do
-      click_link "Assign consultee"
+    within(".govuk-summary-card:nth-of-type(3)") do
+      expect(page).to have_content("Conservation area")
+      expect(page).to have_content("Historic England")
     end
-    expect(page).to have_unchecked_field("Chris Wood")
-    check "Chris Wood"
-    click_button "Assign consultees"
-
-    row = row_with_content("Chris Wood")
-    expect(row).to have_text("Chris Wood")
-    expect(row).to have_selector(".govuk-tag", text: "Not consulted")
-  end
-
-  it "keeps existing consultees when toggling consultation required from the overview" do
-    click_link "Add and assign consultees"
-
-    choose_consultee(
-      search_term: "Tree Officer",
-      option_text: "Chris Wood (Tree Officer, PlanX Council)"
-    )
-    click_button "Add consultee"
-
-    within(row_with_content("Conservation area")) do
-      click_link "Assign consultee"
-    end
-    expect(page).to have_unchecked_field("Chris Wood")
-    check "Chris Wood"
-    click_button "Assign consultees"
-
-    expect(page).to have_selector("tbody tr", text: "Chris Wood")
-
-    within ".consultee-selection" do
-      uncheck "Conservation area", allow_label_click: true
-    end
-
-    row = row_with_content("Conservation area")
-    expect(row).to have_text("Chris Wood")
-    expect(row).to have_selector(".govuk-tag", text: "Not required")
-
-    within ".consultee-selection" do
-      check "Conservation area", allow_label_click: true
-    end
-
-    row = row_with_content("Conservation area")
-    expect(row).to have_text("Chris Wood")
   end
 
   it "allows assigning multiple consultees and removing one" do
     click_link "Add and assign consultees"
 
-    choose_consultee(
-      search_term: "Tree Officer",
-      option_text: "Chris Wood (Tree Officer, PlanX Council)"
-    )
-    click_button "Add consultee"
-    expect(page).to have_selector(".govuk-table__row", text: "Chris Wood")
-
-    choose_consultee(
-      search_term: "Consultations",
-      option_text: "Consultations (Planning Department, GLA)"
-    )
-    click_button "Add consultee"
-
-    within(row_with_content("Conservation area")) do
-      click_link "Assign consultee"
+    within(".govuk-summary-card:nth-of-type(1)") do
+      expect(page).to have_content("Unassigned")
+      click_link("Change")
     end
 
-    expect(page).to have_unchecked_field("Chris Wood")
-    expect(page).to have_unchecked_field("Consultations")
-    check "Chris Wood"
-    check "Consultations"
-    click_button "Assign consultees"
+    expect(page).to have_selector("h1", text: "Conservation area")
+    within_fieldset "Is consultation needed for this constraint?" do
+      expect(page).to have_checked_field("Yes")
 
-    row = row_with_content("Conservation area")
-    expect(row).to have_content("Chris Wood")
-    expect(row).to have_content("Consultations")
+      fill_in "Search for a consultee", with: "Chris Wood"
+      expect(page).to have_selector("#add-consultee__listbox li:first-child", text: "Chris Wood (Tree Officer, PlanX Council)")
 
-    within(row) do
-      click_link "Remove", match: :first
+      pick "Chris Wood (Tree Officer, PlanX Council)", from: "#add-consultee"
+      expect(page).to have_field("Search for a consultee", with: "Chris Wood")
+
+      click_button "Assign"
     end
 
-    expect(row).not_to have_content("Chris Wood")
-    expect(row).to have_content("Consultations")
-  end
+    fill_in "Search for a consultee", with: "Consultations"
+    pick "Consultations (Planning Department, GLA)", from: "#add-consultee"
 
-  it "allows marking a constraint as requiring consultation" do
-    click_link "Add and assign consultees"
+    click_button "Assign"
 
-    choose_consultee(
-      search_term: "Tree Officer",
-      option_text: "Chris Wood (Tree Officer, PlanX Council)"
-    )
-    click_button "Add consultee"
+    click_button "Save and return"
 
-    within(row_with_content("Conservation area")) do
-      click_link "Assign consultee"
+    within(".govuk-summary-card:nth-of-type(1)") do
+      expect(page).not_to have_content("Unassigned")
+      expect(page).to have_content("Chris Wood, Tree Officer")
+      expect(page).to have_content("Consultations, Planning Department")
+
+      click_link "Change"
     end
-    expect(page).to have_field("Consultation required?")
 
-    check "Consultation required?"
-    click_button "Assign consultees"
+    within_fieldset "Is consultation needed for this constraint?" do
+      accept_confirm do
+        first(:link, "Remove").click
+      end
+    end
 
-    expect(page).not_to have_selector(".govuk-table__row", text: "Not required")
+    expect(page).to have_content("Consultee was successfully removed from constraint")
+
+    click_button "Save and return"
+
+    within(".govuk-summary-card:nth-of-type(1)") do
+      expect(page).not_to have_content("Chris Wood, Tree Officer")
+      expect(page).to have_content("Consultations, Planning Department")
+    end
   end
 
   it "allows marking a constraint as not requiring consultation" do
-    click_link "Add and assign consultees"
-
-    choose_consultee(
-      search_term: "Tree Officer",
-      option_text: "Chris Wood (Tree Officer, PlanX Council)"
-    )
-    click_button "Add consultee"
-
-    within(row_with_content("Conservation area")) do
-      click_link "Assign consultee"
+    within(".govuk-summary-card:nth-of-type(1)") do
+      expect(page).to have_content("Unassigned")
+      click_link("Change")
     end
-    expect(page).to have_field("Consultation required?")
 
-    uncheck "Consultation required?"
-    click_button "Assign consultees"
-
-    within(row_with_content("Conservation area")) do
-      expect(page).to have_link("Assign consultee")
-      expect(page).to have_selector(".govuk-tag", text: "Not assigned")
-      expect(page).to have_selector(".govuk-tag", text: "Not required")
+    within_fieldset "Is consultation needed for this constraint?" do
+      choose "No"
     end
-  end
 
-  it "allows marking a constraint as not requiring consultation even with a consultee associated" do
-    click_link "Add and assign consultees"
-
-    choose_consultee(
-      search_term: "Tree Officer",
-      option_text: "Chris Wood (Tree Officer, PlanX Council)"
-    )
-    click_button "Add consultee"
-
-    within(row_with_content("Conservation area")) do
-      click_link "Assign consultee"
-    end
-    expect(page).to have_unchecked_field("Chris Wood")
-    check "Chris Wood"
-    uncheck "Consultation required?"
-    click_button "Assign consultees"
-
-    row = row_with_content("Chris Wood")
-    expect(row).to have_selector(".govuk-tag", text: "Not consulted")
-    expect(row).to have_selector(".govuk-tag", text: "Not required")
+    click_button "Save and return"
+    expect(page).to have_content("Not needed")
   end
 end
