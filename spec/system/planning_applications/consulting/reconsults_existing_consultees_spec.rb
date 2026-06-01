@@ -200,7 +200,6 @@ RSpec.describe "Consultation", show_sidebar: false, type: :system, js: true do
         user_id: assessor.id,
         activity_type: "consultees_reconsulted"
       )).to exist
-
     end.to have_enqueued_job(SendConsulteeEmailJob).exactly(:once)
 
     external =

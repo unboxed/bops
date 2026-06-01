@@ -3,10 +3,6 @@
 require "rails_helper"
 require "faraday"
 
-def toggle_accordion(text)
-  find_all("span", text:).first.click
-end
-
 RSpec.describe "View history of letters to neighbours", show_sidebar: false, type: :system do
   let(:api_user) { create(:api_user, :planx) }
   let(:local_authority) { create(:local_authority, :default) }
@@ -45,24 +41,18 @@ RSpec.describe "View history of letters to neighbours", show_sidebar: false, typ
     end
 
     sign_in assessor
-    visit "/planning_applications/#{planning_application.reference}/consultation"
+    visit "/planning_applications/#{planning_application.reference}/consultation/neighbour_letter_batches"
   end
 
   it "is accessible" do
-    toggle_accordion "Consultation audit log"
-    click_on "View copy of neighbour letters"
     expect(page).to have_content "Copy of neighbour letters"
   end
 
   it "contains an accordion" do
-    toggle_accordion "Consultation audit log"
-    click_on "View copy of neighbour letters"
     expect(page).to have_content "Neighbour letter 1"
   end
 
   it "contains a list of letters in the accordion" do
-    toggle_accordion "Consultation audit log"
-    click_on "View copy of neighbour letters"
     click_button "Neighbour letter 1"
 
     neighbours.each do |neighbour|
@@ -71,8 +61,6 @@ RSpec.describe "View history of letters to neighbours", show_sidebar: false, typ
   end
 
   it "can access a pdf containing the text of the letter", pending: "grover seems weird in tests" do
-    toggle_accordion "Consultation audit log"
-    click_on "View copy of neighbour letters"
     click_button "Neighbour letter 1"
 
     click_on "Download letter"
@@ -80,9 +68,6 @@ RSpec.describe "View history of letters to neighbours", show_sidebar: false, typ
   end
 
   it "can access a csv containing the neighbours and the dates they were contacted" do
-    toggle_accordion "Consultation audit log"
-    click_on "View copy of neighbour letters"
-
     click_on "Download all as CSV"
     expect(page.html.lines.first.encode("utf-8")).to eq(%("address","batch","date"\n))
     neighbours.each do |neighbour|

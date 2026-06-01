@@ -137,6 +137,67 @@ RSpec.describe "View neighbour responses task", type: :system, js: true do
     expect(NeighbourResponse.count).to eq(0)
   end
 
+  it "allows planning officer to upload and redact a neighbour response" do
+    click_link "Add neighbour response"
+
+    fill_in "Name", with: "Matt Neighbour"
+    fill_in "Email", with: "matt@email.com"
+    select(neighbour.address.to_s, from: "Select an existing neighbour address")
+    fill_in "Day", with: "21"
+    fill_in "Month", with: "1"
+    fill_in "Year", with: "2026"
+    fill_in "Response", with: "This proposal will block my sunlight and I hate my neighbour."
+    choose "An objection"
+
+    click_button "Save response"
+    click_button "Objection responses (1)"
+
+    within(".neighbour-response-content") do
+      expect(page).to have_content("Matt Neighbour")
+      expect(page).to have_content("matt@email.com")
+      expect(page).to have_content(neighbour.address.to_s)
+      expect(page).to have_content("Objection")
+      expect(page).to have_content("Adjoining neighbour")
+    end
+
+    click_link "Redact and publish"
+
+    fill_in "Redacted comment", with: "This proposal will block my sunlight [redacted]."
+    click_button "Save and publish"
+
+    click_button "Objection responses (1)"
+
+    within(".neighbour-response-content") do
+      expect(page).to have_content("This proposal will block my sunlight [redacted].")
+    end
+
+    expect(page).to have_content("Redacted by: #{assessor.name}")
+  end
+
+  it "shows documents associated with responses" do
+    click_link "Add neighbour response"
+
+    fill_in "Name", with: "Sarah Neighbour"
+    fill_in "Email", with: "sarah@email.com"
+    select(neighbour.address.to_s, from: "Select an existing neighbour address")
+    fill_in "Day", with: "21"
+    fill_in "Month", with: "1"
+    fill_in "Year", with: "2026"
+    fill_in "Response", with: "I think this proposal looks great"
+    choose "Supportive"
+    attach_file("Upload documents", "spec/fixtures/files/images/proposed-floorplan.png")
+
+    click_button "Save response"
+    click_button "Supportive responses (1)"
+
+    expect(page).to have_content("Sarah Neighbour")
+    expect(page).to have_content(neighbour.address.to_s)
+    expect(page).to have_content("proposed-floorplan")
+
+    visit "/planning_applications/#{planning_application.reference}/documents"
+    expect(page).not_to have_content("proposed-floorplan.png")
+  end
+
   it "allows planning officer to edit neighbour responses" do
     click_link "Add neighbour response"
 
@@ -205,6 +266,41 @@ RSpec.describe "View neighbour responses task", type: :system, js: true do
 
       click_button "Supportive responses (1)"
       expect(page).to have_content("Redacted by: #{assessor.name}")
+    end
+
+    it "shows redaction guidelines and allows reset of the redacted comment" do
+      click_link "Redact and publish"
+
+      expect(page).to have_content("Comment submitted by")
+      expect(page).to have_content(neighbour_response.name.to_s)
+      expect(page).to have_content(neighbour_response.email.to_s)
+      expect(page).to have_content(neighbour.address.to_s)
+      expect(page).to have_content("It will be too noisy, I hate my neighbour!")
+
+      within(".govuk-details") do
+        within(".govuk-details__summary") do
+          expect(page).to have_content("What you need to redact")
+        end
+
+        within(".govuk-details__text") do
+          expect(page).to have_content("You need to redact any:")
+          expect(page).to have_content("Personal data")
+          expect(page).to have_content("Names")
+          expect(page).to have_content("Third party address")
+          expect(page).to have_content("Contact information")
+          expect(page).to have_content("Personal details")
+          expect(page).to have_content("Special category data")
+        end
+      end
+
+      expect(page).to have_content("This is the full text of the comment before redaction.")
+      expect(page).to have_selector("#neighbour-response-response-field[readonly]")
+      expect(page).to have_content("Replace text you want to redact with [redacted] then save to publish the comment.")
+
+      fill_in "Redacted comment", with: "It will be too noisy, [redaction]"
+      click_button "Reset comment"
+
+      expect(find_by_id("neighbour_response_redacted_response").value).to eq("It will be too noisy, I hate my neighbour!")
     end
 
     it "allows planning officer to save and complete the task" do
