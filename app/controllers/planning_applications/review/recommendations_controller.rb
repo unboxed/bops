@@ -39,6 +39,8 @@ module PlanningApplications
         respond_to do |format|
           format.html do
             if @recommendation.save_and_review(recommendation_params)
+              reset_assessment_tasks! if return_to_officer?
+
               redirect_to after_save_and_review_location_url, notice: t(".success")
             else
               render :edit
@@ -91,6 +93,10 @@ module PlanningApplications
 
       def committee_overturned_status
         params[:recommendation][:challenged] == "committee_overturned"
+      end
+
+      def return_to_officer?
+        @recommendation.rejected? && !@recommendation.committee_overturned?
       end
 
       def after_save_and_review_location_url
