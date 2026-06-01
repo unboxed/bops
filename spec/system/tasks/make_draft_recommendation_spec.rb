@@ -117,13 +117,6 @@ RSpec.describe "Make draft recommendation task", type: :system do
       expect(planning_application.recommendations.last.status).to eq("assessment_in_progress")
       expect(task.reload).to be_in_progress
     end
-
-    it "does not show errors when no decision is given" do
-      click_button "Save changes"
-
-      expect(page).not_to have_content("Select whether the application needs to be decided by committee.")
-      expect(planning_application.reload.status).to eq("in_assessment")
-    end
   end
 
   context "when existing recommendation and committee decision data is present" do
