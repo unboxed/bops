@@ -215,7 +215,7 @@ RSpec.describe "Planning Application Assessment" do
           within(".govuk-notification-banner--alert") do
             expect(page).to have_content("Confirm the site notice displayed at date before determining the application")
             expect(page).to have_link(
-              "Confirm the site notice displayed at date", href: edit_planning_application_site_notice_path(planning_application, site_notice)
+              "Confirm the site notice displayed at date", href: edit_task_component_path(planning_application, slug: "consultees-neighbours-and-publicity/publicity/site-notice", id: site_notice.id)
             )
           end
         end
@@ -241,7 +241,7 @@ RSpec.describe "Planning Application Assessment" do
           within(".govuk-notification-banner--alert") do
             expect(page).to have_content("Confirm the press notice published at date before determining the application")
             expect(page).to have_link(
-              "Confirm the press notice published at date", href: "/planning_applications/#{planning_application.reference}/press_notice/confirmation"
+              "Confirm the press notice published at date", href: edit_task_component_path(planning_application, slug: "consultees-neighbours-and-publicity/publicity/press-notice", id: press_notice.id)
             )
           end
         end
