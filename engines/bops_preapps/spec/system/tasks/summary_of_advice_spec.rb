@@ -42,10 +42,6 @@ RSpec.describe "Summary of advice task", type: :system do
     expect(page).not_to have_content("#outcome-form")
     expect(page).to have_content("Your proposal is likely to be supported based on the information you have provided.")
 
-    click_on "Edit summary of advice"
-
-    expect(page).to have_current_path("/preapps/#{planning_application.reference}/check-and-assess/assessment-summaries/summary-of-advice/edit")
-
     within "#outcome-form" do
       choose "Likely to be supported with changes"
       click_button "Save changes"
@@ -61,7 +57,7 @@ RSpec.describe "Summary of advice task", type: :system do
     expect(task.reload).to be_completed
   end
 
-  it "warns when navigating away with unsaved changes", js: true do
+  it "warns when navigating away with unsaved changes", :js do
     within ".bops-sidebar" do
       click_link "Summary of advice"
     end

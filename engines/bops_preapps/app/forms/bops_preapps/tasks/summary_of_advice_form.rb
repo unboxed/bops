@@ -8,6 +8,8 @@ module BopsPreapps
       attribute :summary_tag
       attribute :entry
 
+      validates :summary_tag, :entry, presence: true
+
       after_initialize do
         @assessment_detail = planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice)
       end
