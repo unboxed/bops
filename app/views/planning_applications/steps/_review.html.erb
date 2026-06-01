@@ -26,7 +26,7 @@
     <% if current_user.reviewer? %>
       <% task_list.with_item(
            title: "Review and sign-off",
-           href: (@planning_application.awaiting_determination? || @planning_application.in_committee?) && planning_application_review_tasks_path(@planning_application),
+           href: planning_application_review_tasks_path(@planning_application),
            html_attributes: {aria: {describedby: "review_assessment-completed"}}
          ) do |item| %>
         <% item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user))) %>

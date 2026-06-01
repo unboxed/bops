@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing assessment against policies and guidance", :js, show_sidebar: false, type: :system do
+RSpec.describe "Reviewing assessment against policies and guidance", :js, type: :system do
   let!(:local_authority) { create(:local_authority, :default, planning_policy_and_guidance: "http://example.com") }
   let!(:api_user) { create(:api_user, :validation_requests_ro, local_authority:) }
   let!(:assessor) { create(:user, :assessor, local_authority:, name: "Anne Assessor") }
@@ -27,59 +27,13 @@ RSpec.describe "Reviewing assessment against policies and guidance", :js, show_s
     before do
       travel_to Time.zone.local(2024, 7, 23, 11)
 
-      sign_in(assessor)
-      visit "/planning_applications/#{reference}/assessment/tasks"
-      within "#main-content" do
-        click_link "Assess against policies and guidance"
-      end
-
-      expect(page).to have_selector("h1", text: "Assess against policies and guidance")
-      within_fieldset("Add a new consideration") do
-        with_retry do
-          fill_in "Enter policy area", with: "Design"
-          expect(page).to have_selector(:autoselect_option, ["#consideration-policy-area-field", "Design"])
-
-          pick "Design", from: "#consideration-policy-area-field"
-        end
-
-        with_retry do
-          fill_in "Enter policy references", with: "Wall"
-          expect(page).to have_selector(:autoselect_option, ["#policyReferencesAutoComplete", "PP100 - Wall materials"])
-
-          pick "PP100 - Wall materials", from: "#policyReferencesAutoComplete"
-        end
-
-        with_retry do
-          fill_in "Enter policy references", with: "Roofing"
-          expect(page).to have_selector(:autoselect_option, ["#policyReferencesAutoComplete", "PP101 - Roofing materials"])
-
-          pick "PP101 - Roofing materials", from: "#policyReferencesAutoComplete"
-        end
-
-        with_retry do
-          fill_in "Enter policy guidance", with: "Design"
-          expect(page).to have_selector(:autoselect_option, ["#policyGuidanceAutoComplete", "Design Guidance"])
-
-          pick "Design Guidance", from: "#policyGuidanceAutoComplete"
-        end
-
-        fill_in "Enter assessment", with: "Uses red brick with grey slates"
-        fill_in "Enter conclusion", with: "Complies with design guidance policies"
-      end
-
-      click_button "Add consideration"
-      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/considerations/edit")
-      expect(page).to have_content("Consideration was successfully added")
-
-      within "main ol" do
-        within "li:nth-of-type(1)" do
-          expect(page).to have_selector("h2", text: "Design")
-        end
-      end
-
-      click_button "Save and mark as complete"
-      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-      expect(page).to have_content("Assessment against local policies was successfully saved")
+      create(:consideration,
+        policy_area: "Design",
+        policy_references: [{code: "PP100", reference: "Wall materials"}, {code: "PP101", reference: "Roofing materials"}],
+        assessment: "Uses red brick with grey slates",
+        conclusion: "Complies with design guidance policies",
+        consideration_set: planning_application.consideration_set)
+      consideration_set.current_review.complete!
 
       sign_in(reviewer)
       visit "/planning_applications/#{reference}/review/tasks"
@@ -261,33 +215,25 @@ RSpec.describe "Reviewing assessment against policies and guidance", :js, show_s
       travel_to Time.zone.local(2024, 7, 23, 12)
       sign_in(assessor)
 
-      visit "/planning_applications/#{reference}/assessment/tasks"
+      visit "/planning_applications/#{reference}/assessment"
 
-      within "#main-content" do
-        expect(page).to have_list_item_for("Assess against policies and guidance", with: "To be reviewed")
-
-        click_link "Assess against policies and guidance"
-      end
+      click_link "Assess against policies and guidance"
 
       expect(page).to have_selector("h1", text: "Assess against policies and guidance")
       expect(page).to have_content("Please provide more details about the design of the property")
       expect(page).to have_content("Sent on 23 July 2024 11:00 by Ray Reviewer")
 
       click_link "Edit"
-      expect(page).to have_selector("h1", text: "Edit consideration")
 
       fill_in "Enter assessment", with: "Uses yellow brick with grey slates"
 
       click_button "Save consideration"
-      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/considerations/edit")
-      expect(page).to have_content("Consideration was successfully saved")
+      expect(page).to have_current_path("/planning_applications/#{reference}/check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance")
+      expect(page).to have_content("Policy area assessment successfully added")
 
       click_button "Save and mark as complete"
-      expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
-      expect(page).to have_content("Assessment against local policies was successfully saved")
-      within "#main-content" do
-        expect(page).to have_list_item_for("Assess against policies and guidance", with: "Updated")
-      end
+      expect(page).to have_current_path("/planning_applications/#{reference}/check-and-assess/assess-against-policies-and-guidance/assess-against-policies-and-guidance")
+      expect(page).to have_content("Policy area assessment successfully added")
 
       travel_to Time.zone.local(2024, 7, 23, 13)
       sign_in(reviewer)

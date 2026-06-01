@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system do
+RSpec.describe "Review workflow consistency", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
   let(:assessor) { create(:user, :assessor, local_authority:, name: "Alice Smith") }
   let(:reviewer) { create(:user, :reviewer, local_authority:, name: "Bella Jones") }
@@ -10,7 +10,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
   let(:comment_text) { "Please revise this" }
 
   let(:assessor_task_slug) { nil }
-  let(:assessor_task_label) { nil }
   let(:revised_entry) { nil }
 
   shared_examples "a consistent review task" do
@@ -37,11 +36,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
 
       if assessor_task_slug
         switch_user(assessor)
-
-        if assessor_task_label
-          visit "/planning_applications/#{reference}/assessment/tasks"
-          expect(page).to have_list_item_for(assessor_task_label, with: "To be reviewed")
-        end
 
         visit "/planning_applications/#{reference}/#{assessor_task_slug}"
         within(".comment-component") do
@@ -84,7 +78,6 @@ RSpec.describe "Review workflow consistency", show_sidebar: false, type: :system
       let(:section_id) { "summary_of_work_section" }
       let(:accept_label) { "Accept" }
       let(:assessor_task_slug) { "check-and-assess/assessment-summaries/summary-of-works" }
-      let(:assessor_task_label) { "Summary of works" }
       let(:revised_entry) { "Updated summary" }
 
       before do

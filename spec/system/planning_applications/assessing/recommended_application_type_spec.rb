@@ -16,7 +16,7 @@ RSpec.describe "Recommended application type assessment task" do
     end
 
     it "does not have a section to recommended application type" do
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+      visit "/planning_applications/#{planning_application.reference}/assessment"
 
       expect(page).not_to have_css("#choose-application-type")
       expect(page).not_to have_content("Choose application type")

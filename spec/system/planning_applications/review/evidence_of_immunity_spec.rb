@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing evidence of immunity", show_sidebar: false, type: :system do
+RSpec.describe "Reviewing evidence of immunity", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
 
   let(:reviewer) do
@@ -109,13 +109,7 @@ RSpec.describe "Reviewing evidence of immunity", show_sidebar: false, type: :sys
         end
         click_link "Check and assess"
 
-        within("#assess-immunity-tasks") do
-          expect(page).to have_list_item_for(
-            "Evidence of immunity",
-            with: "To be reviewed"
-          )
-        end
-        click_link "Evidence of immunity", class: "app-task-list__link"
+        click_link "Evidence of immunity"
 
         expect(page).to have_content("Please re-assess")
       end

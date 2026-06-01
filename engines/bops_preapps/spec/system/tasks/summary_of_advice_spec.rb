@@ -10,7 +10,7 @@ RSpec.describe "Summary of advice task", type: :system do
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
   end
 
   it "highlights the active task in the sidebar" do

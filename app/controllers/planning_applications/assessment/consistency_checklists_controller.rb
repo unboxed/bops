@@ -25,7 +25,7 @@ module PlanningApplications
           update_proposal_measurements
 
           redirect_to(
-            planning_application_assessment_tasks_path(@planning_application),
+            planning_application_assessment_path(@planning_application),
             notice: t(".successfully_updated_application")
           )
         else
@@ -99,7 +99,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        params[:return_to].presence || planning_application_assessment_tasks_path(@planning_application)
+        params[:return_to].presence || planning_application_assessment_path(@planning_application)
       end
     end
   end

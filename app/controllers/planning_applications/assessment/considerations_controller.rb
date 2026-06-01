@@ -8,32 +8,6 @@ module PlanningApplications
       before_action :set_consideration
       before_action :set_review
 
-      def create
-        @consideration.submitted_by = current_user
-
-        respond_to do |format|
-          format.html do
-            if @consideration.update(consideration_params, :assess)
-              redirect_to edit_planning_application_assessment_considerations_path(@planning_application), notice: t(".success")
-            else
-              render :edit
-            end
-          end
-        end
-      end
-
-      def show
-        respond_to do |format|
-          format.html do
-            if @review.complete?
-              render :show
-            else
-              redirect_to edit_planning_application_assessment_considerations_path(@planning_application)
-            end
-          end
-        end
-      end
-
       def edit
         respond_to do |format|
           format.html
@@ -85,7 +59,7 @@ module PlanningApplications
       end
 
       def return_path
-        params[:return_to].presence || planning_application_assessment_tasks_path(@planning_application)
+        params[:return_to].presence || planning_application_assessment_path(@planning_application)
       end
     end
   end

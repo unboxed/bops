@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing pre-commencement conditions", show_sidebar: false, type: :system do
+RSpec.describe "Reviewing pre-commencement conditions", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
@@ -105,16 +105,9 @@ RSpec.describe "Reviewing pre-commencement conditions", show_sidebar: false, typ
 
         switch_user(assessor)
 
-        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment"
 
-        within("#complete-assessment-tasks") do
-          expect(page).to have_list_item_for(
-            "Add pre-commencement conditions",
-            with: "To be reviewed"
-          )
-
-          click_link "Add pre-commencement conditions"
-        end
+        click_link "Add pre-commencement conditions"
 
         expect(page).to have_content("I don't think you've assessed conditions correctly")
 

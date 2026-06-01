@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning Application show page", show_sidebar: false, type: :system do
+RSpec.describe "Planning Application show page", type: :system do
   let(:default_local_authority) { create(:local_authority, :default) }
   let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
   let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -35,29 +35,7 @@ RSpec.describe "Planning Application show page", show_sidebar: false, type: :sys
       end
 
       within "#assess-section" do
-        click_link "Check and assess"
-      end
-
-      within "#complete-assessment-tasks" do
-        expect(page).to have_link("Make draft recommendation")
-        expect(list_item("Make draft recommendation")).not_to have_content("Completed")
-        expect(page).not_to have_link("Review and submit recommendation")
-      end
-    end
-
-    it "makes valid task list for when it in assessment and a proposal has been created" do
-      planning_application = create(:planning_application, local_authority: default_local_authority)
-      create(:recommendation, planning_application:, submitted: true)
-      visit "/planning_applications/#{planning_application.reference}"
-
-      within "#assess-section" do
-        click_link "Check and assess"
-      end
-
-      within "#complete-assessment-tasks" do
-        expect(page).to have_link("Make draft recommendation")
-        expect(list_item("Make draft recommendation")).to have_content("In progress")
-        expect(page).to have_link("Review and submit recommendation")
+        expect(page).to have_link("Check and assess")
       end
     end
 
@@ -69,20 +47,6 @@ RSpec.describe "Planning Application show page", show_sidebar: false, type: :sys
       within "#validation-section" do
         expect(page).to have_content("Completed")
       end
-
-      within "#assess-section" do
-        click_link "Check and assess"
-      end
-
-      within "#complete-assessment-tasks" do
-        expect(page).not_to have_link("Make draft recommendation")
-        expect(page).to have_content("Completed")
-
-        expect(page).not_to have_link("Review and submit recommendation")
-        expect(page).to have_content("Completed")
-      end
-
-      visit "/planning_applications/#{planning_application.reference}"
 
       within "#review-section" do
         expect(page).to have_link("Review and sign-off")
@@ -126,15 +90,6 @@ RSpec.describe "Planning Application show page", show_sidebar: false, type: :sys
         expect(page).to have_link("Check and validate")
         expect(page).to have_content("Completed")
       end
-
-      within "#assess-section" do
-        click_link "Check and assess"
-      end
-
-      within "#complete-assessment-tasks" do
-        expect(page).to have_link("Make draft recommendation")
-        expect(list_item("Make draft recommendation")).not_to have_content("Completed")
-      end
     end
 
     it "makes valid task list for when it is to be reviewed and a re-proposal has been made" do
@@ -148,19 +103,6 @@ RSpec.describe "Planning Application show page", show_sidebar: false, type: :sys
         expect(page).to have_link("Check and validate")
         expect(page).to have_content("Completed")
       end
-
-      within "#assess-section" do
-        click_link "Check and assess"
-      end
-
-      within "#complete-assessment-tasks" do
-        expect(page).to have_link("Make draft recommendation")
-        expect(list_item("Make draft recommendation")).not_to have_content("Completed")
-        expect(page).to have_content("Complete")
-        expect(page).to have_link("Review and submit recommendation")
-      end
-
-      visit "/planning_applications/#{planning_application.reference}"
 
       within "#assess-section" do
         expect(list_item("Check and assess")).to have_content("Completed")
@@ -183,15 +125,8 @@ RSpec.describe "Planning Application show page", show_sidebar: false, type: :sys
       end
 
       within "#assess-section" do
-        click_link "Check and assess"
+        expect(page).to have_content("In progress")
       end
-
-      within "#complete-assessment-tasks" do
-        expect(page).not_to have_link("Review and submit recommendation")
-        expect(page).to have_content("Completed")
-      end
-
-      visit "/planning_applications/#{planning_application.reference}"
 
       within "#review-section" do
         expect(page).not_to have_link("Review and sign-off")

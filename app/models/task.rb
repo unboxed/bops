@@ -17,6 +17,7 @@ class Task < ApplicationRecord
     state :in_progress, :completed, :cannot_start_yet, :action_required
 
     event :start do
+      transitions from: :action_required, to: :action_required
       transitions from: :completed, to: :completed
       transitions from: %i[not_started in_progress], to: :in_progress
     end

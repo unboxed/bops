@@ -65,7 +65,7 @@
         <% else %>
           <%= form.submit t("form_actions.term.confirm"), class: "govuk-button" %>
         <% end %>
-        <%= govuk_button_link_to("Back", planning_application_assessment_tasks_path(@planning_application), secondary: true) %>
+        <%= govuk_button_link_to("Back", planning_application_assessment_path(@planning_application), secondary: true) %>
       <% end %>
     </div>
   </div>

@@ -16,7 +16,7 @@ RSpec.describe "Permitted development rights task", type: :system do
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
   end
 
   it "shows the task in the sidebar with not started status" do

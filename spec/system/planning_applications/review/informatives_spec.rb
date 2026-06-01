@@ -2,10 +2,10 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing informatives", :js, show_sidebar: false, type: :system do
-  let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority, name: "Anne Assessor") }
-  let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority, name: "Ray Reviewer") }
+RSpec.describe "Reviewing informatives", :js, type: :system do
+  let!(:local_authority) { create(:local_authority, :default) }
+  let!(:assessor) { create(:user, :assessor, local_authority:) }
+  let!(:reviewer) { create(:user, :reviewer, local_authority:) }
 
   let(:current_review) { planning_application.informative_set.current_review }
   let(:reference) { planning_application.reference }
@@ -169,7 +169,7 @@ RSpec.describe "Reviewing informatives", :js, show_sidebar: false, type: :system
           click_button("Review informatives")
           click_link("Rearrange informatives")
 
-          expect(page).to have_content("Assessment accepted by Ray Reviewer, 20 May 2024")
+          expect(page).to have_content("Assessment accepted by #{reviewer.name}, 20 May 2024")
         end
 
         it "I can return to the planning officer with a comment" do
@@ -202,20 +202,17 @@ RSpec.describe "Reviewing informatives", :js, show_sidebar: false, type: :system
           click_link("Rearrange informatives")
 
           expect(page).to have_selector("h1", text: "Review informatives")
-          expect(page).to have_content("Assessment rejected by Ray Reviewer, 20 May 2024")
+          expect(page).to have_content("Assessment rejected by #{reviewer.name}, 20 May 2024")
 
           travel_to Time.zone.local(2024, 5, 20, 12)
           sign_in(assessor)
 
-          visit "/planning_applications/#{reference}/assessment/tasks"
-          within "#main-content" do
-            expect(page).to have_list_item_for("Add informatives", with: "To be reviewed")
-            click_link "Add informatives"
-          end
+          visit "/planning_applications/#{reference}/assessment"
+          click_link "Add informatives"
 
           expect(page).to have_selector("h1", text: "Add informatives")
           expect(page).to have_content("Please provide more details about the Section 106 agreement")
-          expect(page).to have_content("Sent on 20 May 2024 11:00 by Ray Reviewer")
+          expect(page).to have_content("Sent on 20 May 2024 11:00 by #{reviewer.name}")
 
           within("ol.sortable-list li:first-child") do
             click_link "Edit"
@@ -223,18 +220,15 @@ RSpec.describe "Reviewing informatives", :js, show_sidebar: false, type: :system
 
           expect(page).to have_selector("h1", text: "Edit informative")
 
-          fill_in "Enter a title", with: "Updated Section 106"
+          fill_in "Enter title", with: "Updated Section 106"
           fill_in "Enter details of the informative", with: "An updated Section 106 agreement will be required"
 
           click_button "Save informative"
-          expect(page).to have_content("Informative was successfully saved")
+          expect(page).to have_content("Informative was successfully updated")
 
           click_button "Save and mark as complete"
-          expect(page).to have_current_path("/planning_applications/#{reference}/assessment/tasks")
+          expect(page).to have_current_path("/planning_applications/#{reference}/check-and-assess/complete-assessment/add-informatives")
           expect(page).to have_content("Informatives were successfully saved")
-          within "#main-content" do
-            expect(page).to have_list_item_for("Add informatives", with: "Updated")
-          end
 
           travel_to Time.zone.local(2024, 5, 20, 13)
           sign_in(reviewer)
@@ -267,7 +261,7 @@ RSpec.describe "Reviewing informatives", :js, show_sidebar: false, type: :system
           click_button("Review informatives")
           click_link("Rearrange informatives")
 
-          expect(page).to have_content("Assessment accepted by Ray Reviewer, 20 May 2024")
+          expect(page).to have_content("Assessment accepted by #{reviewer.name}, 20 May 2024")
         end
       end
     end
@@ -275,7 +269,7 @@ RSpec.describe "Reviewing informatives", :js, show_sidebar: false, type: :system
 
   context "when the application is a full planning permission" do
     let!(:planning_application) do
-      create(:planning_application, :planning_permission, :awaiting_determination, :with_recommendation, local_authority: default_local_authority)
+      create(:planning_application, :planning_permission, :awaiting_determination, :with_recommendation, local_authority:)
     end
 
     it_behaves_like "an application type that supports informatives"
@@ -283,7 +277,7 @@ RSpec.describe "Reviewing informatives", :js, show_sidebar: false, type: :system
 
   context "when the application is a LDC for a proposed development" do
     let!(:planning_application) do
-      create(:planning_application, :ldc_proposed, :awaiting_determination, :with_recommendation, local_authority: default_local_authority)
+      create(:planning_application, :ldc_proposed, :awaiting_determination, :with_recommendation, local_authority:)
     end
 
     it_behaves_like "an application type that supports informatives"
@@ -291,7 +285,7 @@ RSpec.describe "Reviewing informatives", :js, show_sidebar: false, type: :system
 
   context "when the application is a LDC for an existing development" do
     let!(:planning_application) do
-      create(:planning_application, :ldc_existing, :awaiting_determination, :with_recommendation, local_authority: default_local_authority)
+      create(:planning_application, :ldc_existing, :awaiting_determination, :with_recommendation, local_authority:)
     end
 
     it_behaves_like "an application type that supports informatives"

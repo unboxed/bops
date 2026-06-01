@@ -2,29 +2,25 @@
 
 require "rails_helper"
 
-RSpec.describe "Planning History", show_sidebar: false, type: :system do
-  let!(:default_local_authority) { create(:local_authority, :default, :planning_history) }
-  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+RSpec.describe "Planning History", type: :system do
+  let(:local_authority) { create(:local_authority, :default, :planning_history) }
+  let(:assessor) { create(:user, :assessor, local_authority:) }
 
   before do
     sign_in assessor
   end
 
   context "when planning application's property uprn has planning history" do
-    let!(:planning_application) do
-      create(:planning_application, :in_assessment, uprn: "100081043511", local_authority: default_local_authority)
-    end
+    let(:planning_application) { create(:planning_application, :in_assessment, uprn: "100081043511", local_authority:) }
     let!(:site_history) { create(:site_history, planning_application:) }
     let!(:refused_site_history) { create(:site_history, :refused, planning_application:) }
 
     before do
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-      within "#main-content" do
-        click_link "Check site history"
-      end
+      visit "/planning_applications/#{planning_application.reference}/assessment"
+      click_link "Check site history"
     end
 
-    it "displays relevant planning historical applications", :capybara do
+    it "displays relevant planning historical applications" do
       within("##{site_history.reference}") do
         within(".govuk-summary-card__title-wrapper") do
           expect(page).to have_content(site_history.reference)
@@ -52,13 +48,12 @@ RSpec.describe "Planning History", show_sidebar: false, type: :system do
       end
     end
 
-    it "allows me to edit a site history", :capybara do
+    it "allows me to edit a site history" do
       within("##{site_history.reference}") do
         within(".govuk-summary-card__content") do
           click_link "Edit"
         end
       end
-      expect(page).to have_current_path("/planning_applications/#{planning_application.reference}/assessment/site_histories/#{site_history.id}/edit")
 
       fill_in "Address", with: "12 New Street SE1 1AA"
       click_button "Update site history"
@@ -73,15 +68,11 @@ RSpec.describe "Planning History", show_sidebar: false, type: :system do
   end
 
   context "when planning application's property uprn has no planning history" do
-    let!(:planning_application) do
-      create(:planning_application, :in_assessment, uprn: "10008104351", local_authority: default_local_authority)
-    end
+    let(:planning_application) { create(:planning_application, :in_assessment, uprn: "10008104351", local_authority:) }
 
     before do
-      visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
-      within "#main-content" do
-        click_link "Check site history"
-      end
+      visit "/planning_applications/#{planning_application.reference}/assessment"
+      click_link "Check site history"
     end
 
     it "displays no planning history for this property" do

@@ -75,7 +75,7 @@ RSpec.describe "Reviewing immunity enforcement" do
         end
       end
 
-      it "when I return it with comments, they can see my comments", show_sidebar: false do
+      it "when I return it with comments, they can see my comments" do
         click_button "Review assessment of immunity"
 
         within("#review-immunity-enforcements-form") do
@@ -94,13 +94,7 @@ RSpec.describe "Reviewing immunity enforcement" do
         click_link "Application"
         click_link "Check and assess"
 
-        within("#assess-immunity-tasks") do
-          expect(page).to have_list_item_for(
-            "Assess immunity",
-            with: "To be reviewed"
-          )
-        end
-        click_link "Assess immunity", class: "app-task-list__link"
+        click_link "Assess immunity"
         find("span", text: "See previous review immunity detail responses").click
 
         expect(page).to have_content("Please re-assess")

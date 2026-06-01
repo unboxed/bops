@@ -136,79 +136,47 @@ local_authority_subdomain do
       resources :notes, only: %i[index create]
 
       namespace :assessment do
-        root to: "base#index"
+        get "/", to: redirect(Bops::InitialTaskRedirector.new("Assessment"))
+        get "/tasks", to: redirect(Bops::InitialTaskRedirector.new("Assessment"))
 
         resource :report_download, only: :show
-        resources :assess_immunity_detail_permitted_development_rights, only: %i[new create]
-        resource :assess_immunity_detail_permitted_development_right, only: %i[show edit update]
         resources :assessment_details, except: %i[destroy index]
-        resources :tasks, only: :index
-        resources :conditions, except: %i[new show] do
-          patch :update, on: :collection
-          patch :mark_as_complete, on: :collection
+        resources :conditions, only: %i[destroy] do
           concerns :positionable, module: :conditions
         end
-        resources :pre_commencement_conditions, except: %i[new show] do
-          post :confirm, on: :collection
+        resources :pre_commencement_conditions, only: %i[destroy] do
           concerns :positionable, module: :pre_commencement_conditions
         end
         resource :consistency_checklist, except: %i[destroy]
-        resources :consultees, only: %i[index] do
-          patch :check, on: :collection
-        end
-        resource :ownership_certificate, except: %i[destroy]
-
         resources :immunity_details, except: %i[destroy index] do
-          resources :evidence_groups do
-            resources :comments, only: %i[create update]
-          end
         end
-
-        resource :development_type, only: %i[edit update]
-
-        resource :recommended_application_type, only: %i[show edit update]
 
         resource :permitted_development_rights, only: %i[show edit update]
 
         namespace :policy_areas do
-          resources :parts, only: :index
-          resources :policy_classes, except: %i[show]
+          resources :policy_classes, only: :destroy
         end
-
         resources :site_histories, except: %i[new show] do
           post :confirm, on: :collection
         end
 
-        resources :site_visits, except: %i[destroy]
-
-        resources :meetings, except: %i[edit update destroy]
-
-        resources :heads_of_terms, only: %i[index new] do
-          get :edit, on: :collection
-          get :edit
-          patch :update, on: :collection
-        end
-
         resources :terms, except: %i[new show] do
-          post :confirm, on: :collection
           concerns :positionable, module: :terms
         end
-
         resources :requirements, only: %i[index edit update create destroy]
 
         resources :recommendations, only: %i[new create update]
         resource :recommendations, only: %i[edit]
 
-        resource :considerations, only: %i[create show edit update] do
+        resource :considerations, only: %i[edit update] do
           resources :items, only: %i[edit update destroy], module: :considerations do
             concerns :positionable
           end
         end
+        resources :consideration_guidances, except: %i[show new]
 
-        resources :consideration_guidances, except: %i[show]
-
-        resource :informatives, only: %i[create show edit update] do
-          resources :items, only: %i[edit update destroy], module: :informatives do
+        resource :informatives, only: %i[] do
+          resources :items, only: %i[destroy], module: :informatives do
             concerns :positionable
           end
         end

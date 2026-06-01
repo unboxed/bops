@@ -13,7 +13,7 @@ RSpec.describe "Planning considerations and advice task", type: :system do
 
   before do
     sign_in(user)
-    visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+    visit "/planning_applications/#{planning_application.reference}/assessment"
 
     within ".bops-sidebar" do
       click_link "Planning considerations and advice"

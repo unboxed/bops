@@ -23,7 +23,7 @@ module PlanningApplications
         )
 
         if @recommendation.save
-          redirect_to planning_application_assessment_tasks_path(@planning_application)
+          redirect_to planning_application_assessment_path(@planning_application)
         else
           render :new
         end

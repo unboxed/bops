@@ -220,7 +220,6 @@ RSpec.describe "Permitted development right", type: :system do
       visit "/planning_applications/#{planning_application.reference}/review/tasks"
 
       expect(page).to have_content("The planning application must be validated before reviewing can begin")
-      expect(page).not_to have_link("Review and sign-off", href: "/planning_applications/#{planning_application.reference}/review/tasks")
     end
   end
 end

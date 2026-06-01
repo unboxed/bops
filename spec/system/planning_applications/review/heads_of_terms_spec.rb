@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Reviewing heads of terms", :capybara, show_sidebar: false, type: :system do
+RSpec.describe "Reviewing heads of terms", :capybara, type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
@@ -78,16 +78,9 @@ RSpec.describe "Reviewing heads of terms", :capybara, show_sidebar: false, type:
 
         switch_user(assessor)
 
-        visit "/planning_applications/#{planning_application.reference}/assessment/tasks"
+        visit "/planning_applications/#{planning_application.reference}/assessment"
 
-        within "#main-content" do
-          expect(page).to have_list_item_for(
-            "Add heads of terms",
-            with: "To be reviewed"
-          )
-
-          click_link "Add heads of terms"
-        end
+        click_link "Add heads of terms"
         expect(page).to have_content("I don't think you've assessed heads of terms correctly")
       end
     end

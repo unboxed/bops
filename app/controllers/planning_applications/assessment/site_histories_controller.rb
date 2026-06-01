@@ -95,7 +95,7 @@ module PlanningApplications
       end
 
       def redirect_path
-        params[:return_to].presence || planning_application_assessment_tasks_path(@planning_application)
+        params[:return_to].presence || planning_application_assessment_path(@planning_application)
       end
 
       def submission_redirect_path
