@@ -78,7 +78,7 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
     expect(page).to have_content("Enter Suggestion")
   end
 
-  it "lists the current change requests and their statuses", :pending do
+  it "lists the current change requests and their statuses" do
     create(:other_change_validation_request, planning_application:, state: "open",
       created_at: 12.days.ago, notified_at: 12.days.ago, reason: "Missing information", suggestion: "Please provide more details about ownership")
     create(:other_change_validation_request, planning_application:, state: "closed",
@@ -93,10 +93,10 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
       within("#other_change_validation_request_#{other_change_validation_request1.id}") do
         expect(page).to have_content("Missing information")
-        expect(page).to have_content("sent")
+        expect(page).to have_content("Sent")
         expect(page).to have_link(
           "View and update",
-          href: planning_application_validation_validation_request_path(planning_application, other_change_validation_request1)
+          href: planning_application_validation_validation_request_path(planning_application, other_change_validation_request1, redirect_to: task_path(planning_application, "check-and-validate/review/review-validation-requests"))
         )
       end
 
@@ -107,7 +107,7 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
         expect(page).to have_content("Responded")
         expect(page).to have_link(
           "View and update",
-          href: planning_application_validation_validation_request_path(planning_application, other_change_validation_request2)
+          href: planning_application_validation_validation_request_path(planning_application, other_change_validation_request2, redirect_to: task_path(planning_application, "check-and-validate/review/review-validation-requests"))
         )
       end
     end
@@ -126,8 +126,7 @@ RSpec.describe "Requesting other changes to a planning application", type: :syst
 
       click_button "Mark the application as invalid"
 
-      pending "this error message is currently incorrect"
-      expect(page).to have_content("Application has been invalidated")
+      expect(page).to have_content("Success Application marked as invalid")
 
       new_planning_application.reload
       expect(new_planning_application.status).to eq("invalidated")

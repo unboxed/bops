@@ -134,7 +134,7 @@ RSpec.describe "Reviewing Policy Class", type: :system do
         expect(page).to have_content("description for section 2bb(ii)")
         expect(page).not_to have_content("A new description")
 
-        choose("tasks_assess_against_legislation_form[sections][#{policy_section2bii.id}][status]", option: "complies")
+        choose("tasks_assess_against_legislation_form[sections][#{pa_policy_section2bii.id}][status]", option: "complies")
         click_button("Save assessment")
         click_button("Save and mark as complete")
 

@@ -668,8 +668,7 @@ RSpec.describe "Requesting document changes to a planning application", type: :s
 
       click_button "Mark the application as invalid"
 
-      pending "this banner currently has incorrect content when invalidated"
-      expect(page).to have_content("Application has been invalidated")
+      expect(page).to have_content("Success Application marked as invalid")
 
       planning_application.reload
       expect(planning_application.status).to eq("invalidated")
