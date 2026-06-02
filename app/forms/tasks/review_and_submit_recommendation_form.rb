@@ -4,13 +4,28 @@ module Tasks
   class ReviewAndSubmitRecommendationForm < Form
     self.task_actions = %w[save_and_complete withdraw_recommendation]
 
+    def flash(type, controller)
+      result = case type
+      when :notice
+        "success"
+      when :alert
+        "failure"
+      end
+
+      if result == "failure" && open_post_validation_requests?
+        controller.t(
+          "planning_applications.recommendations.update.has_open_non_validation_requests_html",
+          href: controller.post_validation_requests_planning_application_validation_validation_requests_path(planning_application)
+        )
+      else
+        super
+      end
+    end
+
     private
 
     def save_and_complete
-      if planning_application.open_post_validation_requests?
-        errors.add :base, :invalid, message: "All post-validation requests must be resolved before submitting"
-        return false
-      end
+      return false if open_post_validation_requests?
 
       super do
         if planning_application.can_submit_recommendation?
@@ -19,6 +34,10 @@ module Tasks
       end
     rescue PlanningApplication::SubmitRecommendationError
       false
+    end
+
+    def open_post_validation_requests?
+      !planning_application.no_open_post_validation_requests_excluding_time_extension?
     end
 
     def withdraw_recommendation
