@@ -186,11 +186,7 @@ local_authority_subdomain do
 
       resource :consultation, only: %i[edit update] do
         get "/", to: redirect(Bops::InitialTaskRedirector.new("Consultation"))
-        resources :neighbours, only: %i[index create update destroy]
-
-        resources :neighbour_letters, only: %i[index update destroy] do
-          post :send_letters, on: :collection
-        end
+        resources :neighbours, only: %i[destroy]
         resources :neighbour_letter_batches, only: [:index]
 
         resources :neighbour_responses, except: %i[show destroy]
