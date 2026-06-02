@@ -23,7 +23,7 @@ module Tasks
       self.other_reason = Array(committee_decision&.reasons).reject { |r| CommitteeDecision::REASONS.include?(r) }.first
     end
 
-    with_options on: :save_and_complete do
+    with_options on: %i[save_and_complete save_draft] do
       validates :recommend, inclusion: {in: [true, false], message: "Select whether the application needs to be decided by committee."}
       validates :reasons, presence: {message: "Explain why the application needs to be decided by committee"}, if: :committee_needed?
       validates :decision, presence: true
