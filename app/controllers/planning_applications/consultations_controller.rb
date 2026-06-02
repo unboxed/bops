@@ -9,12 +9,6 @@ module PlanningApplications
     before_action :redirect_to_application_page, unless: :public_or_preapp?
     before_action :show_sidebar
 
-    def show
-      respond_to do |format|
-        format.html
-      end
-    end
-
     def edit
       respond_to do |format|
         format.html
