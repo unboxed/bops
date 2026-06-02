@@ -175,8 +175,7 @@ RSpec.describe "Requesting a new document for a planning application", type: :sy
 
       click_button "Mark the application as invalid"
 
-      pending "This error message is currently incorrect, but state is correct"
-      expect(page).to have_content("Application has been invalidated")
+      expect(page).to have_content("Success Application marked as invalid")
 
       planning_application.reload
       expect(planning_application.status).to eq("invalidated")
