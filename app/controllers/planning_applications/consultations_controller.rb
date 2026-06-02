@@ -7,7 +7,6 @@ module PlanningApplications
     before_action :set_planning_application
     before_action :set_consultation
     before_action :redirect_to_application_page, unless: :public_or_preapp?
-    before_action :show_sidebar
 
     def edit
       respond_to do |format|

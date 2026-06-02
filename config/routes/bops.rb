@@ -121,7 +121,16 @@ local_authority_subdomain do
 
       resources :refunds, only: %i[index new create destroy]
 
+      resource :press_notice, only: %i[new show create update] do
+        resource :confirmation, only: %i[show edit update], controller: "press_notices/confirmations"
+        resources :confirmation_requests, only: %i[create], controller: "press_notices/confirmation_requests"
+      end
+
       resource :recommendation, except: %w[new create], path_names: {edit: "submit"}
+
+      resources :site_notices do
+        resources :confirmation_requests, only: %i[create], controller: "site_notices/confirmation_requests"
+      end
 
       resource :withdraw_or_cancel, only: %i[show update]
       resources :notes, only: %i[index create]
@@ -174,7 +183,6 @@ local_authority_subdomain do
       end
 
       resources :consultees, only: %i[index create show new] do
-        # resources :responses, controller: "consultee/responses", except: %i[show destroy]
       end
 
       namespace :consultee, as: :consultees do
