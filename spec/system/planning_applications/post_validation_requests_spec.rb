@@ -92,7 +92,6 @@ RSpec.describe "post validation requests", type: :system do
 
         click_button("Save and mark as complete")
 
-        pending "Error message incorrect"
         expect(page).to have_content(
           "This application has open non-validation requests."
         )

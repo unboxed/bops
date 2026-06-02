@@ -108,7 +108,11 @@ RSpec.describe "Review and submit recommendation task", type: :system do
 
     it "displays an error message" do
       click_button "Save and mark as complete"
-      expect(page).to have_content("All post-validation requests must be resolved before submitting")
+
+      within(".govuk-notification-banner--alert") do
+        expect(page).to have_content("This application has open non-validation requests. Please review open requests and resolve them before submitting the application for review.")
+        expect(page).to have_link("review open requests", href: post_validation_requests_planning_application_validation_validation_requests_path(planning_application))
+      end
     end
   end
 end

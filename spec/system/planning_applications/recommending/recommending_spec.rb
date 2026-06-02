@@ -347,7 +347,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         expect(page).to have_title("Planning Application")
       end
 
-      context "when there are open post validation requests", :pending do
+      context "when there are open post validation requests" do
         let(:planning_application) { create(:planning_application, :in_assessment, local_authority: default_local_authority, user: assessor) }
         let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application:) }
 
@@ -373,7 +373,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         end
       end
 
-      context "when there is an open time extension request", :pending do
+      context "when there is an open time extension request" do
         let(:planning_application) { create(:planning_application, :in_assessment, local_authority: default_local_authority, user: assessor) }
         let!(:time_extension_request) { create(:time_extension_validation_request, :open, planning_application:, post_validation: true) }
 
