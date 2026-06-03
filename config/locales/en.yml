@@ -688,12 +688,15 @@ en:
       document_received_at_changed: "%{args} received at date was modified"
       fee_change_validation_request_added: 'Added: validation request (fee validation#%{args})'
       fee_change_validation_request_cancelled: 'Cancelled: validation request (fee change from applicant#%{args})'
+      fee_change_validation_request_cancelled_post_validation: 'Cancelled: validation request (fee change from applicant#%{args})'
       fee_change_validation_request_received: 'Received: request for change (fee validation#%{args})'
       fee_change_validation_request_sent: 'Sent: validation request (fee validation#%{args})'
       fee_change_validation_request_sent_post_validation: 'Sent: Post-validation request (fee validation#%{args})'
       heads_of_terms_validation_request_added: 'Added: request (heads of terms#%{args})'
+      heads_of_terms_validation_request_cancelled: 'Cancelled: request (heads of terms#%{args})'
       heads_of_terms_validation_request_cancelled_post_validation: 'Cancelled: request (heads of terms#%{args})'
       heads_of_terms_validation_request_received: 'Received: validation request for heads of terms #%{args}'
+      heads_of_terms_validation_request_sent: 'Sent: request (heads of terms#%{args})'
       heads_of_terms_validation_request_sent_post_validation: 'Sent: request (heads of terms#%{args})'
       invalidated: Application invalidated
       legislation_checked: Legislative requirements checked
@@ -705,11 +708,13 @@ en:
         assigned: Application unassigned
       other_change_validation_request_added: 'Added: validation request (other validation#%{args})'
       other_change_validation_request_cancelled: 'Cancelled: validation request (other change from applicant#%{args})'
+      other_change_validation_request_cancelled_post_validation: 'Cancelled: validation request (other change from applicant#%{args})'
       other_change_validation_request_received: 'Received: request for change (other validation#%{args})'
       other_change_validation_request_sent: 'Sent: validation request (other validation#%{args})'
       other_change_validation_request_sent_post_validation: 'Sent: Post-validation request (other validation#%{args})'
       ownership_certificate_validation_request_added: 'Added: validation request (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_cancelled: 'Cancelled: validation request (ownership certificate validation#%{args})'
+      ownership_certificate_validation_request_cancelled_post_validation: 'Cancelled: validation request (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_received: 'Received: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent: 'Sent: request for change (ownership certificate validation#%{args})'
       ownership_certificate_validation_request_sent_post_validation: 'Sent: request for change (ownership certificate validation#%{args})'
@@ -717,8 +722,10 @@ en:
       pre_commencement_condition_validation_request_added: 'Added: validation request for pre-commencement condition #%{args}'
       pre_commencement_condition_validation_request_auto_closed:
         auto_closed_validation: 'Auto-closed: validation request (pre-commencement condition)'
+      pre_commencement_condition_validation_request_cancelled: 'Cancelled: validation request (pre-commencement condition validation#%{args})'
       pre_commencement_condition_validation_request_cancelled_post_validation: 'Cancelled: validation request (pre-commencement condition validation#%{args})'
       pre_commencement_condition_validation_request_received: 'Received: validation request for pre-commencement condition #%{args}'
+      pre_commencement_condition_validation_request_sent: 'Sent: pre-commencement conditions for applicant''s approval (#%{args})'
       pre_commencement_condition_validation_request_sent_post_validation: 'Sent: pre-commencement conditions for applicant''s approval (#%{args})'
       press_notice: Press notice response added
       press_notice_mail: Request made for press notice
