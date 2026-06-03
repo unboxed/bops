@@ -51,6 +51,11 @@
         Date of report: <strong><%= @planning_application.determined_at.to_date.to_fs %></strong><br>
       <% end %>
     </p>
+    <% if applicant_view? %>
+      <%= govuk_button "Print or save as PDF",
+            class: "govuk-button--secondary print-hide",
+            data: {controller: "print", action: "print#print"} %>
+    <% end %>
   </div>
 </div>
 

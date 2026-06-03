@@ -1,7 +1,8 @@
 @media print {
   .bops-headers,
   .govuk-notification-banner,
-  .govuk-footer {
+  .govuk-footer,
+  .print-hide {
     display: none;
   }
 
