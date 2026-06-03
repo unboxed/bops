@@ -109,6 +109,13 @@ RSpec.describe "Pre-application report" do
     end
   end
 
+  it "does not show the print option on the officer view" do
+    within("#planning-application-details") do
+      expect(page).to have_no_button("Print or save as PDF")
+      expect(page).to have_no_link("Print or save as PDF")
+    end
+  end
+
   it "displays the summary of advice outcome section" do
     within("#pre-application-outcome") do
       expect(page).to have_content("Pre-application outcome")
@@ -577,6 +584,8 @@ RSpec.describe "Pre-application report" do
         expect(page).not_to have_link("Edit")
         expect(page).not_to have_css("govuk-breadcrumbs")
         expect(page).not_to have_content("Preview and submit")
+
+        expect(page).to have_button("Print or save as PDF")
       end
     end
 

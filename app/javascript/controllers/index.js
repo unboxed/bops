@@ -92,6 +92,10 @@ import PolygonSearchController from "./polygon_search_controller.js"
 
 application.register("polygon-search", PolygonSearchController)
 
+import PrintController from "./print_controller.js"
+
+application.register("print", PrintController)
+
 import ResetTextController from "./reset_text_controller.js"
 
 application.register("reset-text", ResetTextController)
