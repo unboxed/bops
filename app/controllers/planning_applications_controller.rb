@@ -275,14 +275,14 @@ class PlanningApplicationsController < AuthenticationController
   def ensure_site_notice_displayed_at
     return unless @planning_application.site_notice_needs_displayed_at?
 
-    flash.now[:alert] = t(".confirm_site_notice_displayed_at_html", href: edit_planning_application_site_notice_path(@planning_application, @planning_application.site_notice))
+    flash.now[:alert] = t(".confirm_site_notice_displayed_at_html", href: edit_task_component_path(@planning_application, slug: "consultees-neighbours-and-publicity/publicity/site-notice", id: @planning_application.site_notice.id))
     render :publish and return
   end
 
   def ensure_press_notice_published_at
     return unless @planning_application.press_notice_needs_published_at?
 
-    flash.now[:alert] = t(".confirm_press_notice_published_at_html", href: planning_application_press_notice_confirmation_path(@planning_application))
+    flash.now[:alert] = t(".confirm_press_notice_published_at_html", href: edit_task_component_path(@planning_application, slug: "consultees-neighbours-and-publicity/publicity/press-notice", id: @planning_application.press_notice.id))
     render :publish and return
   end
 

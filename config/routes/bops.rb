@@ -183,7 +183,6 @@ local_authority_subdomain do
       end
 
       resources :consultees, only: %i[index create show new] do
-        resources :responses, controller: "consultee/responses", except: %i[show destroy]
       end
 
       namespace :consultee, as: :consultees do
@@ -193,12 +192,9 @@ local_authority_subdomain do
         resources :constraint_consultees, only: %i[destroy]
       end
 
-      resource :consultation, only: %i[show edit update] do
-        resources :neighbours, only: %i[index create update destroy]
-
-        resources :neighbour_letters, only: %i[index update destroy] do
-          post :send_letters, on: :collection
-        end
+      resource :consultation, only: %i[edit update] do
+        get "/", to: redirect(Bops::InitialTaskRedirector.new("Consultation"))
+        resources :neighbours, only: %i[destroy]
         resources :neighbour_letter_batches, only: [:index]
 
         resources :neighbour_responses, except: %i[show destroy]
@@ -210,8 +206,6 @@ local_authority_subdomain do
           end
         end
       end
-
-      resource :consultation_requirement, only: %i[edit update]
 
       namespace :validation do
         get "/", to: redirect(Bops::InitialTaskRedirector.new("Validation"))

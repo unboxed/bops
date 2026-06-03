@@ -119,27 +119,7 @@ RSpec.describe "Consultation", show_sidebar: false, type: :system, js: true do
   it "reconsults existing consultees" do
     sign_in assessor
 
-    visit "/planning_applications/#{planning_application.reference}"
-    expect(page).to have_selector("h1", text: "Application")
-
-    within "#consultation-section" do
-      expect(page).to have_selector("li:first-child a", text: "Consultees, neighbours and publicity")
-      expect(page).to have_selector("li:first-child .govuk-tag", text: "In progress")
-    end
-
-    click_link "Consultees, neighbours and publicity"
-    expect(page).to have_selector("h1", text: "Consultation")
-
-    within "#consultation-end-date" do
-      expect(page).to have_text("Consultation end #{end_date.to_date.to_fs(:day_month_year_slashes)}")
-    end
-
-    within "#consultee-tasks" do
-      expect(page).to have_selector("li:nth-child(2) a", text: "Send emails to consultees")
-      expect(page).to have_selector("li:nth-child(2) .govuk-tag", text: "Awaiting responses")
-    end
-
-    click_link "Send emails to consultees"
+    visit "/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/consultees/send-emails-to-consultees"
     expect(page).to have_selector("h1", text: "Send emails to consultees")
     expect(page).to have_selector("h2", text: "Step 1 Select the consultees to consult")
     expect(page).to have_selector("h2", text: "Step 2 Select consultation type")
@@ -212,19 +192,14 @@ RSpec.describe "Consultation", show_sidebar: false, type: :system, js: true do
         click_button "Send emails to consultees"
       end
 
-      expect(page).to have_selector("h1", text: "Consultation")
-      expect(page).to have_selector("[role=alert] h3", text: "Emails have been sent to the selected consultees.")
+      expect(page).to have_selector("h1", text: "Send emails to consultees")
+      expect(page).to have_selector("[role=alert] p", text: "Emails have been sent to the selected consultees")
 
       expect(Audit.where(
         planning_application_id: planning_application.id,
         user_id: assessor.id,
         activity_type: "consultees_reconsulted"
       )).to exist
-
-      within "#consultee-tasks" do
-        expect(page).to have_selector("li:nth-child(2) a", text: "Send emails to consultees")
-        expect(page).to have_selector("li:nth-child(2) .govuk-tag", text: "Awaiting responses")
-      end
     end.to have_enqueued_job(SendConsulteeEmailJob).exactly(:once)
 
     external =
@@ -286,18 +261,7 @@ RSpec.describe "Consultation", show_sidebar: false, type: :system, js: true do
     expect(consultee.last_email_sent_at).to be_within(1.minute).of(now)
     expect(consultee.last_email_delivered_at).to be_within(1.minute).of(now)
 
-    click_link "Back"
-    expect(page).to have_selector("h1", text: "Consultation")
-
-    within "#consultation-end-date" do
-      expect(page).to have_text("Consultation end #{future.to_date.to_fs(:day_month_year_slashes)}")
-    end
-
-    within "#consultee-tasks" do
-      expect(page).to have_selector("li:first-child .govuk-tag", text: "Awaiting responses")
-    end
-
-    click_link "Send emails to consultees"
+    visit "/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/consultees/send-emails-to-consultees"
     expect(page).to have_selector("h1", text: "Send emails to consultees")
 
     within "#consultees" do

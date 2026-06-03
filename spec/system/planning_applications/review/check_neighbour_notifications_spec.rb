@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Check neighbour notifications", show_sidebar: false, type: :system do
+RSpec.describe "Check neighbour notifications", type: :system do
   let!(:default_local_authority) { create(:local_authority, :default) }
   let!(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
   let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
@@ -114,25 +114,13 @@ RSpec.describe "Check neighbour notifications", show_sidebar: false, type: :syst
 
         click_link "Consultees, neighbours and publicity"
 
-        expect(page).to have_list_item_for(
-          "Send letters to neighbours",
-          with: "To be reviewed"
-        )
-
         click_link "Send letters to neighbours"
 
         expect(page).to have_content("Notify more people")
 
-        click_button "Confirm and send letters"
-        expect(page).to have_current_path("/planning_applications/#{reference}/consultation/neighbour_letters")
+        click_button "Send letters"
+        expect(page).to have_current_path("/planning_applications/#{reference}/consultees-neighbours-and-publicity/neighbours/send-letters-to-neighbours")
         expect(page).to have_content("Letters have been sent to neighbours")
-
-        click_link "Consultation"
-
-        expect(page).to have_list_item_for(
-          "Send letters to neighbours",
-          with: "Complete"
-        )
       end
 
       it "shows errors" do

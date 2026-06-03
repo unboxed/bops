@@ -8,9 +8,6 @@ module PlanningApplications
 
       before_action :set_consultation
       before_action :set_consultees, only: %i[index]
-      before_action :set_consultee, only: %i[new create edit update]
-      before_action :set_consultee_response, only: %i[new create edit update]
-      before_action :ensure_consultation_required
 
       def index
         respond_to do |format|
@@ -18,89 +15,10 @@ module PlanningApplications
         end
       end
 
-      def new
-        respond_to do |format|
-          format.html
-        end
-      end
-
-      def create
-        respond_to do |format|
-          if @consultee_response.save
-            format.html do
-              redirect_to planning_application_consultees_responses_path(@planning_application), notice: t(".success")
-            end
-          else
-            format.html { render :new }
-          end
-        end
-      end
-
-      def edit
-        respond_to do |format|
-          format.html
-        end
-      end
-
-      def update
-        respond_to do |format|
-          if @consultee_response.update(redaction_params, :redaction)
-            format.html do
-              redirect_to planning_application_consultee_path(@planning_application, @consultee), notice: t(".success")
-            end
-          else
-            format.html { render :edit }
-          end
-        end
-      end
-
       private
-
-      def consultee_id
-        Integer(params[:consultee_id])
-      rescue ArgumentError
-        raise ActionController::BadRequest, "Invalid consultee id: #{params[:consultee_id].inspect}"
-      end
 
       def set_consultees
         @consultees = @consultation.consultees
-      end
-
-      def set_consultee
-        @consultee = @consultation.consultees.find(consultee_id)
-      end
-
-      def consultee_response_id
-        Integer(params[:id])
-      rescue ArgumentError
-        raise ActionController::BadRequest, "Invalid consultee response id: #{params[:id].inspect}"
-      end
-
-      def consultee_response_params
-        params.require(:consultee_response).permit(*consultee_response_attributes)
-      end
-
-      def consultee_response_attributes
-        [:name, :email, :summary_tag, :response, :redacted_response, :received_at, documents: []]
-      end
-
-      def redaction_params
-        params
-          .require(:consultee_response)
-          .permit(:redacted_response)
-          .merge(redacted_by: current_user)
-      end
-
-      def set_consultee_response
-        @consultee_response =
-          case action_name
-          when "new"
-            @consultee.responses.new
-          when "create"
-            @consultee.responses.new(consultee_response_params)
-          else
-            @consultee.responses.find(consultee_response_id)
-          end
       end
 
       def redirect_to_application_page
@@ -109,14 +27,6 @@ module PlanningApplications
 
       def public_or_preapp?
         @planning_application.make_public? || @planning_application.pre_application?
-      end
-
-      def ensure_consultation_required
-        return unless @planning_application.pre_application?
-        return if @planning_application.consultation_required?
-
-        redirect_to edit_planning_application_consultation_requirement_path(@planning_application),
-          alert: t("planning_applications.consultation_requirements.required_before_tasks")
       end
     end
   end

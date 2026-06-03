@@ -1711,18 +1711,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
         "http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/publicity/site-notice/#{site_notice.id}/edit"
       )
     end
-
-    context "when no task exists" do
-      before do
-        allow(planning_application.case_record).to receive(:find_task_by_slug_path).and_return(nil)
-      end
-
-      it "includes the fallback site notice edit url" do
-        expect(mail_body).to include(
-          "http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/site_notices/#{site_notice.id}/edit"
-        )
-      end
-    end
   end
 
   describe "#press_notice_confirmation_request_mail" do
@@ -1778,18 +1766,6 @@ RSpec.describe PlanningApplicationMailer, type: :mailer do
       expect(mail_body).to include(
         "http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/consultees-neighbours-and-publicity/publicity/press-notice/#{press_notice.id}/edit"
       )
-    end
-
-    context "when no task exists" do
-      before do
-        allow(planning_application.case_record).to receive(:find_task_by_slug_path).and_return(nil)
-      end
-
-      it "includes the fallback press notice confirmation url" do
-        expect(mail_body).to include(
-          "http://#{local_authority.subdomain}.bops.services/planning_applications/#{planning_application.reference}/press_notice/confirmation"
-        )
-      end
     end
   end
 end

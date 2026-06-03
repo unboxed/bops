@@ -64,6 +64,25 @@ RSpec.describe "Send emails to consultees task", type: :system do
         expect(consultation.reload.end_date).to be_present
       end
 
+      it "resends emails to existing consultees and completes the task" do
+        clear_enqueued_jobs
+
+        consultee.update!(status: "sending")
+
+        visit "/planning_applications/#{planning_application.reference}/#{slug}"
+
+        check "Select consultee"
+        select "Resending to existing consultees", from: "Email type"
+
+        expect do
+          click_button "Send emails to consultees"
+
+          expect(page).to have_content("Emails have been sent to the selected consultees")
+        end.to have_enqueued_job(SendConsulteeEmailJob).once
+
+        expect(task.reload).to be_completed
+      end
+
       it "shows the consultees table with correct details" do
         visit "/planning_applications/#{planning_application.reference}/#{slug}"
 

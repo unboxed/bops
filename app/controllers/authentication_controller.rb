@@ -20,14 +20,4 @@ class AuthenticationController < ApplicationController
         alert: t("planning_applications.assessment.base.not_preapp", application_type: @planning_application.application_type.full_name)
     end
   end
-
-  def redirect_to_initial_task
-    return unless use_new_sidebar_layout?(@planning_application)
-
-    task = @planning_application.case_record.tasks.find_by(section: application_section)&.first_child
-
-    return unless task
-
-    redirect_to task.url
-  end
 end

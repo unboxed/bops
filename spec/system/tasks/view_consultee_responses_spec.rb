@@ -116,6 +116,11 @@ RSpec.describe "View consultee responses task", type: :system do
           expect(page).to have_selector(:sidebar)
 
           within "#consultee-responses" do
+            expect(page).to have_selector("p time", text: "Received on #{Time.zone.today.to_fs}")
+            expect(page).to have_selector("p .govuk-tag", text: "No objection")
+            expect(page).to have_selector("p .govuk-tag", text: "Private")
+            expect(page).to have_content("Original response text")
+
             click_link "Redact and publish"
           end
 
@@ -128,6 +133,14 @@ RSpec.describe "View consultee responses task", type: :system do
           expect(page).to have_selector("h1", text: "View consultee responses")
           expect(page).to have_selector(:sidebar)
           expect(page).to have_content("Response was successfully published")
+
+          within "#consultee-tab-all" do
+            click_link "View all responses (1)"
+          end
+
+          within "#consultee-responses" do
+            expect(page).to have_selector("p .govuk-tag", text: "Published")
+          end
         end
 
         it "returns to the task page with the sidebar from the back button" do
@@ -144,6 +157,91 @@ RSpec.describe "View consultee responses task", type: :system do
 
           expect(page).to have_selector("h1", text: "View consultee responses")
           expect(page).to have_selector(:sidebar)
+        end
+
+        it "displays consultee summary details on the view consultee response page" do
+          sent_at = 14.days.ago
+
+          detailed_consultee = create(
+            :consultee,
+            consultation:,
+            name: "Planning Authority",
+            role: "Planning Department",
+            organisation: "GLA",
+            email_address: "planning@gla.gov.uk",
+            status: :awaiting_response,
+            email_sent_at: sent_at,
+            email_delivered_at: sent_at + 5.minutes,
+            last_email_sent_at: sent_at,
+            last_email_delivered_at: sent_at + 5.minutes
+          )
+
+          detailed_consultee.responses.create!(
+            response: "No objection to this application",
+            summary_tag: "approved",
+            received_at: Time.current
+          )
+
+          visit "/planning_applications/#{planning_application.reference}/#{slug}"
+
+          within "#consultee-tab-all" do
+            within(".consultee-panel", text: detailed_consultee.name) do
+              click_link "View all responses (1)"
+            end
+          end
+
+          within "#consultee-summary" do
+            expect(page).to have_selector("dt", text: "Name")
+            expect(page).to have_selector("dd", text: "Planning Authority")
+            expect(page).to have_selector("dt", text: "Role")
+            expect(page).to have_selector("dd", text: "Planning Department")
+            expect(page).to have_selector("dt", text: "Organisation")
+            expect(page).to have_selector("dd", text: "GLA")
+            expect(page).to have_selector("dt", text: "Email address")
+            expect(page).to have_selector("dd", text: "planning@gla.gov.uk")
+            expect(page).to have_selector("dt", text: "Consulted on")
+            expect(page).to have_selector("dd", text: sent_at.to_date.to_fs)
+            expect(page).to have_selector("dt", text: "Last received on")
+            expect(page).to have_selector("dd", text: Time.zone.today.to_fs)
+          end
+        end
+
+        it "updates verdict tabs after uploading a response" do
+          visit "/planning_applications/#{planning_application.reference}/#{slug}"
+
+          within "#consultee-tab-all" do
+            within(".consultee-panel", text: consultee_awaiting.name) do
+              click_link "Upload new response"
+            end
+          end
+
+          choose "No objection"
+          fill_in "Response", with: "Happy for this to proceed"
+          click_button "Save response"
+
+          expect(page).to have_content("No objection (1)")
+
+          within "#consultee-tab-approved" do
+            expect(page).to have_selector(".consultee-panel__status .govuk-tag", text: "No objection")
+          end
+        end
+
+        it "does not add consultee response attachments to the planning application documents" do
+          visit "/planning_applications/#{planning_application.reference}/#{slug}"
+
+          within "#consultee-tab-all" do
+            within(".consultee-panel", text: consultee_awaiting.name) do
+              click_link "Upload new response"
+            end
+          end
+
+          choose "No objection"
+          fill_in "Response", with: "Happy for this to proceed"
+          attach_file("Upload documents", "spec/fixtures/files/images/proposed-floorplan.png")
+          click_button "Save response"
+
+          visit "/planning_applications/#{planning_application.reference}/documents"
+          expect(page).not_to have_content("proposed-floorplan.png")
         end
       end
     end
