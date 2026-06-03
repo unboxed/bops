@@ -47,11 +47,7 @@ en:
               drag_and_drop: Drag and drop heads of terms to change the order that they appear in the decision notice.
               preapp_reminder: Heads of terms can be added for pre-applications, but no email will be sent to the applicant.
           summary-of-advice:
-            edit:
-              complies: Likely to be supported
-              does_not_comply: Unlikely to be supported
-              needs_changes: Likely to be supported with changes
-            form:
+            show:
               complies: Likely to be supported
               complies_recommended_html: Likely to be supported <strong>(recommended based on considerations)</strong>
               does_not_comply: Unlikely to be supported
@@ -59,10 +55,6 @@ en:
               label: Enter summary of planning considerations and advice. This should summarise any changes the applicant needs to make before they make an application.
               needs_changes: Likely to be supported with changes
               needs_changes_recommended_html: Likely to be supported with changes <strong>(recommended based on considerations)</strong>
-            show:
-              complies: Likely to be supported
-              does_not_comply: Unlikely to be supported
-              needs_changes: Likely to be supported with changes
       check-and-validate:
         check-application-details:
           check-description:

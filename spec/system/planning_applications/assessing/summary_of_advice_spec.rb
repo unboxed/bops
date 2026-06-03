@@ -62,7 +62,6 @@ RSpec.describe "Summary of Advice", type: :system do
       expect(page).to have_content("This proposal complies with all planning regulations.")
       expect(page).to have_css(".govuk-notification-banner.bops-notification-banner--green")
 
-      click_link "Edit summary of advice"
       fill_in "Enter summary of planning considerations and advice. This should summarise any changes the applicant needs to make before they make an application.", with: "Updated summary of advice."
       choose "Likely to be supported with changes"
       click_button "Save and mark as complete"
@@ -71,7 +70,6 @@ RSpec.describe "Summary of Advice", type: :system do
       click_link "Summary of advice"
       expect(page).to have_css(".govuk-notification-banner.bops-notification-banner--orange")
 
-      click_link "Edit summary of advice"
       choose "Unlikely to be supported"
       click_button "Save and mark as complete"
       click_link "Summary of advice"
@@ -82,7 +80,6 @@ RSpec.describe "Summary of Advice", type: :system do
       click_link "Summary of advice"
       click_button "Save and mark as complete"
 
-      pending "Needs migration from BaseForm to Form for per-field validation errors to show"
       expect(page).to have_content("Enter Summary tag")
       expect(page).to have_content("Enter Entry")
     end
