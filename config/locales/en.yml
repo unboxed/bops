@@ -2920,7 +2920,9 @@ en:
         success: Amenity assessment was successfully saved
       assess-against-legislation:
         add_assessment_area: Policy class was successfully added
+        edit_comment: Comment successfully updated
         failure: Failed to save assessment against legislation
+        remove_comment: Comment successfully removed
         success: Assessment against legislation successfully saved
         update_assessment: Assessment for policy class successfully saved
       assess-against-policies-and-guidance:

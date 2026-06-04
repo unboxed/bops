@@ -54,6 +54,84 @@ RSpec.describe "Assess against legislation", type: :system do
       expect(page).to have_content("Not required as application has been classed as not being development")
     end
 
+    context "when editing or removing an existing comment" do
+      let!(:policy_class_record) { create(:planning_application_policy_class, policy_class: policy_classB, planning_application:) }
+      let!(:policy_section_with_comment) { create(:planning_application_policy_section, :with_comments, policy_section: policy_sectionB1b, planning_application:) }
+
+      before do
+        visit "/planning_applications/#{reference}/#{slug}/#{policy_class_record.id}/edit"
+      end
+
+      it "can edit an existing comment", :js do
+        expect(page).to have_content("A comment")
+
+        click_button "Edit"
+        fill_in "Edit comment", with: "Updated comment text"
+        click_button "Save"
+
+        expect(page).to have_content("Comment successfully updated")
+        expect(page).to have_content("Updated comment text")
+        expect(page).not_to have_content("A comment")
+      end
+
+      it "can remove an existing comment", :js do
+        expect(page).to have_content("A comment")
+
+        click_button "Remove"
+
+        expect(page).to have_content("Comment successfully removed")
+        expect(page).not_to have_content("A comment")
+      end
+    end
+
+    context "when multiple sections have comments" do
+      let!(:policy_sectionB2b) { create(:policy_section, section: "2b", description: "description for section B.2b", policy_class: policy_classB) }
+      let!(:policy_class_record) { create(:planning_application_policy_class, policy_class: policy_classB, planning_application:) }
+      let!(:first_section) do
+        section = create(:planning_application_policy_section, policy_section: policy_sectionB1b, planning_application:)
+        create(:comment, text: "First comment", commentable: section, user: assessor)
+        section
+      end
+      let!(:second_section) do
+        section = create(:planning_application_policy_section, policy_section: policy_sectionB2b, planning_application:)
+        create(:comment, text: "Second comment", commentable: section, user: assessor)
+        section
+      end
+
+      before do
+        visit "/planning_applications/#{reference}/#{slug}/#{policy_class_record.id}/edit"
+      end
+
+      it "can edit the first comment without affecting the second", :js do
+        expect(page).to have_content("First comment")
+        expect(page).to have_content("Second comment")
+
+        within(first(".govuk-inset-text")) do
+          click_button "Edit"
+          fill_in "Edit comment", with: "Updated first comment"
+          click_button "Save"
+        end
+
+        expect(page).to have_content("Comment successfully updated")
+        expect(page).to have_content("Updated first comment")
+        expect(page).not_to have_content("First comment")
+        expect(page).to have_content("Second comment")
+      end
+
+      it "can remove the first comment without affecting the second", :js do
+        expect(page).to have_content("First comment")
+        expect(page).to have_content("Second comment")
+
+        within(first(".govuk-inset-text")) do
+          click_button "Remove"
+        end
+
+        expect(page).to have_content("Comment successfully removed")
+        expect(page).not_to have_content("First comment")
+        expect(page).to have_content("Second comment")
+      end
+    end
+
     it "policy classes can be added, removed and assessed" do
       expect(task.reload).not_to be_completed
 

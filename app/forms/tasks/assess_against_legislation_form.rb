@@ -2,11 +2,13 @@
 
 module Tasks
   class AssessAgainstLegislationForm < Form
-    self.task_actions = %w[default save_draft save_and_complete add_part add_classes add_assessment_area update_assessment]
+    self.task_actions = %w[default save_draft save_and_complete add_part add_classes add_assessment_area update_assessment remove_comment edit_comment]
 
     attribute :part, :integer
     attribute :classes, :array, type: :integer, default: -> { [] }
     attribute :sections
+    attribute :comment_id, :integer
+    attribute :comment_text, :string
 
     with_options on: :add_classes do
       validates :part, presence: {message: "Select a part number from GPDO Schedule 2"}
@@ -19,6 +21,10 @@ module Tasks
 
     with_options on: :save_and_complete do
       validate :all_policies_are_determined
+    end
+
+    with_options on: :edit_comment do
+      validates :comment_text, presence: {message: "Enter a comment"}
     end
 
     delegate :policy_classes, to: :policy_part
@@ -95,7 +101,7 @@ module Tasks
 
     def after_success
       case action
-      when "add_assessment_area", "save_draft", "save_and_complete"
+      when "add_assessment_area", "save_draft", "save_and_complete", "remove_comment", "edit_comment"
         "redirect"
       when "remove_assessment_area", "update_assessment"
         "redirect"
@@ -113,6 +119,29 @@ module Tasks
       end
     end
 
+    def redirect_url
+      case action
+      when "remove_comment", "edit_comment"
+        edit_assessment_area_url(assessment_area)
+      else
+        super
+      end
+    end
+
+    def comment
+      return if comment_id.blank?
+
+      @comment ||= Comment.where(commentable: planning_application_policy_sections).find(comment_id)
+    end
+
+    def edit_comment
+      comment.update!(text: comment_text)
+    end
+
+    def remove_comment
+      comment.destroy!
+    end
+
     private
 
     def permitted_attributes
@@ -123,6 +152,10 @@ module Tasks
         [:part, classes: []]
       when "update_assessment"
         [sections: [:id, :status, comments_attributes: [:text]]]
+      when "edit_comment"
+        [:comment_id, :comment_text]
+      when "remove_comment"
+        [:comment_id]
       else
         []
       end

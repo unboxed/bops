@@ -4,6 +4,21 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+    <% @form.grouped_policy_sections.each do |_title, sections| %>
+      <% sections.each do |section| %>
+        <% if (comment = section.last_comment) %>
+          <%= form_with url: @form.assessment_area_url, method: :patch, id: "remove-comment-form-#{comment.id}", scope: @form.param_key do |f| %>
+            <%= hidden_field_tag :task_action, "remove_comment" %>
+            <%= f.hidden_field :comment_id, value: comment.id %>
+          <% end %>
+          <%= form_with url: @form.assessment_area_url, method: :patch, id: "edit-comment-form-#{comment.id}", scope: @form.param_key do |f| %>
+            <%= hidden_field_tag :task_action, "edit_comment" %>
+            <%= f.hidden_field :comment_id, value: comment.id %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+
     <%= form_with model: @form, url: @form.assessment_area_url do |form| %>
       <%= form.govuk_error_summary %>
 
@@ -44,9 +59,23 @@
 
               <% if comment = section.last_comment %>
                 <%= govuk_inset_text(classes: "govuk-!-margin-top-3") do %>
-                  <%= simple_format(comment.text, class: "govuk-!-margin-bottom-1") %>
+                  <div data-controller="show-hide">
+                    <div class="govuk-!-margin-bottom-0" data-show-hide-target="toggleable">
+                      <%= simple_format(comment.text, class: "govuk-!-margin-bottom-1") %>
+                      <button type="button" data-action="click->show-hide#handleEvent" class="button-as-link govuk-!-font-size-16 govuk-!-margin-bottom-0">Edit</button>
+                      <button type="submit" form="remove-comment-form-<%= comment.id %>" class="button-as-link govuk-!-font-size-16 govuk-!-margin-bottom-0">Remove</button>
+                    </div>
+                    <div class="govuk-!-display-none govuk-!-margin-bottom-0" data-show-hide-target="toggleable">
+                      <div class="govuk-form-group">
+                        <%= label_tag "comment_text_#{comment.id}", "Edit comment", class: "govuk-label" %>
+                        <%= text_area_tag "#{@form.param_key}[comment_text]", comment.text, id: "comment_text_#{comment.id}", class: "govuk-textarea", rows: 3, form: "edit-comment-form-#{comment.id}" %>
+                      </div>
+                      <button type="submit" form="edit-comment-form-<%= comment.id %>" class="govuk-button govuk-!-margin-bottom-2">Save</button>
+                      <button type="button" data-action="click->show-hide#handleEvent" class="button-as-link govuk-!-font-size-16 govuk-!-margin-bottom-0">Cancel</button>
+                    </div>
+                  </div>
 
-                  <p class="govuk-body-s">
+                  <p class="govuk-body-s govuk-!-margin-top-1">
                     <strong><%= comment.user&.name %>, <%= comment.created_at.to_fs %></strong>
                   </p>
 
