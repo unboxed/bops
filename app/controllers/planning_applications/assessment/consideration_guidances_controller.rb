@@ -95,7 +95,7 @@ module PlanningApplications
 
       def consideration_params
         params.require(:consideration).permit(
-          :policy_area, :draft, :proposal, :summary_tag, :advice, policy_references_attributes: %i[code description url]
+          :policy_area, :draft, :proposal, :summary_tag, :advice, policy_references_attributes: %i[code description url], policy_guidance_attributes: %i[description url]
         )
       end
 

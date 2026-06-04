@@ -22,13 +22,16 @@
         </div>
         <ul class="govuk-list">
           <li><%= summary_tag_label(consideration.summary_tag) %></li>
-          <p>
-            <% consideration.policy_references.each do |reference| %>
-              <li class="govuk-body-xs">
-                <%= reference.code_and_description %>
-              </li>
-            <% end %>
-          </p>
+
+          <% consideration.policy_guidance.each do |guidance| %>
+            <li class="govuk-body-xs">
+              <%= govuk_link_to guidance.description, guidance.url, new_tab: true %>
+            </li>
+          <% end %>
+
+          <% consideration.policy_references.each do |reference| %>
+            <li class="govuk-body-xs"><%= reference.code_and_description %></li>
+          <% end %>
         </ul>
         <%= consideration.advice %>
         <hr
