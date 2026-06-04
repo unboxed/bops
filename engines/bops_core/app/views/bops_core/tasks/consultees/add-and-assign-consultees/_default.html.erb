@@ -83,11 +83,11 @@
         <% end %>
       <% end %>
     <% end %>
-  <% else %>
-    <p>
-      <%= form.govuk_task_button_link "Add other consultees", action: "edit_consultees" %>
-    </p>
   <% end %>
+
+  <p>
+    <%= form.govuk_task_button_link "Add other consultees", action: "edit_consultees" %>
+  </p>
 
   <%= govuk_section_break(size: "m") %>
 
