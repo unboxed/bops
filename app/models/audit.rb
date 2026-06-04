@@ -20,7 +20,9 @@ class Audit < ApplicationRecord
     ).reorder(created_at: :desc)
   }
 
-  enum :activity_type, %i[
+  VALIDATION_REQUEST_ACTIVITY_TYPES = ValidationRequest::REQUEST_TYPES.map(&:underscore).product(%w[cancelled sent received added sent_post_validation cancelled_post_validation]).map { it.join("_").to_sym }.freeze
+
+  enum :activity_type, (%i[
     appeal_decision
     appeal_updated
     approved
@@ -45,74 +47,14 @@ class Audit < ApplicationRecord
     withdrawn
     closed
     deleted
-    heads_of_terms_validation_request_sent_post_validation
-    heads_of_terms_validation_request_added
-    heads_of_terms_validation_request_cancelled_post_validation
-    heads_of_terms_validation_request_received
-    pre_commencement_condition_validation_request_sent_post_validation
     pre_commencement_condition_validation_request_auto_closed
-    pre_commencement_condition_validation_request_added
-    pre_commencement_condition_validation_request_cancelled_post_validation
-    pre_commencement_condition_validation_request_received
     red_line_boundary_change_validation_request_auto_closed
     description_change_validation_request_auto_closed
     document_invalidated
     document_changed_to_validated
     document_received_at_changed
-    description_change_validation_request_sent
-    description_change_validation_request_cancelled
-    description_change_validation_request_added
-    description_change_validation_request_sent_post_validation
-    description_change_validation_request_cancelled_post_validation
-    replacement_document_validation_request_sent
-    replacement_document_validation_request_sent_post_validation
-    additional_document_validation_request_sent
-    additional_document_validation_request_sent_post_validation
-    red_line_boundary_change_validation_request_sent
-    red_line_boundary_change_validation_request_sent_post_validation
-    replacement_document_validation_request_added
-    additional_document_validation_request_added
-    red_line_boundary_change_validation_request_added
-    description_change_validation_request_received
-    replacement_document_validation_request_received
-    additional_document_validation_request_received
-    red_line_boundary_change_validation_request_received
-    other_change_validation_request_added
-    other_change_validation_request_sent
-    other_change_validation_request_received
-    other_change_validation_request_sent_post_validation
-    ownership_certificate_validation_request_added
-    ownership_certificate_validation_request_received
-    ownership_certificate_validation_request_sent
-    ownership_certificate_validation_request_cancelled
-    ownership_certificate_validation_request_sent_post_validation
-    ownership_certificate_validation_request_cancelled_post_validation
     validation_requests_sent
-    additional_document_validation_request_cancelled
-    additional_document_validation_request_cancelled_post_validation
-    other_change_validation_request_cancelled
-    fee_change_validation_request_cancelled
-    fee_change_validation_request_added
-    fee_change_validation_request_sent
-    fee_change_validation_request_sent_post_validation
-    fee_change_validation_request_received
     proposal_measurements_updated
-    red_line_boundary_change_validation_request_cancelled
-    red_line_boundary_change_validation_request_cancelled_post_validation
-    replacement_document_validation_request_cancelled
-    replacement_document_validation_request_cancelled_post_validation
-    time_extension_validation_request_added
-    time_extension_validation_request_sent_post_validation
-    time_extension_validation_request_received
-    time_extension_validation_request_cancelled
-    time_extension_validation_request_cancelled_post_validation
-    time_extension_validation_request_sent
-    fee_change_validation_request_cancelled_post_validation
-    heads_of_terms_validation_request_cancelled
-    heads_of_terms_validation_request_sent
-    other_change_validation_request_cancelled_post_validation
-    pre_commencement_condition_validation_request_cancelled
-    pre_commencement_condition_validation_request_sent
     constraints_checked
     neighbour_letters_sent
     neighbour_letter_copy_mail_sent
@@ -132,7 +74,7 @@ class Audit < ApplicationRecord
     committee_details_sent
     sent_to_committee
     review_cil_liability
-  ].index_with(&:to_s)
+  ] + VALIDATION_REQUEST_ACTIVITY_TYPES).index_with(&:to_s)
 
   validates :activity_type, presence: true
 
