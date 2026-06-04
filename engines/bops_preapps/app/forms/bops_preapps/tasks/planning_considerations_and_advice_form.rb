@@ -3,7 +3,7 @@
 module BopsPreapps
   module Tasks
     class PlanningConsiderationsAndAdviceForm < Form
-      self.task_actions = %w[save_draft save_and_complete add_consideration]
+      self.task_actions = %w[save_draft save_and_complete add_consideration add_advice update_advice]
 
       def initialize(task, params = {})
         super
@@ -11,9 +11,11 @@ module BopsPreapps
         @consideration_set = planning_application.consideration_set
         @considerations = @consideration_set.considerations.select(&:persisted?)
         @consideration = @consideration_set.considerations.new(draft: true)
+
+        @consideration_for_edit = @consideration_set.considerations.find(consideration_id) if consideration_id
       end
 
-      attr_reader :considerations, :consideration
+      attr_reader :considerations, :consideration, :consideration_for_edit
 
       attribute :policy_area, :string
 
@@ -42,6 +44,10 @@ module BopsPreapps
 
       private
 
+      def consideration_id
+        @consideration_id ||= params[:id] || params.dig(:consideration, :id)
+      end
+
       def create_consideration!
         @consideration_set.considerations.create! do |consideration|
           consideration.policy_area = policy_area
@@ -52,6 +58,22 @@ module BopsPreapps
 
       def add_consideration
         create_consideration! && task.start!
+      end
+
+      def add_advice
+        return false if consideration_params[:summary_tag].blank?
+        @consideration.update!(consideration_params) && @task.start!
+      end
+
+      def update_advice
+        return false if consideration_params[:summary_tag].blank?
+        @consideration_for_edit.update!(consideration_params) && @task.start!
+      end
+
+      def consideration_params
+        params.require(:consideration).permit(
+          :policy_area, :draft, :proposal, :summary_tag, :advice, policy_references_attributes: %i[code description url], policy_guidance_attributes: %i[description url]
+        )
       end
     end
   end

@@ -2,7 +2,7 @@
   data-controller="consideration-form unsaved-changes"
   data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
   <%= form_with(
-        model: @form.consideration,
+        model: @form.consideration_for_edit || @form.consideration,
         url: form_url,
         method: form_method,
         data: {
@@ -18,9 +18,9 @@
         <%= form.govuk_text_field :proposal, label: {text: "Enter element of proposal"} %>
 
         <%= form.govuk_text_field :policy_guidance,
-                label: {text: "Enter policy guidance (optional)"},
-                form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyGuidanceContainer"}},
-                data: {consideration_form_target: "policyGuidanceInput"} %>
+              label: {text: "Enter policy guidance (optional)"},
+              form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyGuidanceContainer"}},
+              data: {consideration_form_target: "policyGuidanceInput"} %>
 
         <ul
           class="govuk-list editable-list"
@@ -109,6 +109,12 @@
 
     <%= form.govuk_rich_text_area :advice, input: "consideration_#{index}_advice" %>
 
-    <%= form.govuk_submit("Save advice", secondary: true, class: "govuk-!-margin-bottom-2") %>
+    <% if @form.consideration_for_edit %>
+      <%= form.hidden_field :id, value: @form.consideration_for_edit.id %>
+      <%= form.hidden_field :policy_area, value: @form.consideration_for_edit.policy_area %>
+      <%= form.govuk_task_button "Save advice", action: "update_advice" %>
+    <% else %>
+      <%= form.govuk_task_button "Save advice", action: "add_advice", secondary: true %>
+    <% end %>
   <% end %>
 </div>

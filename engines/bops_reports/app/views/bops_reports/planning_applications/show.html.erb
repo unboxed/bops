@@ -357,8 +357,9 @@
           <div class="flex-between">
             <strong class="govuk-heading-s"><%= consideration.proposal %></strong>
             <% if editing_enabled? %>
-              <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consideration_guidance_path(
+              <%= govuk_link_to "Edit", @planning_application.url_helpers.edit_task_component_path(
                     @planning_application,
+                    "check-and-assess/assessment-summaries/planning-considerations-and-advice",
                     consideration,
                     return_to: planning_application_path(@planning_application, anchor: "considerations-advice")
                   ) %>

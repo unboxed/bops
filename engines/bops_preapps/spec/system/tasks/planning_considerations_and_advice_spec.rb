@@ -96,14 +96,14 @@ RSpec.describe "Planning considerations and advice task", type: :system do
 
     click_button "Save advice"
 
-    expect(page).to have_text "Select a status for this element of the proposal"
+    expect(page).to have_text "Failed to save confirmation of considerations and advice"
 
     expect(planning_application.consideration_set.considerations).not_to be_empty
     consideration = planning_application.consideration_set.considerations.last
     expect(consideration.summary_tag).to be_nil
   end
 
-  it "warns when navigating away with unsaved changes", js: true do
+  it "warns when navigating away with unsaved changes", :js do
     fill_in "Select policy area", with: policy_area.description
     click_button "Add consideration"
 

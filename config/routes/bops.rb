@@ -167,7 +167,7 @@ local_authority_subdomain do
             concerns :positionable
           end
         end
-        resources :consideration_guidances, except: %i[show new]
+        resources :consideration_guidances, only: :destroy
 
         resource :informatives, only: %i[] do
           resources :items, only: %i[destroy], module: :informatives do

@@ -1202,12 +1202,9 @@ en:
         not_preapp: Cannot access this page on application of type %{application_type}
         not_validated: The planning application must be validated before assessment can begin
       consideration_guidances:
-        create:
-          success: Consideration was successfully added
         destroy:
+          failure: Failed to remove consideration
           success: Consideration was successfully removed
-        update:
-          success: Consideration was successfully updated
       considerations:
         edit:
           add_new_consideration: Add new consideration
