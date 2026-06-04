@@ -86,6 +86,7 @@ class Audit < ApplicationRecord
     ownership_certificate_validation_request_sent
     ownership_certificate_validation_request_cancelled
     ownership_certificate_validation_request_sent_post_validation
+    ownership_certificate_validation_request_cancelled_post_validation
     validation_requests_sent
     additional_document_validation_request_cancelled
     additional_document_validation_request_cancelled_post_validation
@@ -106,6 +107,12 @@ class Audit < ApplicationRecord
     time_extension_validation_request_cancelled
     time_extension_validation_request_cancelled_post_validation
     time_extension_validation_request_sent
+    fee_change_validation_request_cancelled_post_validation
+    heads_of_terms_validation_request_cancelled
+    heads_of_terms_validation_request_sent
+    other_change_validation_request_cancelled_post_validation
+    pre_commencement_condition_validation_request_cancelled
+    pre_commencement_condition_validation_request_sent
     constraints_checked
     neighbour_letters_sent
     neighbour_letter_copy_mail_sent
