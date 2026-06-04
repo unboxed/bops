@@ -30,13 +30,13 @@
   <%= form.govuk_error_summary %>
   <%= return_to_hidden_field %>
 
-  <%= form.govuk_radio_buttons_fieldset(:immunity, legend: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.immunity_legend"), size: "m"}) do %>
+  <%= form.govuk_radio_buttons_fieldset(:immunity, legend: {text: t(".form.immunity_legend"), size: "m"}) do %>
     <%= form.govuk_radio_button(:immunity, true, label: {text: "Yes, the development is immune"}) do %>
-      <%= form.govuk_radio_buttons_fieldset(:immunity_reason, legend: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.immunity_reason_legend"), size: "s"}) do %>
+      <%= form.govuk_radio_buttons_fieldset(:immunity_reason, legend: {text: t(".form.immunity_reason_legend"), size: "s"}) do %>
         <% @form.immunity_reasons.each do |value, label| %>
           <% if value == "other" %>
             <%= form.govuk_radio_button(:immunity_reason, value, label: {text: label}) do %>
-              <%= form.govuk_text_area :other_immunity_reason, rows: 6, label: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.other_immunity_reason_label")} %>
+              <%= form.govuk_text_area :other_immunity_reason, rows: 6, label: {text: t(".form.other_immunity_reason_label")} %>
             <% end %>
           <% else %>
             <%= form.govuk_radio_button :immunity_reason, value, label: {text: label} %>
@@ -44,15 +44,15 @@
         <% end %>
       <% end %>
 
-      <%= form.govuk_text_area :summary, rows: 6, label: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.summary_label"), size: "s"}, hint: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.summary_hint")} %>
+      <%= form.govuk_text_area :summary, rows: 6, label: {text: t(".form.summary_label"), size: "s"}, hint: {text: t(".form.summary_hint")} %>
     <% end %>
 
     <%= form.govuk_radio_button(:immunity, false, label: {text: "No, the development is not immune"}) do %>
-      <%= form.govuk_text_area :no_immunity_reason, rows: 6, label: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.no_immunity_reason_label"), size: "s"} %>
+      <%= form.govuk_text_area :no_immunity_reason, rows: 6, label: {text: t(".form.no_immunity_reason_label"), size: "s"} %>
 
-      <%= form.govuk_radio_buttons_fieldset(:rights_removed, legend: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.rights_removed_legend"), size: "s"}) do %>
+      <%= form.govuk_radio_buttons_fieldset(:rights_removed, legend: {text: t(".form.rights_removed_legend"), size: "s"}) do %>
         <%= form.govuk_radio_button(:rights_removed, true, label: {text: "Yes, permitted development rights have been removed"}) do %>
-          <%= form.govuk_text_area :rights_removed_reason, rows: 6, label: {text: t("planning_applications.assessment.assess_immunity_detail_permitted_development_rights.form.rights_removed_reason_label")} %>
+          <%= form.govuk_text_area :rights_removed_reason, rows: 6, label: {text: t(".form.rights_removed_reason_label")} %>
         <% end %>
 
         <%= form.govuk_radio_button :rights_removed, false, label: {text: "No, permitted development rights have not been removed"} %>
