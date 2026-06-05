@@ -14,7 +14,7 @@
           <strong class="govuk-body-s"><%= consideration.proposal %></strong>
           <span class="flex-right-align">
             <% unless @planning_application.determined? %>
-              <%= govuk_link_to "Edit", main_app.edit_planning_application_assessment_consideration_guidance_path(@planning_application, consideration, return_to: return_to_or_task_path(@task)) %>
+              <%= govuk_link_to "Edit", edit_task_component_path(@planning_application, @task, consideration) %>
               |
               <%= govuk_link_to "Remove", main_app.planning_application_assessment_consideration_guidance_path(@planning_application, consideration, return_to: return_to_or_task_path(@task)), method: :delete, data: {confirm: "Are you sure?"} %>
             <% end %>
@@ -22,13 +22,16 @@
         </div>
         <ul class="govuk-list">
           <li><%= summary_tag_label(consideration.summary_tag) %></li>
-          <p>
-            <% consideration.policy_references.each do |reference| %>
-              <li class="govuk-body-xs">
-                <%= reference.code_and_description %>
-              </li>
-            <% end %>
-          </p>
+
+          <% consideration.policy_guidance.each do |guidance| %>
+            <li class="govuk-body-xs">
+              <%= govuk_link_to guidance.description, guidance.url, new_tab: true %>
+            </li>
+          <% end %>
+
+          <% consideration.policy_references.each do |reference| %>
+            <li class="govuk-body-xs"><%= reference.code_and_description %></li>
+          <% end %>
         </ul>
         <%= consideration.advice %>
         <hr
@@ -45,8 +48,8 @@
             open: @form.consideration.errors.any? && @form.consideration.policy_area == policy_area,
             classes: "govuk-!-margin-bottom-2"
           ) do %>
-       <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/planning-considerations-and-advice/form",
-             policy_area: policy_area, form_url: main_app.planning_application_assessment_consideration_guidances_path(@planning_application), form_method: :post, index: index + 1 %>
+        <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/planning-considerations-and-advice/form",
+              policy_area: policy_area, form_url: task_path(@planning_application, @task), form_method: :post, index: index + 1 %>
       <% end %>
     <% end %>
   <% end %>
@@ -69,7 +72,7 @@
     </div>
   <% end %>
   <%= form_with model: @form, url: @form.url do |form| %>
-      <%= return_to_hidden_field %>
-      <%= render "task_submit_buttons", form: form %>
-    <% end %>
+    <%= return_to_hidden_field %>
+    <%= render "task_submit_buttons", form: form %>
+  <% end %>
 <% end %>

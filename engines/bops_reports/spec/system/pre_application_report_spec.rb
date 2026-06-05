@@ -469,7 +469,7 @@ RSpec.describe "Pre-application report" do
       end
     end
 
-    expect(page).to have_current_path(%r{/planning_applications/#{reference}/assessment/consideration_guidances/#{consideration.id}/edit})
+    expect(page).to have_current_path(%r{/preapps/#{reference}/check-and-assess/assessment-summaries/planning-considerations-and-advice/#{consideration.id}/edit})
 
     click_button "Save advice"
 

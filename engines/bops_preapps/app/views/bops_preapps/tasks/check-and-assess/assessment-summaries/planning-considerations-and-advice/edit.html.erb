@@ -1,0 +1,7 @@
+<%= render "task_header", task: @task, heading: "Edit consideration" %>
+
+<%= render "bops_preapps/#{@form.partial_path}/form",
+      policy_area: @form.consideration.policy_area,
+      form_url: @form.url,
+      form_method: :post,
+      index: @form.consideration.id %>

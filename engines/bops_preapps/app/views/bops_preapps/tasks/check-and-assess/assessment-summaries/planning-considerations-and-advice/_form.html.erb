@@ -1,7 +1,8 @@
-<div data-controller="consideration-form unsaved-changes"
-     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+<div
+  data-controller="consideration-form unsaved-changes"
+  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
   <%= form_with(
-        model: @form.consideration,
+        model: @form.consideration_for_edit || @form.consideration,
         url: form_url,
         method: form_method,
         data: {
@@ -15,6 +16,43 @@
         <%= form.hidden_field :policy_area, value: policy_area %>
         <%= hidden_field_tag :return_to, return_to_or_task_path(@task) %>
         <%= form.govuk_text_field :proposal, label: {text: "Enter element of proposal"} %>
+
+        <%= form.govuk_text_field :policy_guidance,
+              label: {text: "Enter policy guidance (optional)"},
+              form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyGuidanceContainer"}},
+              data: {consideration_form_target: "policyGuidanceInput"} %>
+
+        <ul
+          class="govuk-list editable-list"
+          data-consideration-form-target="policyGuidance">
+          <%= form.fields :policy_guidance do |fields| %>
+            <li>
+              <%= fields.hidden_field :description %>
+              <%= fields.hidden_field :url %>
+              <span><%= fields.object.description %></span>
+              <button
+                type="button"
+                class="button-as-link"
+                data-action="click->consideration-form#removePolicyReference">
+                Remove
+              </button>
+            </li>
+          <% end %>
+        </ul>
+
+        <template data-consideration-form-target="policyGuidanceTemplate">
+          <li>
+            <input type="hidden" name="description" value="">
+            <input type="hidden" name="url" value="">
+            <span>Description</span>
+            <button
+              type="button"
+              class="button-as-link"
+              data-action="click->consideration-form#removePolicyGuidance">
+              Remove
+            </button>
+          </li>
+        </template>
 
         <%= form.govuk_text_field :policy_references,
               label: {text: "Enter policy references"},
@@ -71,6 +109,12 @@
 
     <%= form.govuk_rich_text_area :advice, input: "consideration_#{index}_advice" %>
 
-    <%= form.govuk_submit("Save advice", secondary: true, class: "govuk-!-margin-bottom-2") %>
+    <% if @form.consideration_for_edit %>
+      <%= form.hidden_field :id, value: @form.consideration_for_edit.id %>
+      <%= form.hidden_field :policy_area, value: @form.consideration_for_edit.policy_area %>
+      <%= form.govuk_task_button "Save advice", action: "update_advice" %>
+    <% else %>
+      <%= form.govuk_task_button "Save advice", action: "add_advice", secondary: true %>
+    <% end %>
   <% end %>
 </div>
