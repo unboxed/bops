@@ -2491,12 +2491,16 @@ en:
           success: Successfully removed all neighbour addresses
         success: Addresses have been successfully added
       add-conditions:
-        add_condition: Condition was successfully added
+        add_condition:
+          failure: Unable to add condition
+          success: Condition was successfully added
         delete_condition: Condition was successfully deleted
         failure: Failed to save conditions
         save_draft: Conditions draft was saved
         success: Conditions were successfully saved
-        update_condition: Condition was successfully updated
+        update_condition:
+          failure: Unable to update condition
+          success: Condition was successfully updated
       add-heads-of-terms:
         add_term:
           failure: Failed to add term
