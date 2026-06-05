@@ -38,15 +38,12 @@ module Tasks
 
     with_options on: :add_neighbour_response do
       validates :name, presence: {message: "Enter neighbour name"}
-      validate :address_or_new_address_present
       validates :response, presence: {message: "Enter neighbour response"}
       validates :summary_tag, presence: {message: "Please choose at least one relevant tag"}
       validates :received_at, presence: {message: "Enter when response was received"}
     end
 
-    with_options on: :update_neighbour_response do
-      validate :address_or_new_address_present
-    end
+    validate :address_or_new_address_present, on: %i[add_neighbour_response update_neighbour_response]
 
     attr_reader :neighbour_response, :neighbour_responses, :consultation
 
@@ -80,8 +77,9 @@ module Tasks
     end
 
     def add_neighbour_response
-      neighbour = find_or_build_neighbour
+      return false if errors.any?
 
+      neighbour = find_or_build_neighbour
       if neighbour&.new_record? && !neighbour.valid?
         errors.merge!(neighbour.errors)
         return false
