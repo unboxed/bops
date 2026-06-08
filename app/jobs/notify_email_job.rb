@@ -23,6 +23,8 @@ class NotifyEmailJob < ApplicationJob
     SocketError
   ].freeze
 
+  self.enqueue_after_transaction_commit = true
+
   rescue_from NotifyEmailJob::NotConfiguredError do |exception|
     log_exception(exception)
   end
