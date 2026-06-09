@@ -44,35 +44,33 @@
         <p class="govuk-body">
           Received
         </p>
-        <h3>
-          <%= @enforcement.received_at.to_date.to_fs %>
-        </h3>
+        <p><strong><%= @enforcement.received_at.to_date.to_fs %></strong></p>
       </div>
       <div class="status-panel" id="started-date">
         <p class="govuk-body">
           Started
         </p>
-        <h3>
+        <p>
           <% if @enforcement.under_investigation? %>
-            <%= @enforcement.under_investigation_at.to_date.to_fs %>
+            <strong><%= @enforcement.under_investigation_at.to_date.to_fs %></strong>
           <% elsif @enforcement.started_at %>
-            <%= @enforcement.started_at.to_date.to_fs %>
+            <strong><%= @enforcement.started_at.to_date.to_fs %></strong>
           <% else %>
             Not yet started
           <% end %>
-        </h3>
+        </p>
       </div>
       <div class="status-panel" id="expiry-date">
         <p class="govuk-body">
           Notice served
         </p>
-        <h3>
+        <p>
           <% if @enforcement.notice_served_at %>
-            <%= @enforcement.notice_served_at_at.to_date.to_fs %>
+            <strong><%= @enforcement.notice_served_at_at.to_date.to_fs %></strong>
           <% else %>
-            None served
+            <strong>None served</strong>
           <% end %>
-        </h3>
+        </p>
       </div>
     </div>
   </div>

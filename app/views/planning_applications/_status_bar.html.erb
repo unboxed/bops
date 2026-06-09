@@ -11,7 +11,9 @@
         ) do %>
       <%= link_to public_send(current_tab_route, (filter_enabled_uniquely?(status: "to_be_reviewed") ? {} : {status: [:to_be_reviewed]}).merge(anchor: "tabs")),
             class: "status-filter-link" do %>
-        <h3><%= t "planning_applications.index.reviewer_requests.title" %></h3>
+        <p>
+          <strong><%= t "planning_applications.index.reviewer_requests.title" %></strong>
+        </p>
         <p class="govuk-heading-m"><%= t "planning_applications.index.reviewer_requests", count: search.reviewer_planning_applications.count %></p>
       <% end %>
     <% end %>
@@ -24,7 +26,9 @@
         ) do %>
       <%= link_to public_send(current_tab_route, (filter_enabled_uniquely?(application_type: "prior_approval") ? {} : {application_type: [:prior_approval]}).merge(anchor: "tabs")),
             class: "status-filter-link" do %>
-        <h3><%= t "planning_applications.index.prior_approvals.title" %></h3>
+        <p>
+          <strong><%= t "planning_applications.index.prior_approvals.title" %></strong>
+        </p>
         <p class="govuk-heading-m"><%= t "planning_applications.index.prior_approvals", count: search.unstarted_prior_approvals.count %></p>
       <% end %>
     <% end %>
