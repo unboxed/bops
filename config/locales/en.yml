@@ -413,10 +413,10 @@ en:
         informative:
           attributes:
             text:
-              blank: Fill in the text of the informative
+              blank: Enter the text of the informative
             title:
-              blank: Fill in the title of the informative
-              taken: There is already an informative with this title
+              blank: Enter the title of the informative
+              taken: There is already an informative with this title. Change the title or edit the existing informative.
         legislation:
           attributes:
             link:
