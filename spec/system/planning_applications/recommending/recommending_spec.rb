@@ -3,7 +3,7 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application Assessment", type: :system do
-  let!(:default_local_authority) do
+  let!(:local_authority) do
     create(
       :local_authority,
       :default,
@@ -17,7 +17,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     create(
       :user,
       :assessor,
-      local_authority: default_local_authority,
+      local_authority:,
       name: "Alice Aplin"
     )
   end
@@ -26,7 +26,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
     create(
       :user,
       :reviewer,
-      local_authority: default_local_authority,
+      local_authority:,
       name: "Bella Brook"
     )
   end
@@ -38,7 +38,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           :planning_application,
           :with_constraints,
           :ldc_proposed,
-          local_authority: default_local_authority,
+          local_authority:,
           public_comment: nil,
           user: assessor,
           api_user:
@@ -229,7 +229,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     context "with previous recommendations" do
       let!(:planning_application) do
-        create(:planning_application, :to_be_reviewed, local_authority: default_local_authority, user: assessor)
+        create(:planning_application, :to_be_reviewed, local_authority:, user: assessor)
       end
 
       let!(:recommendation) do
@@ -348,7 +348,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       context "when there are open post validation requests" do
-        let(:planning_application) { create(:planning_application, :in_assessment, local_authority: default_local_authority, user: assessor) }
+        let(:planning_application) { create(:planning_application, :in_assessment, local_authority:, user: assessor) }
         let!(:red_line_boundary_change_validation_request) { create(:red_line_boundary_change_validation_request, :open, :post_validation, planning_application:) }
 
         it "prevents me from submitting the planning application" do
@@ -365,8 +365,8 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
           within(".govuk-notification-banner--alert") do
             expect(page).to have_content("There is a problem")
-            expect(page).to have_content("This application has open non-validation requests. Please review open requests and resolve them before submitting the application for review.")
-            expect(page).to have_link("review open requests", href: post_validation_requests_planning_application_validation_validation_requests_path(planning_application))
+            expect(page).to have_content("This application has open non-validation requests. Review these requests and resolve them before submitting your recommendation.")
+            expect(page).to have_link("Review these requests", href: post_validation_requests_planning_application_validation_validation_requests_path(planning_application))
           end
 
           expect(planning_application).to be_in_assessment
@@ -374,7 +374,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       end
 
       context "when there is an open time extension request" do
-        let(:planning_application) { create(:planning_application, :in_assessment, local_authority: default_local_authority, user: assessor) }
+        let(:planning_application) { create(:planning_application, :in_assessment, local_authority:, user: assessor) }
         let!(:time_extension_request) { create(:time_extension_validation_request, :open, planning_application:, post_validation: true) }
 
         it "allows me to submit the planning application" do
@@ -461,7 +461,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
     context "when withdrawing a recommendation", :capybara do
       let(:planning_application) do
-        create(:planning_application, :with_recommendation, :awaiting_determination, local_authority: default_local_authority, decision: "granted", user: assessor)
+        create(:planning_application, :with_recommendation, :awaiting_determination, local_authority:, decision: "granted", user: assessor)
       end
 
       it "can only be withdrawn when a planning application is awaiting determination" do
@@ -635,7 +635,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           :with_consultees,
           :with_constraints,
           api_user:,
-          local_authority: default_local_authority
+          local_authority:
         )
       end
 
@@ -793,7 +793,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           :planning_application,
           :in_assessment,
           :prior_approval,
-          local_authority: default_local_authority
+          local_authority:
         )
       end
     end

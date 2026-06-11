@@ -1564,7 +1564,7 @@ en:
         assessment_report: Assessment report details
         download_assessment_report: Download assessment report as PDF
       update:
-        has_open_non_validation_requests_html: This application has open non-validation requests. Please <a class="govuk-notification-banner__link" href="%{href}">review open requests</a> and resolve them before submitting the application for review.
+        has_open_non_validation_requests_html: This application has open non-validation requests. <a class="govuk-notification-banner__link" href="%{href}">Review these requests</a> and resolve them before submitting your recommendation.
         success: Recommendation was successfully submitted.
     redact_neighbour_responses:
       update:
@@ -1865,7 +1865,7 @@ en:
     update:
       edit_payment_amount: Planning application payment amount was successfully updated.
       edit_public_comment: The information appearing on the decision notice was successfully updated.
-      save_and_mark_complete_html: Please save and mark as complete the <a class="govuk-notification-banner__link" href="%{href}">draft recommendation</a> before updating application fields.
+      save_and_mark_complete_html: Save the <a class="govuk-notification-banner__link" href="%{href}">draft recommendation</a> and mark as complete before submitting your recommendation for review
       success: Planning application was successfully updated.
     updated_panel_component:
       no_planning_applications: No planning applications match your search

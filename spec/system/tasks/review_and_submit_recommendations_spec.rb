@@ -110,8 +110,8 @@ RSpec.describe "Review and submit recommendation task", type: :system do
       click_button "Save and mark as complete"
 
       within(".govuk-notification-banner--alert") do
-        expect(page).to have_content("This application has open non-validation requests. Please review open requests and resolve them before submitting the application for review.")
-        expect(page).to have_link("review open requests", href: post_validation_requests_planning_application_validation_validation_requests_path(planning_application))
+        expect(page).to have_content("This application has open non-validation requests. Review these requests and resolve them before submitting your recommendation.")
+        expect(page).to have_link("Review these requests", href: post_validation_requests_planning_application_validation_validation_requests_path(planning_application))
       end
     end
   end
