@@ -77,7 +77,7 @@ class DocumentsController < AuthenticationController
     if @document.unarchived?
       flash[:notice] = "#{@document.name} has been restored"
     else
-      flash[:alert] = "There was an error with unarchiving #{@document.name}"
+      flash[:alert] = "There was an error with unarchiving #{@document.name}. Try unarchiving the document again or contact your system administrator."
     end
 
     redirect_to action: :index
@@ -90,7 +90,7 @@ class DocumentsController < AuthenticationController
       flash[:notice] = "#{@document.name} has been archived"
       redirect_to(params.dig(:document, :redirect_to).presence || return_to_session || planning_application_documents_path(@planning_application))
     else
-      flash[:alert] = "There was an error with archiving #{@document.name}"
+      flash[:alert] = "There was an error with archiving #{@document.name}. Try archiving the document again or contact your system administrator."
       render :archive
     end
   rescue Document::NotArchiveableError => e
