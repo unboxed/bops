@@ -256,7 +256,7 @@ en:
               blank: Choose a decision for the appeal
             determined_at:
               date_blank: Enter the date when the appeal was determined
-              date_invalid: The date the appeal was determined must be a valid date
+              date_invalid: The date the appeal was determined must be a valid date. Check the date you’ve entered is correct and try again.
               date_not_on_or_after: The date the appeal was determined must be on or after the started at date
               date_not_on_or_before: The date the appeal was determined must be on or before today
             lodged_at:
