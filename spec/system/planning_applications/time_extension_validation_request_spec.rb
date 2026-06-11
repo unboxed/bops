@@ -3,12 +3,12 @@
 require "rails_helper"
 
 RSpec.describe "Requesting time extension to a planning application", :capybara, type: :system do
-  let!(:default_local_authority) { create(:local_authority, :default) }
-  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let!(:local_authority) { create(:local_authority, :default) }
+  let!(:assessor) { create(:user, :assessor, local_authority:) }
   let!(:api_user) { create(:api_user, :validation_requests_ro) }
 
   let(:planning_application) do
-    create(:planning_application, :in_assessment, local_authority: default_local_authority)
+    create(:planning_application, :in_assessment, local_authority:)
   end
 
   let(:reference) { planning_application.reference }
@@ -63,7 +63,7 @@ RSpec.describe "Requesting time extension to a planning application", :capybara,
     fill_in "Year", with: "2020"
     click_button "Send"
 
-    expect(page).to have_content("must be later than existing expiry date")
+    expect(page).to have_content("Enter a date later than the existing expiry date")
   end
 
   it "displays the previously created time extension request on the edit page" do

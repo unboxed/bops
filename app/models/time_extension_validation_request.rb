@@ -22,7 +22,7 @@ class TimeExtensionValidationRequest < ValidationRequest
     return if planning_application.nil? || proposed_expiry_date.blank?
 
     if proposed_expiry_date < planning_application.expiry_date
-      errors.add(:proposed_expiry_date, "must be later than existing expiry date")
+      errors.add(:proposed_expiry_date, "Enter a date later than the existing expiry date")
     end
   end
 
