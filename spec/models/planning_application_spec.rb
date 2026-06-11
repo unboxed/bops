@@ -78,7 +78,7 @@ RSpec.describe PlanningApplication do
         planning_application = build(:planning_application, user: create(:user, :administrator))
 
         expect { planning_application.valid? }.to change { planning_application.errors[:user] }
-          .to ["You cannot assign a planning application to an adminstrator"]
+          .to ["You cannot assign a planning application to an adminstrator. Select another officer."]
       end
     end
   end

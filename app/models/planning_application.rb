@@ -704,7 +704,7 @@ class PlanningApplication < ApplicationRecord
     return unless user_id_changed?
     return unless user&.administrator?
 
-    errors.add(:user, "You cannot assign a planning application to an adminstrator")
+    errors.add(:user, "You cannot assign a planning application to an adminstrator. Select another officer.")
   end
 
   def possibly_immune?
