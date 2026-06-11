@@ -462,7 +462,7 @@ en:
             application_type_id:
               blank: An application type must be chosen
             base:
-              no_boundary_geojson: This application does not have a digital sitemap and cannot be validated. Please <a href='%{path}'>create a digital site map</a> before validating this application.
+              no_boundary_geojson: This application cannot be validated because it does not have a digital sitemap. <a class="govuk-notification-banner__link" href='%{path}'>Check and save the red line boundary</a> before you try to validate the application.
             decision:
               blank: Please select an option to record your recommendation
             payment_amount:
