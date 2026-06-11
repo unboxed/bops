@@ -12,6 +12,8 @@ module Tasks
     attribute :delivery_method, :string
     attribute :documents, array: true
 
+    validates :internal_team_email, presence: true, if: -> { delivery_method == "internal_team" }
+
     after_initialize do
       @site_notices = planning_application.site_notices
       @site_notice = if params[:id].present?
