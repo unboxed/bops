@@ -365,21 +365,21 @@ en:
           attributes:
             consultee_message_body:
               blank: Please enter a message body
-              invalid: The message body contains an invalid placeholder '{{%{placeholder}}}'
+              invalid: The message body contains an invalid placeholder '{{%{placeholder}}}'. Reset the message to default content and update the text before sending.
             consultee_message_subject:
               blank: Please enter a message subject
-              invalid: The message subject contains an invalid placeholder '{{%{placeholder}}}'
+              invalid: The message subject contains an invalid placeholder '{{%{placeholder}}}'. Reset the message to default content and update the text before sending.
             consultees:
               blank: Please select at least one consultee
             planning_application:
-              invalidated: Emails can’t be sent out when a planning application is invalid
-              not_public: Emails can’t be sent out when a planning application has not been made public
-              not_started: Emails can’t be sent out when a planning application has not been started
+              invalidated: Emails can’t be sent out when a planning application is invalid. Validate the application then come back to this page to send emails.
+              not_public: Emails can’t be sent out when a planning application has not been made public. Publish the application then come back to this page to send emails.
+              not_started: Emails can’t be sent out when a planning application has not been started. Publish the application then come back to this page to send emails.
             reconsult_message:
               blank: Please enter the reasons for the reconsultation
-              invalid: The reasons for reconsultation contains an invalid placeholder '{{%{placeholder}}}'
+              invalid: The reasons for reconsultation contains an invalid placeholder '{{%{placeholder}}}'. Reset the message to default content and update the text before sending.
             resend_message:
-              invalid: The additional message contains an invalid placeholder '{{%{placeholder}}}'
+              invalid: The additional message contains an invalid placeholder '{{%{placeholder}}}'. Reset the message to default content and update the text before sending.
         consultee/response:
           attributes:
             response:
