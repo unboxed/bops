@@ -509,7 +509,7 @@ RSpec.describe "Sign in" do
       click_button("Change password")
 
       within(".govuk-error-summary") do
-        expect(page).to have_content("The reset password link you used no longer works. Please request a new link and try again.")
+        expect(page).to have_content("This password reset link has expired. Request a new one by selecting ‘Forgot your password’ on the login page.")
       end
     end
   end

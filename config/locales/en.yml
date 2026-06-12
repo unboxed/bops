@@ -601,7 +601,7 @@ en:
         user:
           attributes:
             reset_password_token:
-              invalid: The reset password link you used no longer works. Please request a new link and try again.
+              invalid: This password reset link has expired. Request a new one by selecting ‘Forgot your password’ on the login page.
         validation_request:
           attributes:
             document_request_type:
