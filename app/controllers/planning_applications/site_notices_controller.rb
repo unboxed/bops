@@ -90,7 +90,7 @@ module PlanningApplications
     end
 
     def send_mail
-      if site_notice_params[:internal_team_email].presence
+      if site_notice_params[:internal_team_email].present?
         @planning_application.send_internal_team_site_notice_mail(site_notice_params[:internal_team_email])
       else
         @planning_application.send_site_notice_mail(

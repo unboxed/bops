@@ -2,23 +2,25 @@
 
 require "rails_helper"
 
-RSpec.describe "Site notice task", js: true do
-  let(:default_local_authority) { create(:local_authority, :default) }
-  let!(:api_user) { create(:api_user, :planx, local_authority: default_local_authority) }
-  let!(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
-  let!(:application_type) { create(:application_type, :planning_permission) }
+RSpec.describe "Site notice task" do
+  let(:local_authority) { create(:local_authority, :default) }
+  let(:api_user) { create(:api_user, :planx, local_authority:) }
+  let(:assessor) { create(:user, :assessor, local_authority:) }
+  let(:application_type) { create(:application_type, :planning_permission) }
+  let(:agent_email) { "agent@example.com" }
+  let(:user) { assessor }
 
-  let!(:planning_application) do
+  let(:planning_application) do
     create(:planning_application,
       :from_planx_prior_approval,
       :with_boundary_geojson,
       :published,
       application_type:,
-      local_authority: default_local_authority,
+      local_authority:,
       api_user:,
-      agent_email: "agent@example.com",
+      agent_email:,
       applicant_email: "applicant@example.com",
-      user: assessor)
+      user:)
   end
 
   let(:reference) { planning_application.reference }
@@ -85,10 +87,7 @@ RSpec.describe "Site notice task", js: true do
 
   describe "adding a single site notice" do
     before do
-      within :sidebar do
-        click_link "Site notice"
-      end
-
+      click_link "Site notice"
       click_link "Create site notice"
 
       fill_in "Quantity", with: "2"
@@ -263,25 +262,11 @@ RSpec.describe "Site notice task", js: true do
     end
   end
 
-  describe "creating a single site notice with no user" do
-    let!(:planning_application_2) do
-      create(:planning_application,
-        :from_planx_prior_approval,
-        :with_boundary_geojson,
-        :published,
-        application_type:,
-        local_authority: default_local_authority,
-        agent_email: "agent@example.com",
-        applicant_email: "applicant@example.com")
-    end
+  context "when the application is not assigned to a user" do
+    let(:user) { nil }
 
     before do
-      visit "/planning_applications/#{planning_application_2.reference}"
-      click_link "Consultees, neighbours and publicity"
-      within :sidebar do
-        click_link "Site notice"
-      end
-
+      click_link "Site notice"
       click_link "Create site notice"
     end
 
@@ -297,38 +282,56 @@ RSpec.describe "Site notice task", js: true do
 
   describe "creating a single site notice with different delivery methods" do
     before do
-      within :sidebar do
-        click_link "Site notice"
+      click_link "Site notice"
+      click_link "Create site notice"
+    end
+
+    context "when there is an agent" do
+      it "sends the site notice to the agent" do
+        fill_in "Quantity", with: "2"
+        fill_in "Where should notices be displayed?", with: "Near the main entrance and rear gate"
+        choose "Send it by email to agent/ applicant"
+
+        expect(page).to have_content("The site notice will be emailed to #{planning_application.agent_email} with instructions on how to print, protect and display it.")
+
+        click_button "Send site notice"
+
+        expect(page).to have_content("Site notice was emailed to the agent/ applicant")
       end
     end
 
-    it "sends the site notice to the agent" do
-      click_link "Create site notice"
+    context "when there is no agent" do
+      let(:agent_email) { nil }
 
-      fill_in "Quantity", with: "2"
-      fill_in "Where should notices be displayed?", with: "Near the main entrance and rear gate"
-      choose "Send it by email to agent/ applicant"
+      it "sends the site notice to the applicant" do
+        fill_in "Quantity", with: "2"
+        fill_in "Where should notices be displayed?", with: "Near the main entrance and rear gate"
+        choose "Send it by email to agent/ applicant"
 
-      expect(page).to have_content("The site notice will be emailed to #{planning_application.agent_email} with instructions on how to print, protect and display it.")
+        expect(page).to have_content("The site notice will be emailed to #{planning_application.applicant_email} with instructions on how to print, protect and display it.")
 
-      click_button "Send site notice"
+        click_button "Send site notice"
 
-      expect(page).to have_content("Site notice was emailed to the agent/ applicant")
+        expect(page).to have_content("Site notice was emailed to the agent/ applicant")
+      end
     end
 
-    it "sends the site notice to the applicant when there is no agent" do
-      planning_application.update!(agent_email: nil)
-      click_link "Create site notice"
+    context "when sending internally" do
+      it "must set the site notice email" do
+        fill_in "Quantity", with: "2"
+        fill_in "Where should notices be displayed?", with: "Near the main entrance and rear gate"
+        choose "Send it by email to internal team to post"
 
-      fill_in "Quantity", with: "2"
-      fill_in "Where should notices be displayed?", with: "Near the main entrance and rear gate"
-      choose "Send it by email to agent/ applicant"
+        click_button "Send site notice"
 
-      expect(page).to have_content("The site notice will be emailed to #{planning_application.applicant_email} with instructions on how to print, protect and display it.")
+        expect(page).to have_content("Error: Enter Internal team email")
 
-      click_button "Send site notice"
+        fill_in "Internal team email", with: "bops@example.com"
 
-      expect(page).to have_content("Site notice was emailed to the agent/ applicant")
+        click_button "Send site notice"
+
+        expect(page).to have_content("Site notice was emailed to internal team to print")
+      end
     end
   end
 
@@ -337,9 +340,6 @@ RSpec.describe "Site notice task", js: true do
       create(:environment_impact_assessment, planning_application:)
       planning_application.environment_impact_assessment.update(address: "123 street", fee: 19, email_address: "planner@council.com")
       click_link "Site notice"
-      eia = planning_application.environment_impact_assessment
-      pp eia&.required?
-      pp eia.with_address_email_and_fee?
     end
 
     it "shows the correct information" do
