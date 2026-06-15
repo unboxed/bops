@@ -14,7 +14,7 @@ RSpec.describe PressNotice do
 
     describe "#required" do
       it "validates inclusion in [true, false]" do
-        expect { press_notice.valid? }.to change { press_notice.errors[:required] }.to ["Choose 'Yes' or 'No'"]
+        expect { press_notice.valid? }.to change { press_notice.errors[:required] }.to ["Choose ‘Yes’ or ‘No’"]
       end
     end
 

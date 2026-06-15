@@ -329,7 +329,7 @@ RSpec.describe "API Tokens", :capybara do
       expect(page).to have_selector("[role=alert] h2", text: "There is a problem")
 
       within_fieldset "Select the type of authentication to use" do
-        expect(page).to have_selector("p.govuk-error-message", text: "Enter the TerraQuest product ID - this is usually 'jsonconnector'")
+        expect(page).to have_selector("p.govuk-error-message", text: "Enter the TerraQuest product ID - this is usually ‘jsonconnector’")
         expect(page).to have_selector("p.govuk-error-message", text: "Enter the client ID provided by TerraQuest")
         expect(page).to have_selector("p.govuk-error-message", text: "Enter the client secret provided by TerraQuest")
 

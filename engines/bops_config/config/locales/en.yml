@@ -299,7 +299,7 @@ en:
           name_label: Description
           remove: Remove
           save: Save
-          section_hint: Enter class or section within the part, such as "A, AA, B"
+          section_hint: Enter class or section within the part, such as ‘A’, ‘AA’, ‘B’
           section_label: Class
           url_hint: Enter an optional link to the General Permitted Development Order
           url_label: Link (optional)
@@ -370,9 +370,9 @@ en:
           description_label: Description
           remove: Remove
           save: Save
-          section_hint: Enter section number, such as "1a, 1d(ii), 2b(i)(aa)", or use class code (i.e., "%{class}") to hide section number
+          section_hint: Enter section number, such as ‘1a’, ‘1d(ii)’, ‘2b(i)(aa)’, or use class code (i.e., ‘%{class}’) to hide section number
           section_label: Section
-          title_hint: Enter section title, such as "Development not permitted, conditions"
+          title_hint: Enter section title, such as ‘Development not permitted’, ‘Conditions’
           title_label: Title
         index:
           create_new: Create new policy section

@@ -26,7 +26,7 @@ en:
       unlock_instructions:
         subject: Unlock instructions
     omniauth_callbacks:
-      failure: Could not authenticate you from %{kind} because "%{reason}".
+      failure: Could not authenticate you from %{kind} because ‘%{reason}’.
       success: Successfully authenticated from %{kind} account.
     passwords:
       no_token: You can’t access this page unless you click the link in a password reset email. Request a password reset email using the ‘Forgot your password’ option in the login page.

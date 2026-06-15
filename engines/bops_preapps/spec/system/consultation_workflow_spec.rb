@@ -188,7 +188,7 @@ RSpec.describe "Pre-application consultation workflow", type: :system do
 
       visit "/preapps/#{reference}/consultees/determine-consultation-requirement"
 
-      expect(page).to have_selector(".govuk-warning-text", text: "Changing this answer to \"No\" will remove all consultees")
+      expect(page).to have_selector(".govuk-warning-text", text: "Changing this answer to ‘No’ will remove all consultees")
     end
   end
 
