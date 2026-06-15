@@ -529,7 +529,7 @@ en:
             reasons:
               blank: Provide a reason for the press notice
             required:
-              inclusion: Choose ‘Yes’ or ‘No’
+              inclusion: Select yes or no for whether a press notice is required
         recommendation:
           attributes:
             challenged:
