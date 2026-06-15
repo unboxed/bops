@@ -456,7 +456,7 @@ en:
         permitted_development_right:
           attributes:
             reviewer_comment:
-              blank: Explain to the case officer why
+              blank: Add a comment to explain why you’re returning this section to the officer
         planning_application:
           attributes:
             application_type_id:
@@ -533,7 +533,7 @@ en:
         recommendation:
           attributes:
             challenged:
-              blank: Choose one of the options 'Yes' or 'No'
+              blank: Select ‘Yes’ or ‘No’ to mark whether you agree with the recommendation or not
               updates_required: You have requested officer changes, resolve these before agreeing with the recommendation
         reporting_type:
           attributes:
