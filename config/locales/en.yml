@@ -574,13 +574,13 @@ en:
             documents:
               blank: Provide documentary evidence that the site notice was displayed
             quantity:
-              blank: Enter the number of site notices required
-              greater_than_or_equal_to: Number of site notices must be 1 or more
-              less_than_or_equal_to: Number of site notices must be 100 or less
+              blank: Enter how many site notices are required
+              greater_than_or_equal_to: Enter 1 or more site notices
+              less_than_or_equal_to: Enter 100 or fewer site notices
               not_a_number: Enter the number of site notices as a whole number
               not_an_integer: Enter the number of site notices as a whole number
             required:
-              inclusion: Choose ‘Yes’ or ‘No’
+              inclusion: Select yes or no for whether a site notice is required
         site_visit:
           attributes:
             comment:
