@@ -26,7 +26,7 @@ RSpec.describe "Determine consultation requirement task", type: :system do
     visit "/preapps/#{planning_application.reference}/consultees/determine-consultation-requirement"
 
     expect(page).to have_content("Is consultation required?")
-    expect(page).to have_content("Select \"Yes\" to unlock consultation tasks or \"No\" to skip them for this case.")
+    expect(page).to have_content("Select ‘Yes’ to unlock consultation tasks or ‘No’ to skip them for this case.")
     expect(page).to have_field("Yes")
     expect(page).to have_field("No")
     expect(page).to have_button("Save and mark as complete")
@@ -129,7 +129,7 @@ RSpec.describe "Determine consultation requirement task", type: :system do
 
       expect(page).to have_selector(
         ".govuk-warning-text",
-        text: "Changing this answer to \"No\" will remove all consultees"
+        text: "Changing this answer to ‘No’ will remove all consultees"
       )
     end
   end

@@ -14,7 +14,7 @@ RSpec.describe SiteNotice do
 
     describe "#required" do
       it "validates inclusion in [true, false]" do
-        expect { site_notice.valid? }.to change { site_notice.errors[:required] }.to ["Choose 'Yes' or 'No'"]
+        expect { site_notice.valid? }.to change { site_notice.errors[:required] }.to ["Select yes or no for whether a site notice is required"]
       end
     end
 
@@ -26,7 +26,7 @@ RSpec.describe SiteNotice do
 
         it "validates presence" do
           expect { site_notice.valid? }.to change { site_notice.errors[:quantity] }
-            .to(include("Enter the number of site notices required"))
+            .to(include("Enter how many site notices are required"))
         end
       end
 
@@ -44,7 +44,7 @@ RSpec.describe SiteNotice do
 
         it "validates minimum value" do
           expect { site_notice.valid? }.to change { site_notice.errors[:quantity] }
-            .to(["Number of site notices must be 1 or more"])
+            .to(["Enter 1 or more site notices"])
         end
       end
     end

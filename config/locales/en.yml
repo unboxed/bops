@@ -55,7 +55,7 @@ en:
     documents_component:
       manage_documents: Manage documents
     feedback_component:
-      reason_given_html: <strong>Reason given:</strong> "%{feedback}"
+      reason_given_html: "<strong>Reason given:</strong> ‘%{feedback}’"
     key_application_dates_component:
       application_received: 'Application received:'
       consultation_end_date: 'Consultation deadline:'
@@ -249,14 +249,14 @@ en:
             permissions:
               blank: Select the permissions to grant to this API token
             product_id:
-              blank: Enter the TerraQuest product ID - this is usually 'jsonconnector'
+              blank: Enter the TerraQuest product ID - this is usually ‘jsonconnector’
         appeal:
           attributes:
             decision:
               blank: Choose a decision for the appeal
             determined_at:
               date_blank: Enter the date when the appeal was determined
-              date_invalid: The date the appeal was determined must be a valid date
+              date_invalid: The date the appeal was determined must be a valid date. Check the date you’ve entered is correct and try again.
               date_not_on_or_after: The date the appeal was determined must be on or after the started at date
               date_not_on_or_before: The date the appeal was determined must be on or before today
             lodged_at:
@@ -365,21 +365,21 @@ en:
           attributes:
             consultee_message_body:
               blank: Please enter a message body
-              invalid: The message body contains an invalid placeholder '{{%{placeholder}}}'
+              invalid: The message body contains an invalid placeholder ‘{{%{placeholder}}}’. Reset the message to default content and update the text before sending.
             consultee_message_subject:
               blank: Please enter a message subject
-              invalid: The message subject contains an invalid placeholder '{{%{placeholder}}}'
+              invalid: The message subject contains an invalid placeholder ‘{{%{placeholder}}}’. Reset the message to default content and update the text before sending.
             consultees:
               blank: Please select at least one consultee
             planning_application:
-              invalidated: Emails can’t be sent out when a planning application is invalid
-              not_public: Emails can’t be sent out when a planning application has not been made public
-              not_started: Emails can’t be sent out when a planning application has not been started
+              invalidated: Emails can’t be sent out when a planning application is invalid. Validate the application then come back to this page to send emails.
+              not_public: Emails can’t be sent out when a planning application has not been made public. Publish the application then come back to this page to send emails.
+              not_started: Emails can’t be sent out when a planning application has not been started. Publish the application then come back to this page to send emails.
             reconsult_message:
               blank: Please enter the reasons for the reconsultation
-              invalid: The reasons for reconsultation contains an invalid placeholder '{{%{placeholder}}}'
+              invalid: The reasons for reconsultation contains an invalid placeholder ‘{{%{placeholder}}}’. Reset the message to default content and update the text before sending.
             resend_message:
-              invalid: The additional message contains an invalid placeholder '{{%{placeholder}}}'
+              invalid: The additional message contains an invalid placeholder ‘{{%{placeholder}}}’. Reset the message to default content and update the text before sending.
         consultee/response:
           attributes:
             response:
@@ -409,14 +409,14 @@ en:
             address:
               blank: You have entered a fee but not provided an address. Enter an address where the fee can be paid.
             fee:
-              blank: Fee can't be blank if the address has been entered. Enter a fee or enter '0' if there is no fee.
+              blank: Fee can't be blank if the address has been entered. Enter a fee or enter ‘0’ if there is no fee.
         informative:
           attributes:
             text:
-              blank: Fill in the text of the informative
+              blank: Enter the text of the informative
             title:
-              blank: Fill in the title of the informative
-              taken: There is already an informative with this title
+              blank: Enter the title of the informative
+              taken: There is already an informative with this title. Change the title or edit the existing informative.
         legislation:
           attributes:
             link:
@@ -456,13 +456,13 @@ en:
         permitted_development_right:
           attributes:
             reviewer_comment:
-              blank: Explain to the case officer why
+              blank: Add a comment to explain why you’re returning this section to the officer
         planning_application:
           attributes:
             application_type_id:
               blank: An application type must be chosen
             base:
-              no_boundary_geojson: This application does not have a digital sitemap and cannot be validated. Please <a href='%{path}'>create a digital site map</a> before validating this application.
+              no_boundary_geojson: This application cannot be validated because it does not have a digital sitemap. <a class="govuk-notification-banner__link" href="%{path}">Check and save the red line boundary</a> before you try to validate the application.
             decision:
               blank: Please select an option to record your recommendation
             payment_amount:
@@ -529,11 +529,11 @@ en:
             reasons:
               blank: Provide a reason for the press notice
             required:
-              inclusion: Choose 'Yes' or 'No'
+              inclusion: Select yes or no for whether a press notice is required
         recommendation:
           attributes:
             challenged:
-              blank: Choose one of the options 'Yes' or 'No'
+              blank: Select ‘Yes’ or ‘No’ to mark whether you agree with the recommendation or not
               updates_required: You have requested officer changes, resolve these before agreeing with the recommendation
         reporting_type:
           attributes:
@@ -543,8 +543,8 @@ en:
               blank: Choose at least one category for this reporting type
             code:
               blank: Enter a code for this reporting type
-              invalid_pa_code: The code must be in the form 'PAX' or 'PAXX' where 'X' is a number
-              invalid_q_code: The code must be in the form 'QXX' where 'X' is a number
+              invalid_pa_code: The code must be in the form ‘PAX’ or ‘PAXX’ where ‘X’ is a number
+              invalid_q_code: The code must be in the form ‘QXX’ where ‘X’ is a number
               taken: Enter a unique code for this reporting type
             description:
               blank: Enter a description for this reporting type
@@ -574,19 +574,19 @@ en:
             documents:
               blank: Provide documentary evidence that the site notice was displayed
             quantity:
-              blank: Enter the number of site notices required
-              greater_than_or_equal_to: Number of site notices must be 1 or more
-              less_than_or_equal_to: Number of site notices must be 100 or less
+              blank: Enter how many site notices are required
+              greater_than_or_equal_to: Enter 1 or more site notices
+              less_than_or_equal_to: Enter 100 or fewer site notices
               not_a_number: Enter the number of site notices as a whole number
               not_an_integer: Enter the number of site notices as a whole number
             required:
-              inclusion: Choose 'Yes' or 'No'
+              inclusion: Select yes or no for whether a site notice is required
         site_visit:
           attributes:
             comment:
               blank: Enter a comment about the site visit
             decision:
-              inclusion: Choose 'Yes' or 'No'
+              inclusion: Choose ‘Yes’ or ‘No’
             visited_at:
               date_blank: Provide the date when the site visit took place
               date_invalid: The date the site visit took place must be a valid date
@@ -601,7 +601,7 @@ en:
         user:
           attributes:
             reset_password_token:
-              invalid: The reset password link you used no longer works. Please request a new link and try again.
+              invalid: This password reset link has expired. Request a new one by selecting ‘Forgot your password’ on the login page.
         validation_request:
           attributes:
             document_request_type:
@@ -913,7 +913,7 @@ en:
     form_partials:
       privacy:
         document_references: Drawing number
-        where_documents_contain: Where documents contain multiple drawings, enter multiple references separated by a comma (for example, "25A-V2, 25B-V2").
+        where_documents_contain: Where documents contain multiple drawings, enter multiple references separated by a comma (for example, ‘25A-V2, 25B-V2’).
       tags:
         groups:
           drawings: Drawings
@@ -1390,7 +1390,7 @@ en:
       back: Back
       feature_disabled: Consultation is not available for this application type.
       heading: Determine if consultation is required
-      hint: Select "Yes" to unlock consultation tasks or "No" to skip them for this case.
+      hint: Select ‘Yes’ to unlock consultation tasks or ‘No’ to skip them for this case.
       options:
         'no': 'No'
         'yes': 'Yes'
@@ -1400,7 +1400,7 @@ en:
       required_before_tasks: Decide if consultation is required before completing these tasks.
       update:
         success: Consultation requirement was successfully updated.
-      warning: Changing this answer to "No" will remove all consultees and any responses you have recorded.
+      warning: Changing this answer to ‘No’ will remove all consultees and any responses you have recorded.
     consultations:
       show:
         make_public: The planning application must be made public on the BOPS Public Portal before you can send letters to neighbours.
@@ -1460,16 +1460,6 @@ en:
       success: Application has been invalidated and email has been sent
     make_public:
       not_publishable: You can’t publish %{application_type} on the public portal
-    neighbour_letters:
-      create:
-        failure: 'Error adding neighbour addresses with message: %{message}'
-        success: Addresses have been successfully added.
-      index:
-        make_public: The planning application must be made public on the BOPS Public Portal before you can send letters to neighbours.
-      send_letters:
-        add_neighbours: Add some neighbours before sending letters
-        make_public_html: The planning application must be <a class="govuk-notification-banner__link" href="%{href}">made public on the BOPS Public Portal</a> before you can send letters to neighbours.
-        require_resend_reason: Provide a reason when resending letters to previously contacted neighbours
     neighbour_responses:
       create:
         success: Neighbour response successfully created.
@@ -1564,7 +1554,7 @@ en:
         assessment_report: Assessment report details
         download_assessment_report: Download assessment report as PDF
       update:
-        has_open_non_validation_requests_html: This application has open non-validation requests. Please <a class="govuk-notification-banner__link" href="%{href}">review open requests</a> and resolve them before submitting the application for review.
+        has_open_non_validation_requests_html: This application has open non-validation requests. <a class="govuk-notification-banner__link" href="%{href}">Review these requests</a> and resolve them before submitting your recommendation.
         success: Recommendation was successfully submitted.
     redact_neighbour_responses:
       update:
@@ -1632,9 +1622,9 @@ en:
       local_policies:
         edit:
           check_the_assessment: check the assessment
-          if_you_want: if you want to return to the case officer with comments, select 'no'
+          if_you_want: if you want to return to the case officer with comments, select ‘no’
           make_minor_changes: make minor changes by updating the text on this page
-          select_yes_to_accept: select 'yes' to accept the assessment
+          select_yes_to_accept: select ‘yes’ to accept the assessment
           what_you_need: What you need to do
         form:
           comment_label: Enter comment
@@ -1865,7 +1855,7 @@ en:
     update:
       edit_payment_amount: Planning application payment amount was successfully updated.
       edit_public_comment: The information appearing on the decision notice was successfully updated.
-      save_and_mark_complete_html: Please save and mark as complete the <a class="govuk-notification-banner__link" href="%{href}">draft recommendation</a> before updating application fields.
+      save_and_mark_complete_html: Save the <a class="govuk-notification-banner__link" href="%{href}">draft recommendation</a> and mark as complete before submitting your recommendation for review
       success: Planning application was successfully updated.
     updated_panel_component:
       no_planning_applications: No planning applications match your search
@@ -2062,7 +2052,7 @@ en:
   proposal_details:
     list_component:
       the_proposal_details: The proposal details are grouped under the following categories
-      view_only_applicant: View ONLY applicant answers, hide 'Auto-answered by PlanX'
+      view_only_applicant: View ONLY applicant answers, hide ‘Auto-answered by PlanX’
     main: Main
     other: Other
     policy_refs_component:
@@ -2074,7 +2064,7 @@ en:
     title: "%{application_type}: %{decision}"
   reconsult_consultees_component:
     formatting_hint_html: The message is formatted using <a href="https://www.notifications.service.gov.uk/using-notify/formatting">GOV.UK Notify formatting rules</a>. Placeholders like <nobr><code>{{closing_date}}</code></nobr> will be substituted when the email is sent.
-    hint: Choosing 'Yes' will allow you to add the reasons why this application is being reconsulted.
+    hint: Choosing ‘Yes’ will allow you to add the reasons why this application is being reconsulted.
     legend: Is this a reconsultation?
     reconsult: Yes, I’m reconsulting existing consultees
     reconsult_date_label: Consultee reponse required by

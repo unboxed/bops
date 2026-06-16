@@ -78,7 +78,7 @@ RSpec.describe "Recommending and submitting a pre-application report" do
 
     click_button "Confirm and submit pre-application report"
     expect(page).to have_selector("[role=alert] p", text: "Review submission failed – check the form for errors")
-    expect(page).to have_content("Choose one of the options 'Yes' or 'No'")
+    expect(page).to have_content("Select ‘Yes’ or ‘No’ to mark whether you agree with the recommendation or not")
 
     within_fieldset "Do you agree with the advice?" do
       choose "Yes"

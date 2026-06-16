@@ -29,7 +29,7 @@ RSpec.describe EnvironmentImpactAssessment do
         environment_impact_assessment.save
       end.to change {
         environment_impact_assessment.errors[:fee]
-      }.to ["Fee can't be blank if the address has been entered. Enter a fee or enter '0' if there is no fee."]
+      }.to ["Fee can't be blank if the address has been entered. Enter a fee or enter ‘0’ if there is no fee."]
     end
   end
 

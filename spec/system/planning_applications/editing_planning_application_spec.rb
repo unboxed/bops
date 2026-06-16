@@ -109,7 +109,7 @@ RSpec.describe "editing planning application", :pending, type: :system do
 
       click_button("Save")
 
-      expect(page).to have_content("Please save and mark as complete the draft recommendation before updating application fields.")
+      expect(page).to have_content("Save the draft recommendation and mark as complete before submitting your recommendation for review.")
       expect(page).to have_link("draft recommendation", href: new_planning_application_assessment_recommendation_path(planning_application))
     end
   end

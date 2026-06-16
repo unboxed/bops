@@ -18,7 +18,7 @@ RSpec.describe Informative do
           informative.valid?
         end.to change {
           informative.errors[:title]
-        }.to ["Fill in the title of the informative"]
+        }.to ["Enter the title of the informative"]
       end
     end
 
@@ -28,7 +28,7 @@ RSpec.describe Informative do
           informative.valid?
         end.to change {
           informative.errors[:text]
-        }.to ["Fill in the text of the informative"]
+        }.to ["Enter the text of the informative"]
       end
     end
   end

@@ -178,7 +178,7 @@ RSpec.describe "Consultation", show_sidebar: false, type: :system, js: true do
       click_button "Send emails to consultees"
     end
 
-    expect(page).to have_selector("[role=alert] li", text: "The message body contains an invalid placeholder '{{close_date}}'")
+    expect(page).to have_selector("[role=alert] li", text: "The message body contains an invalid placeholder ‘{{close_date}}’")
     expect(page).to have_selector("[role=alert] li", text: "Consultee response period is not a number")
 
     fill_in "Message body", with: find("textarea").text.gsub("{{close_date}}", "{{closing_date}}")

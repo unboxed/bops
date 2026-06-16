@@ -61,7 +61,7 @@ RSpec.describe "Permitted development right", type: :system do
             choose "Return with comments"
             click_button "Save and mark as complete"
 
-            expect(page).to have_content("Explain to the case officer why")
+            expect(page).to have_content("Add a comment to explain why you’re returning this section to the officer")
 
             fill_in "Add a comment", with: "Needs more explanation"
             click_button "Save and mark as complete"
@@ -155,7 +155,7 @@ RSpec.describe "Permitted development right", type: :system do
             choose "Return with comments"
             click_button "Save and mark as complete"
 
-            expect(page).to have_content("Explain to the case officer why")
+            expect(page).to have_content("Add a comment to explain why you’re returning this section to the officer")
 
             fill_in "Add a comment", with: "Needs more explanation"
             click_button "Save and mark as complete"

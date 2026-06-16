@@ -77,12 +77,12 @@ en:
             select_constraints_heading: Select constraints that require consultation
         determine-consultation-requirement:
           show:
-            hint: Select "Yes" to unlock consultation tasks or "No" to skip them for this case.
+            hint: Select ‘Yes’ to unlock consultation tasks or ‘No’ to skip them for this case.
             options:
               'no': 'No'
               'yes': 'Yes'
             question: Is consultation required?
-            warning: Changing this answer to "No" will remove all consultees and any responses you have recorded.
+            warning: Changing this answer to ‘No’ will remove all consultees and any responses you have recorded.
         send-emails-to-consultees:
           show:
             confirmation_message: Send emails to consultees?

@@ -20,7 +20,7 @@ RSpec.describe SiteVisit do
 
     describe "#decision" do
       it "validates inclusion in [true, false]" do
-        expect { site_visit.valid? }.to change { site_visit.errors[:decision] }.to ["Choose 'Yes' or 'No'"]
+        expect { site_visit.valid? }.to change { site_visit.errors[:decision] }.to ["Choose ‘Yes’ or ‘No’"]
       end
     end
 

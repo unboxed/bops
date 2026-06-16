@@ -220,7 +220,7 @@ module Tasks
       policies = planning_application_policy_sections
       return if policies.none?(&:to_be_determined?)
 
-      errors.add(:base, "All policies must be assessed")
+      errors.add(:base, "Review cannot be completed unless all policies have been assessed. Check policy assessment is complete or remove policies if not relevant to the application.")
     end
   end
 end
