@@ -200,7 +200,7 @@ module BopsApi
 
       responses.each do |response|
         name = case response
-        when /written advice/i
+        when /advice/i
           :written_advice
         when /meeting/i
           :meeting
