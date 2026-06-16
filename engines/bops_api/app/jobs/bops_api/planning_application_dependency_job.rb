@@ -208,6 +208,8 @@ module BopsApi
           :site_visit
         end
 
+        next if name.blank?
+
         planning_application.additional_services << PreapplicationService.new(name:)
       end
     end
