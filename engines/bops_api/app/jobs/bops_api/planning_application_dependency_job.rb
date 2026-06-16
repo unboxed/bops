@@ -200,13 +200,15 @@ module BopsApi
 
       responses.each do |response|
         name = case response
-        when /written advice/i
+        when /advice/i
           :written_advice
         when /meeting/i
           :meeting
         when /visit/i
           :site_visit
         end
+
+        next if name.blank?
 
         planning_application.additional_services << PreapplicationService.new(name:)
       end
