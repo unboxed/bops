@@ -77,13 +77,15 @@
             <%= form.govuk_radio_button(
                   :reviewer_verdict,
                   :accepted,
-                  label: {text: t(".accept")},
+                  id: dom_id(assessment_detail) + "_reviewer_verdict_accepted",
+                  label: {text: t(".accept"), for: dom_id(assessment_detail) + "_reviewer_verdict_accepted"},
                   aria: {controls: "accepted-comment-#{assessment_detail.id}"}
                 ) %>
             <%= form.govuk_radio_button(
                   :reviewer_verdict,
                   :rejected,
-                  label: {text: t(".return")},
+                  id: dom_id(assessment_detail) + "_reviewer_verdict_rejected",
+                  label: {text: t(".return"), for: dom_id(assessment_detail) + "_reviewer_verdict_rejected"},
                   aria: {controls: "comment-#{assessment_detail.id}"}
                 ) %>
 
@@ -94,12 +96,15 @@
                     <span class="govuk-visually-hidden">Error:</span> <%= form_model.errors["comment.text"].first %>
                   </p>
                 <% end %>
-                <%= form.fields_for :comment, assessment_detail.existing_or_new_comment do |comment_form| %>
+                <%= form.fields_for :comment, assessment_detail.existing_or_new_comment, include_id: false do |comment_form| %>
+                  <%= form.hidden_field "comment_attributes[id]", value: assessment_detail.id, id: dom_id(assessment_detail) + "_comment_attributes_id" %>
+
                   <%= comment_form.govuk_text_area(
                         :text,
                         rows: 3,
                         class: "govuk-textarea #{"govuk-textarea--error" if form_model.errors.any?}",
-                        label: {text: t(".add_a_comment")}
+                        label: {text: t(".add_a_comment"), for: dom_id(assessment_detail) + "_comment_attributes_text_field"},
+                        id: dom_id(assessment_detail) + "_comment_attributes_text_field"
                       ) %>
                 <% end %>
               </div>
