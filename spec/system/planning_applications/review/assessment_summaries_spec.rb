@@ -364,7 +364,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
         end
 
         within("#neighbour_summary_footer") do
-          choose "Agree"
+          choose "Accept"
           click_button("Save and mark as complete")
         end
 
@@ -446,7 +446,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
             expect(page).to have_content("Untagged: A new summary")
           end
           within("#neighbour_summary_footer") do
-            choose "Agree"
+            choose "Accept"
             click_button("Save and mark as complete")
           end
         end
@@ -480,7 +480,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
         end
 
         within("#summary_of_work_footer") do
-          choose "Agree"
+          choose "Accept"
           click_button("Save and mark as complete")
         end
 
@@ -562,7 +562,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
             expect(page).to have_content("A new summary")
           end
           within("#summary_of_work_footer") do
-            choose "Agree"
+            choose "Accept"
             click_button("Save and mark as complete")
           end
         end
@@ -597,7 +597,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
         end
 
         within("#site_description_footer") do
-          choose "Agree"
+          choose "Accept"
           click_button("Save and mark as complete")
         end
 
@@ -679,7 +679,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
             expect(page).to have_content("A new summary")
           end
           within("#site_description_footer") do
-            choose "Agree"
+            choose "Accept"
             click_button("Save and mark as complete")
           end
         end
@@ -716,7 +716,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
         end
 
         within("#consultation_summary_footer") do
-          choose "Agree"
+          choose "Accept"
           click_button("Save and mark as complete")
         end
 
@@ -798,7 +798,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
             expect(page).to have_content("A new summary")
           end
           within("#consultation_summary_footer") do
-            choose "Agree"
+            choose "Accept"
             click_button("Save and mark as complete")
           end
         end
@@ -832,7 +832,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
         end
 
         within("#additional_evidence_footer") do
-          choose "Agree"
+          choose "Accept"
           click_button("Save and mark as complete")
         end
 
@@ -914,7 +914,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
             expect(page).to have_content("A new summary")
           end
           within("#additional_evidence_footer") do
-            choose "Agree"
+            choose "Accept"
             click_button("Save and mark as complete")
           end
         end
@@ -948,7 +948,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
         end
 
         within("#amenity_footer") do
-          choose "Agree"
+          choose "Accept"
           click_button("Save and mark as complete")
         end
 
@@ -1032,7 +1032,7 @@ RSpec.describe "Reviewing assessment summaries", type: :system do
             expect(page).to have_content("A new summary")
           end
           within("#amenity_footer") do
-            choose "Agree"
+            choose "Accept"
             click_button("Save and mark as complete")
           end
         end
