@@ -55,8 +55,7 @@ module BopsCore
       end
 
       def cancel_url
-        route_for(
-          :new_validation_request_cancellation,
+        new_validation_request_cancellation_path(
           reference_param_name => planning_application.reference,
           :validation_request_id => validation_request.id,
           :task_slug => task.full_slug,

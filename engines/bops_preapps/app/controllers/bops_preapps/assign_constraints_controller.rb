@@ -7,10 +7,9 @@ module BopsPreapps
 
     def create
       if planning_application_constraint.update(assignment_params)
-        redirect_to route_for(:task, @planning_application, @task)
+        redirect_to @task.url
       else
-        redirect_to route_for(:task, @planning_application, @task),
-          alert: t(".failure")
+        redirect_to @task.url, alert: t(".failure")
       end
     end
 

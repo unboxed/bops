@@ -54,7 +54,7 @@ module BopsCore
       end
 
       def constraint_url(options = {})
-        route_for(:task_component, planning_application, slug: task.full_slug, id: constraint.id, **options.with_defaults(only_path: true))
+        task_component_path(planning_application, slug: task.full_slug, id: constraint.id, **options.with_defaults(only_path: true))
       end
 
       def remove_consultee_url(consultee)
@@ -64,9 +64,9 @@ module BopsCore
         }
 
         if editing_constraint?
-          route_for(:task_component, planning_application, slug: task.full_slug, id: constraint.id, **options.with_defaults(task_action: "remove_constraint_consultee", only_path: true))
+          task_component_path(planning_application, slug: task.full_slug, id: constraint.id, **options.with_defaults(task_action: "remove_constraint_consultee"))
         else
-          route_for(:task, planning_application, slug: task.full_slug, **options.with_defaults(task_action: "remove_consultee", only_path: true))
+          task_path(planning_application, slug: task.full_slug, **options.with_defaults(task_action: "remove_consultee"))
         end
       end
 

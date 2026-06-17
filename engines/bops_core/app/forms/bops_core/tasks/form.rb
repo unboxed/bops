@@ -71,13 +71,11 @@ module BopsCore
       end
 
       def url(options = {})
-        route_for(:task, planning_application, task, **options.with_defaults(only_path: true))
+        task.url(**options)
       end
 
       def redirect_url(options = {})
-        return return_to if return_to.present?
-
-        route_for(:task, planning_application, task, **options.with_defaults(only_path: true))
+        return_to.presence || task.url(**options)
       end
 
       def permitted_fields(params)

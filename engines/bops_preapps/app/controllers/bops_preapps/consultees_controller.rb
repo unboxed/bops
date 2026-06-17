@@ -23,8 +23,7 @@ module BopsPreapps
 
     def create
       if @constraint.update(consultee_params)
-        redirect_to route_for(:task, @planning_application, @task),
-          notice: t(".success")
+        redirect_to @task.url, notice: t(".success")
       else
         @consultees = @consultation.consultees
         render :new, status: :unprocessable_content

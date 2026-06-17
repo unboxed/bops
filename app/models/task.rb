@@ -82,7 +82,7 @@ class Task < ApplicationRecord
   end
 
   def url(**args)
-    @url ||= case_record.url_helpers.task_path(case_record.caseable, self, **args)
+    case_record.url_helpers.task_path(case_record.caseable, self, **args)
   end
 
   private

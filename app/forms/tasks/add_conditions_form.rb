@@ -34,15 +34,15 @@ module Tasks
     end
 
     def condition_url
-      route_for(:task_component, planning_application, slug: task.full_slug, id: condition.id, only_path: true)
+      task_component_path(planning_application, slug: task.full_slug, id: condition.id)
     end
 
     def edit_condition_url(condition)
-      route_for(:edit_task_component, planning_application, slug: task.full_slug, id: condition.id, only_path: true)
+      edit_task_component_path(planning_application, slug: task.full_slug, id: condition.id)
     end
 
     def remove_condition_url(condition)
-      route_for(:planning_application_assessment_condition, planning_application, condition, redirect_to: url, only_path: true)
+      planning_application_assessment_condition_path(planning_application, condition, redirect_to: url)
     end
 
     def failure_template

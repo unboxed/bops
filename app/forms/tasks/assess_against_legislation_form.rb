@@ -88,15 +88,15 @@ module Tasks
     end
 
     def assessment_area_url(area = assessment_area)
-      route_for(:task_component, planning_application, slug: task.full_slug, id: area.id, only_path: true)
+      task_component_path(planning_application, slug: task.full_slug, id: area.id)
     end
 
     def edit_assessment_area_url(area)
-      route_for(:edit_task_component, planning_application, slug: task.full_slug, id: area.id, only_path: true)
+      edit_task_component_path(planning_application, slug: task.full_slug, id: area.id)
     end
 
     def remove_assessment_area_url(area)
-      route_for(:planning_application_assessment_policy_areas_policy_class, planning_application, area, redirect_to: url, only_path: true)
+      planning_application_assessment_policy_areas_policy_class_path(planning_application, area, redirect_to: url)
     end
 
     def after_success

@@ -42,16 +42,14 @@ module BopsCore
       end
 
       def edit_url
-        route_for(:edit_task, planning_application, task, validation_request_id: validation_request&.id, return_to: return_to, only_path: true)
+        edit_task_path(planning_application, task, validation_request_id: validation_request&.id, return_to: return_to)
       end
 
       def cancel_url
-        route_for(
-          :new_validation_request_cancellation,
+        new_validation_request_cancellation_path(
           reference_param_name => planning_application.reference,
           :validation_request_id => validation_request.id,
-          :task_slug => task.full_slug,
-          :only_path => true
+          :task_slug => task.full_slug
         )
       end
 

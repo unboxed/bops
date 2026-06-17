@@ -28,15 +28,15 @@ module Tasks
     end
 
     def informative_url
-      route_for(:task_component, planning_application, slug: task.full_slug, id: informative.id, only_path: true)
+      task_component_path(planning_application, slug: task.full_slug, id: informative.id)
     end
 
     def edit_informative_url(informative)
-      route_for(:edit_task_component, planning_application, slug: task.full_slug, id: informative.id, only_path: true)
+      edit_task_component_path(planning_application, slug: task.full_slug, id: informative.id)
     end
 
     def remove_informative_url(informative)
-      route_for(:planning_application_assessment_informatives_item, planning_application, informative, redirect_to: url, only_path: true)
+      planning_application_assessment_informatives_item_path(planning_application, informative, redirect_to: url)
     end
 
     private
