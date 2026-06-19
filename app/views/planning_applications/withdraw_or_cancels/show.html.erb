@@ -56,19 +56,19 @@
               <div class="govuk-radios govuk-radios--conditional govuk-!-margin-bottom-4" data-module="govuk-radios">
                 <div class="govuk-radios govuk-radios--small">
                   <div class="govuk-radios__item">
-                    <%= form.radio_button :status, "withdrawn", class: "govuk-radios__input", id: "withdrawn", "aria-controls": "conditional-status-withdrawn-conditional", "aria-expanded": "false" %>
+                    <%= form.radio_button :status, "withdrawn", class: "govuk-radios__input", id: "withdrawn" %>
                     <%= form.label :withdrawn, "Withdrawn by applicant", class: "govuk-label govuk-radios__label", for: "withdrawn" %>
                   </div>
                   <div class="govuk-radios__item">
-                    <%= form.radio_button :status, "returned", class: "govuk-radios__input", id: "returned", "aria-controls": "conditional-status-returned-conditional", "aria-expanded": "false" %>
+                    <%= form.radio_button :status, "returned", class: "govuk-radios__input", id: "returned" %>
                     <%= form.label :returned, "Returned as invalid", class: "govuk-label govuk-radios__label", for: "returned" %>
                   </div>
                   <div class="govuk-radios__item">
-                    <%= form.radio_button :status, "closed", class: "govuk-radios__input", id: "closed", "aria-controls": "conditional-status-closed-conditional", "aria-expanded": "false" %>
+                    <%= form.radio_button :status, "closed", class: "govuk-radios__input", id: "closed" %>
                     <%= form.label :closed, "Cancelled for other reason", class: "govuk-label govuk-radios__label", for: "closed" %>
                   </div>
                   <div class="govuk-radios__item">
-                    <%= form.radio_button :status, "deleted", class: "govuk-radios__input", id: "deleted", "aria-controls": "conditional-status-deleted-conditional", "aria-expanded": "false" %>
+                    <%= form.radio_button :status, "deleted", class: "govuk-radios__input", id: "deleted" %>
                     <%= form.label :deleted, "Deleted entirely (caution!)", class: "govuk-label govuk-radios__label", for: "deleted" %>
                   </div>
                   <div class="govuk-hint">

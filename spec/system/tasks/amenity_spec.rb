@@ -178,7 +178,7 @@ RSpec.describe "Amenity task", :show_sidebar, type: :system do
       end
 
       within("#amenity_footer") do
-        choose "Agree"
+        choose "Accept"
         click_button("Save and mark as complete")
       end
 
@@ -249,7 +249,7 @@ RSpec.describe "Amenity task", :show_sidebar, type: :system do
       end
 
       within("#amenity_footer") do
-        choose "Agree"
+        choose "Accept"
         click_button("Save and mark as complete")
       end
 

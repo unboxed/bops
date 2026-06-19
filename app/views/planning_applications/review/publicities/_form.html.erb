@@ -1,10 +1,19 @@
 <%= form_with scope: :assessment_detail, model: @planning_application.existing_or_new_check_publicity, url: planning_application_review_consultation_publicities_path(@planning_application, @planning_application.consultation) do |form| %>
   <%= form.govuk_error_summary %>
   <%= form.govuk_radio_buttons_fieldset(:action, small: true, legend: nil) do %>
-    <%= form.govuk_radio_button :reviewer_verdict, "accepted", label: {text: "Agree"}, link_errors: true %>
-    <%= form.govuk_radio_button :reviewer_verdict, "rejected", label: {text: "Return with comments"} do %>
+    <%= form.govuk_radio_button :reviewer_verdict,
+          "accepted",
+          id: dom_id(@planning_application.consultation) + "_publicity_reviewer_verdict_accepted",
+          label: {text: "Agree", for: dom_id(@planning_application.consultation) + "_publicity_reviewer_verdict_accepted"},
+          link_errors: true %>
+
+    <%= form.govuk_radio_button :reviewer_verdict, "rejected",
+          id: dom_id(@planning_application.consultation) + "_publicity_reviewer_verdict_rejected",
+          label: {text: "Return with comments", for: dom_id(@planning_application.consultation) + "_publicity_reviewer_verdict_rejected"} do %>
       <%= form.fields_for :comment, @planning_application.existing_or_new_check_publicity.existing_or_new_comment do |ff| %>
-        <%= ff.govuk_text_area :text, label: {text: "Add a comment"} %>
+        <%= ff.govuk_text_area :text,
+              label: {text: "Add a comment", for: dom_id(@planning_application.consultation) + "_publicity_comment_attributes_text_field"},
+              id: dom_id(@planning_application.consultation) + "_publicity_comment_attributes_text_field" %>
       <% end %>
     <% end %>
   <% end %>
