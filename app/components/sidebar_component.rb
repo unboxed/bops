@@ -80,9 +80,15 @@ class SidebarComponent < ViewComponent::Base
     else
       {}
     end
-    elements << helpers.tag.h3(class: "govuk-heading-s #{"bops-sidebar__toggle" if top_level}",
-      data: toggle_data) do
+
+    heading = helpers.tag.h3(class: "govuk-heading-s #{"bops-sidebar__toggle" if top_level}", data: toggle_data) do
       section.section + " tasks"
+    end
+
+    elements << if top_level
+      heading
+    else
+      helpers.tag.li(class: "bops-sidebar__heading") { heading }
     end
 
     if planning_application.pre_application? && section.section == "Assessment"
@@ -100,7 +106,12 @@ class SidebarComponent < ViewComponent::Base
       )
     end
     tasks = visible_tasks.map { |task| render_task(task, top_level: false) }
-    elements << helpers.tag.ul(safe_join(tasks), class: "govuk-list govuk-list--spaced bops-sidebar__list", data: {sidebar_toggle_target: top_level ? "content" : nil})
+
+    elements << if top_level
+      helpers.tag.ul(safe_join(tasks), class: "govuk-list govuk-list--spaced bops-sidebar__list", data: {sidebar_toggle_target: "content"})
+    else
+      helpers.tag.li(safe_join(tasks))
+    end
 
     safe_join(elements)
   end

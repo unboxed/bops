@@ -185,3 +185,7 @@ body:has(.bops-fullwidth-container) {
   gap: govuk-spacing(2);
   text-decoration: none;
 }
+
+li + .bops-sidebar__heading {
+  margin-top: 30px;
+}
