@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "View neighbour responses task", type: :system, js: true do
+RSpec.describe "View neighbour responses task", :js, type: :system do
   include ActionDispatch::TestProcess::FixtureFile
 
   let(:default_local_authority) { create(:local_authority, :default) }
@@ -91,6 +91,7 @@ RSpec.describe "View neighbour responses task", type: :system, js: true do
 
     click_button "Save response"
 
+    expect(page).to have_content("Successfully saved neighbour response")
     expect(page).not_to have_content("No neighbour responses yet")
     expect(task.reload).to be_in_progress
 
