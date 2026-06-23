@@ -279,11 +279,11 @@ GEM
       railties (>= 5.0.0)
     faker (2.18.0)
       i18n (>= 1.6, < 2)
-    faraday (2.14.2)
+    faraday (2.14.3)
       faraday-net_http (>= 2.0, < 3.5)
       json
       logger
-    faraday-net_http (3.4.2)
+    faraday-net_http (3.4.4)
       net-http (~> 0.5)
     ffi (1.17.1-aarch64-linux-gnu)
     ffi (1.17.1-arm64-darwin)
@@ -356,7 +356,7 @@ GEM
     jmespath (1.6.2)
     jsbundling-rails (1.1.1)
       railties (>= 6.0.0)
-    json (2.19.5)
+    json (2.19.9)
     json-schema (4.3.1)
       addressable (>= 2.8)
     json_schemer (2.3.0)
