@@ -16,7 +16,7 @@ RSpec.shared_examples "check consultees task", :capybara do |application_type|
     end
 
     click_button "Save changes"
-    expect(page).to have_content("Check consultees")
+    expect(page).to have_content("Consultees were successfully marked as reviewed")
 
     expect(task.reload).to be_in_progress
     expect(planning_application.reload.consultation.current_review).to be_nil
