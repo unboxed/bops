@@ -13,6 +13,7 @@ json.application do
   json.validAt planning_application.validated_at
   json.publishedAt planning_application.published_at
   json.determinedAt planning_application.determined_at
+  json.determinationDate planning_application.determination_date.to_date
   json.decision planning_application.determined? ? planning_application.decision : nil
   json.status planning_application.appeal_display_status || planning_application.status
   json.session_id planning_application.session_id
