@@ -9,6 +9,7 @@
     "validAt": "2025-03-04T00:00:00.000+00:00",
     "publishedAt": "2025-03-06T14:22:12.293+00:00",
     "determinedAt": null,
+    "determinationDate": null,
     "decision": null,
     "status": "Appeal allowed",
     "consultation": {
