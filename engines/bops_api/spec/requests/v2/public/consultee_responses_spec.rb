@@ -267,7 +267,7 @@ RSpec.describe "BOPS public API Specialist comments" do
         context "Query params: sentiment" do
           def sentiment_counts(specialist_comments)
             comments = specialist_comments.flat_map { |s| s["comments"] }
-            comments.pluck("sentiment").each_with_object(Hash.new(0)) { |s, h| h[s] += 1 }
+            comments.pluck("sentiment").tally
           end
 
           before do

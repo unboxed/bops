@@ -30,7 +30,7 @@ class User < ApplicationRecord
 
   before_validation on: :create do
     self.password ||= PasswordGenerator.call
-    self.password_confirmation = self.password
+    self.password_confirmation = password
   end
 
   validates :mobile_number, phone_number: true
