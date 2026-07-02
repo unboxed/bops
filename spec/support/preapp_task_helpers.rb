@@ -6,7 +6,7 @@ module PreappTaskHelpers
   class TaskDefinitions
     WORKFLOW_FILE = Rails.root.join("config/task_workflows/pre_application.yml")
 
-    Task = Struct.new(:name, :slug_path, :section, :hidden, keyword_init: true) do
+    Task = Struct.new(:name, :slug_path, :section, :hidden) do
       def visible?
         !hidden
       end
