@@ -54,7 +54,7 @@ module BopsCore
     def markdown(text)
       return if text.blank?
 
-      CommonMarker.render_html(text).html_safe
+      Commonmarker.to_html(text).html_safe
     end
 
     def link_to_document(link_text, document, **args)

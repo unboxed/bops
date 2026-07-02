@@ -13,7 +13,7 @@ gem "aws-sdk-cloudfront", require: false
 gem "aws-sdk-s3", require: false
 gem "bootsnap", ">= 1.4.2", require: false
 gem "business_time"
-gem "commonmarker", "~> 0.23.10"
+gem "commonmarker"
 gem "daemons"
 gem "dartsass-rails"
 gem "devise"
