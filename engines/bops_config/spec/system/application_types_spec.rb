@@ -2,7 +2,7 @@
 
 require "bops_config_helper"
 
-RSpec.describe "Application Types", type: :system, capybara: true do
+RSpec.describe "Application Types", :capybara, type: :system do
   let(:user) { create(:user, :global_administrator, name: "Clark Kent", local_authority: nil) }
 
   before do
@@ -393,6 +393,33 @@ RSpec.describe "Application Types", type: :system, capybara: true do
 
     expect(page).to have_selector("h1", text: "Review the application type")
     expect(page).to have_selector("dl div:nth-child(12) dd", text: "Active")
+  end
+
+  it "allows editing of the suffix" do
+    application_type = create(:application_type_config, :configured, :ldc_proposed, status: "inactive")
+
+    visit "/application_types/#{application_type.id}"
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(2)" do
+      expect(page).to have_selector("dt", text: "Suffix")
+      expect(page).to have_selector("dd:nth-child(2)", text: /^LDCP$/)
+
+      click_link "Change"
+    end
+
+    expect(page).to have_selector("h1", text: "Application profile")
+
+    fill_in "Suffix", with: "LDC"
+    click_button "Continue"
+
+    expect(page).to have_content("Application profile successfully updated")
+    expect(page).to have_selector("h1", text: "Review the application type")
+
+    within "dl div:nth-child(2)" do
+      expect(page).to have_selector("dt", text: "Suffix")
+      expect(page).to have_selector("dd:nth-child(2)", text: /^LDC$/)
+    end
   end
 
   it "allows editing of the category" do

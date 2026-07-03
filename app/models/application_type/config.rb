@@ -151,15 +151,14 @@ class ApplicationType < ApplicationRecord
         in_order_of(:name, NAME_ORDER).order(:name, :code)
       end
 
-      def code_menu
+      def code_menu(current:)
         existing_codes = not_retired.pluck(:code)
 
-        ODP_APPLICATION_TYPES.each_with_object([]) do |item, memo|
-          next memo if existing_codes.include?(item.first)
-          next memo unless CURRENT_APPLICATION_TYPES.include?(item.first)
+        existing_codes -= [current&.code] if current
 
-          memo << item.reverse
-        end
+        ODP_APPLICATION_TYPES.select {
+          CURRENT_APPLICATION_TYPES.include?(it) && !existing_codes.include?(it)
+        }.map(&:reverse)
       end
 
       def reporting_type_used?(codes)
