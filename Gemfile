@@ -75,6 +75,7 @@ gem "bops_uploads", path: "engines/bops_uploads"
 
 group :development, :test do
   gem "brakeman", require: false
+  gem "bundler-audit", require: false
   gem "bullet"
   gem "erb_lint", require: false
   gem "guard", require: false

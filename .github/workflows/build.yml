@@ -18,6 +18,7 @@ jobs:
     strategy:
       matrix:
         task:
+          - bundle_audit
           - brakeman
           - rubocop
           - biome
