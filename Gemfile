@@ -21,6 +21,7 @@ gem "devise-two-factor"
 gem "discard", "~> 1.4"
 gem "faker", require: false
 gem "faraday", "~> 2", require: false
+gem "govuk-components", git: "https://github.com/unboxed/govuk-components.git", branch: "govuk-frontend-5-stable"
 gem "grover"
 gem "holidays"
 gem "i18n", "< 1.9"
@@ -75,6 +76,7 @@ gem "bops_uploads", path: "engines/bops_uploads"
 
 group :development, :test do
   gem "brakeman", require: false
+  gem "bundler-audit", require: false
   gem "bullet"
   gem "erb_lint", require: false
   gem "guard", require: false

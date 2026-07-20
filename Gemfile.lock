@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/unboxed/govuk-components.git
+  revision: f9329d83e3e9414ceb21f9294256d809d9dc9bd7
+  branch: govuk-frontend-5-stable
+  specs:
+    govuk-components (5.13.1)
+      html-attributes-utils (~> 1.0.0, >= 1.0.0)
+      pagy (>= 6, < 10)
+      view_component (>= 4.12, < 5.0)
+
 PATH
   remote: engines/bops_admin
   specs:
@@ -206,6 +216,9 @@ GEM
     bullet (8.1.0)
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
+    bundler-audit (0.9.3)
+      bundler (>= 1.2.0)
+      thor (~> 1.0)
     business_time (0.13.0)
       activesupport (>= 3.2.0)
       tzinfo
@@ -226,7 +239,7 @@ GEM
     crack (1.0.1)
       bigdecimal
       rexml
-    crass (1.0.6)
+    crass (1.0.7)
     csv (3.2.8)
     daemons (1.4.1)
     dartsass-rails (0.4.1)
@@ -296,10 +309,6 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    govuk-components (5.13.1)
-      html-attributes-utils (~> 1.0.0, >= 1.0.0)
-      pagy (>= 6, < 10)
-      view_component (>= 4.0, < 4.2)
     govuk_design_system_formbuilder (5.8.0)
       actionview (>= 6.1)
       activemodel (>= 6.1)
@@ -379,7 +388,7 @@ GEM
       activesupport (>= 4)
       railties (>= 4)
       request_store (~> 1.0)
-    loofah (2.25.1)
+    loofah (2.25.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     lumberjack (1.2.10)
@@ -403,7 +412,7 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
-    msgpack (1.7.2)
+    msgpack (1.8.3)
     nenv (0.3.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
@@ -489,8 +498,8 @@ GEM
       activesupport (>= 5.0.0)
       minitest
       nokogiri (>= 1.6)
-    rails-html-sanitizer (1.7.0)
-      loofah (~> 2.25)
+    rails-html-sanitizer (1.7.1)
+      loofah (~> 2.25, >= 2.25.2)
       nokogiri (>= 1.15.7, != 1.16.7, != 1.16.6, != 1.16.5, != 1.16.4, != 1.16.3, != 1.16.2, != 1.16.1, != 1.16.0.rc1, != 1.16.0)
     rails-i18n (8.0.2)
       i18n (>= 0.7, < 2)
@@ -656,9 +665,9 @@ GEM
     uniform_notifier (1.18.0)
     uri (1.1.1)
     useragent (0.16.11)
-    view_component (4.1.1)
-      actionview (>= 7.1.0, < 8.2)
-      activesupport (>= 7.1.0, < 8.2)
+    view_component (4.12.0)
+      actionview (>= 7.1.0)
+      activesupport (>= 7.1.0)
       concurrent-ruby (~> 1)
     warden (1.2.9)
       rack (>= 2.0.9)
@@ -672,7 +681,8 @@ GEM
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
     websocket (1.2.10)
-    websocket-driver (0.7.6)
+    websocket-driver (0.8.2)
+      base64
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
     xpath (3.2.0)
@@ -706,6 +716,7 @@ DEPENDENCIES
   bops_uploads!
   brakeman
   bullet
+  bundler-audit
   business_time
   capybara
   commonmarker (~> 0.23.10)
@@ -723,6 +734,7 @@ DEPENDENCIES
   faker
   faraday (~> 2)
   foreman
+  govuk-components!
   grover
   guard
   guard-rspec
