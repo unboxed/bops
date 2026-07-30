@@ -48,20 +48,18 @@ module Tasks
       recommendation.save!
     end
 
-    def save_committee_decision
-      decision = CommitteeDecision.find_or_create_by!(planning_application:)
+    def save_committee_decision(draft = false)
+      unless planning_application.committee_decision
+        planning_application.create_committee_decision!
+      end
 
-      decision_changed = decision.reasons != updated_reasons || decision.recommend != recommend
-
+      decision = planning_application.committee_decision
       decision.update!(reasons: updated_reasons, recommend:)
 
-      if decision.current_review.comment.present?
-        # Being resubmitted in response to reviewer feedback
-        # Need to mark updated even if no change.
-        decision.current_review.updated!
-      elsif decision.current_review.review_complete? && !decision_changed
-        # Resubmitting assessment for other reasons; if no change to decision, mark as complete
-        decision.create_review(review_status: :review_complete)
+      if draft
+        decision.update_review(status: "in_progress", assessor: Current.user)
+      else
+        decision.update_review(status: "complete", assessor: Current.user)
       end
     end
 
@@ -69,7 +67,7 @@ module Tasks
       super do
         planning_application.update!(decision: decision, public_comment: public_comment)
         save_recommendation(status: :assessment_in_progress)
-        save_committee_decision unless recommend.nil?
+        save_committee_decision(true) unless recommend.nil?
       end
     end
 

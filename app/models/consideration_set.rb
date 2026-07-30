@@ -6,7 +6,7 @@ class ConsiderationSet < ApplicationRecord
 
   with_options dependent: :destroy do
     has_many :considerations, -> { order(position: :asc) }
-    has_many :reviews, -> { order(created_at: :desc) }, as: :owner
+    has_many :reviews, -> { order(created_at: :desc, id: :desc) }, as: :owner
   end
 
   def current_review

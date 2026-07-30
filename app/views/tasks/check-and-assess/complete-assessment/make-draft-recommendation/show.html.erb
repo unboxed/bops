@@ -54,7 +54,7 @@
           <%= form.govuk_check_boxes_fieldset :reasons, legend: {text: "Reason why", size: "s"}, disabled: submitted do %>
             <% CommitteeDecision::REASONS.each do |reason| %>
               <% if reason == "Other" %>
-                <%= form.govuk_check_box :other_reasons, reason.to_s, label: {text: reason.to_s}, link_errors: true, checked: form.object.other_reason.present?, disabled: submitted do %>
+                <%= form.govuk_check_box :reasons, reason.to_s, label: {text: reason.to_s}, link_errors: true, checked: form.object.other_reason.present?, disabled: submitted do %>
                   <%= form.govuk_text_area :other_reason, label: {text: "Tell reviewer and the public why the application needs to go to committee."} %>
                 <% end %>
               <% else %>
