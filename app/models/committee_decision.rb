@@ -3,7 +3,7 @@
 class CommitteeDecision < ApplicationRecord
   belongs_to :planning_application
 
-  has_many :reviews, as: :owner, dependent: :destroy, class_name: "Review"
+  has_many :reviews, -> { order(created_at: :desc) }, as: :owner, dependent: :destroy
 
   validates :recommend, exclusion: {in: [nil]}
 
@@ -13,10 +13,6 @@ class CommitteeDecision < ApplicationRecord
   end
 
   validate :ensure_planning_application_not_closed_or_cancelled
-
-  after_create :create_review
-  before_update :create_review, if: :should_create_review?
-  after_update :mark_review_updated!, if: -> { reasons_changed? || recommend_changed? }
 
   accepts_nested_attributes_for :reviews
 
@@ -76,7 +72,7 @@ class CommitteeDecision < ApplicationRecord
   end
 
   def current_review
-    reviews.order(:created_at).last
+    reviews.load.first || reviews.create!
   end
 
   def all_details_present?
@@ -88,14 +84,41 @@ class CommitteeDecision < ApplicationRecord
   end
 
   def rejected_review?
-    current_review&.rejected?
+    current_review.rejected?
   end
 
-  def create_review(**params)
-    reviews.create!(assessor: Current.user, owner_type: "CommitteeDecision", owner_id: id, status: "complete", **params)
+  def update_review(params)
+    case params[:status]
+    when "complete"
+      mark_as_complete(params)
+    when "in_progress"
+      mark_as_in_progress(params)
+    else
+      raise ArgumentError, "Unexpected review status: #{params[:status].inspect}"
+    end
   end
 
   private
+
+  def mark_as_complete(params)
+    if current_review.to_be_reviewed?
+      reviews.create!(params.merge(status: "updated"))
+    else
+      current_review.update!(params)
+    end
+  rescue ActiveRecord::ActiveRecordError
+    false
+  end
+
+  def mark_as_in_progress(params)
+    if current_review.to_be_reviewed?
+      current_review.update!(params.except(:status))
+    else
+      current_review.update!(params)
+    end
+  rescue ActiveRecord::ActiveRecordError
+    false
+  end
 
   def assigned_officer
     planning_application.user.present? ? planning_application.user.name : Current.user.name
@@ -110,22 +133,11 @@ class CommitteeDecision < ApplicationRecord
   end
 
   def review_complete?
-    return if current_review.nil?
     current_review.review_complete?
   end
 
   def planning_application_awaiting_determination?
     planning_application.awaiting_determination?
-  end
-
-  def should_create_review?
-    return if current_review.nil?
-
-    (reasons_changed? || recommend_changed?) && current_review.to_be_reviewed? && current_review.review_complete?
-  end
-
-  def mark_review_updated!
-    current_review.updated!
   end
 
   def ensure_planning_application_not_closed_or_cancelled
