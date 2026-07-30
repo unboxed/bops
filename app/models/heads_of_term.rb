@@ -5,7 +5,7 @@ class HeadsOfTerm < ApplicationRecord
 
   with_options dependent: :destroy do
     has_many :terms, -> { order(position: :asc) }, extend: TermsExtension
-    has_many :reviews, -> { order(created_at: :desc) }, as: :owner
+    has_many :reviews, -> { order(created_at: :desc, id: :desc) }, as: :owner
   end
 
   has_many :validation_requests, through: :terms

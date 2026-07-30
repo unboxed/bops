@@ -3,7 +3,7 @@
 class CommitteeDecision < ApplicationRecord
   belongs_to :planning_application
 
-  has_many :reviews, -> { order(created_at: :desc) }, as: :owner, dependent: :destroy
+  has_many :reviews, -> { order(created_at: :desc, id: :desc) }, as: :owner, dependent: :destroy
 
   validates :recommend, exclusion: {in: [nil]}
 

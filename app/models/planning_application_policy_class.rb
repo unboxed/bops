@@ -5,7 +5,7 @@ class PlanningApplicationPolicyClass < ApplicationRecord
   belongs_to :policy_class
 
   with_options dependent: :destroy do
-    has_many :reviews, -> { order(created_at: :desc) }, as: :owner
+    has_many :reviews, -> { order(created_at: :desc, id: :desc) }, as: :owner
   end
 
   with_options on: :update do
