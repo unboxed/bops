@@ -8,6 +8,17 @@ GIT
       pagy (>= 6, < 10)
       view_component (>= 4.12, < 5.0)
 
+GIT
+  remote: https://github.com/unboxed/govuk-form-builder.git
+  revision: 65c16e16bbde80fea6756d8b75a856e4013f9497
+  branch: govuk-form-builder-5-stable
+  specs:
+    govuk_design_system_formbuilder (5.13.0)
+      actionview (>= 6.1)
+      activemodel (>= 6.1)
+      activesupport (>= 6.1)
+      html-attributes-utils (~> 1)
+
 PATH
   remote: engines/bops_admin
   specs:
@@ -309,11 +320,6 @@ GEM
       raabro (~> 1.4)
     globalid (1.2.1)
       activesupport (>= 6.1)
-    govuk_design_system_formbuilder (5.8.0)
-      actionview (>= 6.1)
-      activemodel (>= 6.1)
-      activesupport (>= 6.1)
-      html-attributes-utils (~> 1)
     grover (1.2.2)
       nokogiri (~> 1)
     guard (2.18.1)
@@ -737,6 +743,7 @@ DEPENDENCIES
   faraday (~> 2)
   foreman
   govuk-components!
+  govuk_design_system_formbuilder!
   grover
   guard
   guard-rspec
