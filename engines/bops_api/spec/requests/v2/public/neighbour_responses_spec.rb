@@ -251,7 +251,7 @@ RSpec.describe "BOPS public API Public comments" do
           # Helper method to count sentiments in comments
           # This method takes an array of comments and returns a hash with sentiment counts
           def sentiment_counts(comments)
-            comments.pluck("sentiment").each_with_object(Hash.new(0)) { |s, h| h[s] += 1 }
+            comments.pluck("sentiment").tally
           end
 
           before do

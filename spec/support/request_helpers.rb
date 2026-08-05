@@ -9,7 +9,7 @@ module Requests
     end
 
     def json_time_format(time)
-      time.iso8601(3) if time.present?
+      time.presence&.iso8601(3)
     end
 
     def sort_by_id(response)

@@ -39,7 +39,7 @@ module Api
 
           render json: {message: "The file: '#{file.original_filename}' exceeds the limit of 30mb. " \
                                   "Each file must be 30MB or less"},
-            status: :payload_too_large
+            status: :content_too_large
         end
       end
 

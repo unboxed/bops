@@ -67,9 +67,9 @@
       <h3>Add summary of advice</h3>
 
       <%= form.govuk_text_area(:entry, value: @planning_application
-              .assessment_details
-              .find_or_initialize_by(category: :summary_of_advice)
-              .entry, label: {text: t(".label")}, rows: 10) %>
+            .assessment_details
+            .find_or_initialize_by(category: :summary_of_advice)
+            .entry, label: {text: t(".label")}, rows: 10) %>
       <%= form.hidden_field(:category, value: @category) %>
 
       <%= render "task_submit_buttons", form: form %>

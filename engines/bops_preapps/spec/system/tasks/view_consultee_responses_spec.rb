@@ -412,7 +412,7 @@ RSpec.describe "View consultee responses task", type: :system do
       visit "/preapps/#{planning_application.reference}/consultees/view-consultee-responses"
 
       within("#consultee-tab-all") do
-        expect(page).not_to have_link("View all responses")
+        expect(page).to have_link("View all responses")
         expect(page).not_to have_link("Upload new response")
       end
     end

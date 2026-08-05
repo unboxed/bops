@@ -25,18 +25,18 @@
     <%= consultee.response_snippet || consultee.fallback_response_text %>
   </p>
 
-  <% if show_action %>
-    <div class="consultee-panel__actions">
-      <% if consultee.has_responses? %>
-        <div class="consultee-panel__action">
-          <%= govuk_link_to consultee.view_all_responses_label, consultee_responses_path(reference: planning_application.reference, consultee_id: consultee.consultee.id, task_slug: task.full_slug) %>
-        </div>
-      <% end %>
+  <div class="consultee-panel__actions">
+    <% if consultee.has_responses? %>
+      <div class="consultee-panel__action">
+        <%= govuk_link_to consultee.view_all_responses_label, consultee_responses_path(reference: planning_application.reference, consultee_id: consultee.consultee.id, task_slug: task.full_slug) %>
+      </div>
+    <% end %>
+    <% if show_action %>
       <div class="consultee-panel__action">
         <%= govuk_link_to consultee.upload_new_response_label, new_consultee_response_path(reference: planning_application.reference, consultee_id: consultee.consultee.id, task_slug: task.full_slug) %>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </article>
 
 <% if show_divider %>

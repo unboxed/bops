@@ -8,6 +8,18 @@ module BopsEnforcements
     before_action :build_form, only: %i[edit update]
     before_action :ensure_case_is_not_closed, only: %i[show edit update]
 
+    def show
+      super
+    end
+
+    def edit
+      super
+    end
+
+    def update
+      super
+    end
+
     private
 
     def set_enforcement

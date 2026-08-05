@@ -20,6 +20,7 @@ x-bops: &bops
     REDIS_URL: redis://redis:6379/1
     PUPPETEER_EXECUTABLE_PATH: /usr/bin/chromium
     RAILS_DISABLE_DEPRECATED_TO_S_CONVERSION: "true"
+    BOPS_AUTO_MIGRATOR_ENABLED: "false"
   volumes:
     - type: bind
       source: .

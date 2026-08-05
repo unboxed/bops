@@ -5,6 +5,14 @@ module BopsApplicants
     before_action :set_documents, only: %i[show]
     before_action :validate_additional_documents, only: %i[update]
 
+    def show
+      super
+    end
+
+    def update
+      super
+    end
+
     private
 
     def set_documents

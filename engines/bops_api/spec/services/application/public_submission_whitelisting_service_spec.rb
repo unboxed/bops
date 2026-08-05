@@ -53,7 +53,7 @@ RSpec.describe BopsApi::Application::PublicSubmissionWhitelistingService, type: 
       end
 
       it "correctly displays documents" do
-        names = files.map { |file| file[:name] }
+        names = files.pluck(:name)
         expect(names).to include(published_document.file.filename.to_s)
         expect(names).to include("Unpublished document - sensitive")
         expect(names).not_to include(unpublished_document.file.filename.to_s)

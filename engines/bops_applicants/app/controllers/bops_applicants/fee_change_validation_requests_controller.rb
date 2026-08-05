@@ -4,6 +4,10 @@ module BopsApplicants
   class FeeChangeValidationRequestsController < ValidationRequestsController
     before_action :set_documents, only: %i[show]
 
+    def show
+      super
+    end
+
     private
 
     def set_documents

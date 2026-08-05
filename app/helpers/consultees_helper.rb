@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module ConsulteesHelper
-  ConsulteeTab = Struct.new(:key, :title, :heading, :consultees, keyword_init: true)
+  ConsulteeTab = Struct.new(:key, :title, :heading, :consultees)
 
   STATUS_LABELS = {
     approved: "No objection",

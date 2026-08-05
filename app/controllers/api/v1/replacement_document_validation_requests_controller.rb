@@ -61,7 +61,7 @@ module Api
       def check_file_size
         return unless file_size_over_30mb?(params[:new_file])
 
-        render json: {message: "The file must be smaller than 30MB"}, status: :payload_too_large
+        render json: {message: "The file must be smaller than 30MB"}, status: :content_too_large
       end
 
       def check_file_params_are_present
