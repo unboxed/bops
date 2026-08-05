@@ -19,16 +19,11 @@ module NotifyHelper
     body = {status_code: status}
     body[:errors] = [{error: "Exception", message: "Internal server error"}] if status >= 400
 
-    stub_request(:post, LETTER_URL)
-      .with do |request|
-        body = JSON.parse(request.body, symbolize_names: true)
-        body[:template_id] == local_authority.letter_template_id &&
-          body[:personalisation][:address_line_1] == "The Occupier"
-    end
-      .to_return(
-        status:,
-        body: body.merge(id: "123").to_json
-      )
+    stub_request(:post, LETTER_URL).with do |request|
+      body = JSON.parse(request.body, symbolize_names: true)
+      body[:template_id] == local_authority.letter_template_id &&
+        body[:personalisation][:address_line_1] == "The Occupier"
+    end.to_return(status:, body: body.merge(id: "123").to_json)
   end
 
   def stub_get_notify_status(notify_id:)

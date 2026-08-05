@@ -3,8 +3,6 @@
 module BopsApi
   module V2
     class PlanningApplicationsController < AuthenticatedController
-      skip_before_action :authenticate_api_user!, only: :determined
-
       validate_schema! only: :create
 
       def index

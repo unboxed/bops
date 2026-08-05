@@ -12,6 +12,10 @@ module BopsPreapps
     before_action :redirect_to_review_and_submit_report, only: :show
     before_action :build_form
 
+    def show
+      super
+    end
+
     private
 
     def redirect_to_review_and_submit_report
