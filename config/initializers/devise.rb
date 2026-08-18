@@ -41,6 +41,8 @@ Devise.setup do |config|
 
   config.otp_allowed_drift = 300
 
+  config.paranoid = true
+
   # ==> Warden configuration
 
   # Scope the lookup to the local authority when restoring the user from the session
