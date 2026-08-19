@@ -491,7 +491,7 @@ RSpec.describe "Sign in" do
       fill_in("user[email]", with: assessor.email)
 
       click_button("Send me reset password instructions")
-      expect(page).to have_content("You will receive an email with instructions on how to reset your password in a few minutes.")
+      expect(page).to have_content("If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.")
 
       email = ActionMailer::Base.deliveries.last
       url = email.body.encoded.match(%r{https?://[^/]+(/\S+)})[1]
@@ -521,7 +521,7 @@ RSpec.describe "Sign in" do
     fill_in("user[email]", with: assessor.email)
 
     click_button("Send me reset password instructions")
-    expect(page).to have_content("You will receive an email with instructions on how to reset your password in a few minutes.")
+    expect(page).to have_content("If your email address exists in our database, you will receive a password recovery link at your email address in a few minutes.")
 
     email = ActionMailer::Base.deliveries.last
     url = email.body.encoded.match(%r{https?://[^/]+(/\S+)})[1]
