@@ -4,15 +4,15 @@ class SidebarComponent < ViewComponent::Base
   include Rails.application.routes.url_helpers
   include Rails.application.routes.mounted_helpers
 
-  def initialize(params: {}, task: nil)
+  def initialize(params: {}, case_record: nil, task: nil)
     @params = params
+    @case_record = case_record
     @task = task
   end
 
   private
 
-  attr_reader :params
-  delegate :case_record, to: :planning_application
+  attr_reader :params, :case_record
 
   def tasks
     if @task.blank? || (TrueClass === @task)
@@ -46,30 +46,32 @@ class SidebarComponent < ViewComponent::Base
 
     elements = []
 
-    if planning_application.pre_application? && section.section == "Assessment"
-      elements << helpers.govuk_link_to(
-        helpers.safe_join([
-          helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
-          "Consultation"
-        ]),
-        consultation_task.url,
-        class: "bops-sidebar__link"
-      )
+    if planning_application&.pre_application?
+      if section.section == "Assessment"
+        elements << helpers.govuk_link_to(
+          helpers.safe_join([
+            helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
+            "Consultation"
+          ]),
+          consultation_task.url,
+          class: "bops-sidebar__link"
+        )
 
-      elements << helpers.tag.hr(class: "govuk-!-margin-bottom-4")
+        elements << helpers.tag.hr(class: "govuk-!-margin-bottom-4")
 
-    elsif planning_application.pre_application? && section.section == "Consultation"
+      elsif section.section == "Consultation"
 
-      elements << helpers.govuk_link_to(
-        helpers.safe_join([
-          helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
-          "Assessment"
-        ]),
-        assessment_task.url,
-        class: "bops-sidebar__link"
-      )
+        elements << helpers.govuk_link_to(
+          helpers.safe_join([
+            helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
+            "Assessment"
+          ]),
+          assessment_task.url,
+          class: "bops-sidebar__link"
+        )
 
-      elements << helpers.tag.hr(class: "govuk-!-margin-bottom-4")
+        elements << helpers.tag.hr(class: "govuk-!-margin-bottom-4")
+      end
     end
 
     toggle_data = if top_level
@@ -91,7 +93,7 @@ class SidebarComponent < ViewComponent::Base
       helpers.tag.li(class: "bops-sidebar__heading") { heading }
     end
 
-    if planning_application.pre_application? && section.section == "Assessment"
+    if planning_application&.pre_application? && section.section == "Assessment"
       elements << helpers.tag.div(
         helpers.govuk_link_to(
           "Preview report",
@@ -125,6 +127,8 @@ class SidebarComponent < ViewComponent::Base
   end
 
   def planning_application
+    return unless case_record&.caseable_type == "PlanningApplication"
+
     @planning_application ||= local_authority.planning_applications.find_by!(reference: planning_application_reference)
   end
 
