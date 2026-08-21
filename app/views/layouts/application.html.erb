@@ -64,7 +64,7 @@
 
     <div class="<% if @show_sidebar %> bops-fullwidth-container <% else %> govuk-width-container app-width-container--wide <% end %>">
       <% if @show_sidebar %>
-        <%= render SidebarComponent.new(params:, task: @show_sidebar) %>
+        <%= render SidebarComponent.new(params:, case_record: @case_record, task: @show_sidebar) %>
       <% end %>
 
       <main

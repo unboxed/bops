@@ -24,7 +24,9 @@ RSpec.describe "Check report details", type: :system, capybara: true do
 
   context "when checking report" do
     before do
-      click_link "Check report details"
+      within "main" do
+        click_link "Check report details"
+      end
     end
 
     it "shows the relevant report details" do

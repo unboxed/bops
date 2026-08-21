@@ -7,6 +7,7 @@ module BopsEnforcements
     before_action :set_enforcement
     before_action :build_form, only: %i[edit update]
     before_action :ensure_case_is_not_closed, only: %i[show edit update]
+    before_action :show_sidebar, only: :show
 
     def show
       super
