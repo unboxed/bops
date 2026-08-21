@@ -47,26 +47,20 @@ class SidebarComponent < ViewComponent::Base
     elements = []
 
     if planning_application&.pre_application?
-      if section.section == "Assessment"
-        elements << helpers.govuk_link_to(
-          helpers.safe_join([
-            helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
-            "Consultation"
-          ]),
-          consultation_task.url,
-          class: "bops-sidebar__link"
-        )
-
-        elements << helpers.tag.hr(class: "govuk-!-margin-bottom-4")
-
-      elsif section.section == "Consultation"
+      if section.section == "Assessment" || section.section == "Consultation"
+        other_link = case section.section
+        when "Assessment"
+          "Consultation"
+        when "Consultation"
+          "Assessment"
+        end
 
         elements << helpers.govuk_link_to(
           helpers.safe_join([
             helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
-            "Assessment"
+            other_link
           ]),
-          assessment_task.url,
+          section_task(other_link).url,
           class: "bops-sidebar__link"
         )
 
@@ -148,11 +142,7 @@ class SidebarComponent < ViewComponent::Base
     task.full_slug == current_slug
   end
 
-  def consultation_task
-    @planning_application.case_record.tasks.find_by(section: "Consultation")&.first_child
-  end
-
-  def assessment_task
-    @planning_application.case_record.tasks.find_by(section: "Assessment")&.first_child
+  def section_task(section)
+    @planning_application.case_record.tasks.find_by(section:)&.first_child
   end
 end
