@@ -27,16 +27,12 @@ class SidebarComponent < ViewComponent::Base
       render_section(task, top_level:)
     else
       is_active = current_task?(task)
-      link_options = is_active ? {"aria-current" => "page"} : {}
+      link_options = is_active ? {"aria-current": "page"} : {}
       link = helpers.govuk_link_to(task.name, task.url, **link_options)
-      content = if task.status_hidden?
-        safe_join([invisible_status_placeholder, link], " ")
-      else
-        safe_join([status_indicator_for(task), link], " ")
-      end
-      li_classes = ["bops-sidebar__task"]
-      li_classes << "bops-sidebar__task--active" if is_active
-      helpers.tag.li(content, class: li_classes.join(" "))
+      content = safe_join([status_indicator_for(task), link], " ")
+      li_classes = class_names("bops-sidebar__task", {"bops-sidebar__task--active": is_active})
+
+      helpers.tag.li(content, class: li_classes)
     end
   end
 
@@ -127,12 +123,10 @@ class SidebarComponent < ViewComponent::Base
   end
 
   def status_indicator_for(task)
+    return if task.status_hidden?
+
     icon_markup = helpers.render("shared/icons/#{task.status}")
     helpers.content_tag(:span, icon_markup, class: "bops-sidebar__task-icon", aria: {hidden: true})
-  end
-
-  def invisible_status_placeholder
-    helpers.content_tag(:span, "", class: "bops-sidebar__task-icon", aria: {hidden: true})
   end
 
   def current_task?(task)
