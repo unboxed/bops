@@ -186,6 +186,11 @@ body:has(.bops-fullwidth-container) {
   text-decoration: none;
 }
 
+.bops-sidebar__task a:first-child {
+  // Where there is no preceding task-icon
+  margin-left: 34px;
+}
+
 li + .bops-sidebar__heading {
   margin-top: 30px;
 }
