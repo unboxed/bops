@@ -19,7 +19,11 @@
                   <%= render(FormattedContentComponent.new(text: informative.text)) %>
                 </div>
 
-                <nav class="nav-links" data-summary-target="navigation" aria-label="Actions for informative <%= informative.position %>">
+                <nav
+                  class="nav-links"
+                  data-summary-target="navigation"
+                  aria-label="Actions for informative <%= informative.position %>"
+                >
                   <%= govuk_link_to "Edit to accept", edit_planning_application_review_informatives_item_path(@planning_application, informative) %>
                 </nav>
               </div>
@@ -43,9 +47,9 @@
       <div class="govuk-grid-column-two-thirds">
         <%= form_with model: current_review, scope: "review_informatives",
               url: planning_application_review_informatives_path(@planning_application, anchor: "review-informatives-form") do |form| %>
-
           <%= form.govuk_radio_buttons_fieldset :action, small: true, legend: nil do %>
             <%= form.govuk_radio_button :action, :accepted, label: {text: "Agree"} %>
+
             <%= form.govuk_radio_button :action, :rejected, label: {text: "Return with comments"} do %>
               <%= form.govuk_text_area(:comment, rows: 3, label: {text: "Add a comment"}) %>
             <% end %>

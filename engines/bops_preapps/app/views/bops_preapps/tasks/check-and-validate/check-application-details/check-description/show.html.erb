@@ -8,15 +8,19 @@
       <strong>Previous description:</strong><br>
       <%= render(FormattedContentComponent.new(text: @form.validation_request.previous_description)) %>
     </p>
+
     <p>
       <strong>Proposed description:</strong><br>
       <%= render(FormattedContentComponent.new(text: @form.validation_request.proposed_description)) %>
     </p>
+
     <p>
       <% if @form.validation_request.open? %>
-        Sent on <%= @form.validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
+        Sent on <%= @form.validation_request.created_at.to_date.to_fs %>. Agent
+        or applicant has not yet responded.
       <% elsif @form.validation_request.closed? %>
-        <%= @form.validation_request.approved? ? "Approved" : "Rejected" %> on <%= @form.validation_request.updated_at.to_date.to_fs %>
+        <%= @form.validation_request.approved? ? "Approved" : "Rejected" %> on
+        <%= @form.validation_request.updated_at.to_date.to_fs %>
       <% end %>
     </p>
   </div>
@@ -25,6 +29,7 @@
     <%= form_with model: @form, url: @form.url do |form| %>
       <%= form.hidden_field :valid_description, value: true %>
       <%= return_to_hidden_field %>
+
       <div class="govuk-button-group">
         <%= form.govuk_task_button "Save and mark as complete" %>
       </div>
@@ -40,15 +45,19 @@
     <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
   </div>
 
-  <div data-controller="unsaved-changes"
-       data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <div
+    data-controller="unsaved-changes"
+    data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+  >
     <%= form_with model: @form, url: @form.url,
           data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
       <%= form.govuk_error_summary %>
+
       <%= form.govuk_radio_buttons_fieldset :valid_description, legend: {text: "Does the description match the development or use in the plans?"} do %>
         <%= form.govuk_radio_button :valid_description, true, label: {text: "Yes"}, disabled: @form.read_only? %>
         <%= form.govuk_radio_button :valid_description, false, label: {text: "No"}, disabled: @form.read_only? %>
       <% end %>
+
       <%= render "task_submit_buttons", form: form, save_draft: false %>
     <% end %>
   </div>
@@ -59,7 +68,9 @@
   </div>
 
   <p>
-    Description was <%= @form.description_was_updated? ? "updated and " : "" %>marked as <%= @planning_application.valid_description? ? "valid" : "invalid" %>
+    Description was
+    <%= @form.description_was_updated? ? "updated and " : "" %>marked as
+    <%= @planning_application.valid_description? ? "valid" : "invalid" %>
   </p>
   <div class="govuk-button-group">
     <%= govuk_link_to "Edit description", main_app.new_planning_application_validation_validation_request_path(

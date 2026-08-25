@@ -2,12 +2,16 @@
 
 <div class="govuk-summary-card">
   <div class="govuk-summary-card__title-wrapper">
-    <h2 class="govuk-summary-card__title"><%= t(".response_summary.title") %></h2>
+    <h2 class="govuk-summary-card__title">
+      <%= t(".response_summary.title") %>
+    </h2>
   </div>
+
   <div class="govuk-summary-card__content">
     <%= govuk_summary_list(classes: "govuk-summary-list--no-border") do |list| %>
       <% list.with_row do |row| %>
         <% row.with_key { t("tasks.consultees-neighbours-and-publicity.consultees.view-consultee-responses.summary_panel.response_summary.total_consultees") } %>
+
         <% row.with_value do %>
           <strong><%= summary[:total] %></strong>
         <% end %>

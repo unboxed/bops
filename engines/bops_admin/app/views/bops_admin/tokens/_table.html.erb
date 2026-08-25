@@ -4,14 +4,21 @@
       <th scope="col" class="govuk-table__header">Name</th>
       <th scope="col" class="govuk-table__header">Service</th>
       <th scope="col" class="govuk-table__header">Last used at</th>
+
       <% if revoked %>
         <th scope="col" class="govuk-table__header">Revoked at</th>
       <% else %>
         <th scope="col" class="govuk-table__header">Status</th>
-        <th scope="col" class="govuk-table__header govuk-table__header--numeric">&nbsp;</th>
+        <th
+          scope="col"
+          class="govuk-table__header govuk-table__header--numeric"
+        >
+          &nbsp;
+        </th>
       <% end %>
     </tr>
   </thead>
+
   <tbody class="govuk-table__body">
     <% if tokens.empty? %>
       <tr class="govuk-table__row">
@@ -29,9 +36,11 @@
           <td class="govuk-table__cell">
             <%= token.name %>
           </td>
+
           <td class="govuk-table__cell">
             <%= token.service %>
           </td>
+
           <td class="govuk-table__cell">
             <% if token.last_used_at? %>
               <%= token.last_used_at.to_fs(:rfc822) %>
@@ -39,6 +48,7 @@
               &ndash;
             <% end %>
           </td>
+
           <% if revoked %>
             <td class="govuk-table__cell">
               <%= token.revoked_at.to_fs(:rfc822) %>

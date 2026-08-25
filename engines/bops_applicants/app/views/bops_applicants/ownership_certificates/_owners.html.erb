@@ -6,8 +6,11 @@
   <% nb.with_heading(text: "You must notify other owners about the proposed work") %>
 
   <p>
-    If you know the other owners' details, you must tell them about this application. You need to do this in writing
-    (by email or letter). You can use this <%= govuk_link_to "notification form", "https://ecab.planningportal.co.uk/uploads/1app/notices/notice1.pdf", new_tab: "" %> to share the right information.
+    If you know the other owners' details, you must tell them about this
+    application. You need to do this in writing (by email or letter). You can
+    use this
+    <%= govuk_link_to "notification form", "https://ecab.planningportal.co.uk/uploads/1app/notices/notice1.pdf", new_tab: "" %>
+    to share the right information.
   </p>
 <% end %>
 
@@ -46,44 +49,67 @@
     <% if @ownership_certificate.certificate_type == "D" %>
       <p>You've told us that you don't know who any of the owners are</p>
     <% else %>
-      <p>Add the details of all the owners you know about. This will help us process you application more quickly.</p>
+      <p>
+        Add the details of all the owners you know about. This will help us
+        process you application more quickly.
+      </p>
 
       <table class="govuk-table govuk-!-margin-top-6">
         <caption class="govuk-table__caption govuk-table__caption--m">
           Owners you've told us about
         </caption>
+
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header">Owner details</th>
-            <th scope="col" class="govuk-table__header govuk-!-text-align-centre">Notified</th>
-            <th scope="col" class="govuk-table__header govuk-table__header--numeric">Date notified</th>
+
+            <th
+              scope="col"
+              class="govuk-table__header govuk-!-text-align-centre"
+            >
+              Notified
+            </th>
+
+            <th
+              scope="col"
+              class="govuk-table__header govuk-table__header--numeric"
+            >
+              Date notified
+            </th>
           </tr>
         </thead>
+
         <tbody class="govuk-table__body">
           <% if @ownership_certificate.land_owners.empty? %>
-              <tr class="govuk-table__row">
-                <td class="govuk-table__cell" colspan="3">
-                  You’ve not told us about any owners yet
-                </td>
-              </tr>
+            <tr class="govuk-table__row">
+              <td class="govuk-table__cell" colspan="3">
+                You’ve not told us about any owners yet
+              </td>
+            </tr>
           <% else %>
             <% @ownership_certificate.land_owners.each do |land_owner| %>
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell">
                   <strong><%= land_owner.name %></strong><br>
                   <%= land_owner.address_1 %><br>
+
                   <% if land_owner.address_2.present? %>
                     <%= land_owner.address_2 %><br>
                   <% end %>
+
                   <%= land_owner.town %><br>
+
                   <% if land_owner.country.present? %>
                     <%= land_owner.country %><br>
                   <% end %>
+
                   <%= land_owner.postcode %>
                 </td>
+
                 <td class="govuk-table__cell govuk-!-text-align-centre">
                   <%= land_owner.notice_given_at.present? ? "Yes" : "No" %>
                 </td>
+
                 <td class="govuk-table__cell govuk-table__cell--numeric">
                   <% if land_owner.notice_given_at.present? %>
                     <%= land_owner.notice_given_at.to_fs(:day_month_year_slashes) %>
@@ -107,8 +133,8 @@
     </h2>
 
     <p>
-      By submitting this information you are confirming that, to the best of your knowledge,
-      the details you are providing are correct.
+      By submitting this information you are confirming that, to the best of
+      your knowledge, the details you are providing are correct.
     </p>
   </div>
 

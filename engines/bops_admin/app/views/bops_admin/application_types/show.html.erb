@@ -11,6 +11,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "application_types" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <h1>
       <%= t(".review_application_type") %>
@@ -56,6 +57,7 @@
 
       <% summary_list.with_row do |row| %>
         <% row.with_key { t("bops_admin.application_types.show.features") } %>
+
         <% row.with_value do %>
           <p><strong>Application details</strong></p>
 
@@ -73,8 +75,11 @@
               <% @application_type.consultation_steps.each do |step| %>
                 <li><%= step.humanize %></li>
               <% end %>
+
               <% if @application_type.consultations_skip_bank_holidays? %>
-                <li><%= t("application_type_features.labels.consultations_skip_bank_holidays") %></li>
+                <li>
+                  <%= t("application_type_features.labels.consultations_skip_bank_holidays") %>
+                </li>
               <% end %>
             </ul>
           <% end %>
@@ -91,13 +96,26 @@
       <% @application_type.document_tags.tag_groups.each do |group| %>
         <% summary_list.with_row do |row| %>
           <% row.with_key { t("bops_admin.application_types.show.groups.#{group}") } %>
+
           <% row.with_value do %>
             <% if group.translated_tags.empty? %>
               N/A
             <% else %>
-              <p class="max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
+              <p
+                class="max-lines max-lines--clamped"
+                data-controller="max-lines"
+                data-action="click->max-lines#toggle"
+              >
                 <% group.translated_tags.each do |tag| %>
-                  <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
+                  <span
+                    class="
+                      govuk-tag govuk-tag--grey govuk-!-margin-left-0
+                      govuk-!-margin-right-1 govuk-!-margin-top-1
+                      govuk-!-margin-bottom-1
+                    "
+                  >
+                    <%= tag %>
+                  </span>
                 <% end %>
               </p>
             <% end %>
@@ -117,6 +135,7 @@
 
       <% summary_list.with_row do |row| %>
         <% row.with_key { t("bops_admin.application_types.show.requirements") } %>
+
         <% row.with_value do %>
           <% if @requirements.empty? %>
             N/A
@@ -134,6 +153,7 @@
     <% end %>
 
     <div class="govuk-button-group">
-      <%= govuk_button_link_to t(".back"), :application_types %></div>
+      <%= govuk_button_link_to t(".back"), :application_types %>
     </div>
+  </div>
 </div>

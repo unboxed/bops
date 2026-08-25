@@ -77,7 +77,12 @@
       <% end %>
     <% end %>
 
-    <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
+    <hr
+      class="
+        govuk-section-break govuk-section-break--xl
+        govuk-section-break--visible
+      "
+    >
 
     <% if @planning_application %>
       <div class="govuk-grid-row">
@@ -113,15 +118,16 @@
                   end
                 ) %>
           <% else %>
-            <p>No documents have been attached to this planning application yet.</p>
+            <p>
+              No documents have been attached to this planning application yet.
+            </p>
           <% end %>
         </div>
       </div>
     <% elsif @submission.case_record %>
       <p>
         There is a case associated with this submission with type:
-        <%= @submission.case_record.caseable_type %>
-        and case id:
+        <%= @submission.case_record.caseable_type %> and case id:
         <%= @submission.case_record.id + "." %>
       </p>
     <% elsif @submission.submitted? %>

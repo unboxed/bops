@@ -5,14 +5,17 @@
     class="govuk-notification-banner"
     role="alert"
     aria-labelledby="govuk-notification-banner-title"
-    data-module="govuk-notification-banner">
+    data-module="govuk-notification-banner"
+  >
     <div class="govuk-notification-banner__header">
       <h2
         class="govuk-notification-banner__title"
-        id="govuk-notification-banner-title">
+        id="govuk-notification-banner-title"
+      >
         Important
       </h2>
     </div>
+
     <div class="govuk-notification-banner__content">
       <% if @form.site_notice.nil? %>
         <p class="govuk-notification-banner__heading">
@@ -42,6 +45,7 @@
 <% end %>
 
 <%= render(ReviewerCommentComponent.new(comment: @form.rejected_assessment_detail&.comment)) %>
+
 <div id="site-notice-check">
   <h2><%= t(".check_site_notice") %></h2>
 
@@ -74,15 +78,18 @@
           <p class="govuk-!-margin-bottom-1">
             <%= link_to_document(image_tag(document.representation(resize_to_fill: [360, 240]), style: "width:100%"), document) %>
           </p>
+
           <ul class="govuk-list">
             <li>
               <%= link_to_document(t(".view_in_new_window"), document, no_visited_state: true, class: "govuk-body-s") %>
             </li>
+
             <li>
               <%= govuk_link_to t(".view_more_documents"), @form.site_notice_url, no_visited_state: true, class: "govuk-body-s" %>
             </li>
           </ul>
         </div>
+
         <div class="govuk-grid-column-two-thirds">
           <ul class="govuk-list">
             <li>File name: <%= document.name %></li>
@@ -109,7 +116,9 @@
     <% end %>
   <% end %>
 </div>
+
 <%= govuk_section_break %>
+
 <div id="press-notice-check">
   <h2><%= t(".check_press_notice") %></h2>
 
@@ -137,15 +146,18 @@
           <p class="govuk-!-margin-bottom-1">
             <%= link_to_document(image_tag(document.representation(resize_to_fill: [360, 240]), style: "width:100%"), document) %>
           </p>
+
           <ul class="govuk-list">
             <li>
               <%= link_to_document(t(".view_in_new_window"), document, no_visited_state: true, class: "govuk-body-s") %>
             </li>
+
             <li>
               <%= govuk_link_to t(".view_more_documents"), @form.press_notice_url, no_visited_state: true, class: "govuk-body-s" %>
             </li>
           </ul>
         </div>
+
         <div class="govuk-grid-column-two-thirds">
           <ul class="govuk-list">
             <li>File name: <%= document.name %></li>

@@ -3,6 +3,7 @@
     <%= helpers.govuk_link_to change_request_link_text, change_request_link_path %>
   </p>
 <% end %>
+
 <% if planning_application.boundary_geojson.present? %>
   <% if planning_application.address_or_boundary_or_constraints_updated? %>
     <%= helpers.govuk_warning_text(text: t(".this_application_has")) %>

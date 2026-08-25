@@ -19,6 +19,7 @@
       <% if @planning_application.may_withdraw_recommendation? %>
         <%= form.submit "Withdraw recommendation", data: {confirm: "Are you sure you want to withdraw this recommendation?"}, class: "govuk-button govuk-button--secondary" %>
       <% end %>
+
       <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>
     <% end %>
   </div>

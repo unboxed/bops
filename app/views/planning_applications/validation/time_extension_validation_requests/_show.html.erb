@@ -11,23 +11,31 @@
     <h1>
       Review time extension request
     </h1>
+
     <p>
-      <strong>At:</strong> <%= @planning_application.full_address %> <br>
-      <strong>Date received:</strong> <%= @planning_application.received_at.to_date.to_fs %> <br>
+      <strong>At:</strong> <%= @planning_application.full_address %>
+      <br>
+      <strong>Date received:</strong> <%= @planning_application.received_at.to_date.to_fs %>
+      <br>
       <strong>Application number:</strong> <%= @planning_application.reference %>
     </p>
 
     <div>
-      <p> <strong> Previous expiry date:</strong><br>
+      <p>
+        <strong> Previous expiry date:</strong><br>
         <%= @planning_application.expiry_date.strftime("%-d %B %Y") %>
       </p>
-      <p> <strong> Proposed expiry date:</strong><br>
+
+      <p>
+        <strong> Proposed expiry date:</strong><br>
         <%= @validation_request.proposed_expiry_date.to_fs %>
       </p>
     </div>
+
     <p>
       <% if @validation_request.open? %>
-        Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
+        Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or
+        applicant has not yet responded.
       <% else %>
         <strong>Status:</strong><br>
         <%= @validation_request.approved? ? "Approved" : "Rejected" %>
@@ -41,11 +49,12 @@
       <% end %>
     </p>
 
-      <div class="govuk-button-group">
-        <%= govuk_button_link_to "Back", @back_path, secondary: true %>
-        <% if @validation_request.open? %>
-          <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, @validation_request), class: "govuk-body" %>
-        <% end %>
-      </div>
+    <div class="govuk-button-group">
+      <%= govuk_button_link_to "Back", @back_path, secondary: true %>
+
+      <% if @validation_request.open? %>
+        <%= govuk_link_to "Cancel request", cancel_confirmation_planning_application_validation_validation_request_path(@planning_application, @validation_request), class: "govuk-body" %>
+      <% end %>
+    </div>
   </div>
 </div>

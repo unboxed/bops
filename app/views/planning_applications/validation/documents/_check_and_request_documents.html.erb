@@ -1,8 +1,10 @@
 <%# locals: (documents:, additional_document_validation_requests:, allow_cancel: true, task_slug: nil, redirect_to: nil) %>
 
 <h2>Check for missing documents</h2>
+
 <p class="govuk-body-m">
-  Check all necessary documents have been provided and add requests for any missing documents.
+  Check all necessary documents have been provided and add requests for any
+  missing documents.
 </p>
 
 <% unless documents.any? && documents.all?(&:representable?) %>
@@ -13,7 +15,8 @@
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
   <p class="govuk-body-m">
     <%= govuk_link_to(@planning_application.local_authority.document_checklist, new_tab: true) do %>
-      Checklist for <%= @planning_application.application_type.name.humanize.downcase %>
+      Checklist for
+      <%= @planning_application.application_type.name.humanize.downcase %>
     <% end %>
   </p>
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -22,6 +25,7 @@
 <%= govuk_tabs do |tabs| %>
   <% Document::DEFAULT_TABS.each do |tab| %>
     <% tab_documents = @planning_application.documents_for(tab) %>
+
     <% tabs.with_tab(label: "#{tab} (#{tab_documents.size})", id: tab.parameterize) do %>
       <h2><%= tab %></h2>
       <%= render(partial: "documents/active_documents_table", locals: {documents: tab_documents, redirect_to: redirect_to}) %>
@@ -30,6 +34,7 @@
 <% end %>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
 <% if additional_document_validation_requests.any? %>
   <%= render "planning_applications/validation/additional_document_validation_requests/additional_document_validation_requests_table",
         validation_requests: additional_document_validation_requests,
@@ -41,4 +46,5 @@
 <p class="govuk-!-margin-bottom-6 govuk-!-margin-top-0">
   <%= govuk_link_to "Add a request for a missing document", main_app.new_planning_application_validation_validation_request_path(@planning_application, type: "additional_document"), class: "govuk-body-m" %>
 </p>
+
 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">

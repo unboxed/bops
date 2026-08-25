@@ -1,20 +1,15 @@
 <td class="govuk-table__cell change-request-list">
   Change expiry date
 </td>
+
 <td class="govuk-table__cell change-request-list">
   <% if time_extension_validation_request.cancelled? %>
-
     <%= render(FormattedContentComponent.new(text: time_extension_validation_request.proposed_expiry_date)) %>
-
   <% elsif time_extension_validation_request.post_validation? %>
-
     <%= t(".proposed_expiry_date") %>
     <%= render(FormattedContentComponent.new(text: time_extension_validation_request.proposed_expiry_date)) %>
-
   <% else %>
-
     <%= t(".new_expiry_date") %>
     <%= render(FormattedContentComponent.new(text: time_extension_validation_request.proposed_expiry_date)) %>
-
   <% end %>
 </td>

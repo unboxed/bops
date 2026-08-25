@@ -6,6 +6,7 @@
       partial: "shared/assessment_task_breadcrumbs",
       locals: {planning_application: @planning_application}
     ) %>
+
 <% content_for :title, "Pre-commencement condition request" %>
 
 <% if @validation_request.closed? %>
@@ -23,16 +24,20 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2>Officer request</h2>
+
     <div class="govuk-inset-text">
       <p>
         <strong>Condition: <%= @validation_request.owner.title %></strong>
       </p>
+
       <p>
         <%= @validation_request.owner.text %>
       </p>
+
       <p>
         Reason: <%= @validation_request.owner.reason %>
       </p>
+
       <p>
         <%= @validation_request.created_at.to_fs %>
       </p>

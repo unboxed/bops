@@ -3,11 +3,13 @@
 <%= govuk_tabs do |tabs| %>
   <% tabs.with_tab(label: "Considerations") do %>
     <h2>Considerations</h2>
+
     <hr
       class="
         govuk-section-break govuk-section-break--s
         govuk-section-break--visible
-      ">
+      "
+    >
 
     <div class="govuk-!-margin-bottom-5">
       <% @planning_application.consideration_set.considerations.active.each do |consideration| %>
@@ -16,6 +18,7 @@
             ) do |component| %>
           <% component.with_title { "#{consideration.policy_area}: #{consideration.proposal}" } %>
           <% component.with_body { consideration.policy_references.map(&:code_and_description).join("; ") } %>
+
           <% component.with_status do %>
             <% case consideration.summary_tag %>
             <% when "needs_changes" %>
@@ -49,17 +52,21 @@
 
   <div
     data-controller="unsaved-changes"
-    data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+    data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+  >
     <%= form_with model: @form, url: @form.url, action: :patch,
           data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
       <%= form.govuk_error_summary %>
 
       <%= return_to_hidden_field %>
+
       <% outcome = @planning_application.consideration_set.suggested_outcome %>
+
       <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Select pre-application outcome", size: "s"}, small: true do %>
         <% AssessmentDetail.summary_tags.each do |label, value| %>
           <% key = (value == outcome) ? "#{label}_recommended_html" : label %>
           <% label_text = t(".#{key}") %>
+
           <%= form.govuk_radio_button :summary_tag, value, label: {text: label_text}, checked: value.to_sym == @planning_application.assessment_details.find_or_initialize_by(category: :summary_of_advice).summary_tag&.to_sym %>
         <% end %>
       <% end %>
@@ -70,6 +77,7 @@
             .assessment_details
             .find_or_initialize_by(category: :summary_of_advice)
             .entry, label: {text: t(".label")}, rows: 10) %>
+
       <%= form.hidden_field(:category, value: @category) %>
 
       <%= render "task_submit_buttons", form: form %>

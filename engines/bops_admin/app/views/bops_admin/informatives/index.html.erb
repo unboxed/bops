@@ -10,6 +10,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "informatives" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <h1>
       <%= t(".informatives") %>
@@ -17,6 +18,7 @@
 
     <%= form_with url: informatives_path, class: "govuk-!-margin-bottom-7", method: :get do |form| %>
       <%= form.govuk_text_field :q, value: params[:q], width: "two-thirds", label: {text: t(".find_informatives"), hidden: true} %>
+
       <%= form.govuk_submit t(".find_informatives") do %>
         <%= govuk_link_to t(".add_informative"), new_informative_path, no_visited_state: true %>
       <% end %>
@@ -39,6 +41,7 @@
             <% body.with_row do |row| %>
               <% row.with_cell(text: informative.title, header: true) %>
               <% row.with_cell(text: informative.text) %>
+
               <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
                 <%= govuk_link_to t("bops_admin.informatives.index.actions.edit"), edit_informative_path(informative), no_visited_state: true, no_underline: true %>
 

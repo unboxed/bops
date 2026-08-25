@@ -22,8 +22,10 @@
                 <%= truncate(validation_request.reason, length: 50) %>
               <% end %>
             <% end %>
+
             <% row.with_cell(text: truncate(validation_request.suggestion, length: 50)) %>
             <% row.with_cell(text: validation_request.created_by) %>
+
             <% row.with_cell(classes: %w[govuk-!-text-align-right]) do %>
               <%= render(StatusTags::BaseComponent.new(status: validation_request.status)) %>
             <% end %>

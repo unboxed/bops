@@ -17,13 +17,17 @@
     <h3>
       Officer request
     </h3>
+
     <div class="govuk-inset-text" id="replacement-document-details">
       <p>
         Replacement for: <%= @validation_request.old_document.name %>
       </p>
+
       <p>
-        Reason: <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
+        Reason:
+        <%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
       </p>
+
       <p>
         <%= @validation_request.created_at.to_fs %>
       </p>

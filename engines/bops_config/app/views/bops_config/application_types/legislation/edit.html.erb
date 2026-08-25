@@ -15,12 +15,10 @@
       <%= form.govuk_radio_buttons_fieldset(:legislation_type,
             hint: {text: t(".legislation_hint")},
             legend: {text: t(".legislation_legend_html", description: @application_type.description)}) do %>
-
         <h2><%= @application_type.description %></h2>
 
         <%= form.govuk_radio_button(:legislation_type, "existing",
               label: {text: t(".existing_legislation")}) do %>
-
           <div data-controller="autocomplete-select">
             <%= form.govuk_select :legislation_id, Legislation.menu,
                   label: {text: t(".legislation_id_label"), hidden: true},
@@ -32,7 +30,6 @@
 
         <%= form.govuk_radio_button(:legislation_type, "new",
               label: {text: t(".new_legislation")}) do %>
-
           <% form.fields :legislation, model: @legislation do |fields| %>
             <%= fields.govuk_text_field :title,
                   label: {text: t(".legislation_title_label")},

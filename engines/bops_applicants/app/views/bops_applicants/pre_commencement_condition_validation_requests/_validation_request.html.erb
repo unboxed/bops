@@ -36,17 +36,13 @@
 
     <% if @validation_request.approved? %>
       <p>
-        <strong class="govuk-tag govuk-tag--green">
-          Agreed
-        </strong>
-        to the condition
+        <strong class="govuk-tag govuk-tag--green"> Agreed </strong> to the
+        condition
       </p>
     <% elsif @validation_request.rejected? %>
       <p>
-        <strong class="govuk-tag govuk-tag--red">
-          Disagreed
-        </strong>
-        with the condition
+        <strong class="govuk-tag govuk-tag--red"> Disagreed </strong> with the
+        condition
       </p>
 
       <h3 class="govuk-!-margin-bottom-1">

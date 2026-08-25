@@ -1,6 +1,7 @@
 <% content_for :page_title do %>
   Submit recommendation - <%= t("page_title") %>
 <% end %>
+
 <%= render(
      partial: "shared/assessment_task_breadcrumbs",
      locals: {
@@ -8,22 +9,35 @@
        current_page: t(".review_and_submit_recommendation")
      }
    ) %>
+
 <%= render(
       partial: "shared/proposal_header",
       locals: {heading: t(".review_and_submit_recommendation")}
     ) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render(
           partial: "submit_recommendation_accordion",
           locals: {planning_application: @planning_application}
         ) %>
+
     <h2><%= t(".decision_notice") %></h2>
-    <p><%= t(".the_following_decision", report_or_notice: report_or_notice?(@planning_application)) %></p>
+
+    <p>
+      <%= t(".the_following_decision", report_or_notice: report_or_notice?(@planning_application)) %>
+    </p>
+
     <%= render "planning_applications/decision_notice", planning_application: @planning_application %>
+
     <h2><%= t(".submit_recommendation") %></h2>
-    <p><%= t(".if_you_agree", report_or_notice: report_or_notice?(@planning_application)) %></p>
+
+    <p>
+      <%= t(".if_you_agree", report_or_notice: report_or_notice?(@planning_application)) %>
+    </p>
+
     <p><%= t(".if_your_reviewer") %></p>
+
     <div class="govuk-button-group">
       <%= form_with(
             model: @planning_application,
@@ -32,6 +46,7 @@
         <%= form.govuk_error_summary %>
         <%= form.govuk_submit(t(".submit_recommendation")) %>
         <%= govuk_button_link_to t(".back"), planning_application_path(@planning_application), secondary: true %>
+
         <%= govuk_link_to(
               t(".edit_recommendation"),
               new_planning_application_assessment_recommendation_path(@planning_application),

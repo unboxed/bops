@@ -15,9 +15,11 @@
         <% @form.previous_reviews.each do |review_immunity_detail| %>
           <p>Assessor decision: <%= review_immunity_detail.decision %></p>
           <p>Reason: <%= review_immunity_detail.decision_reason %></p>
+
           <% if review_immunity_detail.summary.present? %>
             <p>Summary: <%= review_immunity_detail.summary %></p>
           <% end %>
+
           <hr>
           <%= render(ReviewerCommentComponent.new(comment: review_immunity_detail)) %>
         <% end %>

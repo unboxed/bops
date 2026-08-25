@@ -23,8 +23,10 @@
 
 <h3>Draw the red line site boundary</h3>
 
-<div data-controller="unsaved-changes"
-     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+<div
+  data-controller="unsaved-changes"
+  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+>
   <%= form_with model: @form, url: @form.url, method: :patch,
         data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
     <%= form.hidden_field :boundary_geojson, value: @planning_application.boundary_geojson.to_json, id: "planning_application_boundary_geojson" %>

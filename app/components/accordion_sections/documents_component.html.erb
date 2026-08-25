@@ -5,9 +5,11 @@
         class: "govuk-body govuk-!-margin-bottom-3"
       ) %>
 </div>
+
 <div class="scroll-docs">
   <% documents.each do |document| %>
     <hr>
+
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-third">
         <%= render(
@@ -22,6 +24,7 @@
               }
             ) %>
       </div>
+
       <div class="govuk-grid-column-two-thirds govuk-!-margin-bottom-6">
         <%= render(
               partial: "documents/document_row_info",

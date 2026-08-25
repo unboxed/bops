@@ -3,11 +3,13 @@
       legend: {text: t(".are_the_proposal"), size: "s"}
     ) do %>
   <p class="govuk-!-margin-bottom-1">Applicant answers from PlanX</p>
+
   <ul class="govuk-list">
     <li>Maximum height: <%= @planning_application.max_height_extension %>m</li>
     <li>Eaves height: <%= @planning_application.eave_height_extension %>m</li>
     <li>Depth: <%= @planning_application.rear_wall_length %>m</li>
   </ul>
+
   <% if can_edit %>
     <%= form.govuk_radio_button(
           :proposal_measurements_match_documents,
@@ -28,10 +30,20 @@
     <% end %>
   <% else %>
     <% if consistency_checklist.proposal_measurements_match_documents == "no" %>
-      <p class="govuk-!-margin-bottom-1">Actual measurements according to plans</p>
+      <p class="govuk-!-margin-bottom-1">
+        Actual measurements according to plans
+      </p>
       <ul class="govuk-list">
-        <li>Maximum height: <%= @planning_application.proposal_measurement.max_height %>m</li>
-        <li>Eaves height: <%= @planning_application.proposal_measurement.eaves_height %>m</li>
+        <li>
+          Maximum height:
+          <%= @planning_application.proposal_measurement.max_height %>m
+        </li>
+
+        <li>
+          Eaves height:
+          <%= @planning_application.proposal_measurement.eaves_height %>m
+        </li>
+
         <li>Depth: <%= @planning_application.proposal_measurement.depth %>m</li>
       </ul>
     <% end %>

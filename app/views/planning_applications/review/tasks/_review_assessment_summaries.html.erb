@@ -19,8 +19,11 @@
 
       <% section.with_block(id: "#{assessment_detail.category}_block") do %>
         <% if assessment_detail.category == "site_description" %>
-          <p><%= govuk_link_to "View site on Google Maps", map_link(@planning_application.full_address), new_tab: true %></p>
+          <p>
+            <%= govuk_link_to "View site on Google Maps", map_link(@planning_application.full_address), new_tab: true %>
+          </p>
         <% end %>
+
         <% if assessment_detail.category == "consultation_summary" && @consultation&.consultees&.any? %>
           <%= render(
                 partial: "planning_applications/review/tasks/consultees",
@@ -28,10 +31,12 @@
               ) %>
           <h3><%= t(".summary_of_consultee") %></h3>
         <% end %>
+
         <% if assessment_detail.category == "amenity" || assessment_detail.category == "neighbour_summary" %>
           <% if consultation = @planning_application.consultation %>
             <p>
-              View neighbour responses: <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %>
+              View neighbour responses:
+              <%= neighbour_responses_summary_text(consultation.neighbour_responses_by_summary_tag) %>
             </p>
             <p>
               <%= govuk_link_to "View neighbour responses", task_path(slug: "consultees-neighbours-and-publicity/neighbours/view-neighbour-responses", return_to: planning_application_review_tasks_path(@planning_application)), new_tab: true %>
@@ -81,6 +86,7 @@
                   label: {text: t(".accept"), for: dom_id(assessment_detail) + "_reviewer_verdict_accepted"},
                   aria: {controls: "accepted-comment-#{assessment_detail.id}"}
                 ) %>
+
             <%= form.govuk_radio_button(
                   :reviewer_verdict,
                   :rejected,
@@ -89,13 +95,17 @@
                   aria: {controls: "comment-#{assessment_detail.id}"}
                 ) %>
 
-            <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="comment-<%= assessment_detail.id %>">
+            <div
+              class="govuk-radios__conditional govuk-radios__conditional--hidden"
+              id="comment-<%= assessment_detail.id %>"
+            >
               <div class="govuk-form-group <%= "govuk-form-group--error" if form_model.errors.any? %>">
                 <% if form_model.errors.any? %>
                   <p class="govuk-error-message">
                     <span class="govuk-visually-hidden">Error:</span> <%= form_model.errors["comment.text"].first %>
                   </p>
                 <% end %>
+
                 <%= form.fields_for :comment, assessment_detail.existing_or_new_comment, include_id: false do |comment_form| %>
                   <%= form.hidden_field "comment_attributes[id]", value: assessment_detail.id, id: dom_id(assessment_detail) + "_comment_attributes_id" %>
 

@@ -17,6 +17,7 @@
     <p>
       Please select the officer you wish to assign this application to.
     </p>
+
     <%= form_with(
           method: :patch,
           url: planning_application_assign_users_path(@planning_application)
@@ -26,6 +27,7 @@
       <%= form.govuk_fieldset(legend: {text: nil}) do %>
         <%= form.govuk_select :user_id, User.menu(scope = @users), label: nil, options: {selected: @planning_application.user&.id} %>
       <% end %>
+
       <div class="govuk-button-group">
         <%= form.govuk_submit "Confirm" %>
         <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>

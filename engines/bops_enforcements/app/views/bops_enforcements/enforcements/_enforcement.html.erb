@@ -5,21 +5,25 @@
     <h1>
       <%= title %>
     </h1>
+
     <p class="govuk-body">
       <strong><%= @enforcement.address %></strong>
       <br>
       Case reference <strong><%= @enforcement.case_record.id %></strong>
     </p>
+
     <div id="case-statuses-tags">
       <p class="govuk-body">
         <span class="govuk-!-margin-left-1">
           <%= govuk_tag(text: @enforcement.status.humanize, colour: @enforcement.status_tag_colour) %>
         </span>
+
         <% if @enforcement.urgent? %>
           <span class="govuk-!-margin-left-1"><%= govuk_tag(text: "urgent", colour: "orange") %></span>
         <% end %>
       </p>
     </div>
+
     <p class="govuk-body">
       <%= @enforcement.description || "No description" %>
     </p>
@@ -30,7 +34,8 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds" id="dates-and-assignment-details">
       <p class="govuk-body">
-        Assigned to: <strong><%= @enforcement.user&.name || "Unassigned" %></strong>
+        Assigned to:
+        <strong><%= @enforcement.user&.name || "Unassigned" %></strong>
         <%= govuk_link_to (@enforcement.user.present? ? "Change" : "Assign application"), assign_users_path(@case_record) %>
       </p>
     </div>
@@ -44,12 +49,15 @@
         <p class="govuk-body">
           Received
         </p>
+
         <p><strong><%= @enforcement.received_at.to_date.to_fs %></strong></p>
       </div>
+
       <div class="status-panel" id="started-date">
         <p class="govuk-body">
           Started
         </p>
+
         <p>
           <% if @enforcement.under_investigation? %>
             <strong><%= @enforcement.under_investigation_at.to_date.to_fs %></strong>
@@ -60,10 +68,12 @@
           <% end %>
         </p>
       </div>
+
       <div class="status-panel" id="expiry-date">
         <p class="govuk-body">
           Notice served
         </p>
+
         <p>
           <strong>
             <% if @enforcement.notice_served_at %>

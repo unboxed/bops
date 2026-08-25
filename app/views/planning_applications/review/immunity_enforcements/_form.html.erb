@@ -7,6 +7,7 @@
     <%= form.govuk_radio_button(
           :action, "accepted", checked: @planning_application.immunity_detail.current_enforcement_review.accepted?, label: {text: "Agree"}
         ) %>
+
     <%= form.govuk_radio_button(
           :action, "rejected", checked: @planning_application.immunity_detail.current_enforcement_review.rejected?, label: {text: "Return with comments"}
         ) do %>

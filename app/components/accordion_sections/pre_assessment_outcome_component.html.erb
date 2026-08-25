@@ -35,24 +35,24 @@
     </div>
   <% end %>
   <% if proposal_details.any? %>
-  <p>
-    <strong><%= t(".details_identified_as") %></strong>
-  </p>
-  <ol class="govuk-list">
-    <li>
-      <% proposal_details.each do |proposal_detail| %>
-      <h3>
-        <%= proposal_detail.index %>.
-        <%= proposal_detail.question %>
-      </h3>
-      <p>
-        <% proposal_detail.response_values.each do |response| %>
-          <%= response %>
+    <p>
+      <strong><%= t(".details_identified_as") %></strong>
+    </p>
+    <ol class="govuk-list">
+      <li>
+        <% proposal_details.each do |proposal_detail| %>
+          <h3>
+            <%= proposal_detail.index %>. <%= proposal_detail.question %>
+          </h3>
+
+          <p>
+            <% proposal_detail.response_values.each do |response| %>
+              <%= response %>
+            <% end %>
+          </p>
         <% end %>
-      </p>
-      <% end %>
-    </li>
-  </ol>
+      </li>
+    </ol>
   <% end %>
 <% else %>
   <p>

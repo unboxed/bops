@@ -2,12 +2,20 @@
   <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header">Fee paid</th>
-      <td class="govuk-table__cell"><%= number_to_currency(planning_application.payment_amount || 0, unit: "£") %></td>
+
+      <td class="govuk-table__cell">
+        <%= number_to_currency(planning_application.payment_amount || 0, unit: "£") %>
+      </td>
     </tr>
+
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header">Payment reference</th>
-      <td class="govuk-table__cell"><%= planning_application.payment_reference || "Exempt" %></td>
+
+      <td class="govuk-table__cell">
+        <%= planning_application.payment_reference || "Exempt" %>
+      </td>
     </tr>
+
     <tr class="govuk-table__row">
       <th scope="row" class="govuk-table__header">Session ID</th>
       <td class="govuk-table__cell"><%= planning_application.session_id %></td>

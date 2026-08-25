@@ -10,6 +10,7 @@
       partial: "shared/proposal_header",
       locals: {heading: "Additional service charges"}
     ) %>
+
 <% if @planning_application.payment_amount || @planning_application.charges.any? %>
   <%= govuk_table(classes: "govuk-!-margin-top-4", id: "charges-table") do |table| %>
     <% table.with_caption(size: "m", text: "Service charges") %>
@@ -49,7 +50,9 @@
     <% end %>
   <% end %>
 <% else %>
-<p class="govuk-body">There are no charges or payments for this application</p>
+  <p class="govuk-body">
+    There are no charges or payments for this application
+  </p>
 <% end %>
 
 <%= govuk_link_to "Add new charge or record payment", new_planning_application_charge_path(@planning_application) %>

@@ -5,10 +5,13 @@
 <% content_for :title, "Edit public comment" %>
 
 <%= render "shared/assessment_dashboard" do %>
-  <h2 class="govuk-!-padding-top-3">Edit the information appearing on the decision notice</h2>
+  <h2 class="govuk-!-padding-top-3">
+    Edit the information appearing on the decision notice
+  </h2>
 
   <p>
-    The planning officer recommends that the application is <%= @planning_application.decision %>
+    The planning officer recommends that the application is
+    <%= @planning_application.decision %>
   </p>
 
   <%= form_with model: @planning_application do |form| %>
@@ -23,7 +26,7 @@
           </span>
         <% end %>
       <% end %>
-     </div>
+    </div>
 
     <div class="govuk-form-group">
       <span class="govuk-body">

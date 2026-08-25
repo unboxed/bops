@@ -11,6 +11,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "tokens" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <h1>
       <%= t(".add_token") %>
@@ -18,6 +19,7 @@
 
     <%= form_with model: @token, scope: :token, url: tokens_path do |form| %>
       <%= form.govuk_error_summary %>
+
       <%= form.govuk_fieldset(legend: {text: nil}) do %>
         <%= form.govuk_text_field :name, hint: {text: t(".hints.name")} %>
         <%= form.govuk_text_field :service, hint: {text: t(".hints.service")} %>
@@ -25,6 +27,7 @@
 
       <%= form.govuk_radio_buttons_fieldset :authentication_type, legend: {text: t(".legends.authentication_type")}, hint: {text: t(".hints.authentication_type")} do %>
         <%= form.govuk_radio_button(:authentication_type, "bearer", label: {text: t(".labels.bearer_token")}) %>
+
         <%= form.govuk_radio_button(:authentication_type, "hmac", label: {text: t(".labels.hmac_digest")}) do %>
           <%= form.govuk_text_field :product_id, label: {text: t(".labels.product_id")} %>
           <%= form.govuk_text_field :client_id, label: {text: t(".labels.client_id")} %>

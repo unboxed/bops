@@ -3,6 +3,7 @@
     <%= helpers.govuk_link_to change_request_link_text, change_request_link_path %>
   </p>
 <% end %>
+
 <% if planning_application.boundary_geojson.present? %>
   <% if planning_application.address_or_boundary_or_constraints_updated? %>
     <%= helpers.govuk_warning_text(text: t(".this_application_has")) %>
@@ -21,41 +22,86 @@
       } do %>
     <%= tag.div id: :map %>
 
-    <button type="button" class="map-data-toggle" data-action="map#showMapData">Show data</button>
+    <button type="button" class="map-data-toggle" data-action="map#showMapData">
+      Show data
+    </button>
+
     <div class="map-data govuk-!-display-none">
-      <button type="button" class="map-data-close button-as-link" data-action="map#hideMapData map#toggleTab" data-map-toggle-param="menu">×</button>
+      <button
+        type="button"
+        class="map-data-close button-as-link"
+        data-action="map#hideMapData map#toggleTab"
+        data-map-toggle-param="menu"
+      >
+        ×
+      </button>
+
       <div class="map-data-tab map-data-menu">
         <div class="map-data-scroll-container">
           <ul class="govuk-task-list">
             <li class="govuk-task-list__item govuk-task-list__item--with-link">
               <div class="govuk-task-list__name-and-hint">
-                <a class="govuk-link govuk-task-list__link" href="#" data-action="map#toggleTab" data-map-toggle-param="constraints">Constraints</a>
+                <a
+                  class="govuk-link govuk-task-list__link"
+                  href="#"
+                  data-action="map#toggleTab"
+                  data-map-toggle-param="constraints"
+                >
+                  Constraints
+                </a>
               </div>
             </li>
+
             <li class="govuk-task-list__item govuk-task-list__item--with-link">
               <div class="govuk-task-list__name-and-hint">
-                <a class="govuk-link govuk-task-list__link" href="#" data-action="map#toggleTab" data-map-toggle-param="neighbours">Neighbours</a>
+                <a
+                  class="govuk-link govuk-task-list__link"
+                  href="#"
+                  data-action="map#toggleTab"
+                  data-map-toggle-param="neighbours"
+                >
+                  Neighbours
+                </a>
               </div>
             </li>
           </ul>
         </div>
       </div>
+
       <div class="map-data-tab map-data-constraints govuk-!-display-none">
-        <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
+        <a
+          href="#"
+          class="govuk-back-link"
+          data-action="map#toggleTab"
+          data-map-toggle-param="menu"
+        >
+          Back
+        </a><br>
+
         <div class="map-data-scroll-container">
           <h2>Constraints</h2>
+
           <% if planning_application.planning_application_constraints.present? %>
             <ul class="govuk-list govuk-list--spaced">
               <% planning_application.planning_application_constraints.each do |planning_application_constraint| %>
                 <li>
                   <hr>
+
                   <strong class="govuk-body-s govuk-!-font-weight-bold">
                     <%= planning_application_constraint.type_code %>
                   </strong><br>
+
                   <% if planning_application_constraint.entities.present? %>
-                    <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-font-size-16" data-module="govuk-checkboxes">
+                    <div
+                      class="
+                        govuk-checkboxes govuk-checkboxes--small
+                        govuk-!-font-size-16
+                      "
+                      data-module="govuk-checkboxes"
+                    >
                       <% planning_application_constraint.entities.each_with_index do |(name, entity), index| %>
                         <% entity_name = name.present? ? name.titleize : "Entity ##{entity}" %>
+
                         <div class="govuk-checkboxes__item">
                           <%= check_box_tag(
                                 "constraint_#{planning_application_constraint.planning_data_dataset}_#{index}",
@@ -67,12 +113,13 @@
                                   map_constraint_param: "#{planning_application_constraint.planning_data_dataset}_#{index}"
                                 }
                               ) %>
+
                           <%= label_tag(
                                 "constraint_#{planning_application_constraint.planning_data_dataset}_#{index}",
                                 class: "govuk-label govuk-checkboxes__label govuk-!-font-size-16"
                               ) do %>
-                              <%= entity_name %>
-                              <span class="constraint-<%= planning_application_constraint.planning_data_dataset %>"></span>
+                            <%= entity_name %>
+                            <span class="constraint-<%= planning_application_constraint.planning_data_dataset %>"></span>
                           <% end %>
                         </div>
                       <% end %>
@@ -83,19 +130,40 @@
             </ul>
           <% else %>
             <div class="background-light-grey govuk-!-padding-6">
-              <p class="govuk-body-s govuk-!-margin-bottom-0"><strong>No constraints have been added or identified</strong></p>
+              <p class="govuk-body-s govuk-!-margin-bottom-0">
+                <strong>No constraints have been added or identified</strong>
+              </p>
             </div>
           <% end %>
         </div>
       </div>
+
       <div class="map-data-tab map-data-neighbours govuk-!-display-none">
-        <a href="#" class="govuk-back-link" data-action="map#toggleTab" data-map-toggle-param="menu">Back</a><br>
+        <a
+          href="#"
+          class="govuk-back-link"
+          data-action="map#toggleTab"
+          data-map-toggle-param="menu"
+        >
+          Back
+        </a><br>
+
         <div class="map-data-scroll-container">
           <h2 id="neighbour-heading">All neighbours</h2>
+
           <% if planning_application.application_type.consultation? && planning_application.consultation.neighbours.present? %>
-            <div class="govuk-checkboxes govuk-checkboxes--small govuk-!-font-size-16" data-module="govuk-checkboxes">
+            <div
+              class="
+                govuk-checkboxes govuk-checkboxes--small
+                govuk-!-font-size-16
+              "
+              data-module="govuk-checkboxes"
+            >
               <% planning_application.consultation.neighbours.each do |neighbour| %>
-                <div class="govuk-checkboxes__item" data-lonlat="<%= neighbour.lonlat&.longitude&.truncate(5) %>,<%= neighbour.lonlat&.latitude&.truncate(5) %>">
+                <div
+                  class="govuk-checkboxes__item"
+                  data-lonlat="<%= neighbour.lonlat&.longitude&.truncate(5) %>,<%= neighbour.lonlat&.latitude&.truncate(5) %>"
+                >
                   <%= check_box_tag(
                         "neighbour_#{neighbour.address}",
                         neighbour.address,
@@ -106,17 +174,22 @@
                           map_neighbour_param: (neighbour.neighbour_responses.last&.summary_tag || :no_response).to_s
                         }
                       ) %>
+
                   <%= label_tag(
                         "neighbour_#{neighbour.address}",
                         class: "govuk-label govuk-checkboxes__label govuk-!-font-size-16"
                       ) do %>
                     <strong class="govuk-body-s govuk-!-font-weight-bold"><%= neighbour.address %></strong><br>
+
                     <%= render StatusTags::BaseComponent.new(
                           status: neighbour.neighbour_responses.last&.summary_tag || :no_response,
                           html_attributes: {class: "govuk-!-font-size-16"}
                         ) %>
+
                     <% if neighbour.neighbour_responses.last&.tags&.present? %>
-                      <p class="govuk-body-s"><%== neighbour.neighbour_responses.last&.tags&.map(&:humanize)&.compact&.join(" &middot; ") %></p>
+                      <p class="govuk-body-s">
+                        <%== neighbour.neighbour_responses.last&.tags&.map(&:humanize)&.compact&.join(" &middot; ") %>
+                      </p>
                     <% end %>
                   <% end %>
                 </div>
@@ -124,7 +197,9 @@
             </div>
           <% else %>
             <div class="background-light-grey govuk-!-padding-6">
-              <p class="govuk-body-s govuk-!-margin-bottom-0"><strong>No neighbours have been added or identified</strong></p>
+              <p class="govuk-body-s govuk-!-margin-bottom-0">
+                <strong>No neighbours have been added or identified</strong>
+              </p>
             </div>
           <% end %>
         </div>

@@ -17,14 +17,21 @@
 <ul class="govuk-list govuk-list--bullet">
   <li>read the information about how to prepare plans</li>
   <li>read the request from the case officer</li>
-  <li>select ‘Choose file’ to upload a document from your device - the file must be smaller than 30MB</li>
+
+  <li>
+    select ‘Choose file’ to upload a document from your device - the file must
+    be smaller than 30MB
+  </li>
+
   <li>submit your response</li>
 </ul>
 
 <% unless @validation_request.post_validation? %>
   <div class="govuk-inset-text">
-    You must submit your response by <strong><%= @validation_request.response_due.to_fs %></strong>.
-    If we don’t receive a response by this date we will return your application to you and refund any payment.
+    You must submit your response by
+    <strong><%= @validation_request.response_due.to_fs %></strong>. If we don’t
+    receive a response by this date we will return your application to you and
+    refund any payment.
   </div>
 <% end %>
 
@@ -67,6 +74,6 @@
             planning_application_reference: @planning_application.reference,
             change_access_id: @planning_application.change_access_id
           ), secondary: true %>
-      <% end %>
+    <% end %>
   <% end %>
 </div>

@@ -8,10 +8,12 @@
       <strong>Reason fee is invalid:</strong>
       <%= render(FormattedContentComponent.new(text: @form.validation_request.reason)) %>
     </p>
+
     <p>
       <strong>What the applicant needs to do:</strong>
       <%= render(FormattedContentComponent.new(text: @form.validation_request.suggestion)) %>
     </p>
+
     <p><%= @form.validation_request.created_at.to_fs %></p>
   <% end %>
 
@@ -27,7 +29,6 @@
   <% if @planning_application.invalidated? && @form.cancel_url.present? %>
     <p><%= govuk_link_to "Cancel request", @form.cancel_url %></p>
   <% end %>
-
 <% elsif @form.validation_request&.closed? && !@planning_application.valid_fee? %>
   <h2 class="govuk-heading-m">Fee change request sent</h2>
 
@@ -36,16 +37,21 @@
       <strong>Reason fee is invalid:</strong>
       <%= render(FormattedContentComponent.new(text: @form.validation_request.reason)) %>
     </p>
+
     <p>
       <strong>What the applicant needs to do:</strong>
       <%= render(FormattedContentComponent.new(text: @form.validation_request.suggestion)) %>
     </p>
+
     <p><%= @form.validation_request.created_at.to_fs %></p>
   <% end %>
 
   <h2 class="govuk-heading-m">Applicant response</h2>
   <%= govuk_inset_text do %>
-    <p><%= render(FormattedContentComponent.new(text: @form.validation_request.response)) %></p>
+    <p>
+      <%= render(FormattedContentComponent.new(text: @form.validation_request.response)) %>
+    </p>
+
     <p><%= @form.validation_request.updated_at.to_fs %></p>
   <% end %>
 
@@ -55,9 +61,10 @@
         form_object: @form,
         planning_application: @planning_application,
         show_payment_confirmation: true %>
-
 <% else %>
-  <p>This fee was calculated based on the services requested by the applicant.</p>
+  <p>
+    This fee was calculated based on the services requested by the applicant.
+  </p>
 
   <%= render "bops_core/#{@form.partial_path}/fee_exemption_documents", documents: @planning_application.documents.for_fee_exemption %>
   <%= render "bops_core/#{@form.partial_path}/payment_information", planning_application: @planning_application %>

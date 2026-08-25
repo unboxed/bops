@@ -1,6 +1,8 @@
 <% current_tab_route ||= :mine_planning_applications_path %>
+
 <div class="status-bar-container status-bar-container--colored">
   <h2>Status update:</h2>
+
   <div class="status-bar govuk-!-margin-bottom-4 govuk-!-padding-bottom-4">
     <%= tag.div(
           id: "reviewer-requests",
@@ -14,9 +16,13 @@
         <p>
           <strong><%= t "planning_applications.index.reviewer_requests.title" %></strong>
         </p>
-        <p class="govuk-heading-m"><%= t "planning_applications.index.reviewer_requests", count: search.reviewer_planning_applications.count %></p>
+
+        <p class="govuk-heading-m">
+          <%= t "planning_applications.index.reviewer_requests", count: search.reviewer_planning_applications.count %>
+        </p>
       <% end %>
     <% end %>
+
     <%= tag.div(
           id: "not-started",
           class: class_names(
@@ -29,7 +35,10 @@
         <p>
           <strong><%= t "planning_applications.index.prior_approvals.title" %></strong>
         </p>
-        <p class="govuk-heading-m"><%= t "planning_applications.index.prior_approvals", count: search.unstarted_prior_approvals.count %></p>
+
+        <p class="govuk-heading-m">
+          <%= t "planning_applications.index.prior_approvals", count: search.unstarted_prior_approvals.count %>
+        </p>
       <% end %>
     <% end %>
   </div>

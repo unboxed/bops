@@ -16,7 +16,9 @@
           )
         ) %>
     <%= render "application_steps" %>
-    <h2 class="govuk-!-margin-top-9 govuk-!-margin-bottom-1"><%= t(".details") %></h2>
+    <h2 class="govuk-!-margin-top-9 govuk-!-margin-bottom-1">
+      <%= t(".details") %>
+    </h2>
 
     <%= render(
           AccordionComponent.new(
@@ -53,17 +55,13 @@
 
   <div class="govuk-button-group">
     <% if @planning_application.in_progress? %>
-
       <%= govuk_button_link_to t(".withdraw_or_cancel"), planning_application_withdraw_or_cancel_path(
             @planning_application
           ), warning: true %>
-
     <% else %>
-
       <%= govuk_button_link_to t(".delete"), planning_application_withdraw_or_cancel_path(
             @planning_application
           ), warning: true %>
-
     <% end %>
   </div>
 <% end %>

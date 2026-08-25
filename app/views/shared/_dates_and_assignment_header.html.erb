@@ -19,7 +19,8 @@
 
     <% if @planning_application.in_progress? %>
       <p>
-        Assigned to: <strong><%= @planning_application.user&.name || "Unassigned" %></strong>
+        Assigned to:
+        <strong><%= @planning_application.user&.name || "Unassigned" %></strong>
         <!-- FIXME: make the link explicit and remove the span (i.e "Assign application"/"Change assignee") -->
         <span class="assignment_cta"><%= govuk_link_to "Change", planning_application_assign_users_path(@planning_application) %></span>
       </p>
@@ -41,7 +42,8 @@
 
     <% if @planning_application.can_publish? %>
       <p>
-        Public on BOPS Public Portal: <strong><%= @planning_application.make_public? ? "Yes" : "No" %></strong><span class="assignment_cta"><%= govuk_link_to "Change", make_public_planning_application_path(@planning_application) %></span>
+        Public on BOPS Public Portal:
+        <strong><%= @planning_application.make_public? ? "Yes" : "No" %></strong><span class="assignment_cta"><%= govuk_link_to "Change", make_public_planning_application_path(@planning_application) %></span>
       </p>
     <% end %>
 

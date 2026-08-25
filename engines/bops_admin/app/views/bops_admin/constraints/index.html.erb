@@ -12,6 +12,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "constraints" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <h1><%= t(".manage_constraints") %></h1>
 
@@ -32,9 +33,11 @@
                 <label class="govuk-hint"><%= category.humanize %></label>
               <% end %>
             <% end %>
+
             <% constraints.each do |constraint| %>
               <% body.with_row do |row| %>
                 <% row.with_cell(text: constraint.type_code) %>
+
                 <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
                   <%= govuk_link_to t("bops_admin.constraints.index.actions.edit"), edit_constraint_path(constraint), no_visited_state: true, no_underline: true %>
 

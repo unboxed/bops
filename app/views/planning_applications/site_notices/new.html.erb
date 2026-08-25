@@ -13,9 +13,7 @@
     ) %>
 
 <% if @planning_application.environment_impact_assessment&.required? %>
-  <strong class="govuk-tag">
-    Subject to EIA
-  </strong>
+  <strong class="govuk-tag"> Subject to EIA </strong>
 <% end %>
 
 <% if @planning_application.site_notices.exists? %>
@@ -60,6 +58,7 @@
           <%= form.govuk_radio_button :method, :internal_team, label: {text: "Send it by email to internal team to post"} do %>
             <%= form.govuk_text_field :internal_team_email, label: {text: "Internal team email"} %>
           <% end %>
+
           <%= form.govuk_radio_button :method, :applicant, label: {text: "Send it by email to applicant"} %>
         <% end %>
 
@@ -78,7 +77,10 @@
       </div>
     <% end %>
 
-    <div class="govuk-button-group govuk-!-padding-top-7 govuk-!-display-none" id="site-notice-form-actions">
+    <div
+      class="govuk-button-group govuk-!-padding-top-7 govuk-!-display-none"
+      id="site-notice-form-actions"
+    >
       <%= form.submit "Save and mark as complete", class: "govuk-button govuk-button--primary" %>
       <%= back_link %>
     </div>

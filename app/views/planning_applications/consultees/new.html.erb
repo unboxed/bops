@@ -14,7 +14,6 @@
 
 <div class="govuk-grid-row">
   <%= content_tag :div, class: "govuk-grid-column-full", data: {} do %>
-
     <%= render ErrorSummaryComponent.new(errors: @consultation.errors) %>
 
     <%= form_with model: @constraint,
@@ -24,9 +23,11 @@
       <%= form.govuk_error_summary %>
 
       <%= form.hidden_field :constraint, value: @constraint.id %>
+
       <% if params[:task_slug].present? %>
         <%= hidden_field_tag :task_slug, params[:task_slug] %>
       <% end %>
+
       <%= form.govuk_collection_check_boxes :consultee_ids,
             @consultation.consultees,
             :id,

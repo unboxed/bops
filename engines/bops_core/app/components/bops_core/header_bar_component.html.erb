@@ -3,6 +3,7 @@
     <% left_items.each do |item| %>
       <li class="bops-header-bar__item"><%= item[:text] %></li>
     <% end %>
+
     <% if render_toggle? %>
       <li class="bops-header-bar__item--toggle">
         <%= button_tag container_data_attributes[:toggle_condensed_text_value],

@@ -3,6 +3,7 @@
   <%= request.document_request_type %><br>
   <%= t(".reason", reason: request.reason) %><br>
   <%= t(".requested", time: request.created_at.to_fs) %><br>
+
   <% if request.cancelled? %>
     <%= t(".cancelled", time: request.cancelled_at.to_fs) %><br>
   <% elsif request.additional_documents.any? %>
@@ -14,6 +15,7 @@
         ) %>
   <% end %>
 </p>
+
 <% if request.open? %>
   <%= govuk_link_to t(".view_and_edit"), main_app.planning_application_documents_path(
         planning_application,

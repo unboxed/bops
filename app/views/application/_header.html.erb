@@ -18,11 +18,13 @@
           </span>
         <% end %>
       <% end %>
+
       <% if current_user.present? %>
         <div class="header-session-info">
-         <div class="govuk-header__navigation-item">
-           <strong><%= current_user.name %></strong>
-         </div>
+          <div class="govuk-header__navigation-item">
+            <strong><%= current_user.name %></strong>
+          </div>
+
           <div class="govuk-header__navigation-item">
             <%= link_to(
                   t(".log_out"),

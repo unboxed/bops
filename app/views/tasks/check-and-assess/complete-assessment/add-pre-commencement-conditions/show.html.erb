@@ -10,9 +10,15 @@
 <%= render(ReviewerCommentComponent.new(comment: @form.condition_set.current_review)) %>
 
 <% if @form.conditions.any? %>
-  <h2 class="govuk-!-margin-bottom-0">Add, edit and sort pre-commencement conditions</h2>
+  <h2 class="govuk-!-margin-bottom-0">
+    Add, edit and sort pre-commencement conditions
+  </h2>
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-  <ol data-controller="sortable" id="conditions-list" class="govuk-list sortable-list">
+  <ol
+    data-controller="sortable"
+    id="conditions-list"
+    class="govuk-list sortable-list"
+  >
     <% @form.conditions.each.with_index(1) do |condition, position| %>
       <%= render(Sortable::ListItemComponent.new(
             record: condition,
@@ -29,7 +35,8 @@
   </ol>
 
   <p class="govuk-hint">
-    Drag and drop conditions to change the order that they appear in the decision notice.
+    Drag and drop conditions to change the order that they appear in the
+    decision notice.
   </p>
 <% end %>
 
@@ -37,6 +44,7 @@
       open: @form.conditions.empty?,
       classes: "govuk-details--borderless govuk-!-margin-top-6") do %>
   <h3>Add a new pre-commencement condition</h3>
+
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= form.govuk_error_summary %>
     <%= form.govuk_text_field :title, label: {text: "Enter title"} %>

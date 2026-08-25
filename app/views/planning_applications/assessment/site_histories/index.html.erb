@@ -18,8 +18,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <h2 class="govuk-!-margin-top-2">Summary of the relevant historical applications</h2>
-    <p class="govuk-body">Past applications for this site or relevant nearby locations:</p>
+    <h2 class="govuk-!-margin-top-2">
+      Summary of the relevant historical applications
+    </h2>
+
+    <p class="govuk-body">
+      Past applications for this site or relevant nearby locations:
+    </p>
 
     <%= render "table", site_histories: @site_histories, show_action: true, return_to: params[:return_to] %>
 
@@ -32,6 +37,7 @@
 
       <%= form_with url: confirm_planning_application_assessment_site_histories_path(@planning_application) do |form| %>
         <%= hidden_field_tag :return_to, params[:return_to] %>
+
         <%= form.govuk_submit "Save and mark as complete" do %>
           <%= govuk_button_link_to "Back", params[:return_to].presence || planning_application_path(@planning_application), secondary: true %>
         <% end %>

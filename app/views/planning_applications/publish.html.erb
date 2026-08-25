@@ -10,19 +10,26 @@
         partial: "planning_applications/recommendations/submit_recommendation_accordion",
         locals: {planning_application: @planning_application}
       ) %>
+
   <% content_for :title, "Publish the recommendation" %>
 
   <h2>Decision notice</h2>
-  <p>The following decision notice was created based on the planning officer's recommendation and comment. You can review and publish it.</p>
+
+  <p>
+    The following decision notice was created based on the planning officer's
+    recommendation and comment. You can review and publish it.
+  </p>
 
   <%= render "decision_notice", planning_application: @planning_application %>
 
   <% if @planning_application.awaiting_determination? %>
-    <p>By determining the application, the applicant will receive this decision notice. The decision notice will also be made publicly available. </p>
+    <p>
+      By determining the application, the applicant will receive this decision
+      notice. The decision notice will also be made publicly available.
+    </p>
 
     <%= form_with model: @planning_application,
           url: determine_planning_application_path(@planning_application) do |form| %>
-
       <%= form.govuk_error_summary %>
 
       <% if @planning_application.open_description_change_request.present? %>
@@ -33,7 +40,9 @@
               }
             ) %>
       <% end %>
+
       <%= form.govuk_date_field :determination_date, id: "determination-date" %>
+
       <div class="govuk-button-group">
         <%= form.submit "Publish determination", class: "govuk-button" %>
         <%= govuk_button_link_to t(".back"), planning_application_path(@planning_application), secondary: true %>

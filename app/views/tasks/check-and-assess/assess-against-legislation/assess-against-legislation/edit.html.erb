@@ -60,18 +60,53 @@
               <% if comment = section.last_comment %>
                 <%= govuk_inset_text(classes: "govuk-!-margin-top-3") do %>
                   <div data-controller="show-hide">
-                    <div class="govuk-!-margin-bottom-0" data-show-hide-target="toggleable">
+                    <div
+                      class="govuk-!-margin-bottom-0"
+                      data-show-hide-target="toggleable"
+                    >
                       <%= simple_format(comment.text, class: "govuk-!-margin-bottom-1") %>
-                      <button type="button" data-action="click->show-hide#handleEvent" class="button-as-link govuk-!-font-size-16 govuk-!-margin-bottom-0">Edit</button>
-                      <button type="submit" form="remove-comment-form-<%= comment.id %>" class="button-as-link govuk-!-font-size-16 govuk-!-margin-bottom-0">Remove</button>
+
+                      <button
+                        type="button"
+                        data-action="click->show-hide#handleEvent"
+                        class="button-as-link govuk-!-font-size-16 govuk-!-margin-bottom-0"
+                      >
+                        Edit
+                      </button>
+
+                      <button
+                        type="submit"
+                        form="remove-comment-form-<%= comment.id %>"
+                        class="button-as-link govuk-!-font-size-16 govuk-!-margin-bottom-0"
+                      >
+                        Remove
+                      </button>
                     </div>
-                    <div class="govuk-!-display-none govuk-!-margin-bottom-0" data-show-hide-target="toggleable">
+
+                    <div
+                      class="govuk-!-display-none govuk-!-margin-bottom-0"
+                      data-show-hide-target="toggleable"
+                    >
                       <div class="govuk-form-group">
                         <%= label_tag "comment_text_#{comment.id}", "Edit comment", class: "govuk-label" %>
                         <%= text_area_tag "#{@form.param_key}[comment_text]", comment.text, id: "comment_text_#{comment.id}", class: "govuk-textarea", rows: 3, form: "edit-comment-form-#{comment.id}" %>
                       </div>
-                      <button type="submit" form="edit-comment-form-<%= comment.id %>" class="govuk-button govuk-!-margin-bottom-2">Save</button>
-                      <button type="button" data-action="click->show-hide#handleEvent" class="button-as-link govuk-!-font-size-16 govuk-!-margin-bottom-0">Cancel</button>
+
+                      <button
+                        type="submit"
+                        form="edit-comment-form-<%= comment.id %>"
+                        class="govuk-button govuk-!-margin-bottom-2"
+                      >
+                        Save
+                      </button>
+
+                      <button
+                        type="button"
+                        data-action="click->show-hide#handleEvent"
+                        class="button-as-link govuk-!-font-size-16 govuk-!-margin-bottom-0"
+                      >
+                        Cancel
+                      </button>
                     </div>
                   </div>
 
@@ -107,6 +142,7 @@
                   <%= fields.govuk_radio_button :status, "does_not_comply", label: {text: "Does not comply", class: "govuk-!-text-wrap-nowrap"} %>
                   <%= fields.govuk_radio_button :status, "to_be_determined", label: {text: "To be determined", class: "govuk-!-text-wrap-nowrap"} %>
                 <% end %>
+
                 <%= govuk_details(summary_text: "Add comment (optional)") do
                       fields.fields_for :comments, section.comments.new do |comment|
                         comment.govuk_text_area :text, rows: 3, width: "two-thirds", label: {text: "Add comment", size: "s"}

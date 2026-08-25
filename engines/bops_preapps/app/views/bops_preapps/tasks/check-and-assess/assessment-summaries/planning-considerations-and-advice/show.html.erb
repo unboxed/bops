@@ -12,6 +12,7 @@
       <% else %>
         <div id="consideration_<%= consideration.id %>" class="display-flex">
           <strong class="govuk-body-s"><%= consideration.proposal %></strong>
+
           <span class="flex-right-align">
             <% unless @planning_application.determined? %>
               <%= govuk_link_to "Edit", edit_task_component_path(@planning_application, @task, consideration) %>
@@ -38,7 +39,8 @@
           class="
             govuk-section-break govuk-section-break--l
             govuk-section-break--visible
-          ">
+          "
+        >
       <% end %>
     <% end %>
 
@@ -65,6 +67,7 @@
                 :last, :last, options: {include_blank: true},
                 label: {text: "Select policy area"},
                 data: {consideration_form_target: "policyAreaSelect"} %>
+
           <%= hidden_field_tag :return_to, return_to_or_task_path(@task) %>
           <%= form.govuk_task_button "Add consideration", action: "add_consideration", secondary: true, class: "govuk-!-margin-bottom-2" %>
         <% end %>

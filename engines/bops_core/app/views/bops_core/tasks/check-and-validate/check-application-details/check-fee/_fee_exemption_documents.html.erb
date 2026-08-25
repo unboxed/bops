@@ -8,13 +8,20 @@
             <p class="govuk-!-margin-bottom-1">
               <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
             </p>
+
             <p>
               <%= link_to_document "View in new window", document %>
             </p>
           <% end %>
+
           <% row.with_cell(classes: "govuk-!-width-one-half") do %>
             <p>File name: <strong><%= document.name %></strong></p>
-            <p>Date received: <strong><%= document.received_at_or_created %></strong></p>
+
+            <p>
+              Date received:
+              <strong><%= document.received_at_or_created %></strong>
+            </p>
+
             <p>This document was uploaded by the applicant</p>
           <% end %>
         <% end %>

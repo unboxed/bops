@@ -18,23 +18,28 @@
               <dt class="govuk-summary-list__value govuk-!-width-one-half">
                 <strong><%= requirement.description %></strong>
               </dt>
+
               <dd
                 class="
                   govuk-summary-list__value govuk-!-padding-right-2
                   govuk-!-width-one-quarter govuk-secondary-text-colour
-                ">
+                "
+              >
                 Added by <%= requirement.source %>
               </dd>
+
               <dd
                 class="
                   govuk-summary-list__actions govuk-!-padding-right-2
                   govuk-!-width-one-quarter
-                ">
+                "
+              >
                 <% unless @planning_application.determined? %>
                   <div class="align-items-center justify-end gap-2">
                     <%= form_with model: @form, url: @form.url do |form| %>
                       <%= form.hidden_field :requirement_id, value: requirement.id %>
                       <%= govuk_link_to("Edit", main_app.edit_planning_application_assessment_requirement_path(@planning_application, requirement, redirect_to: @task.url), no_visited_state: true, no_underline: true) %>
+
                       <span>|</span>
 
                       <%= form.govuk_task_button "Remove", action: "remove_requirement", class: "button-as-link",
@@ -55,38 +60,41 @@
 
 <hr>
 
-<div data-controller="unsaved-changes"
-     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+<div
+  data-controller="unsaved-changes"
+  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+>
   <%= form_with model: @form, url: @form.url,
         data: {
           unsaved_changes_target: "form",
           action: "submit->unsaved-changes#handleSubmit"
         } do |form| %>
     <%= return_to_hidden_field %>
+
     <%= govuk_details(summary_text: "Add requirements") do %>
-    <%= govuk_tabs do |tabs| %>
-      <% @planning_application.local_authority.requirements.by_category do |category, requirements| %>
-        <% tabs.with_tab(label: t("planning_applications.assessment.requirements.index.categories.#{category}")) do %>
-          <% if requirements.empty? %>
-            <p>There are no requirements of this type available.</p>
-          <% else %>
-            <%= form.govuk_check_boxes_fieldset :new_requirement_ids, small: true, legend: nil do %>
-              <% requirements.each do |requirement| %>
-                <% if @requirements.has?(requirement) %>
-                  <%= form.govuk_check_box :new_requirement_ids, requirement.id, label: {text: requirement.description}, disabled: true, checked: true %>
-                <% else %>
-                  <%= form.govuk_check_box :new_requirement_ids, requirement.id, label: {text: requirement.description}, checked: false %>
+      <%= govuk_tabs do |tabs| %>
+        <% @planning_application.local_authority.requirements.by_category do |category, requirements| %>
+          <% tabs.with_tab(label: t("planning_applications.assessment.requirements.index.categories.#{category}")) do %>
+            <% if requirements.empty? %>
+              <p>There are no requirements of this type available.</p>
+            <% else %>
+              <%= form.govuk_check_boxes_fieldset :new_requirement_ids, small: true, legend: nil do %>
+                <% requirements.each do |requirement| %>
+                  <% if @requirements.has?(requirement) %>
+                    <%= form.govuk_check_box :new_requirement_ids, requirement.id, label: {text: requirement.description}, disabled: true, checked: true %>
+                  <% else %>
+                    <%= form.govuk_check_box :new_requirement_ids, requirement.id, label: {text: requirement.description}, checked: false %>
+                  <% end %>
                 <% end %>
               <% end %>
             <% end %>
           <% end %>
         <% end %>
       <% end %>
+
+      <%= form.govuk_task_button "Add requirements", secondary: true, action: :add_requirement, class: "govuk-!-margin-bottom-2" %>
     <% end %>
 
-    <%= form.govuk_task_button "Add requirements", secondary: true, action: :add_requirement, class: "govuk-!-margin-bottom-2" %>
-  <% end %>
-
-  <%= render "task_submit_buttons", form: form %>
+    <%= render "task_submit_buttons", form: form %>
   <% end %>
 </div>

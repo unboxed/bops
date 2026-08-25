@@ -15,13 +15,16 @@
     ) %>
 
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds" data-controller="consideration-form">
+  <div
+    class="govuk-grid-column-two-thirds"
+    data-controller="consideration-form"
+  >
     <%= form_with model: @consideration, url: planning_application_review_considerations_item_path(@planning_application, @consideration) do |form| %>
       <%= form.govuk_fieldset legend: {text: "Edit to accept"} do %>
         <p>
           Use this form to make minor changes, such as fixing spelling errors.
-          If you want to suggest changes to the content of the condition,
-          return the application to the case officer.
+          If you want to suggest changes to the content of the condition, return
+          the application to the case officer.
         </p>
 
         <%= form.govuk_collection_select :policy_area,
@@ -36,14 +39,25 @@
                 form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyReferencesContainer"}},
                 data: {consideration_form_target: "policyReferencesInput"} %>
 
-          <ul class="govuk-list editable-list" data-consideration-form-target="policyReferences">
+          <ul
+            class="govuk-list editable-list"
+            data-consideration-form-target="policyReferences"
+          >
             <%= form.fields :policy_references do |fields| %>
               <li>
                 <%= fields.hidden_field :code %>
                 <%= fields.hidden_field :description %>
                 <%= fields.hidden_field :url %>
+
                 <span><%= fields.object.code %> - <%= fields.object.description %></span>
-                <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyReference">Remove</button>
+
+                <button
+                  type="button"
+                  class="button-as-link"
+                  data-action="click->consideration-form#removePolicyReference"
+                >
+                  Remove
+                </button>
               </li>
             <% end %>
           </ul>
@@ -53,8 +67,16 @@
               <input type="hidden" name="code" value="">
               <input type="hidden" name="description" value="">
               <input type="hidden" name="url" value="">
+
               <span>Code - Description</span>
-              <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyReference">Remove</button>
+
+              <button
+                type="button"
+                class="button-as-link"
+                data-action="click->consideration-form#removePolicyReference"
+              >
+                Remove
+              </button>
             </li>
           </template>
         </div>
@@ -65,13 +87,23 @@
                 form_group: {class: "govuk-!-margin-bottom-0", data: {consideration_form_target: "policyGuidanceContainer"}},
                 data: {consideration_form_target: "policyGuidanceInput"} %>
 
-          <ul class="govuk-list editable-list" data-consideration-form-target="policyGuidance">
+          <ul
+            class="govuk-list editable-list"
+            data-consideration-form-target="policyGuidance"
+          >
             <%= form.fields :policy_guidance do |fields| %>
               <li>
                 <%= fields.hidden_field :description %>
                 <%= fields.hidden_field :url %>
                 <span><%= fields.object.description %></span>
-                <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyReference">Remove</button>
+
+                <button
+                  type="button"
+                  class="button-as-link"
+                  data-action="click->consideration-form#removePolicyReference"
+                >
+                  Remove
+                </button>
               </li>
             <% end %>
           </ul>
@@ -81,7 +113,14 @@
               <input type="hidden" name="description" value="">
               <input type="hidden" name="url" value="">
               <span>Description</span>
-              <button type="button" class="button-as-link" data-action="click->consideration-form#removePolicyGuidance">Remove</button>
+
+              <button
+                type="button"
+                class="button-as-link"
+                data-action="click->consideration-form#removePolicyGuidance"
+              >
+                Remove
+              </button>
             </li>
           </template>
         </div>

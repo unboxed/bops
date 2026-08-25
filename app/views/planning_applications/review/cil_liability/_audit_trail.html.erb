@@ -9,9 +9,11 @@
       <% end %>
     <% else %>
       <% if @planning_application.cil_liable.nil? %>
-        The validation officer did not confirm whether the application is liable for CIL.
+        The validation officer did not confirm whether the application is liable
+        for CIL.
       <% else %>
-        The validation officer marked this application as <%= "not" unless @planning_application.cil_liable %> liable for CIL.
+        The validation officer marked this application as
+        <%= "not" unless @planning_application.cil_liable %> liable for CIL.
       <% end %>
     <% end %>
   </p>

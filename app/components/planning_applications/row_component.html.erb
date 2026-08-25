@@ -13,9 +13,18 @@
 
 <% if audit %>
   <tr class="govuk-table__row" id="<%= dom_id(audit) %>">
-    <td class="govuk-table__cell govuk-!-padding-left-2 govuk-!-padding-bottom-0 govuk-!-padding-top-0" colspan="<%= attributes.length %>">
+    <td
+      class="
+        govuk-table__cell govuk-!-padding-left-2 govuk-!-padding-bottom-0
+        govuk-!-padding-top-0
+      "
+      colspan="<%= attributes.length %>"
+    >
       <div class="govuk-inset-text">
-        <p><strong>Update:</strong> <%= render(Audits::ActivityComponent.new(audit: audit)) %></p>
+        <p>
+          <strong>Update:</strong> <%= render(Audits::ActivityComponent.new(audit: audit)) %>
+        </p>
+
         <p><%= audit.created_at.to_fs %></p>
       </div>
     </td>

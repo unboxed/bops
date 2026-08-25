@@ -2,6 +2,7 @@
   <div class="status-bar">
     <div class="status-panel" id="validation-date">
       <p>Valid from</p>
+
       <p>
         <strong>
           <% if @planning_application.valid_from.present? %>
@@ -12,19 +13,24 @@
         </strong>
       </p>
     </div>
+
     <% if @planning_application.application_type.consultation? %>
       <div class="status-panel" id="consultation-end-date">
         <p>Consultation end</p>
+
         <% if @planning_application.consultation.present? && @planning_application.consultation.end_date.present? %>
           <p>
             <strong><%= @planning_application.consultation.end_date.to_fs(:day_month_year_slashes) %></strong>
           </p>
-          <p><span id="edit-consultation-end-date"><%= govuk_link_to "Change", edit_planning_application_consultation_path(@planning_application) %></span></p>
+          <p>
+            <span id="edit-consultation-end-date"><%= govuk_link_to "Change", edit_planning_application_consultation_path(@planning_application) %></span>
+          </p>
         <% else %>
           <p><strong>Not yet started</strong></p>
         <% end %>
       </div>
     <% end %>
+
     <div class="status-panel" id="expiry-date">
       <p><%= @planning_application.next_date_label %></p>
 
@@ -55,11 +61,15 @@
             <%= govuk_link_to "View details", task_path(@planning_application, "check-and-validate/confirm-application-requirements/check-environment-impact-assessment") %>
           </li>
         <% end %>
+
         <% if @planning_application.consultation&.end_date %>
           <% unless display_or_publish_required?(@planning_application, :site) || display_or_publish_required?(@planning_application, :press) %>
             <li id="edit-consultation-change-end-date">
-              <% days_left = @planning_application.consultation.days_left %>
-              The consultation end date is <%= (days_left > 0) ? t("planning_applications.days_left", count: days_left) : t("planning_applications.overdue", count: days_left.abs) %> <%= govuk_link_to "Change end date", edit_planning_application_consultation_path(@planning_application) %>
+              <% days_left = @planning_application.consultation.days_left %> The
+              consultation end date is
+              <%= (days_left > 0) ? t("planning_applications.days_left", count: days_left) : t("planning_applications.overdue", count: days_left.abs) %>
+
+              <%= govuk_link_to "Change end date", edit_planning_application_consultation_path(@planning_application) %>
             </li>
           <% end %>
         <% end %>

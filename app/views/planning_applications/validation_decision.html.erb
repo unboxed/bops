@@ -21,15 +21,24 @@
         </strong>
       </p>
       <p>
-        When all parts of the application have been checked and are correct, mark the application as valid.
+        When all parts of the application have been checked and are correct,
+        mark the application as valid.
       </p>
       <div class="govuk-button-group">
         <%= govuk_button_link_to "Mark the application as valid", confirm_validation_planning_application_path(@planning_application) %>
         <%= govuk_button_link_to "Back", planning_application_validation_path(@planning_application), secondary: true %>
       </div>
     <% elsif @planning_application.not_started? && @planning_application.validation_requests.pending.any? %>
-      <h2>You have marked items as invalid, so you cannot validate this application.</h2>
-      <p>If you mark the application as invalid then the applicant or agent will be sent an invalid notification. This notification will contain a link to allow the applicant or agent to view all validation requests and to accept and reject requests.</p>
+      <h2>
+        You have marked items as invalid, so you cannot validate this
+        application.
+      </h2>
+      <p>
+        If you mark the application as invalid then the applicant or agent will
+        be sent an invalid notification. This notification will contain a link
+        to allow the applicant or agent to view all validation requests and to
+        accept and reject requests.
+      </p>
       <%= form_with model: @planning_application, url: invalidate_planning_application_path(@planning_application), local: true do |form| %>
         <div class="govuk-button-group">
           <%= form.submit "Mark the application as invalid", class: "govuk-button", data: {module: "govuk-button"} %>
@@ -39,7 +48,8 @@
     <% elsif @planning_application.invalidated? %>
       <p>
         <strong>
-          The application is marked as invalid. The applicant was notified on <%= @planning_application.invalidated_at.to_fs %>
+          The application is marked as invalid. The applicant was notified on
+          <%= @planning_application.invalidated_at.to_fs %>
         </strong>
       </p>
       <h2>
@@ -52,7 +62,8 @@
         <%= govuk_link_to "View existing requests", planning_application_validation_validation_requests_path(@planning_application) %>
       </p>
       <p>
-        Once the application has been checked and all validation requests resolved, mark the application as valid.
+        Once the application has been checked and all validation requests
+        resolved, mark the application as valid.
       </p>
       <div class="govuk-button-group">
         <%= govuk_button_link_to "Mark the application as valid", confirm_validation_planning_application_path(@planning_application) %>
@@ -61,8 +72,10 @@
     <% elsif @planning_application.validated? %>
       <p>
         <strong>
-          The application is marked as valid<%= @planning_application.may_invalidate? ? "." : " and cannot be marked as invalid." %><br>
-          The applicant was notified on <%= @planning_application.validated_at.to_fs %>
+          The application is marked as
+          valid<%= @planning_application.may_invalidate? ? "." : " and cannot be marked as invalid." %><br>
+          The applicant was notified on
+          <%= @planning_application.validated_at.to_fs %>
         </strong>
       </p>
       <p>

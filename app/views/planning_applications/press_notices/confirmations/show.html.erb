@@ -14,8 +14,14 @@
 
 <h2>Confirm press notice publication</h2>
 
-<div class="background-light-grey govuk-!-padding-bottom-1 govuk-!-padding-left-5 govuk-!-padding-right-5 govuk-!-padding-top-5 govuk-!-margin-bottom-2">
+<div
+  class="
+    background-light-grey govuk-!-padding-bottom-1 govuk-!-padding-left-5
+    govuk-!-padding-right-5 govuk-!-padding-top-5 govuk-!-margin-bottom-2
+  "
+>
   <h2 class="govuk-heading-s">Reasons selected:</h2>
+
   <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
     <% @press_notice.reasons.each do |reason| %>
       <li>
@@ -38,7 +44,9 @@
 </p>
 
 <% if @press_notice.published_at %>
-  <p>Date published: <strong><%= time_tag(@press_notice.published_at) %></strong></p>
+  <p>
+    Date published: <strong><%= time_tag(@press_notice.published_at) %></strong>
+  </p>
 
   <% if @press_notice.comment.present? %>
     <p class="govuk-!-margin-bottom-2">

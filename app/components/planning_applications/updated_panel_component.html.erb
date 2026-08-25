@@ -1,6 +1,9 @@
 <h2>Updated</h2>
 
-<p>This list shows applications which have been recently updated by a user other than the assigned officer.</p>
+<p>
+  This list shows applications which have been recently updated by a user other
+  than the assigned officer.
+</p>
 
 <%= render(
       PlanningApplications::SearchComponent.new(
@@ -9,6 +12,7 @@
         tab_route: tab_route
       )
     ) %>
+
 <% if audits.empty? %>
   <p><%= t(".no_planning_applications") %></p>
 <% else %>
@@ -22,6 +26,7 @@
         <% end %>
       </tr>
     </thead>
+
     <tbody class="govuk-table__body">
       <% audits.each do |audit| %>
         <%= render(

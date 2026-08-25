@@ -5,12 +5,15 @@
         <th scope="col" class="govuk-table__header govuk-!-width-one-third">
           <%= t(".category") %>
         </th>
+
         <th scope="col" class="govuk-table__header">
           <%= t(".code") %>
         </th>
+
         <th scope="col" class="govuk-table__header">
           <%= t(".description") %>
         </th>
+
         <th scope="col" class="govuk-table__header">
           <%= t(".action") %>
         </th>
@@ -23,12 +26,15 @@
           <td class="govuk-table__cell">
             <%= t(".categories.#{decision.category}") %>
           </td>
+
           <td class="govuk-table__cell">
             <%= t(".codes.#{decision.code}") %>
           </td>
+
           <td class="govuk-table__cell">
             <%= decision.description %>
           </td>
+
           <td class="govuk-table__cell">
             <%= govuk_link_to t(".edit"), edit_decision_path(decision) %>
           </td>

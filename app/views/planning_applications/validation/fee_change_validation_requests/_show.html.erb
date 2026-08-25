@@ -18,7 +18,8 @@
 <% end %>
 
 <p>
-  Invalid fee previously paid: <%= number_to_currency @planning_application.invalid_payment_amount, unit: "£" %>
+  Invalid fee previously paid:
+  <%= number_to_currency @planning_application.invalid_payment_amount, unit: "£" %>
 </p>
 
 <div class="govuk-grid-row">
@@ -29,11 +30,13 @@
       <p>
         <strong>Reason fee is invalid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
       </p>
+
       <p>
         <strong>What the applicant needs to do </strong><%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
       </p>
+
       <p>
-      <%= @validation_request.created_at.to_fs %>
+        <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
 
@@ -50,6 +53,7 @@
         <p>
           <%= @validation_request.response %>
         </p>
+
         <p>
           <%= @validation_request.updated_at.to_fs %>
         </p>
@@ -60,11 +64,13 @@
           <h2>
             Confirm total fee paid
           </h2>
+
           <ul class="govuk-list govuk-list--bullet">
             <li>check that the correct fee has been received</li>
             <li>update the total fee paid</li>
             <li>if the fee has been refunded, enter 0</li>
           </ul>
+
           <div class="govuk-input__wrapper">
             <div class="govuk-input__prefix" aria-hidden="true">£</div>
             <%= form.text_field :payment_amount, value: number_to_currency(@planning_application.payment_amount, unit: ""), class: "govuk-textarea govuk-input" %>
@@ -75,7 +81,7 @@
 
           <%= render "shared/validation_request_show_actions",
                 planning_application: @planning_application, validation_request: @validation_request, form: form, button_text: "Mark as valid" %>
-      </div>
+        </div>
       <% end %>
     <% else %>
       <% if @planning_application.invalidated? %>

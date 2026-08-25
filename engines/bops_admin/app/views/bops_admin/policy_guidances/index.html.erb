@@ -11,6 +11,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "policy_guidance" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <h1>
       <%= t(".manage_policy_guidance") %>
@@ -18,6 +19,7 @@
 
     <%= form_with url: policy_guidances_path, method: :get do |form| %>
       <%= form.govuk_text_field :q, value: params[:q], width: "two-thirds", label: {text: t(".find_policy_guidance"), hidden: true} %>
+
       <%= form.govuk_submit t(".find_policy_guidance") do %>
         <%= govuk_link_to t(".add_policy_guidance"), new_policy_guidance_path, no_visited_state: true %>
       <% end %>
@@ -43,6 +45,7 @@
                   <%= policy_guidance.description %>
                 <% end %>
               <% end %>
+
               <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
                 <%= govuk_link_to t("bops_admin.policy_guidances.index.actions.edit"), edit_policy_guidance_path(policy_guidance), no_visited_state: true, no_underline: true %>
 

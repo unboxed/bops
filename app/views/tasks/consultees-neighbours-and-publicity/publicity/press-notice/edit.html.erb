@@ -1,6 +1,7 @@
 <%= render "task_header", task: @task %>
 
 <h2>Confirm press notice publication</h2>
+
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= hidden_field_tag :id, @form.press_notice.id %>
   <%= form.govuk_error_summary %>
@@ -16,6 +17,7 @@
       <% if @form.press_notice.documents.with_file_attachment.any? %>
         <div class="govuk-form-group">
           <p class="govuk-label govuk-label--s">Uploaded photos</p>
+
           <% @form.press_notice.documents.with_file_attachment.each do |document| %>
             <p class="govuk-!-margin-bottom-1">
               <%= document_thumbnail_link(document, thumbnail_args: {resize: "300x212"}) %>

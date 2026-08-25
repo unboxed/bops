@@ -2,7 +2,10 @@
 
 <h3 class="govuk-heading-small">Check document details</h3>
 
-<p class="govuk-body">All documents need a reference to be on the decision notice and be made public.</p>
+<p class="govuk-body">
+  All documents need a reference to be on the decision notice and be made
+  public.
+</p>
 
 <% if @form.documents.empty? %>
   <p>There are no active documents.</p>
@@ -11,6 +14,7 @@
         url: @form.url,
         data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"}) do |form| %>
     <%= form.govuk_error_summary %>
+
     <table class="govuk-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
@@ -30,6 +34,7 @@
                     edit_planning_application_document_path(@planning_application, document, route: "review", return_to: @task.url)
                   ) %>
             </td>
+
             <td class="govuk-table__cell">
               <% if document.tags.present? %>
                 <% document.tags.each do |tag| %>
@@ -41,6 +46,7 @@
                 </p>
               <% end %>
             </td>
+
             <% if document.numbers.presence %>
               <td class="govuk-table__cell">
                 <%= render "tasks/check-and-assess/complete-assessment/review-documents-for-recommendation/checkboxes", document: document, field: "referenced_in_decision_notice" %>
@@ -58,6 +64,6 @@
       </tbody>
     </table>
 
-   <%= render "task_submit_buttons", form: %>
+    <%= render "task_submit_buttons", form: %>
   <% end %>
 <% end %>

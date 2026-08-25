@@ -7,32 +7,44 @@
 <%= govuk_tabs do |tabs| %>
   <% tabs.with_tab(label: "Application details", id: "application_details")  do %>
     <h2>Application details</h2>
+
     <table class="govuk-table">
       <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <strong><%= t(".description") %></strong>
           </td>
+
           <td class="govuk-table__cell">
             <%= render(FormattedContentComponent.new(text: @planning_application.description)) %>
           </td>
         </tr>
+
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <strong><%= t(".type_description") %></strong>
           </td>
-          <td class="govuk-table__cell"><%= @planning_application.type_description %></td>
+
+          <td class="govuk-table__cell">
+            <%= @planning_application.type_description %>
+          </td>
         </tr>
+
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <strong><%= t(".full_address") %></strong>
           </td>
-          <td class="govuk-table__cell"><%= @planning_application.full_address %></td>
+
+          <td class="govuk-table__cell">
+            <%= @planning_application.full_address %>
+          </td>
         </tr>
+
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <strong><%= t(".location") %></strong>
           </td>
+
           <td class="govuk-table__cell">
             <%= govuk_link_to(
                   t(".view_site_on"),
@@ -41,10 +53,12 @@
                 ) %>
           </td>
         </tr>
+
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <strong><%= t(".valid_from") %></strong>
           </td>
+
           <td class="govuk-table__cell">
             <% if @planning_application.valid_from.respond_to?(:to_fs) %>
               <%= time_tag @planning_application.valid_from %>
@@ -53,18 +67,22 @@
             <% end %>
           </td>
         </tr>
+
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <strong><%= t(".expiry_date") %></strong>
           </td>
+
           <td class="govuk-table__cell">
             <%= time_tag @planning_application.expiry_date %>
           </td>
         </tr>
+
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <strong><%= t(".consultation_end_date") %></strong>
           </td>
+
           <td class="govuk-table__cell">
             <% if @planning_application.consultation.present? && @planning_application.consultation.end_date.present? %>
               <%= time_tag @planning_application.consultation.end_date %>
@@ -73,11 +91,13 @@
             <% end %>
           </td>
         </tr>
+
         <% unless @planning_application.pre_application? %>
           <tr class="govuk-table__row">
             <td class="govuk-table__cell">
               <strong><%= t(".press_notice_date") %></strong>
             </td>
+
             <td class="govuk-table__cell">
               <%= @planning_application.press_notice&.published_at.present? ? time_tag(@planning_application.press_notice.published_at) : "-" %>
             </td>
@@ -86,6 +106,7 @@
             <td class="govuk-table__cell">
               <strong><%= t(".site_notice_date") %></strong>
             </td>
+
             <td class="govuk-table__cell">
               <%= @planning_application.site_notices.last&.displayed_at.present? ? time_tag(@planning_application.site_notices.last.displayed_at) : "-" %>
             </td>
@@ -94,8 +115,10 @@
       </tbody>
     </table>
   <% end %>
+
   <% tabs.with_tab(label: "Constraints (#{constraints_count})", id: "constraints")  do %>
     <h2>Constraints (<%= constraints_count %>)</h2>
+
     <%= render(
           partial: "shared/constraints/table",
           locals: {
@@ -108,6 +131,7 @@
           }
         ) %>
   <% end %>
+
   <% if @planning_application.application_type.consultation? %>
     <% if @planning_application.neighbour_consultation_feature? %>
       <% tabs.with_tab(label: "Neighbours (#{neighbours_count})", id: "neighbours")  do %>
@@ -118,21 +142,26 @@
     <% tabs.with_tab(label: "Consultees (#{consultees_count})", id: "consultees")  do %>
       <h2>Consultees (<%= consultees_count %>)</h2>
       <%= render "shared/consultees_table", planning_application: @planning_application, consultation: @planning_application&.consultation, show_assign: false %>
+
       <p>
         <%= govuk_link_to "Show details", main_app.planning_application_consultees_path(@planning_application) %>
       </p>
     <% end %>
   <% end %>
+
   <% tabs.with_tab(label: "Site history (#{site_histories_count})", id: "site_history")  do %>
     <h2>Site history (<%= site_histories_count %>)</h2>
     <%= render "planning_applications/assessment/site_histories/table", site_histories: @planning_application.site_histories, show_action: false %>
+
     <p>
       <%= govuk_link_to "Show details", main_app.planning_application_assessment_site_histories_path(@planning_application) %>
     </p>
   <% end %>
+
   <% tabs.with_tab(label: "Documents (#{documents_count})", id: "documents")  do %>
     <h2>Documents (<%= documents_count %>)</h2>
     <%= render "shared/documents_table", documents: @planning_application&.documents&.active %>
+
     <p>
       <%= govuk_link_to "Show details", main_app.planning_application_documents_path(@planning_application) %>
     </p>

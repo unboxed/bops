@@ -14,7 +14,8 @@
 
         <% if committee_decision.recommend? %>
           <p>
-            The case officer has marked this application as requiring decision by Committee for the following reasons:
+            The case officer has marked this application as requiring decision
+            by Committee for the following reasons:
           </p>
 
           <h3>
@@ -30,15 +31,18 @@
           </ul>
         <% else %>
           <p>
-            The case officer has marked this application as not requiring decision by Committee.
+            The case officer has marked this application as not requiring
+            decision by Committee.
           </p>
         <% end %>
 
         <h3>
           Submitted recommendation
         </h3>
+
         <p>
-          by <%= @planning_application.user&.name %>, <%= @planning_application.in_assessment_at.to_fs %>
+          by <%= @planning_application.user&.name %>,
+          <%= @planning_application.in_assessment_at.to_fs %>
         </p>
 
         <%= render(ReviewerCommentComponent.new(comment: committee_decision.current_review)) %>
@@ -51,10 +55,9 @@
           model: committee_decision,
           url: planning_application_review_committee_decision_path(@planning_application, committee_decision)
         ) do |form| %>
+      <%= form.govuk_error_summary %>
 
-        <%= form.govuk_error_summary %>
-
-        <%= form.fields_for :reviews_attributes, committee_decision.current_review do |review_form| %>
+      <%= form.fields_for :reviews_attributes, committee_decision.current_review do |review_form| %>
         <%= review_form.govuk_radio_buttons_fieldset :action, small: true, legend: nil do %>
           <%= review_form.govuk_radio_button(
                 :action, :accepted, checked: committee_decision.current_review.accepted?, label: {text: "Agree"}
@@ -69,6 +72,7 @@
                   <span class="govuk-visually-hidden">Error:</span> <%= committee_decision.errors["reviews.comment"].first %>
                 </p>
               <% end %>
+
               <%= review_form.govuk_text_area(
                     :comment,
                     value: committee_decision.current_review.comment,

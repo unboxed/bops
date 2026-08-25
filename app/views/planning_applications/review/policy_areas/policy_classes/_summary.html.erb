@@ -1,6 +1,7 @@
 <% content_for :page_title do %>
   <%= t(".review") %> - <%= t("page_title") %>
 <% end %>
+
 <%= render(
      partial: "shared/review_task_breadcrumbs",
      locals: {
@@ -12,6 +13,7 @@
        )
      }
    ) %>
+
 <%= render(
       partial: "shared/proposal_header",
       locals: {heading: t(".review_policy_class", part: policy_class.policy_part_number, class: policy_class.section)}
@@ -26,6 +28,7 @@
     <p>
       <%= t(".complete_the_assessment") %>
     </p>
+
     <p>
       <%= govuk_link_to(
             t(".open_legislation_in"),
@@ -33,6 +36,7 @@
             new_tab: ""
           ) %>
     </p>
+
     <%= govuk_accordion do |accordion|
           accordion.with_section(heading_text: "Constraints") do
             render(partial: "shared/constraints")

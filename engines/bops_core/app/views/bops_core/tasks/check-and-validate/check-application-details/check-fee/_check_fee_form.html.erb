@@ -1,5 +1,7 @@
-<div data-controller="unsaved-changes"
-     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+<div
+  data-controller="unsaved-changes"
+  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+>
   <%= form_with model: form_object, url: form_object.url,
         data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
     <%= form.govuk_error_summary %>
@@ -9,6 +11,7 @@
       <% if local_assigns[:show_payment_confirmation] %>
         <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"}, disabled: form_object.read_only? do %>
           <h3 class="govuk-heading-s">Confirm total fee paid</h3>
+
           <ul class="govuk-list govuk-list--bullet">
             <li>check that the correct fee has been received</li>
             <li>update the total fee paid</li>
@@ -24,6 +27,7 @@
       <% else %>
         <%= form.govuk_radio_button :valid_fee, true, label: {text: "Yes"}, checked: yes_checked, disabled: form_object.read_only? %>
       <% end %>
+
       <%= form.govuk_radio_button :valid_fee, false, label: {text: "No"}, disabled: form_object.read_only? do %>
         <%= form.govuk_text_area :reason,
               label: {size: "s", text: "Tell the applicant why the fee is incorrect"},
@@ -40,7 +44,10 @@
             <li>PIP award letters</li>
             <li>supporting statements, such as from a council or therapist</li>
             <li>NHS letters</li>
-            <li>disabled person's bus pass, blue badges or related documents</li>
+
+            <li>
+              disabled person's bus pass, blue badges or related documents
+            </li>
           </ul>
         <% end %>
       <% end %>

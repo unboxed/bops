@@ -20,6 +20,7 @@
               checked: @planning_application.immunity_detail.current_evidence_review.accepted? && !@planning_application.immunity_detail.current_evidence_review.reviewed_at.nil?,
               label: {text: "Agree"}
             ) %>
+
         <%= form.govuk_radio_button(
               :action,
               "rejected",

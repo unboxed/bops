@@ -5,21 +5,32 @@
 
   <%= render(PlanningApplications::ImmunityDetailsComponent.new(immunity_details: planning_application.immune_proposal_details)) %>
 
-  <h3 class="govuk-!-margin-top-5 govuk-!-margin-bottom-1">Consideration of evidence</h3>
+  <h3 class="govuk-!-margin-top-5 govuk-!-margin-bottom-1">
+    Consideration of evidence
+  </h3>
 
-  <h3 class="govuk-!-margin-top-5 govuk-!-margin-bottom-1">Assessment summary — Evidence of immunity</h3>
+  <h3 class="govuk-!-margin-top-5 govuk-!-margin-bottom-1">
+    Assessment summary — Evidence of immunity
+  </h3>
+
   <ul class="govuk-body immunity-details-sub-list">
-    <li><strong>Evidence cover:</strong>
+    <li>
+      <strong>Evidence cover:</strong>
+
       <% if  planning_application.immunity_detail.earliest_evidence_cover.present? %>
         <%= planning_application.immunity_detail.earliest_evidence_cover.to_fs(:day_month_year_slashes) %>
         <% if  planning_application.immunity_detail.latest_evidence_cover.present? %>
-          to <%= planning_application.immunity_detail.latest_evidence_cover.to_fs(:day_month_year_slashes) %>
+          to
+          <%= planning_application.immunity_detail.latest_evidence_cover.to_fs(:day_month_year_slashes) %>
         <% end %>
       <% else %>
         Unknown
       <% end %>
-     </li>
-    <li><strong>Missing evidence (gap in time):</strong> <%= immunity_detail.evidence_gaps? ? "Yes" : "No" %> </li>
+    </li>
+
+    <li>
+      <strong>Missing evidence (gap in time):</strong> <%= immunity_detail.evidence_gaps? ? "Yes" : "No" %>
+    </li>
   </ul>
 
   <div class="govuk-body">
@@ -28,17 +39,25 @@
         <div class="govuk-summary-card__title-wrapper">
           <div class="display-flex align-items-center">
             <h2 class="govuk-summary-card__title">
-              <%= evidence_group.name %> (<%= evidence_group.documents.count %>)
+              <%= evidence_group.name %>
+              (<%= evidence_group.documents.count %>)
               <br>
               <%= evidence_group.date_range.to_s %>
             </h2>
+
             <% if evidence_group.missing_evidence? %>
-              <div class="govuk-warning-text govuk-!-margin-left-6 govuk-!-margin-top-2">
+              <div
+                class="
+                  govuk-warning-text govuk-!-margin-left-6
+                  govuk-!-margin-top-2
+                "
+              >
                 <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
               </div>
             <% end %>
           </div>
         </div>
+
         <div class="govuk-summary-card__content">
           <dl class="govuk-summary-list">
             <% evidence_group.documents.each do |document| %>
@@ -46,21 +65,25 @@
                 <dt class="govuk-summary-list__key">
                   Document
                 </dt>
+
                 <dd class="govuk-summary-list__value">
                   <%= document.numbers %>
                   <%= helpers.link_to_document document.numbers, document %>
                 </dd>
               </div>
             <% end %>
-              <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                  Relevant dates
-                </dt>
-                <dd class="govuk-summary-list__value">
-                  <%= evidence_group.date_range %>
-                </dd>
-              </div>
+
+            <div class="govuk-summary-list__row">
+              <dt class="govuk-summary-list__key">
+                Relevant dates
+              </dt>
+
+              <dd class="govuk-summary-list__value">
+                <%= evidence_group.date_range %>
+              </dd>
+            </div>
           </dl>
+
           <% if applicant_comment = evidence_group.applicant_comment %>
             <%= bops_ticket_panel(colour: "grey", classes: %w[govuk-!-margin-bottom-2]) do |ticket| %>
               <% ticket.with_body { applicant_comment } %>

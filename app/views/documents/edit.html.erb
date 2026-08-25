@@ -1,5 +1,6 @@
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", planning_application_path(@planning_application) %>
+
 <% if @validate_document %>
   <% add_parent_breadcrumb_link "Validation tasks", planning_application_validation_path(@planning_application) %>
   <% content_for :title, "Supplied document" %>
@@ -33,6 +34,7 @@
       <%= link_to_document t(".view_in_new"), @document, class: "govuk-body" %>
     <% end %>
   </div>
+
   <div class="govuk-grid-column-one-half">
     <p class="govuk-!-margin-bottom-0">
       <strong>File name:</strong> <%= @document.name %>
@@ -45,6 +47,7 @@
     <% if @replacement_document_validation_request %>
       <p class="govuk-!-margin-bottom-0">
         <strong>This document replaced:</strong>
+
         <%= govuk_link_to @replacement_document_validation_request.old_document.name,
               edit_planning_application_document_path(@planning_application, @replacement_document_validation_request.old_document),
               # do not use `new_tab:` here, as it adds rel="noreferer" and breaks our referrer checks
@@ -74,6 +77,7 @@
       <%= created_by(@document) %>
     </p>
   </div>
+
   <div class="govuk-grid-column-full">
     <%= render "edit_and_upload" %>
   </div>

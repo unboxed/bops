@@ -2,10 +2,11 @@
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_radio_buttons_fieldset(:action, small: true, legend: nil) do %>
-      <%= form.govuk_radio_button :action, "accepted", label: {text: "Agree"}, link_errors: true %>
-      <%= form.govuk_radio_button :action, "rejected", label: {text: "Return with comments"} do %>
-        <%= form.govuk_text_area :comment, label: {text: "Add a comment"} %>
-      <% end %>
+    <%= form.govuk_radio_button :action, "accepted", label: {text: "Agree"}, link_errors: true %>
+
+    <%= form.govuk_radio_button :action, "rejected", label: {text: "Return with comments"} do %>
+      <%= form.govuk_text_area :comment, label: {text: "Add a comment"} %>
+    <% end %>
   <% end %>
 
   <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>

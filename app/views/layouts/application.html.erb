@@ -6,7 +6,8 @@
   <body
     class="govuk-template__body app-body-class"
     data-test="My value"
-    data-other="report:details">
+    data-other="report:details"
+  >
     <%= javascript_tag nonce: true do %>
       document.body.className += ' js-enabled' + ('noModule' in
       HTMLScriptElement.prototype ? ' govuk-frontend-supported' : '');
@@ -20,7 +21,8 @@
           title="Google Tag Manager"
           height="0"
           width="0"
-          style="display:none;visibility:hidden"></iframe>
+          style="display:none;visibility:hidden"
+        ></iframe>
       </noscript>
       <!-- End Google Tag Manager (noscript) -->
     <% end %>
@@ -70,7 +72,8 @@
       <main
         class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class"
         id="main-content"
-        role="main">
+        role="main"
+      >
         <% if @show_sidebar %>
           <div class="govuk-width-container"><%= render_navigation %></div>
         <% end %>

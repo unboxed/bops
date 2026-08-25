@@ -2,6 +2,7 @@
   <p>
     <span class="govuk-!-font-weight-bold"><%= action %></span>
     <br>
+
     <%= t(
           ".by_name_at",
           name:,
@@ -9,5 +10,6 @@
           time: datetime.to_fs(:time_only)
         ) %>
   </p>
+
   <p><%= comment %></p>
 </div>

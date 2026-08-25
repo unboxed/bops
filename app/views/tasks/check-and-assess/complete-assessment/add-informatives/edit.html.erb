@@ -6,6 +6,7 @@
       <%= form.govuk_error_summary %>
       <%= form.govuk_text_field :title, value: @form.informative.title, label: {text: "Enter title"} %>
       <%= form.govuk_text_area :text, value: @form.informative.text, label: {text: "Enter details of the informative"} %>
+
       <div class="govuk-button-group">
         <%= form.govuk_task_button "Save informative", action: "update_informative" %>
         <%= govuk_button_link_to "Back", @task.url, secondary: true %>

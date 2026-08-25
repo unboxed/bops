@@ -1,21 +1,22 @@
 <div class="govuk-grid-column-full">
-  <div data-controller="unsaved-changes"
-       data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <div
+    data-controller="unsaved-changes"
+    data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+  >
     <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request,
           data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+      <%= form.hidden_field :old_document_id, value: @document.id %>
+      <% return_to = params[:return_to].presence || params[:redirect_to].presence || check_and_request_documents_task_path %>
+      <%= form.hidden_field :return_to, value: return_to %>
 
-    <%= form.hidden_field :old_document_id, value: @document.id %>
-    <% return_to = params[:return_to].presence || params[:redirect_to].presence || check_and_request_documents_task_path %>
-    <%= form.hidden_field :return_to, value: return_to %>
+      <%= form.govuk_error_summary %>
 
-    <%= form.govuk_error_summary %>
+      <%= form.hidden_field :type, value: "ReplacementDocumentValidationRequest" %>
+      <%= form.govuk_text_area :reason, label: {size: "m", text: "List all issues with the document"}, required: true %>
 
-    <%= form.hidden_field :type, value: "ReplacementDocumentValidationRequest" %>
-    <%= form.govuk_text_area :reason, label: {size: "m", text: "List all issues with the document"}, required: true %>
+      <%= render "shared/planning_guides_link" %>
 
-    <%= render "shared/planning_guides_link" %>
-
-    <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
+      <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
     <% end %>
   </div>
 </div>

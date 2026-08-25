@@ -11,6 +11,7 @@
       partial: "shared/proposal_header",
       locals: {heading: "Make application public"}
     ) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @planning_application,
@@ -21,6 +22,7 @@
         <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
         <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
       <% end %>
+
       <%= form.govuk_submit "Update application" do %>
         <%= govuk_button_link_to "Back", planning_application_path(@planning_application), secondary: true %>
       <% end %>

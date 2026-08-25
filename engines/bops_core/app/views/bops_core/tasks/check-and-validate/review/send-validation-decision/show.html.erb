@@ -1,20 +1,74 @@
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= render "task_header", task: @task %>
 
-    <% if @planning_application.not_started? && @planning_application.validation_requests.pending.none? %>
+  <% if @planning_application.not_started? && @planning_application.validation_requests.pending.none? %>
+    <p>
+      <strong>
+        The application has not been marked as valid or invalid yet.
+      </strong>
+    </p>
+    <p>
+      When all parts of the application have been checked and are correct, mark
+      the application as valid.
+    </p>
+
+    <% if @planning_application.publishable? %>
+      <%= form.govuk_radio_buttons_fieldset :make_public,
+              legend: {text: "Publish application on BOPS Public Portal?"},
+              hint: {text: "Will be marked as valid from #{@planning_application.valid_from_date.to_date.to_fs}"} do %>
+        <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
+        <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
+      <% end %>
+    <% end %>
+
+    <div class="govuk-button-group">
+      <%= form.govuk_task_button "Mark the application as valid" %>
+    </div>
+  <% elsif @planning_application.not_started? && @planning_application.validation_requests.pending.any? %>
+    <h2>
+      You have marked items as invalid, so you cannot validate this application.
+    </h2>
+    <p>
+      If you mark the application as invalid then the applicant or agent will be
+      sent an invalid notification. This notification will contain a link to
+      allow the applicant or agent to view all validation requests and to accept
+      and reject requests.
+    </p>
+    <div class="govuk-button-group">
+      <%= form.govuk_task_button "Mark the application as invalid", action: "save_and_invalidate" %>
+    </div>
+  <% elsif @planning_application.invalidated? %>
+    <p>
+      <strong>
+        The application is marked as invalid. The applicant was notified on
+        <%= @planning_application.invalidated_at.to_fs %>
+      </strong>
+    </p>
+    <h2>
+      Validation requests
+    </h2>
+    <p>
+      <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %><br>
+      <%= govuk_link_to "View existing requests", task_path(@planning_application, "check-and-validate/review/review-validation-requests") %>
+    </p>
+    <% unresolved_requests = @planning_application.requests_excluding_time_extension.open_or_pending %>
+    <% if unresolved_requests.any? %>
       <p>
-        <strong>
-          The application has not been marked as valid or invalid yet.
-        </strong>
+        There are
+        <%= pluralize(unresolved_requests.count, "unresolved validation request") %>.
+        All validation requests must be resolved or cancelled before the
+        application can be marked as valid.
       </p>
+    <% else %>
       <p>
-        When all parts of the application have been checked and are correct, mark the application as valid.
+        Once the application has been checked and all validation requests
+        resolved, mark the application as valid.
       </p>
 
       <% if @planning_application.publishable? %>
         <%= form.govuk_radio_buttons_fieldset :make_public,
-              legend: {text: "Publish application on BOPS Public Portal?"},
-              hint: {text: "Will be marked as valid from #{@planning_application.valid_from_date.to_date.to_fs}"} do %>
+                legend: {text: "Publish application on BOPS Public Portal?"},
+                hint: {text: "Will be marked as valid from #{@planning_application.valid_from_date.to_date.to_fs}"} do %>
           <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
           <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
         <% end %>
@@ -23,66 +77,24 @@
       <div class="govuk-button-group">
         <%= form.govuk_task_button "Mark the application as valid" %>
       </div>
-    <% elsif @planning_application.not_started? && @planning_application.validation_requests.pending.any? %>
-      <h2>You have marked items as invalid, so you cannot validate this application.</h2>
-      <p>
-        If you mark the application as invalid then the applicant or agent will be sent an invalid notification.
-        This notification will contain a link to allow the applicant or agent to view all validation requests and to accept and reject requests.
-      </p>
-      <div class="govuk-button-group">
-        <%= form.govuk_task_button "Mark the application as invalid", action: "save_and_invalidate" %>
-      </div>
-    <% elsif @planning_application.invalidated? %>
-      <p>
-        <strong>
-          The application is marked as invalid. The applicant was notified on <%= @planning_application.invalidated_at.to_fs %>
-        </strong>
-      </p>
-      <h2>
-        Validation requests
-      </h2>
-      <p>
-        <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %><br>
-        <%= govuk_link_to "View existing requests", task_path(@planning_application, "check-and-validate/review/review-validation-requests") %>
-      </p>
-      <% unresolved_requests = @planning_application.requests_excluding_time_extension.open_or_pending %>
-      <% if unresolved_requests.any? %>
-        <p>
-          There are <%= pluralize(unresolved_requests.count, "unresolved validation request") %>. All validation requests must be resolved or cancelled before the application can be marked as valid.
-        </p>
-      <% else %>
-        <p>
-          Once the application has been checked and all validation requests resolved, mark the application as valid.
-        </p>
-
-        <% if @planning_application.publishable? %>
-          <%= form.govuk_radio_buttons_fieldset :make_public,
-                legend: {text: "Publish application on BOPS Public Portal?"},
-                hint: {text: "Will be marked as valid from #{@planning_application.valid_from_date.to_date.to_fs}"} do %>
-            <%= form.govuk_radio_button :make_public, true, label: {text: "Yes"} %>
-            <%= form.govuk_radio_button :make_public, false, label: {text: "No"} %>
-          <% end %>
-        <% end %>
-
-        <div class="govuk-button-group">
-          <%= form.govuk_task_button "Mark the application as valid" %>
-        </div>
-      <% end %>
-    <% elsif @planning_application.validated? %>
-      <p>
-        <strong>
-          The application is marked as valid<%= @planning_application.may_invalidate? ? "." : " and cannot be marked as invalid." %><br>
-          The applicant was notified on <%= @planning_application.validated_at.to_fs %>
-        </strong>
-      </p>
-      <p>
-        <%= govuk_link_to "View notification", main_app.validation_notice_planning_application_path(@planning_application) %>
-      </p>
-      <h2>
-        Validation requests
-      </h2>
-      <p>
-        <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %>
-      </p>
     <% end %>
+  <% elsif @planning_application.validated? %>
+    <p>
+      <strong>
+        The application is marked as
+        valid<%= @planning_application.may_invalidate? ? "." : " and cannot be marked as invalid." %><br>
+        The applicant was notified on
+        <%= @planning_application.validated_at.to_fs %>
+      </strong>
+    </p>
+    <p>
+      <%= govuk_link_to "View notification", main_app.validation_notice_planning_application_path(@planning_application) %>
+    </p>
+    <h2>
+      Validation requests
+    </h2>
+    <p>
+      <%= validation_request_summary(@planning_application.validation_requests, @planning_application) %>
+    </p>
+  <% end %>
 <% end %>

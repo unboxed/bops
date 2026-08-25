@@ -13,9 +13,7 @@
     <% if @form.validation_request.open? %>
       Ownership certificate change request sent
     <% else %>
-
       Ownership certificate change request created
-
     <% end %>
   </h2>
   <%= govuk_inset_text(classes: "govuk-!-margin-bottom-3") do %>
@@ -23,6 +21,7 @@
       <strong>Reason ownership certificate is invalid:</strong>
       <%= render(FormattedContentComponent.new(text: @form.validation_request.reason)) %>
     </p>
+
     <p><%= @form.validation_request.created_at.to_fs %></p>
   <% end %>
   <% if @planning_application.not_started? %>
@@ -39,12 +38,15 @@
 <% else %>
   <div
     data-controller="unsaved-changes"
-    data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+    data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+  >
     <%= form_with model: @form, url: @form.url,
           data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
       <%= form.govuk_error_summary %>
+
       <%= form.govuk_radio_buttons_fieldset :valid_ownership_certificate, legend: {text: "Is this declaration correct?"} do %>
         <%= form.govuk_radio_button :valid_ownership_certificate, true, label: {text: "Yes"}, disabled: @form.read_only? %>
+
         <%= form.govuk_radio_button :valid_ownership_certificate, false, label: {text: "No"}, disabled: @form.read_only? do %>
           <%= form.govuk_text_area :invalidated_ownership_reason,
                 value: @form.invalidated_ownership_reason,

@@ -37,20 +37,27 @@
     <% unless applicant_view? %>
       <p class="govuk-caption-m">Preview and submit</p>
     <% end %>
+
     <h1>Pre-application report</h1>
+
     <p>
       This report gives clear guidance on your proposal, helping you to
       understand what to expect when submitting your formal planning
       application.
     </p>
+
     <p>
       <strong><%= @planning_application.full_address %></strong><br>
-      Pre-application number: <strong><%= @planning_application.reference %></strong><br>
-      Case officer: <strong><%= @planning_application.user&.name || "Unassigned" %></strong><br>
+      Pre-application number:
+      <strong><%= @planning_application.reference %></strong><br>
+      Case officer:
+      <strong><%= @planning_application.user&.name || "Unassigned" %></strong><br>
       <% if @planning_application.determined_at %>
-        Date of report: <strong><%= @planning_application.determined_at.to_date.to_fs %></strong><br>
+        Date of report:
+        <strong><%= @planning_application.determined_at.to_date.to_fs %></strong><br>
       <% end %>
     </p>
+
     <% if applicant_view? %>
       <%= govuk_button "Print or save as PDF",
             class: "govuk-button--secondary print-hide",
@@ -83,6 +90,7 @@
 <section id="pre-application-outcome">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2>Pre-application outcome</h2>
+
     <% if editing_enabled? %>
       <p class="govuk-body-m">
         <% if @summary_of_advice&.summary_tag %>
@@ -114,14 +122,19 @@
 
   <%= govuk_inset_text do %>
     <% if @planning_application.user %>
-      <p><strong>Case officer:</strong> <%= @planning_application.user.name %></p>
+      <p>
+        <strong>Case officer:</strong> <%= @planning_application.user.name %>
+      </p>
     <% elsif editing_enabled? %>
       <p>
         No case officer has been assigned yet.<br>
         <%= govuk_link_to "Assign case officer", main_app.planning_application_assign_users_path(@planning_application, return_to: planning_application_path(@planning_application, anchor: "contact-details")) %>
       </p>
     <% end %>
-    <p><strong>Email:</strong> <%= govuk_mail_to @current_local_authority.email_address %></p>
+
+    <p>
+      <strong>Email:</strong> <%= govuk_mail_to @current_local_authority.email_address %>
+    </p>
   <% end %>
 </section>
 
@@ -139,6 +152,7 @@
       <% head.with_row do |row| %>
         <% row.with_cell(text: "Event") %>
         <% row.with_cell(text: "Date") %>
+
         <% if editing_enabled? %>
           <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "Action") %>
         <% end %>
@@ -149,6 +163,7 @@
       <% body.with_row do |row| %>
         <% row.with_cell(text: "Date made valid") %>
         <% row.with_cell(text: time_tag(@planning_application.validated_at)) %>
+
         <% if editing_enabled? %>
           <% row.with_cell(classes: %w[govuk-!-text-align-right], text: "-") %>
         <% end %>
@@ -157,6 +172,7 @@
       <% if editing_enabled? || @planning_application.site_visit_visited_at %>
         <% body.with_row do |row| %>
           <% row.with_cell(text: "Site visit") %>
+
           <% if @planning_application.site_visit_visited_at %>
             <% row.with_cell(text: time_tag(@planning_application.site_visit_visited_at)) %>
           <% else %>
@@ -174,6 +190,7 @@
       <% if editing_enabled? || @planning_application.meeting_occurred_at %>
         <% body.with_row do |row| %>
           <% row.with_cell(text: "Meeting") %>
+
           <% if @planning_application.meeting_occurred_at %>
             <% row.with_cell(text: time_tag(@planning_application.meeting_occurred_at)) %>
           <% else %>
@@ -193,6 +210,7 @@
   <div id="proposal-description">
     <div class="flex-between govuk-!-margin-bottom-2">
       <h3>Description of your proposal</h3>
+
       <% if editing_enabled? %>
         <p class="govuk-body-m">
           <%= govuk_link_to "Edit", main_app.new_planning_application_validation_validation_request_path(
@@ -203,12 +221,14 @@
         </p>
       <% end %>
     </div>
+
     <p><%= @planning_application.description %></p>
 
     <% if @planning_application.description_change_validation_requests.approved.any? %>
       <%= govuk_inset_text do %>
         <p>
-          <strong>Note:</strong> The case officer has updated the description to accurately reflect the proposed development.
+          <strong>Note:</strong> The case officer has updated the description to
+          accurately reflect the proposed development.
         </p>
       <% end %>
     <% end %>
@@ -221,9 +241,12 @@
   <h2>
     Site map
   </h2>
+
   <p>
-    This map shows the area of the proposed development. It has been checked by the case officer.
+    This map shows the area of the proposed development. It has been checked by
+    the case officer.
   </p>
+
   <%= render(
         partial: "shared/location_map",
         locals: {
@@ -232,21 +255,22 @@
           }
         }
       ) %>
+
   <div class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
     <div class="grey-border-box" id="officer-map-comments">
       <div class="flex-between">
         <h3>
           Officer comments
         </h3>
+
         <% if editing_enabled? %>
           <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/check-application/check-application-details", anchor: "site-map") %>
         <% end %>
       </div>
+
       <p>
         <% if @planning_application.consistency_checklist&.site_map_correct == "no" %>
-
           <%= @planning_application.consistency_checklist.site_map_correct_comment %>
-
         <% else %>
           The site map was marked as correct.
         <% end %>
@@ -260,13 +284,17 @@
 <section id="site-constraints">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2>Relevant site constraints</h2>
+
     <% if editing_enabled? %>
       <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-validate/check-application-details/check-constraints", anchor: "site-constraints") %>
     <% end %>
   </div>
+
   <p>
-    Site constraints are factors that could affect the development, such as zoning, environmental protections, or nearby conservation areas.
+    Site constraints are factors that could affect the development, such as
+    zoning, environmental protections, or nearby conservation areas.
   </p>
+
   <%= render "bops_reports/planning_applications/constraints_table", constraints: @constraints %>
 </section>
 
@@ -275,10 +303,12 @@
 <section id="site-history">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2>Relevant site history</h2>
+
     <% if editing_enabled? %>
       <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/check-application/check-site-history", anchor: "site-history") %>
     <% end %>
   </div>
+
   <% if @planning_application.site_histories.any? %>
     <%= render "bops_reports/planning_applications/site_history_table" %>
   <% else %>
@@ -309,12 +339,17 @@
 <section id="considerations-advice">
   <div class="flex-between govuk-!-margin-bottom-2">
     <h2>Planning considerations and advice</h2>
+
     <% if editing_enabled? %>
       <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/planning-considerations-and-advice", anchor: "considerations-advice") %>
     <% end %>
   </div>
 
-  <p> This section includes the case officer's assessment of your proposal against relevant policy and guidance. The elements of the proposal are grouped by how acceptable they are:</p>
+  <p>
+    This section includes the case officer's assessment of your proposal against
+    relevant policy and guidance. The elements of the proposal are grouped by
+    how acceptable they are:
+  </p>
 
   <%= govuk_table(html_attributes: {class: "govuk-table--borderless"}) do |table| %>
     <% table.with_body do |body|
@@ -342,6 +377,7 @@
              row.with_cell(text: "Status")
            end
          end %>
+
       <% table.with_body do |body|
            @considerations.select(&:proposal?).each do |consideration|
              body.with_row do |row|
@@ -358,6 +394,7 @@
         <% considerations.each do |consideration| %>
           <div class="flex-between">
             <strong class="govuk-heading-s"><%= consideration.proposal %></strong>
+
             <% if editing_enabled? %>
               <%= govuk_link_to "Edit", @planning_application.url_helpers.edit_task_component_path(
                     @planning_application,
@@ -370,7 +407,9 @@
 
           <%= render StatusTags::PreappComponent.new(status: consideration.summary_tag) %><br>
 
-          <div class="govuk-body govuk-!-margin-top-4"><strong>Relevant policies</strong><br>
+          <div class="govuk-body govuk-!-margin-top-4">
+            <strong>Relevant policies</strong><br>
+
             <ul class="govuk-list">
               <% consideration.policy_references.each do |reference| %>
                 <li class="govuk-body">
@@ -397,10 +436,12 @@
   <section id="summary-advice">
     <div class="flex-between">
       <h2>Summary of advice</h2>
+
       <% if editing_enabled? %>
         <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/summary-of-advice", anchor: "summary-advice") %>
       <% end %>
     </div>
+
     <% if @summary_of_advice.present? %>
       <p>This is the case officer's summary of the conclusions and advice.</p>
       <p class="grey-border-box">
@@ -418,15 +459,22 @@
   <section id="heads-of-terms">
     <div class="govuk-!-margin-bottom-2 flex-between">
       <h2>Heads of terms</h2>
+
       <% if editing_enabled? %>
         <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/assessment-summaries/suggest-heads-of-terms", anchor: "heads-of-terms") %>
       <% end %>
     </div>
+
     <% if applicant_view? %>
       <p>
-        These terms are an outline of the key planning obligations that the council may seek if a planning application is submitted. They help you understand the likely costs and requirements upfront. These terms are a starting point for negotiation and are subject to change as the formal planning application process moves forward.
+        These terms are an outline of the key planning obligations that the
+        council may seek if a planning application is submitted. They help you
+        understand the likely costs and requirements upfront. These terms are a
+        starting point for negotiation and are subject to change as the formal
+        planning application process moves forward.
       </p>
     <% end %>
+
     <%= render "bops_reports/planning_applications/heads_of_terms_table" %>
   </section>
 
@@ -452,10 +500,13 @@
   <% end %>
 
   <% references = @planning_application.considerations.map(&:policy_references).flatten.uniq(&:description) %>
+
   <% if references.any? %>
     <ul class="govuk-list">
       <% references.each do |reference| %>
-        <li><%= govuk_link_to reference.code_and_description, reference.url %></li>
+        <li>
+          <%= govuk_link_to reference.code_and_description, reference.url %>
+        </li>
       <% end %>
     </ul>
   <% else %>
@@ -468,19 +519,26 @@
 <section id="requirements">
   <div class="flex-between">
     <h2>Requirements</h2>
+
     <% if editing_enabled? %>
       <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/complete-assessment/check-and-add-requirements", anchor: "requirements") %>
     <% end %>
   </div>
 
   <% if @planning_application.requirements.any? %>
-    <p>Should you wish to submit an application, the following requirements are needed:</p>
+    <p>
+      Should you wish to submit an application, the following requirements are
+      needed:
+    </p>
     <% @planning_application.requirements.group_by(&:category).each do |category, requirements| %>
       <%= govuk_summary_card(title: category.humanize) do %>
         <ul class="govuk-list govuk-list--divided">
           <% requirements.each do |requirement| %>
             <li>
-              <p><%= govuk_link_to requirement.description, requirement.url %></p>
+              <p>
+                <%= govuk_link_to requirement.description, requirement.url %>
+              </p>
+
               <% if requirement.guidelines.present? %>
                 <p class="govuk-hint"><%= requirement.guidelines %></p>
               <% end %>
@@ -515,11 +573,15 @@
             ) %>
       </p>
     <% else %>
-      <p>Next steps cannot be displayed until a recommended application type has been set.</p>
+      <p>
+        Next steps cannot be displayed until a recommended application type has
+        been set.
+      </p>
     <% end %>
   <% elsif editing_enabled? %>
     <p>
-      You must set the application submission url in local authority settings before displaying next steps to the applicant.
+      You must set the application submission url in local authority settings
+      before displaying next steps to the applicant.
     </p>
   <% end %>
 </section>
@@ -529,6 +591,7 @@
 <section id="disclaimer">
   <div class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
     <h2><%= t(".disclaimer_heading") %></h2>
+
     <div class="grey-border-box">
       <p class="govuk-body">
         <%= @planning_application.disclaimer %>
@@ -538,7 +601,9 @@
 </section>
 
 <% if current_user.present? && !applicant_view? %>
-  <p><%= govuk_link_to "Preview the report as the applicant", planning_application_path(@planning_application, view_as: "applicant"), new_tab: true %></p>
+  <p>
+    <%= govuk_link_to "Preview the report as the applicant", planning_application_path(@planning_application, view_as: "applicant"), new_tab: true %>
+  </p>
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

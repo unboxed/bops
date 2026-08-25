@@ -2,17 +2,14 @@
       url: planning_application_review_permitted_development_rights_path(
         @planning_application
       ) do |form| %>
-
   <%= form.govuk_error_summary %>
 
   <%= form.govuk_radio_buttons_fieldset(:accepted, small: true, legend: nil, form_group: {class: "govuk-!-margin-bottom-3"}) do %>
-
     <%= form.govuk_radio_button(:accepted, true, label: {text: "Agree"}) %>
 
     <%= form.govuk_radio_button(:accepted, false, label: {text: "Return with comments"}) do %>
       <%= form.govuk_text_area(:reviewer_comment, rows: 6, class: "govuk-!-margin-bottom-0") %>
     <% end %>
-
   <% end %>
 
   <%= form.govuk_submit(t("form_actions.save_and_mark_as_complete"), name: "permitted_development_right[review_status]", value: "review_complete") %>

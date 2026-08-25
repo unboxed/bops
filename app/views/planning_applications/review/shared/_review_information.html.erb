@@ -3,6 +3,7 @@
     <%= t(".actions.#{@review.action}") %>
   </h2>
 <% end %>
+
 <p class="govuk-!-margin-bottom-7">
   <% if @review.reviewer.present? %>
     <%= time_tag(@review.reviewed_at, title: @review.reviewed_at.iso8601) do %>

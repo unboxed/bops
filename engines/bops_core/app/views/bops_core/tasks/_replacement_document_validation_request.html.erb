@@ -1,6 +1,7 @@
 <td class="govuk-table__cell">
   Replacement document
 </td>
+
 <% if validation_request.cancelled? %>
   <td class="govuk-table__cell">
     <%= render(FormattedContentComponent.new(text: validation_request.invalidated_document_reason)) %>

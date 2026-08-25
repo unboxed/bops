@@ -8,6 +8,7 @@
   <% if @planning_application.consultation_required == false %>
     <div class="grey-border-box">
       <p><strong>Consultation has been marked as not required</strong></p>
+
       <p>
         To start the consultation process, first complete the
         <%= link_to "Determine consultation requirement", @form.determine_consultation_requirement_task_path %>
@@ -17,6 +18,7 @@
   <% elsif @planning_application.consultation_required.nil? %>
     <div class="grey-border-box">
       <p><strong>Consultation hasn't been started yet</strong></p>
+
       <p>
         To start the consultation process, first complete the
         <%= link_to "Determine consultation requirement", @form.determine_consultation_requirement_task_path %>
@@ -25,6 +27,7 @@
     </div>
   <% end %>
 <% end %>
+
 <%= render "shared/consultees_table",
       planning_application: @planning_application,
       consultation: @planning_application.consultation,

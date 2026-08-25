@@ -14,16 +14,18 @@
           ) %>
     <% end %>
 
-    <div data-controller="unsaved-changes"
-         data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+    <div
+      data-controller="unsaved-changes"
+      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+    >
       <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request,
             data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
-      <%= form.hidden_field :fee_item, value: @validate_fee %>
-      <%= hidden_field_tag(:validate_fee, "yes") %>
+        <%= form.hidden_field :fee_item, value: @validate_fee %>
+        <%= hidden_field_tag(:validate_fee, "yes") %>
 
-      <%= form.govuk_error_summary %>
+        <%= form.govuk_error_summary %>
 
-      <%= form.govuk_text_area(
+        <%= form.govuk_text_area(
             :reason,
             label: {
               size: "m",
@@ -34,7 +36,7 @@
             readonly: @planning_application.validated?
           ) %>
 
-      <%= form.govuk_text_area(
+        <%= form.govuk_text_area(
             :suggestion,
             label: {
               size: "m",
@@ -45,26 +47,35 @@
             readonly: @planning_application.validated?
           ) %>
 
-      <details class="govuk-details" data-module="govuk-details">
-        <summary class="govuk-details__summary">
-          <span class="govuk-details__summary-text">
-            View guidance on supporting documents
-          </span>
-        </summary>
-        <div class="govuk-details__text">
-          <ul class="govuk-list govuk-list--bullet">
-            <li>PIP award letters</li>
-            <li>supporting statements, such as from a council or therapist</li>
-            <li>NHS letters</li>
-            <li>disabled person's bus pass, blue badges or related documents</li>
-          </ul>
-        </div>
-      </details>
+        <details class="govuk-details" data-module="govuk-details">
+          <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+              View guidance on supporting documents
+            </span>
+          </summary>
 
-      <%= form.hidden_field :type, value: "FeeChangeValidationRequest" %>
-      <% if @planning_application.pre_application? %>
-        <%= form.hidden_field :return_to, value: @back_path %>
-      <% end %>
+          <div class="govuk-details__text">
+            <ul class="govuk-list govuk-list--bullet">
+              <li>PIP award letters</li>
+
+              <li>
+                supporting statements, such as from a council or therapist
+              </li>
+
+              <li>NHS letters</li>
+
+              <li>
+                disabled person's bus pass, blue badges or related documents
+              </li>
+            </ul>
+          </div>
+        </details>
+
+        <%= form.hidden_field :type, value: "FeeChangeValidationRequest" %>
+
+        <% if @planning_application.pre_application? %>
+          <%= form.hidden_field :return_to, value: @back_path %>
+        <% end %>
 
         <%= render "shared/validation_request_form_actions", form: form, allow_submit: true %>
       <% end %>

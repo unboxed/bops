@@ -18,8 +18,16 @@
   <div class="govuk-grid-column-full">
     <h3>Check document details</h3>
 
-    <p>All documents need a reference to be on the decision notice and be made public.</p>
-    <p>You can return to <%= link_to "Manage documents", planning_application_documents_path(@planning_application) %> to make any other changes.</p>
+    <p>
+      All documents need a reference to be on the decision notice and be made
+      public.
+    </p>
+
+    <p>
+      You can return to
+      <%= link_to "Manage documents", planning_application_documents_path(@planning_application) %>
+      to make any other changes.
+    </p>
 
     <% if @documents.empty? %>
       <p>There are no active documents.</p>
@@ -32,17 +40,29 @@
         <table class="govuk-table">
           <thead class="govuk-table__head">
             <tr class="govuk-table__row">
-              <th scope="col" class="govuk-table__header">Document reference</th>
+              <th scope="col" class="govuk-table__header">
+                Document reference
+              </th>
+
               <th scope="col" class="govuk-table__header">Tag</th>
-              <th scope="col" class="govuk-table__header">On decision notice</th>
-              <th scope="col" class="govuk-table__header">Publicly available</th>
+
+              <th scope="col" class="govuk-table__header">
+                On decision notice
+              </th>
+
+              <th scope="col" class="govuk-table__header">
+                Publicly available
+              </th>
             </tr>
           </thead>
 
           <tbody class="govuk-table__body">
             <% @documents.each do |document| %>
               <%= content_tag(:tr, id: dom_id(document)) do %>
-                <td class="govuk-table__cell"><%= document.numbers.presence || document.name %></td>
+                <td class="govuk-table__cell">
+                  <%= document.numbers.presence || document.name %>
+                </td>
+
                 <td class="govuk-table__cell">
                   <% if document.tags.present? %>
                     <% document.tags.each do |tag| %>
@@ -54,6 +74,7 @@
                     </p>
                   <% end %>
                 </td>
+
                 <% if document.numbers.presence %>
                   <td class="govuk-table__cell">
                     <%= render "checkboxes", document: document, field: "referenced_in_decision_notice" %>

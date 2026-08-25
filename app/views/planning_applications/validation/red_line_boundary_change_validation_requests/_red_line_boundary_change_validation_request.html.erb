@@ -1,14 +1,11 @@
 <td class="govuk-table__cell change-request-list">
   Red line boundary changes
 </td>
+
 <td class="govuk-table__cell change-request-list">
   <% if red_line_boundary_change_validation_request.cancelled? %>
-
     <%= render(FormattedContentComponent.new(text: red_line_boundary_change_validation_request.cancel_reason)) %>
-
   <% else %>
-
     <%= render(FormattedContentComponent.new(text: red_line_boundary_change_validation_request.reason)) %>
-
   <% end %>
 </td>

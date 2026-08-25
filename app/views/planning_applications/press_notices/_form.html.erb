@@ -11,11 +11,9 @@
           end
         }
       ) do %>
-
     <%= form.govuk_radio_button(
           :required, true, disabled: @press_notice.published_at?, label: {text: "Yes"}
         ) do %>
-
       <%= form.govuk_check_boxes_fieldset :reasons, legend: -> { "" } do %>
         <% PressNotice::REASONS.each do |reason| %>
           <% if reason == :other %>
@@ -33,9 +31,12 @@
         <div class="govuk-form-group">
           <p>
             <% if @press_notice.press_notice_email.present? %>
-              An email notification will be sent to <strong><%= @planning_application.local_authority.press_notice_email %></strong> if a press notice is required.
+              An email notification will be sent to
+              <strong><%= @planning_application.local_authority.press_notice_email %></strong>
+              if a press notice is required.
             <% else %>
-              No press notice email has been set. This can be done by an administrator in the admin dashboard.
+              No press notice email has been set. This can be done by an
+              administrator in the admin dashboard.
             <% end %>
           </p>
         </div>

@@ -4,6 +4,7 @@
       class: "consistency-checklist-form"
     ) do |form| %>
   <%= form.govuk_error_summary %>
+
   <% planning_application.application_type.consistency_checklist.each do |checklist| %>
     <%= render(
           partial: checklist,
@@ -15,12 +16,15 @@
           }
         ) %>
   <% end %>
+
   <%= hidden_field_tag :return_to, params[:return_to] %>
+
   <% if can_edit %>
     <%= render(partial: "shared/submit_buttons", locals: {form: form}) %>
   <% else %>
     <div class="govuk-button-group">
       <%= back_link %>
+
       <% unless @planning_application.determined? %>
         <%= govuk_link_to t(".edit_check_description"), edit_planning_application_assessment_consistency_checklist_path(planning_application) %>
       <% end %>

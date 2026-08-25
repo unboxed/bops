@@ -10,6 +10,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "profile" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <h1>
       <%= t(".profile") %>
@@ -21,17 +22,18 @@
           <h2 class="govuk-error-summary__title">
             There is a problem
           </h2>
+
           <div class="govuk-error-summary__body">
             <ul class="govuk-list govuk-error-summary__list">
               <li>
                 <a href="#">
                   <% if current_local_authority.notify_error_status == "bad_notify_api_key" %>
-
                     Enter a valid <%= t(".notify_api_key") %>
 
                   <% else %>
-
-                    Enter a valid <%= t(".#{current_local_authority.notify_error_status.delete_prefix("bad_")}") %> for the configured GOV.UK Notify account
+                    Enter a valid
+                    <%= t(".#{current_local_authority.notify_error_status.delete_prefix("bad_")}") %>
+                    for the configured GOV.UK Notify account
 
                   <% end %>
                 </a>
@@ -43,28 +45,50 @@
     <% end %>
 
     <p>
-      Some councils use several teams to complete key tasks within the assessment and review process. Add the correct email addresses for each task.
+      Some councils use several teams to complete key tasks within the
+      assessment and review process. Add the correct email addresses for each
+      task.
     </p>
 
     <div class="govuk-form-group govuk-!-margin-top-5">
       <ol class="govuk-list">
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".signatory_name") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".signatory_name_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".signatory_name") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".signatory_name_hint") %>
+          </div>
+
           <p>
             <%= current_local_authority.signatory_name %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".signatory_job_title") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".signatory_job_title_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".signatory_job_title") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".signatory_job_title_hint") %>
+          </div>
+
           <p>
             <%= current_local_authority.signatory_job_title %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".signatory_signature") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".signatory_signature_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".signatory_signature") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".signatory_signature_hint") %>
+          </div>
+
           <p>
             <% if current_local_authority.signature.attached? %>
               <%= image_tag main_app.uploaded_file_url(current_local_authority.signature.blob), alt: "Signatory signature", style: "max-width: 200px" %>
@@ -73,16 +97,30 @@
             <% end %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".enquiries_paragraph") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".enquiries_paragraph_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".enquiries_paragraph") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".enquiries_paragraph_hint") %>
+          </div>
+
           <p>
             <%= current_local_authority.enquiries_paragraph %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".engagement_statement") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".engagement_statement_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".engagement_statement") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".engagement_statement_hint") %>
+          </div>
+
           <p>
             <% if current_local_authority.engagement_statement? %>
               <%= simple_format(current_local_authority.engagement_statement) %>
@@ -91,44 +129,86 @@
             <% end %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".email_address") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".email_address_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".email_address") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".email_address_hint") %>
+          </div>
+
           <p>
             <%= current_local_authority.email_address %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".feedback_email") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".feedback_email_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".feedback_email") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".feedback_email_hint") %>
+          </div>
+
           <p>
             <%= current_local_authority.feedback_email %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".telephone_number") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".telephone_number_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".telephone_number") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".telephone_number_hint") %>
+          </div>
+
           <p>
             <%= current_local_authority.telephone_number %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".reviewer_group_email") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".reviewer_group_email_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".reviewer_group_email") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".reviewer_group_email_hint") %>
+          </div>
+
           <p>
             <%= current_local_authority.reviewer_group_email %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".press_notice_email") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".press_notice_email_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".press_notice_email") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".press_notice_email_hint") %>
+          </div>
+
           <p>
             <%= current_local_authority.press_notice_email %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".public_register_base_url") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".public_register_base_url_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".public_register_base_url") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".public_register_base_url_hint") %>
+          </div>
+
           <p>
             <% if current_local_authority.public_register_base_url? %>
               <%= govuk_link_to nil, current_local_authority.public_register_base_url, new_tab: "" %>
@@ -137,9 +217,16 @@
             <% end %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".document_checklist") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".document_checklist_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".document_checklist") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".document_checklist_hint") %>
+          </div>
+
           <p>
             <% if current_local_authority.document_checklist? %>
               <%= govuk_link_to nil, current_local_authority.document_checklist, new_tab: "" %>
@@ -148,9 +235,16 @@
             <% end %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".planning_policy_and_guidance") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".planning_policy_and_guidance_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".planning_policy_and_guidance") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".planning_policy_and_guidance_hint") %>
+          </div>
+
           <p>
             <% if current_local_authority.planning_policy_and_guidance? %>
               <%= govuk_link_to nil, current_local_authority.planning_policy_and_guidance, new_tab: "" %>
@@ -159,9 +253,16 @@
             <% end %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".preapp_guidance_url") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".preapp_guidance_url_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".preapp_guidance_url") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".preapp_guidance_url_hint") %>
+          </div>
+
           <p>
             <% if current_local_authority.preapp_guidance_url? %>
               <%= govuk_link_to nil, current_local_authority.preapp_guidance_url, new_tab: "" %>
@@ -170,9 +271,16 @@
             <% end %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".privacy_policy_url") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".privacy_policy_url_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".privacy_policy_url") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".privacy_policy_url_hint") %>
+          </div>
+
           <p>
             <% if current_local_authority.privacy_policy_url? %>
               <%= govuk_link_to nil, current_local_authority.privacy_policy_url, new_tab: "" %>
@@ -181,9 +289,16 @@
             <% end %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".submission_guidance_url") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".submission_guidance_url_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".submission_guidance_url") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".submission_guidance_url_hint") %>
+          </div>
+
           <p>
             <% if current_local_authority.submission_guidance_url? %>
               <%= govuk_link_to nil, current_local_authority.submission_guidance_url, new_tab: "" %>
@@ -192,9 +307,16 @@
             <% end %>
           </p>
         </li>
+
         <li>
-          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5"><%= t(".submission_url") %></h2>
-          <div class="govuk-hint govuk-!-margin-bottom-2"><%= t(".submission_url_hint") %></div>
+          <h2 class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
+            <%= t(".submission_url") %>
+          </h2>
+
+          <div class="govuk-hint govuk-!-margin-bottom-2">
+            <%= t(".submission_url_hint") %>
+          </div>
+
           <p>
             <% if current_local_authority.submission_url? %>
               <%= govuk_link_to nil, current_local_authority.submission_url, new_tab: "" %>

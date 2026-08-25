@@ -22,8 +22,18 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-    <ol data-controller="sortable" id="heads-of-terms-list" class="govuk-list sortable-list">
+    <hr
+      class="
+        govuk-section-break govuk-section-break--l
+        govuk-section-break--visible
+      "
+    >
+
+    <ol
+      data-controller="sortable"
+      id="heads-of-terms-list"
+      class="govuk-list sortable-list"
+    >
       <% @heads_of_term.not_cancelled_terms.select(&:persisted?).each.with_index(1) do |term, position| %>
         <%= render(Sortable::ListItemComponent.new(
               record: term,
@@ -37,8 +47,8 @@
               show_status_tag: !@planning_application.pre_application?
             )) %>
       <% end %>
-
     </ol>
+
     <p><%= t(".drag_and_drop") %></p>
   </div>
 
@@ -50,10 +60,17 @@
             Add a new heads of terms
           </span>
         </summary>
+
         <div>
           <%= render "form", url: planning_application_assessment_terms_path(@planning_application) %>
         </div>
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+        <hr
+          class="
+            govuk-section-break govuk-section-break--m
+            govuk-section-break--visible
+          "
+        >
       </details>
     </div>
 
@@ -65,6 +82,7 @@
         <% else %>
           <%= form.submit t("form_actions.term.confirm"), class: "govuk-button" %>
         <% end %>
+
         <%= govuk_button_link_to("Back", planning_application_assessment_path(@planning_application), secondary: true) %>
       <% end %>
     </div>

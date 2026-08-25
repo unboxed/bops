@@ -1,56 +1,63 @@
-<div data-controller="unsaved-changes"
-     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+<div
+  data-controller="unsaved-changes"
+  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+>
   <%= form_with model: @form, url: @form.url,
         data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
     <%= form.govuk_error_summary %>
     <%= return_to_hidden_field %>
 
-  <%= render "task_header", task: @task %>
+    <%= render "task_header", task: @task %>
 
-  <% if @form.meetings.any? %>
-    <table class="govuk-table" id="meeting-history">
-      <caption class="govuk-table__caption govuk-table__caption--m">
-        Meeting history
-      </caption>
-      <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header">Meeting date</th>
-          <th scope="col" class="govuk-table__header">Case officer</th>
-          <th scope="col" class="govuk-table__header">Notes (optional)</th>
-        </tr>
-      </thead>
-      <% @form.each_meeting do |meeting| %>
-        <tbody class="govuk-table__body">
+    <% if @form.meetings.any? %>
+      <table class="govuk-table" id="meeting-history">
+        <caption class="govuk-table__caption govuk-table__caption--m">
+          Meeting history
+        </caption>
+
+        <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <th scope="row" class="govuk-table__header">
-              <%= meeting.occurred_on %>
-            </th>
-            <td class="govuk-table__cell">
-              <%= meeting.created_by %>
-            </td>
-            <td class="govuk-table__cell">
-              <%= meeting.comment %>
-            </td>
+            <th scope="col" class="govuk-table__header">Meeting date</th>
+            <th scope="col" class="govuk-table__header">Case officer</th>
+            <th scope="col" class="govuk-table__header">Notes (optional)</th>
           </tr>
-        </tbody>
-      <% end %>
-    </table>
-  <% else %>
-    <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
-      <p class="govuk-!-margin-bottom-2">
-        <strong>No meetings have been recorded yet.</strong>
-      </p>
-      <p class="govuk-!-margin-bottom-0">
-        Add new meeting to start recording meeting history.
-      </p>
-    </div>
-  <% end %>
+        </thead>
 
-  <% unless @planning_application.determined? %>
-    <%= govuk_details(summary_text: "Add a new meeting", open: @form.add_meeting_open?) do %>
-      <%= render "bops_preapps/tasks/check-and-assess/additional-services/meeting/form", form: form %>
+        <% @form.each_meeting do |meeting| %>
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <th scope="row" class="govuk-table__header">
+                <%= meeting.occurred_on %>
+              </th>
+
+              <td class="govuk-table__cell">
+                <%= meeting.created_by %>
+              </td>
+
+              <td class="govuk-table__cell">
+                <%= meeting.comment %>
+              </td>
+            </tr>
+          </tbody>
+        <% end %>
+      </table>
+    <% else %>
+      <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
+        <p class="govuk-!-margin-bottom-2">
+          <strong>No meetings have been recorded yet.</strong>
+        </p>
+
+        <p class="govuk-!-margin-bottom-0">
+          Add new meeting to start recording meeting history.
+        </p>
+      </div>
     <% end %>
-  <% end %>
+
+    <% unless @planning_application.determined? %>
+      <%= govuk_details(summary_text: "Add a new meeting", open: @form.add_meeting_open?) do %>
+        <%= render "bops_preapps/tasks/check-and-assess/additional-services/meeting/form", form: form %>
+      <% end %>
+    <% end %>
 
     <%= render "task_submit_buttons", form: form %>
   <% end %>

@@ -5,18 +5,22 @@
         <th scope="col" class="govuk-table__header govuk-!-width-one-third">
           Category
         </th>
+
         <th scope="col" class="govuk-table__header">
           Constraint
         </th>
+
         <% if show_source %>
           <th scope="col" class="govuk-table__header">
             Source
           </th>
         <% end %>
+
         <% if show_action %>
           <th
             scope="col"
-            class="govuk-table__header govuk-table__header--numeric">
+            class="govuk-table__header govuk-table__header--numeric"
+          >
             Action
           </th>
         <% end %>
@@ -29,6 +33,7 @@
           <td class="govuk-table__cell">
             <strong class="govuk-tag govuk-tag--grey"><%= constraint.category.humanize %></strong>
           </td>
+
           <td class="govuk-table__cell">
             <%= constraint.type_code %>
 
@@ -36,6 +41,7 @@
               <ul class="govuk-list">
                 <% constraint.entities.each do |name, entity| %>
                   <% entity_name = name.present? ? name.titleize : "Entity ##{entity}" %>
+
                   <li>
                     <%= govuk_link_to entity_name, planning_data_entity_url(entity), new_tab: true %>
                   </li>
@@ -43,15 +49,18 @@
               </ul>
             <% end %>
           </td>
+
           <% if show_source %>
             <td class="govuk-table__cell">
               <%= constraint.identified_by %>
             </td>
           <% end %>
+
           <% if show_action %>
             <td class="govuk-table__cell govuk-table__cell--numeric">
               <%= form_with model: @form, url: @form.url do |form| %>
                 <%= form.hidden_field :constraint_id, value: constraint.id %>
+
                 <% if !constraint.added? %>
                   <%= form.govuk_task_button_link "Add", action: "add_constraint" %>
                 <% elsif !constraint.identified %>

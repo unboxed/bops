@@ -10,17 +10,14 @@
         polygon_search_id: "neighbour-addresses",
         polygon_search_name: "consultation[neighbours_attributes][][address]"
       } do %>
-
     <%= render "#{@form.partial_path}/select_neighbours", planning_application: @planning_application %>
 
     <%= form_with model: @form, url: @form.url, id: "consultation-neighbour-addresses-form", scope: :consultation do |form| %>
       <%= form.govuk_text_area :polygon_geojson, label: {class: "govuk-visually-hidden"}, class: "govuk-visually-hidden" %>
 
-      <div id="address-container" class="govuk-!-margin-top-1">
-      </div>
+      <div id="address-container" class="govuk-!-margin-top-1"></div>
 
-      <div id="manual-address-container" class="govuk-!-margin-top-1">
-      </div>
+      <div id="manual-address-container" class="govuk-!-margin-top-1"></div>
 
       <%= form.govuk_task_button "Add addresses", action: "add_addresses", secondary: true %>
     <% end %>
@@ -29,7 +26,8 @@
       <label class="govuk-label govuk-label--s" for="neighbour-address">
         Manually add an address
       </label>
-      <div class="govuk-hint"> Start typing address or postcode</div>
+
+      <div class="govuk-hint">Start typing address or postcode</div>
       <div id="neighbour-address-container"></div>
     </div>
 

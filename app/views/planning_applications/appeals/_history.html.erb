@@ -25,6 +25,7 @@
 
       <% body.with_row do |row| %>
         <% row.with_cell(text: time_tag(event_at)) %>
+
         <% if status == :determined %>
           <% next unless appeal.determined? %>
           <% row.with_cell(text: "Appeal #{appeal.decision.humanize.downcase}") %>

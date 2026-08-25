@@ -3,16 +3,17 @@
     <h3 class="app-task-list__section">
       Respond to heads of terms
     </h3>
+
     <ul class="govuk-task-list">
       <% @validation_requests[:heads_of_terms].each do |validation_request| %>
         <% unless validation_request.pending? %>
           <li class="govuk-task-list__item govuk-task-list__item--with-link">
             <div class="govuk-task-list__name-and-hint">
-                <% if validation_request.open? %>
-                  <%= govuk_link_to validation_request.term_title, edit_heads_of_terms_validation_request_path(validation_request.id, access_control_params) %>
-                <% else %>
-                  <%= govuk_link_to validation_request.term_title, heads_of_terms_validation_request_path(validation_request.id, access_control_params) %>
-                <% end %>
+              <% if validation_request.open? %>
+                <%= govuk_link_to validation_request.term_title, edit_heads_of_terms_validation_request_path(validation_request.id, access_control_params) %>
+              <% else %>
+                <%= govuk_link_to validation_request.term_title, heads_of_terms_validation_request_path(validation_request.id, access_control_params) %>
+              <% end %>
             </div>
 
             <%= render "validation_request_status", validation_request: validation_request %>

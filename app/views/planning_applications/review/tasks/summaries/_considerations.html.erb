@@ -20,7 +20,10 @@
           <%= content_tag :li, id: dom_id(consideration) do %>
             <div class="govuk-!-margin-bottom-6">
               <span class="govuk-caption-m">Consideration <%= consideration.position %></span>
-              <h2 class="govuk-!-margin-bottom-3"><%= consideration.policy_area %></h2>
+
+              <h2 class="govuk-!-margin-bottom-3">
+                <%= consideration.policy_area %>
+              </h2>
 
               <div data-controller="summary">
                 <div class="bops-summary" data-summary-target="content">
@@ -44,15 +47,21 @@
                   <h3>
                     Assessment
                   </h3>
+
                   <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
 
                   <h3>
                     Conclusion
                   </h3>
+
                   <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
                 </div>
 
-                <nav class="nav-links" data-summary-target="navigation" aria-label="Actions for consideration <%= consideration.position %>">
+                <nav
+                  class="nav-links"
+                  data-summary-target="navigation"
+                  aria-label="Actions for consideration <%= consideration.position %>"
+                >
                   <%= govuk_link_to "Edit to accept", edit_planning_application_review_considerations_item_path(@planning_application, consideration) %>
                 </nav>
               </div>
@@ -76,9 +85,9 @@
       <div class="govuk-grid-column-two-thirds">
         <%= form_with model: current_review, scope: "review_considerations",
               url: planning_application_review_considerations_path(@planning_application, anchor: "review-considerations-form") do |form| %>
-
           <%= form.govuk_radio_buttons_fieldset :action, small: true, legend: nil do %>
             <%= form.govuk_radio_button :action, :accepted, label: {text: "Agree"} %>
+
             <%= form.govuk_radio_button :action, :rejected, label: {text: "Return with comments"} do %>
               <%= form.govuk_text_area(:comment, rows: 3, label: {text: "Add a comment"}) %>
             <% end %>

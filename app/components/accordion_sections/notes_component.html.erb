@@ -2,4 +2,5 @@
   <%= render(FormattedContentComponent.new(text: first_note_entry)) %>
   <p><%= first_note.created_at.to_fs %></p>
 <% end %>
+
 <%= helpers.govuk_link_to link_text, planning_application_notes_path(planning_application), class: "govuk-body" %>

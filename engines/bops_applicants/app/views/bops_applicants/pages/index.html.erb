@@ -9,10 +9,11 @@
     </h1>
 
     <p>
-      This is the applicant portal for the <%= current_local_authority.short_name %>
-      Back Office Planning System. If you have an application in progress and need to
-      submit details, you should have received a link in your email. If you have not
-      received a link and believe you should have,
+      This is the applicant portal for the
+      <%= current_local_authority.short_name %> Back Office Planning System. If
+      you have an application in progress and need to submit details, you should
+      have received a link in your email. If you have not received a link and
+      believe you should have,
       <%= govuk_mail_to(current_local_authority.email_address, "contact support", no_visited_state: true) %>.
     </p>
   </div>

@@ -13,6 +13,7 @@
               comment: render(FormattedContentComponent.new(text: recommendation.assessor_comment))
             }
           ) %>
+
       <% if recommendation.reviewed? %>
         <%= render(
               partial: "planning_applications/assessment/recommendations/event",

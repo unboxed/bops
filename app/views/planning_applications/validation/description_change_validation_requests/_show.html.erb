@@ -11,23 +11,31 @@
     <h1>
       Request approval to a description change
     </h1>
+
     <p>
-      <strong>At:</strong> <%= @planning_application.full_address %> <br>
-      <strong>Date received:</strong> <%= @planning_application.received_at.to_date.to_fs %> <br>
+      <strong>At:</strong> <%= @planning_application.full_address %>
+      <br>
+      <strong>Date received:</strong> <%= @planning_application.received_at.to_date.to_fs %>
+      <br>
       <strong>Application number:</strong> <%= @planning_application.reference %>
     </p>
 
     <div>
-      <p> <strong> Previous description:</strong><br>
+      <p>
+        <strong> Previous description:</strong><br>
         <%= @validation_request.previous_description %>
       </p>
-      <p> <strong> Proposed description:</strong><br>
+
+      <p>
+        <strong> Proposed description:</strong><br>
         <%= @validation_request.proposed_description %>
       </p>
     </div>
+
     <p>
       <% if @validation_request.open? %>
-        Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or applicant has not yet responded.
+        Sent on <%= @validation_request.created_at.to_date.to_fs %>. Agent or
+        applicant has not yet responded.
       <% else %>
         <%= @validation_request.approved? ? "Approved" : "Rejected" %>
         <p>
@@ -49,6 +57,7 @@
             method: :patch
           ) do |form| %>
         <%= form.hidden_field(:return_to, value: @back_path) %>
+
         <div class="govuk-button-group">
           <%= govuk_button_link_to t(".back"), @back_path, secondary: true %>
 
@@ -59,6 +68,7 @@
         </div>
       <% end %>
     <% end %>
+
     <% if @validation_request.closed? %>
       <%= form_with(
             model: @planning_application,
@@ -66,13 +76,14 @@
               @planning_application
             )
           ) do |form| %>
-          <%= form.hidden_field(:return_to, value: @back_path) %>
-          <%= form.hidden_field(:valid_description, value: true) %>
-          <div class="govuk-button-group">
-            <%= form.govuk_submit("Save and mark as complete") do %>
-              <%= govuk_button_link_to("Back", @back_path, secondary: true) %>
-            <% end %>
-          </div>
+        <%= form.hidden_field(:return_to, value: @back_path) %>
+        <%= form.hidden_field(:valid_description, value: true) %>
+
+        <div class="govuk-button-group">
+          <%= form.govuk_submit("Save and mark as complete") do %>
+            <%= govuk_button_link_to("Back", @back_path, secondary: true) %>
+          <% end %>
+        </div>
       <% end %>
     <% end %>
   </div>

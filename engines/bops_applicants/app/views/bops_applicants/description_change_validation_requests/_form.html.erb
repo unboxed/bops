@@ -7,8 +7,8 @@
 </h1>
 
 <p>
-  The case officer working on your application has suggested
-  a change to your application’s description.
+  The case officer working on your application has suggested a change to your
+  application’s description.
 </p>
 
 <h2>
@@ -17,13 +17,19 @@
 
 <ul class="govuk-list govuk-list--bullet">
   <li>read the new description suggested by the case officer</li>
-  <li>select ‘Yes’ or ‘No’ to tell us if you agree or disagree with the changes</li>
+
+  <li>
+    select ‘Yes’ or ‘No’ to tell us if you agree or disagree with the changes
+  </li>
+
   <li>submit your response</li>
 </ul>
 
 <div class="govuk-inset-text">
-  You must submit your response by <strong><%= @validation_request.response_due.to_fs %></strong>.
-  If we don’t receive a response by this date the new description will be automatically accepted for use with your application.
+  You must submit your response by
+  <strong><%= @validation_request.response_due.to_fs %></strong>. If we don’t
+  receive a response by this date the new description will be automatically
+  accepted for use with your application.
 </div>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
@@ -47,6 +53,7 @@
 
     <%= form.govuk_radio_buttons_fieldset(:approved, legend: {text: t(".legend")}) do %>
       <%= form.govuk_radio_button :approved, true, label: {text: t(".approved_label")} %>
+
       <%= form.govuk_radio_button :approved, false, label: {text: t(".rejected_label")} do %>
         <%= form.govuk_text_area :rejection_reason, label: {text: t(".rejection_reason_label")}, rows: 6 %>
       <% end %>

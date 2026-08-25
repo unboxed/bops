@@ -3,6 +3,7 @@
 
   <div>
     <h2>Add a new charge</h2>
+
     <%= form.govuk_text_field(
           :description,
           width: "one-half",
@@ -18,7 +19,13 @@
     <%= form.govuk_date_field :payment_due_date,
           legend: {text: "Payment due date (optional)", size: "s"}, id: "payment-due-date" %>
 
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <hr
+      class="
+        govuk-section-break govuk-section-break--l
+        govuk-section-break--visible
+      "
+    >
+
     <h2>Record payment (optional)</h2>
 
     <%= form.fields_for :payment do |payment_form| %>
@@ -36,6 +43,7 @@
     <% if @charge.persisted? %>
       <%= govuk_button_link_to "Delete charge", planning_application_charge_path(@planning_application, @charge), warning: true, method: :delete, data: {confirm: "Are you sure you want to delete this charge?"} %>
     <% end %>
+
     <%= back_link %>
   </div>
 <% end %>

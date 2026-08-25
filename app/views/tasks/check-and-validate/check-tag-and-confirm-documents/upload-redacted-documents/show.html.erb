@@ -16,6 +16,7 @@
             <p class="govuk-!-margin-bottom-1">
               <%= document_thumbnail_link document, thumbnail_args: {resize_to_limit: [150, 106]} %>
             </p>
+
             <p>
               <%= truncate(document.name.to_s, length: 50) %><br>
               <%= link_to_document "View in new window", document %>
@@ -55,13 +56,18 @@
       <p class="govuk-hint govuk-!-margin-bottom-1">
         You need to redact
       </p>
+
       <ul class="govuk-list govuk-list--bullet govuk-hint">
         <li>all signatures (hand written and electronic)</li>
         <li>personal telephone numbers and email addresses</li>
         <li>business email addresses that include first and last names</li>
         <li>name of the agent</li>
         <li>personal financial information</li>
-        <li>any other sensitive personal information or images that could identify a person</li>
+
+        <li>
+          any other sensitive personal information or images that could identify
+          a person
+        </li>
       </ul>
     <% end %>
   <% end %>

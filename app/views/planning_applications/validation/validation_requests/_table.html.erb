@@ -4,12 +4,15 @@
       <th scope="col" class="govuk-table__header govuk-!-width-one-third">
         Request
       </th>
+
       <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
         Detail
       </th>
+
       <th scope="col" class="govuk-table__header">
         Status
       </th>
+
       <th scope="col" class="govuk-table__header">
         View <%= "and update" unless planning_application.validated? %> request
       </th>
@@ -24,17 +27,13 @@
         <td class="govuk-table__cell">
           <% case request.state %>
           <% when "pending" %>
-            <strong class="govuk-tag govuk-tag--yellow">
-              Not sent yet
-            </strong>
+            <strong class="govuk-tag govuk-tag--yellow"> Not sent yet </strong>
           <% when "open" %>
             <strong class="govuk-tag govuk-tag--<%= display_request_date_state(request) %>">
               <%= request.overdue? ? "overdue" : "sent" %>
             </strong>
           <% when "closed" %>
-            <strong class="govuk-tag">
-              Responded
-            </strong>
+            <strong class="govuk-tag"> Responded </strong>
           <% end %>
         </td>
 

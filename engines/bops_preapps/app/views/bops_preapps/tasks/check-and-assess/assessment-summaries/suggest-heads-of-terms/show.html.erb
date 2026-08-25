@@ -11,7 +11,8 @@
 <ol
   data-controller="sortable"
   id="heads-of-terms-list"
-  class="govuk-list sortable-list">
+  class="govuk-list sortable-list"
+>
   <% @form.heads_of_term.not_cancelled_terms.select(&:persisted?).each.with_index(1) do |term, position| %>
     <%= render(Sortable::ListItemComponent.new(
           record: term,
@@ -32,17 +33,21 @@
 <div class="govuk-!-margin-bottom-8">
   <details class="govuk-details" <%= "open" if @form.term.errors.any? %>>
     <summary class="govuk-details__summary">
-      <span class="govuk-details__summary-text"> Add a new heads of terms </span>
+      <span class="govuk-details__summary-text">
+        Add a new heads of terms
+      </span>
     </summary>
 
     <div>
       <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/suggest-heads-of-terms/form", url: main_app.planning_application_assessment_terms_path(@planning_application, redirect_to: @task.url) %>
     </div>
+
     <hr
       class="
         govuk-section-break govuk-section-break--m
         govuk-section-break--visible
-      ">
+      "
+    >
   </details>
 </div>
 
