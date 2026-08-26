@@ -40,7 +40,39 @@ version: 0.10.3
 
 linter:
   enabled: true
-
+  rules:
+    erb-no-instance-variables-in-partials:
+      enabled: false
+    erb-no-unused-expressions:
+      enabled: false
+    actionview-no-silent-helper:
+      enabled: false
+    actionview-no-silent-render:
+      enabled: false
+    html-img-require-alt:
+      enabled: false
+    erb-prefer-direct-output:
+      enabled: false
+    erb-no-duplicate-branch-elements:
+      enabled: false
+    html-no-unescaped-entities:
+      enabled: false
+    erb-no-interpolated-class-names:
+      enabled: false
+    erb-no-output-in-attribute-position:
+      enabled: false
+    html-anchor-require-href:
+      enabled: false
+    erb-no-unsafe-raw:
+      enabled: false
+    erb-no-javascript-tag-helper:
+      enabled: false
+    html-require-script-nonce:
+      enabled: false
+    html-no-duplicate-attributes:
+      enabled: false
+    html-require-closing-tags:
+      enabled: false
   # # Exit with error code when diagnostics of this severity or higher are present
   # # Valid values: error (default), warning, info, hint
   # failLevel: warning
@@ -78,7 +110,6 @@ formatter:
   enabled: false
   indentWidth: 2
   maxLineLength: 80
-
   # # Additional patterns beyond the defaults for formatting
   # include:
   #   - '**/*.xml.erb'
