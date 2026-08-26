@@ -3,11 +3,13 @@
     <div class="status-panel" id="validation-date">
       <p>Valid from</p>
       <p>
-        <% if @planning_application.valid_from.present? %>
-          <strong><%= @planning_application.valid_from.to_fs(:day_month_year_slashes) %></strong>
-        <% else %>
-          <strong>Not yet valid</strong>
-        <% end %>
+        <strong>
+          <% if @planning_application.valid_from.present? %>
+            <%= @planning_application.valid_from.to_fs(:day_month_year_slashes) %>
+          <% else %>
+            Not yet valid
+          <% end %>
+        </strong>
       </p>
     </div>
     <% if @planning_application.application_type.consultation? %>

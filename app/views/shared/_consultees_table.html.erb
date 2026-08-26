@@ -69,21 +69,23 @@
           <% end %>
 
           <% row.with_cell(classes: "consultee-table__status-cell") do %>
-            <% if assigned_consultees.any? %>
-              <ul class="govuk-list consultee-status-list">
+            <ul class="govuk-list consultee-status-list">
+              <% if assigned_consultees.any? %>
+
                 <% assigned_consultees.each do |consultee| %>
                   <li class="consultee-status-list__item">
                     <%= render StatusTags::BaseComponent.new(status: consultee.status) %>
                   </li>
                 <% end %>
-              </ul>
-            <% else %>
-              <ul class="govuk-list consultee-status-list">
+
+              <% else %>
+
                 <li class="consultee-status-list__item">
                   <%= render StatusTags::BaseComponent.new(status: "not_assigned") %>
                 </li>
-              </ul>
-            <% end %>
+
+              <% end %>
+            </ul>
 
             <% unless constraint.consultation_required? %>
               <div class="consultee-status-list__constraint-status">

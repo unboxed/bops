@@ -54,57 +54,57 @@
            row.with_action(text: t("bops_config.application_types.show.change"), href: url_for([:edit, @application_type, :determination_period]), visually_hidden_text: t(".determination_period"))
          end %>
 
-      <% summary_list.with_row do |row|
-            row.with_key { t("bops_config.application_types.show.features") }
-            row.with_value { %>
-        <p><strong>Application details</strong></p>
+      <% summary_list.with_row do |row| %>
+        <% row.with_key { t("bops_config.application_types.show.features") } %>
+        <% row.with_value do %>
+          <p><strong>Application details</strong></p>
 
-        <ul class="govuk-list govuk-list--bullet">
-          <% application_details_features.each do |field| %>
-            <% if @application_type.public_send("#{field}?") %>
-              <li><%= t("application_type_features.labels.#{field}") %></li>
+          <ul class="govuk-list govuk-list--bullet">
+            <% application_details_features.each do |field| %>
+              <% if @application_type.public_send("#{field}?") %>
+                <li><%= t("application_type_features.labels.#{field}") %></li>
+              <% end %>
             <% end %>
+          </ul>
+
+          <% if @application_type.consultation? %>
+            <p><strong>Consultation</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+              <% @application_type.consultation_steps.each do |step| %>
+                <li><%= step.humanize %></li>
+              <% end %>
+              <% if @application_type.consultations_skip_bank_holidays? %>
+                <li><%= t("application_type_features.labels.consultations_skip_bank_holidays") %></li>
+              <% end %>
+            </ul>
           <% end %>
-        </ul>
 
-        <% if @application_type.consultation? %>
-          <p><strong>Consultation</strong></p>
-          <ul class="govuk-list govuk-list--bullet">
-            <% @application_type.consultation_steps.each do |step| %>
-              <li><%= step.humanize %></li>
-            <% end %>
-            <% if @application_type.consultations_skip_bank_holidays? %>
-              <li><%= t("application_type_features.labels.consultations_skip_bank_holidays") %></li>
-            <% end %>
-          </ul>
+          <% if @application_type.appeals? %>
+            <p><strong>Appeals</strong></p>
+            <ul class="govuk-list govuk-list--bullet">
+              <li><%= t("application_type_features.labels.appeals") %></li>
+            </ul>
+          <% end %>
         <% end %>
-
-        <% if @application_type.appeals? %>
-          <p><strong>Appeals</strong></p>
-          <ul class="govuk-list govuk-list--bullet">
-            <li><%= t("application_type_features.labels.appeals") %></li>
-          </ul>
-        <% end %>
-      <% }
-            row.with_action(text: t("bops_config.application_types.show.change"), href: url_for([:edit, @application_type, :features]), visually_hidden_text: t(".features"))
+      <% row.with_action(text: t("bops_config.application_types.show.change"), href: url_for([:edit, @application_type, :features]), visually_hidden_text: t(".features"))
           end %>
 
-      <% @application_type.document_tags.tag_groups.each do |group|
-            summary_list.with_row do |row|
-              row.with_key { t("bops_config.application_types.show.groups.#{group}") }
-              row.with_value { %>
-        <p class="max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
-          <% group.translated_tags.each do |tag| %>
-            <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
+      <% @application_type.document_tags.tag_groups.each do |group| %>
+        <% summary_list.with_row do |row| %>
+          <% row.with_key { t("bops_config.application_types.show.groups.#{group}") } %>
+          <% row.with_value do %>
+            <p class="max-lines max-lines--clamped" data-controller="max-lines" data-action="click->max-lines#toggle">
+              <% group.translated_tags.each do |tag| %>
+                <span class="govuk-tag govuk-tag--grey govuk-!-margin-left-0 govuk-!-margin-right-1 govuk-!-margin-top-1 govuk-!-margin-bottom-1"><%= tag %></span>
+              <% end %>
+            </p>
           <% end %>
-        </p>
-      <% }
-              row.with_action(
+        <% row.with_action(
               text: t("bops_config.application_types.show.change"),
               href: url_for([:edit, @application_type, :document_tags, anchor: "#{group}-tags"]),
               visually_hidden_text: t(".links.#{group}"))
-            end
-          end %>
+            end %>
+      <% end %>
 
       <% summary_list.with_row do |row|
            row.with_key { t("bops_config.application_types.show.decisions") }

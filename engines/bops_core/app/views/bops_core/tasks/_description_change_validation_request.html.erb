@@ -1,17 +1,19 @@
 <td class="govuk-table__cell">
   Change description
 </td>
-<% if validation_request.post_validation? %>
-  <td class="govuk-table__cell">
+<td class="govuk-table__cell">
+  <% if validation_request.post_validation? %>
+
     Proposed description:
     <%= render(FormattedContentComponent.new(text: validation_request.proposed_description)) %>
-  </td>
-<% else %>
-  <td class="govuk-table__cell">
+
+  <% else %>
+
     New description:
     <%= render(FormattedContentComponent.new(text: validation_request.proposed_description)) %>
-  </td>
-<% end %>
+
+  <% end %>
+</td>
 
 <% if validation_request.cancelled? %>
   <td class="govuk-table__cell limit-column-width">

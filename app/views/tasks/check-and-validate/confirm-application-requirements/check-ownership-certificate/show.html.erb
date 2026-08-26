@@ -9,13 +9,15 @@
 <%= render "#{@form.partial_path}/table" %>
 
 <% if @form.validation_request&.open_or_pending? %>
-  <% if @form.validation_request.open? %>
-    <h2 class="govuk-heading-m">Ownership certificate change request sent</h2>
-  <% else %>
-    <h2 class="govuk-heading-m">
+  <h2 class="govuk-heading-m">
+    <% if @form.validation_request.open? %>
+      Ownership certificate change request sent
+    <% else %>
+
       Ownership certificate change request created
-    </h2>
-  <% end %>
+
+    <% end %>
+  </h2>
   <%= govuk_inset_text(classes: "govuk-!-margin-bottom-3") do %>
     <p>
       <strong>Reason ownership certificate is invalid:</strong>

@@ -54,12 +54,14 @@
 <hr class="govuk-section-break govuk-section-break--xl govuk-section-break--visible">
 
 <div class="govuk-!-margin-bottom-8">
-    <h3>Reviewer decision:</h3>
-  <% if (!@committee_decision.recommend? && @committee_decision.current_review.to_be_reviewed?) || (@committee_decision.recommend? && @committee_decision.current_review.complete?) %>
-    <p>The application should go to committee</p>
-  <% else %>
-    <p>The application should not go to committee</p>
-  <% end %>
+  <h3>Reviewer decision:</h3>
+  <p>
+    <% if (!@committee_decision.recommend? && @committee_decision.current_review.to_be_reviewed?) || (@committee_decision.recommend? && @committee_decision.current_review.complete?) %>
+      The application should go to committee
+    <% else %>
+      The application should not go to committee
+    <% end %>
+  </p>
 </div>
 
 <div class="govuk-button-group">

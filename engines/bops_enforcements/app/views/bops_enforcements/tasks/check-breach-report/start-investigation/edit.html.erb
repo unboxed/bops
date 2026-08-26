@@ -12,21 +12,25 @@
       <% end %>
 
       <div class="case-assignment">
-        <% if @case_record.user %>
-          <p><strong>The case is currently assigned to: </strong><%= @case_record.user.name %></p>
-        <% else %>
-          <p>No case officer has been assigned yet.</p>
-        <% end %>
+        <p>
+          <% if @case_record.user %>
+            <strong>The case is currently assigned to: </strong><%= @case_record.user.name %>
+          <% else %>
+            No case officer has been assigned yet.
+          <% end %>
+        </p>
         <p><%= govuk_link_to "Change", assign_users_path(case_id: @case_record.id) %></p>
       </div>
 
       <hr class="govuk-section-break govuk-section-break--m">
 
-      <% if @enforcement.not_started? %>
-        <p><strong>Notification to be sent to complainant</strong> - <%= @enforcement.complainant.name %> (<%= @enforcement.complainant.email %>)</p>
-      <% else %>
-        <p><strong>Notification was sent to complainant on <%= @enforcement.under_investigation_at.to_fs %></strong></p>
-      <% end %>
+      <p>
+        <% if @enforcement.not_started? %>
+          <strong>Notification to be sent to complainant</strong> - <%= @enforcement.complainant.name %> (<%= @enforcement.complainant.email %>)
+        <% else %>
+          <strong>Notification was sent to complainant on <%= @enforcement.under_investigation_at.to_fs %></strong>
+        <% end %>
+      </p>
 
       <%= govuk_details(summary_text: "View email template") do %>
         <%= simple_format EnforcementPresenter.new(@enforcement).start_investigation_email[:body] %>

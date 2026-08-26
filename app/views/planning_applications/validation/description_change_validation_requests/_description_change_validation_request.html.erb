@@ -1,18 +1,20 @@
 <td class="govuk-table__cell change-request-list">
   <%= t(".change_description") %>
 </td>
-<% if description_change_validation_request.cancelled? %>
-  <td class="govuk-table__cell change-request-list">
+<td class="govuk-table__cell change-request-list">
+  <% if description_change_validation_request.cancelled? %>
+
     <%= render(FormattedContentComponent.new(text: description_change_validation_request.proposed_description)) %>
-  </td>
-<% elsif description_change_validation_request.post_validation? %>
-  <td class="govuk-table__cell change-request-list">
+
+  <% elsif description_change_validation_request.post_validation? %>
+
     <%= t(".proposed_description") %>
     <%= render(FormattedContentComponent.new(text: description_change_validation_request.proposed_description)) %>
-  </td>
-<% else %>
-  <td class="govuk-table__cell change-request-list">
+
+  <% else %>
+
     <%= t(".new_description") %>
     <%= render(FormattedContentComponent.new(text: description_change_validation_request.proposed_description)) %>
-  </td>
-<% end %>
+
+  <% end %>
+</td>

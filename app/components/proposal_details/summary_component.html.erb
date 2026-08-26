@@ -3,7 +3,7 @@
       data: {show_hide_target: ("toggleable" if auto_answered?)},
       class: "proposal-detail"
     ) do %>
-  <div><p><%= "#{index}." %>&nbsp;</p></div>
+  <div><p><%= index %>.&nbsp;</p></div>
   <div>
     <p class="govuk-!-font-weight-bold"><%= question %></p>
     <p><%= response_values.join(", ") %></p>

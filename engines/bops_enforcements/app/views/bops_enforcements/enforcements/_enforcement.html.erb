@@ -65,11 +65,13 @@
           Notice served
         </p>
         <p>
-          <% if @enforcement.notice_served_at %>
-            <strong><%= @enforcement.notice_served_at_at.to_date.to_fs %></strong>
-          <% else %>
-            <strong>None served</strong>
-          <% end %>
+          <strong>
+            <% if @enforcement.notice_served_at %>
+              <%= @enforcement.notice_served_at_at.to_date.to_fs %>
+            <% else %>
+              None served
+            <% end %>
+          </strong>
         </p>
       </div>
     </div>

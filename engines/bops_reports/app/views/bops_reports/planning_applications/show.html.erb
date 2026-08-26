@@ -242,13 +242,15 @@
           <%= govuk_link_to "Edit", report_task_path(@planning_application, "check-and-assess/check-application/check-application-details", anchor: "site-map") %>
         <% end %>
       </div>
-      <% if @planning_application.consistency_checklist&.site_map_correct == "no" %>
-        <p>
+      <p>
+        <% if @planning_application.consistency_checklist&.site_map_correct == "no" %>
+
           <%= @planning_application.consistency_checklist.site_map_correct_comment %>
-        </p>
-      <% else %>
-        <p>The site map was marked as correct.</p>
-      <% end %>
+
+        <% else %>
+          The site map was marked as correct.
+        <% end %>
+      </p>
     </div>
   </div>
 </section>
@@ -505,13 +507,13 @@
               application_type: @planning_application.recommended_application_type.description
             ) %>
       </p>
-       <p>
+      <p>
         <%= t(
               ".next_steps_list_html",
               planning_service_link: @current_local_authority.submission_url,
               application_type: @planning_application.recommended_application_type.description
             ) %>
-       </p>
+      </p>
     <% else %>
       <p>Next steps cannot be displayed until a recommended application type has been set.</p>
     <% end %>
@@ -526,12 +528,12 @@
 
 <section id="disclaimer">
   <div class="govuk-!-margin-bottom-2 govuk-!-margin-top-5">
-        <h2><%= t(".disclaimer_heading") %></h2>
-      <div class="grey-border-box">
-        <p class="govuk-body">
-          <%= @planning_application.disclaimer %>
-        </p>
-      </div>
+    <h2><%= t(".disclaimer_heading") %></h2>
+    <div class="grey-border-box">
+      <p class="govuk-body">
+        <%= @planning_application.disclaimer %>
+      </p>
+    </div>
   </div>
 </section>
 

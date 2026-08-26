@@ -40,11 +40,13 @@
     <%= render "shared/location_map", locals: {geojson: @form.validation_request.new_geojson} %>
 
     <%= govuk_inset_text(classes: "govuk-!-margin-top-6") do %>
-      <% if @form.validation_request.auto_closed? %>
-        <strong>Change to red line boundary was auto closed and approved after being open for more than 5 business days</strong>
-      <% else %>
-        <strong>Change to red line boundary has been approved by the applicant</strong>
-      <% end %>
+      <strong>
+        <% if @form.validation_request.auto_closed? %>
+          Change to red line boundary was auto closed and approved after being open for more than 5 business days
+        <% else %>
+          Change to red line boundary has been approved by the applicant
+        <% end %>
+      </strong>
       <p><%= @form.validation_request.updated_at.to_fs %></p>
     <% end %>
 

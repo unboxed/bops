@@ -28,7 +28,7 @@
         <div class="govuk-summary-card__title-wrapper">
           <div class="display-flex align-items-center">
             <h2 class="govuk-summary-card__title">
-              <%= "#{evidence_group.name} (#{evidence_group.documents.count})" %>
+              <%= evidence_group.name %> (<%= evidence_group.documents.count %>)
               <br>
               <%= evidence_group.date_range.to_s %>
             </h2>

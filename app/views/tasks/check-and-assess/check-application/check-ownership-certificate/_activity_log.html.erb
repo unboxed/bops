@@ -18,21 +18,23 @@
               <td scope="row" class="govuk-table__cell"><%= request.cancelled_at.to_fs(:day_month_year_slashes) %></td>
             </tr>
           <% else %>
-            <% if request.approved.nil? %>
-              <tr class="govuk-table__row">
+            <tr class="govuk-table__row">
+              <% if request.approved.nil? %>
+
                 <td scope="row" class="govuk-table__cell">Applicant has not responded</td>
-                <td scope="row" class="govuk-table__cell">&nbsp</td>
-                <td scope="row" class="govuk-table__cell">&nbsp</td>
-                <td scope="row" class="govuk-table__cell">&nbsp</td>
-              </tr>
-            <% else %>
-              <tr class="govuk-table__row">
+                <td scope="row" class="govuk-table__cell">&nbsp;</td>
+                <td scope="row" class="govuk-table__cell">&nbsp;</td>
+                <td scope="row" class="govuk-table__cell">&nbsp;</td>
+
+              <% else %>
+
                 <td scope="row" class="govuk-table__cell"><%= request.approved? ? "Certificate submitted by applicant" : "Request rejected by applicant" %></td>
                 <td class="govuk-table__cell"><%= request.approved? ? "Submitted" : "Rejected" %></td>
                 <td class="govuk-table__cell">Applicant</td>
                 <td class="govuk-table__cell"><%= request.created_at.to_fs(:day_month_year_slashes) %></td>
-              </tr>
-            <% end %>
+
+              <% end %>
+            </tr>
             <tr class="govuk-table__row">
               <td scope="row" class="govuk-table__cell">New ownership certificate requested</td>
               <td class="govuk-table__cell"><%= request.state.humanize %></td>
@@ -44,9 +46,9 @@
       <% else %>
         <tr class="govuk-table__row">
           <td scope="row" class="govuk-table__cell">No validation requests were made</td>
-          <td scope="row" class="govuk-table__cell">&nbsp</td>
-          <td scope="row" class="govuk-table__cell">&nbsp</td>
-          <td scope="row" class="govuk-table__cell">&nbsp</td>
+          <td scope="row" class="govuk-table__cell">&nbsp;</td>
+          <td scope="row" class="govuk-table__cell">&nbsp;</td>
+          <td scope="row" class="govuk-table__cell">&nbsp;</td>
         </tr>
       <% end %>
     </tbody>

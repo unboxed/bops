@@ -39,7 +39,7 @@
     <% elsif @planning_application.invalidated? %>
       <p>
         <strong>
-          <%= "The application is marked as invalid. The applicant was notified on #{@planning_application.invalidated_at.to_fs}" %>
+          The application is marked as invalid. The applicant was notified on <%= @planning_application.invalidated_at.to_fs %>
         </strong>
       </p>
       <h2>

@@ -27,15 +27,17 @@
       <% end %>
     </p>
   </div>
-  <% if @form.validation_request.closed? %>
-    <p>
+  <p>
+    <% if @form.validation_request.closed? %>
+
       <%= govuk_link_to "Request a new description change", @form.new_request_path %>
-    </p>
-  <% else %>
-    <p>
+
+    <% else %>
+
       <%= govuk_link_to "Cancel description change request", @form.cancellation_path %>
-    </p>
-  <% end %>
+
+    <% end %>
+  </p>
   <%= form_with model: @form, url: @form.url do |form| %>
     <% if @form.validation_request.closed?  && @form.validation_request.approved? %>
       <%= form.hidden_field :valid_description, value: true %>
