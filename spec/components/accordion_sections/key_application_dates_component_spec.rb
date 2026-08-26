@@ -47,7 +47,7 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "renders validation date" do
-      expect(page).to have_content("Valid from:\n    #{planning_application.valid_from.to_date.to_fs}\n")
+      expect(page).to have_content("Valid from:\n\n    #{planning_application.valid_from.to_date.to_fs}\n")
     end
   end
 
@@ -59,11 +59,11 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "renders consultation start date" do
-      expect(page).to have_content("Consultation started:\n    #{consultation.start_date.to_date.to_fs}\n")
+      expect(page).to have_content("Consultation started:\n\n      #{consultation.start_date.to_date.to_fs}\n")
     end
 
     it "renders consultation deadline" do
-      expect(page).to have_content("Consultation deadline:\n    #{consultation.end_date.to_date.to_fs}\n")
+      expect(page).to have_content("Consultation deadline:\n\n      #{consultation.end_date.to_date.to_fs}\n")
     end
   end
 
@@ -86,7 +86,7 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "renders consultation deadline as not started" do
-      expect(page).to have_content("Consultation deadline:\n    Not yet started")
+      expect(page).to have_content("Consultation deadline:\n\n      Not yet started")
     end
   end
 
@@ -98,7 +98,7 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "renders publicity end date" do
-      expect(page).to have_content("Consultation deadline:\n    #{consultation.end_date.to_date.to_fs}")
+      expect(page).to have_content("Consultation deadline:\n\n      #{consultation.end_date.to_date.to_fs}")
     end
   end
 end

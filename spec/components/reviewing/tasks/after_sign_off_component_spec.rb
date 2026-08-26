@@ -40,7 +40,7 @@ RSpec.describe Reviewing::Tasks::AfterSignOffComponent, type: :component do
 
       render_inline(described_class.new(planning_application: rec.planning_application))
 
-      expect(page).to have_text "Application is now in assessment and assigned to John"
+      expect(page).to have_text "Application is now in assessment and assigned to\n  John"
     end
   end
 end
