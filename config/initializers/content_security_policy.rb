@@ -8,20 +8,14 @@
 
 Rails.application.configure do
   config.content_security_policy do |policy|
-    google_tag_manager_hostname = "www.googletagmanager.com"
-    google_analytics_hostnames = %w[
-      www.google-analytics.com
-      region1.google-analytics.com
-      region1.analytics.google.com
-    ].freeze
     openlayers_map_url = "https://cdn.skypack.dev/ol@%5E6.6.1/ol.css"
     policy.default_src :self, :https
     policy.font_src :self
-    policy.img_src :self, :https, :data, :blob, google_tag_manager_hostname, *google_analytics_hostnames
+    policy.img_src :self, :https, :data, :blob
     policy.object_src :none
-    policy.script_src :self, google_tag_manager_hostname, *google_analytics_hostnames
-    policy.style_src :self, :unsafe_inline, openlayers_map_url, google_tag_manager_hostname
-    policy.connect_src :self, :https, google_tag_manager_hostname, *google_analytics_hostnames
+    policy.script_src :self
+    policy.style_src :self, :unsafe_inline, openlayers_map_url
+    policy.connect_src :self, :https
   end
 
   # Generate session nonces for permitted importmap, inline scripts, and inline styles.
