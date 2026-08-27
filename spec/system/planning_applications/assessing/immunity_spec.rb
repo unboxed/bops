@@ -107,7 +107,7 @@ RSpec.describe "Immunity", type: :system do
         choose "Granted"
       end
 
-      fill_in "State the reasons for your recommendation.", with: "A public comment"
+      fill_in "State the reasons the application is to be granted", with: "A public comment"
       fill_in "Provide supporting information for the reviewer.", with: "A private comment"
 
       click_button "Save and mark as complete"

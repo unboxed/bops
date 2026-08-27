@@ -73,41 +73,46 @@
 
   <%= form.govuk_radio_buttons_fieldset(:decision, legend: {text: t(".is_the_use"), size: "s"}) do %>
     <% @planning_application.application_type.all_decisions.each do |d| %>
-      <%= form.govuk_radio_button :decision, d.code, label: {text: d.description}, checked: form.object.decision == d.code, disabled: submitted %>
+      <%= form.govuk_radio_button :decision, d.code, label: {text: d.description}, checked: form.object.decision == d.code, disabled: submitted do %>
+        <%= tag.div class: class_names("govuk-form-group", {"govuk-form-group--error": form.object.errors[:public_comment].any?}) do %>
+          <%= form.label(:public_comment,
+                         t(".state_the_reason", decision: d.code.humanize.downcase),
+                         for: "tasks_make_draft_recommendation_form_public_comment_#{d.code}",
+                         class: "govuk-label govuk-label--s") %>
+
+          <div class="govuk-hint"><%= t(".refer_to_the") %></div>
+          <%= govuk_warning_text(text: t(".this_information_will")) %>
+
+          <% if form.object.errors[:public_comment].any? %>
+            <%= tag.p id: "recommendation-form-public-comment-field-error", class: "govuk-error-message" do %>
+              <%= tag.span class: "govuk-visually-hidden" do %>
+                <%= t(".error") %>
+              <% end %>
+
+              <%= form.object.errors[:public_comment].first %>
+            <% end %>
+          <% end %>
+
+          <%= form.text_area(
+              :public_comment,
+              id: "tasks_make_draft_recommendation_form_public_comment_#{d.code}",
+              name: "tasks_make_draft_recommendation_form[public_comment][#{d.code}]",
+              class: class_names("govuk-textarea", {"govuk-textarea--error": form.object.errors[:public_comment].any?}),
+              rows: 9,
+              disabled: submitted
+          ) %>
+        <% end %>
+      <% end %>
     <% end %>
   <% end %>
 
-  <div class="govuk-form-group <%= "govuk-form-group--error" if form.object.errors[:public_comment].any? %>">
-    <%= form.label(:public_comment, t(".state_the_reason"), class: "govuk-label govuk-label--s") %>
-
-    <div class="govuk-hint"><%= t(".refer_to_the") %></div>
-    <%= govuk_warning_text(text: t(".this_information_will")) %>
-
-    <% if form.object.errors[:public_comment].any? %>
-      <p
-        id="recommendation-form-public-comment-field-error"
-        class="govuk-error-message"
-      >
-        <span class="govuk-visually-hidden"><%= t(".error") %></span>
-        <%= form.object.errors[:public_comment].first %>
-      </p>
-    <% end %>
-
-    <%= form.text_area(
-              :public_comment,
-              class: "govuk-textarea #{"govuk-textarea--error" if form.object.errors[:public_comment].any?}",
-              rows: 9,
-              disabled: submitted
-            ) %>
-  </div>
-
   <%= form.govuk_text_area(
-            :assessor_comment,
-            label: {text: t(".please_provide_supporting"), size: "s"},
-            hint: {text: t(".this_information_will_not")},
-            rows: 9,
-            disabled: submitted
-          ) %>
+      :assessor_comment,
+      label: {text: t(".please_provide_supporting"), size: "s"},
+      hint: {text: t(".this_information_will_not")},
+      rows: 9,
+      disabled: submitted
+  ) %>
 
   <% if submitted %>
     <%= form.govuk_task_button "Withdraw recommendation", action: "withdraw_recommendation", secondary: true %>

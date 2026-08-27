@@ -76,7 +76,7 @@ RSpec.describe "post validation requests", type: :system do
         end
 
         fill_in(
-          "State the reasons for your recommendation.",
+          "State the reasons the application is to be granted",
           with: "GDPO compliant"
         )
 

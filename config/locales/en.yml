@@ -2374,7 +2374,7 @@ en:
             make_draft_recommendation: Make draft recommendation
             please_provide_supporting: Provide supporting information for the reviewer.
             refer_to_the: Refer to specific development or local plan policies or permitted development legislation to support your recommendation.
-            state_the_reason: State the reasons for your recommendation.
+            state_the_reason: State the reasons the application is to be %{decision}
             there_are_outstanding_change_requests_html: There are outstanding change requests (last request %{last_request}). <a href="%{href}">View all requests</a>.
             this_information_will: This information will appear on the decision notice and the officer report.
             this_information_will_not: This information will not appear on the decision notice or the public register, but Freedom of Information requests will still apply.

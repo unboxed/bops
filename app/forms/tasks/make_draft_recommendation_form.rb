@@ -32,6 +32,10 @@ module Tasks
 
     private
 
+    def public_comment
+      @public_comment ||= form_params(params).dig(:public_comment, decision)
+    end
+
     def committee_needed?
       recommend == true
     end
@@ -91,9 +95,9 @@ module Tasks
       params.fetch(param_key, {}).permit(
         :recommend,
         :decision,
-        :public_comment,
         :assessor_comment,
         :other_reason,
+        public_comment: planning_application.application_type.all_decisions.map { it.code.to_sym },
         reasons: []
       )
     end
