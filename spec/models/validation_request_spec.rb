@@ -488,14 +488,9 @@ RSpec.describe ValidationRequest do
 
     describe "#auto_close_request!" do
       let(:planning_application) { create(:planning_application) }
-
-      let!(:request) do
-        create(
-          :red_line_boundary_change_validation_request,
-          :open,
-          planning_application:
-        )
-      end
+      let(:request_type) { :red_line_boundary_change_validation_request }
+      let(:request) { create(request_type, :open, planning_application:) }
+      let(:audit) { planning_application.audits.reload.last }
 
       it "updates state to 'closed'" do
         expect { request.auto_close_request! }
@@ -517,27 +512,24 @@ RSpec.describe ValidationRequest do
 
       it "creates audit with correct information" do
         travel_to(5.minutes.from_now)
-        request.auto_close_request!
 
-        expect(planning_application.audits.reload.last).to have_attributes(
+        expect {
+          request.auto_close_request!
+        }.to change(planning_application.audits, :count).by_at_least(1)
+
+        expect(audit).to have_attributes(
           activity_type: "red_line_boundary_change_validation_request_auto_closed",
           activity_information: "1"
         )
       end
 
       context "when request is for description change" do
-        let(:request) do
-          create(
-            :description_change_validation_request,
-            :open,
-            planning_application:
-          )
-        end
+        let(:request_type) { :description_change_validation_request }
 
         it "creates audit with correct information" do
-          request.auto_close_request!
-
-          audit = planning_application.audits.reload.last
+          expect {
+            request.auto_close_request!
+          }.to change(planning_application.audits, :count).by_at_least(1)
 
           expect(audit).to have_attributes(
             activity_type: "description_change_validation_request_auto_closed",
