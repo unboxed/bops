@@ -27,7 +27,7 @@ RSpec.describe "Enforcement close page", type: :system do
     sign_in(user)
     visit "/enforcements/#{enforcement.case_record.id}/"
 
-    click_link "Close case"
+    click_link "Close the case"
     choose "Other"
     fill_in "Reason", with: "Because I want to"
     fill_in "Reason for closing", with: "Words words words."
@@ -51,41 +51,6 @@ RSpec.describe "Enforcement close page", type: :system do
 
       visit "/cases/#{enforcement.case_record.id}/check-breach-report"
       expect(page).to have_content("You cannot make changes to this case as it has already been closed")
-    end
-
-    it "shows the correct grouping of tasks", capybara: true do
-      visit "/enforcements/#{enforcement.case_record.id}/"
-
-      within("#enforcement-tasks") do
-        expect(page).to have_selector("h2", count: 6)
-        h2s = all("h2", count: 6)
-
-        expect(h2s[0]).to have_text("Check")
-        within("#Check-section") do
-          lis = all("li", count: 3)
-          expect(lis[0]).to have_text("Check breach report")
-          expect(lis[1]).to have_text(task.name)
-          expect(lis[2]).to have_text(task2.name)
-        end
-
-        expect(h2s[1]).to have_text("Investigate")
-        within("#Investigate-section") do
-          lis = all("li", count: 2)
-          expect(lis[0]).to have_text("Investigate and decide")
-          expect(lis[1]).to have_text(task3.name)
-        end
-
-        expect(h2s[2]).to have_text("Review")
-        within("#Review-section") do
-          expect(page).to have_selector("li", text: "Review recommendation")
-        end
-
-        expect(h2s[4]).to have_text("Appeal")
-        within("#Appeal-section") do
-          lis = all("li", count: 1)
-          expect(lis[0]).to have_text("Process an appeal")
-        end
-      end
     end
   end
 

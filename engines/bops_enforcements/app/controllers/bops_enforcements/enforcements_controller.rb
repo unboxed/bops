@@ -51,7 +51,7 @@ module BopsEnforcements
     end
 
     def set_grouped_tasks
-      @grouped_tasks = @case_record.tasks.group_by(&:section)
+      @grouped_tasks = @case_record.tasks.visible.group_by(&:section)
     end
   end
 end
