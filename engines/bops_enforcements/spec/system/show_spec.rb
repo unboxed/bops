@@ -119,8 +119,9 @@ RSpec.describe "Enforcement show page", type: :system do
 
   it "shows the correct grouping of tasks", capybara: true do
     within("#enforcement-tasks") do
-      expect(page).to have_selector("h2", count: 6)
-      h2s = all("h2", count: 6)
+      expect(page).to have_selector("h2", count: 5)
+      expect(page).not_to have_selector("h2", text: "Close case")
+      h2s = all("h2", count: 5)
 
       expect(h2s[0]).to have_text("Check")
       within("#Check-section") do

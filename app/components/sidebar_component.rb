@@ -41,7 +41,7 @@ class SidebarComponent < ViewComponent::Base
   end
 
   def render_section(section, top_level: true)
-    visible_tasks = section.tasks.reject(&:hidden?)
+    visible_tasks = section.tasks.visible
     return if visible_tasks.empty?
 
     elements = []

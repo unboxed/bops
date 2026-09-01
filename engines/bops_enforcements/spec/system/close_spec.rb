@@ -27,7 +27,7 @@ RSpec.describe "Enforcement close page", type: :system do
     sign_in(user)
     visit "/enforcements/#{enforcement.case_record.id}/"
 
-    click_link "Close case"
+    click_link "Close the case"
     choose "Other"
     fill_in "Reason", with: "Because I want to"
     fill_in "Reason for closing", with: "Words words words."
@@ -57,8 +57,9 @@ RSpec.describe "Enforcement close page", type: :system do
       visit "/enforcements/#{enforcement.case_record.id}/"
 
       within("#enforcement-tasks") do
-        expect(page).to have_selector("h2", count: 6)
-        h2s = all("h2", count: 6)
+        expect(page).to have_selector("h2", count: 5)
+        expect(page).not_to have_selector("h2", text: "Close case")
+        h2s = all("h2", count: 5)
 
         expect(h2s[0]).to have_text("Check")
         within("#Check-section") do
