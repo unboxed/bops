@@ -15,7 +15,7 @@
       <%= form.govuk_text_area :detail, label: {text: t(".detail.label"), size: "m"}, hint: {text: t(".detail.hint")} %>
     </div>
   </div>
-  <%= form.govuk_submit "Close case" do %>
+  <%= form.govuk_submit "Close case and notify complainant" do %>
     <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
   <% end %>
 <% end %>
