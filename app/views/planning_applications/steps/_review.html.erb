@@ -33,15 +33,21 @@
         <% item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user))) %>
       <% end %>
     <% else %>
-      <% task_list.with_item(
-           title: "View recommendation",
-           href: (@planning_application.awaiting_determination? || @planning_application.closed_or_cancelled?) && planning_application_recommendation_path(@planning_application),
-           html_attributes: {aria: {describedby: "review_assessment-completed"}}
-         ) do |item| %>
-        <% if @planning_application.awaiting_determination? || @planning_application.closed_or_cancelled? %>
+      <% if @planning_application.awaiting_determination? || @planning_application.closed_or_cancelled? %>
+        <%= task_list.with_item(
+              title: "View recommendation",
+              href: planning_application_recommendation_path(@planning_application),
+              html_attributes: {aria: {describedby: "review_assessment-completed"}}
+            ) do |item| %>
           <% item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user))) %>
-        <% else %>
-          <% item.with_status(text: "Cannot start yet", cannot_start_yet: true) %>
+        <% end %>
+      <% else %>
+        <%= task_list.with_item(
+              title: "Preview recommendation",
+              href: planning_application_recommendation_path(@planning_application),
+              html_attributes: {aria: {describedby: "review_assessment-completed"}}
+            ) do |item| %>
+          <% item.with_status(text: render(StatusTags::Reviewing::RecommendationComponent.new(planning_application: @planning_application, user: current_user))) %>
         <% end %>
       <% end %>
     <% end %>
