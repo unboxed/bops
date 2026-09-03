@@ -7,6 +7,7 @@
         <th scope="col" class="govuk-table__header">Date amended</th>
       </tr>
     </thead>
+
     <tbody class="govuk-table__body">
       <% documents.each do |document| %>
         <tr class="govuk-table__row">
@@ -21,9 +22,11 @@
               </p>
             <% end %>
           </td>
+
           <td class="govuk-table__cell">
             <%= link_to_document (document.numbers.presence || document.name), document %>
           </td>
+
           <td class="govuk-table__cell">
             <%= document.updated_at.to_date.to_fs(:day_month_year_slashes) %>
           </td>
@@ -33,6 +36,8 @@
   <% end %>
 <% else %>
   <div class="background-light-grey govuk-!-padding-6 govuk-!-margin-bottom-6">
-    <p class="govuk-!-margin-bottom-0"><strong>There are no documents</strong></p>
+    <p class="govuk-!-margin-bottom-0">
+      <strong>There are no documents</strong>
+    </p>
   </div>
 <% end %>

@@ -2,14 +2,15 @@
   <%= form.hidden_field :part %>
 
   <p>
-    Select the relevant class(es) to assess. Classes are defined in
-    The Town and Country Planning (General Permitted Development)
-    (England) Order 2015 (GPDO), Schedule 2, Part <%= @form.policy_part.number %>.
+    Select the relevant class(es) to assess. Classes are defined in The Town and
+    Country Planning (General Permitted Development) (England) Order 2015
+    (GPDO), Schedule 2, Part <%= @form.policy_part.number %>.
   </p>
 
   <p>
     <%= govuk_link_to "https://www.legislation.gov.uk/uksi/2015/596/schedule/2/part/#{@form.policy_part.number}", new_tab: "" do %>
-      Open the Town and Country Planning (General Permitted Development) (England) Order 2015 in a new window
+      Open the Town and Country Planning (General Permitted Development)
+      (England) Order 2015 in a new window
     <% end %>
   </p>
 

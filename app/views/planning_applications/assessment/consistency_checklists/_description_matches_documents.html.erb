@@ -33,6 +33,7 @@
           disabled: true
         ) %>
   <% end %>
+
   <% unless planning_application.pre_application? %>
     <%= render(
           partial: "description_change_validation_request",

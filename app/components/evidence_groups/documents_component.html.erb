@@ -2,20 +2,25 @@
   <div class="scroll-docs">
     <% documents.each do |document| %>
       <hr>
+
       <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
           <p class="govuk-!-margin-bottom-1">
             File name: <strong><%= document.name %></strong>
           </p>
+
           <p class="govuk-!-margin-bottom-1">
-            Date received: <strong><%= document.received_at_or_created %></strong>
+            Date received:
+            <strong><%= document.received_at_or_created %></strong>
           </p>
+
           <% if document.numbers.present? %>
             <p class="govuk-!-margin-bottom-1">
               Drawing number: <strong><%= document.numbers %></strong>
             </p>
           <% end %>
         </div>
+
         <div class="govuk-grid-column-one-third govuk-!-margin-bottom-6">
           <%= helpers.link_to_document "View document", document %><br>
           <%= helpers.govuk_link_to "Edit", edit_planning_application_document_path(document.planning_application, document) %><br>

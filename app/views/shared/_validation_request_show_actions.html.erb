@@ -1,4 +1,5 @@
 <% redirect_path = local_assigns.fetch(:redirect_to, params[:redirect_to]) %>
+
 <div class="govuk-!-margin-top-3">
   <% if validation_request.open_or_pending? %>
     <% if planning_application.not_started? %>

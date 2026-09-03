@@ -1,30 +1,32 @@
-<div data-controller="unsaved-changes"
-     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+<div
+  data-controller="unsaved-changes"
+  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+>
   <%= form_with model: @form, url: @form.url,
         data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
     <%= form.govuk_error_summary %>
     <%= return_to_hidden_field %>
 
-  <%= render "task_header", task: @task %>
+    <%= render "task_header", task: @task %>
 
-  <p>
-    <%= govuk_link_to t(".view_site_on_map"), map_link(@form.address), new_tab: true %>
-  </p>
+    <p>
+      <%= govuk_link_to t(".view_site_on_map"), map_link(@form.address), new_tab: true %>
+    </p>
 
-  <%= form.govuk_text_area(:site_description, rows: 10,
+    <%= form.govuk_text_area(:site_description, rows: 10,
         label: {text: t(".heading"), tag: "h2", size: "m"}) do %>
+      <p>You can include:</p>
 
-    <p>You can include:</p>
+      <ul class="govuk-list govuk-list--bullet">
+        <li>
+          Describe buildings already on the site
+        </li>
 
-    <ul class="govuk-list govuk-list--bullet">
-      <li>
-        Describe buildings already on the site
-      </li>
-      <li>Relationships to neighbouring buildings</li>
-      <li>Relevant constraints, such as trees or classified roads</li>
-      <li>Main uses of land in the surrounding area</li>
-    </ul>
-  <% end %>
+        <li>Relationships to neighbouring buildings</li>
+        <li>Relevant constraints, such as trees or classified roads</li>
+        <li>Main uses of land in the surrounding area</li>
+      </ul>
+    <% end %>
 
     <%= render "task_submit_buttons", form: form %>
   <% end %>

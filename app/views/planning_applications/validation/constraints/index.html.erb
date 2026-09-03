@@ -13,8 +13,11 @@
 <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-two-thirds">
     <h2>Add, remove and save constraints</h2>
+
     <p>
-      Check the constraints for this application. Add any constraints that are relevant. When all relevant constraints have been added, save and mark as complete.
+      Check the constraints for this application. Add any constraints that are
+      relevant. When all relevant constraints have been added, save and mark as
+      complete.
     </p>
   </div>
 </div>
@@ -22,6 +25,7 @@
 <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-full">
     <h2>Identified constraints</h2>
+
     <p>
       <%= govuk_link_to "View map on Planning Data", planning_data_map_url(@planning_application_constraints.flat_map(&:dataset).compact, @planning_application), new_tab: true %>
     </p>
@@ -44,10 +48,9 @@
   <div class="govuk-grid-column-full">
     <details class="govuk-details" <%= "open" if params[:q].present? %>>
       <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text">
-          Add constraints
-        </span>
+        <span class="govuk-details__summary-text"> Add constraints </span>
       </summary>
+
       <div>
         <%= form_with url: planning_application_validation_constraints_path, class: "govuk-!-margin-top-3", method: :get do |form| %>
           <div class="search-form-inputs">
@@ -76,6 +79,7 @@
   <div class="govuk-grid-column-two-thirds">
     <%= form_with model: @planning_application, url: planning_application_validation_constraints_path(@planning_application) do |form| %>
       <%= hidden_field_tag :return_to, params[:return_to] %>
+
       <div class="govuk-button-group">
         <%= form.submit "Save and mark as complete", class: "govuk-button", data: {module: "govuk-button"} %>
         <%= govuk_button_link_to "Back", params[:return_to].presence || planning_application_validation_path(@planning_application), secondary: true %>

@@ -1,5 +1,6 @@
 <div class="govuk-!-margin-top-5">
   <h2><%= t(".check_site_notice") %></h2>
+
   <% if @planning_application.site_notice.nil? %>
     <p>
       <%= t(".site_notice_incomplete") %>
@@ -8,19 +9,30 @@
     <table class="govuk-table">
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header govuk-!-width-one-third"><%= t(".display_date") %></th>
-          <th scope="col" class="govuk-table__header govuk-!-width-one-third"><%= t(".uploaded_by") %></th>
-          <th scope="col" class="govuk-table__header govuk-!-width-one-third"><%= t(".expiry_date") %></th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+            <%= t(".display_date") %>
+          </th>
+
+          <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+            <%= t(".uploaded_by") %>
+          </th>
+
+          <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+            <%= t(".expiry_date") %>
+          </th>
         </tr>
       </thead>
+
       <tbody class="govuk-table__body">
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <%= @planning_application.site_notice.displayed_at&.to_fs(:day_month_year_slashes) || "–" %>
           </td>
+
           <td class="govuk-table__cell">
             <%= @planning_application.site_notice.uploaded_by&.name || "–" %>
           </td>
+
           <td class="govuk-table__cell">
             <%= @planning_application.site_notice.expiry_date&.to_fs(:day_month_year_slashes) || "–" %>
           </td>
@@ -36,11 +48,18 @@
           <p class="govuk-!-margin-bottom-1">
             <%= link_to_document(image_tag(document.representation(resize_to_fill: [360, 240]), style: "width:100%"), document) %>
           </p>
+
           <ul class="govuk-list">
-            <li><%= link_to_document(t(".view_in_new_window"), document, no_visited_state: true) %></li>
-            <li><%= govuk_link_to t(".view_more_documents"), task_path(slug: "consultees-neighbours-and-publicity/publicity/site-notice", return_to: planning_application_review_tasks_path(@planning_application)), no_visited_state: true %></li>
+            <li>
+              <%= link_to_document(t(".view_in_new_window"), document, no_visited_state: true) %>
+            </li>
+
+            <li>
+              <%= govuk_link_to t(".view_more_documents"), task_path(slug: "consultees-neighbours-and-publicity/publicity/site-notice", return_to: planning_application_review_tasks_path(@planning_application)), no_visited_state: true %>
+            </li>
           </ul>
         </div>
+
         <div class="govuk-grid-column-two-thirds">
           <ul class="govuk-list">
             <li>File name: <%= document.name %></li>

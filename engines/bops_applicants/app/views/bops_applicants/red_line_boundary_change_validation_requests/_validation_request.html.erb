@@ -12,7 +12,8 @@
   </h1>
 
   <p>
-    The following changes have been made to your application's red line boundary.
+    The following changes have been made to your application's red line
+    boundary.
   </p>
 
   <div id="red-line-boundary-change-original">
@@ -46,8 +47,8 @@
   </div>
 
   <p>
-    If you need this information in an alternative format, contact your case officer on
-    <%= current_local_authority.feedback_email %> or by telephone at
+    If you need this information in an alternative format, contact your case
+    officer on <%= current_local_authority.feedback_email %> or by telephone at
     <span style="white-space: nowrap;"><%= current_local_authority.telephone_number %></span>.
   </p>
 
@@ -60,17 +61,13 @@
 
     <% if @validation_request.approved? %>
       <p>
-        <strong class="govuk-tag govuk-tag--green">
-          Agreed
-        </strong>
-        with suggested boundary changes
+        <strong class="govuk-tag govuk-tag--green"> Agreed </strong> with
+        suggested boundary changes
       </p>
     <% elsif @validation_request.rejected? %>
       <p>
-        <strong class="govuk-tag govuk-tag--red">
-          Disagreed
-        </strong>
-        with suggested boundary changes
+        <strong class="govuk-tag govuk-tag--red"> Disagreed </strong> with
+        suggested boundary changes
       </p>
 
       <h3 class="govuk-!-margin-bottom-1">

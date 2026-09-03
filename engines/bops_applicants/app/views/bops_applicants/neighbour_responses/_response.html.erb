@@ -8,7 +8,6 @@
   <%= form.govuk_check_boxes_fieldset :tags, multiple: true,
         legend: {text: t(".legend"), tag: "h1", size: "l"},
         hint: {text: t(".hint")} do %>
-
     <% @neighbour_response.response_tags.each do |tag| %>
       <% if tag == :other %>
         <%= form.govuk_check_box_divider %>

@@ -12,7 +12,7 @@
       <%= t(".#{@user.otp_delivery_method}.a_six_digit") %>
     </p>
 
-    <div class=" govuk-form-group ">
+    <div class="govuk-form-group">
       <%= form_for(@user, as: :user, url: user_session_path, method: :post) do |form| %>
         <%= form.label :otp_attempt, class: "govuk-label" %>
         <%= form.text_field :otp_attempt, class: "govuk-textarea govuk-input" %>
@@ -20,9 +20,15 @@
         <%= govuk_link_to "Resend code", resend_code_path %>
 
         <% if @user.local_authority %>
-          <p class="govuk-phase-banner__content govuk-!-padding-top-3 govuk-!-padding-bottom-3">
+          <p
+            class="
+              govuk-phase-banner__content govuk-!-padding-top-3
+              govuk-!-padding-bottom-3
+            "
+          >
             <span class="govuk-phase-banner__text">
-              If you have an issue logging in, please send an email to <%= mail_to @user.local_authority.email_address, @user.local_authority.email_address, class: "govuk-link" %>
+              If you have an issue logging in, please send an email to
+              <%= mail_to @user.local_authority.email_address, @user.local_authority.email_address, class: "govuk-link" %>
             </span>
           </p>
         <% end %>

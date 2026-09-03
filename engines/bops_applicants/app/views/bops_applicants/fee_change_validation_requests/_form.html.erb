@@ -7,7 +7,8 @@
 </h1>
 
 <p>
-  Your case officer needs some more information about the fee for this application.
+  Your case officer needs some more information about the fee for this
+  application.
 </p>
 
 <h2>
@@ -17,13 +18,20 @@
 <ul class="govuk-list govuk-list--bullet">
   <li>read the comment from the case officer</li>
   <li>upload supporting documents if requested</li>
-  <li>if you don't agree with what the case officer has said, add a comment to explain why you don't agree</li>
+
+  <li>
+    if you don't agree with what the case officer has said, add a comment to
+    explain why you don't agree
+  </li>
+
   <li>submit your response</li>
 </ul>
 
 <div class="govuk-inset-text">
-  Send your response by <strong><%= @validation_request.response_due.to_fs %></strong>.
-  If we don’t receive your response by this date, we will return your application to you and refund your payment.
+  Send your response by
+  <strong><%= @validation_request.response_due.to_fs %></strong>. If we don’t
+  receive your response by this date, we will return your application to you and
+  refund your payment.
 </div>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

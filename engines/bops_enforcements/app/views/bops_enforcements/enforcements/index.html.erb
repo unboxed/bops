@@ -3,6 +3,7 @@
     <h1>
       Enforcement cases
     </h1>
+
     <p class="govuk-body-m">
       <strong><%= current_user.name %>,</strong> <%= role_name %>
     </p>
@@ -15,6 +16,7 @@
       <h2 class="govuk-tabs__title">
         Contents
       </h2>
+
       <%= govuk_tabs do |tabs|
             tabs.with_tab(label: "All cases", id: "all") {
               render BopsEnforcements::PanelComponent.new(

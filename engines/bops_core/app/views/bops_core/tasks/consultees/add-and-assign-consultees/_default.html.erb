@@ -2,14 +2,19 @@
 
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= return_to_hidden_field %>
+
   <% if @form.constraints.none? %>
     <%= govuk_inset_text do %>
-      <p>No planning constraints have been identified. You can still add consultees manually.</p>
+      <p>
+        No planning constraints have been identified. You can still add
+        consultees manually.
+      </p>
     <% end %>
   <% else %>
     <p>
-      Consultees have been automatically matched to the identified planning constraints.
-      Check the assignments are correct, make any changes, then confirm.
+      Consultees have been automatically matched to the identified planning
+      constraints. Check the assignments are correct, make any changes, then
+      confirm.
     </p>
 
     <% @form.constraints.each do |constraint| %>

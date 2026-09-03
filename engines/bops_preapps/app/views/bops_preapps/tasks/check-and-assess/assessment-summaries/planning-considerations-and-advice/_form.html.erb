@@ -1,6 +1,7 @@
 <div
   data-controller="consideration-form unsaved-changes"
-  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+>
   <%= form_with(
         model: @form.consideration_for_edit || @form.consideration,
         url: form_url,
@@ -24,16 +25,19 @@
 
         <ul
           class="govuk-list editable-list"
-          data-consideration-form-target="policyGuidance">
+          data-consideration-form-target="policyGuidance"
+        >
           <%= form.fields :policy_guidance do |fields| %>
             <li>
               <%= fields.hidden_field :description %>
               <%= fields.hidden_field :url %>
               <span><%= fields.object.description %></span>
+
               <button
                 type="button"
                 class="button-as-link"
-                data-action="click->consideration-form#removePolicyReference">
+                data-action="click->consideration-form#removePolicyReference"
+              >
                 Remove
               </button>
             </li>
@@ -45,10 +49,12 @@
             <input type="hidden" name="description" value="">
             <input type="hidden" name="url" value="">
             <span>Description</span>
+
             <button
               type="button"
               class="button-as-link"
-              data-action="click->consideration-form#removePolicyGuidance">
+              data-action="click->consideration-form#removePolicyGuidance"
+            >
               Remove
             </button>
           </li>
@@ -62,18 +68,21 @@
 
         <ul
           class="govuk-list editable-list"
-          data-consideration-form-target="policyReferences">
+          data-consideration-form-target="policyReferences"
+        >
           <%= form.fields :policy_references do |fields| %>
             <li>
               <%= fields.hidden_field :code %>
               <%= fields.hidden_field :description %>
               <%= fields.hidden_field :url %>
+
               <span><%= fields.object.code %> - <%= fields.object.description %></span>
 
               <button
                 type="button"
                 class="button-as-link"
-                data-action="click->consideration-form#removePolicyReference">
+                data-action="click->consideration-form#removePolicyReference"
+              >
                 Remove
               </button>
             </li>
@@ -87,12 +96,14 @@
             <input type="hidden" name="description" value="">
 
             <input type="hidden" name="url" value="">
+
             <span>Code - Description</span>
 
             <button
               type="button"
               class="button-as-link"
-              data-action="click->consideration-form#removePolicyReference">
+              data-action="click->consideration-form#removePolicyReference"
+            >
               Remove
             </button>
           </li>

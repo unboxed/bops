@@ -5,12 +5,15 @@
         <th scope="col" class="govuk-table__header">
           <%= t(".suffix") %>
         </th>
+
         <th scope="col" class="govuk-table__header govuk-!-width-one-half">
           <%= t(".name") %>
         </th>
+
         <th scope="col" class="govuk-table__header">
           <%= t(".status") %>
         </th>
+
         <th scope="col" class="govuk-table__header">
           <%= t(".action") %>
         </th>
@@ -23,9 +26,11 @@
           <td class="govuk-table__cell">
             <%= application_type.suffix %>
           </td>
+
           <td class="govuk-table__cell govuk-!-text-wrap-balance">
             <%= application_type.description %>
           </td>
+
           <td class="govuk-table__cell">
             <%= govuk_tag(text: application_type.status.humanize, colour: tag_colour(application_type.status)) %>
 
@@ -33,6 +38,7 @@
               <%= govuk_tag(text: t(".deprecated"), colour: "yellow") %>
             <% end %>
           </td>
+
           <td class="govuk-table__cell">
             <%= govuk_link_to t(".view_and_or_edit"), application_type_path(application_type) %>
           </td>

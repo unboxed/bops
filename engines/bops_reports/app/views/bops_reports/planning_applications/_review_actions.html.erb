@@ -3,8 +3,10 @@
 
   <%= form_with(model: @recommendation, url: planning_application_recommendation_path(@planning_application, origin: params[:origin]), method: :patch, id: "recommendation-review-form") do |form| %>
     <%= form.govuk_error_summary %>
+
     <%= form.govuk_radio_buttons_fieldset(:challenged, legend: {text: t(".do_you_agree"), size: "m"}) do %>
       <%= form.govuk_radio_button(:challenged, false, label: {text: t(".yes")}) %>
+
       <%= form.govuk_radio_button(:challenged, true, label: {text: t(".no")}) do %>
         <%= form.govuk_text_area(:reviewer_comment, label: {text: t(".reviewer_comment"), visually_hidden: true}, hint: {text: t(".explanation")}) %>
       <% end %>

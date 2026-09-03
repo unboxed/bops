@@ -4,17 +4,21 @@
     <%= planning_application.user_role %>
   </p>
 <% end %>
+
 <% if planning_application.agent? %>
   <p>
     <strong><%= t(".agent") %></strong><br>
+
     <% planning_application.agent_contact_details.each do |detail| %>
       <%= detail %><br>
     <% end %>
   </p>
 <% end %>
+
 <% if planning_application.applicant? %>
   <p>
     <strong><%= t(".applicant") %></strong><br>
+
     <% planning_application.applicant_contact_details.each do |detail| %>
       <%= detail %><br>
     <% end %>

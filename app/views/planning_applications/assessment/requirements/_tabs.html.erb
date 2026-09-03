@@ -2,12 +2,13 @@
   <div class="govuk-grid-column-full">
     <p>
       The recommended application type is:<br>
-      <strong> <%= @application_type.description %>. </strong>
+      <strong><%= @application_type.description %>.</strong>
     </p>
 
     <% unless @requirements.any? %>
       <p>
-        Any pre-configured requirements for this application type have been pre-selected.
+        Any pre-configured requirements for this application type have been
+        pre-selected.
       </p>
     <% end %>
 
@@ -18,7 +19,6 @@
     <%= form_with method: :post, url: planning_application_assessment_requirements_path do |form| %>
       <%= govuk_tabs do |tabs| %>
         <% if @requirements.any? %>
-
           <% current_local_authority.requirements.by_category do |category, requirements| %>
             <% tabs.with_tab(label: t(".categories.#{category}")) do %>
               <% if requirements.empty? %>
@@ -36,9 +36,7 @@
               <% end %>
             <% end %>
           <% end %>
-
         <% else %>
-
           <% current_local_authority.requirements.by_category do |category, requirements| %>
             <% tabs.with_tab(label: t(".categories.#{category}")) do %>
               <% if requirements.empty? %>
@@ -56,7 +54,6 @@
               <% end %>
             <% end %>
           <% end %>
-
         <% end %>
       <% end %>
 

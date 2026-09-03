@@ -9,6 +9,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "notify" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <h1>
       <%= t(".check_letter_settings") %>
@@ -16,10 +17,9 @@
 
     <div class="govuk-warning-text">
       <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+
       <strong class="govuk-warning-text__text">
-        <span class="govuk-visually-hidden">
-          <%= t(".warning.heading") %>
-        </span>
+        <span class="govuk-visually-hidden"><%= t(".warning.heading") %></span>
         <%= t(".warning.message") %>
       </strong>
     </div>

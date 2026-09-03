@@ -7,17 +7,18 @@
         <h2 class="govuk-error-summary__title">
           There is a problem
         </h2>
+
         <div class="govuk-error-summary__body">
           <ul class="govuk-list govuk-error-summary__list">
             <li>
               <a href="#">
                 <% if current_local_authority.notify_error_status == "bad_notify_api_key" %>
-
                   Enter a valid <%= t(".notify_api_key") %>
 
                 <% else %>
-
-                  Enter a valid <%= t(".#{current_local_authority.notify_error_status.delete_prefix("bad_")}") %> for the configured GOV.UK Notify account
+                  Enter a valid
+                  <%= t(".#{current_local_authority.notify_error_status.delete_prefix("bad_")}") %>
+                  for the configured GOV.UK Notify account
 
                 <% end %>
               </a>
@@ -29,7 +30,6 @@
   <% end %>
 
   <%= form.govuk_fieldset(legend: {text: nil}) do %>
-
     <%= form.govuk_text_field(
         :signatory_name,
         label: {text: t(".signatory_name"), class: "govuk-label govuk-label--m"},
@@ -56,14 +56,20 @@
       <label class="govuk-label govuk-label--m" for="local_authority_signature">
         <%= t(".signatory_signature") %>
       </label>
+
       <div id="local_authority_signature-hint" class="govuk-hint">
         <%= t(".signatory_signature_hint") %>
       </div>
-      <div class="display-flex" style="align-items: center; gap: 1rem; flex-wrap: nowrap;">
+
+      <div
+        class="display-flex"
+        style="align-items: center; gap: 1rem; flex-wrap: nowrap;"
+      >
         <%= form.file_field(:signature,
             class: "govuk-file-upload",
             accept: acceptable_file_mime_types,
             "aria-describedby": "local_authority_signature-hint") %>
+
         <%= govuk_link_to "clear", "#", no_visited_state: true, data: {action: "click->clear-form#handleClick"} %>
       </div>
     </div>

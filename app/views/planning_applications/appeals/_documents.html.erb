@@ -1,4 +1,5 @@
 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
 <section id="appeal-documents" class="govuk-!-margin-bottom-7">
   <h2 class="govuk-!-margin-top-5">
     Appeal documents
@@ -8,6 +9,7 @@
     <tbody class="govuk-table__body">
       <% documents.each do |document| %>
         <% next unless document.persisted? %>
+
         <tr class="govuk-table__row" id="<%= dom_id(document) %>">
           <td class="govuk-table__cell govuk-!-width-one-half">
             <%= render(
@@ -31,12 +33,16 @@
                 </p>
               <% end %>
             <% end %>
+
             <p class="govuk-!-margin-bottom-1">
               File name: <strong><%= document.name %></strong>
             </p>
+
             <p class="govuk-!-margin-bottom-1">
-              Date received: <strong><%= document.received_at_or_created %></strong>
+              Date received:
+              <strong><%= document.received_at_or_created %></strong>
             </p>
+
             <% if document.numbers.present? %>
               <p class="govuk-!-margin-bottom-1">
                 Drawing number: <strong><%= document.numbers %></strong>

@@ -3,6 +3,7 @@
         partial: "shared/policy_classes/table_head",
         locals: {policy_class: policy_class}
       ) %>
+
   <tbody class="govuk-table__body">
     <% policies.each do |policy| %>
       <tr class="govuk-table__row">
@@ -10,9 +11,11 @@
           <h3>
             <%= policy_class&.section %>.<%= policy&.section %>
           </h3>
+
           <p>
             <%= render(FormattedContentComponent.new(text: policy.description)) %>
           </p>
+
           <%= render(
                 partial: local_assigns.fetch(
                   :comment_partial,
@@ -27,6 +30,7 @@
                 }
               ) %>
         </td>
+
         <% Policy.statuses.each_key do |status| %>
           <td class="govuk-table__cell">
             <% if policy.status == status %>
@@ -35,9 +39,18 @@
                   <div class="govuk-radios" data-module="govuk-radios">
                     <div class="govuk-radios govuk-radios--small">
                       <div class="govuk-radios__item">
-                        <input class="govuk-radios__input" type="radio" checked disabled name="<%= dom_id(policy) %>">
-                        <label class="govuk-label govuk-radios__label" for="<%= dom_id(policy) %>">
-                        </label>
+                        <input
+                          class="govuk-radios__input"
+                          type="radio"
+                          checked
+                          disabled
+                          name="<%= dom_id(policy) %>"
+                        >
+
+                        <label
+                          class="govuk-label govuk-radios__label"
+                          for="<%= dom_id(policy) %>"
+                        ></label>
                       </div>
                     </div>
                   </div>

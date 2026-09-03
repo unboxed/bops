@@ -1,14 +1,11 @@
 <td class="govuk-table__cell change-request-list">
   New document
 </td>
+
 <td class="govuk-table__cell change-request-list">
   <% if additional_document_validation_request.cancelled? %>
-
     <%= render(FormattedContentComponent.new(text: additional_document_validation_request.cancel_reason)) %>
-
   <% else %>
-
     <%= render(FormattedContentComponent.new(text: additional_document_validation_request.document_request_type)) %>
-
   <% end %>
 </td>

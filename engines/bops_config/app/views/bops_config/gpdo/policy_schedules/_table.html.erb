@@ -5,9 +5,11 @@
         <th scope="col" class="govuk-table__header">
           Schedule
         </th>
+
         <th scope="col" class="govuk-table__header">
           Description
         </th>
+
         <th scope="col" class="govuk-table__header">
           Action
         </th>
@@ -20,9 +22,11 @@
           <td class="govuk-table__cell">
             <%= govuk_link_to "Schedule #{schedule.number}", gpdo_policy_schedule_policy_parts_path(schedule.number) %>
           </td>
+
           <td class="govuk-table__cell">
             <%= schedule.name %>
           </td>
+
           <td class="govuk-table__cell">
             <%= govuk_link_to t(".edit"), edit_gpdo_policy_schedule_path(schedule.number) %>
           </td>

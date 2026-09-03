@@ -8,7 +8,10 @@
 <% content_for :title, t(".notify") %>
 
 <% if flash[:success] %>
-  <div class="govuk-notification-banner govuk-notification-banner--success" role="alert">
+  <div
+    class="govuk-notification-banner govuk-notification-banner--success"
+    role="alert"
+  >
     <div class="govuk-notification-banner__content">
       <p class="govuk-notification-banner__heading">
         <%= flash[:success] %>
@@ -18,7 +21,10 @@
 <% end %>
 
 <% if flash[:error] %>
-  <div class="govuk-notification-banner govuk-notification-banner--error" role="alert">
+  <div
+    class="govuk-notification-banner govuk-notification-banner--error"
+    role="alert"
+  >
     <div class="govuk-notification-banner__content">
       <p class="govuk-notification-banner__heading">
         <%= flash[:error] %>
@@ -31,16 +37,18 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "notify" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <h1>
       <%= t(".notify") %>
     </h1>
 
     <p>
-      BOPS uses the GOV.UK Notify service to send emails, letters and SMS messages
-      on your behalf. To do this we need to configure access to your account and
-      which templates to use. To create an API Key, manage the reply-to address and
-      setup the templates then you will need to have the following permissions:
+      BOPS uses the GOV.UK Notify service to send emails, letters and SMS
+      messages on your behalf. To do this we need to configure access to your
+      account and which templates to use. To create an API Key, manage the
+      reply-to address and setup the templates then you will need to have the
+      following permissions:
     </p>
 
     <ul class="govuk-list govuk-list--bullet">
@@ -50,8 +58,9 @@
     </ul>
 
     <p>
-      If you do not have these permissions please contact the person in your organisation who
-      manages your GOV.UK Notify account to help set up the integration.
+      If you do not have these permissions please contact the person in your
+      organisation who manages your GOV.UK Notify account to help set up the
+      integration.
     </p>
 
     <p>

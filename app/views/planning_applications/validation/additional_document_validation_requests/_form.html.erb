@@ -7,12 +7,14 @@
   <div class="govuk-grid-column-two-thirds">
     <div
       data-controller="unsaved-changes"
-      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+    >
       <%= form_with model: [@planning_application, :validation, @validation_request], scope: :validation_request,
             data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
         <%= form.govuk_error_summary %>
 
         <% return_to = local_assigns[:return_to].presence || params[:return_to].presence %>
+
         <% if return_to.nil? && @planning_application.pre_application? %>
           <% return_to = @planning_application.url_helpers.task_path(@planning_application.reference, slug: "check-and-validate/check-tag-and-confirm-documents/check-and-request-documents") %>
         <% end %>

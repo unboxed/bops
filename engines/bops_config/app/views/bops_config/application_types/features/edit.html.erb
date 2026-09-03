@@ -13,6 +13,7 @@
       <span class="govuk-caption-l govuk-!-margin-bottom-2">
         <%= @application_type.description %>
       </span>
+
       <%= t(".choose_features") %>
     </h1>
 
@@ -26,7 +27,12 @@
           <% end %>
         <% end %>
 
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <hr
+          class="
+            govuk-section-break govuk-section-break--m
+            govuk-section-break--visible
+          "
+        >
 
         <%= ff.govuk_fieldset legend: {text: t("application_type_features.legends.consultation"), size: "s"}, class: "govuk-!-margin-bottom-6" do %>
           <%= ff.govuk_collection_check_boxes :consultation_steps,
@@ -34,10 +40,16 @@
                 :id, :name,
                 legend: {text: "Consultation steps", tag: "span", class: "govuk-visually-hidden"},
                 form_group: {class: "govuk-!-margin-bottom-2"} %>
+
           <%= ff.govuk_check_box :consultations_skip_bank_holidays, 1, 0, multiple: false, label: {text: t("application_type_features.labels.consultations_skip_bank_holidays")} %>
         <% end %>
 
-        <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+        <hr
+          class="
+            govuk-section-break govuk-section-break--m
+            govuk-section-break--visible
+          "
+        >
 
         <%= ff.govuk_fieldset legend: {text: t("application_type_features.legends.appeals"), size: "s"}, class: "govuk-!-margin-bottom-6" do %>
           <%= ff.govuk_check_box :appeals, 1, 0, multiple: false, label: {text: t("application_type_features.labels.appeals")} %>

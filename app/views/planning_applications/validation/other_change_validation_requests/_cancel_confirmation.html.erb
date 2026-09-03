@@ -24,11 +24,13 @@
       <p>
         <strong><%= @validation_request.reason %></strong>
       </p>
+
       <p>
         <%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
       </p>
+
       <p>
-      <%= @validation_request.created_at.to_fs %>
+        <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
 

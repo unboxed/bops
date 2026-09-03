@@ -6,6 +6,7 @@
       partial: "planning_applications/validation/validation_requests/validation_requests_breadcrumbs",
       locals: {planning_application: @planning_application}
     ) %>
+
 <% content_for :title, "Redact documents" %>
 
 <%= render(
@@ -24,6 +25,7 @@
             Redact and upload another document
           </span>
         </summary>
+
         <div class="govuk-!-margin-top-3">
           <%= render "form" %>
         </div>
@@ -49,17 +51,23 @@
             What you need to redact
           </span>
         </summary>
+
         <div class="govuk-!-margin-top-3 govuk-inset-text">
           <p class="govuk-hint govuk-!-margin-bottom-1">
             You need to redact
           </p>
+
           <ul class="govuk-list govuk-list--bullet govuk-hint">
             <li>all signatures (hand written and electronic)</li>
             <li>personal telephone numbers and email addresses</li>
             <li>business email addresses that include first and last names</li>
             <li>name of the agent</li>
             <li>personal financial information</li>
-            <li>any other sensitive personal information or images that could identify a person</li>
+
+            <li>
+              any other sensitive personal information or images that could
+              identify a person
+            </li>
           </ul>
         </div>
       </details>

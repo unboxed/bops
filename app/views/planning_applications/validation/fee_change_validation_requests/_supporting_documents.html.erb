@@ -1,11 +1,13 @@
 <table class="govuk-table">
   <thead class="govuk-table__head">
     <h2>Documents provided by applicant</h2>
+
     <tr class="govuk-table__row">
       <th scope="col" class="govuk-table__header govuk-!-width-one-half"></th>
       <th scope="col" class="govuk-table__header govuk-!-width-one-half"></th>
     </tr>
   </thead>
+
   <tbody class="govuk-table__body">
     <% documents.with_file_attachment.each do |document| %>
       <tr class="govuk-table__row">
@@ -13,13 +15,20 @@
           <p class="govuk-!-margin-bottom-1">
             <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
           </p>
+
           <p>
             <%= link_to_document "View in new window", document %>
           </p>
         </td>
+
         <td class="govuk-table__cell govuk-!-width-one-half">
           <p>File name: <strong><%= document.name %></strong></p>
-          <p>Date received: <strong><%= document.received_at_or_created %></strong></p>
+
+          <p>
+            Date received:
+            <strong><%= document.received_at_or_created %></strong>
+          </p>
+
           <p>Drawing number: <strong><%= document.numbers %></strong></p>
           <p>This document was uploaded by the applicant</p>
         </td>

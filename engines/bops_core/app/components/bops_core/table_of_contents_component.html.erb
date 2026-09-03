@@ -1,8 +1,10 @@
 <% unless sections.empty? %>
   <aside class="bops-table-of-contents-container" role="complementary">
     <a class="bops-skip-to-content govuk-visually-hidden" href="#0">Skip to guide content</a>
+
     <nav class="bops-table-of-contents" aria-label="Links to page sections">
       <h2 class="govuk-heading-s bops-table-of-contents__title">Contents</h2>
+
       <% sections.each do |section| %>
         <% next if section[:links].blank? %>
 
@@ -13,6 +15,7 @@
         <ol class="govuk-list govuk-list--dashed">
           <% section[:links].each do |link| %>
             <% next if link.has_key?(:visible) && !link[:visible] %>
+
             <li><%= helpers.govuk_link_to link[:text], link[:href] %></li>
           <% end %>
         </ol>

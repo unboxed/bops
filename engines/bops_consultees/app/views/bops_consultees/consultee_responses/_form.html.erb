@@ -5,8 +5,7 @@
       method: :post,
       class: "govuk-!-margin-top-5"
     ) do |form| %>
-
-    <%= hidden_field_tag :sgid, params[:sgid] %>
+  <%= hidden_field_tag :sgid, params[:sgid] %>
 
   <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Submit a comment", size: "m"} do %>
     <% Consultee::Response.all_summary_tags.each do |label, value| %>

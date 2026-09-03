@@ -1,5 +1,9 @@
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-top-7">
-<div class="flex-between govuk-!-margin-top-3 govuk-!-margin-bottom-3" data-controller="pdf">
+
+<div
+  class="flex-between govuk-!-margin-top-3 govuk-!-margin-bottom-3"
+  data-controller="pdf"
+>
   <%= stimulus_tag("site-notice", values: {context: site_notice.pdf_context}) do %>
     <p class="govuk-!-margin-top-1">
       <%= @planning_application.last_site_notice_audit&.audit_comment %><br>
@@ -31,9 +35,12 @@
     <div>
       <%= render(StatusTags::BaseComponent.new(status: :complete)) %>
     </div>
+
     <p class="govuk-body-s govuk-!-margin-top-1 govuk-!-margin-bottom-0">
-      on <%= @planning_application.last_site_notice_audit&.created_at&.to_fs(:day_month_year_slashes) %>
+      on
+      <%= @planning_application.last_site_notice_audit&.created_at&.to_fs(:day_month_year_slashes) %>
     </p>
   </div>
 </div>
+
 <hr class="govuk-section-break govuk-section-break--visible govuk-!-margin-bottom-7">

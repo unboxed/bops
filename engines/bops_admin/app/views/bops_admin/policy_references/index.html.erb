@@ -9,6 +9,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "policy_references" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <% content_for :title, t(".manage_policy_references") %>
 
@@ -18,6 +19,7 @@
 
     <%= form_with url: policy_references_path, method: :get do |form| %>
       <%= form.govuk_text_field :q, value: params[:q], width: "two-thirds", label: {text: t(".find_policy_references"), hidden: true} %>
+
       <%= form.govuk_submit t(".find_policy_references") do %>
         <%= govuk_link_to t(".add_policy_reference"), new_policy_reference_path, no_visited_state: true %>
       <% end %>
@@ -41,6 +43,7 @@
           <% @policy_references.each do |policy_reference| %>
             <% body.with_row do |row| %>
               <% row.with_cell(text: policy_reference.code) %>
+
               <% row.with_cell do %>
                 <% if policy_reference.url? %>
                   <%= govuk_link_to(policy_reference.description, policy_reference.url, no_visited_state: true, no_underline: true, new_tab: "") %>
@@ -48,7 +51,9 @@
                   <%= policy_reference.description %>
                 <% end %>
               <% end %>
+
               <% row.with_cell(text: policy_reference.human_policy_areas) %>
+
               <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
                 <%= govuk_link_to t("bops_admin.policy_references.index.actions.edit"), edit_policy_reference_path(policy_reference), no_visited_state: true, no_underline: true %>
 

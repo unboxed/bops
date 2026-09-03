@@ -5,6 +5,7 @@
         :return_to,
         value: local_assigns[:return_to]
       ) %>
+
   <div class="govuk-form-group">
     <% if action_name == "new" || action_name == "create" %>
       <div class="govuk-form-group govuk-!-margin-bottom-4">
@@ -43,6 +44,7 @@
       <h2>
         Site Details
       </h2>
+
       <% if @planning_application.persisted? %>
         <div>
           <%= form.label :address_1, class: "govuk-label" %>
@@ -67,17 +69,23 @@
               address_search_id: "address"
             } do %>
           <label for="address" class="govuk-heading-s govuk-!-margin-bottom-1">Search for address</label>
+
           <span id="address-hint" class="govuk-hint">
             Start typing address or postcode
           </span>
+
           <div id="address-container" class="govuk-input--width-50"></div>
         <% end %>
-        <details class="govuk-details govuk-!-margin-top-3" data-module="govuk-details">
+        <details
+          class="govuk-details govuk-!-margin-top-3"
+          data-module="govuk-details"
+        >
           <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">
               Add address manually
             </span>
           </summary>
+
           <div>
             <%= form.label :address_1, class: "govuk-label" %>
             <%= form.text_field :address_1, class: "govuk-textarea" %>
@@ -131,6 +139,7 @@
     <h2>
       Other references
     </h2>
+
     <%= form.govuk_text_field :alternative_reference,
           label: {text: "Alternative reference"},
           hint: {text: "Reference from another system (e.g. M3)"} %>

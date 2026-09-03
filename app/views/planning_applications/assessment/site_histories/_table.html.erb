@@ -1,23 +1,27 @@
 <% if site_histories.blank? %>
   <div class="govuk-!-padding-3 govuk-!-margin-bottom-6 background-light-grey">
-    <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-3"><strong>There is no site history for this property.</strong></p>
-    <p> Add new site history that's relevant to the proposal</p>
+    <p class="govuk-!-margin-bottom-2 govuk-!-margin-top-3">
+      <strong>There is no site history for this property.</strong>
+    </p>
+
+    <p>Add new site history that's relevant to the proposal</p>
   </div>
 <% else %>
   <% site_histories.each do |site_history| %>
     <div class="govuk-summary-card" id="<%= site_history.reference %>">
       <div class="govuk-summary-card__title-wrapper">
         <div class="flex-between">
-            <h2 class="govuk-summary-card__title govuk-!-display-inline-block">
-              <%= site_history.reference %>
-            </h2>
+          <h2 class="govuk-summary-card__title govuk-!-display-inline-block">
+            <%= site_history.reference %>
+          </h2>
 
-            <%= govuk_tag(
+          <%= govuk_tag(
                   text: site_history.decision_label,
                   colour: t(site_history.decision_type, scope: :planning_application_tags),
                   classes: "govuk-!-margin-top-1 govuk-!-margin-bottom-2 govuk-!-display-inline-block"
                 ) %>
         </div>
+
         <p class="govuk-body-s govuk-!-padding-top-2">
           <% if site_history.date %>
             Decided on <%= site_history.date.to_fs(:day_month_year_slashes) %>
@@ -26,19 +30,23 @@
           <% end %>
         </p>
       </div>
+
       <div class="govuk-summary-card__content">
         <p class="govuk-body govuk-!-margin-bottom-2">
           <strong>Address: </strong>
           <%= site_history.address.presence || "No address given" %>
         </p>
+
         <p class="govuk-body govuk-!-margin-bottom-2">
           <strong>Description: </strong>
           <%= site_history.description %>
         </p>
+
         <p class="govuk-body govuk-!-margin-bottom-2">
           <strong>Relevance of application: </strong>
           <%= site_history.comment.presence || "No comment provided" %>
         </p>
+
         <% if show_action %>
           <%= govuk_link_to "Edit",
                 main_app.edit_planning_application_assessment_site_history_path(@planning_application, site_history, return_to: local_assigns[:return_to]),

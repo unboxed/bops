@@ -1,4 +1,5 @@
 <h2><%= title %></h2>
+
 <%= render(
       PlanningApplications::SearchComponent.new(
         panel_type: type,
@@ -7,6 +8,7 @@
         pre_application: pre_application?
       )
     ) %>
+
 <% if planning_applications.empty? %>
   <p><%= t(".no_planning_applications") %></p>
 <% else %>

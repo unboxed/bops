@@ -5,15 +5,24 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <h1>Overview</h1>
+
     <h2>Application details</h2>
 
     <%= render(AccordionSections::ApplicationInformationComponent.new(planning_application: @planning_application, show_edit_link: false)) %>
   </div>
 </div>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <hr
+      class="
+        govuk-section-break govuk-section-break--l
+        govuk-section-break--visible
+      "
+    >
+
     <h2>Submission form</h2>
+
     <%= govuk_table do |table| %>
       <% table.with_head do |head| %>
         <% head.with_row do |row| %>
@@ -21,6 +30,7 @@
           <% row.with_cell(text: "Answer") %>
         <% end %>
       <% end %>
+
       <% table.with_body do |body| %>
         <% @planning_application.proposal_details.each do |proposal_detail| %>
           <% body.with_row do |row| %>

@@ -51,12 +51,12 @@ RSpec.describe ProposalDetails::ListComponent, type: :component do
 
   it "renders first group with correct numbered questions" do
     group_a = page.find("h4", text: "Group a").find(:xpath, "../..")
-    expect(group_a).to have_content("1. \n  \n    Test question 1")
-    expect(group_a).to have_content("2. \n  \n    Test question 3")
+    expect(group_a).to have_content("1. \n  \n\n  \n    Test question 1")
+    expect(group_a).to have_content("2. \n  \n\n  \n    Test question 3")
   end
 
   it "renders second group with correct numbered questions" do
     group_b = page.find("h4", text: "Group b").find(:xpath, "../..")
-    expect(group_b).to have_content("3. \n  \n    Test question 2")
+    expect(group_b).to have_content("3. \n  \n\n  \n    Test question 2")
   end
 end

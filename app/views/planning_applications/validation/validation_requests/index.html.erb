@@ -25,7 +25,8 @@
     <% if @active_validation_requests.any? %>
       <% if @planning_application.not_started? %>
         <p>
-          The following requests will be sent when the application is invalidated.
+          The following requests will be sent when the application is
+          invalidated.
         </p>
       <% end %>
       <% if post_validation_requests_index? %>
@@ -34,7 +35,6 @@
       <% end %>
 
       <%= render "planning_applications/validation/validation_requests/table", requests: @active_validation_requests, planning_application: @planning_application %>
-
     <% else %>
       <p>There are no active validation requests.</p>
     <% end %>
@@ -50,7 +50,8 @@
         </strong>
       </p>
       <p>
-        When all parts of the application have been checked and are correct, mark the application as valid.
+        When all parts of the application have been checked and are correct,
+        mark the application as valid.
       </p>
     <% end %>
 

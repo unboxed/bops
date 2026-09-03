@@ -7,12 +7,14 @@
         <th scope="col" class="govuk-table__header">Response</th>
       </tr>
     </thead>
+
     <tbody class="govuk-table__body">
       <% neighbours.each do |neighbour| %>
         <tr class="govuk-table__row">
           <td class="govuk-table__cell">
             <%= neighbour.address&.upcase %>
           </td>
+
           <td class="govuk-table__cell">
             <% if neighbour.last_letter.blank? %>
               <%= render(StatusTags::LetterComponent.new(status: "new")) %>
@@ -20,6 +22,7 @@
               <%= render(StatusTags::LetterComponent.new(status: NeighbourLetter::STATUSES[neighbour.last_letter.status&.to_sym])) %>
             <% end %>
           </td>
+
           <td class="govuk-table__cell">
             <% if neighbour.neighbour_responses.blank? %>
               <%= render(StatusTags::BaseComponent.new(status: :none)) %>
@@ -30,7 +33,7 @@
             <% end %>
           </td>
         </tr>
-        <% end %>
+      <% end %>
     </tbody>
   <% end %>
   <p>
@@ -38,7 +41,9 @@
   </p>
 <% else %>
   <div class="background-light-grey govuk-!-padding-6 govuk-!-margin-bottom-6">
-    <p class="govuk-!-margin-bottom-1"><strong>You have not selected any neighbours.</strong></p>
+    <p class="govuk-!-margin-bottom-1">
+      <strong>You have not selected any neighbours.</strong>
+    </p>
   </div>
   <p>
     <%= link_to "Select and add neighbours", main_app.task_path(@planning_application, "consultees-neighbours-and-publicity/neighbours/add-and-assign-neighbours") %>

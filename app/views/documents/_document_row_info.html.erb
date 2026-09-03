@@ -6,7 +6,8 @@
   <% end %>
   <% if document.invalidated_document_reason %>
     <p class="govuk-!-margin-bottom-1">
-      Invalid: <strong><%= render(FormattedContentComponent.new(text: document.invalidated_document_reason)) %></strong>
+      Invalid:
+      <strong><%= render(FormattedContentComponent.new(text: document.invalidated_document_reason)) %></strong>
     </p>
   <% end %>
   <p class="govuk-!-margin-bottom-1">
@@ -22,14 +23,16 @@
   <% end %>
   <% if document.planning_application.can_publish? %>
     <p class="govuk-!-margin-bottom-1">
-      Included in decision notice: <strong><%= document.referenced_in_decision_notice? ? "Yes" : "No" %></strong>
+      Included in decision notice:
+      <strong><%= document.referenced_in_decision_notice? ? "Yes" : "No" %></strong>
     </p>
     <p class="govuk-!-margin-bottom-1">
       Public: <strong><%= document.publishable? ? "Yes" : "No" %></strong>
     </p>
   <% else %>
     <p class="govuk-!-margin-bottom-1">
-      Available to consultees: <strong><%= document.available_to_consultees? ? "Yes" : "No" %></strong>
+      Available to consultees:
+      <strong><%= document.available_to_consultees? ? "Yes" : "No" %></strong>
     </p>
   <% end %>
   <p class="govuk-!-margin-bottom-1">

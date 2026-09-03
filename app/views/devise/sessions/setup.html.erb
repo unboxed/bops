@@ -5,10 +5,15 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h1>
-        Enter your phone number
+      Enter your phone number
     </h1>
-    <p> To use two-factor authentication we need a UK mobile phone number for your account.</p>
-    <div class=" govuk-form-group">
+
+    <p>
+      To use two-factor authentication we need a UK mobile phone number for your
+      account.
+    </p>
+
+    <div class="govuk-form-group">
       <%= form_for(
             @mobile_number_form,
             as: :user,
@@ -17,6 +22,7 @@
           ) do |form| %>
         <%= form.govuk_error_summary %>
         <%= form.govuk_text_field(:mobile_number) %>
+
         <div class="govuk-button-group">
           <%= form.govuk_submit(t(".send_code")) %>
         </div>

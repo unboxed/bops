@@ -12,19 +12,23 @@
         <%= @local_authority.onboarding_status %> steps completed
       </strong>
     <% else %>
-      <strong class="govuk-tag govuk-tag--green">
-        Onboarding complete
-      </strong>
+      <strong class="govuk-tag govuk-tag--green"> Onboarding complete </strong>
     <% end %>
   </h3>
 
   <table class="govuk-table">
     <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Required field</th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-half">Value</th>
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+          Required field
+        </th>
+
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half">
+          Value
+        </th>
+
         <th scope="col" class="govuk-table__header">Status</th>
-        </tr>
+      </tr>
     </thead>
 
     <tbody class="govuk-table__body">
@@ -35,6 +39,7 @@
           <th scope="row" class="govuk-table__cell">
             <%= LocalAuthority.human_attribute_name(onboarded_attribute) %>
           </th>
+
           <td class="govuk-table__cell">
             <% if @local_authority[onboarded_attribute].nil? %>
               -
@@ -46,13 +51,12 @@
               <%= @local_authority[onboarded_attribute] %>
             <% end %>
           </td>
+
           <td class="govuk-table__cell">
             <% if @local_authority[onboarded_attribute] %>
               Completed
             <% else %>
-              <strong class="govuk-tag govuk-tag--blue">
-                Not started
-              </strong>
+              <strong class="govuk-tag govuk-tag--blue"> Not started </strong>
             <% end %>
           </td>
         </tr>

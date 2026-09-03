@@ -1,6 +1,7 @@
 <% constraints ||= [] %>
 
 <%= form.govuk_error_summary %>
+
 <%= form.govuk_fieldset(legend: {text: nil}) do %>
   <%= form.govuk_text_field :name, width: "two-thirds", label: {text: t(".labels.name")} %>
   <%= form.govuk_email_field :email_address, width: "two-thirds", label: {text: t(".labels.email_address")} %>
@@ -18,7 +19,10 @@
     <h2><%= t(".constraints.heading") %></h2>
 
     <% if form.object.constraints.any? %>
-      <div class="govuk-!-margin-bottom-4" data-testid="consultee-constraint-tags">
+      <div
+        class="govuk-!-margin-bottom-4"
+        data-testid="consultee-constraint-tags"
+      >
         <% form.object.constraints.each do |constraint| %>
           <%= govuk_tag(
                 text: constraint.type_code,
@@ -28,7 +32,9 @@
         <% end %>
       </div>
     <% else %>
-      <p class="govuk-body govuk-body-s govuk-!-margin-bottom-4"><%= t(".constraints.none_selected") %></p>
+      <p class="govuk-body govuk-body-s govuk-!-margin-bottom-4">
+        <%= t(".constraints.none_selected") %>
+      </p>
     <% end %>
 
     <%= govuk_details(summary_text: t(".constraints.more_details")) do %>

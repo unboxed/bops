@@ -9,7 +9,10 @@
 <% content_for :title, t(".notify") %>
 
 <% if flash[:success] %>
-  <div class="govuk-notification-banner govuk-notification-banner--success" role="alert">
+  <div
+    class="govuk-notification-banner govuk-notification-banner--success"
+    role="alert"
+  >
     <div class="govuk-notification-banner__content">
       <p class="govuk-notification-banner__heading">
         <%= flash[:success] %>
@@ -19,7 +22,10 @@
 <% end %>
 
 <% if flash[:error] %>
-  <div class="govuk-notification-banner govuk-notification-banner--error" role="alert">
+  <div
+    class="govuk-notification-banner govuk-notification-banner--error"
+    role="alert"
+  >
     <div class="govuk-notification-banner__content">
       <p class="govuk-notification-banner__heading">
         <%= flash[:error] %>

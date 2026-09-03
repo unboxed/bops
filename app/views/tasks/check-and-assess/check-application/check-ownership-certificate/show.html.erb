@@ -20,12 +20,16 @@
     </p>
     <details class="govuk-details">
       <summary class="govuk-details__summary">
-        <span class="govuk-details__summary-text"> Request new ownership certificate </span>
+        <span class="govuk-details__summary-text">
+          Request new ownership certificate
+        </span>
       </summary>
+
       <div class="govuk-details__text">
         <%= form.govuk_text_area :ownership_certificate_post_validation_reason, label: {size: "s", text: "Tell the applicant why their ownership certificate type is wrong"}, hint: {text: "This request will be sent to the applicant."} %>
       </div>
     </details>
   <% end %>
+
   <%= form.govuk_task_button "Save and mark complete", action: "assessment_complete" %>
 <% end %>

@@ -9,6 +9,7 @@
       <% unless @planning_application.determined? %>
         <%= govuk_button_link_to "Upload new response", new_consultee_response_path(reference: @planning_application.reference, consultee_id: @consultee.id, task_slug: @task.full_slug), secondary: true %>
       <% end %>
+
       <%= govuk_button_link_to "Back", @task.url, secondary: true %>
     </div>
   </div>

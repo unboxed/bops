@@ -16,7 +16,7 @@
           label: {text: t(".no")},
           checked: consistency_checklist.default_documents_consistent_to_no?
         ) do %>
-        <%= govuk_link_to t(".request_additional_document"), main_app.new_planning_application_validation_validation_request_path(
+      <%= govuk_link_to t(".request_additional_document"), main_app.new_planning_application_validation_validation_request_path(
               planning_application,
               type: "additional_document"
             ) %>
@@ -29,6 +29,7 @@
           disabled: true
         ) %>
   <% end %>
+
   <% planning_application.additional_document_validation_requests.order(:created_at).each do |request| %>
     <%= render(
           partial: "planning_applications/assessment/consistency_checklists/additional_document_validation_request",

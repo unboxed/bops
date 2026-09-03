@@ -37,7 +37,8 @@
 
                   <div
                     class="govuk-radios govuk-radios--inline govuk-radios--small"
-                    data-module="govuk-radios">
+                    data-module="govuk-radios"
+                  >
                     <% PlanningApplicationPolicySection.statuses.keys.each do |status| %>
                       <%= form.govuk_radio_button(
                             "planning_application_policy_sections[#{policy_section.policy_section.id}][status]",
@@ -73,6 +74,7 @@
     <fieldset class="govuk-fieldset govuk-!-padding-bottom-5">
       <div class="govuk-radios govuk-radios--small" data-module="govuk-radios">
         <%= form.govuk_radio_button(:action, "accepted", label: {text: "Agree"}, name: "review[action]", checked: @planning_application_policy_class.current_review.accepted?) %>
+
         <%= form.govuk_radio_button(
               :action, "rejected", label: {text: "Return with comments"}, name: "review[action]", checked: @planning_application_policy_class.current_review.rejected?
             ) do %>

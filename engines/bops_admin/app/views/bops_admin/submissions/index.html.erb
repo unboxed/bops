@@ -21,10 +21,14 @@
     <% end %>
 
     <div class="govuk-inset-text">
-      Planning applications with a <strong>Completed</strong> submission status may temporarily show a <strong>Pending</strong> application status before appearing in BOPS.
-      Applications pending for more than 10 minutes will trigger an error for the development team to investigate.
-      <br><br>
-      Please contact the development team if an application remains pending for an extended period.
+      Planning applications with a <strong>Completed</strong> submission status
+      may temporarily show a <strong>Pending</strong> application status before
+      appearing in BOPS. Applications pending for more than 10 minutes will
+      trigger an error for the development team to investigate.
+      <br>
+      <br>
+      Please contact the development team if an application remains pending for
+      an extended period.
     </div>
 
     <%= govuk_table(id: "submissions") do |table| %>
@@ -53,9 +57,11 @@
               <% row.with_cell(text: submission.started_at&.to_fs) %>
               <% row.with_cell(text: submission.completed_at&.to_fs) %>
               <% row.with_cell(text: submission.failed_at&.to_fs) %>
+
               <% row.with_cell do %>
                 <%= govuk_link_to "View submission", submission_path(submission) %>
               <% end %>
+
               <% row.with_cell do %>
                 <% if submission.planning_application.present? %>
                   <%= PlanningApplicationPresenter.new(self, submission.planning_application).status_tag %>

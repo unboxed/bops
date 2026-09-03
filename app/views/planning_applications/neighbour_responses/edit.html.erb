@@ -13,6 +13,7 @@
     ) %>
 
 <h2 class="govuk-!-margin-top-7">Edit the response</h2>
+
 <%= form_with(
       model: @neighbour_response,
       class: "govuk-!-margin-top-5",
@@ -23,26 +24,33 @@
 
   <%= form.govuk_text_field :name %>
   <%= form.govuk_text_field :email %>
+
   <div class="govuk-form-group">
     <%= form.label :address, class: "govuk-label" %>
     <%= form.text_field :address, value: form.object.neighbour.address, class: "govuk-input" %>
   </div>
+
   <%= form.govuk_date_field :received_at, legend: {text: "Response received on", size: "s", tag: "p"} %>
+
   <%= form.govuk_radio_buttons_fieldset :summary_tag, legend: {text: "Is the response", size: "m"} do %>
     <%= form.govuk_radio_button :summary_tag, "supportive", label: {text: "Supportive"} %>
     <%= form.govuk_radio_button :summary_tag, "neutral", label: {text: "Neutral"} %>
     <%= form.govuk_radio_button :summary_tag, "objection", label: {text: "An objection"} %>
   <% end %>
+
   <%= form.govuk_collection_check_boxes :tags, NeighbourResponse::TAGS.map(&:to_s), :to_s, :humanize, legend: {text: "Tags", size: "m"} %>
   <%= form.govuk_text_area :response, hint: {text: "This won't be made public"} %>
   <%= form.govuk_text_area :redacted_response, label: {text: "Redacted response"}, hint: {text: "This will be made public"} %>
+
   <%= form.govuk_file_field :files,
         label: {text: "Upload documents"},
         hint: {text: "Add any documents that the respondent sent."},
         multiple: true %>
+
   <%= form.submit(
         "Update response",
         class: "govuk-button govuk-button--primary govuk-!-margin-top-5"
       ) %>
+
   <%= govuk_button_link_to "Back", planning_application_consultation_neighbour_responses_path(@planning_application), secondary: true, class: "govuk-!-margin-top-5" %>
 <% end %>

@@ -3,6 +3,7 @@
 <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-two-thirds">
     <h2>Add, remove and save constraints</h2>
+
     <p>
       Check the constraints for this application. Add any constraints that are
       relevant. When all relevant constraints have been added, save and mark as
@@ -40,6 +41,7 @@
         <summary class="govuk-details__summary">
           <span class="govuk-details__summary-text"> Add constraints </span>
         </summary>
+
         <div>
           <%= form_with url: main_app.planning_application_validation_constraints_path(@planning_application), method: :get do |form| %>
             <div class="search-form-inputs">

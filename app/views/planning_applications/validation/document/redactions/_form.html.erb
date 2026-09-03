@@ -4,36 +4,46 @@
       method: :post
     ) do |form| %>
   <%= form.govuk_error_summary %>
+
   <table class="govuk-table redacted-document-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th class="govuk-table__header govuk-!-width-one-half">Download original</th>
-        <th class="govuk-table__header govuk-!-width-one-half">Upload redacted</th>
+        <th class="govuk-table__header govuk-!-width-one-half">
+          Download original
+        </th>
+
+        <th class="govuk-table__header govuk-!-width-one-half">
+          Upload redacted
+        </th>
       </tr>
     </thead>
-  <%= form.fields_for :documents, @planning_application.documents.active.not_redacted do |ff| %>
-    <tbody class="govuk-table__body">
-      <tr class="govuk-table__row">
-        <td class="govuk-table__cell govuk-!-padding-top-3 govuk-!-padding-bottom-3">
-          <p class="govuk-!-margin-bottom-1">
-            <%= document_thumbnail_link ff.object, thumbnail_args: {resize_to_limit: [150, 106]} %>
-          </p>
-          <p>
-            <%= truncate(ff.object.name.to_s, length: 50) %><br>
-            <%= link_to_document "Download", ff.object, class: "govuk-body-s" %>
-          </p>
-        </td>
-        <td class="govuk-table__cell">
-          <%= ff.govuk_file_field :file, label: {text: "Upload a file"} %>
-          <%= ff.hidden_field :redacted, value: true %>
-          <%= ff.hidden_field :publishable, value: true %>
-          <%= ff.hidden_field :validated, value: true %>
-          <%= ff.hidden_field :tags, value: ff.object.tags %>
-        </td>
-      </tr>
-    </tbody>
-  <% end %>
+
+    <%= form.fields_for :documents, @planning_application.documents.active.not_redacted do |ff| %>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <td class="govuk-table__cell govuk-!-padding-top-3 govuk-!-padding-bottom-3">
+            <p class="govuk-!-margin-bottom-1">
+              <%= document_thumbnail_link ff.object, thumbnail_args: {resize_to_limit: [150, 106]} %>
+            </p>
+
+            <p>
+              <%= truncate(ff.object.name.to_s, length: 50) %><br>
+              <%= link_to_document "Download", ff.object, class: "govuk-body-s" %>
+            </p>
+          </td>
+
+          <td class="govuk-table__cell">
+            <%= ff.govuk_file_field :file, label: {text: "Upload a file"} %>
+            <%= ff.hidden_field :redacted, value: true %>
+            <%= ff.hidden_field :publishable, value: true %>
+            <%= ff.hidden_field :validated, value: true %>
+            <%= ff.hidden_field :tags, value: ff.object.tags %>
+          </td>
+        </tr>
+      </tbody>
+    <% end %>
   </table>
+
   <div class="govuk-button-group">
     <%= form.button "Save and mark as complete",
           name: "planning_application[documents_status]",

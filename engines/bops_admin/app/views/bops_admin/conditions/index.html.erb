@@ -10,6 +10,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "conditions" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <h1>
       <%= t(".conditions") %>
@@ -17,6 +18,7 @@
 
     <%= form_with url: conditions_path, class: "govuk-!-margin-bottom-7", method: :get do |form| %>
       <%= form.govuk_text_field :q, value: params[:q], width: "two-thirds", label: {text: t(".find_conditions"), hidden: true} %>
+
       <%= form.govuk_submit t(".find_conditions") do %>
         <%= govuk_link_to t(".add_condition"), new_condition_path, no_visited_state: true %>
       <% end %>
@@ -40,12 +42,15 @@
           <% @conditions.each do |condition| %>
             <% body.with_row do |row| %>
               <% row.with_cell(text: condition.title, header: true) %>
+
               <% row.with_cell do %>
                 <span class="line-clamp-3"><%= condition.text %></span>
               <% end %>
+
               <% row.with_cell do %>
                 <span class="line-clamp-3"><%= condition.reason %></span>
               <% end %>
+
               <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
                 <%= govuk_link_to t("bops_admin.conditions.index.actions.edit"), edit_condition_path(condition), no_visited_state: true, no_underline: true %>
 

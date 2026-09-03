@@ -1,6 +1,9 @@
 <%= render "task_header", task: @task %>
-<div data-controller="unsaved-changes"
-     data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+
+<div
+  data-controller="unsaved-changes"
+  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+>
   <%= form_with(
         model: @form,
         url: @form.url,
@@ -9,6 +12,7 @@
       ) do |form| %>
     <%= form.govuk_error_summary %>
     <%= return_to_hidden_field %>
+
     <% @planning_application.application_type.consistency_checklist.each do |checklist| %>
       <%= render(
             partial: "planning_applications/assessment/consistency_checklists/#{checklist}",

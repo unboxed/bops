@@ -33,6 +33,7 @@
     <%= form.govuk_radio_button :know_owners, "yes", label: {text: t(".know_owners.yes_label")} do %>
       <%= form.govuk_text_field :number_of_owners, inputmode: "numeric", width: 5, label: {text: t(".know_owners.number_of_owners_label")} %>
     <% end %>
+
     <%= form.govuk_radio_button :know_owners, "no", label: {text: t(".know_owners.no_label")} %>
   <% end %>
 
@@ -45,9 +46,12 @@
   <%= form.govuk_radio_buttons_fieldset(:notification_of_owners, legend: {text: t(".notification_of_owners.legend")}) do %>
     <%= form.govuk_radio_button :notification_of_owners, "yes", label: {text: t(".notification_of_owners.yes_label")} %>
     <%= form.govuk_radio_button :notification_of_owners, "some", label: {text: t(".notification_of_owners.some_label")} %>
+
     <%= form.govuk_radio_button :notification_of_owners, "no", label: {text: t(".notification_of_owners.no_label")} do %>
       <p>
-        You must notify owners about this application. Use a <%= govuk_link_to "notification form", "https://ecab.planningportal.co.uk/uploads/1app/notices/notice1.pdf", new_tab: "" %> to send them details of the proposed work.
+        You must notify owners about this application. Use a
+        <%= govuk_link_to "notification form", "https://ecab.planningportal.co.uk/uploads/1app/notices/notice1.pdf", new_tab: "" %>
+        to send them details of the proposed work.
       </p>
     <% end %>
   <% end %>

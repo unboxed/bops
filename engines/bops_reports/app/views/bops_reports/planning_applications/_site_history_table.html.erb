@@ -5,8 +5,10 @@
         <h2 class="govuk-summary-card__title">
           <%= site_history.application_number %>
         </h2>
+
         <%= govuk_tag(text: site_history.decision_label, colour: t(site_history.decision_type, scope: :planning_application_tags), html_attributes: {class: "govuk-!-padding-top-2"}) %>
       </div>
+
       <p class="govuk-!-font-size-16 govuk-secondary-text-colour">
         <% if site_history.date %>
           Decided on <%= site_history.date.to_fs(:day_month_year_slashes) %>
@@ -15,19 +17,22 @@
         <% end %>
       </p>
     </div>
+
     <div class="govuk-summary-card__content">
       <dl class="govuk-summary-list">
         <div class="govuk-summary-list__row">
           <dd class="govuk-summary-list__value">
             <strong>Address: </strong><%= site_history.address %>
+
             <div class="govuk-!-margin-top-2">
               <strong>Description: </strong><%= site_history.description %>
             </div>
+
             <div class="govuk-!-margin-top-2">
               <% if site_history.comment %>
-              <strong>Officer comment:</strong> <%= site_history.comment %>
+                <strong>Officer comment:</strong> <%= site_history.comment %>
               <% else %>
-                <p class="govuk-!-font-size-16  govuk-secondary-text-colour">
+                <p class="govuk-!-font-size-16 govuk-secondary-text-colour">
                   No comment added
                 </p>
               <% end %>

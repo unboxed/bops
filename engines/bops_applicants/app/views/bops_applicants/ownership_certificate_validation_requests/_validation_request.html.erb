@@ -28,10 +28,8 @@
 
     <% if @validation_request.approved? %>
       <p>
-        <strong class="govuk-tag govuk-tag--green">
-          Agreed
-        </strong>
-        with suggested ownership certificate change
+        <strong class="govuk-tag govuk-tag--green"> Agreed </strong> with
+        suggested ownership certificate change
       </p>
 
       <% unless @validation_request.ownership_certificate_submitted? %>
@@ -39,10 +37,8 @@
       <% end %>
     <% elsif @validation_request.rejected? %>
       <p>
-        <strong class="govuk-tag govuk-tag--red">
-          Disagreed
-        </strong>
-        with suggested ownership certificate change
+        <strong class="govuk-tag govuk-tag--red"> Disagreed </strong> with
+        suggested ownership certificate change
       </p>
 
       <h3 class="govuk-!-margin-bottom-1">

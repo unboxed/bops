@@ -3,6 +3,7 @@
     <%= t(".proposed_a_new", user: request&.sent_by&.name) %><br>
     <%= t(".reason") %> <%= request.reason %><br>
     <%= t(".proposed") %> <%= request.created_at.to_fs %><br>
+
     <% if request.auto_closed? %>
       <%= t(".accepted") %> <%= request.auto_closed_at.to_fs %>
     <% elsif request.approved? %>

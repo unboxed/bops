@@ -28,17 +28,12 @@
 
     <% if @validation_request.approved? %>
       <p>
-        <strong class="govuk-tag govuk-tag--green">
-          Agreed
-        </strong>
-        to the term
+        <strong class="govuk-tag govuk-tag--green"> Agreed </strong> to the term
       </p>
     <% elsif @validation_request.rejected? %>
       <p>
-        <strong class="govuk-tag govuk-tag--red">
-          Disagreed
-        </strong>
-        with the term
+        <strong class="govuk-tag govuk-tag--red"> Disagreed </strong> with the
+        term
       </p>
 
       <h3 class="govuk-!-margin-bottom-1">

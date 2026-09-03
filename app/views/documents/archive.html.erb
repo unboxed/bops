@@ -18,9 +18,11 @@
     <p class="govuk-!-padding-top-1">
       File name: <%= @document.name %>
     </p>
+
     <p>
       <%= document_thumbnail_link @document, thumbnail_args: {resize: "300x212"} %>
     </p>
+
     <%= render "archive_form" %>
   </div>
 </div>

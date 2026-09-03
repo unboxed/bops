@@ -10,8 +10,9 @@
       Sign off recommendation
     <% end %>
   </span>
+
   <div class="govuk-task-list__status app-task-list__task-tag">
-  <%= render(
+    <%= render(
         StatusTags::SignoffRecommendationComponent.new(
           planning_application: @planning_application
         )

@@ -15,20 +15,38 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
     <table class="govuk-table">
-      <caption class="govuk-table__caption govuk-table__caption--m">Audit log</caption>
+      <caption class="govuk-table__caption govuk-table__caption--m">
+        Audit log
+      </caption>
+
       <thead class="govuk-table__head">
         <tr class="govuk-table__row">
-          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Date</th>
-          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">User</th>
-          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Activity</th>
+          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+            Date
+          </th>
+
+          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+            User
+          </th>
+
+          <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">
+            Activity
+          </th>
         </tr>
       </thead>
+
       <tbody class="govuk-table__body">
         <% @audits.each do |audit_item| %>
           <tr class="govuk-table__row">
             <%= content_tag(:tr, id: dom_id(audit_item)) do %>
-              <td class="govuk-table__cell"><%= audit_item.created_at.strftime("%d-%m-%Y %H:%M") %></td>
-              <td class="govuk-table__cell"><%= audit_user_name(audit_item) %></td>
+              <td class="govuk-table__cell">
+                <%= audit_item.created_at.strftime("%d-%m-%Y %H:%M") %>
+              </td>
+
+              <td class="govuk-table__cell">
+                <%= audit_user_name(audit_item) %>
+              </td>
+
               <td colspan="2" class="govuk-table__cell">
                 <%= render(Audits::ActivityComponent.new(audit: audit_item)) %>
               </td>

@@ -16,7 +16,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <hr
+      class="
+        govuk-section-break govuk-section-break--l
+        govuk-section-break--visible
+      "
+    >
+
     <% if @conditions.any? %>
       <ol data-controller="sortable" class="govuk-list sortable-list">
         <% @conditions.each.with_index(1) do |condition, position| %>
@@ -34,7 +40,13 @@
     <% else %>
       <p>
         <strong>No pre-commencement conditions added</strong>
-        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <hr
+          class="
+            govuk-section-break govuk-section-break--l
+            govuk-section-break--visible
+          "
+        >
       </p>
     <% end %>
 

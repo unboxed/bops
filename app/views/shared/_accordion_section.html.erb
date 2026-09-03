@@ -1,12 +1,15 @@
-<div class="govuk-accordion__section ">
+<div class="govuk-accordion__section">
   <div class="govuk-accordion__section-header">
     <h2 class="govuk-accordion__section-heading">
-      <span class="govuk-accordion__section-button">
-        <%= heading %>
-      </span>
+      <span class="govuk-accordion__section-button"><%= heading %></span>
     </h2>
   </div>
-  <div id="accordion-default-content-1" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-1">
+
+  <div
+    id="accordion-default-content-1"
+    class="govuk-accordion__section-content"
+    aria-labelledby="accordion-default-heading-1"
+  >
     <%= render content %>
   </div>
 </div>

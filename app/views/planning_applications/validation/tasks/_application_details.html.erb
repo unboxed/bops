@@ -1,6 +1,7 @@
 <h2>
   Check application details
 </h2>
+
 <%= govuk_task_list(id_prefix: "application-details-tasks", html_attributes: {id: "application-details-tasks"}) do |task_list|
       render Validation::DrawRedLineBoundaryTask.new(@planning_application, task_list:)
 

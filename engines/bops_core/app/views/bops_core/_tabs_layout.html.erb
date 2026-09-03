@@ -7,9 +7,11 @@
     <h1>
       <%= heading %>
     </h1>
+
     <p class="govuk-body-m">
       <strong><%= current_user.name %>,</strong> <%= role_name %>
     </p>
+
     <p>
       <%= govuk_link_to "Add new application", new_app_path %>
     </p>
@@ -24,6 +26,7 @@
       <h2 class="govuk-tabs__title">
         Contents
       </h2>
+
       <ul class="govuk-tabs__list">
         <% tabs.each do |tab_config| %>
           <%= render "bops_core/tab_link", label: tab_config[:label], tab: tab_config[:tab],

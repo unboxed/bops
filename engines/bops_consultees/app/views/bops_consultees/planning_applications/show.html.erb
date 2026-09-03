@@ -9,7 +9,8 @@
     </h1>
 
     <p>
-      <%= t(".application_number") %> <strong><%= @planning_application.reference %></strong>
+      <%= t(".application_number") %>
+      <strong><%= @planning_application.reference %></strong>
     </p>
 
     <p class="govuk-!-margin-bottom-6">
@@ -17,25 +18,30 @@
       <%= @planning_application.days_status_tag %>
     </p>
 
-    <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+    <div
+      class="govuk-notification-banner"
+      role="region"
+      aria-labelledby="govuk-notification-banner-title"
+      data-module="govuk-notification-banner"
+    >
       <div class="govuk-notification-banner__header">
-        <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+        <h2
+          class="govuk-notification-banner__title"
+          id="govuk-notification-banner-title"
+        >
           Important
         </h2>
       </div>
 
       <div class="govuk-notification-banner__content">
         <% if @planning_application.consultation.complete? %>
-
           <p class="govuk-notification-banner__heading">
             Consultation for this planning application has ended
           </p>
           <p>
             Please contact the planning officer if you have further comments.
           </p>
-
         <% else %>
-
           <p class="govuk-notification-banner__heading">
             Submit your comments by
             <%= @planning_application.consultation.end_date.to_fs(:day_month_year_slashes) %>
@@ -44,7 +50,6 @@
             Jump to
             <a class="govuk-notification-banner__link" href="#comments-form">comments section</a>.
           </p>
-
         <% end %>
       </div>
     </div>
@@ -71,15 +76,26 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h2><% if @planning_application.pre_application? %>Pre-application<% else %>Application<% end %> details</h2>
+    <h2>
+      <% if @planning_application.pre_application? %>
+        Pre-application
+      <% else %>
+        Application
+      <% end %>
+      details
+    </h2>
+
     <div id="description">
       <p class="govuk-heading-s govuk-!-margin-bottom-2">Description</p>
+
       <p>
         <%= @planning_application.description %>
       </p>
     </div>
+
     <div id="application-type">
       <p class="govuk-heading-s govuk-!-margin-bottom-2">Application type</p>
+
       <p>
         <%= @planning_application.application_type.description %>
       </p>
@@ -87,6 +103,7 @@
 
     <div id="constraints">
       <p class="govuk-heading-s govuk-!-margin-bottom-2">Constraints</p>
+
       <% if @planning_application.planning_application_constraints.active.empty? %>
         <p class="govuk-!-padding-6 govuk-!-margin-bottom-6 background-light-grey">
           <strong>There are no planning constraints on the application site.</strong>
@@ -106,14 +123,20 @@
       <% end %>
     </div>
   </div>
+
   <div class="govuk-grid-column-one-third">
     <div id="planning-officer">
       <p class="govuk-heading-s govuk-!-margin-bottom-2">Planning Officer</p>
+
       <% if @planning_application.user %>
-        <p class="govuk-body-s govuk-!-margin-bottom-2"> <%= @planning_application.user.name %></p>
+        <p class="govuk-body-s govuk-!-margin-bottom-2">
+          <%= @planning_application.user.name %>
+        </p>
         <%= mail_to @planning_application.user.email, @planning_application.user.email, class: govuk_link_classes(no_visited_state: true) << " govuk-!-margin-top-1" %>
       <% else %>
-        <p class="govuk-body-s govuk-!-margin-bottom-2"> No planning officer assigned</p>
+        <p class="govuk-body-s govuk-!-margin-bottom-2">
+          No planning officer assigned
+        </p>
       <% end %>
     </div>
   </div>
@@ -122,6 +145,7 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <h2>Submitted documents</h2>
+
 <% if @planning_application.documents.for_consultees.any? %>
   <%= render "bops_consultees/planning_applications/documents_list" %>
 <% else %>

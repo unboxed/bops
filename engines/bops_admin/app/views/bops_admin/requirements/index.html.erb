@@ -11,6 +11,7 @@
   <div class="govuk-grid-column-one-quarter">
     <%= render "side_navigation", current: "requirements" %>
   </div>
+
   <div class="govuk-grid-column-three-quarters">
     <h1>
       <%= t(".manage_requirements") %>
@@ -18,6 +19,7 @@
 
     <%= form_with url: requirements_path, method: :get do |form| %>
       <%= form.govuk_text_field :q, value: params[:q], width: "two-thirds", label: {text: t(".find_requirement"), hidden: true} %>
+
       <%= form.govuk_submit t(".find_requirement") do %>
         <%= govuk_link_to t(".add_requirement"), new_requirement_path, no_visited_state: true %>
       <% end %>
@@ -40,6 +42,7 @@
               <% row.with_cell do %>
                 <%= t(requirement.category, scope: "requirements.categories") %>
               <% end %>
+
               <% row.with_cell do %>
                 <% if requirement.url? %>
                   <%= govuk_link_to(requirement.description, requirement.url, no_visited_state: true, no_underline: true, new_tab: true) %>
@@ -47,6 +50,7 @@
                   <%= requirement.description %>
                 <% end %>
               <% end %>
+
               <% row.with_cell(classes: %w[govuk-!-text-align-right govuk-!-text-wrap-nowrap]) do |cell| %>
                 <%= govuk_link_to t("bops_admin.requirements.index.actions.edit"), edit_requirement_path(requirement), no_visited_state: true, no_underline: true %>
 

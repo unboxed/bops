@@ -2,6 +2,7 @@
   <h2>
     <%= t("consultee_response_list_component.heading") %>
   </h2>
+
   <% responses.reverse_each do |response| %>
     <%= render BopsCore::ConsulteeResponseComponent.new(response: response, redact_and_publish: redact_and_publish, task: task) %>
   <% end %>

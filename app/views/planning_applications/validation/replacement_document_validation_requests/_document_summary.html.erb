@@ -1,9 +1,11 @@
 <div class="govuk-grid-column-one-half">
   <%= document_thumbnail_link @document, thumbnail_args: {resize: "500x500"}, image_args: {style: "max-width:100%"} %>
+
   <p>
     <%= link_to_document "View in new window", @document %>
   </p>
 </div>
+
 <div class="govuk-grid-column-one-half" id="document-summary">
   <p>
     <strong>File name:</strong> <%= @document.name %>
@@ -15,6 +17,7 @@
 
   <p>
     <strong>Applicant reason for submitting document:</strong>
+
     <% if @document.applicant_description.present? %>
       <%= render(FormattedContentComponent.new(text: @document.applicant_description)) %>
     <% else %>

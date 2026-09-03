@@ -16,6 +16,7 @@
             <p class="govuk-!-margin-bottom-1">
               <%= document_thumbnail_link document, thumbnail_args: {resize_to_limit: [150, 106]} %>
             </p>
+
             <p>
               <%= truncate(document.name.to_s, length: 50) %><br>
               <%= link_to_document "Download", document, class: "govuk-body-s" %>
@@ -24,7 +25,13 @@
 
           <%= row.with_cell(width: "one-half") do %>
             <div class="govuk-form-group">
-              <label class="govuk-label" for="documents_<%= document.id %>_file">Upload a file</label>
+              <label
+                class="govuk-label"
+                for="documents_<%= document.id %>_file"
+              >
+                Upload a file
+              </label>
+
               <%= file_field_tag "documents[#{document.id}][file]", id: "documents_#{document.id}_file", class: "govuk-file-upload" %>
             </div>
           <% end %>

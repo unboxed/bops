@@ -12,6 +12,7 @@
         <strong>Reason change is requested:</strong><br>
         <%= render(FormattedContentComponent.new(text: @form.validation_request.reason)) %>
       </p>
+
       <p>
         <%= @form.validation_request.created_at.to_fs %>
       </p>
@@ -20,7 +21,9 @@
     <h3 class="govuk-heading-s">Proposed red line boundary</h3>
     <%= render "shared/location_map", locals: {geojson: @form.validation_request.new_geojson} %>
 
-    <p class="govuk-body govuk-!-margin-top-4">Waiting for applicant response.</p>
+    <p class="govuk-body govuk-!-margin-top-4">
+      Waiting for applicant response.
+    </p>
 
     <% if @planning_application.not_started? %>
       <%= form_with url: @form.url, method: :patch, data: {confirm: "Are you sure you want to delete this request?"} do |f| %>
@@ -42,16 +45,19 @@
     <%= govuk_inset_text(classes: "govuk-!-margin-top-6") do %>
       <strong>
         <% if @form.validation_request.auto_closed? %>
-          Change to red line boundary was auto closed and approved after being open for more than 5 business days
+          Change to red line boundary was auto closed and approved after being
+          open for more than 5 business days
         <% else %>
           Change to red line boundary has been approved by the applicant
         <% end %>
       </strong>
+
       <p><%= @form.validation_request.updated_at.to_fs %></p>
     <% end %>
 
     <%= form_with model: @form, url: @form.url do |form| %>
       <%= return_to_hidden_field %>
+
       <div class="govuk-button-group">
         <%= form.govuk_submit "Save and mark as complete", name: "task_action", value: "mark_as_valid" %>
       </div>
@@ -67,6 +73,7 @@
         <strong>Applicant rejected this proposed red line boundary</strong><br>
         <strong>Reason:</strong> <%= @form.validation_request.rejection_reason %>
       </p>
+
       <p><%= @form.validation_request.updated_at.to_fs %></p>
     <% end %>
 
@@ -75,8 +82,10 @@
       <%= render "shared/location_map", locals: {geojson: @planning_application.boundary_geojson} %>
     </div>
 
-    <div data-controller="unsaved-changes"
-         data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+    <div
+      data-controller="unsaved-changes"
+      data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+    >
       <%= form_with model: @form, url: @form.url,
             data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
         <%= form.govuk_error_summary %>
@@ -98,8 +107,10 @@
     <%= render "shared/location_map", locals: {in_accordion: true, geojson: @planning_application.boundary_geojson} %>
   </div>
 
-  <div data-controller="unsaved-changes"
-       data-action="beforeunload@window->unsaved-changes#handleBeforeUnload">
+  <div
+    data-controller="unsaved-changes"
+    data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+  >
     <%= form_with model: @form, url: @form.url,
           data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
       <%= form.govuk_error_summary %>

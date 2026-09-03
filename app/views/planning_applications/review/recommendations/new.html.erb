@@ -1,6 +1,7 @@
 <% content_for :page_title do %>
- <%= t(".make_draft_recommendation") %> - <%= t("page_title") %>
+  <%= t(".make_draft_recommendation") %> - <%= t("page_title") %>
 <% end %>
+
 <%= render(
      partial: "shared/review_task_breadcrumbs",
      locals: {
@@ -8,10 +9,12 @@
        current_page: t(".make_draft_recommendation")
      }
    ) %>
+
 <%= render(
       partial: "shared/proposal_header",
       locals: {heading: t(".make_draft_recommendation")}
     ) %>
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= render(
@@ -20,6 +23,7 @@
             recommendations: @planning_application.recommendations.reviewed
           }
         ) %>
+
     <% if @planning_application.open_post_validation_requests.any? %>
       <%= render(
             partial: "shared/alert_banner",
@@ -32,6 +36,7 @@
             }
           ) %>
     <% end %>
+
     <% if @planning_application.consultation.try(:publicity_active?) %>
       <%= render(
             partial: "shared/alert_banner",
@@ -40,6 +45,7 @@
             }
           ) %>
     <% end %>
+
     <%= form_with(
           model: @recommendation,
           url: planning_application_review_recommendations_path(@planning_application)
@@ -64,6 +70,7 @@
             legend: {text: "Enter Committee recommendation", size: "s"},
             hint: {}
           ) %>
+
       <div class="govuk-form-group">
         <%= form.govuk_text_area(
               :public_comment,

@@ -7,7 +7,8 @@
 </h1>
 
 <p>
-  The case officer working on your application has requested replacement documents.
+  The case officer working on your application has requested replacement
+  documents.
 </p>
 
 <h2>
@@ -17,13 +18,20 @@
 <ul class="govuk-list govuk-list--bullet">
   <li>read the information about how to prepare plans</li>
   <li>read the reason why the document needs to be replaced</li>
-  <li>select ‘Choose file’ to upload a document from your device - the file must be smaller than 30MB</li>
+
+  <li>
+    select ‘Choose file’ to upload a document from your device - the file must
+    be smaller than 30MB
+  </li>
+
   <li>submit your response</li>
 </ul>
 
 <div class="govuk-inset-text">
-  You must submit your response by <strong><%= @validation_request.response_due.to_fs %></strong>.
-  If we don’t receive a response by this date we will return your application to you and refund any payment.
+  You must submit your response by
+  <strong><%= @validation_request.response_due.to_fs %></strong>. If we don’t
+  receive a response by this date we will return your application to you and
+  refund any payment.
 </div>
 
 <p>
@@ -56,6 +64,7 @@
     <%= hidden_field_tag(:change_access_id, @planning_application.change_access_id) %>
 
     <%= form.hidden_field(:id) %>
+
     <%= form.govuk_file_field :replacement_file,
           label: {text: t(".replacement_file_label"), size: "s"},
           accept: ".png, image/png, .jpeg, .jpg, image/jpeg, .pdf, application/pdf" %>

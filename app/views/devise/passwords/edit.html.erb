@@ -2,7 +2,7 @@
   Change your password - <%= t("page_title") %>
 <% end %>
 
-<h1>Create your password </h1>
+<h1>Create your password</h1>
 
 <%= form_with(
       model: resource,
@@ -12,21 +12,37 @@
     ) do |f| %>
   <%= f.govuk_error_summary %>
   <%= f.hidden_field :reset_password_token %>
+
   <div class="govuk-form-group govuk-!-margin-top-8">
     <%= f.label :password, "New password", class: "govuk-heading-s govuk-!-margin-bottom-1" %>
     <span class="govuk-hint govuk-!-margin-bottom-1">Your password must have:</span>
+
     <ul class="govuk-!-margin-top-1">
-    <% if @minimum_password_length %>
-      <li class="govuk-hint govuk-!-margin-bottom-1">at least <%= @minimum_password_length %> characters</li>
-    <% end %>
-      <li class="govuk-hint govuk-!-margin-bottom-1">at least one symbol (for example, ?!£%)</li>
-      <li class="govuk-hint govuk-!-margin-bottom-1">at least one capital letter and one lower case letter</li>
-      <li class="govuk-hint govuk-!-margin-bottom-1">no dictionary words or other common passwords</li>
+      <% if @minimum_password_length %>
+        <li class="govuk-hint govuk-!-margin-bottom-1">
+          at least <%= @minimum_password_length %> characters
+        </li>
+      <% end %>
+
+      <li class="govuk-hint govuk-!-margin-bottom-1">
+        at least one symbol (for example, ?!£%)
+      </li>
+
+      <li class="govuk-hint govuk-!-margin-bottom-1">
+        at least one capital letter and one lower case letter
+      </li>
+
+      <li class="govuk-hint govuk-!-margin-bottom-1">
+        no dictionary words or other common passwords
+      </li>
     </ul>
+
     <%= f.password_field :password, class: "govuk-input govuk-input--width-20", autofocus: true, autocomplete: "new-password" %>
 
     <%= f.label :password_confirmation, "Confirm new password", class: "govuk-heading-s govuk-!-margin-top-6" %>
-    <%= f.password_field :password_confirmation, class: "govuk-input govuk-input--width-20", autocomplete: "new-password" %> <br>
+    <%= f.password_field :password_confirmation, class: "govuk-input govuk-input--width-20", autocomplete: "new-password" %>
+
+    <br>
 
     <%= f.submit "Change password", class: "govuk-button govuk-!-margin-top-7  govuk-!-margin-bottom-4", data: {module: "govuk-button"} %>
   </div>

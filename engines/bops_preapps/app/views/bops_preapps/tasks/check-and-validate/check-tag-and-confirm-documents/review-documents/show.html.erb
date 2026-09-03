@@ -1,14 +1,21 @@
 <%= render "task_header", task: @task %>
 
-<div id="check-tag-documents-tasks" data-controller="download" data-application-reference-value="<%= @planning_application.reference %>">
+<div
+  id="check-tag-documents-tasks"
+  data-controller="download"
+  data-application-reference-value="<%= @planning_application.reference %>"
+>
   <h2 class="app-task-list__section">
     Submitted documents
   </h2>
+
   <div data-download-target="documentsElement">
     <ul class="app-task-list__items govuk-!-padding-left-0">
       <% if @planning_application.documents.active.empty? %>
         <li id="check-supplied-document" class="app-task-list__item">
-          <span class="app-task-list__task-name"> There are no active documents </span>
+          <span class="app-task-list__task-name">
+            There are no active documents
+          </span>
         </li>
       <% else %>
         <div data-download-target="button" class="display-flex">
@@ -28,6 +35,7 @@
           <% table.with_body do |body| %>
             <% @planning_application.documents.active.each do |document| %>
               <% next unless document.representable? %>
+
               <% body.with_row(
                        html_attributes: {
                          "data-document-url-value" => url_for_document(document),
@@ -55,6 +63,7 @@
                 <%= row.with_cell(text: document.received_at_or_created || "-") %>
                 <%= row.with_cell(text: document.publishable? ? "Public" : "-") %>
                 <%= row.with_cell(text: document.redacted? ? "Redacted" : "-") %>
+
                 <%= row.with_cell do %>
                   <%= render StatusTags::BaseComponent.new(status: document.status) %>
                 <% end %>

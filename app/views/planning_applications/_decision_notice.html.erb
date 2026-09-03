@@ -7,10 +7,7 @@
     <% end %>
 
     <h1 class="govuk-heading-l">
-      <span class="govuk-caption-l govuk-!-margin-bottom-2">
-        <%= planning_application.local_authority.council_name %>
-      </span>
-
+      <span class="govuk-caption-l govuk-!-margin-bottom-2"><%= planning_application.local_authority.council_name %></span>
       Decision Notice
     </h1>
 
@@ -18,10 +15,16 @@
       <span class="govuk-caption-m govuk-!-margin-bottom-2">
         <%= planning_application.application_type.legislation_title %>
       </span>
+
       <%= t("recommendation.title", application_type: planning_application.application_type.description, decision: planning_application.decision.humanize) %>
     </h2>
 
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+    <hr
+      class="
+        govuk-section-break govuk-section-break--l
+        govuk-section-break--visible
+      "
+    >
 
     <%= govuk_summary_list(actions: false, classes: "govuk-summary-list--no-border") do |summary_list|
           {
@@ -38,15 +41,23 @@
             end
           end
         end %>
+
     <% if @planning_application.lawfulness_certificate? %>
       <p>
-        We certify that on the date of the application, the <%= @planning_application.work_status %> use or operations described in the application and supporting plans were <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the purposes of <%= (@planning_application.work_status == "proposed") ? "S.192" : "S.191" %> of the Town and Country Planning Act 1990.
+        We certify that on the date of the application, the
+        <%= @planning_application.work_status %> use or operations described in
+        the application and supporting plans were
+        <%= @planning_application.granted? ? "lawful" : "not lawful" %> for the
+        purposes of
+        <%= (@planning_application.work_status == "proposed") ? "S.192" : "S.191" %>
+        of the Town and Country Planning Act 1990.
       </p>
     <% end %>
 
     <h3 class="govuk-heading-m">
       <%= t("recommendation.body", decision: planning_application.decision) %>
     </h3>
+
     <%= render(FormattedContentComponent.new(text: planning_application.public_comment)) %>
 
     <% if @planning_application.assessment_details.select { |ad| ad.category == "amenity" }.any? &&  @planning_application.lawfulness_certificate? %>
@@ -57,6 +68,7 @@
         <%= @planning_application.assessment_details.find { |ad| ad.category == "amenity" }.entry %>
       </p>
     <% end %>
+
     <% if @planning_application.granted? && @planning_application.planning_conditions? %>
       <h3 class="govuk-!-margin-bottom-2">
         Conditions:
@@ -69,6 +81,7 @@
             <%= render(FormattedContentComponent.new(text: condition.reason)) %>
           </li>
         <% end %>
+
         <% @planning_application.condition_set.conditions.each do |condition| %>
           <li>
             <%= render(FormattedContentComponent.new(text: condition.text)) %>
@@ -78,6 +91,7 @@
       </ol>
       <hr class="govuk-section-break govuk-section-break--m">
     <% end %>
+
     <% if @planning_application.application_type.informatives? %>
       <% if @planning_application.informative_set.informatives.any? %>
         <h3 class="govuk-!-margin-bottom-2">
@@ -93,12 +107,14 @@
         </ol>
       <% end %>
     <% end %>
+
     <% if @planning_application.committee_decision&.recommend? %>
       <h3 class="govuk-!-margin-bottom-2">
         Committee recommendation
       </h3>
       <p>
-        This application requires decision by Committee for the following reasons:
+        This application requires decision by Committee for the following
+        reasons:
       </p>
       <ol class="govuk-list govuk-list--number">
         <% @planning_application.committee_decision.reasons.each do |reason| %>
@@ -109,29 +125,44 @@
       </ol>
       <hr class="govuk-section-break govuk-section-break--m">
     <% end %>
+
     <% if planning_application.documents_for_decision_notice.any? %>
       <table class="govuk-table">
         <caption class="govuk-table__caption govuk-table__caption--m">
           This decision is based on the following plans:
         </caption>
+
         <thead class="govuk-table__head">
           <tr class="govuk-table__row">
-            <th scope="col" class="govuk-table__header app-custom-class">Document reference</th>
-            <th scope="col" class="govuk-table__header app-custom-class">Description</th>
-            <th scope="col" class="govuk-table__header app-custom-class">Date received</th>
+            <th scope="col" class="govuk-table__header app-custom-class">
+              Document reference
+            </th>
+
+            <th scope="col" class="govuk-table__header app-custom-class">
+              Description
+            </th>
+
+            <th scope="col" class="govuk-table__header app-custom-class">
+              Date received
+            </th>
           </tr>
         </thead>
+
         <tbody class="govuk-table__body">
           <% planning_application.documents_for_decision_notice.each do |document| %>
             <% document.numbers.split(",").each do |number| %>
               <tr class="govuk-table__row">
                 <td class="govuk-table__cell"><%= number %></td>
+
                 <td class="govuk-table__cell">
                   <% document.tags.each do |tag| %>
                     <%= I18n.t(:"#{tag}", scope: :document_tags) %>
                   <% end %>
                 </td>
-                <td class="govuk-table__cell"><%= document.created_at.to_fs %></td>
+
+                <td class="govuk-table__cell">
+                  <%= document.created_at.to_fs %>
+                </td>
               </tr>
             <% end %>
           <% end %>
@@ -173,28 +204,37 @@
   <h3 class="govuk-!-margin-bottom-2">
     Notes
   </h3>
+
   <p>
-    Enquiries regarding this document should include the application number and be sent to:
+    Enquiries regarding this document should include the application number and
+    be sent to:
   </p>
+
   <h3 class="govuk-!-margin-bottom-2">
     Email
   </h3>
+
   <p>
     <%= mail_to planning_application.local_authority.email_address, nil, class: "govuk-link" %>
   </p>
+
   <h3 class="govuk-!-margin-bottom-2">
     Postal address
   </h3>
+
   <p>
     <%= planning_application.local_authority.council_name %>,<br>
     <%= planning_application.local_authority.enquiries_paragraph %>
   </p>
+
   <h3 class="govuk-!-margin-bottom-2">
     Signature
   </h3>
+
   <p class="govuk-!-margin-bottom-0">
     <%= planning_application.local_authority.signatory_name %><br>
     <%= planning_application.local_authority.signatory_job_title %>
+
     <% if  planning_application.local_authority.signature.present? %>
       <br>
       <%= image_tag main_app.url_for(planning_application.local_authority.signature.blob), alt: "Signatory signature", style: "max-width: 150px" %>
@@ -202,27 +242,33 @@
   </p>
 
   <hr class="govuk-section-break govuk-section-break--m">
+
   <p>
     TOWN &amp; COUNTRY PLANNING (APPEALS) (WRITTEN REPRESENTATIONS) (ENGLAND)
     (AMENDMENT) (REGULATIONS 2013)
   </p>
+
   <p>TOWN AND COUNTRY PLANNING ACT 1990</p>
+
   <h3 class="govuk-!-margin-bottom-2">
     Appeals to the Secretary of State
   </h3>
+
   <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
     <li>
       If you are aggrieved by the decision of your Local Planning Authority to
       refuse permission for the proposed development or to grant it subject to
-      conditions, then you can appeal to the Secretary of State under section
-      78 of the Town and Country Planning Act 1990.
+      conditions, then you can appeal to the Secretary of State under section 78
+      of the Town and Country Planning Act 1990.
     </li>
+
     <li>
       If you want to appeal against your Local Planning Authority’s decision,
       then you must do so within 12 weeks from the date of this notice for
       appeals being decided under the Commercial Appeals Service and 6 months
       from the date of this notice for all other minor and major applications.
     </li>
+
     <li>
       However, if an enforcement notice has been served for the same or very
       similar development within the previous 2 years, the time limit is:
@@ -232,6 +278,7 @@
           was served before the decision was made yet not longer than 2 years
           before the application was made.
         </li>
+
         <li>
           28 days from the date the enforcement notice was served if served on
           or after the date the decision was made (unless this extends the
@@ -239,20 +286,24 @@
         </li>
       </ul>
     </li>
+
     <li>
       Appeals must be made to the Planning Inspectorate and this can be done
       electronically via the GOV.UK website:
       <a class="govuk-link" href="https://www.gov.uk/appeal-planning-decision">https://www.gov.uk/appeal-planning-decision</a>
     </li>
+
     <li>
       If you are unable to appeal online, you can obtain a paper form from the
       Planning Inspectorate by contacting their Customer Support Team on 0303
       444 5000.
     </li>
   </ul>
+
   <h3 class="govuk-!-margin-bottom-2">
     Commercial Appeals Service
   </h3>
+
   <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
     <li>
       This type of appeal proceeds by way of written representations, known as
@@ -261,57 +312,64 @@
       on these.
     </li>
   </ul>
+
   <h3 class="govuk-!-margin-bottom-2">
     All other Minor and Major Applications
   </h3>
+
   <ul class="govuk-list govuk-list--bullet govuk-list--spaced">
     <li>
       The Secretary of State can allow a longer period for giving notice of an
       appeal, but he will not normally be prepared to use this power unless
-      there are special circumstances which excuse the delay in giving notice
-      of appeal.
+      there are special circumstances which excuse the delay in giving notice of
+      appeal.
     </li>
+
     <li>
       The Secretary of State need not consider an appeal if it seems to the
       Secretary of State that the Local Planning Authority could not have
-      granted planning permission for the proposed development or could not
-      have granted it without the conditions they imposed, having regard to
-      the statutory requirements, to the provisions of any development order
-      and to any directions given under a development order.
+      granted planning permission for the proposed development or could not have
+      granted it without the conditions they imposed, having regard to the
+      statutory requirements, to the provisions of any development order and to
+      any directions given under a development order.
     </li>
+
     <li>
       In practice, the Secretary of State does not refuse to consider appeals
       solely because the Local Planning Authority based on their decision on a
       direction given by him.
     </li>
+
     <li>
-      If you intend to submit an appeal that you would like examined by
-      inquiry then you must notify the Local Planning Authority and Planning
+      If you intend to submit an appeal that you would like examined by inquiry
+      then you must notify the Local Planning Authority and Planning
       Inspectorate
       (<a class="govuk-link" href="inquiryappeals@planninginspectorate.gov.uk">inquiryappeals@planninginspectorate.gov.uk</a>)
       at least 10 days before submitting the appeal. Further details are on
       GOV.UK.
     </li>
   </ul>
+
   <h3 class="govuk-!-margin-bottom-2">
     Purchase Notices
   </h3>
+
   <ul class="govuk-list govuk-list--bullet govuk-list--spaced govuk-!-margin-bottom-0">
     <li>
       If either the Local Planning Authority or the Secretary of State refuses
       permission to development land or grants it subject to conditions, the
       owner may claim that he can neither put the land to a reasonably
       beneficial use in its existing state nor render the land capable of a
-      reasonably beneficial use by the carrying out of any development which
-      has been or would be permitted.
+      reasonably beneficial use by the carrying out of any development which has
+      been or would be permitted.
     </li>
+
     <li>
       In these circumstances, the owner may serve a purchase notice on the
-      Council (District Council, London Borough Council or Common Council of
-      the City of London) in whose area the land is situated. This notice will
+      Council (District Council, London Borough Council or Common Council of the
+      City of London) in whose area the land is situated. This notice will
       require the Council to purchase his interest in the land in accordance
-      with the provisions of Part VI of the Town and Country Planning Act
-      1990.
+      with the provisions of Part VI of the Town and Country Planning Act 1990.
     </li>
   </ul>
 </div>

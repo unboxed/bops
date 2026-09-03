@@ -1,5 +1,6 @@
 <% content_for(:page_title) do %>
-  <%= t(".page_title", address: @planning_application.full_address) %> - <%= page_title %>
+  <%= t(".page_title", address: @planning_application.full_address) %> -
+  <%= page_title %>
 <% end %>
 
 <% content_for(:header_link) { planning_application_path(@planning_application) } %>
@@ -37,8 +38,8 @@
 </p>
 
 <p>
-  If you need this information in an alternative format, contact your case officer on
-  <%= current_local_authority.feedback_email %> or by telephone at
+  If you need this information in an alternative format, contact your case
+  officer on <%= current_local_authority.feedback_email %> or by telephone at
   <span style="white-space: nowrap;"><%= current_local_authority.telephone_number %></span>.
 </p>
 
@@ -75,7 +76,9 @@
       <% unless consultation_in_progress? %>
         <div class="govuk-inset-text">
           <p>
-            If we receive your comments after <%= consultation_end_date %>, we may not be able to take them into consideration if a decision has already been made.
+            If we receive your comments after <%= consultation_end_date %>, we
+            may not be able to take them into consideration if a decision has
+            already been made.
           </p>
         </div>
       <% end %>
@@ -100,6 +103,7 @@
             <% end %>
           </p>
         </div>
+
         <div class="govuk-grid-column-two-thirds">
           <p>
             <strong>Name</strong><br>

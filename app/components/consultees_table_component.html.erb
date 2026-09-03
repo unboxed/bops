@@ -3,13 +3,16 @@
     <%= head.with_row do |row| %>
       <% row.with_cell(html_attributes:{class: "govuk-!-padding-0"}) do %>
         <div
-            class="govuk-checkboxes govuk-checkboxes--small"
-            data-module="govuk-checkboxes">
+          class="govuk-checkboxes govuk-checkboxes--small"
+          data-module="govuk-checkboxes"
+        >
           <div class="govuk-checkboxes__item">
             <%= toggle_all_tag %>
+
             <label
-                class="govuk-label govuk-checkboxes__label"
-                for="toggle-consultees">
+              class="govuk-label govuk-checkboxes__label"
+              for="toggle-consultees"
+            >
               <span class="govuk-visually-hidden"><%= t(".toggle_selection") %></span>
             </label>
           </div>
@@ -23,17 +26,21 @@
       <% row.with_cell(text: "Status", numeric: true) %>
     <% end %>
   <% end %>
+
   <%= table.with_body do |body| %>
     <% consultees.each do |consultee| %>
       <% body.with_row(html_attributes: {id: dom_id(consultee), class: "#{consultee.origin}-consultee"}) do |row| %>
         <% row.with_cell do %>
           <%= fields_for("consultation[consultees_attributes]", consultee, index: consultee.id) do |fields| %>
             <%= fields.hidden_field :id %>
+
             <div
-                class="govuk-checkboxes govuk-checkboxes--small"
-                data-module="govuk-checkboxes">
+              class="govuk-checkboxes govuk-checkboxes--small"
+              data-module="govuk-checkboxes"
+            >
               <div class="govuk-checkboxes__item">
                 <%= fields.check_box :selected, class: "govuk-checkboxes__input" %>
+
                 <%= fields.label :selected, class: "govuk-label govuk-checkboxes__label" do %>
                   <span class="govuk-visually-hidden"><%= t("consultees_table_component.select_consultee") %></span>
                 <% end %>

@@ -21,7 +21,8 @@
     </h2>
 
     <p>
-      The case officer has marked this application as requiring decision by Committee for the following reasons:
+      The case officer has marked this application as requiring decision by
+      Committee for the following reasons:
     </p>
 
     <div class="grey-box">
@@ -43,6 +44,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2>Committee meeting details</h2>
+
     <div class="govuk-!-margin-bottom-3">
       <span class="govuk-hint">Updated on <%= @planning_application.in_committee_at.to_fs %></span>
     </div>
@@ -51,6 +53,7 @@
       <h3>
         Date of meeting
       </h3>
+
       <p>
         <%= @committee_decision.date_of_committee.to_date.to_fs %>
       </p>
@@ -58,6 +61,7 @@
       <h3>
         Location
       </h3>
+
       <p>
         <%= @committee_decision.location %>
       </p>
@@ -65,6 +69,7 @@
       <h3>
         Time
       </h3>
+
       <p>
         <%= @committee_decision.time %>
       </p>
@@ -72,10 +77,12 @@
       <h3>
         Link to more information
       </h3>
+
       <p>
         <%= @committee_decision.link %>
       </p>
     </div>
+
     <div class="govuk-button-group">
       <%= govuk_button_link_to "Update meeting details", edit_planning_application_review_committee_decision_notifications_path(@planning_application, @committee_decision) %>
       <%= govuk_button_link_to "Back", planning_application_review_tasks_path(@planning_application), secondary: true %>

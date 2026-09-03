@@ -21,9 +21,17 @@
   <table class="govuk-table govuk-!-margin-top-6">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
-        <th scope="col" class="govuk-table__header govuk-!-width-one-third">Document</th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-third">Tags</th>
-        <th scope="col" class="govuk-table__header govuk-!-width-one-third">Date displayed</th>
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+          Document
+        </th>
+
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+          Tags
+        </th>
+
+        <th scope="col" class="govuk-table__header govuk-!-width-one-third">
+          Date displayed
+        </th>
       </tr>
     </thead>
 
@@ -34,11 +42,13 @@
             <p class="govuk-!-margin-bottom-1">
               <%= document_thumbnail_link document, thumbnail_args: {resize: "300x212"} %>
             </p>
+
             <p>
               <%= truncate(document.name.to_s, length: 50) %><br>
               <%= link_to_document "View in new window", document %>
             </p>
           </td>
+
           <td class="govuk-table__cell govuk-!-width-one-third">
             <% document.tags.each do |tag| %>
               <strong class="govuk-tag govuk-tag--turquoise">
@@ -46,6 +56,7 @@
               </strong>
             <% end %>
           </td>
+
           <td class="govuk-table__cell govuk-!-width-one-third">
             <p class="govuk-!-margin-bottom-1">
               <%= @site_notice.displayed_at.to_date.to_fs %>
@@ -56,7 +67,9 @@
     </tbody>
   </table>
 <% else %>
-  <p><strong>Date displayed:</strong> <%= @site_notice.displayed_at.to_date.to_fs %></p>
+  <p>
+    <strong>Date displayed:</strong> <%= @site_notice.displayed_at.to_date.to_fs %>
+  </p>
 <% end %>
 
 <%= back_link %>

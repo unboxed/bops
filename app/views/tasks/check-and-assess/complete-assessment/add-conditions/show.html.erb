@@ -12,7 +12,11 @@
 <% if @form.conditions.any? %>
   <h2 class="govuk-!-margin-bottom-0">Add, edit and sort conditions</h2>
   <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-  <ol id="conditions-list" class="govuk-list sortable-list" data-controller="sortable">
+  <ol
+    id="conditions-list"
+    class="govuk-list sortable-list"
+    data-controller="sortable"
+  >
     <% @form.conditions.each.with_index(1) do |condition, position| %>
       <%= render(Sortable::ListItemComponent.new(
             record: condition,
@@ -27,7 +31,8 @@
   </ol>
 
   <p class="govuk-hint">
-    Drag and drop conditions to change the order that they appear in the decision notice.
+    Drag and drop conditions to change the order that they appear in the
+    decision notice.
   </p>
 <% end %>
 
@@ -36,8 +41,10 @@
       classes: "govuk-details--borderless govuk-!-margin-top-6") do %>
   <div data-controller="condition-form">
     <h3>Add a new condition</h3>
+
     <%= form_with model: @form, url: @form.url, data: {controller: "reset-text"} do |form| %>
       <%= form.govuk_error_summary %>
+
       <%= form.govuk_text_field :title,
             label: {text: "Enter title"},
             hint: {text: "Start typing to find an existing condition or create a new one"},
@@ -47,9 +54,11 @@
       <%= form.govuk_text_area :text,
             label: {text: "Enter condition"},
             data: {reset_text_target: "destination", condition_form_target: "textInput"} %>
+
       <%= form.govuk_text_area :reason,
             label: {text: "Enter a reason for this condition"},
             data: {reset_text_target: "destination", condition_form_target: "reasonInput"} %>
+
       <div class="govuk-button-group">
         <%= form.govuk_task_button "Add condition to list", action: "add_condition", secondary: true %>
       </div>

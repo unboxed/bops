@@ -27,6 +27,7 @@
         <%= render(
               PlanningApplications::ImmunityDetailsAssessmentComponent.new(planning_application: @planning_application, evidence_groups: @planning_application.immunity_detail.evidence_groups)
             ) %>
+
         <%= govuk_link_to "Edit", task_path(slug: "check-and-assess/assess-immunity/evidence-of-immunity", return_to: planning_application_review_tasks_path(@planning_application, anchor: "review-conditions-section")) %>
       <% end %>
 
@@ -58,12 +59,15 @@
     <% @permitted_development_right ||= @planning_application.permitted_development_right %>
     <% accordion.with_section(id: "review-permitted-development-rights", expanded: @permitted_development_right.errors.any?) do |section| %>
       <%= section.with_heading(text: "Review permitted development rights") %>
+
       <% section.with_status do %>
         <%= render StatusTags::ReviewComponent.new(review_item: @permitted_development_right) %>
       <% end %>
+
       <% section.with_block do %>
         <%= render(partial: "planning_applications/review/permitted_development_rights/summary") %>
       <% end %>
+
       <% section.with_footer(id: "review-permitted-development-rights-form") do %>
         <%= render(partial: "planning_applications/review/permitted_development_rights/form") %>
       <% end %>

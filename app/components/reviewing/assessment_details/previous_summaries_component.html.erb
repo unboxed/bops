@@ -5,9 +5,10 @@
         <%= t(".see_previous_summaries") %>
       </span>
     </summary>
+
     <div class="govuk-details__text">
       <% assessment_details.each do |assessment_detail| %>
-      <%= render(
+        <%= render(
             Reviewing::AssessmentDetails::PreviousSummaryComponent.new(
               assessment_details: assessment_details,
               assessment_detail: assessment_detail

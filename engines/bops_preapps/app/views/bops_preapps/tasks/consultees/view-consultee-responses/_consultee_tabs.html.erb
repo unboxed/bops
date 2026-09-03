@@ -14,9 +14,14 @@
   </ul>
 
   <% tabs.each_with_index do |tab, index| %>
-    <div class="govuk-tabs__panel <%= "govuk-tabs__panel--hidden" unless index.zero? %>" id="consultee-tab-<%= tab.key %>">
+    <div
+      class="govuk-tabs__panel <%= "govuk-tabs__panel--hidden" unless index.zero? %>"
+      id="consultee-tab-<%= tab.key %>"
+    >
       <% consultee_list = tab.consultees.sort_by { |presenter| presenter.name.to_s.downcase } %>
+
       <h2 class="govuk-heading-m"><%= tab.heading %></h2>
+
       <% if consultee_list.empty? %>
         <p class="govuk-body"><%= t(".no_consultees_in_tab") %></p>
       <% else %>

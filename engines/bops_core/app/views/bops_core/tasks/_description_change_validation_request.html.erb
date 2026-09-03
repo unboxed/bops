@@ -1,14 +1,13 @@
 <td class="govuk-table__cell">
   Change description
 </td>
+
 <td class="govuk-table__cell">
   <% if validation_request.post_validation? %>
-
     Proposed description:
     <%= render(FormattedContentComponent.new(text: validation_request.proposed_description)) %>
 
   <% else %>
-
     New description:
     <%= render(FormattedContentComponent.new(text: validation_request.proposed_description)) %>
 

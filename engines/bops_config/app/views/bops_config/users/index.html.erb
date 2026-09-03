@@ -15,7 +15,9 @@
     <h1>
       <%= t(".users") %>
     </h1>
+
     <%= render "shared/users/tabs", users: @users, local_authority: nil, show_role: false %>
+
     <div class="govuk-button-group">
       <%= govuk_button_link_to(t(".add_user"), new_user_path) %>
       <%= back_link %>

@@ -1,5 +1,8 @@
 <div class="govuk-form-group">
-  <div class="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
+  <div
+    class="govuk-checkboxes govuk-checkboxes--small"
+    data-module="govuk-checkboxes"
+  >
     <div class="govuk-checkboxes__item">
       <div class="govuk-checkboxes__item">
         <%= check_box_tag(
@@ -9,6 +12,7 @@
               class: "govuk-checkboxes__input",
               id: "#{field}_document_#{document.id}"
             ) %>
+
         <%= label_tag(
               "#{field}_document_#{document.id}",
               "",

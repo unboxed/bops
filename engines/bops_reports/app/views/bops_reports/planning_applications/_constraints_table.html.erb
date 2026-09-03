@@ -6,17 +6,22 @@
           <%= category.humanize %>
         </h2>
       </div>
+
       <div class="govuk-summary-card__content">
         <dl class="govuk-summary-list">
           <% values.each do |value| %>
             <div class="govuk-summary-list__row">
               <dd class="govuk-summary-list__value">
                 <%= value.type_code %>
+
                 <% if value.entities.present? %>
                   <ul class="govuk-list">
                     <% value.entities.each do |name, entity| %>
                       <% entity_name = name.present? ? name.titleize : "Entity ##{entity}" %>
-                      <li><%= govuk_link_to entity_name, planning_data_entity_url(entity), new_tab: true %></li>
+
+                      <li>
+                        <%= govuk_link_to entity_name, planning_data_entity_url(entity), new_tab: true %>
+                      </li>
                     <% end %>
                   </ul>
                 <% end %>

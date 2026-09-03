@@ -39,6 +39,7 @@
 
     <%= form.govuk_radio_buttons_fieldset(:approved, legend: {text: t(".legend")}) do %>
       <%= form.govuk_radio_button :approved, true, label: {text: t(".approved_label")} %>
+
       <%= form.govuk_radio_button :approved, false, label: {text: t(".rejected_label")} do %>
         <%= form.govuk_text_area :rejection_reason, label: {text: t(".rejection_reason_label")}, rows: 6 %>
       <% end %>

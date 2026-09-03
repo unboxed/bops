@@ -20,40 +20,44 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2>Officer request</h2>
+
     <div class="govuk-inset-text">
       <p>
         <strong>Reason it is invalid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.reason)) %>
       </p>
+
       <p>
         <strong>How it can be made valid: </strong><%= render(FormattedContentComponent.new(text: @validation_request.suggestion)) %>
       </p>
+
       <p>
-      <%= @validation_request.created_at.to_fs %>
+        <%= @validation_request.created_at.to_fs %>
       </p>
     </div>
 
-      <% if @validation_request.closed? && @planning_application.invalidated? %>
-        <h2>Applicant response</h2>
-        <div class="govuk-inset-text">
-          <p>
-            <%= @validation_request.response %>
-          </p>
-          <p>
-            <%= @validation_request.updated_at.to_fs %>
-          </p>
-        </div>
+    <% if @validation_request.closed? && @planning_application.invalidated? %>
+      <h2>Applicant response</h2>
+      <div class="govuk-inset-text">
+        <p>
+          <%= @validation_request.response %>
+        </p>
 
-        <%= form_with model: @planning_application do |form| %>
-          <%= render "shared/validation_request_show_actions",
-                planning_application: @planning_application, validation_request: @validation_request, form: form %>
-        <% end %>
-      <% else %>
-        <% if @planning_application.invalidated? %>
-          <h2>Applicant has not responded yet</h2>
-        <% end %>
+        <p>
+          <%= @validation_request.updated_at.to_fs %>
+        </p>
+      </div>
 
+      <%= form_with model: @planning_application do |form| %>
         <%= render "shared/validation_request_show_actions",
-              planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+                planning_application: @planning_application, validation_request: @validation_request, form: form %>
       <% end %>
+    <% else %>
+      <% if @planning_application.invalidated? %>
+        <h2>Applicant has not responded yet</h2>
+      <% end %>
+
+      <%= render "shared/validation_request_show_actions",
+              planning_application: @planning_application, validation_request: @validation_request, form: nil %>
+    <% end %>
   </div>
 </div>

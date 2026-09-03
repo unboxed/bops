@@ -1,6 +1,9 @@
 <div class="activity-log govuk-!-margin-bottom-6">
   <table class="govuk-table govuk-!-margin-bottom-0">
-    <caption class="govuk-table__caption govuk-table__caption--m">Activity log</caption>
+    <caption class="govuk-table__caption govuk-table__caption--m">
+      Activity log
+    </caption>
+
     <tbody class="govuk-table__body">
       <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Completed actions</th>
@@ -8,44 +11,68 @@
         <td scope="row" class="govuk-table__header">User</td>
         <td scope="row" class="govuk-table__header">Date</td>
       </tr>
+
       <% if validation_requests.any? %>
         <% validation_requests.sort_by(&:created_at).reverse_each do |request| %>
           <% if request.cancel_reason.present? %>
             <tr class="govuk-table__row">
-              <td scope="row" class="govuk-table__cell">Request was cancelled</td>
+              <td scope="row" class="govuk-table__cell">
+                Request was cancelled
+              </td>
+
               <td scope="row" class="govuk-table__cell">Cancelled</td>
-              <td scope="row" class="govuk-table__cell"><%= request.user.name %></td>
-              <td scope="row" class="govuk-table__cell"><%= request.cancelled_at.to_fs(:day_month_year_slashes) %></td>
+
+              <td scope="row" class="govuk-table__cell">
+                <%= request.user.name %>
+              </td>
+
+              <td scope="row" class="govuk-table__cell">
+                <%= request.cancelled_at.to_fs(:day_month_year_slashes) %>
+              </td>
             </tr>
           <% else %>
             <tr class="govuk-table__row">
               <% if request.approved.nil? %>
-
-                <td scope="row" class="govuk-table__cell">Applicant has not responded</td>
+                <td scope="row" class="govuk-table__cell">
+                  Applicant has not responded
+                </td>
                 <td scope="row" class="govuk-table__cell">&nbsp;</td>
                 <td scope="row" class="govuk-table__cell">&nbsp;</td>
                 <td scope="row" class="govuk-table__cell">&nbsp;</td>
-
               <% else %>
-
-                <td scope="row" class="govuk-table__cell"><%= request.approved? ? "Applicant accepts" : "Request rejected by applicant" %></td>
-                <td class="govuk-table__cell"><%= request.approved? ? "Approved" : "Rejected" %></td>
+                <td scope="row" class="govuk-table__cell">
+                  <%= request.approved? ? "Applicant accepts" : "Request rejected by applicant" %>
+                </td>
+                <td class="govuk-table__cell">
+                  <%= request.approved? ? "Approved" : "Rejected" %>
+                </td>
                 <td class="govuk-table__cell">Applicant</td>
-                <td class="govuk-table__cell"><%= request.created_at.to_fs(:day_month_year_slashes) %></td>
-
+                <td class="govuk-table__cell">
+                  <%= request.created_at.to_fs(:day_month_year_slashes) %>
+                </td>
               <% end %>
             </tr>
             <tr class="govuk-table__row">
-              <td scope="row" class="govuk-table__cell">Request an extension until <%= request.proposed_expiry_date.to_fs %></td>
+              <td scope="row" class="govuk-table__cell">
+                Request an extension until
+                <%= request.proposed_expiry_date.to_fs %>
+              </td>
+
               <td class="govuk-table__cell">Sent</td>
               <td class="govuk-table__cell"><%= request.user.name %></td>
-              <td class="govuk-table__cell"><%= request.created_at.to_fs(:day_month_year_slashes) %></td>
+
+              <td class="govuk-table__cell">
+                <%= request.created_at.to_fs(:day_month_year_slashes) %>
+              </td>
             </tr>
           <% end %>
         <% end %>
       <% else %>
         <tr class="govuk-table__row">
-          <td scope="row" class="govuk-table__cell">No time extension requests were made</td>
+          <td scope="row" class="govuk-table__cell">
+            No time extension requests were made
+          </td>
+
           <td scope="row" class="govuk-table__cell">&nbsp;</td>
           <td scope="row" class="govuk-table__cell">&nbsp;</td>
           <td scope="row" class="govuk-table__cell">&nbsp;</td>

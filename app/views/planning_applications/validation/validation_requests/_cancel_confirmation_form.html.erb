@@ -5,6 +5,7 @@
   <%= form.govuk_error_summary %>
 
   <% return_to_value = params[:redirect_to].presence || (@planning_application.pre_application? && @back_path) %>
+
   <% if return_to_value.present? %>
     <%= form.hidden_field :return_to, value: return_to_value %>
   <% end %>

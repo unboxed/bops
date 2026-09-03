@@ -3,16 +3,21 @@
     <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-0">
       <%= t(".user_marked_this", user: comment.user.name) %>
     </p>
+
     <p class="govuk-!-margin-top-1"><%= comment.created_at.to_fs %></p>
     <%= render(FormattedContentComponent.new(text: comment.text)) %>
   </div>
 <% end %>
+
 <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">
-  <p class="govuk-!-font-weight-bold govuk-!-margin-bottom-0">
-    <%= description %>
-  </p>
-  <p class="govuk-!-margin-top-0">
-    <%= assessment_detail.created_at.to_fs %>
-  </p>
-  <%= render(FormattedContentComponent.new(text: assessment_detail.entry)) %>
+
+<p class="govuk-!-font-weight-bold govuk-!-margin-bottom-0">
+  <%= description %>
+</p>
+
+<p class="govuk-!-margin-top-0">
+  <%= assessment_detail.created_at.to_fs %>
+</p>
+
+<%= render(FormattedContentComponent.new(text: assessment_detail.entry)) %>
 <hr class="govuk-section-break govuk-section-break--visible govuk-section-break--m">

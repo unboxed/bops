@@ -12,47 +12,70 @@
     <h2><%= consideration.policy_area %></h2>
 
     <div data-controller="toggle">
-      <dl class="govuk-!-display-none consideration-details" data-toggle-target="content">
+      <dl
+        class="govuk-!-display-none consideration-details"
+        data-toggle-target="content"
+      >
         <div class="govuk-body">
           <dt>Policy</dt>
+
           <dd>
             <%= consideration.policy_references.map(&:code_and_description).join("; ") %>
           </dd>
         </div>
+
         <% if consideration.policy_guidance.present? %>
           <div class="govuk-body">
             <dt>Guidance</dt>
-            <dd><%= consideration.policy_guidance.map(&:description).join("; ") %></dd>
+
+            <dd>
+              <%= consideration.policy_guidance.map(&:description).join("; ") %>
+            </dd>
           </div>
         <% end %>
+
         <div class="govuk-body">
           <dt>Assessment</dt>
+
           <dd>
             <%= render(FormattedContentComponent.new(text: consideration.assessment)) %>
           </dd>
         </div>
+
         <div class="govuk-body">
           <dt>Conclusion</dt>
+
           <dd>
             <%= render(FormattedContentComponent.new(text: consideration.conclusion)) %>
           </dd>
         </div>
       </dl>
 
-      <button class="button-as-link" type="button" data-toggle-target="button" data-action="click->toggle#click">
+      <button
+        class="button-as-link"
+        type="button"
+        data-toggle-target="button"
+        data-action="click->toggle#click"
+      >
         Show more
       </button>
     </div>
-    <nav class="nav-links govuk-!-padding-top-3" aria-label="Actions for consideration <%= consideration.position %>">
+
+    <nav
+      class="nav-links govuk-!-padding-top-3"
+      aria-label="Actions for consideration <%= consideration.position %>"
+    >
       <% if local_assigns[:task_slug] %>
         <%= govuk_link_to "Edit", edit_task_component_path(@planning_application, slug: local_assigns[:task_slug], id: consideration.id) %>
       <% else %>
         <%= govuk_link_to "Edit", edit_planning_application_assessment_considerations_item_path(@planning_application, consideration) %>
       <% end %>
+
       <%= govuk_link_to "Remove",
             planning_application_assessment_considerations_item_path(@planning_application, consideration, return_to: local_assigns[:return_to]),
             method: :delete,
             data: {confirm: "Are you sure?"} %>
+
       <% if consideration.submitted_by.try(:name) %>
         <span>Submitted by: <%= consideration.submitted_by.name %></span>
       <% end %>

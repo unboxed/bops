@@ -1,13 +1,14 @@
 <%= render "task_header", task: @task %>
 
 <% if @planning_application.environment_impact_assessment&.required? %>
- <%= govuk_tag(text: "Subject to EIA", colour: "blue") %>
+  <%= govuk_tag(text: "Subject to EIA", colour: "blue") %>
 <% end %>
 
 <% if params[:new] %>
   <h2>Notice details</h2>
   <%= form_with model: @form, url: @form.new_site_notice_url do |form| %>
     <%= form.govuk_error_summary %>
+
     <%= form.govuk_number_field :quantity,
           label: {text: "Quantity", size: "s"},
           hint: {text: "How many site notices need to be displayed."},
@@ -20,6 +21,7 @@
           rows: 5 %>
 
     <br>
+
     <div id="email-site-notice">
       <%= form.govuk_radio_buttons_fieldset(
             :delivery_method,
@@ -28,35 +30,43 @@
         <%= form.govuk_radio_button :delivery_method, :internal_team, label: {text: "Send it by email to internal team to post"} do %>
           <%= form.govuk_text_field :internal_team_email, label: {text: "Internal team email"} %>
         <% end %>
+
         <%= form.govuk_radio_button :delivery_method, :applicant, label: {text: "Send it by email to agent/ applicant"} do %>
-            <div class="govuk-inset-text">
-              The site notice will be emailed to <strong> <%= @planning_application.agent_email || @planning_application.applicant_email %>
-              </strong> with instructions on how to print, protect and display it.
-            </div>
+          <div class="govuk-inset-text">
+            The site notice will be emailed to
+            <strong><%= @planning_application.agent_email || @planning_application.applicant_email %></strong>
+            with instructions on how to print, protect and display it.
+          </div>
         <% end %>
+
         <%= form.govuk_radio_button :delivery_method, :print, label: {text: "Print the site notice"} do %>
           <%= form.govuk_date_field :displayed_at, legend: {text: "Enter date when site notice will be displayed", size: "s"} %>
         <% end %>
       <% end %>
+
       <%= form.govuk_task_button "Send site notice", action: "create_site_notice" %>
       <%= govuk_button_link_to "Back", @form.back_url, secondary: true %>
     </div>
   <% end %>
 <% elsif @form.site_notices.where(required: true).any? %>
-    <% @planning_application.site_notices.required.each_with_index do |site_notice, index| %>
-      <%= render "tasks/consultees-neighbours-and-publicity/publicity/site-notice/table", site_notice: site_notice, index: index %>
+  <% @planning_application.site_notices.required.each_with_index do |site_notice, index| %>
+    <%= render "tasks/consultees-neighbours-and-publicity/publicity/site-notice/table", site_notice: site_notice, index: index %>
   <% end %>
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= return_to_hidden_field %>
+
     <div class="govuk-button-group">
       <%= render "task_submit_buttons", form: form, save_draft: false %>
       <%= govuk_button_link_to "Add another site notice", @form.new_site_notice_url, secondary: true, class: "govuk-!-margin-left-3" %>
     </div>
   <% end %>
 <% elsif @form.site_notices.where.not(id: nil).empty? %>
-  <p class="govuk-body govuk-!-margin-top-4"> No site notices have been created for this application</p>
+  <p class="govuk-body govuk-!-margin-top-4">
+    No site notices have been created for this application
+  </p>
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= return_to_hidden_field %>
+
     <div class="govuk-button-group" id="site-notice-form-actions">
       <%= govuk_button_link_to "Create site notice", @form.new_site_notice_url %>
       <%= form.govuk_task_button "Mark as not required", action: "mark_not_required", secondary: true %>
@@ -68,6 +78,7 @@
   </div>
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= return_to_hidden_field %>
+
     <div class="govuk-button-group" id="site-notice-form-actions">
       <%= govuk_button_link_to "Create site notice", @form.new_site_notice_url %>
       <%= form.govuk_task_button "Mark as not required", action: "mark_not_required", secondary: true %>

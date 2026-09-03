@@ -20,9 +20,9 @@
 
       <%= form.govuk_check_boxes_fieldset :additional_services,
             legend: {text: "Select required services"} do %>
-            <% PreapplicationService::TYPES.each do |type| %>
-              <%= form.govuk_check_box :additional_services, type, label: {text: type.to_s.humanize}, checked: @planning_application.additional_services.map(&:name).include?(type) %>
-            <% end %>
+        <% PreapplicationService::TYPES.each do |type| %>
+          <%= form.govuk_check_box :additional_services, type, label: {text: type.to_s.humanize}, checked: @planning_application.additional_services.map(&:name).include?(type) %>
+        <% end %>
       <% end %>
 
       <div class="govuk-button-group">

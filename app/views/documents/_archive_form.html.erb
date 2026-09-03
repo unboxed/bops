@@ -1,25 +1,30 @@
 <%= form_for(@document, as: :document, url: planning_application_document_confirm_archive_path) do |form| %>
   <%= form.hidden_field :redirect_to, value: params[:redirect_to].presence %>
+
   <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
       <div class="govuk-form-group <%= form.object.errors.any? ? "govuk-form-group--error" : "" %>">
-       <% if form.object.errors.any? %>
-         <% form.object.errors.each do |error| %>
-           <span id="status-error" class="govuk-error-message">
-             <span class="govuk-visually-hidden">Error:</span><%= error.message %></span>
-         <% end %>
-       <% end %>
+        <% if form.object.errors.any? %>
+          <% form.object.errors.each do |error| %>
+            <span id="status-error" class="govuk-error-message"><span class="govuk-visually-hidden">Error:</span><%= error.message %></span>
+          <% end %>
+        <% end %>
+
         <p>
           <%= form.label :archive_reason, "Why do you want to archive this document?", class: "govuk-heading-s", for: "archive_reason" %>
         </p>
+
         <div id="event-name-hint" class="govuk-hint">
           Optional comments
         </div>
-          <%= form.text_area :archive_reason, class: "govuk-input govuk-input--width-20", id: "archive_reason" %>
+
+        <%= form.text_area :archive_reason, class: "govuk-input govuk-input--width-20", id: "archive_reason" %>
       </div>
     </fieldset>
+
     <p>
       <%= form.submit "Archive", class: "govuk-button", data: {module: "govuk-button"} %>
+
       <%= govuk_button_link_to "Cancel",
             (params[:redirect_to].presence || planning_application_documents_path),
             secondary: true %>
