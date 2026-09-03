@@ -30,11 +30,31 @@ module Tasks
       validates :public_comment, presence: true
     end
 
-    private
+    def method_missing(method, *args)
+      return unless method =~ /(.+)_(comment=?)$/
 
-    def public_comment
-      @public_comment ||= form_params(params).dig(:public_comment, decision)
+      user_decision, action = $1, $2
+      return unless user_decision.in?(valid_decisions)
+
+      case action
+      when "comment="
+        if user_decision == decision
+          self.public_comment = args.first
+        end
+      when "comment"
+        if user_decision == decision
+          public_comment
+        end
+      end
     end
+
+    def respond_to_missing?(method, *args)
+      return false unless method =~ /(.+)(_comment=?)$/
+
+      $1.in?(valid_decisions)
+    end
+
+    private
 
     def committee_needed?
       recommend == true
@@ -91,13 +111,21 @@ module Tasks
       end
     end
 
+    def valid_decisions
+      planning_application.application_type.config.all_decision_codes
+    end
+
+    def comment_fields
+      valid_decisions.map { "#{it}_comment" }
+    end
+
     def form_params(params)
       params.fetch(param_key, {}).permit(
         :recommend,
         :decision,
         :assessor_comment,
         :other_reason,
-        public_comment: planning_application.application_type.all_decisions.map { it.code.to_sym },
+        *comment_fields,
         reasons: []
       )
     end

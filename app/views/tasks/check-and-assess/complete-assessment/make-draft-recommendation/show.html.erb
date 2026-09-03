@@ -74,30 +74,28 @@
   <%= form.govuk_radio_buttons_fieldset(:decision, legend: {text: t(".is_the_use"), size: "s"}) do %>
     <% @planning_application.application_type.all_decisions.each do |d| %>
       <%= form.govuk_radio_button :decision, d.code, label: {text: d.description}, checked: form.object.decision == d.code, disabled: submitted do %>
-        <%= tag.div class: class_names("govuk-form-group", {"govuk-form-group--error": form.object.errors[:public_comment].any?}) do %>
-          <%= form.label(:public_comment,
+        <%= tag.div class: class_names("govuk-form-group", {"govuk-form-group--error": form.object.errors[:"#{d.code}_comment"].any?}) do %>
+          <%= form.label(:"#{d.code}_comment",
                          t(".state_the_reason", decision: d.code.humanize.downcase),
-                         for: "tasks_make_draft_recommendation_form_public_comment_#{d.code}",
                          class: "govuk-label govuk-label--s") %>
 
           <div class="govuk-hint"><%= t(".refer_to_the") %></div>
           <%= govuk_warning_text(text: t(".this_information_will")) %>
 
-          <% if form.object.errors[:public_comment].any? %>
-            <%= tag.p id: "recommendation-form-public-comment-field-error", class: "govuk-error-message" do %>
+          <% if form.object.errors[:"#{d.code}_comment"].any? %>
+            <%= tag.p id: "recommendation-form-#{d.code}-comment-field-error", class: "govuk-error-message" do %>
               <%= tag.span class: "govuk-visually-hidden" do %>
                 <%= t(".error") %>
               <% end %>
 
-              <%= form.object.errors[:public_comment].first %>
+              <%= form.object.errors[:"#{d.code}_comment"].first %>
             <% end %>
           <% end %>
 
           <%= form.text_area(
-              :public_comment,
-              id: "tasks_make_draft_recommendation_form_public_comment_#{d.code}",
-              name: "tasks_make_draft_recommendation_form[public_comment][#{d.code}]",
-              class: class_names("govuk-textarea", {"govuk-textarea--error": form.object.errors[:public_comment].any?}),
+              :"#{d.code}_comment",
+              value: form.object.public_send("#{d.code}_comment"),
+              class: class_names("govuk-textarea", {"govuk-textarea--error": form.object.errors[:"#{d.code}_comment"].any?}),
               rows: 9,
               disabled: submitted
           ) %>
