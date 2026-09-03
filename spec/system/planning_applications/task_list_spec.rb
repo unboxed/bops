@@ -3,9 +3,9 @@
 require "rails_helper"
 
 RSpec.describe "Planning Application show page", type: :system do
-  let(:default_local_authority) { create(:local_authority, :default) }
-  let(:reviewer) { create(:user, :reviewer, local_authority: default_local_authority) }
-  let(:assessor) { create(:user, :assessor, local_authority: default_local_authority) }
+  let(:local_authority) { create(:local_authority, :default) }
+  let(:reviewer) { create(:user, :reviewer, local_authority:) }
+  let(:assessor) { create(:user, :assessor, local_authority:) }
 
   context "as a reviewer" do
     before do
@@ -13,7 +13,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "makes valid task list for not_started" do
-      planning_application = create(:planning_application, :not_started, local_authority: default_local_authority)
+      planning_application = create(:planning_application, :not_started, local_authority:)
       visit "/planning_applications/#{planning_application.reference}"
 
       within "#validation-section" do
@@ -27,7 +27,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "makes valid task list for when it has been validated but no proposal has been made" do
-      planning_application = create(:planning_application, local_authority: default_local_authority)
+      planning_application = create(:planning_application, local_authority:)
       visit "/planning_applications/#{planning_application.reference}"
       within "#validation-section" do
         expect(page).to have_link("Check and validate")
@@ -40,8 +40,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "makes valid task list for when it is awaiting determination" do
-      planning_application = create(:planning_application, :awaiting_determination,
-        local_authority: default_local_authority)
+      planning_application = create(:planning_application, :awaiting_determination, local_authority:)
       create(:recommendation, planning_application:)
       visit "/planning_applications/#{planning_application.reference}"
       within "#validation-section" do
@@ -58,8 +57,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "makes valid task list for when it is awaiting determination and recommendation has been reviewed", :capybara do
-      planning_application = create(:planning_application, :awaiting_determination,
-        local_authority: default_local_authority)
+      planning_application = create(:planning_application, :awaiting_determination, local_authority:)
       create(:recommendation, :reviewed, planning_application:, challenged: false)
       visit "/planning_applications/#{planning_application.reference}"
 
@@ -74,8 +72,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "makes valid task list for when it is to be reviewed and no re-proposal has been made" do
-      planning_application = create(:planning_application, :to_be_reviewed,
-        local_authority: default_local_authority)
+      planning_application = create(:planning_application, :to_be_reviewed, local_authority:)
 
       create(
         :recommendation,
@@ -93,8 +90,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "makes valid task list for when it is to be reviewed and a re-proposal has been made" do
-      planning_application = create(:planning_application, :to_be_reviewed,
-        local_authority: default_local_authority)
+      planning_application = create(:planning_application, :to_be_reviewed, local_authority:)
       create(:recommendation, :reviewed, planning_application:, challenged: false)
       create(:recommendation, planning_application:, submitted: true)
       visit "/planning_applications/#{planning_application.reference}"
@@ -115,9 +111,8 @@ RSpec.describe "Planning Application show page", type: :system do
       sign_in assessor
     end
 
-    it "makes valid task list for when it is awaiting determination" do
-      planning_application = create(:planning_application, :awaiting_determination,
-        local_authority: default_local_authority)
+    it "makes valid task list for when it is in assessment" do
+      planning_application = create(:planning_application, :in_assessment, local_authority:)
       create(:recommendation, planning_application:)
       visit "/planning_applications/#{planning_application.reference}"
       within "#validation-section" do
@@ -130,6 +125,27 @@ RSpec.describe "Planning Application show page", type: :system do
 
       within "#review-section" do
         expect(page).not_to have_link("Review and sign-off")
+        expect(page).to have_link("Preview recommendation")
+        expect(page).not_to have_link("View recommendation")
+        expect(page).not_to have_content("Completed")
+      end
+    end
+
+    it "makes valid task list for when it is awaiting determination" do
+      planning_application = create(:planning_application, :awaiting_determination, local_authority:)
+      create(:recommendation, planning_application:)
+      visit "/planning_applications/#{planning_application.reference}"
+      within "#validation-section" do
+        expect(page).to have_content("Completed")
+      end
+
+      within "#assess-section" do
+        expect(page).to have_content("In progress")
+      end
+
+      within "#review-section" do
+        expect(page).not_to have_link("Review and sign-off")
+        expect(page).not_to have_link("Preview recommendation")
         expect(page).to have_link("View recommendation")
         expect(page).not_to have_content("Completed")
 
@@ -139,8 +155,7 @@ RSpec.describe "Planning Application show page", type: :system do
     end
 
     it "makes valid task list for when it is awaiting determination and recommendation has been reviewed" do
-      planning_application = create(:planning_application, :awaiting_determination,
-        local_authority: default_local_authority)
+      planning_application = create(:planning_application, :awaiting_determination, local_authority:)
       create(:recommendation, :reviewed, planning_application:, challenged: false)
       visit "/planning_applications/#{planning_application.reference}"
 

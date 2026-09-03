@@ -20,10 +20,9 @@ module PlanningApplications
           @assessor_name = @planning_application.recommendation.assessor.name
           @recommended_date = @planning_application.recommendation.created_at.to_date.to_fs
 
-          format.html
-        else
-          format.html { redirect_to planning_application_assessment_path(@planning_application) }
         end
+
+        format.html
       end
     end
 
