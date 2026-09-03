@@ -6,7 +6,7 @@
     <div class="govuk-error-summary__body">
       <ul class="govuk-list govuk-error-summary__list">
         <% error_messages.each do |error| %>
-          <li><%= error.html_safe %></li> <%# erblint:disable ErbSafety %>
+          <li><%= error.html_safe %></li> <%# herb:disable erb-no-unsafe-raw %>
         <% end %>
       </ul>
     </div>

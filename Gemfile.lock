@@ -210,13 +210,6 @@ GEM
       aws-eventstream (~> 1, >= 1.0.2)
     base64 (0.3.0)
     bcrypt (3.1.22)
-    better_html (2.2.0)
-      actionview (>= 7.0)
-      activesupport (>= 7.0)
-      ast (~> 2.0)
-      erubi (~> 1.4)
-      parser (>= 2.4)
-      smart_properties
     bigdecimal (4.1.2)
     bindex (0.8.1)
     bootsnap (1.18.3)
@@ -290,13 +283,6 @@ GEM
       launchy (~> 2.1)
       mail (~> 2.7)
     erb (6.0.7)
-    erb_lint (0.9.0)
-      activesupport
-      better_html (>= 2.0.1)
-      parser (>= 2.7.1.4)
-      rainbow
-      rubocop (>= 1)
-      smart_properties
     erubi (1.13.1)
     et-orbi (1.2.11)
       tzinfo
@@ -637,7 +623,6 @@ GEM
       rufus-scheduler (~> 3.2)
       sidekiq (>= 7.3, < 9)
     simpleidn (0.2.3)
-    smart_properties (1.17.0)
     sprockets (4.2.0)
       concurrent-ruby (~> 1.0)
       rack (>= 2.2.4, < 4)
@@ -745,7 +730,6 @@ DEPENDENCIES
   discard (~> 1.4)
   dotenv-rails
   email_spec
-  erb_lint
   factory_bot_rails
   faker
   faraday (~> 2)

@@ -15,7 +15,7 @@
     <%= favicon_link_tag("b-mask-icon.svg", rel: "mask-icon") %>
 
     <%= stylesheet_link_tag "applicants", media: "all" %>
-    <%= javascript_include_tag "applicants" %>
+    <%= javascript_include_tag "applicants", nonce: true %>
 
     <%= yield(:head) %>
   </head>

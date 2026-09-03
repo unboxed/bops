@@ -24,17 +24,18 @@
         </h2>
       </div>
 
-      <% if @planning_application.consultation.complete? %>
-        <div class="govuk-notification-banner__content">
+      <div class="govuk-notification-banner__content">
+        <% if @planning_application.consultation.complete? %>
+
           <p class="govuk-notification-banner__heading">
             Consultation for this planning application has ended
           </p>
           <p>
             Please contact the planning officer if you have further comments.
           </p>
-        </div>
-      <% else %>
-        <div class="govuk-notification-banner__content">
+
+        <% else %>
+
           <p class="govuk-notification-banner__heading">
             Submit your comments by
             <%= @planning_application.consultation.end_date.to_fs(:day_month_year_slashes) %>
@@ -43,8 +44,9 @@
             Jump to
             <a class="govuk-notification-banner__link" href="#comments-form">comments section</a>.
           </p>
-        </div>
-      <% end %>
+
+        <% end %>
+      </div>
     </div>
   </div>
 

@@ -23,7 +23,6 @@ jobs:
           - rubocop
           - biome
           - prettier
-          - erb_lint
           - herb:lint
           - language_versions
       fail-fast: false

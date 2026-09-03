@@ -29,11 +29,13 @@
   </ul>
 </div>
 
-<% if requested_at = @press_notice.requested_at %>
-  <p>Date requested: <strong><%= time_tag(requested_at) %></strong></p>
-<% else %>
-  <p>Press notice has not been requested</p>
-<% end %>
+<p>
+  <% if requested_at = @press_notice.requested_at %>
+    Date requested: <strong><%= time_tag(requested_at) %></strong>
+  <% else %>
+    Press notice has not been requested
+  <% end %>
+</p>
 
 <% if @press_notice.published_at %>
   <p>Date published: <strong><%= time_tag(@press_notice.published_at) %></strong></p>

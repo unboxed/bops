@@ -89,7 +89,7 @@
                   aria: {controls: "comment-#{assessment_detail.id}"}
                 ) %>
 
-            <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="<%= "comment-#{assessment_detail.id}" %>">
+            <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="comment-<%= assessment_detail.id %>">
               <div class="govuk-form-group <%= "govuk-form-group--error" if form_model.errors.any? %>">
                 <% if form_model.errors.any? %>
                   <p class="govuk-error-message">

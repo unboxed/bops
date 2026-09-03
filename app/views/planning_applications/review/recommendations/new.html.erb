@@ -1,7 +1,7 @@
 <% content_for :page_title do %>
  <%= t(".make_draft_recommendation") %> - <%= t("page_title") %>
 <% end %>
-<% render(
+<%= render(
      partial: "shared/review_task_breadcrumbs",
      locals: {
        planning_application: @planning_application,

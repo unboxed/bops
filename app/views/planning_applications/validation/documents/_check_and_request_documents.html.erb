@@ -29,16 +29,13 @@
   <% end %>
 <% end %>
 
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 <% if additional_document_validation_requests.any? %>
-  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
   <%= render "planning_applications/validation/additional_document_validation_requests/additional_document_validation_requests_table",
         validation_requests: additional_document_validation_requests,
         task_slug: task_slug,
         allow_cancel: allow_cancel,
         redirect_to: redirect_to %>
-<% else %>
-  <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 <% end %>
 
 <p class="govuk-!-margin-bottom-6 govuk-!-margin-top-0">

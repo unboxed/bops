@@ -87,7 +87,7 @@ docker compose --profile console run --rm console rspec engines/bops_admin
 
 GitHub Actions runs on push and pull requests:
 
-- **Linters:** RuboCop, Biome, Prettier, ERB Lint, Brakeman
+- **Linters:** RuboCop, Biome, Prettier, Herb, Brakeman
 - **Tests:** RSpec (parallelized across matrix jobs), Cucumber
 - **Builds:** Docker image builds
 

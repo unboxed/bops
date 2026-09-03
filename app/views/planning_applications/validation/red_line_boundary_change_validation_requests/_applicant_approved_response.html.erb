@@ -12,11 +12,13 @@
     <%= render "shared/location_map", locals: {geojson: @validation_request.new_geojson} %>
 
     <div class="govuk-inset-text">
-      <% if @validation_request.auto_closed? %>
-        <strong>Change to red line boundary was auto closed and approved after being open for more than 5 business days</strong>
-      <% else %>
-        <strong>Change to red line boundary has been approved by the applicant</strong>
-      <% end %>
+      <strong>
+        <% if @validation_request.auto_closed? %>
+          Change to red line boundary was auto closed and approved after being open for more than 5 business days
+        <% else %>
+          Change to red line boundary has been approved by the applicant
+        <% end %>
+      </strong>
     </div>
 
     <div class="govuk-button-group">

@@ -15,7 +15,7 @@ BOPS enforces consistent code style through automated linting. All code must pas
 
 ## Templates
 
-- **Linter:** ERB Lint
+- **Linter:** Herb
 - **Framework:** Follow GOV.UK Design System patterns
 
 ## GOV.UK Helpers

@@ -2,162 +2,164 @@
   <%= form.govuk_error_summary %>
 
   <% if current_local_authority.notify_error_status.present? %>
-  <div class="govuk-error-summary" data-module="govuk-error-summary">
-    <div role="alert">
-      <h2 class="govuk-error-summary__title">
-        There is a problem
-      </h2>
-      <div class="govuk-error-summary__body">
-        <ul class="govuk-list govuk-error-summary__list">
-          <li>
-            <% if current_local_authority.notify_error_status == "bad_notify_api_key" %>
+    <div class="govuk-error-summary" data-module="govuk-error-summary">
+      <div role="alert">
+        <h2 class="govuk-error-summary__title">
+          There is a problem
+        </h2>
+        <div class="govuk-error-summary__body">
+          <ul class="govuk-list govuk-error-summary__list">
+            <li>
               <a href="#">
-                Enter a valid <%= t(".notify_api_key") %>
+                <% if current_local_authority.notify_error_status == "bad_notify_api_key" %>
+
+                  Enter a valid <%= t(".notify_api_key") %>
+
+                <% else %>
+
+                  Enter a valid <%= t(".#{current_local_authority.notify_error_status.delete_prefix("bad_")}") %> for the configured GOV.UK Notify account
+
+                <% end %>
               </a>
-            <% else %>
-              <a href="#">
-                Enter a valid <%= t(".#{current_local_authority.notify_error_status.delete_prefix("bad_")}") %> for the configured GOV.UK Notify account
-              </a>
-            <% end %>
-          </li>
-        </ul>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
   <% end %>
 
   <%= form.govuk_fieldset(legend: {text: nil}) do %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :signatory_name,
         label: {text: t(".signatory_name"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".signatory_name_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :signatory_job_title,
         label: {text: t(".signatory_job_title"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".signatory_job_title_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <% if current_local_authority.signature.attached? %>
-    <div class="govuk-form-group">
-      <p class="govuk-label govuk-label--m"><%= t(".current_signature") %></p>
-      <%= image_tag main_app.uploaded_file_url(current_local_authority.signature.blob), alt: "Signatory signature", style: "max-width: 200px" %><br>
-      <%= govuk_button_link_to t(".remove_signature"), remove_signature_profile_path, secondary: true, class: "govuk-!-margin-top-2", method: :delete %>
-    </div>
-  <% end %>
+    <% if current_local_authority.signature.attached? %>
+      <div class="govuk-form-group">
+        <p class="govuk-label govuk-label--m"><%= t(".current_signature") %></p>
+        <%= image_tag main_app.uploaded_file_url(current_local_authority.signature.blob), alt: "Signatory signature", style: "max-width: 200px" %><br>
+        <%= govuk_button_link_to t(".remove_signature"), remove_signature_profile_path, secondary: true, class: "govuk-!-margin-top-2", method: :delete %>
+      </div>
+    <% end %>
 
-  <div class="govuk-form-group" data-controller="clear-form">
-    <label class="govuk-label govuk-label--m" for="local_authority_signature">
-      <%= t(".signatory_signature") %>
-    </label>
-    <div id="local_authority_signature-hint" class="govuk-hint">
-      <%= t(".signatory_signature_hint") %>
-    </div>
-    <div class="display-flex" style="align-items: center; gap: 1rem; flex-wrap: nowrap;">
-      <%= form.file_field(:signature,
+    <div class="govuk-form-group" data-controller="clear-form">
+      <label class="govuk-label govuk-label--m" for="local_authority_signature">
+        <%= t(".signatory_signature") %>
+      </label>
+      <div id="local_authority_signature-hint" class="govuk-hint">
+        <%= t(".signatory_signature_hint") %>
+      </div>
+      <div class="display-flex" style="align-items: center; gap: 1rem; flex-wrap: nowrap;">
+        <%= form.file_field(:signature,
             class: "govuk-file-upload",
             accept: acceptable_file_mime_types,
             "aria-describedby": "local_authority_signature-hint") %>
-      <%= govuk_link_to "clear", "#", no_visited_state: true, data: {action: "click->clear-form#handleClick"} %>
+        <%= govuk_link_to "clear", "#", no_visited_state: true, data: {action: "click->clear-form#handleClick"} %>
+      </div>
     </div>
-  </div>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :enquiries_paragraph,
         label: {text: t(".enquiries_paragraph"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".enquiries_paragraph_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_area(
+    <%= form.govuk_text_area(
         :engagement_statement,
         label: {text: t(".engagement_statement"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".engagement_statement_hint")},
         rows: 5
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :email_address,
         label: {text: t(".email_address"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".email_address_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :feedback_email,
         label: {text: t(".feedback_email"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".feedback_email_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :telephone_number,
         label: {text: t(".telephone_number"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".telephone_number_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :press_notice_email,
         label: {text: t(".press_notice_email"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".press_notice_email_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :reviewer_group_email,
         label: {text: t(".reviewer_group_email"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".reviewer_group_email_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :public_register_base_url,
         label: {text: t(".public_register_base_url"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".public_register_base_url_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :document_checklist,
         label: {text: t(".document_checklist"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".document_checklist_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :planning_policy_and_guidance,
         label: {text: t(".planning_policy_and_guidance"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".planning_policy_and_guidance_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-      <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
             :preapp_guidance_url,
             label: {text: t(".preapp_guidance_url"), class: "govuk-label govuk-label--m"},
             hint: {text: t(".preapp_guidance_url_hint")},
             class: "govuk-input--width-30"
           ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :privacy_policy_url,
         label: {text: t(".privacy_policy_url"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".privacy_policy_url_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :submission_url,
         label: {text: t(".submission_url"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".submission_url_hint")},
         class: "govuk-input--width-30"
       ) %>
 
-  <%= form.govuk_text_field(
+    <%= form.govuk_text_field(
         :submission_guidance_url,
         label: {text: t(".submission_guidance_url"), class: "govuk-label govuk-label--m"},
         hint: {text: t(".submission_guidance_url_hint")},
