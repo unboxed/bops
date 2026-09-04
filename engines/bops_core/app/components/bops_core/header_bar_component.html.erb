@@ -14,24 +14,26 @@
       </li>
     <% end %>
 
-    <div class="bops-header-bar__list--right">
-      <% right_items.each do |item| %>
-        <li class="bops-header-bar__item">
-          <% if item[:href].present? %>
-            <%= helpers.govuk_link_to item[:label].to_s, item[:href],
+    <li class="bops-header-bar__list--right">
+      <ul>
+        <% right_items.each do |item| %>
+          <li class="bops-header-bar__item">
+            <% if item[:href].present? %>
+              <%= helpers.govuk_link_to item[:label].to_s, item[:href],
                   class: class_names(helpers.govuk_link_classes, item[:class]),
                   new_tab: "",
                   method: item[:method],
                   data: item[:data] %>
-          <% else %>
-            <%= button_tag item[:label].to_s,
+            <% else %>
+              <%= button_tag item[:label].to_s,
                   type: item[:type] || "button",
                   class: class_names("button-as-link", helpers.govuk_link_classes, item[:class]),
                   data: item[:data] %>
-          <% end %>
-        </li>
-      <% end %>
-    </div>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </li>
   </ul>
 
   <% if render_toggle? %>
