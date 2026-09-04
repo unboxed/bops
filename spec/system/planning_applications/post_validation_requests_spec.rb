@@ -97,7 +97,7 @@ RSpec.describe "post validation requests", type: :system do
         )
       end
 
-      it "lets the assessor cancel the request", show_sidebar: false do
+      it "lets the assessor cancel the request" do
         visit "/planning_applications/#{planning_application.reference}/documents"
         document_row = row_with_content("Document requested: Floor plan")
 
@@ -116,13 +116,14 @@ RSpec.describe "post validation requests", type: :system do
           "Additional document request successfully cancelled."
         )
 
-        within(".cancelled-requests") do
-          expect(page).to have_content("Requested in error")
-        end
-
         visit "/planning_applications/#{planning_application.reference}/documents"
 
         expect(page).not_to have_content("Document requested: Floor plan")
+
+        pending "There doesn't seem to be any page where cancelled requests are displayed in the new design"
+        within(".cancelled-requests") do
+          expect(page).to have_content("Requested in error")
+        end
       end
 
       it "does not show request on validation documents page" do

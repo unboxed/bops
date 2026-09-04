@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe "Amenity task", :show_sidebar, type: :system do
+RSpec.describe "Amenity task", type: :system do
   let(:user) { create(:user, local_authority:) }
   let(:local_authority) { create(:local_authority, :default) }
   let(:task) { planning_application.case_record.find_task_by_slug_path!("check-and-assess/assessment-summaries/amenity") }

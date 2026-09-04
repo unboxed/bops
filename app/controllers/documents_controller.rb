@@ -175,8 +175,6 @@ class DocumentsController < AuthenticationController
   end
 
   def show_sidebar
-    @show_sidebar = if use_new_sidebar_layout?(@planning_application)
-      @planning_application.case_record.tasks.find_by(section: "Validation")
-    end
+    @show_sidebar = @planning_application.case_record.tasks.find_by(section: "Validation")
   end
 end
