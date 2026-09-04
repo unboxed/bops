@@ -18,9 +18,9 @@
           </span>
         </li>
       <% else %>
-        <div data-download-target="button" class="display-flex">
+        <li data-download-target="button">
           <%= govuk_button_link_to "Download all documents", data: {action: "click->download#submit"}, secondary: true %>
-        </div>
+        </li>
         <%= govuk_table(classes: "govuk-!-margin-top-4") do |table| %>
           <% table.with_head do |head| %>
             <% head.with_row do |row| %>
