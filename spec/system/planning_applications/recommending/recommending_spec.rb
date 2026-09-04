@@ -60,7 +60,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
       within_fieldset("What is your recommendation?") { choose("Granted") }
 
-      fill_in "State the reasons for your recommendation.", with: "Application valid."
+      fill_in "State the reasons the application is to be granted", with: "Application valid."
       fill_in "Provide supporting information for the reviewer.", with: "Requirements met."
 
       click_button "Save and mark as complete"
@@ -121,7 +121,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
       click_link "Check and assess"
       click_link "Make draft recommendation"
 
-      fill_in "State the reasons for your recommendation.", with: "Amended reason."
+      fill_in "State the reasons the application is to be granted", with: "Amended reason."
 
       click_button "Save and mark as complete"
       click_link "Review and submit recommendation"
@@ -157,7 +157,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "Make draft recommendation"
           within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
           within_fieldset("What is your recommendation?") { choose("Granted") }
-          fill_in "State the reasons for your recommendation.", with: "This is a public comment"
+          fill_in "State the reasons the application is to be granted", with: "This is a public comment"
           fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
           click_button "Save and mark as complete"
           expect(page).to have_content("Draft recommendation successfully saved")
@@ -173,7 +173,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_field("Provide supporting information for the reviewer.", with: "This is a private assessor comment")
 
           within_fieldset("What is your recommendation?") { choose("Refused") }
-          fill_in "State the reasons for your recommendation.", with: "This is a new public comment"
+          fill_in "State the reasons the application is to be refused", with: "This is a new public comment"
           fill_in "Provide supporting information for the reviewer.", with: "Edited private assessor comment"
           click_button "Save and mark as complete"
           expect(page).to have_content("Draft recommendation successfully saved")
@@ -247,7 +247,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
         within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
         within_fieldset("What is your recommendation?") { choose("Granted") }
-        fill_in "State the reasons for your recommendation.", with: "This is so granted and GDPO everything"
+        fill_in "State the reasons the application is to be granted", with: "This is so granted and GDPO everything"
         fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
         click_button "Save and mark as complete"
         expect(page).to have_content("Draft recommendation successfully saved")
@@ -276,7 +276,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link "Make draft recommendation"
         within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
         within_fieldset("What is your recommendation?") { choose("Granted") }
-        fill_in "State the reasons for your recommendation.", with: "This is a public comment"
+        fill_in "State the reasons the application is to be granted", with: "This is a public comment"
         fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
         click_button "Save and mark as complete"
         expect(page).to have_content("Draft recommendation successfully saved")
@@ -323,7 +323,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link "Make draft recommendation"
         within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
         within_fieldset("What is your recommendation?") { choose("Granted") }
-        fill_in "State the reasons for your recommendation.", with: "This is a public comment"
+        fill_in "State the reasons the application is to be granted", with: "This is a public comment"
         fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
         click_button "Save and mark as complete"
         expect(page).to have_content("Draft recommendation successfully saved")
@@ -337,7 +337,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         click_link "Make draft recommendation"
         within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
         within_fieldset("What is your recommendation?") { choose("Granted") }
-        fill_in "State the reasons for your recommendation.", with: "This is a public comment"
+        fill_in "State the reasons the application is to be granted", with: "This is a public comment"
         click_button "Save and mark as complete"
         expect(page).to have_content("Draft recommendation successfully saved")
 
@@ -355,7 +355,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "Make draft recommendation"
           within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
           within_fieldset("What is your recommendation?") { choose("Granted") }
-          fill_in "State the reasons for your recommendation.", with: "This is a public comment"
+          fill_in "State the reasons the application is to be granted", with: "This is a public comment"
           fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
           click_button "Save and mark as complete"
           expect(page).to have_content("Draft recommendation successfully saved")
@@ -381,7 +381,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           click_link "Make draft recommendation"
           within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
           within_fieldset("What is your recommendation?") { choose("Granted") }
-          fill_in "State the reasons for your recommendation.", with: "This is a public comment"
+          fill_in "State the reasons the application is to be granted", with: "This is a public comment"
           fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
           click_button "Save and mark as complete"
           expect(page).to have_content("Draft recommendation successfully saved")
@@ -407,7 +407,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
         within_fieldset("What is your recommendation?") { choose "Granted" }
 
-        fill_in "State the reasons for your recommendation.", with: "My reason"
+        fill_in "State the reasons the application is to be granted", with: "My reason"
 
         click_button "Save and mark as complete"
         expect(page).to have_content("Draft recommendation successfully saved")
@@ -443,7 +443,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
         within_fieldset("What is your recommendation?") { choose "Granted" }
 
-        fill_in "State the reasons for your recommendation.", with: "My reason"
+        fill_in "State the reasons the application is to be granted", with: "My reason"
 
         click_button "Save and mark as complete"
         expect(page).to have_content("Draft recommendation successfully saved")
@@ -506,7 +506,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
           within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
 
           within_fieldset("What is your recommendation?") { choose("Granted") }
-          fill_in "State the reasons for your recommendation.", with: "This is a public comment"
+          fill_in "State the reasons the application is to be granted", with: "This is a public comment"
           fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
           click_button "Save changes"
           expect(page).to have_content("Draft recommendation successfully saved")
@@ -543,7 +543,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
 
           within_fieldset("What is your recommendation?") { choose("Granted") }
 
-          fill_in "State the reasons for your recommendation.", with: "Application valid."
+          fill_in "State the reasons for your recommendation", with: "Application valid."
           fill_in "Provide supporting information for the reviewer.", with: "Requirements met."
 
           click_button "Save and mark as complete"
@@ -711,7 +711,7 @@ RSpec.describe "Planning Application Assessment", type: :system do
         within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
         within_fieldset("What is your recommendation?") { choose("Granted") }
 
-        fill_in "State the reasons for your recommendation.", with: "This is a public comment"
+        fill_in "State the reasons for your recommendation", with: "This is a public comment"
         fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
         click_button "Save and mark as complete"
 
@@ -819,11 +819,13 @@ RSpec.describe "Planning Application Assessment", type: :system do
           choose "Prior approval required and approved"
 
           within_fieldset("Does this planning application need to be decided by committee?") { choose("No") }
-          fill_in "State the reasons for your recommendation.", with: "This is a public comment"
+          fill_in "State the reasons the application is to be granted", with: "This is a public comment"
           fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
           click_button "Save and mark as complete"
 
+          expect(page).to have_content("Draft recommendation successfully saved")
           planning_application.reload
+
           expect(planning_application.recommendations.count).to eq(1)
           expect(planning_application.public_comment).to eq("This is a public comment")
           expect(planning_application.recommendations.first.assessor_comment).to eq("This is a private assessor comment")
@@ -841,9 +843,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_field("Provide supporting information for the reviewer.",
             with: "This is a private assessor comment")
           choose "Prior approval not required"
-          fill_in "State the reasons for your recommendation.", with: "This is a new public comment"
+          fill_in "State the reasons the application is to be not required", with: "This is a new public comment"
           fill_in "Provide supporting information for the reviewer.", with: "Edited private assessor comment"
           click_button "Save and mark as complete"
+
+          expect(page).to have_content("Draft recommendation successfully saved")
           planning_application.reload
 
           expect(planning_application.recommendations.count).to eq(1)
@@ -863,9 +867,11 @@ RSpec.describe "Planning Application Assessment", type: :system do
           expect(page).to have_field("Provide supporting information for the reviewer.",
             with: "Edited private assessor comment")
           choose "Prior approval required and refused"
-          fill_in "State the reasons for your recommendation.", with: "This is a new public comment"
+          fill_in "State the reasons the application is to be refused", with: "This is a new public comment"
           fill_in "Provide supporting information for the reviewer.", with: "Edited private assessor comment"
           click_button "Save and mark as complete"
+
+          expect(page).to have_content("Draft recommendation successfully saved")
           planning_application.reload
 
           expect(planning_application.recommendations.count).to eq(1)

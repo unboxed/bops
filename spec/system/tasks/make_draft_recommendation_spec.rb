@@ -53,10 +53,12 @@ RSpec.describe "Make draft recommendation task", type: :system do
         choose "Granted"
       end
 
-      fill_in "State the reasons for your recommendation.", with: "The proposal meets all policy requirements."
+      fill_in "State the reasons the application is to be granted", with: "The proposal meets all policy requirements."
       fill_in "Provide supporting information for the reviewer.", with: "No issues identified."
 
       click_button "Save and mark as complete"
+
+      expect(page).to have_content "successfully saved"
 
       planning_application.reload
       expect(planning_application.decision).to eq("granted")
@@ -82,7 +84,7 @@ RSpec.describe "Make draft recommendation task", type: :system do
         choose "Granted"
       end
 
-      fill_in "State the reasons for your recommendation.", with: "Public comment"
+      fill_in "State the reasons the application is to be granted", with: "Public comment"
 
       click_button "Save and mark as complete"
 
@@ -106,10 +108,12 @@ RSpec.describe "Make draft recommendation task", type: :system do
         choose "Granted"
       end
 
-      fill_in "State the reasons for your recommendation.", with: "This is a public comment"
+      fill_in "State the reasons the application is to be granted", with: "This is a public comment"
       fill_in "Provide supporting information for the reviewer.", with: "This is a private assessor comment"
 
       click_button "Save changes"
+
+      expect(page).to have_content "successfully saved"
 
       planning_application.reload
       expect(planning_application.public_comment).to eq("This is a public comment")
@@ -158,7 +162,7 @@ RSpec.describe "Make draft recommendation task", type: :system do
       end
 
       expect(page).to have_field(
-        "State the reasons for your recommendation.",
+        "State the reasons the application is to be granted",
         with: "Existing public comment"
       )
       expect(page).to have_field(
@@ -188,9 +192,11 @@ RSpec.describe "Make draft recommendation task", type: :system do
         choose "Granted"
       end
 
-      fill_in "State the reasons for your recommendation.", with: "Public comment"
+      fill_in "State the reasons the application is to be granted", with: "Public comment"
 
       click_button "Save and mark as complete"
+
+      expect(page).to have_content "successfully saved"
 
       committee_decision = planning_application.reload.committee_decision
       expect(committee_decision.recommend).to be(true)
@@ -244,7 +250,7 @@ RSpec.describe "Make draft recommendation task", type: :system do
         choose "Granted"
       end
 
-      fill_in "State the reasons for your recommendation.", with: "Public comment"
+      fill_in "State the reasons the application is to be granted", with: "Public comment"
 
       click_button "Save and mark as complete"
 

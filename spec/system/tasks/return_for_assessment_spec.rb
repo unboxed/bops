@@ -42,7 +42,7 @@ RSpec.describe "Returning a recommendation for assessment", type: :system do
     within_fieldset("What is your recommendation?") do
       choose "Granted"
     end
-    fill_in "State the reasons for your recommendation.", with: "Meets policy requirements."
+    fill_in "State the reasons the application is to be granted", with: "Meets policy requirements."
     click_button "Save and mark as complete"
 
     within :sidebar do
@@ -83,7 +83,7 @@ RSpec.describe "Returning a recommendation for assessment", type: :system do
     within_fieldset("What is your recommendation?") do
       choose "Granted"
     end
-    fill_in "State the reasons for your recommendation.", with: "Meets policy requirements."
+    fill_in "State the reasons the application is to be granted", with: "Meets policy requirements."
     click_button "Save and mark as complete"
 
     expect(planning_application.reload).to be_to_be_reviewed
