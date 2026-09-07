@@ -2,6 +2,8 @@
 
 module Tasks
   class SiteNoticeForm < Form
+    include DateValidateable
+
     self.task_actions = %w[save_and_complete create_site_notice email_site_notice mark_not_required confirm_display send_confirmation_request]
 
     attribute :required, :boolean
@@ -12,7 +14,19 @@ module Tasks
     attribute :delivery_method, :string
     attribute :documents, array: true
 
-    validates :internal_team_email, presence: true, if: -> { delivery_method == "internal_team" }
+    with_options on: :create_site_notice do
+      validates :quantity, presence: {message: "Enter number of site notices"}, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100}
+      validates :delivery_method, presence: {message: "Select method of delivery"}
+      validates :internal_team_email, allow_blank: true, format: {with: URI::MailTo::EMAIL_REGEXP}
+      validate :public_portal_must_be_active
+      validate :application_must_be_assigned
+      validates :internal_team_email, presence: true, if: -> { delivery_method == "internal_team" }
+    end
+
+    with_options on: :confirm_display do
+      validate :documents_present
+      validates :displayed_at, presence: true, date: {on_or_before: :current}
+    end
 
     after_initialize do
       @site_notices = planning_application.site_notices
@@ -55,29 +69,8 @@ module Tasks
 
     attr_reader :site_notice, :site_notices
 
-    with_options on: :create_site_notice do
-      validates :quantity, presence: {message: "Enter number of site notices"}
-      validates :delivery_method, presence: {message: "Select method of delivery"}
-      with_options format: {with: URI::MailTo::EMAIL_REGEXP} do
-        validates :internal_team_email, allow_blank: true
-      end
-      validate :public_portal_must_be_active
-      validate :application_must_be_assigned
-    end
-
-    with_options on: :confirm_display do
-      validate :documents_present
-      validates :displayed_at, presence: true
-      validate :displayed_at_not_in_past
-    end
-
     def documents_present
       errors.add(:documents, "Upload evidence of display") unless documents.compact_blank.any?
-    end
-
-    def displayed_at_not_in_past
-      return if displayed_at.blank?
-      errors.add(:displayed_at, "Display date must be on or after today") if displayed_at < Date.current
     end
 
     def failure_template
