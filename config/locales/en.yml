@@ -218,6 +218,21 @@ en:
               blank: Provide a summary of the immunity assessment
         tasks/site_description_form:
           blank: Site description cannot be blank
+        tasks/site_notice_form:
+          attributes:
+            displayed_at:
+              date_blank: Provide the date when the site notice was displayed
+              date_invalid: The date the site notice was displayed must be a valid date
+              date_not_on_or_after: The date the site notice was displayed must be on or after the consultation start date
+              date_not_on_or_before: The date the site notice was displayed must be on or before today
+            documents:
+              blank: Provide documentary evidence that the site notice was displayed
+            quantity:
+              blank: Enter how many site notices are required
+              greater_than_or_equal_to: Enter 1 or more site notices
+              less_than_or_equal_to: Enter 100 or fewer site notices
+              not_a_number: Enter the number of site notices as a whole number
+              not_an_integer: Enter the number of site notices as a whole number
         tasks/summary_of_additional_evidence:
           blank: Summary of additional evidence cannot be blank
         tasks/summary_of_consultation:

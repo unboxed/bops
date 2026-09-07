@@ -15,8 +15,8 @@ module Tasks
     attribute :documents, array: true
 
     with_options on: :create_site_notice do
-      validates :quantity, presence: {message: "Enter number of site notices"}, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100}
-      validates :delivery_method, presence: {message: "Select method of delivery"}
+      validates :quantity, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1, less_than_or_equal_to: 100}
+      validates :delivery_method, presence: true
       validates :internal_team_email, allow_blank: true, format: {with: URI::MailTo::EMAIL_REGEXP}
       validate :public_portal_must_be_active
       validate :application_must_be_assigned
