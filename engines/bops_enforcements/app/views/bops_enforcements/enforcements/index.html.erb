@@ -27,7 +27,11 @@
 
       <div id="text" class="govuk-tabs__panel">
         <% if action_name == "updated" %>
-          tmp
+          <%= render BopsEnforcements::UpdatedPanelComponent.new(
+              search: @search,
+              tab_route: :enforcements_path,
+              audits: Audit.all
+          ) %>
         <% else %>
           <%= render BopsEnforcements::PanelComponent.new(
             enforcements: @enforcements,
