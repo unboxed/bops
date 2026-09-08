@@ -220,6 +220,23 @@ RSpec.describe PlanningApplication do
         end
       end
 
+      context "when application number exists in a previous year" do
+        let(:local_authority) { create(:local_authority, :default) }
+        let(:planning_application1) { travel_to(1.year.ago) { create(:planning_application, local_authority:) } }
+        let(:planning_application2) { create(:planning_application, local_authority:) }
+        let(:planning_application3) { create(:planning_application, local_authority:) }
+
+        it "reuses the application number" do
+          expect(planning_application1.application_number).to eq("00100")
+          expect(planning_application2.application_number).to eq("00100")
+          expect(planning_application3.application_number).to eq("00101")
+        end
+
+        it "generates different reference numbers from those application numbers" do
+          expect(planning_application1.reference).not_to eq(planning_application2.reference)
+        end
+      end
+
       context "when a planning application is deleted" do
         let(:local_authority) { create(:local_authority) }
         let(:planning_application1) { create(:planning_application, local_authority:) }
