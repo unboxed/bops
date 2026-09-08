@@ -244,12 +244,11 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
       let(:zip_name) { "PT-10078243" }
       let(:zip_path) { file_fixture_submissions("applications/#{zip_name}.zip").to_s }
       let(:submission) { create(:submission, request_body: {"documentLinks" => [{"documentLink" => zip_path}]}) }
+      let(:entry) { Struct.new("Entry", :name).new(name: "erroneous.monk") }
 
       before do
         allow(service).to receive(:extract_using_input_stream).with(zip_path).and_raise(
-          Zip::GPFBit3Error,
-          "General purpose flag Bit 3 is set so not possible to get proper info from local header." \
-          "Please use ::Zip::File instead of ::Zip::InputStream"
+          Zip::StreamingError, entry
         )
         allow(service).to receive(:extract_using_zip_file).and_call_original
         allow(Rails.logger).to receive(:warn)
@@ -261,7 +260,7 @@ RSpec.describe BopsSubmissions::ZipExtractionService, type: :service do
 
         expect(Rails.logger)
           .to have_received(:warn)
-          .with(/ZipExtractionService: InputStream failed for .*: General purpose flag Bit 3 is set so not possible.*retrying with Zip::File/)
+          .with("ZipExtractionService: InputStream failed for #{zip_path}: The local header of this entry ('#{entry.name}') does not contain the correct metadata for `Zip::InputStream` to be able to uncompress it. Please use `Zip::File` instead of `Zip::InputStream`., retrying with Zip::File")
 
         expect(submission.reload.documents).not_to be_empty
       end
