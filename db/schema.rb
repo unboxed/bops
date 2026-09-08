@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_10_135703) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_16_135319) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -1074,13 +1074,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_135703) do
     t.string "ward_type"
     t.datetime "withdrawn_at", precision: nil
     t.string "work_status", default: "proposed"
+    t.integer "year", null: false
     t.index "lower((reference)::text)", name: "ix_planning_applications_on_lower_reference"
     t.index "lower(replace((postcode)::text, ' '::text, ''::text))", name: "ix_planning_applications_on_LOWER_replace_postcode"
     t.index "to_tsvector('english'::regconfig, description)", name: "index_planning_applications_on_description", using: :gin
     t.index ["address_search"], name: "ix_planning_applications_on_address_search", using: :gin
     t.index ["alternative_reference"], name: "ix_planning_applications_on_alternative_reference", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
-    t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority"
     t.index ["application_type_id"], name: "ix_planning_applications_on_application_type_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["deleted_at"], name: "ix_planning_applications_on_deleted_at"
@@ -1093,6 +1093,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_135703) do
     t.index ["status"], name: "ix_planning_applications_on_status"
     t.index ["submission_id"], name: "ix_planning_applications_on_submission_id"
     t.index ["user_id"], name: "index_planning_applications_on_user_id"
+    t.index ["year", "application_number", "local_authority_id"], name: "ix_planning_applications_on_year__application_number__local_aut", unique: true
   end
 
   create_table "planx_planning_data", force: :cascade do |t|

@@ -202,6 +202,7 @@ class PlanningApplication < ApplicationRecord
   }
 
   before_validation :set_application_number, on: :create
+  before_validation :set_year, on: :create
   before_validation :set_reference, on: :create
   before_validation :reset_published_at, unless: [:can_publish?, :validated?]
   before_save :set_lat_and_long
@@ -387,7 +388,7 @@ class PlanningApplication < ApplicationRecord
   end
 
   def application_number
-    self[:application_number].to_s.rjust(5, "0")
+    format("%05d", super)
   end
 
   def assessor_decision_updated?
@@ -1164,9 +1165,17 @@ class PlanningApplication < ApplicationRecord
     self.published_at = nil
   end
 
+  def year
+    format("%02d", super % 100)
+  end
+
+  def set_year
+    self.year = Time.zone.today.year
+  end
+
   def set_reference
     self.reference = [
-      Date.current.strftime("%y"),
+      year,
       application_number,
       application_type_suffix
     ].join("-")
