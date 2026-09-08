@@ -1300,7 +1300,8 @@ class PlanningApplication < ApplicationRecord
   end
 
   def set_application_number
-    max_application_number = local_authority.planning_applications.with_discarded.maximum(:application_number)
+    today = Time.zone.now
+    max_application_number = local_authority.planning_applications.with_discarded.received_at_between(today.beginning_of_year, today.end_of_year).maximum(:application_number)
 
     self.application_number = max_application_number ? max_application_number + 1 : 100
   end

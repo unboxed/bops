@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_16_101625) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_08_154602) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -1078,7 +1078,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_16_101625) do
     t.index ["address_search"], name: "ix_planning_applications_on_address_search", using: :gin
     t.index ["alternative_reference"], name: "ix_planning_applications_on_alternative_reference", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
-    t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority", unique: true
+    t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority"
     t.index ["application_type_id"], name: "ix_planning_applications_on_application_type_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["deleted_at"], name: "ix_planning_applications_on_deleted_at"
