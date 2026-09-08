@@ -8,10 +8,10 @@ module BopsEnforcements
       @enforcements = enforcements
       @type = type
       @search = search
-      @attributes = attributes
+      @attributes = attributes || default_attributes
     end
 
-    attr_reader :type, :search
+    attr_reader :type, :search, :attributes
 
     def before_render
       @pagy, @paginated_enforcements = pagy(@enforcements, overflow: :last_page)
@@ -59,10 +59,6 @@ module BopsEnforcements
 
     def pagination_url(page:)
       pagy_url_for(@pagy, page) + "##{type}"
-    end
-
-    def attributes
-      default_attributes
     end
 
     def title
