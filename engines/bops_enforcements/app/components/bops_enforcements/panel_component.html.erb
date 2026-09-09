@@ -7,7 +7,7 @@
       )
     ) %>
 
-<% if enforcements.empty? %>
+<% if paginated_enforcements.empty? %>
   <p><%= t("bops_enforcements.panel_component.no_enforcements") %></p>
 <% else %>
   <%= helpers.govuk_table(id: "enforcements") do |table| %>
@@ -24,7 +24,7 @@
     <% end %>
 
     <% table.with_body do |body| %>
-      <% enforcements.each do |enforcement| %>
+      <% paginated_enforcements.each do |enforcement| %>
         <% body.with_row do |row| %>
           <% attributes.each do |attribute| %>
             <%= row.with_cell do %>
@@ -35,7 +35,5 @@
       <% end %>
     <% end %>
   <% end %>
-  <% if type == :all %>
-    <%= pagination %>
-  <% end %>
+  <%= pagination %>
 <% end %>

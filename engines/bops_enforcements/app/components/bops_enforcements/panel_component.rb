@@ -11,19 +11,10 @@ module BopsEnforcements
       @attributes = attributes || default_attributes
     end
 
-    attr_reader :type, :search, :attributes
+    attr_reader :type, :search, :attributes, :paginated_enforcements
 
     def before_render
       @pagy, @paginated_enforcements = pagy(@enforcements, overflow: :last_page)
-    end
-
-    def enforcements
-      case type
-      when :all
-        @paginated_enforcements
-      else
-        @enforcements
-      end
     end
 
     TAG_MAPPINGS = {
