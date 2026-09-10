@@ -3,7 +3,14 @@
 BopsEnforcements::Engine.routes.draw do
   root to: redirect("enforcements")
 
-  resources :enforcements, only: %i[index show]
+  resources :enforcements, only: %i[index show] do
+    with_options on: :collection do
+      get :unassigned
+      get :closed
+      get :updated
+      get :all
+    end
+  end
 
   scope "/cases/:case_id" do
     resources :assign_users, only: %i[index] do

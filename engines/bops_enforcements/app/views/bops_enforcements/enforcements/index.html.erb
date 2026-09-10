@@ -12,21 +12,35 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <div class="govuk-tabs" data-module="govuk-tabs">
-      <h2 class="govuk-tabs__title">
-        Contents
-      </h2>
+    <div class="govuk-tabs">
+      <h2 class="govuk-tabs__title">Contents</h2>
 
-      <%= govuk_tabs do |tabs|
-            tabs.with_tab(label: "All cases", id: "all") {
-              render BopsEnforcements::PanelComponent.new(
-                enforcements: @enforcements,
-                type: :all,
-                search: @search,
-                attributes: @attributes
-              )
-            }
-          end %>
+      <ul class="govuk-tabs__list">
+        <% %w[index unassigned  closed updated all].each do |tab_scope| %>
+          <%= tag.li class: class_names("govuk-tabs__list-item", "govuk-tabs__list-item--selected": tab_scope == action_name) do %>
+            <%= link_to route_for(tab_scope == "index" ? :enforcements : "#{tab_scope}_enforcements"), class: "govuk-tabs__tab" do %>
+              <%= t(tab_scope, scope: 'bops_enforcements.index.tabs') %>
+            <% end %>
+          <% end %>
+        <% end %>
+      </ul>
+
+      <div id="text" class="govuk-tabs__panel">
+        <% if action_name == "updated" %>
+          <%= render BopsEnforcements::UpdatedPanelComponent.new(
+              search: @search,
+              tab_route: :enforcements_path,
+              audits: Audit.all
+          ) %>
+        <% else %>
+          <%= render BopsEnforcements::PanelComponent.new(
+            enforcements: @enforcements,
+            type: action_name,
+            search: @search,
+            attributes: @attributes,
+        ) %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

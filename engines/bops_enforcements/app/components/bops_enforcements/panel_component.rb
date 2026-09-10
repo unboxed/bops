@@ -8,29 +8,21 @@ module BopsEnforcements
       @enforcements = enforcements
       @type = type
       @search = search
-      @attributes = attributes
+      @attributes = attributes || default_attributes
     end
 
-    attr_reader :type, :search
+    attr_reader :type, :search, :attributes, :paginated_enforcements
 
     def before_render
       @pagy, @paginated_enforcements = pagy(@enforcements, overflow: :last_page)
-    end
-
-    def enforcements
-      case type
-      when :all
-        @paginated_enforcements
-      else
-        @enforcements
-      end
     end
 
     TAG_MAPPINGS = {
       urgent: ->(e, h) { e.urgent? ? h.govuk_tag(text: "Urgent", colour: "red") : nil },
       days_status_tag: ->(e, h) { h.govuk_tag(text: "#{e.days_from} days received", colour: "orange") },
       status_tag: ->(e, h) { h.govuk_tag(text: e.status.humanize, colour: e.status_tag_colour) },
-      to_param: ->(e, h) { h.govuk_link_to(e.case_record.id, h.enforcement_path(e)) }
+      to_param: ->(e, h) { h.govuk_link_to(e.case_record.id, h.enforcement_path(e)) },
+      user_name: ->(e, h) { e.user&.name }
     }.freeze
 
     def render_attribute(enforcement, attribute)
@@ -59,10 +51,6 @@ module BopsEnforcements
 
     def pagination_url(page:)
       pagy_url_for(@pagy, page) + "##{type}"
-    end
-
-    def attributes
-      default_attributes
     end
 
     def title

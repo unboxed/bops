@@ -51,20 +51,27 @@ en:
           one: "%{count}"
           other: "%{count}"
           title: Cases returned after review
+    index:
+      tabs:
+        all: All cases
+        closed: Closed cases
+        index: Cases assigned to you
+        unassigned: Unassigned cases
+        updated: Updated cases
     panel_component:
       all: All enforcement cases
-      closed: Closed
+      closed: Closed cases
       days_status_tag: Days received
       description: Description
       formatted_expiry_date: Expiry date
-      mine: My applications
+      index: My cases
       no_enforcements: No enforcement cases
       not_started_and_invalid: Not started
       outcome: Outcome
       status_tag: Status
       to_param: Case reference
       to_s: Address
-      unassigned: Unassigned applications
+      unassigned: Unassigned cases
       urgent: Priority
       user_name: Planning officer
     search_component:

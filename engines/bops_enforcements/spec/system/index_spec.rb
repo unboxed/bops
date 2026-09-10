@@ -33,47 +33,45 @@ RSpec.describe "Enforcement index page", type: :system do
     visit "/enforcements"
     click_link "All cases"
 
-    within("#all") do
-      expect(page).to have_selector("h2", text: "All enforcement cases")
+    expect(page).to have_selector("h2", text: "All enforcement cases")
 
-      within(".govuk-table") do
-        within(".govuk-table__head") do
-          within(all(".govuk-table__row").first) do
-            expect(page).to have_content("Case reference")
-            expect(page).to have_content("Address")
-            expect(page).to have_content("Days received")
-            expect(page).to have_content("Status")
-            expect(page).to have_content("Priority")
+    within(".govuk-table") do
+      within(".govuk-table__head") do
+        within(all(".govuk-table__row").first) do
+          expect(page).to have_content("Case reference")
+          expect(page).to have_content("Address")
+          expect(page).to have_content("Days received")
+          expect(page).to have_content("Status")
+          expect(page).to have_content("Priority")
+        end
+      end
+
+      within(".govuk-table__body") do
+        rows = page.all(".govuk-table__row")
+
+        within(rows[0]) do
+          cells = page.all(".govuk-table__cell")
+          within(cells[0]) do
+            expect(page).to have_content(case_record.id)
+          end
+          within(cells[1]) do
+            expect(page).to have_content(enforcement.to_s)
+          end
+          within(cells[2]) do
+            expect(page).to have_content("0 days received")
           end
         end
 
-        within(".govuk-table__body") do
-          rows = page.all(".govuk-table__row")
-
-          within(rows[0]) do
-            cells = page.all(".govuk-table__cell")
-            within(cells[0]) do
-              expect(page).to have_content(case_record.id)
-            end
-            within(cells[1]) do
-              expect(page).to have_content(enforcement.to_s)
-            end
-            within(cells[2]) do
-              expect(page).to have_content("0 days received")
-            end
+        within(rows[1]) do
+          cells = page.all(".govuk-table__cell")
+          within(cells[0]) do
+            expect(page).to have_content(case_record_1.id)
           end
-
-          within(rows[1]) do
-            cells = page.all(".govuk-table__cell")
-            within(cells[0]) do
-              expect(page).to have_content(case_record_1.id)
-            end
-            within(cells[1]) do
-              expect(page).to have_content(enforcement_1.to_s)
-            end
-            within(cells[2]) do
-              expect(page).to have_content("0 days received")
-            end
+          within(cells[1]) do
+            expect(page).to have_content(enforcement_1.to_s)
+          end
+          within(cells[2]) do
+            expect(page).to have_content("0 days received")
           end
         end
       end
