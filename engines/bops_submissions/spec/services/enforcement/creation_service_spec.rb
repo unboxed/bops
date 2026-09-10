@@ -38,7 +38,7 @@ RSpec.describe BopsSubmissions::Enforcement::CreationService, type: :service do
     let(:parsed_enforcement_data) do
       {
         description: "Unauthorised erection of a library in the front garden",
-        address_1: "CHARES DICKENS WRITING CHALET–EASTGATE HOUSE–HIGH STREET",
+        address_1: "CHARLES DICKENS WRITING CHALET–EASTGATE HOUSE–HIGH STREET",
         address_2: nil,
         town: "ROCHESTER",
         county: nil,
