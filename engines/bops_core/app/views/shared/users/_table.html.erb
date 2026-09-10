@@ -19,7 +19,7 @@
   <% table.with_body do |body| %>
     <% users.each do |user| %>
       <% body.with_row do |row| %>
-        <% row.with_cell do %>
+        <% row.with_cell(html_attributes: {class: "max-width-30"}) do %>
           <%= user.name %><br>
           <%= user.email %><br>
           <%= number_to_phone(user.mobile_number, delimiter: " ", pattern: /(\d{5})(\d{3})(\d{3})$/) %><br>
