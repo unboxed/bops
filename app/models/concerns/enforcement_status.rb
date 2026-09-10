@@ -21,10 +21,12 @@ module EnforcementStatus
 
       event :start_investigation do
         transitions from: :not_started, to: :under_investigation
+        after { audit!(activity_type: "started") }
       end
 
       event :close do
         transitions from: [:not_started, :under_investigation], to: :closed
+        after { audit!(activity_type: "closed") }
       end
     end
   end

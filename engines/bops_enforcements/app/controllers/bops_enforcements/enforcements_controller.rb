@@ -47,6 +47,8 @@ module BopsEnforcements
       when "closed"
         @attributes = %i[to_param to_s days_status_tag urgent]
         @enforcements = @enforcements.where(status: :closed)
+      when "updated"
+        @audits = current_local_authority.enforcement_audits.most_recent_for_auditable
       when "all"
         @attributes = %i[to_param to_s days_status_tag user_name urgent status_tag]
       end

@@ -5,6 +5,10 @@ class Enforcement < ApplicationRecord
 
   include EnforcementStatus
 
+  include Auditable
+
+  has_many :audits, as: :auditable
+
   delegate :documents, to: :case_record
 
   STATUS_COLOURS = {
@@ -23,6 +27,19 @@ class Enforcement < ApplicationRecord
     }
 
   after_initialize -> { self.received_at ||= Time.zone.now }
+  after_create :audit_created!
+  after_update :audit_updated!
+
+  AUDIT_ATTRIBUTES = %w[
+    address_1
+    address_2
+    county
+    description
+    postcode
+    proposal_details
+    town
+    uprn
+  ].freeze
 
   scope :by_received_at_desc, -> { order(received_at: :desc) }
   delegate :to_s, to: :address
@@ -93,9 +110,36 @@ class Enforcement < ApplicationRecord
     BopsEnforcements::Engine.routes.url_helpers
   end
 
+  def full_address
+    "#{address_1}, #{town}, #{postcode}"
+  end
+
+  def reference
+    case_record.id
+  end
+
   private
 
   def factory
     @factory ||= RGeo::Geographic.spherical_factory(srid: 4326)
+  end
+
+  def audit_created!
+    audit!(activity_type: "created", activity_information: Current.api_user&.name || Current.user&.name)
+  end
+
+  def audit_updated!
+    return unless saved_changes?
+
+    saved_changes.keys.intersection(AUDIT_ATTRIBUTES).map do |attribute_name|
+      next if saved_change_to_attribute(attribute_name).all? { |value| value.blank? || value.try(:zero?) }
+
+      original_attribute = saved_change_to_attribute(attribute_name).first
+      new_attribute = saved_change_to_attribute(attribute_name).second
+
+      audit!(activity_type: "updated",
+        activity_information: attribute_name.humanize,
+        audit_comment: "Changed from: #{original_attribute} \r\n Changed to: #{new_attribute}")
+    end
   end
 end

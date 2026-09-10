@@ -12,12 +12,6 @@ RSpec.describe Audit do
       end
     end
 
-    describe "#planning_application" do
-      it "validates presence" do
-        expect { audit.valid? }.to change { audit.errors[:planning_application] }.to ["must exist"]
-      end
-    end
-
     describe "#validation_request" do
       let(:planning_application) { create(:planning_application) }
       let(:audit) { planning_application.audits.last }

@@ -14,14 +14,14 @@
     ) %>
 
 <% if audits.empty? %>
-  <p><%= t(".no_planning_applications") %></p>
+  <p><%= t(".no_enforcements") %></p>
 <% else %>
   <table class="govuk-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <% attributes.each do |attribute| %>
           <th scope="col" class="govuk-table__header">
-            <%= I18n.t("planning_applications.panel_component.#{attribute}") %>
+            <%= I18n.t("bops_enforcements.panel_component.#{attribute}") %>
           </th>
         <% end %>
       </tr>

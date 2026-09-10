@@ -64,10 +64,13 @@ en:
       days_status_tag: Days received
       description: Description
       formatted_expiry_date: Expiry date
+      full_address: Address
       index: My cases
       no_enforcements: No enforcement cases
       not_started_and_invalid: Not started
       outcome: Outcome
+      reference: Reference
+      status: Status
       status_tag: Status
       to_param: Case reference
       to_s: Address
@@ -131,3 +134,5 @@ en:
         start-investigation:
           failure: Unable to start investigation
           success: Investigation successfully started and complainant notified
+    updated_panel_component:
+      no_planning_applications: No enforcement cases

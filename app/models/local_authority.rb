@@ -31,6 +31,8 @@ class LocalAuthority < ApplicationRecord
   has_many :neighbour_responses, through: :consultations
   has_many :enforcements, through: :case_records, source: :caseable, source_type: "Enforcement"
 
+  has_many :enforcement_audits, through: :enforcements, source: :audits
+
   module Configuration
     class Accessibility < Struct.new(:postal_address, :phone_number, :email_address); end
     class Consultation < Struct.new(:postal_address); end

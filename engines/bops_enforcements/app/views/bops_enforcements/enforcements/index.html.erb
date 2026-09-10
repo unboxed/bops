@@ -30,7 +30,7 @@
           <%= render BopsEnforcements::UpdatedPanelComponent.new(
               search: @search,
               tab_route: :enforcements_path,
-              audits: Audit.all
+              audits: @audits
           ) %>
         <% else %>
           <%= render BopsEnforcements::PanelComponent.new(
