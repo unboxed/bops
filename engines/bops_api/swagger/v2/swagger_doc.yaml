@@ -23520,15 +23520,15 @@ paths:
                         longitude: 0.5014056
                         x: 574136.97
                         "y": 168560.23
-                        title: ROCHESTER CASTLE, CASTLE HILL, ROCHESTER
+                        title: Rochester Castle, Castle Hill, Rochester
                         source: Ordnance Survey
                         uprn: '000044026089'
                         usrn: '32100321'
-                        pao: ROCHESTER CASTLE
-                        street: CASTLE HILL
-                        town: ROCHESTER
+                        pao: Rochester Castle
+                        street: Castle Hill
+                        town: Rochester
                         postcode: ME1 1SW
-                        singleLine: ROCHESTER CASTLE, CASTLE HILL, ROCHESTER, MEDWAY,
+                        singleLine: Rochester Castle, Castle Hill, Rochester, Medway,
                           ME1 1SW
                       ward: Rochester West & Borstal
                       localAuthorityDistrict:
@@ -23561,7 +23561,7 @@ paths:
                           description: Listed building
                           intersects: true
                           entities:
-                          - name: ROCHESTER CASTLE
+                          - name: Rochester Castle
                             source:
                               text: Planning Data
                               url: https://www.planning.data.gov.uk/entity/31792007
