@@ -12,9 +12,8 @@ module BopsEnforcements
 
     def attributes
       %i[
-        formatted_expiry_date
         reference
-        status_tag
+        status
         full_address
         description
       ]

@@ -16,6 +16,8 @@ module Auditable
         automated_activity: no_current_user?
       }
       audit_attrs[:planning_application] = planning_application if respond_to?(:planning_application, true)
+      audit_attrs[:enforcement] = enforcement if respond_to?(:enforcement, true)
+
       audits.create!(audit_attrs)
     end
 

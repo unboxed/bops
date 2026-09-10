@@ -16,14 +16,14 @@
 %>
 
 <% if audits.empty? %>
-  <p><%= t(".no_planning_applications") %></p>
+  <p><%= t(".no_enforcements") %></p>
 <% else %>
   <table class="govuk-table">
     <thead class="govuk-table__head">
       <tr class="govuk-table__row">
         <% attributes.each do |attribute| %>
           <th scope="col" class="govuk-table__header">
-            <%= I18n.t("planning_applications.panel_component.#{attribute}") %>
+            <%= I18n.t("bops_enforcements.panel_component.#{attribute}") %>
           </th>
         <% end %>
       </tr>
@@ -31,13 +31,38 @@
 
     <tbody class="govuk-table__body">
       <% audits.each do |audit| %>
-        <%= render(
-              PlanningApplications::RowComponent.new(
-                planning_application: audit.planning_application,
-                attributes: attributes,
-                audit: audit
-              )
-            ) %>
+        <tr class="govuk-table__row" id="<%= dom_id(audit.auditable) %>">
+          <% attributes.each do |attribute| %>
+            <%= tag.td(class: class_names("govuk-table__cell", attribute, "limit-column-width", "border-bottom-none": audit)) do %>
+              <%= link_to_if(
+                  attribute == :reference,
+                  audit.auditable.public_send(attribute),
+                  helpers.enforcement_path(audit.auditable),
+                  class: "govuk-link"
+              ) %>
+            <% end %>
+          <% end %>
+        </tr>
+
+        <% if audit %>
+          <tr class="govuk-table__row" id="<%= dom_id(audit) %>">
+            <td
+              class="
+                govuk-table__cell govuk-!-padding-left-2 govuk-!-padding-bottom-0
+                govuk-!-padding-top-0
+              "
+              colspan="<%= attributes.length %>"
+            >
+              <div class="govuk-inset-text">
+                <p>
+                  <strong>Update:</strong> <%= render(Audits::ActivityComponent.new(audit: audit)) %>
+                </p>
+
+                <p><%= audit.created_at.to_fs %></p>
+              </div>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>

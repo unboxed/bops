@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Audit < ApplicationRecord
-  belongs_to :planning_application
+  belongs_to :planning_application, optional: true
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
   belongs_to :auditable, polymorphic: true, optional: true
@@ -9,6 +9,7 @@ class Audit < ApplicationRecord
   scope :by_created_at, -> { order(created_at: :asc) }
   scope :with_user_and_api_user, -> { preload(:user, :api_user) }
   scope :with_planning_application, -> { includes(:planning_application).where.not(planning_applications: {status: "pending"}) }
+
   scope :not_by_assigned_officer, lambda {
     joins(:planning_application).where(
       "audits.user_id != planning_applications.user_id OR planning_applications.user_id IS NULL"
@@ -17,6 +18,11 @@ class Audit < ApplicationRecord
   scope :most_recent_for_planning_applications, lambda {
     not_by_assigned_officer.with_planning_application.where(
       created_at: Audit.select("MAX(created_at)").group(:planning_application_id)
+    ).reorder(created_at: :desc)
+  }
+  scope :most_recent_for_auditable, lambda {
+    where(
+      created_at: Audit.select("MAX(created_at)").group(:auditable_id)
     ).reorder(created_at: :desc)
   }
 
