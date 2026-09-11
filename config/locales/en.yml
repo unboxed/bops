@@ -2511,8 +2511,9 @@ en:
         success: Successfully updated heads of terms
         update_term: Term was successfully updated
       add-informatives:
-        add_informative: Informative was successfully added
-        failure: Failed to add informative
+        add_informative:
+          failure: Failed to add informative
+          success: Informative was successfully added
         save_draft: Informatives draft was saved
         success: Informatives were successfully saved
         update_informative: Informative was successfully updated
