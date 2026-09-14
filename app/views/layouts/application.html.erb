@@ -55,21 +55,22 @@
         <%= render SidebarComponent.new(params:, task: @show_sidebar) %>
       <% end %>
 
-      <main
+      <div
         class="govuk-main-wrapper govuk-main-wrapper--auto-spacing app-main-class"
-        id="main-content"
         role="main"
       >
         <% if @show_sidebar %>
           <div class="govuk-width-container"><%= render_navigation %></div>
         <% end %>
 
-        <div class="govuk-width-container">
-          <%= render "application/flash_content" %>
-        </div>
+        <main id="main-content">
+          <div class="govuk-width-container">
+            <%= render "application/flash_content" %>
 
-        <div class="govuk-width-container"><%= yield %></div>
-      </main>
+            <%= yield %>
+          </div>
+        </main>
+      </div>
     </div>
 
     <% unless @show_sidebar %>
