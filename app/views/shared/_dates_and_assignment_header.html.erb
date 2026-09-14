@@ -22,7 +22,7 @@
         Assigned to:
         <strong><%= @planning_application.user&.name || "Unassigned" %></strong>
         <!-- FIXME: make the link explicit and remove the span (i.e "Assign application"/"Change assignee") -->
-        <span class="assignment_cta"><%= govuk_link_to "Change", planning_application_assign_users_path(@planning_application) %></span>
+        <%= govuk_link_to "Change assignee", planning_application_assign_users_path(@planning_application) %>
       </p>
     <% elsif @planning_application.determined? %>
       <p>
@@ -63,7 +63,7 @@
         Requested services:
         <%= safe_join(@planning_application.additional_services.map { |service| tag.strong(service.name.to_s.humanize) }, ", ") %>
 
-        <%= govuk_link_to "Change", edit_planning_application_additional_services_path(@planning_application) %>
+        <%= govuk_link_to "Change services", edit_planning_application_additional_services_path(@planning_application) %>
       </p>
       <p id="service-charges">
         Service charges:
