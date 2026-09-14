@@ -127,12 +127,12 @@ RSpec.describe "Site notice task" do
 
         within ".govuk-error-summary" do
           expect(page).to have_content("Upload evidence of display")
-          expect(page).to have_content("Displayed at")
+          expect(page).to have_content("Provide the date when the site notice was displayed")
         end
       end
 
       it "confirms display with date and evidence" do
-        fill_in "Day", with: "10"
+        fill_in "Day", with: "1"
         fill_in "Month", with: "2"
         fill_in "Year", with: "2026"
 
@@ -144,7 +144,7 @@ RSpec.describe "Site notice task" do
 
         within ".govuk-summary-card" do
           expect(page).to have_selector("strong.govuk-tag--green", text: "Displayed")
-          expect(page).to have_content("10 February 2026")
+          expect(page).to have_content("1 February 2026")
           expect(page).to have_link("Edit display details")
         end
       end
@@ -231,8 +231,8 @@ RSpec.describe "Site notice task" do
         click_link "Confirm display"
       end
 
-      fill_in "Day", with: "10"
-      fill_in "Month", with: "3"
+      fill_in "Day", with: "1"
+      fill_in "Month", with: "1"
       fill_in "Year", with: "2026"
       attach_file "2. Upload evidence of site notice in place", "spec/fixtures/files/images/existing-floorplan.png"
       click_button "Confirm display"
@@ -248,7 +248,7 @@ RSpec.describe "Site notice task" do
         click_link "Confirm display"
       end
 
-      fill_in "Day", with: "15"
+      fill_in "Day", with: "1"
       fill_in "Month", with: "2"
       fill_in "Year", with: "2026"
       attach_file "2. Upload evidence of site notice in place", "spec/fixtures/files/images/existing-floorplan.png"

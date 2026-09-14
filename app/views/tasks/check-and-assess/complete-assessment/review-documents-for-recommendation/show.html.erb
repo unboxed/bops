@@ -30,7 +30,7 @@
           <%= content_tag(:tr, id: dom_id(document)) do %>
             <td class="govuk-table__cell">
               <%= govuk_link_to(
-                    document.numbers.presence || document.name,
+                    document.reference_or_name,
                     edit_planning_application_document_path(@planning_application, document, route: "review", return_to: @task.url)
                   ) %>
             </td>
