@@ -4,7 +4,37 @@
   data-controller="sidebar-scroll sidebar-toggle"
   data-action="scroll->sidebar-scroll#handleScroll"
 >
-  <% tasks.each do |task| %>
-    <%= render_task(task) %>
+  <% if planning_application&.pre_application? %>
+    <% if section.in? %w[Assessment Consultation] %>
+      <% other_link = case section
+      when "Assessment"
+          "Consultation"
+      when "Consultation"
+          "Assessment"
+      end %>
+      <%= helpers.govuk_link_to render("shared/icons/envelope", class: "bops-sidebar__task-icon") + other_link, section_task(other_link).url, class:  "bops-sidebar__link" %>
+      <hr class="govuk-!-margin-bottom-4">
+    <% end %>
   <% end %>
+
+  <%= helpers.tag.h3(class: "govuk-heading-s bops-sidebar__toggle", data: {sidebar_toggle_target: "button", action: "click->sidebar-toggle#toggle"}) do %>
+    <%= section %> tasks
+  <% end %>
+
+  <% if planning_application&.pre_application? && section == "Assessment" %>
+    <div class="govuk-!-margin-bottom-4">
+      <%= helpers.govuk_link_to "Preview report",
+        bops_reports.planning_application_path(planning_application, view_as: "applicant"),
+     new_tab: true, id: "preview-report-button-link" %>
+    </div>
+  <% end %>
+
+  <ul
+    class="govuk-list govuk-list--spaced bops-sidebar__list"
+    data-sidebar-toggle-target="content"
+  >
+    <% tasks.each do |task| %>
+      <%= render_task(task, top_level: true) %>
+    <% end %>
+  </ul>
 </nav>

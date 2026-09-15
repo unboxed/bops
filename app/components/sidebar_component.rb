@@ -22,18 +22,23 @@ class SidebarComponent < ViewComponent::Base
     end
   end
 
-  def render_task(task, top_level: true)
+  def section
+    @task&.section
+  end
+
+  def render_task(task, top_level: false)
     if task.section.present?
       render_section(task, top_level:)
     else
       is_active = current_task?(task)
       link_options = is_active ? {"aria-current": "page"} : {}
 
-      link = if case_record&.enforcement? && task&.not_started?
-        helpers.govuk_link_to(task.name, task.edit_url, **link_options)
+      link_target = if case_record&.enforcement? && task&.not_started?
+        task.edit_url
       else
-        helpers.govuk_link_to(task.name, task.url, **link_options)
+        task.url
       end
+      link = helpers.govuk_link_to(task.name, link_target, **link_options)
       content = safe_join([status_indicator_for(task), link], " ")
       li_classes = class_names("bops-sidebar__task", {"bops-sidebar__task--active": is_active})
 
@@ -41,74 +46,17 @@ class SidebarComponent < ViewComponent::Base
     end
   end
 
-  def render_section(section, top_level: true)
+  def render_section(section, top_level: false)
     visible_tasks = section.tasks.visible
     return if visible_tasks.empty?
 
     elements = []
 
-    if planning_application&.pre_application?
-      if section.section == "Assessment" || section.section == "Consultation"
-        other_link = case section.section
-        when "Assessment"
-          "Consultation"
-        when "Consultation"
-          "Assessment"
-        end
+    elements << helpers.tag.li(class: "bops-sidebar__heading") { helpers.tag.h3("#{section.section} tasks") } unless top_level
 
-        elements << helpers.govuk_link_to(
-          helpers.safe_join([
-            helpers.render("shared/icons/envelope", class: "bops-sidebar__task-icon"),
-            other_link
-          ]),
-          section_task(other_link).url,
-          class: "bops-sidebar__link"
-        )
+    tasks = visible_tasks.map { |task| render_task(task) }
 
-        elements << helpers.tag.hr(class: "govuk-!-margin-bottom-4")
-      end
-    end
-
-    toggle_data = if top_level
-      {
-        sidebar_toggle_target: "button",
-        action: "click->sidebar-toggle#toggle"
-      }
-    else
-      {}
-    end
-
-    heading = helpers.tag.h3(class: "govuk-heading-s #{"bops-sidebar__toggle" if top_level}", data: toggle_data) do
-      section.section + " tasks"
-    end
-
-    elements << if top_level
-      heading
-    else
-      helpers.tag.li(class: "bops-sidebar__heading") { heading }
-    end
-
-    if planning_application&.pre_application? && section.section == "Assessment"
-      elements << helpers.tag.div(
-        helpers.govuk_link_to(
-          "Preview report",
-          bops_reports.planning_application_path(
-            planning_application,
-            view_as: "applicant"
-          ),
-          new_tab: true,
-          id: "preview-report-button-link"
-        ),
-        class: "govuk-!-margin-bottom-4"
-      )
-    end
-    tasks = visible_tasks.map { |task| render_task(task, top_level: false) }
-
-    elements << if top_level
-      helpers.tag.ul(safe_join(tasks), class: "govuk-list govuk-list--spaced bops-sidebar__list", data: {sidebar_toggle_target: "content"})
-    else
-      helpers.tag.li(safe_join(tasks))
-    end
+    elements << helpers.tag.li(safe_join(tasks))
 
     safe_join(elements)
   end
