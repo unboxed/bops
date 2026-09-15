@@ -9,6 +9,7 @@ class CaseRecord < ApplicationRecord
   CONFIRM_SITE_NOTICE_SLUG = "consultees-neighbours-and-publicity/publicity/site-notice"
   CONFIRM_PRESS_NOTICE_SLUG = "consultees-neighbours-and-publicity/publicity/press-notice"
 
+  CASEABLE_TYPES = %w[Enforcement PlanningApplication].freeze
   delegated_type :caseable, types: %w[Enforcement PlanningApplication], dependent: :destroy
 
   has_many :tasks, -> { order(:position) }, as: :parent, dependent: :destroy, autosave: true
@@ -44,6 +45,10 @@ class CaseRecord < ApplicationRecord
 
   def case_record
     self
+  end
+
+  CASEABLE_TYPES.each do |type|
+    define_method(type.to_s.underscore + "?") { caseable_type == type }
   end
 
   private
