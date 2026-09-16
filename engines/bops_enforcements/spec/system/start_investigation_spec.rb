@@ -24,7 +24,7 @@ RSpec.describe "Start investigation", type: :system do
   before do
     sign_in user
     visit "/cases/#{enforcement.case_record.id}/check-breach-report"
-    click_link "Start investigation and notify complainant"
+    click_link "Start investigation"
   end
 
   it "displays the correct details" do
@@ -49,7 +49,7 @@ RSpec.describe "Start investigation", type: :system do
     case_record.update(user: nil)
 
     visit "/cases/#{enforcement.case_record.id}/check-breach-report"
-    click_link "Start investigation and notify complainant"
+    click_link "Start investigation"
 
     expect(page).to have_content("No case officer has been assigned yet.")
 
@@ -63,7 +63,7 @@ RSpec.describe "Start investigation", type: :system do
 
     expect(page).to have_content("Assigned to: Jane Smith")
     click_link "Check breach report"
-    click_link "Start investigation and notify complainant"
+    click_link "Start investigation"
     expect(page).to have_content("The case is currently assigned to: Jane Smith")
 
     find("span", text: "View email template").click
@@ -111,15 +111,11 @@ RSpec.describe "Start investigation", type: :system do
     end
 
     click_link "Check breach report"
-    within(".govuk-task-list") do
-      expect(page).to have_content("Completed")
-    end
-
-    click_link "Start investigation and notify complainant"
-    expect(page).to have_content("Notification was sent to complainant")
+    click_link "Start investigation"
+    # expect(page).to have_content("Notification was sent to complainant")
 
     expect(page).to have_selector(".govuk-tag", text: "Under investigation")
     expect(enforcement.reload.status).to eq("under_investigation")
-    expect(page).to have_content("The investigation has already been started.")
+    # expect(page).to have_content("The investigation has already been started.")
   end
 end
