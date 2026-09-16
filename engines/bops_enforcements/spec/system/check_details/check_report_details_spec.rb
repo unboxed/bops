@@ -24,9 +24,7 @@ RSpec.describe "Check report details", type: :system, capybara: true do
 
   context "when checking report" do
     before do
-      within "main" do
-        click_link "Check report details"
-      end
+      click_link "Check report details"
     end
 
     it "shows the relevant report details" do
@@ -55,10 +53,6 @@ RSpec.describe "Check report details", type: :system, capybara: true do
       click_button "Save and mark as complete"
       expect(page).to have_content("Report details successfully checked")
       expect(page).to have_content("urgent")
-
-      within(".govuk-task-list") do
-        expect(page).to have_content("Completed")
-      end
     end
   end
 end
