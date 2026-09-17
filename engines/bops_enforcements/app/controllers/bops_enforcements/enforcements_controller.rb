@@ -35,6 +35,8 @@ module BopsEnforcements
         .joins(:case_record)
         .by_received_at_desc
 
+      @search = BopsEnforcements::SearchForm.new(filter_params)
+
       if filter_params[:urgent]
         @enforcements = @enforcements.where(urgent: true)
       end
