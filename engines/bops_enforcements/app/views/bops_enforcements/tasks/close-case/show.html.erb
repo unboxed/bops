@@ -1,4 +1,4 @@
-<%= render "bops_enforcements/enforcements/enforcement", title: @task.name %>
+<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
 
 <%= form_with model: @enforcement, url: task_path(@case_record, @task) do |form| %>
   <div class="govuk-grid-row">

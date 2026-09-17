@@ -19,8 +19,17 @@
         <%= bops_environment_banner %>
         <%= render "application/header" %>
 
+        <% unless @show_sidebar %>
+          <% if @show_header_bar %>
+            <%= render_navigation %>
+          <% else %>
+            <div class="govuk-width-container">
+              <%= render_navigation %>
+            </div>
+          <% end %>
+        <% end %>
+
         <% if @show_header_bar %>
-          <%= render_navigation unless @show_sidebar %>
           <% if @planning_application %>
             <%= render BopsCore::HeaderBarComponent.new(
                   left: [
@@ -62,8 +71,6 @@
               <% information_navigation_items.each { |item| nav.with_navigation_item(**item) } %>
             <% end %>
           <% end %>
-        <% else %>
-          <div class="govuk-width-container"><%= render_navigation %></div>
         <% end %>
       </div>
     <% end %>
