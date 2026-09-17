@@ -25,14 +25,13 @@
     - name: "Investigation actions"
       section: "Investigation actions"
       tasks:
-        - name: "View investigation actions"
-        - name: "Add investigation action"
+        - name: "View investigation activities"
+        - name: "Add investigation activity"
 
     - name: "Assess"
       section: "Assess"
       tasks:
-        - name: "Add legislation for assessment"
-        - name: "Assess against policy"
+        - name: "Assess against policy and legislation"
 
     - name: "Summarise and decide"
       section: "Summarise and decide"
@@ -51,10 +50,12 @@
   section: "Serve and monitor"
   tasks:
     - name: "Serve notice"
+      section: "Serve notice"
       tasks:
         - name: "Add evidence of serving a notice"
 
     - name: "Required actions"
+      section: "Required actions"
 
 - name: "Process an appeal"
   section: "Appeal"
