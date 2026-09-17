@@ -69,13 +69,13 @@ RSpec.describe "Start investigation", type: :system do
     find("span", text: "View email template").click
     expect(page).to have_content("Should you have any queries please contact me via email jane.smith@southwark.gov.uk")
 
-    click_button "Start investigation"
+    click_button "Start investigation and notify complainant"
     expect(page).to have_content("Investigation successfully started and complainant notified")
   end
 
   it "I can start the investigation" do
     expect do
-      click_button "Start investigation"
+      click_button "Start investigation and notify complainant"
       expect(page).to have_content("Investigation successfully started and complainant notified")
     end.to have_enqueued_job(BopsEnforcements::SendStartInvestigationEmailJob).exactly(:once)
 
