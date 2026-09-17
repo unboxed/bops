@@ -19,7 +19,7 @@ BopsEnforcements::Engine.routes.draw do
 
     get "/check-breach-report", to: redirect(Bops::InitialTaskRedirector.new("Check"))
     get "/investigate-and-decide", to: redirect(Bops::InitialTaskRedirector.new("Investigate"))
-    # get "/review-recommendation", to: redirect(Bops::InitialTaskRedirector.new('Review'))
+    get "/review-recommendation", to: redirect(Bops::InitialTaskRedirector.new("Review"))
     get "/serve-and-monitor", to: redirect(Bops::InitialTaskRedirector.new("Serve and monitor"))
     # get "/process-an-appeal", to: redirect(Bops::InitialTaskRedirector.new('Appeal'))
 

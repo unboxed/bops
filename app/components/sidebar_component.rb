@@ -32,13 +32,7 @@ class SidebarComponent < ViewComponent::Base
     else
       is_active = current_task?(task)
       link_options = is_active ? {"aria-current": "page"} : {}
-
-      link_target = if case_record&.enforcement? && task&.not_started?
-        task.edit_url
-      else
-        task.url
-      end
-      link = helpers.govuk_link_to(task.name, link_target, **link_options)
+      link = helpers.govuk_link_to(task.name, task.url, **link_options)
       content = safe_join([status_indicator_for(task), link], " ")
       li_classes = class_names("bops-sidebar__task", {"bops-sidebar__task--active": is_active})
 

@@ -5,16 +5,17 @@
       tasks:
         - name: "Check description"
           optional: true
+    - name: "Documents and photos"
     - name: "Check site location"
-    - name: "Review constraints"
-    - name: "Review site history"
-    - name: "Review documents"
+    - name: "Check constraints"
+    - name: "Check site history"
     - name: "Start investigation"
 
 - name: "Investigate and decide"
   section: "Investigate"
   tasks:
     - name: "Update site and owner details"
+      section: "Site and owner details"
       tasks:
         - name: "Update site location"
         - name: "Add site owners and interested parties"
@@ -22,16 +23,19 @@
         - name: "Review constraints"
 
     - name: "Investigation actions"
+      section: "Investigation actions"
       tasks:
+        - name: "View investigation actions"
         - name: "Add investigation action"
-        - name: "Add site visit"
 
     - name: "Assess"
+      section: "Assess"
       tasks:
         - name: "Add legislation for assessment"
         - name: "Assess against policy"
 
     - name: "Summarise and decide"
+      section: "Summarise and decide"
       tasks:
         - name: "Summarise investigation and make recommendation"
         - name: "Create enforcement notice"
@@ -39,6 +43,9 @@
 
 - name: "Review recommendation"
   section: "Review"
+  tasks:
+    - name: "Review recommendation"
+    - name: "Review enforcement notice"
 
 - name: "Serve notice and monitor compliance"
   section: "Serve and monitor"

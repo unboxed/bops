@@ -8,7 +8,7 @@ module BopsEnforcements
         begin
           "BopsEnforcements::Tasks::#{form_name}".constantize
         rescue
-          BaseForm
+          Form
         end
       end
     end

@@ -4,7 +4,7 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-    <%= form_with model: @form, url: task_path(@case_record, @task), method: :patch do |form| %>
+    <%= form_with model: @form, url: @form.url, method: :patch do |form| %>
       <%= form.govuk_error_summary %>
 
       <% if @enforcement.not_started? %>
@@ -48,7 +48,7 @@
       <% end %>
 
       <% if @enforcement.not_started? %>
-        <%= form.govuk_submit "Start investigation" do %>
+        <%= form.govuk_task_button "Start investigation and notify complainant", action: "start_investigation" do %>
           <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
         <% end %>
       <% else %>

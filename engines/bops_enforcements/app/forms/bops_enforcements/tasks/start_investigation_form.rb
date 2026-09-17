@@ -2,29 +2,22 @@
 
 module BopsEnforcements
   module Tasks
-    class StartInvestigationForm < BaseForm
+    class StartInvestigationForm < Form
+      self.task_actions = %w[start_investigation]
+
       attr_reader :enforcement
 
       validate :complainant_email
 
-      def initialize(task)
-        super
-
+      after_initialize do
         @enforcement = case_record.caseable
       end
 
-      def permitted_fields(params)
-      end
-
-      def update(params)
-        return false unless valid?
-
-        ActiveRecord::Base.transaction do
-          enforcement.start_investigation!
-          task.update!(status: "completed")
-          task.parent.update!(status: "completed")
-          SendStartInvestigationEmailJob.perform_later(enforcement)
-        end
+      def start_investigation
+        enforcement.start_investigation!
+        task.update!(status: "completed")
+        task.parent.update!(status: "completed")
+        SendStartInvestigationEmailJob.perform_later(enforcement)
       end
 
       def redirect_url
