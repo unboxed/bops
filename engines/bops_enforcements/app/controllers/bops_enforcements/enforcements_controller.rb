@@ -35,8 +35,12 @@ module BopsEnforcements
         .joins(:case_record)
         .by_received_at_desc
 
-      if params["urgent"]
+      if filter_params[:urgent]
         @enforcements = @enforcements.where(urgent: true)
+      end
+
+      if (status = Array(filter_params[:status]).compact_blank.presence)
+        @enforcements = @enforcements.where(status:)
       end
 
       case action_name
@@ -62,7 +66,7 @@ module BopsEnforcements
     end
 
     def filter_params
-      params.permit(:urgent)
+      params.permit(:urgent, status: [])
     end
 
     def set_case_record
