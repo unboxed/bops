@@ -112,10 +112,10 @@ RSpec.describe "Start investigation", type: :system do
 
     click_link "Check breach report"
     click_link "Start investigation"
-    # expect(page).to have_content("Notification was sent to complainant")
+    expect(page).to have_content("Notification was sent to complainant")
 
     expect(page).to have_selector(".govuk-tag", text: "Under investigation")
     expect(enforcement.reload.status).to eq("under_investigation")
-    # expect(page).to have_content("The investigation has already been started.")
+    expect(page).to have_content("The investigation has already been started.")
   end
 end
