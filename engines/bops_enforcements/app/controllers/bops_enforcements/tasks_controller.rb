@@ -8,6 +8,7 @@ module BopsEnforcements
     before_action :build_form
     before_action :ensure_case_is_not_closed
     before_action :show_sidebar, only: %i[show edit]
+    before_action :show_header, only: %i[show edit]
 
     def show
       super
@@ -42,6 +43,10 @@ module BopsEnforcements
       return unless @enforcement.closed?
 
       redirect_to bops_enforcements.enforcement_path(@enforcement), alert: t(".failure")
+    end
+
+    def show_header
+      @show_header_bar = true
     end
   end
 end

@@ -21,24 +21,42 @@
 
         <% if @show_header_bar %>
           <%= render_navigation unless @show_sidebar %>
-          <%= render BopsCore::HeaderBarComponent.new(
-                left: [
-                  {text: tag.strong(govuk_link_to(@planning_application.reference,
-                    main_app.planning_application_path(@planning_application),
-                    no_visited_state: true))},
-                  {text: @planning_application.full_address}
-                ],
-                right: [
-                  {label: "Application information", href: main_app.planning_application_information_path(@planning_application)}
-                ],
-                toggle: (
-                  {
-                    condensed_text: "Show proposal description",
-                    expanded_text: "Hide proposal description",
-                    content: content_tag(:p, @planning_application.description, class: "govuk-!-margin-0")
-                  }
-                )
-              ) %>
+          <% if @planning_application %>
+            <%= render BopsCore::HeaderBarComponent.new(
+                  left: [
+                    {text: tag.strong(govuk_link_to(@planning_application.reference,
+                      main_app.planning_application_path(@planning_application),
+                      no_visited_state: true))},
+                    {text: @planning_application.full_address}
+                  ],
+                  right: [
+                    {label: "Application information", href: main_app.planning_application_information_path(@planning_application)}
+                  ],
+                  toggle: (
+                    {
+                      condensed_text: "Show proposal description",
+                      expanded_text: "Hide proposal description",
+                      content: content_tag(:p, @planning_application.description, class: "govuk-!-margin-0")
+                    }
+                  )
+                ) %>
+          <% elsif @case_record&.enforcement? %>
+            <%= render BopsCore::HeaderBarComponent.new(
+                  left: [
+                    {text: tag.strong(govuk_link_to(@case_record.caseable.reference,
+                      BopsEnforcements::Engine.routes.url_helpers.enforcement_path(@case_record.caseable),
+                      no_visited_state: true))},
+                    {text: @case_record.caseable.full_address}
+                  ],
+                  toggle: (
+                    {
+                      condensed_text: "Show case description",
+                      expanded_text: "Hide case description",
+                      content: content_tag(:p, @case_record.caseable.description, class: "govuk-!-margin-0")
+                    }
+                  )
+                ) %>
+          <% end %>
           <% if defined?(information_navigation_items) && information_navigation_items.any? %>
             <%= govuk_service_navigation do |nav| %>
               <% information_navigation_items.each { |item| nav.with_navigation_item(**item) } %>
