@@ -26,9 +26,14 @@
 
   <%= helpers.govuk_accordion do |accordion| %>
     <% accordion.with_section(heading_text: "Filters") do %>
-      <div class="govuk-accordion__section-content govuk-!-padding-bottom-0">
+      <div
+        class="
+          govuk-accordion__section-content govuk-!-padding-bottom-0
+          govuk-checkboxes--small
+        "
+      >
         <p><strong>Priority</strong></p>
-        <%= form.govuk_check_box(:urgent, true, multiple: false, legend: nil, checked: params["urgent"] == "true", class: "display-flex") %>
+        <%= form.govuk_check_box(:urgent, true, multiple: false, legend: nil, checked: params["urgent"] == "true") %>
 
         <hr
           class="
