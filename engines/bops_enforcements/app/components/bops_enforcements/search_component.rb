@@ -9,6 +9,10 @@ module BopsEnforcements
 
     private
 
+    def all_statuses
+      Enforcement.statuses.keys
+    end
+
     attr_reader :search, :panel_type
 
     def clear_search_url

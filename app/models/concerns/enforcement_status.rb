@@ -8,11 +8,7 @@ module EnforcementStatus
   included do
     include AASM
 
-    enum :status, {
-      not_started: "not_started",
-      under_investigation: "under_investigation",
-      closed: "closed"
-    }
+    enum :status, %i[not_started under_investigation closed].index_by(&:to_sym)
 
     aasm column: :status, enum: true, whiny_persistence: true, no_direct_assignment: true, timestamps: true do
       state :not_started, initial: true
