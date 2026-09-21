@@ -14,7 +14,7 @@ class PlanningApplicationSearch
   APPLICATION_TYPES = ApplicationType::Config::NAME_ORDER
 
   attribute :application_type, :list
-  attribute :sort_key, :string
+  attribute :sort_key, :enum, values: PlanningApplication.attribute_names
   attribute :direction, :enum, values: %w[asc desc]
   attribute :status, :list
   attribute :query, :string
@@ -131,13 +131,9 @@ class PlanningApplicationSearch
 
   def apply_sorting(scope)
     return scope if direction.nil?
+    return scope if sort_key.nil?
 
-    case sort_key
-    when "expiry_date"
-      scope.reorder(expiry_date: direction)
-    else
-      scope
-    end
+    scope.reorder({sort_key => direction})
   end
 
   def audits_for_applications(application_ids)
