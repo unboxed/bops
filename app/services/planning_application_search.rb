@@ -130,6 +130,8 @@ class PlanningApplicationSearch
   end
 
   def apply_sorting(scope)
+    return scope if direction.nil?
+
     case sort_key
     when "expiry_date"
       scope.reorder(expiry_date: direction)
