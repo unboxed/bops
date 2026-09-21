@@ -15,7 +15,7 @@ module BopsCore
       def initialize(builder, object_name, attribute_name, hint:, label:, caption:, form_group:, **kwargs, &)
         super(builder, object_name, attribute_name, &)
 
-        @label = label
+        @label = {for: field_id}.merge(label)
         @caption = caption
         @hint = hint
         @form_group = form_group
