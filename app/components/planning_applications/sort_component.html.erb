@@ -1,5 +1,2 @@
-<a href="<%= sort_link(attribute) %>">
-  <button class="arrow <%= sort_class(attribute, params[:sort_key]) %> govuk-link">
-    <%= attribute.humanize %>
-  </button>
-</a>
+<%= helpers.govuk_link_to attribute.humanize, sort_link(attribute),
+                  class: class_names("arrow", sort_class(attribute, params[:sort_key])) %>

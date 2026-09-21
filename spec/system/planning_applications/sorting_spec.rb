@@ -34,11 +34,15 @@ RSpec.describe "Planning application sorting", type: :system do
   it "I can sort by expiry date" do
     visit "/#all"
     within selected_govuk_tab do
-      expect(page).to have_css("button.arrow.unsorted")
+      expect(page).not_to have_css(".arrow.ascending")
+      expect(page).not_to have_css(".arrow.descending")
+      expect(page).to have_css(".arrow.unsorted")
 
       click_link("Expiry date")
 
-      expect(page).to have_css("button.arrow.ascending")
+      expect(page).to have_css(".arrow.ascending")
+      expect(page).not_to have_css(".arrow.unsorted")
+      expect(page).not_to have_css(".arrow.descending")
 
       within(".govuk-table.planning-applications-table") do
         within(".govuk-table__body") do
@@ -63,7 +67,11 @@ RSpec.describe "Planning application sorting", type: :system do
       end
 
       click_link("Expiry date")
-      expect(page).to have_css("button.arrow.descending")
+
+      expect(page).to have_css(".arrow.descending")
+      expect(page).not_to have_css(".arrow.ascending")
+      expect(page).not_to have_css(".arrow.unsorted")
+
       within(".govuk-table.planning-applications-table") do
         within(".govuk-table__body") do
           rows = page.all(".govuk-table__row")
