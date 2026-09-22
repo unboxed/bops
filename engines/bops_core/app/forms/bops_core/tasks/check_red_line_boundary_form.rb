@@ -21,7 +21,7 @@ module BopsCore
         end
 
         after_initialize do
-          self.valid_red_line_boundary = planning_application.valid_red_line_boundary
+          self.valid_red_line_boundary = planning_application.valid_red_line_boundary if planning_application
         end
       end
 

@@ -1,0 +1,27 @@
+<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
+
+<p>This digital red line boundary was submitted by the applicant.</p>
+
+<div class="govuk-!-margin-bottom-6">
+  <%= render "shared/location_map", locals: {in_accordion: true, geojson: @enforcement.boundary_geojson} %>
+</div>
+
+<div
+  data-controller="unsaved-changes"
+  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+>
+  <%= form_with model: @form, url: @form.url,
+                  data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+    <%= form.govuk_error_summary %>
+    <%= return_to_hidden_field %>
+
+    <%= form.govuk_radio_buttons_fieldset :valid_red_line_boundary, legend: {text: "Is the red line boundary correct?"} do %>
+      <%= form.govuk_radio_button :valid_red_line_boundary, true, label: {text: "Yes"} %>
+      <%= form.govuk_radio_button :valid_red_line_boundary, false, label: {text: "No"} %>
+    <% end %>
+
+    <div class="govuk-button-group">
+      <%= form.govuk_task_button t(".submit") %>
+    </div>
+  <% end %>
+</div>
