@@ -6,7 +6,7 @@ RSpec.describe "Send validation decision task", type: :system do
   %i[planning_permission lawfulness_certificate prior_approval].each do |application_type|
     context "for a #{application_type.to_s.humanize.downcase} case" do
       let(:planning_application) do
-        create(:planning_application, application_type, :not_started, local_authority:)
+        create(:planning_application, application_type, :not_started, :with_boundary_geojson, local_authority:)
       end
 
       it_behaves_like "send validation decision task", application_type
