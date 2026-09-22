@@ -1,6 +1,8 @@
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= render "task_header", task: @task %>
 
+  <%= render ErrorSummaryComponent.new(errors: @form.errors) %>
+
   <% if @planning_application.not_started? && @planning_application.validation_requests.pending.none? %>
     <p>
       <strong>

@@ -17,6 +17,10 @@ module BopsCore
           end
         end
 
+        validate on: :save_and_complete do
+          errors.add :base, :no_boundary_geojson, message: I18n.t("activerecord.errors.models.planning_application.attributes.base.no_boundary_geojson"), path: redline_task_path if planning_application.boundary_geojson.blank?
+        end
+
         validate on: :save_and_complete, if: :publishable? do
           if make_public.nil?
             errors.add :make_public, :inclusion, message: "Choose whether to publish the application or not"
@@ -49,6 +53,14 @@ module BopsCore
       end
 
       private
+
+      def redline_task_path
+        if planning_application.pre_application?
+          bops_preapps.task_path(planning_application, "check-and-validate/check-application-details/check-red-line-boundary")
+        else
+          main_app.task_path(planning_application, "check-and-validate/check-application-details/check-red-line-boundary")
+        end
+      end
 
       def save_and_invalidate
         planning_application.invalidate!
