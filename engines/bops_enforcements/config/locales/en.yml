@@ -102,6 +102,12 @@ en:
         %{council_name}
       subject: 'Enforcement case update (ref: %{ref})'
     tasks:
+      check-breach-report:
+        check-site-location:
+          edit:
+            submit: Save
+          show:
+            submit: Save
       close-case:
         failure: Unable to update case
         show:
@@ -130,6 +136,9 @@ en:
         check-report-details:
           failure: Unable to update task
           success: Report details successfully checked
+        check-site-location:
+          failure: Failure
+          success: Success
         failure: You cannot make changes to this case as it has already been closed
         start-investigation:
           failure: Unable to start investigation
