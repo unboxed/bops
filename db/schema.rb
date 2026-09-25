@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_10_135703) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_25_111412) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -650,6 +650,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_135703) do
     t.string "telephone_number"
     t.datetime "updated_at", null: false
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
+  end
+
+  create_table "local_authority_application_numbers", force: :cascade do |t|
+    t.integer "application_number", null: false
+    t.datetime "created_at", null: false
+    t.bigint "local_authority_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "year", null: false
+    t.index ["local_authority_id", "year"], name: "ix_local_authority_application_numbers_on_local_authority_id__y", unique: true
+    t.index ["local_authority_id"], name: "ix_local_authority_application_numbers_on_local_authority_id"
   end
 
   create_table "local_authority_conditions", force: :cascade do |t|
@@ -1443,6 +1453,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_135703) do
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "heads_of_terms", "planning_applications"
   add_foreign_key "immunity_details", "planning_applications"
+  add_foreign_key "local_authority_application_numbers", "local_authorities"
   add_foreign_key "local_authority_policy_areas", "local_authorities"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_areas", column: "policy_area_id"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_references", column: "policy_reference_id"
