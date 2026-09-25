@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_10_135703) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_25_144330) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -652,6 +652,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_135703) do
     t.index ["subdomain"], name: "index_local_authorities_on_subdomain", unique: true
   end
 
+  create_table "local_authority_application_numbers", force: :cascade do |t|
+    t.integer "application_number", null: false
+    t.datetime "created_at", null: false
+    t.bigint "local_authority_id", null: false
+    t.datetime "updated_at", null: false
+    t.integer "year", null: false
+    t.index ["local_authority_id", "year"], name: "ix_local_authority_application_numbers_on_local_authority_id__y", unique: true
+    t.index ["local_authority_id"], name: "ix_local_authority_application_numbers_on_local_authority_id"
+  end
+
   create_table "local_authority_conditions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.bigint "local_authority_id"
@@ -1080,7 +1090,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_135703) do
     t.index ["address_search"], name: "ix_planning_applications_on_address_search", using: :gin
     t.index ["alternative_reference"], name: "ix_planning_applications_on_alternative_reference", using: :gin
     t.index ["api_user_id"], name: "ix_planning_applications_on_api_user_id"
-    t.index ["application_number", "local_authority_id"], name: "ix_planning_applications_on_application_number__local_authority"
     t.index ["application_type_id"], name: "ix_planning_applications_on_application_type_id"
     t.index ["boundary_created_by_id"], name: "ix_planning_applications_on_boundary_created_by_id"
     t.index ["deleted_at"], name: "ix_planning_applications_on_deleted_at"
@@ -1443,6 +1452,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_10_135703) do
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "heads_of_terms", "planning_applications"
   add_foreign_key "immunity_details", "planning_applications"
+  add_foreign_key "local_authority_application_numbers", "local_authorities"
   add_foreign_key "local_authority_policy_areas", "local_authorities"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_areas", column: "policy_area_id"
   add_foreign_key "local_authority_policy_areas_references", "local_authority_policy_references", column: "policy_reference_id"

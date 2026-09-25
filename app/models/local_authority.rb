@@ -33,6 +33,8 @@ class LocalAuthority < ApplicationRecord
 
   has_many :enforcement_audits, through: :enforcements, source: :audits
 
+  has_many :application_numbers
+
   module Configuration
     class Accessibility < Struct.new(:postal_address, :phone_number, :email_address); end
     class Consultation < Struct.new(:postal_address); end
@@ -125,6 +127,7 @@ class LocalAuthority < ApplicationRecord
   delegate :default_email_reply_to_id, to: :rails_configuration
   delegate :default_email_template_id, to: :rails_configuration
   delegate :default_sms_template_id, to: :rails_configuration
+  delegate :next_application_number, to: :application_numbers
 
   class << self
     def by_short_name
