@@ -27,6 +27,7 @@ class Enforcement < ApplicationRecord
     }
 
   after_initialize -> { self.received_at ||= Time.zone.now }
+  before_validation :set_reference, on: :create
   after_create :audit_created!
   after_update :audit_updated!
 
@@ -142,4 +143,14 @@ class Enforcement < ApplicationRecord
         audit_comment: "Changed from: #{original_attribute} \r\n Changed to: #{new_attribute}")
     end
   end
+
+  def set_reference
+    self.reference = [
+      format("%02d", Time.zone.today.year),
+      format("%05d", local_authority.next_application_number),
+      case_type_suffix
+    ].join("-")
+  end
+
+  def case_type_suffix = "ENF"
 end
