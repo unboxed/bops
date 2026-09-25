@@ -17,15 +17,10 @@ module BopsSubmissions
           end
 
           ApplicationRecord.transaction do
-            record = build_enforcement
-            record.save!
-
-            submission.create_case_record!(
-              caseable: record,
-              local_authority: local_authority
-            )
-
-            record
+            case_record = local_authority.case_records.new(submission:)
+            enforcement = local_authority.enforcements.new(case_record:, **enforcement_params)
+            enforcement.save!
+            enforcement
           end
         end
 
@@ -39,10 +34,6 @@ module BopsSubmissions
 
       def data_params
         @data_params ||= data.fetch(:data)
-      end
-
-      def build_enforcement
-        local_authority.enforcements.new(enforcement_params)
       end
 
       def enforcement_params
