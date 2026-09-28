@@ -263,7 +263,7 @@ RSpec.describe PlanningApplicationSearch do
         end
 
         context "when query is part of reference" do
-          let(:query) { "00100" }
+          let(:query) { "22-00100" }
 
           it "returns correct planning applications" do
             expect(search.filtered_planning_applications).to contain_exactly(ldc_not_started)
