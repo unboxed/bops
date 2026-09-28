@@ -47,7 +47,7 @@ class AddReferenceToEnforcement < ActiveRecord::Migration[8.1]
           # not just using the model's set_reference because we may need to account for older cases, at least in
           # staging; but in real use that method will never need to account for anything but the current year.
           case_record.caseable.update!(reference: [
-            format("%02d", year),
+            format("%02d", year % 100),
             format("%05d", current_year.next_application_number),
             "ENF"
           ].join("-"))

@@ -146,7 +146,7 @@ class Enforcement < ApplicationRecord
 
   def set_reference
     self.reference = [
-      format("%02d", Time.zone.today.year),
+      format("%02d", Time.zone.today.year % 100),
       format("%05d", local_authority.next_application_number),
       case_type_suffix
     ].join("-")
