@@ -15,7 +15,7 @@
         <% else %>
           <% task_list.with_item(
                title: task.name,
-               href: task_path(@case_record, task),
+               href: task_path(@enforcement, task),
                status: task_status_tag(task)
              ) %>
         <% end %>
@@ -24,4 +24,4 @@
   <% end %>
 </div>
 
-<%= govuk_button_link_to "Close the case", task_path(@case_record, "close-case"), warning: true %>
+<%= govuk_button_link_to "Close the case", task_path(@enforcement, "close-case"), warning: true %>

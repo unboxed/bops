@@ -40,7 +40,7 @@ RSpec.describe "Enforcement show page", type: :system do
     enforcement.update(proposal_details: proposal_details)
 
     sign_in(user)
-    visit "/enforcements/#{enforcement.case_record.id}/"
+    visit "/enforcements/#{enforcement.reference}/"
   end
 
   it "has a show page with basic details" do
@@ -101,7 +101,7 @@ RSpec.describe "Enforcement show page", type: :system do
     before { enforcement.case_record.update!(user:) }
 
     it "shows the assigned officer" do
-      visit "/enforcements/#{enforcement.case_record.id}/"
+      visit "/enforcements/#{enforcement.reference}/"
       expect(page).to have_content("Assigned to: " + user.name)
     end
   end

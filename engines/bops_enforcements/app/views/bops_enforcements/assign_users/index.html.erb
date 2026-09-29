@@ -8,7 +8,7 @@
 
     <%= form_with(
           method: :patch,
-          url: assign_users_path(@case_record)
+          url: assign_users_path(@enforcement)
         ) do |form| %>
       <%= form.govuk_fieldset(legend: {text: nil}) do %>
         <%= form.govuk_select :user_id, User.menu(scope = @users), label: nil, options: {selected: @case_record.user&.id} %>
@@ -16,7 +16,7 @@
 
       <div class="govuk-button-group">
         <%= form.govuk_submit "Confirm" %>
-        <%= govuk_button_link_to "Back", enforcement_path(@case_record), secondary: true %>
+        <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
       </div>
     <% end %>
   </div>

@@ -25,7 +25,7 @@ RSpec.describe "Enforcement close page", type: :system do
 
   before do
     sign_in(user)
-    visit "/enforcements/#{enforcement.case_record.id}/"
+    visit "/enforcements/#{enforcement.reference}/"
 
     click_link "Close the case"
     choose "Other"
@@ -49,7 +49,7 @@ RSpec.describe "Enforcement close page", type: :system do
     it "shows an error navigating to tasks", :capybara do
       expect(page).to have_content("Case successfully closed")
 
-      visit "/cases/#{enforcement.case_record.id}/check-breach-report"
+      visit "/enforcements/#{enforcement.reference}/check-breach-report"
       expect(page).to have_content("You cannot make changes to this case as it has already been closed")
     end
   end

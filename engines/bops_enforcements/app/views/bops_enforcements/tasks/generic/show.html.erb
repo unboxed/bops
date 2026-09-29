@@ -4,7 +4,7 @@
   <% @task.tasks.each do |task| %>
     <%= task_list.with_item(
           title: task.name,
-          href: edit_task_path(@case_record, task),
+          href: edit_task_path(@enforcement, task),
           status: task_status_tag(task)
         ) %>
   <% end %>
@@ -13,5 +13,5 @@
 <% if @task.top_level? %>
   <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
 <% else %>
-  <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
+  <%= govuk_button_link_to "Back", task_path(@enforcement, @task.parent), secondary: true %>
 <% end %>

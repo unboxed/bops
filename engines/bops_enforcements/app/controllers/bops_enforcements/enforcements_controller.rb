@@ -62,9 +62,7 @@ module BopsEnforcements
 
     def set_enforcement
       @enforcement = current_local_authority
-        .enforcements
-        .joins(:case_record)
-        .find_by!(case_record: {id: params[:id]})
+        .enforcements.find_by!(reference: params[:reference])
     end
 
     def filter_params

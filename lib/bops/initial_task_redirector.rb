@@ -12,6 +12,9 @@ class Bops::InitialTaskRedirector
 
     if params[:case_id].present?
       case_record = local_authority.case_records.find(params[:case_id])
+    elsif params[:caseable_type] == "Enforcement"
+      enforcement = local_authority.enforcements.find_by!(reference: params[:reference])
+      case_record = enforcement.case_record
     else
       reference = params[:planning_application_reference] || params[:reference]
       planning_application = local_authority.planning_applications.find_by!(reference:)
@@ -26,7 +29,7 @@ class Bops::InitialTaskRedirector
         Rails.application.routes.url_helpers.task_path(planning_application, task)
       end
     elsif case_record.enforcement?
-      BopsEnforcements::Engine.routes.url_helpers.task_path(case_record, task)
+      BopsEnforcements::Engine.routes.url_helpers.task_path(enforcement, task)
     end
   end
 end

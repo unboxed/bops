@@ -21,7 +21,7 @@ module BopsEnforcements
       end
 
       def redirect_url
-        edit_task_path(case_record, parent)
+        edit_task_path(enforcement, parent)
       end
     end
   end

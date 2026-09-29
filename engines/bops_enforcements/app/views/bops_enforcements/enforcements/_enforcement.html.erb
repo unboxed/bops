@@ -22,7 +22,7 @@
     <p class="govuk-body">
       <strong><%= enforcement.address %></strong>
       <br>
-      Case reference <strong><%= enforcement.case_record.id %></strong>
+      Case reference <strong><%= enforcement.reference %></strong>
     </p>
 
     <div id="case-statuses-tags">
@@ -49,7 +49,7 @@
       <p class="govuk-body">
         Assigned to:
         <strong><%= enforcement.user&.name || "Unassigned" %></strong>
-        <%= govuk_link_to (enforcement.user.present? ? "Change" : "Assign application"), assign_users_path(@case_record) %>
+        <%= govuk_link_to (enforcement.user.present? ? "Change" : "Assign application"), assign_users_path(@enforcement) %>
       </p>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
 
-<%= form_with model: @enforcement, url: task_path(@case_record, @task) do |form| %>
+<%= form_with model: @enforcement, url: task_path(@enforcement, @task) do |form| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
       <%= form.govuk_radio_buttons_fieldset :reason, legend: {size: "m", text: t(".reason.legend")} do %>

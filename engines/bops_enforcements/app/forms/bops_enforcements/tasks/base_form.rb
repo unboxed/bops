@@ -27,7 +27,7 @@ module BopsEnforcements
       end
 
       def redirect_url
-        enforcement_path(@case_record)
+        enforcement_path(@enforcement)
       end
 
       def flash(type, controller)
