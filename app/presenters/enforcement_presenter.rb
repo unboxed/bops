@@ -52,12 +52,12 @@ class EnforcementPresenter
   end
 
   def start_investigation_email_subject
-    I18n.t("bops_enforcements.start_investigation_email.subject", ref: case_record.id)
+    I18n.t("bops_enforcements.start_investigation_email.subject", ref: reference)
   end
 
   def start_investigation_email_body
     I18n.t("bops_enforcements.start_investigation_email.body",
-      ref: case_record.id,
+      ref: reference,
       address: address.to_s,
       received_on: I18n.l(received_at.to_date),
       report_date: I18n.l(received_at.to_date),
@@ -68,7 +68,7 @@ class EnforcementPresenter
   end
 
   def close_investigation_email_subject
-    I18n.t("bops_enforcements.close_investigation_email.subject", ref: case_record.id)
+    I18n.t("bops_enforcements.close_investigation_email.subject", ref: reference)
   end
 
   def close_investigation_email_body(closed_reason:, other_reason:, additional_comment:)
@@ -84,7 +84,7 @@ class EnforcementPresenter
     end
 
     I18n.t("bops_enforcements.close_investigation_email.body.#{body_type}",
-      ref: case_record.id,
+      ref: reference,
       address: address.to_s,
       received_on: I18n.l(received_at.to_date),
       report_date: I18n.l(received_at.to_date),

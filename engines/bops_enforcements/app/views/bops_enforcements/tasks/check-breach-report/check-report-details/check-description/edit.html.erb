@@ -5,7 +5,7 @@
     <p class="govuk-body">
       <strong><%= @enforcement.address %></strong>
       <br>
-      Case reference <strong><%= @enforcement.case_record.id %></strong>
+      Case reference <strong><%= @enforcement.reference %></strong>
     </p>
 
     <div id="planning-application-statuses-tags">
@@ -32,12 +32,12 @@
   </p>
 </div>
 
-<%= form_with model: [@task, @enforcement], url: task_path(@case_record, @task), method: :patch do |form| %>
+<%= form_with model: [@task, @enforcement], url: task_path(@enforcement, @task), method: :patch do |form| %>
   <div id="edit-description">
     <%= form.govuk_text_area :description, label: {text: "Enter an amended description", tag: "h3", size: "m"}, rows: 5 %>
   </div>
 
   <%= form.govuk_submit "Save" do %>
-    <%= govuk_button_link_to "Back", edit_task_path(@case_record, @task.parent), secondary: true %>
+    <%= govuk_button_link_to "Back", edit_task_path(@enforcement, @task.parent), secondary: true %>
   <% end %>
 <% end %>

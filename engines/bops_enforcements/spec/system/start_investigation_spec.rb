@@ -23,13 +23,13 @@ RSpec.describe "Start investigation", type: :system do
 
   before do
     sign_in user
-    visit "/cases/#{enforcement.case_record.id}/check-breach-report"
+    visit "/enforcements/#{enforcement.reference}/check-breach-report"
     click_link "Start investigation"
   end
 
   it "displays the correct details" do
     within("#case-details") do
-      expect(page).to have_content("Case reference #{case_record.id}")
+      expect(page).to have_content("Case reference #{enforcement.reference}")
       expect(page).to have_content(enforcement.address)
       expect(page).to have_selector(".govuk-tag", text: "Not started")
       expect(page).to have_content(enforcement.description)
@@ -38,7 +38,7 @@ RSpec.describe "Start investigation", type: :system do
     expect(page).to have_content("Notification to be sent to complainant - Ebenezer Scrooge (scrooge@waltdisney.com)")
 
     find("span", text: "View email template").click
-    expect(page).to have_content("Enforcement case reference number: #{case_record.id}")
+    expect(page).to have_content("Enforcement case reference number: #{enforcement.reference}")
     expect(page).to have_content("Thank you for contacting the Planning Enforcement Team.")
     expect(page).to have_content("Should you have any queries please contact me via email #{user.email}")
 
@@ -48,7 +48,7 @@ RSpec.describe "Start investigation", type: :system do
   it "I can assign a user to the case record" do
     case_record.update(user: nil)
 
-    visit "/cases/#{enforcement.case_record.id}/check-breach-report"
+    visit "/enforcements/#{enforcement.reference}/check-breach-report"
     click_link "Start investigation"
 
     expect(page).to have_content("No case officer has been assigned yet.")
@@ -85,7 +85,7 @@ RSpec.describe "Start investigation", type: :system do
           email_address: enforcement.complainant.email,
           email_reply_to_id: "4485df6f-a728-41ed-bc46-cdb2fc6789aa",
           personalisation: hash_including(
-              "body" => a_string_starting_with("Enforcement case reference number: #{case_record.id}")
+              "body" => a_string_starting_with("Enforcement case reference number: #{enforcement.reference}")
             )
         }
       ))

@@ -52,7 +52,7 @@ RSpec.describe "Enforcement index page", type: :system do
         within(rows[0]) do
           cells = page.all(".govuk-table__cell")
           within(cells[0]) do
-            expect(page).to have_content(case_record.id)
+            expect(page).to have_content(enforcement.reference)
           end
           within(cells[1]) do
             expect(page).to have_content(enforcement.to_s)
@@ -65,7 +65,7 @@ RSpec.describe "Enforcement index page", type: :system do
         within(rows[1]) do
           cells = page.all(".govuk-table__cell")
           within(cells[0]) do
-            expect(page).to have_content(case_record_1.id)
+            expect(page).to have_content(enforcement_1.reference)
           end
           within(cells[1]) do
             expect(page).to have_content(enforcement_1.to_s)
@@ -81,8 +81,8 @@ RSpec.describe "Enforcement index page", type: :system do
   it "has a link to the enforcement show page" do
     visit "/enforcements"
     click_link "All cases"
-    click_link(enforcement.case_record.id)
-    expect(page).to have_current_path("/enforcements/#{enforcement.case_record.id}")
+    click_link(enforcement.reference)
+    expect(page).to have_current_path("/enforcements/#{enforcement.reference}")
   end
 
   it "allows me to filter by urgent cases", capybara: true do

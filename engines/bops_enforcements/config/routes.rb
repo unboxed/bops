@@ -3,7 +3,7 @@
 BopsEnforcements::Engine.routes.draw do
   root to: redirect("enforcements")
 
-  resources :enforcements, only: %i[index show] do
+  resources :enforcements, only: %i[index show], param: :reference do
     with_options on: :collection do
       get :unassigned
       get :closed
@@ -12,16 +12,16 @@ BopsEnforcements::Engine.routes.draw do
     end
   end
 
-  scope "/cases/:case_id" do
+  scope "/enforcements/:reference" do
     resources :assign_users, only: %i[index] do
       patch :update, on: :collection
     end
 
-    get "/check-breach-report", to: redirect(Bops::InitialTaskRedirector.new("Check"))
-    get "/investigate-and-decide", to: redirect(Bops::InitialTaskRedirector.new("Investigate"))
-    get "/review-recommendation", to: redirect(Bops::InitialTaskRedirector.new("Review"))
-    get "/serve-and-monitor", to: redirect(Bops::InitialTaskRedirector.new("Serve and monitor"))
-    # get "/process-an-appeal", to: redirect(Bops::InitialTaskRedirector.new('Appeal'))
+    get "/check-breach-report", to: redirect(Bops::InitialTaskRedirector.new("Check")), defaults: {caseable_type: "Enforcement"}
+    get "/investigate-and-decide", to: redirect(Bops::InitialTaskRedirector.new("Investigate")), defaults: {caseable_type: "Enforcement"}
+    get "/review-recommendation", to: redirect(Bops::InitialTaskRedirector.new("Review")), defaults: {caseable_type: "Enforcement"}
+    get "/serve-and-monitor", to: redirect(Bops::InitialTaskRedirector.new("Serve and monitor")), defaults: {caseable_type: "Enforcement"}
+    # get "/process-an-appeal", to: redirect(Bops::InitialTaskRedirector.new('Appeal')), defaults: {caseable_type: "Enforcement"}
 
     get "/*slug/edit", to: "tasks#edit", as: :edit_task
     patch "/*slug", to: "tasks#update"

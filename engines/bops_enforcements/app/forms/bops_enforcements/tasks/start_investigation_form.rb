@@ -21,7 +21,7 @@ module BopsEnforcements
       end
 
       def redirect_url
-        enforcement_path(case_record)
+        enforcement_path(enforcement)
       end
 
       def complainant_email

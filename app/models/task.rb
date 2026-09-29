@@ -69,10 +69,6 @@ class Task < ApplicationRecord
     in_section?("Validation")
   end
 
-  def task_for(slug)
-    Task.find_by!(slug: slug)
-  end
-
   def title
     I18n.t("bops_enforcements.tasks.title.#{slug}", default: name)
   end

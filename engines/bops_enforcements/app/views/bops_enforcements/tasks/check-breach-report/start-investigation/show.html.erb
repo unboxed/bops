@@ -27,7 +27,7 @@
         </p>
 
         <p>
-          <%= govuk_link_to "Change", assign_users_path(case_id: @case_record.id) %>
+          <%= govuk_link_to "Change", assign_users_path(@enforcement) %>
         </p>
       </div>
 
@@ -49,11 +49,11 @@
 
       <% if @enforcement.not_started? %>
         <%= form.govuk_task_button "Start investigation and notify complainant", action: "start_investigation" do %>
-          <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
+          <%= govuk_button_link_to "Back", task_path(@enforcement, @task.parent), secondary: true %>
         <% end %>
       <% else %>
         <p class="govuk-body">The investigation has already been started.</p>
-        <%= govuk_button_link_to "Back", task_path(@case_record, @task.parent), secondary: true %>
+        <%= govuk_button_link_to "Back", task_path(@enforcement, @task.parent), secondary: true %>
       <% end %>
     <% end %>
   </div>

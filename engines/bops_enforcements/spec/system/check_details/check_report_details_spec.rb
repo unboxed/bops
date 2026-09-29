@@ -19,7 +19,7 @@ RSpec.describe "Check report details", type: :system, capybara: true do
 
   before do
     sign_in user
-    visit "/cases/#{enforcement.case_record.id}/check-breach-report"
+    visit "/enforcements/#{enforcement.reference}/check-breach-report"
   end
 
   context "when checking report" do

@@ -74,7 +74,7 @@ class Enforcement < ApplicationRecord
   end
 
   def to_param
-    case_record.id
+    reference
   end
 
   def proposal_details
