@@ -141,9 +141,7 @@ en:
             edit_form: Failed to update site location
             save_and_complete: Failed to validate site location
           success:
-            edit_form:
-              failure: Failed to update site location
-              success: Successfully updated site location
+            edit_form: Successfully updated site location
             save_and_complete:
               'false': Marked site location as incorrect
               'true': Successfully marked site location as correct
