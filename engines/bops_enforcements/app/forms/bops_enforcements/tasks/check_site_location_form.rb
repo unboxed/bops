@@ -56,7 +56,13 @@ module BopsEnforcements
 
       def save_and_complete
         enforcement.update!(valid_red_line_boundary:)
-        valid_red_line_boundary ? task.complete! : task.in_progress!
+        if valid_red_line_boundary
+          task.complete!
+          task.parent.complete!
+        else
+          task.in_progress!
+          task.parent.in_progress!
+        end
       end
 
       def edit_form

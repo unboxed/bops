@@ -714,6 +714,7 @@ en:
       heads_of_terms_validation_request_sent: 'Sent: request (heads of terms#%{args})'
       heads_of_terms_validation_request_sent_post_validation: 'Sent: request (heads of terms#%{args})'
       invalidated: Application invalidated
+      investigation_complete: Investigation complete
       legislation_checked: Legislative requirements checked
       neighbour_letter_copy_mail_sent: Neighbour consultation letter copy email sent
       neighbour_letters_sent: Neighbour letters sent
@@ -777,6 +778,7 @@ en:
       unarchived: Document unarchived
       updated: "%{args} updated"
       uploaded: Document uploaded
+      validation_complete: Validation complete
       validation_requests_sent: 'The following invalidation requests have been emailed: %{args}'
       withdrawn: Application withdrawn
       withdrawn_recommendation: Recommendation withdrawn
