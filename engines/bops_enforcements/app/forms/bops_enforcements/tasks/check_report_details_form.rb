@@ -17,6 +17,7 @@ module BopsEnforcements
 
       def update(params)
         ActiveRecord::Base.transaction do
+          enforcement.start_validation!
           enforcement.update!(params)
           task.update!(status: "completed")
         end
