@@ -1,0 +1,44 @@
+<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement, title:  "Proposed red line boundary change" %>
+
+<div
+  data-controller="unsaved-changes"
+  data-action="beforeunload@window->unsaved-changes#handleBeforeUnload"
+>
+  <%= form_with model: @form, url: @form.url,
+                data: {unsaved_changes_target: "form", action: "submit->unsaved-changes#handleSubmit"} do |form| %>
+    <%= form.govuk_error_summary %>
+
+    <%= form.govuk_text_area :boundary_geojson,
+                  label: {text: @enforcement.boundary_geojson ? "Applicant's existing red line boundary" : "No digital red line boundary has been previously set",
+                          size: "s",
+                          class: "govuk-label govuk-label--s govuk-!-padding-bottom-4"},
+     class: "govuk-visually-hidden" %>
+
+    <%= render(
+        "shared/location_map",
+        locals: {
+            geojson: @enforcement.boundary_geojson,
+            geojson_field: "tasks-check-site-location-form-boundary-geojson-field",
+            invalid_red_line_boundary: true
+        }
+    ) %>
+
+    <h3 class="govuk-!-padding-top-6">
+      Red line drawings shown on map
+    </h3>
+
+    <p class="govuk-!-margin-left-3 govuk-!-padding-bottom-2">
+      <img src="/images/submitted_square.png" alt="submitted solid line square" width="60px" style="float:left; padding-right:20px">
+      Submitted red line boundary
+    </p>
+
+    <p class="govuk-!-margin-left-3 govuk-!-padding-bottom-4">
+      <img src="/images/proposed_square.png" alt="proposed square with dotted border" width="60px" style="float:left; padding-right:20px">
+      Proposed red line boundary
+    </p>
+
+    <div class="govuk-button-group">
+      <%= form.govuk_task_button t(".submit"), action: :edit_form %>
+    </div>
+  <% end %>
+</div>
