@@ -52,13 +52,17 @@ module BopsApplicants
     attribute :land_owners, array: true, default: -> { [] }
 
     validates :know_owners, presence: true, inclusion: {in: %w[yes no]}
-    validates :certificate_type, presence: true, inclusion: {in: %w[B C D]}
-    validates :notification_of_owners, presence: true, inclusion: {in: %w[yes no some]}
+    validates :certificate_type, presence: true, inclusion: {in: %w[A B C D]}
+    validates :notification_of_owners, presence: true, inclusion: {in: %w[sole yes no some]}
 
     with_options if: -> { know_owners == "yes" } do
       validates :number_of_owners, presence: true
       validates :number_of_owners, numericality: {only_integer: true, greater_than: 0}
     end
+
+    validates :number_of_owners, numericality: {equal_to: 1, message: "Number of owners must be 1 if solely owned"}, if: -> { certificate_type == "A" || notification_of_owners == "sole" }
+    validates :certificate_type, comparison: {equal_to: "A", message: "Must choose “not applicable” if only one owner"}, if: -> { number_of_owners == "1" || notification_of_owners == "sole" }
+    validates :notification_of_owners, comparison: {equal_to: "sole", message: "Must choose “not applicable” if only one owner"}, if: -> { number_of_owners == "1" || certificate_type == "A" }
 
     validate do
       unless land_owners.all?(&:valid?)
