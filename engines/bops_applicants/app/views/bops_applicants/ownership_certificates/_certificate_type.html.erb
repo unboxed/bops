@@ -38,12 +38,14 @@
   <% end %>
 
   <%= form.govuk_radio_buttons_fieldset :certificate_type, legend: {text: t(".certificate_type.legend")} do %>
+    <%= form.govuk_radio_button :certificate_type, "A", label: {text: t(".certificate_type.a_label")} %>
     <%= form.govuk_radio_button :certificate_type, "B", label: {text: t(".certificate_type.b_label")} %>
     <%= form.govuk_radio_button :certificate_type, "C", label: {text: t(".certificate_type.c_label")} %>
     <%= form.govuk_radio_button :certificate_type, "D", label: {text: t(".certificate_type.d_label")} %>
   <% end %>
 
   <%= form.govuk_radio_buttons_fieldset(:notification_of_owners, legend: {text: t(".notification_of_owners.legend")}) do %>
+    <%= form.govuk_radio_button :notification_of_owners, "sole", label: {text: t(".notification_of_owners.sole_label")} %>
     <%= form.govuk_radio_button :notification_of_owners, "yes", label: {text: t(".notification_of_owners.yes_label")} %>
     <%= form.govuk_radio_button :notification_of_owners, "some", label: {text: t(".notification_of_owners.some_label")} %>
 

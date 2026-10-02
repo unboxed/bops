@@ -138,6 +138,7 @@ en:
     ownership_certificates:
       certificate_type:
         certificate_type:
+          a_label: Not applicable — I am the sole owner
           b_label: 'Yes'
           c_label: I know who some of them are
           d_label: I don't know who they are
@@ -151,6 +152,7 @@ en:
         notification_of_owners:
           legend: Have you notified the owners of the land about this application?
           no_label: 'No'
+          sole_label: Not applicable — I am the sole owner
           some_label: Yes, some of them
           yes_label: Yes, all of them
         page_title: Confirm ownership
