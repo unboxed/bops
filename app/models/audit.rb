@@ -80,6 +80,8 @@ class Audit < ApplicationRecord
     committee_details_sent
     sent_to_committee
     review_cil_liability
+    validation_complete
+    investigation_complete
   ] + VALIDATION_REQUEST_ACTIVITY_TYPES).index_with(&:to_s)
 
   validates :activity_type, presence: true

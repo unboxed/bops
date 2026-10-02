@@ -17,8 +17,10 @@ module BopsEnforcements
 
       def update(params)
         ActiveRecord::Base.transaction do
+          enforcement.start_validation!
           enforcement.update!(params)
-          task.update!(status: "completed")
+          task.complete!
+          task.parent.complete!
         end
       rescue ActiveRecord::RecordInvalid
         flash.now[:alert] = "Unable to update, please contact support"
