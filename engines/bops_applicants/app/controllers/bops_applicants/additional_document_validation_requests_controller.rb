@@ -30,7 +30,7 @@ module BopsApplicants
     def validate_additional_documents
       uploaded_files.each do |file|
         unless permitted_content_type?(file)
-          redirect_to additional_documents_url, alert: "Only JPEG, PNG or PDF file types are supported" and break
+          redirect_to additional_documents_url, alert: "Only JPEG, PNG, PDF, or DOCX file types are supported" and break
         end
       end
     end

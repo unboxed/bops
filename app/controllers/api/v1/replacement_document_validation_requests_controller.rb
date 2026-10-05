@@ -55,7 +55,7 @@ module Api
       def check_file_type
         return if Document::PERMITTED_CONTENT_TYPES.include? params[:new_file].content_type
 
-        render json: {message: "The file type must be JPEG, PNG or PDF"}, status: :bad_request
+        render json: {message: "The file type must be JPEG, PNG, PDF, or DOCX"}, status: :bad_request
       end
 
       def check_file_size

@@ -138,7 +138,7 @@ module BopsCore
           Document::PERMITTED_CONTENT_TYPES.exclude?(document.content_type)
         end
 
-        errors.add(:documents, "The file type must be JPEG, PNG or PDF") if invalid
+        errors.add(:documents, "The file type must be JPEG, PNG, PDF, or DOCX") if invalid
       end
     end
   end

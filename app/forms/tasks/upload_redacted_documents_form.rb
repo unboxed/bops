@@ -46,7 +46,7 @@ module Tasks
         )
       end
     rescue ActiveRecord::RecordInvalid => e
-      errors.add(:documents_params, "The file type must be JPEG, PNG or PDF")
+      errors.add(:documents_params, "The file type must be JPEG, PNG, PDF, or DOCX")
       raise e
     end
   end

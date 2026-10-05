@@ -164,7 +164,7 @@ RSpec.describe "Upload redacted documents task", type: :system do
 
         click_button "Save and mark as complete"
 
-        expect(page).to have_content "The file type must be JPEG, PNG or PDF"
+        expect(page).to have_content "The file type must be JPEG, PNG, PDF, or DOCX"
       end
     end
   end

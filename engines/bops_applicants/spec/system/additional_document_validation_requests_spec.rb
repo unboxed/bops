@@ -149,7 +149,7 @@ RSpec.describe "Description change validation requests" do
           attach_file "Upload additional document(s)", "spec/fixtures/files/documents/example.docx"
 
           click_button "Submit"
-          expect(page).to have_selector("[role=alert] p", text: "Only JPEG, PNG or PDF file types are supported")
+          expect(page).to have_selector("[role=alert] p", text: "Only JPEG, PNG, PDF, or DOCX file types are supported")
         end
       end
     end

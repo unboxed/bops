@@ -83,7 +83,7 @@ RSpec.describe "API request to patch document create requests" do
       headers: {Authorization: "Bearer #{api_user.token}"}
 
     expect(response).not_to be_successful
-    expect(json).to eq({"message" => "The file type must be JPEG, PNG or PDF"})
+    expect(json).to eq({"message" => "The file type must be JPEG, PNG, PDF, or DOCX"})
 
     expect(additional_document_validation_request).to be_open
   end

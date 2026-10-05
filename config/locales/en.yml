@@ -414,7 +414,7 @@ en:
             file:
               missing_file: Please choose a file
               open_replacement_request: You cannot replace the file when there is an open document replacement request
-              unsupported_file_type: The selected file must be a PDF, JPG or PNG
+              unsupported_file_type: The selected file must be a PDF, DOC, DOCX, JPG or PNG
             numbers:
               missing_numbers: All documents listed on the decision notice must have a document number
             tags:
