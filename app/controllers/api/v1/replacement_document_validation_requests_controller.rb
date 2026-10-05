@@ -6,9 +6,9 @@ module Api
       skip_before_action :verify_authenticity_token
 
       before_action :check_token_and_set_application
-      before_action :check_file_params_are_present,
-        :check_file_size,
-        :check_file_type, only: :update
+      before_action :check_files_params_are_present,
+        :check_files_size,
+        :check_files_type, only: :update
 
       def index
         respond_to do |format|
@@ -52,22 +52,8 @@ module Api
 
       private
 
-      def check_file_type
-        return if Document::PERMITTED_CONTENT_TYPES.include? params[:new_file].content_type
-
-        render json: {message: I18n.t("api.v1.validation_requests.update.unsupported_file_type")}, status: :bad_request
-      end
-
-      def check_file_size
-        return unless file_size_over_30mb?(params[:new_file])
-
-        render json: {message: "The file must be smaller than 30MB"}, status: :content_too_large
-      end
-
-      def check_file_params_are_present
-        return if params[:new_file].present?
-
-        render json: {message: "A file must be selected to proceed."}, status: :bad_request
+      def file_params
+        @file_params ||= [params[:new_file]].compact_blank
       end
     end
   end
