@@ -303,7 +303,7 @@ RSpec.describe "Withdraw or cancel" do
 
         click_button("Withdraw or cancel application")
 
-        expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
+        expect(page).to have_content("The selected file must be a PDF, DOC, DOCX, JPG or PNG")
       end
     end
   end

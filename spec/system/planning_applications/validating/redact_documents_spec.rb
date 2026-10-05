@@ -88,6 +88,6 @@ RSpec.describe "Redact documents", type: :system do
     click_button "Save and mark as complete"
 
     expect(page).to have_content "There is a problem"
-    expect(page).to have_content "The file type must be JPEG, PNG or PDF"
+    expect(page).to have_content "The selected file must be a PDF, DOC, DOCX, JPG or PNG"
   end
 end

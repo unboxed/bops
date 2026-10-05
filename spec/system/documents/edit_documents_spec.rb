@@ -142,7 +142,7 @@ RSpec.describe "Edit document", type: :system do
       click_button("Save")
 
       expect(page).to have_content(
-        "The selected file must be a PDF, JPG or PNG"
+        "The selected file must be a PDF, DOC, DOCX, JPG or PNG"
       )
     end
 
@@ -154,7 +154,7 @@ RSpec.describe "Edit document", type: :system do
 
       click_button("Save")
 
-      expect(page).to have_content("The selected file must be a PDF, JPG or PNG")
+      expect(page).to have_content("The selected file must be a PDF, DOC, DOCX, JPG or PNG")
     end
 
     it "cannot validate document via manage documents screen" do

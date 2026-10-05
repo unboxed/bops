@@ -32,7 +32,7 @@ module BopsApplicants
       return if replacement_file.blank?
 
       unless permitted_content_type?(replacement_file)
-        redirect_to replacement_document_url, alert: "Only JPEG, PNG or PDF file types are supported" and return
+        redirect_to replacement_document_url, alert: I18n.t("activerecord.errors.models.document.attributes.file.unsupported_file_type") and return
       end
     end
 

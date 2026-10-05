@@ -138,7 +138,7 @@ module BopsCore
           Document::PERMITTED_CONTENT_TYPES.exclude?(document.content_type)
         end
 
-        errors.add(:documents, "The file type must be JPEG, PNG or PDF") if invalid
+        errors.add(:documents, I18n.t("activerecord.errors.models.document.attributes.file.unsupported_file_type")) if invalid
       end
     end
   end
