@@ -637,6 +637,9 @@ en:
           applicant_has_provided: Applicant has provided a replacement document.
           error: Unable to update request
           success: Validation request updated
+      validation_requests:
+        update:
+          unsupported_file_type: The file type must be PDF, DOC, DOCX, JPG or PNG
   application:
     header:
       back_office_planning: Back-office Planning System

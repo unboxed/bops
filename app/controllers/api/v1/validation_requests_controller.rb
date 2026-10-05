@@ -47,7 +47,7 @@ module Api
         return if file_params.blank?
         return unless file_params.any? { |file| Document::PERMITTED_CONTENT_TYPES.exclude? file.content_type }
 
-        render json: {message: "The file type must be JPEG, PNG, PDF, or DOCX"}, status: :bad_request
+        render json: {message: I18n.t("api.v1.validation_requests.update.unsupported_file_type")}, status: :bad_request
       end
     end
   end
