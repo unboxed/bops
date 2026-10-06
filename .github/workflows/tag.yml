@@ -19,22 +19,25 @@ jobs:
       - name: Get current date
         id: date
         run: |
-          echo "date=$(date +%Y-%m-%dT%H.%M)" >>$GITHUB_OUTPUT
+          date="$(date +%Y-%m-%dT%H.%M)"
+          echo "date=$date" >>$GITHUB_OUTPUT
+          echo "new_tag=release-$date" >>$GITHUB_OUTPUT
 
       - name: Bump version and push tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v7
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          custom_tag: release-${{ steps.date.outputs.date }}
-          tag_prefix: ""
+        env:
+          new_tag: release-${{ steps.date.outputs.new_tag }}
+        run: |
+          set -e
+          git tag -l "${new_tag}"
+          git push --tags
 
       - name: Create a GitHub release
         uses: ncipollo/release-action@v1
         with:
-          tag: ${{ steps.tag_version.outputs.new_tag }}
-          name: Release ${{ steps.tag_version.outputs.new_tag }}
-          body: ${{ steps.tag_version.outputs.changelog }}
+          tag: ${{ steps.date.outputs.new_tag }}
+          name: Release ${{ steps.date.outputs.date }}
+          body: "# Release ${{ steps.date.outputs.date }}"
           prerelease: true
           makeLatest: false
           token: ${{ secrets.DEPLOY_TOKEN }}
