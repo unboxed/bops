@@ -23,10 +23,10 @@ jobs:
           echo "date=$date" >>$GITHUB_OUTPUT
           echo "new_tag=release-$date" >>$GITHUB_OUTPUT
 
-      - name: Bump version and push tag
+      - name: Create and push tag
         id: tag_version
         env:
-          new_tag: release-${{ steps.date.outputs.new_tag }}
+          new_tag: ${{ steps.date.outputs.new_tag }}
         run: |
           set -e
           git tag -l "${new_tag}"
