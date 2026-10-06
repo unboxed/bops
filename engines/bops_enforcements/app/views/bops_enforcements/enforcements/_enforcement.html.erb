@@ -1,4 +1,4 @@
-<%# locals: (enforcement:, task: nil, title: nil, with_dates: false, with_assignment: false) %>
+<%# locals: (enforcement:, task: nil, title: nil) %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
 <% add_parent_breadcrumb_link "Application", enforcement_path(@enforcement) %>
@@ -42,61 +42,3 @@
     </p>
   </div>
 </div>
-
-<% if local_assigns[:with_assignment] %>
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds" id="dates-and-assignment-details">
-      <p class="govuk-body">
-        Assigned to:
-        <strong><%= enforcement.user&.name || "Unassigned" %></strong>
-        <%= govuk_link_to (enforcement.user.present? ? "Change" : "Assign application"), assign_users_path(@enforcement) %>
-      </p>
-    </div>
-  </div>
-<% end %>
-
-<% if local_assigns[:with_dates] %>
-  <div class="status-bar-container" id="dates-details">
-    <div class="status-bar">
-      <div class="status-panel" id="received-date">
-        <p class="govuk-body">
-          Received
-        </p>
-
-        <p><strong><%= enforcement.received_at.to_date.to_fs %></strong></p>
-      </div>
-
-      <div class="status-panel" id="started-date">
-        <p class="govuk-body">
-          Started
-        </p>
-
-        <p>
-          <% if enforcement.under_investigation? %>
-            <strong><%= enforcement.under_investigation_at.to_date.to_fs %></strong>
-          <% elsif enforcement.started_at %>
-            <strong><%= enforcement.started_at.to_date.to_fs %></strong>
-          <% else %>
-            Not yet started
-          <% end %>
-        </p>
-      </div>
-
-      <div class="status-panel" id="expiry-date">
-        <p class="govuk-body">
-          Notice served
-        </p>
-
-        <p>
-          <strong>
-            <% if enforcement.notice_served_at %>
-              <%= enforcement.notice_served_at_at.to_date.to_fs %>
-            <% else %>
-              None served
-            <% end %>
-          </strong>
-        </p>
-      </div>
-    </div>
-  </div>
-<% end %>
