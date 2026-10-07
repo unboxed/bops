@@ -4,35 +4,41 @@
   <div class="govuk-grid-column-two-thirds" id="dates-and-assignment-details">
     <p class="govuk-body">
       Assigned to:
-      <strong><%= enforcement.user&.name || "Unassigned" %></strong>
-      <%= govuk_link_to (enforcement.user.present? ? "Change" : "Assign application"), assign_users_path(@enforcement) %>
+      <strong><%= @enforcement.user&.name || "Unassigned" %></strong>
+      <%= govuk_link_to (@enforcement.user.present? ? "Change" : "Assign application"), assign_users_path(@enforcement) %>
     </p>
   </div>
 </div>
 
 <div class="status-bar-container" id="dates-details">
   <div class="status-bar">
-    <div class="status-panel" id="received-date">
-      <p class="govuk-body">
-        Received
-      </p>
-
-      <p><strong><%= @enforcement.received_at.to_date.to_fs %></strong></p>
-    </div>
-
     <div class="status-panel" id="started-date">
       <p class="govuk-body">
-        Started
+        Investigation started
       </p>
 
       <p>
         <% if @enforcement.under_investigation? %>
           <strong><%= @enforcement.under_investigation_at.to_date.to_fs %></strong>
-        <% elsif @enforcement.started_at %>
-          <strong><%= @enforcement.started_at.to_date.to_fs %></strong>
         <% else %>
           Not yet started
         <% end %>
+      </p>
+    </div>
+
+    <div class="status-panel" id="target-date">
+      <p class="govuk-body">
+        Site visit target date
+      </p>
+
+      <p>
+        <strong>
+          <% if @enforcement.target_date %>
+            <strong><%= @enforcement.target_date.to_fs %></strong>
+          <% else %>
+            Not yet started
+          <% end %>
+        </strong>
       </p>
     </div>
 
