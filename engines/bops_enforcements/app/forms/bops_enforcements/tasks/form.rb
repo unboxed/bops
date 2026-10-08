@@ -6,6 +6,10 @@ module BopsEnforcements
       include BopsCore::Tasks::Form
       include BopsEnforcements::Engine.routes.url_helpers
       include BopsEnforcements::Engine.routes.mounted_helpers
+
+      def enforcement
+        case_record.caseable
+      end
     end
   end
 end

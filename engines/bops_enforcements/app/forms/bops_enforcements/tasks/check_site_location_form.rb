@@ -16,10 +16,6 @@ module BopsEnforcements
 
       validates :boundary_geojson, presence: true, on: :edit_form
 
-      def enforcement
-        case_record.caseable
-      end
-
       def validation_request
         false
       end
