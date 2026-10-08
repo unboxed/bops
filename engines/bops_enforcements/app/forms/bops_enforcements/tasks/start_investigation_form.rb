@@ -5,13 +5,7 @@ module BopsEnforcements
     class StartInvestigationForm < Form
       self.task_actions = %w[start_investigation]
 
-      attr_reader :enforcement
-
       validate :complainant_email
-
-      after_initialize do
-        @enforcement = case_record.caseable
-      end
 
       def start_investigation
         enforcement.start_investigation!

@@ -31,6 +31,8 @@ class Enforcement < ApplicationRecord
   after_create :audit_created!
   after_update :audit_updated!
 
+  validates :urgency_reason, presence: true, if: :urgent
+
   AUDIT_ATTRIBUTES = %w[
     address_1
     address_2

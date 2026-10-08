@@ -2,33 +2,24 @@
 
 module BopsEnforcements
   module Tasks
-    class CheckReportDetailsForm < BaseForm
-      attr_reader :enforcement
+    class CheckReportDetailsForm < Form
+      self.task_actions = %w[save_and_complete]
 
-      def initialize(task)
-        super
+      attribute :urgent, :boolean
+      attribute :urgency_reason, :string
 
-        @enforcement = case_record.caseable
-      end
+      validates :urgency_reason, presence: true, if: -> { urgent }
 
-      def permitted_fields(params)
-        params.require(:enforcement).permit(:urgent)
-      end
+      private
 
-      def update(params)
-        ActiveRecord::Base.transaction do
+      def save_and_complete
+        super do
           enforcement.start_validation!
-          enforcement.update!(params)
+          enforcement.update!(urgent:, urgency_reason: urgent ? urgency_reason : nil)
+
           task.complete!
           task.parent.complete!
         end
-      rescue ActiveRecord::RecordInvalid
-        flash.now[:alert] = "Unable to update, please contact support"
-        render template_for(:edit)
-      end
-
-      def redirect_url
-        task_path(enforcement, parent)
       end
     end
   end
