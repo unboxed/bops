@@ -86,7 +86,7 @@ RSpec.describe "Enforcement index page", type: :system do
   end
 
   it "allows me to filter by urgent cases", capybara: true do
-    enforcement_1.update(urgent: true)
+    enforcement_1.update(urgent: true, urgency_reason: "blah")
 
     visit "/enforcements"
     click_link "All cases"

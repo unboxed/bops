@@ -49,6 +49,7 @@ RSpec.describe "Check report details", type: :system, capybara: true do
     it "allows me to mark a case as urgent" do
       expect(page).not_to have_selector(".govuk_tag", text: "urgent")
       check "Select here if the case is urgent"
+      fill_in "Reason", with: "Because I say so"
 
       click_button "Save and mark as complete"
       expect(page).to have_content("Report details successfully checked")

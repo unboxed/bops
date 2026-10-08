@@ -25,9 +25,19 @@
 <div id="urgent-tag">
   <h2 class="govuk-!-margin-top-8">Is this case urgent?</h2>
 
-  <%= form_with model: [@task, @enforcement], url: task_path(@enforcement, @task), method: :patch do |form| %>
+  <%= form_with model: @form, url: @form.url, method: :patch do |form| %>
+    <%= render ErrorSummaryComponent.new(errors: @form.errors) %>
+
     <div>
-      <%= form.govuk_check_box :urgent, 1, 0, label: {text: "Select here if the case is urgent"}, multiple: false %>
+      <%= form.govuk_check_boxes_fieldset :urgent, legend: -> { "" } do %>
+        <%= form.govuk_check_box :urgent, 1, 0,
+          checked: @enforcement.urgent,
+          label: {text: "Select here if the case is urgent"},
+         multiple: false, link_errors: true,
+         aria: {expanded: @enforcement.urgent} do
+            form.govuk_text_field :urgency_reason, value: @enforcement.urgency_reason, label: {text: "Reason"}, link_errors: true
+        end %>
+      <% end %>
     </div>
 
     <div>
@@ -40,7 +50,7 @@
       <%= govuk_link_to "Edit description", @task.tasks.find_by(slug: "check-description").edit_url, class: "govuk-body-small govuk-!-margin-top-1", no_visited_state: true %>
     </div>
 
-    <%= form.govuk_submit "Save and mark as complete", class: "govuk-!-margin-top-8" do %>
+    <%= form.govuk_task_button "Save and mark as complete", class: "govuk-!-margin-top-8" do %>
       <%= govuk_button_link_to "Back", task_path(@enforcement, @task.parent), secondary: true %>
     <% end %>
   <% end %>
