@@ -2,6 +2,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds" id="dates-and-assignment-details">
+    <% if @enforcement.urgent? %>
+      <p class="govuk-body">
+        <strong>Urgent case:</strong>
+        <%= @enforcement.urgency_reason %>
+      </p>
+    <% end %>
+
     <p class="govuk-body">
       Assigned to:
       <strong><%= @enforcement.user&.name || "Unassigned" %></strong>
