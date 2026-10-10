@@ -14,9 +14,7 @@ module PlanningApplications
       end
 
       def edit
-        @show_sidebar = if use_new_sidebar_layout?(@planning_application)
-          @planning_application.case_record.find_task_by_path!("check-and-assess")
-        end
+        @show_sidebar = @planning_application.case_record.find_task_by_path!("check-and-assess")
 
         respond_to do |format|
           format.html
@@ -24,9 +22,7 @@ module PlanningApplications
       end
 
       def create
-        @show_sidebar = if use_new_sidebar_layout?(@planning_application)
-          @planning_application.case_record.find_task_by_path!("check-and-assess")
-        end
+        @show_sidebar = @planning_application.case_record.find_task_by_path!("check-and-assess")
 
         @term.attributes = term_params
 
