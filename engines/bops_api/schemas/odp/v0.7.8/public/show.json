@@ -1,0 +1,239 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "application": {
+      "$ref": "#/definitions/ApplicationOverview"
+    },
+    "property": {
+      "type": "object",
+      "properties": {
+        "address": {
+          "type": "object",
+          "properties": {
+            "latitude": {
+              "type": "number"
+            },
+            "longitude": {
+              "type": "number"
+            },
+            "title": {
+              "type": "string"
+            },
+            "singleLine": {
+              "type": "string"
+            },
+            "uprn": {
+              "type": "string"
+            },
+            "town": {
+              "type": "string"
+            },
+            "postcode": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "latitude",
+            "longitude",
+            "title",
+            "singleLine",
+            "uprn",
+            "town",
+            "postcode"
+          ]
+        },
+        "boundary": {
+          "type": "object",
+          "properties": {
+            "site": {}
+          },
+          "required": ["site"]
+        }
+      },
+      "required": ["address", "boundary"]
+    },
+    "proposal": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "reportingType": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string"
+                },
+                "description": {
+                  "type": "string"
+                }
+              },
+              "required": ["code", "description"]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "ownerIsPlanningAuthority": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "description",
+        "ownerIsPlanningAuthority",
+        "reportingType"
+      ]
+    },
+    "applicant": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "anyOf": [{ "type": "string" }, { "type": "null" }]
+        },
+        "address": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Address"
+            },
+            { "type": "null" }
+          ]
+        },
+        "ownership": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Ownership"
+            },
+            { "type": "null" }
+          ]
+        },
+        "agent": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "address": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/definitions/Address"
+                    },
+                    { "type": "null" }
+                  ]
+                }
+              }
+            },
+            { "type": "null" }
+          ]
+        }
+      },
+      "required": ["type", "address", "ownership", "agent"]
+    },
+    "officer": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": ["name"]
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "data": {
+      "type": "object",
+      "properties": {
+        "appeal": {
+          "type": "object",
+          "properties": {
+            "reason": {
+              "type": "string"
+            },
+            "lodgedDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "validatedDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "startedDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "decisionDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "decision": {
+              "type": "string"
+            },
+            "files": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "referencesInDocument": {
+                    "type": "array",
+                    "items": {
+                      "type": "array"
+                    }
+                  },
+                  "url": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "value": {
+                          "type": "string"
+                        },
+                        "description": {
+                          "type": "string"
+                        }
+                      },
+                      "required": ["value", "description"]
+                    }
+                  },
+                  "createdAt": {
+                    "format": "date-time",
+                    "type": ["string", "null"]
+                  },
+                  "applicantDescription": {
+                    "type": ["string", "null"]
+                  },
+                  "metadata": {
+                    "type": "object",
+                    "properties": {
+                      "byteSize": {
+                        "type": "integer"
+                      },
+                      "contentType": {
+                        "type": "string"
+                      }
+                    },
+                    "required": ["byteSize", "contentType"]
+                  }
+                },
+                "required": ["name", "url", "type", "metadata"]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "required": ["application", "property", "proposal", "applicant"]
+}

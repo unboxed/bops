@@ -1,0 +1,190 @@
+{
+  "metadata": {
+    "page": 1,
+    "results": 10,
+    "from": 1,
+    "to": 5,
+    "total_pages": 1,
+    "total_results": 5
+  },
+  "links": {
+    "first": "http://southwark.bops.localhost:3000/api/v2/validation_requests?page=1",
+    "last": "http://southwark.bops.localhost:3000/api/v2/validation_requests?page=1",
+    "prev": null,
+    "next": null
+  },
+  "data": [
+    {
+      "planning_application": {
+        "reference": "24-00593-HAPP"
+      },
+      "type": "FeeChangeValidationRequest",
+      "state": "open",
+      "post_validation": false,
+      "created_at": "2024-04-23T15:17:36.210+01:00",
+      "notified_at": "2024-04-23T15:17:50.073+01:00",
+      "reason": "test change",
+      "response_due": "2024-05-15",
+      "response": null,
+      "rejection_reason": null,
+      "approved": null,
+      "cancel_reason": null,
+      "cancelled_at": null,
+      "closed_at": null,
+      "specific_attributes": {
+        "suggestion": "test change"
+      }
+    },
+    {
+      "planning_application": {
+        "reference": "24-00593-HAPP"
+      },
+      "type": "AdditionalDocumentValidationRequest",
+      "state": "open",
+      "post_validation": false,
+      "created_at": "2024-04-23T15:17:16.660+01:00",
+      "notified_at": "2024-04-23T15:17:50.081+01:00",
+      "reason": "test",
+      "response_due": "2024-05-15",
+      "response": null,
+      "rejection_reason": null,
+      "approved": null,
+      "cancel_reason": null,
+      "cancelled_at": null,
+      "closed_at": null,
+      "specific_attributes": {
+        "document_request_type": "test"
+      }
+    },
+    {
+      "planning_application": {
+        "reference": "24-00593-HAPP"
+      },
+      "type": "OtherChangeValidationRequest",
+      "state": "open",
+      "post_validation": false,
+      "created_at": "2024-04-23T15:17:46.396+01:00",
+      "notified_at": "2024-04-23T15:17:50.090+01:00",
+      "reason": "test change",
+      "response_due": "2024-05-15",
+      "response": null,
+      "rejection_reason": null,
+      "approved": null,
+      "cancel_reason": null,
+      "cancelled_at": null,
+      "closed_at": null,
+      "specific_attributes": {
+        "suggestion": "test change"
+      }
+    },
+    {
+      "planning_application": {
+        "reference": "24-00593-HAPP"
+      },
+      "type": "DescriptionChangeValidationRequest",
+      "state": "closed",
+      "post_validation": false,
+      "created_at": "2024-04-23T15:17:00.174+01:00",
+      "notified_at": "2024-04-23T15:17:00.290+01:00",
+      "reason": null,
+      "response_due": "2024-04-30",
+      "response": null,
+      "rejection_reason": null,
+      "approved": true,
+      "cancel_reason": null,
+      "cancelled_at": null,
+      "closed_at": "2024-04-23T15:19:38.912+01:00",
+      "specific_attributes": {
+        "previous_description": "Roof extension to the rear of the property, incorporating starship launchpad.",
+        "proposed_description": "test validation Roof extension to the rear of the property, incorporating starship launchpad."
+      }
+    },
+    {
+      "planning_application": {
+        "reference": "24-00593-HAPP"
+      },
+      "type": "RedLineBoundaryChangeValidationRequest",
+      "state": "closed",
+      "post_validation": false,
+      "created_at": "2024-04-23T15:16:43.993+01:00",
+      "notified_at": "2024-04-23T15:17:50.058+01:00",
+      "reason": "test",
+      "response_due": "2024-05-15",
+      "response": null,
+      "rejection_reason": null,
+      "approved": true,
+      "cancel_reason": null,
+      "cancelled_at": null,
+      "closed_at": null,
+      "specific_attributes": {
+        "new_geojson": {
+          "type": "FeatureCollection",
+          "features": [
+            {
+              "type": "Feature",
+              "geometry": {
+                "type": "Polygon",
+                "coordinates": [
+                  [
+                    [
+                      -0.11835515499115692,
+                      51.465546460366994
+                    ],
+                    [
+                      -0.11852815747261736,
+                      51.465746977085615
+                    ],
+                    [
+                      -0.1186569035053321,
+                      51.465703531871384
+                    ],
+                    [
+                      -0.11848390102387167,
+                      51.4655038504508
+                    ],
+                    [
+                      -0.11835515499115692,
+                      51.465546460366994
+                    ]
+                  ]
+                ]
+              },
+              "properties": null
+            }
+          ]
+        },
+        "original_geojson": {
+          "type": "Feature",
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [
+                  -0.1186569035053321,
+                  51.465703531871384
+                ],
+                [
+                  -0.1185938715934822,
+                  51.465724418998775
+                ],
+                [
+                  -0.1184195280075143,
+                  51.46552473766957
+                ],
+                [
+                  -0.11848390102387167,
+                  51.4655038504508
+                ],
+                [
+                  -0.1186569035053321,
+                  51.465703531871384
+                ]
+              ]
+            ]
+          },
+          "properties": null
+        }
+      }
+    }
+  ]
+}
