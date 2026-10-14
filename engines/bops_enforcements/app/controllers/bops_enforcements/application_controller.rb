@@ -9,5 +9,9 @@ module BopsEnforcements
     before_action :authenticate_user!
 
     layout "application"
+
+    def set_documents
+      @documents = @case_record.documents.active.map { Enforcements::DocumentPresenter.new(it) }
+    end
   end
 end

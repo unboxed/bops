@@ -7,6 +7,7 @@ module BopsEnforcements
     before_action :set_enforcements, except: %i[show]
     before_action :set_enforcement, only: %i[show]
     before_action :set_case_record, only: %i[show]
+    before_action :set_documents, only: %i[show]
     before_action :set_grouped_tasks, only: %i[show]
 
     def index

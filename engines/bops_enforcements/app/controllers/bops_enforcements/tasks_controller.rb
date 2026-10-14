@@ -5,6 +5,7 @@ module BopsEnforcements
     include BopsCore::TasksController
 
     before_action :set_enforcement
+    before_action :set_documents, only: %i[show]
     before_action :build_form
     before_action :ensure_case_is_not_closed
     before_action :show_sidebar, only: %i[show edit]

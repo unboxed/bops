@@ -2,10 +2,11 @@
 
 module BopsSubmissions
   class DocumentsService
-    def initialize(case_record:, user:, files:)
+    def initialize(case_record:, user:, files:, metadata: {})
       @case_record = case_record
       @user = user
       @files = files
+      @metadata = metadata
     end
 
     def call!
@@ -20,7 +21,7 @@ module BopsSubmissions
 
     private
 
-    attr_reader :case_record, :user, :files
+    attr_reader :case_record, :user, :files, :metadata
 
     def upload(case_record, user, url, tags, description)
       if user.file_downloader.blank?
@@ -34,6 +35,7 @@ module BopsSubmissions
         document.tags = tags
         document.applicant_description = description
         document.file.attach(io: file.open, filename: name)
+        document.metadata.merge!(metadata)
       end
     end
   end
