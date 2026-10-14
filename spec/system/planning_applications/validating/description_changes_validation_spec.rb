@@ -176,7 +176,7 @@ RSpec.describe "DescriptionChangesValidation", type: :system do
     end
   end
 
-  context "when the application is a pre-application", :show_sidebar do
+  context "when the application is a pre-application" do
     let(:planning_application) do
       create(
         :planning_application, :not_started, :pre_application, local_authority: default_local_authority
