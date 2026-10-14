@@ -49,5 +49,7 @@ yarn-debug.log*
 
 /.erblint-rubocop*
 
-# Claude Code
-.claude/settings.local.json
+# LLM configs
+.claude/
+/CLAUDE.md
+/AGENTS.md
