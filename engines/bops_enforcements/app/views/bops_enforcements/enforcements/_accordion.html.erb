@@ -62,7 +62,7 @@
         <div id="check-tag-documents-tasks">
           <div data-download-target="documentsElement">
             <ul class="app-task-list__items govuk-!-padding-left-0">
-              <% if @enforcement.case_record.documents.active.empty? %>
+              <% if @documents.empty? %>
                 <li id="check-supplied-document" class="app-task-list__item">
                   <span class="app-task-list__task-name">
                     There are no active documents
@@ -78,23 +78,24 @@
                     <% head.with_row do |row| %>
                       <% row.with_cell(text: "Document name") %>
                       <% row.with_cell(text: "Date received") %>
-                      <% row.with_cell(text: "Visibility") %>
+                      <% row.with_cell(text: "Source") %>
+                      <% row.with_cell(text: "Type of document") %>
                     <% end %>
                   <% end %>
 
                   <% table.with_body do |body| %>
-                    <% @enforcement.case_record.documents.active.each do |document| %>
+                    <% @documents.each do |document| %>
                       <% next unless document.representable? %>
 
                       <% body.with_row(
                        html_attributes: {
-                         "data-document-url-value" => url_for_document(document),
+                         "data-document-url-value" => url_for_document(document.document),
                          "data-document-title-value" => document.file.filename
                        }
                      ) do |row| %>
                         <%= row.with_cell do %>
                           <p>
-                            <%= link_to_document(truncate(document.reference_or_name, length: 50), document) %>
+                            <%= link_to_document(truncate(document.reference_or_name, length: 50), document.document) %>
                           </p>
 
                           <% if document.tags.present? %>
@@ -109,7 +110,8 @@
                         <% end %>
 
                         <%= row.with_cell(text: document.received_at_or_created || "-") %>
-                        <%= row.with_cell(text: document.publishable? ? "Public" : "Sensitive") %>
+                        <%= row.with_cell(text: document.source) %>
+                        <%= row.with_cell(text: govuk_tag(text: document.type.to_s.humanize, colour: document.type_tag_colour)) %>
                       <% end %>
                     <% end %>
                   <% end %>

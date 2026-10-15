@@ -57,7 +57,10 @@ module BopsSubmissions
       end
 
       def attach_documents!(enforcement)
-        DocumentsService.new(case_record: enforcement.case_record, user:, files: submission.request_body["files"]).call!
+        DocumentsService.new(case_record: enforcement.case_record,
+          user:,
+          files: submission.request_body["files"],
+          metadata: {source: "Complainant"}).call!
       end
     end
   end
