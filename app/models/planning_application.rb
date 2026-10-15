@@ -23,7 +23,7 @@ class PlanningApplication < ApplicationRecord
 
   self.discard_column = :deleted_at
 
-  self.ignored_columns += %i[work_status make_public reporting_type submission_id]
+  self.ignored_columns += %i[work_status make_public reporting_type submission_id local_authority_id]
 
   DAYS_TO_EXPIRE = 56
   DAYS_TO_EXPIRE_EIA = 112
@@ -141,7 +141,6 @@ class PlanningApplication < ApplicationRecord
   belongs_to :user, optional: true
   belongs_to :api_user, optional: true
   belongs_to :boundary_created_by, class_name: "User", optional: true
-  belongs_to :local_authority
   belongs_to :application_type
   belongs_to :recommended_application_type, class_name: "ApplicationType", optional: true
   belongs_to :reporting_type, optional: true
