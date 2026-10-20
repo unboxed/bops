@@ -6,6 +6,7 @@ module BopsEnforcements
 
     before_action :set_enforcements, except: %i[show]
     before_action :set_enforcement, only: %i[show]
+    before_action :build_complainant, only: %i[show]
     before_action :set_case_record, only: %i[show]
     before_action :set_grouped_tasks, only: %i[show]
 
@@ -75,6 +76,18 @@ module BopsEnforcements
 
     def set_grouped_tasks
       @grouped_tasks = @case_record.tasks.visible.group_by(&:section)
+    end
+
+    def build_complainant
+      @complainant = @enforcement.complainants.build(flash[:complainant_params])
+
+      flash[:complainant_errors]&.each do |field, messages|
+        messages.each do |message|
+          @complainant.errors.add(field.to_sym, message)
+        end
+      end
+
+      @complainant
     end
   end
 end

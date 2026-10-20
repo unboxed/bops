@@ -32,6 +32,31 @@
           {key: {text: 'Email'}, value: {text: complainant.email}}
       ]) %>
     <% end %>
+
+    <% if @task.nil? %>
+      <%= govuk_details(summary_text: "Add new complainant", open: true) do %>
+        <%= form_with model: @complainant, url: complainants_path(@enforcement) do |form| %>
+          <%= form.govuk_error_summary %>
+
+          <%= form.govuk_fieldset(legend: nil, class: "display-flex", style: "gap: 36px") do %>
+            <%= form.govuk_text_field :first_name, required: true, label: {text: "First name"} %>
+            <%= form.govuk_text_field :last_name, required: true, label: {text: "Last name"} %>
+          <% end %>
+
+          <%= form.govuk_text_field :email, width: 'one-half' %>
+
+          <%= form.govuk_fieldset(legend: nil) do %>
+            <%= form.govuk_text_field :address_1, width: 'one-half', label: {text: "Address line 1"} %>
+            <%= form.govuk_text_field :address_2, width: 'one-half', label: {text: "Address line 2"} %>
+            <%= form.govuk_text_field :town, width: 'one-half' %>
+            <%= form.govuk_text_field :county, width: 'one-half' %>
+            <%= form.govuk_text_field :postcode, width: 'one-quarter' %>
+          <% end %>
+
+          <%= form.govuk_submit "Add complainant", secondary: true %>
+        <% end %>
+      <% end %>
+    <% end %>
   <% end %>
 
   <%= accordion.with_section(heading_text: "Documents and Photos") do %>
