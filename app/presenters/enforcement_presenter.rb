@@ -61,7 +61,7 @@ class EnforcementPresenter
       address: address.to_s,
       received_on: I18n.l(received_at.to_date),
       report_date: I18n.l(received_at.to_date),
-      complainant_name: complainant.name,
+      complainant_name: complainants.all.map(&:name).join(", "),
       days: 20,
       officer_email:,
       council_name: local_authority.council_name)

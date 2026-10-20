@@ -35,5 +35,13 @@ FactoryBot.define do
     trait :closed do
       after(:create) { |enforcement| enforcement.close! }
     end
+
+    after(:build) do |enforcement|
+      enforcement.complainants.new(
+        first_name: "Ebenezer",
+        last_name: "Scrooge",
+        email: "scrooge@waltdisney.com"
+      )
+    end
   end
 end

@@ -35,7 +35,7 @@ RSpec.describe "Start investigation", type: :system do
       expect(page).to have_content(enforcement.description)
     end
 
-    expect(page).to have_content("Notification to be sent to complainant - Ebenezer Scrooge (scrooge@waltdisney.com)")
+    expect(page).to have_content("Notification to be sent to complainant(s) - Ebenezer Scrooge (scrooge@waltdisney.com)")
 
     find("span", text: "View email template").click
     expect(page).to have_content("Enforcement case reference number: #{enforcement.reference}")

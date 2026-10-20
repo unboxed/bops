@@ -35,9 +35,10 @@
 
       <p>
         <% if @enforcement.not_started? %>
-          <strong>Notification to be sent to complainant</strong> -
-          <%= @enforcement.complainant.name %>
-          (<%= @enforcement.complainant.email %>)
+          <strong>Notification to be sent to complainant(s)</strong> -
+          <% @enforcement.complainants.each do |complainant| %>
+            <%= complainant.name %> (<%= complainant.email %>)
+          <% end %>
         <% else %>
           <strong>Notification was sent to complainant on <%= @enforcement.under_investigation_at.to_fs %></strong>
         <% end %>
