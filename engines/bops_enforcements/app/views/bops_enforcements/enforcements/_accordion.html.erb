@@ -26,6 +26,8 @@
 
   <%= accordion.with_section(heading_text: "Complainant details") do %>
     <% @enforcement.complainants.each do |complainant| %>
+      <%= next unless complainant.persisted? %>
+
       <%= govuk_summary_list( rows: [
           {key: {text:'Name'}, value: {text: complainant.name}},
           {key: {text: 'Address'}, value: {text: complainant.address}},
