@@ -10,7 +10,7 @@ module BopsEnforcements
     private
 
     def all_statuses
-      Enforcement.statuses.keys
+      ::Enforcement.statuses.keys
     end
 
     attr_reader :search, :panel_type

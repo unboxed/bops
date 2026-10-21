@@ -8,6 +8,7 @@ class Enforcement < ApplicationRecord
   include Auditable
 
   has_many :audits, as: :auditable
+  has_many :complainants
 
   delegate :documents, to: :case_record
 
@@ -102,7 +103,7 @@ class Enforcement < ApplicationRecord
   end
 
   def complainant
-    @complainant ||= Complainant.new(submission.request_body&.dig("data", "complainant"))
+    complainants.first
   end
 
   def task_workflow

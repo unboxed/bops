@@ -24,7 +24,9 @@ module BopsSubmissions
           end
         end
 
+        attach_complainant!(enforcement, submission.request_body.dig("data", "complainant"))
         attach_documents!(enforcement) if submission.request_body["files"]
+
         enforcement
       end
 
@@ -54,6 +56,19 @@ module BopsSubmissions
           "ProposalParser" => data_params[:report],
           "ProposalDetailsParser" => data[:responses]
         }.transform_keys { |key| Parsers.const_get(key) }
+      end
+
+      def attach_complainant!(enforcement, complainant_data)
+        enforcement.complainants.create!(
+          first_name: complainant_data.dig("name", "first"),
+          last_name: complainant_data.dig("name", "last"),
+          email: complainant_data.dig("email"),
+          phone: complainant_data.dig("phone", "primary"),
+          address_1: complainant_data.dig("address", "line1"),
+          town: complainant_data.dig("address", "town"),
+          postcode: complainant_data.dig("address", "postcode"),
+          country: complainant_data.dig("address", "country")
+        )
       end
 
       def attach_documents!(enforcement)

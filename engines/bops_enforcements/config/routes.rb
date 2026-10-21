@@ -17,6 +17,8 @@ BopsEnforcements::Engine.routes.draw do
       patch :update, on: :collection
     end
 
+    resources :complainants, controller: "enforcement/complainants", only: :create
+
     get "/check-breach-report", to: redirect(Bops::InitialTaskRedirector.new("Check")), defaults: {caseable_type: "Enforcement"}
     get "/investigate-and-decide", to: redirect(Bops::InitialTaskRedirector.new("Investigate")), defaults: {caseable_type: "Enforcement"}
     get "/review-recommendation", to: redirect(Bops::InitialTaskRedirector.new("Review")), defaults: {caseable_type: "Enforcement"}

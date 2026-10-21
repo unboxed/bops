@@ -60,7 +60,7 @@ RSpec.describe "Enforcement show page", type: :system do
         within("#complainant-details-section") do
           find("button", text: "Complainant details").click
 
-          within("tbody") do
+          within(".govuk-summary-list:first-child") do
             expect(page).to have_text(enforcement.complainant.email)
             expect(page).to have_text(enforcement.complainant.address)
           end
