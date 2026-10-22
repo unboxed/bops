@@ -1,7 +1,7 @@
 <%# locals: (enforcement:, task: nil, title: nil) %>
 
 <% add_parent_breadcrumb_link "Home", root_path %>
-<% add_parent_breadcrumb_link "Application", enforcement_path(@enforcement) %>
+<% add_parent_breadcrumb_link "Application", enforcement_path(enforcement) %>
 
 <% page_heading = title || task&.title || "Enforcement case" %>
 
@@ -27,12 +27,10 @@
 
     <div id="case-statuses-tags">
       <p class="govuk-body">
-        <span class="govuk-!-margin-left-1">
-          <%= govuk_tag(text: enforcement.status.humanize, colour: enforcement.status_tag_colour) %>
-        </span>
+        <span class="govuk-!-margin-left-1"><%= enforcement.status_tag %></span>
 
         <% if enforcement.urgent? %>
-          <span class="govuk-!-margin-left-1"><%= govuk_tag(text: "urgent", colour: "orange") %></span>
+          <span class="govuk-!-margin-left-1"><%= govuk_tag(text: "Urgent", colour: "orange") %></span>
         <% end %>
       </p>
     </div>

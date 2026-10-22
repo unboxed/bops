@@ -101,6 +101,8 @@ en:
         Yours
         %{council_name}
       subject: 'Enforcement case update (ref: %{ref})'
+    status:
+      in_validation: Being checked
     tasks:
       check-breach-report:
         check-site-location:

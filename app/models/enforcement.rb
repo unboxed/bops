@@ -12,12 +12,6 @@ class Enforcement < ApplicationRecord
 
   delegate :documents, to: :case_record
 
-  STATUS_COLOURS = {
-    closed: "red",
-    not_started: "blue",
-    under_investigation: "green"
-  }.freeze
-
   composed_of :address,
     mapping: {
       address_1: :line_1,
@@ -84,10 +78,6 @@ class Enforcement < ApplicationRecord
     Array(super).each_with_index.map do |hash, index|
       ProposalDetail.new(hash, index)
     end
-  end
-
-  def status_tag_colour
-    STATUS_COLOURS[status.to_sym]
   end
 
   def days_from

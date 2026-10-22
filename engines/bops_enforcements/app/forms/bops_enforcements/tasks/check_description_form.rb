@@ -18,6 +18,7 @@ module BopsEnforcements
       def update(params)
         enforcement.update!(params)
         task.complete!
+        task.parent.in_progress! if task.parent.not_started!
       end
 
       def redirect_url

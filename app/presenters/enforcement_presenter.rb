@@ -6,20 +6,34 @@ class EnforcementPresenter
   presents :enforcement
   attr_reader :enforcement
 
-  def initialize(enforcement)
+  STATUS_COLOURS = {
+    not_started: "blue",
+    in_validation: "light-blue",
+    under_investigation: "green",
+    in_review: "yellow",
+    returned: "yellow",
+    notice_served: "purple",
+    notice_overdue: "red",
+    appeal: "purple",
+    prosecution: "purple",
+    closed: "grey",
+    withdrawn: "grey"
+  }.freeze
+
+  def initialize(enforcement, template = nil)
     @enforcement = enforcement
+    @template = template
   end
 
   def status_tag_colour
-    "orange"
+    STATUS_COLOURS[status.to_sym]
   end
 
   def status_tag
     classes = ["govuk-tag govuk-tag--#{status_tag_colour}"]
 
     tag.span class: classes do
-      "unknown"
-      # status' to be added later
+      I18n.t(status, scope: "bops_enforcements.status", default: status.humanize)
     end
   end
 
@@ -43,6 +57,10 @@ class EnforcementPresenter
       subject: close_investigation_email_subject,
       body: close_investigation_email_body(**)
     }
+  end
+
+  def to_s
+    enforcement.to_s
   end
 
   private

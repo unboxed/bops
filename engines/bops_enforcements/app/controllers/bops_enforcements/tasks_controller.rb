@@ -30,7 +30,7 @@ module BopsEnforcements
     end
 
     def set_enforcement
-      @enforcement = @case_record.caseable
+      @enforcement = EnforcementPresenter.new(@case_record.caseable, view_context)
     end
 
     def template_for(action)

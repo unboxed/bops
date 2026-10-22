@@ -31,13 +31,15 @@
 
     <tbody class="govuk-table__body">
       <% audits.each do |audit| %>
+        <% enforcement = EnforcementPresenter.new(audit.auditable, view_context) %>
+
         <tr class="govuk-table__row" id="<%= dom_id(audit.auditable) %>">
           <% attributes.each do |attribute| %>
             <%= tag.td(class: class_names("govuk-table__cell", attribute, "limit-column-width", "border-bottom-none": audit)) do %>
               <%= link_to_if(
                   attribute == :reference,
-                  audit.auditable.public_send(attribute),
-                  helpers.enforcement_path(audit.auditable),
+                  enforcement.public_send(attribute),
+                  helpers.enforcement_path(enforcement),
                   class: "govuk-link"
               ) %>
             <% end %>
