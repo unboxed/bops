@@ -36,7 +36,7 @@
     <% end %>
 
     <% if @task.nil? %>
-      <%= govuk_details(summary_text: "Add new complainant", open: true) do %>
+      <%= govuk_details(summary_text: "Add new complainant") do %>
         <%= form_with model: @complainant, url: complainants_path(@enforcement) do |form| %>
           <%= form.govuk_error_summary %>
 
