@@ -22,7 +22,6 @@ jobs:
           - brakeman
           - rubocop
           - biome
-          - prettier
           - herb:lint
           - language_versions
       fail-fast: false
