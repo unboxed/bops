@@ -12,10 +12,10 @@
     "rules": {
       "preset": "recommended",
       "correctness": {
-        "noUnknownFunction": "off"
+        "noUnknownFunction": "off" // false positives on govuk-colour()
       },
       "style": {
-        "noDescendingSpecificity": "off"
+        "noDescendingSpecificity": "off" // this is probably correct, but too much work to fix right now
       }
     }
   },
