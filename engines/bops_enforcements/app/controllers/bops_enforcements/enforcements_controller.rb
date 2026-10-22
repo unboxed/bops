@@ -63,8 +63,12 @@ module BopsEnforcements
     end
 
     def set_enforcement
-      @enforcement = current_local_authority
-        .enforcements.find_by!(reference: params[:reference])
+      @enforcement = EnforcementPresenter.new(
+        current_local_authority
+          .enforcements
+          .find_by!(reference: params[:reference]),
+        view_context
+      )
     end
 
     def filter_params

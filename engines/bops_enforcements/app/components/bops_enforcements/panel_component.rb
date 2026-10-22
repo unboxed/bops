@@ -15,12 +15,13 @@ module BopsEnforcements
 
     def before_render
       @pagy, @paginated_enforcements = pagy(@enforcements, overflow: :last_page)
+      @paginated_enforcements = @paginated_enforcements.map { EnforcementPresenter.new(it, view_context) }
     end
 
     TAG_MAPPINGS = {
       urgent: ->(e, h) { e.urgent? ? h.govuk_tag(text: "Urgent", colour: "red") : nil },
       days_status_tag: ->(e, h) { h.govuk_tag(text: "#{e.days_from} days received", colour: "orange") },
-      status_tag: ->(e, h) { h.govuk_tag(text: e.status.humanize, colour: e.status_tag_colour) },
+      status_tag: ->(e, h) { e.status_tag },
       to_param: ->(e, h) { h.govuk_link_to(e.reference, h.enforcement_path(e)) },
       user_name: ->(e, h) { e.user&.name }
     }.freeze

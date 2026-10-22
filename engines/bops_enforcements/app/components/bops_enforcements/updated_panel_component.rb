@@ -13,7 +13,7 @@ module BopsEnforcements
     def attributes
       %i[
         reference
-        status
+        status_tag
         full_address
         description
       ]
