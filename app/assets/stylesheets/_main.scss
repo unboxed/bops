@@ -67,7 +67,7 @@ h3 {
 }
 
 .accordion-tr:last-child > td {
-  border-bottom: none !important;
+  border-bottom: none;
 }
 
 .govuk-template {
@@ -364,9 +364,7 @@ h3 {
   &:focus {
     color: govuk-colour("black");
     background-color: govuk-colour("yellow");
-    box-shadow:
-      0 -2px govuk-colour("yellow"),
-      0 4px govuk-colour("black");
+    box-shadow: 0 -2px govuk-colour("yellow"), 0 4px govuk-colour("black");
     text-decoration: none;
     outline: none;
   }

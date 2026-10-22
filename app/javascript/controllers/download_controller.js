@@ -65,7 +65,7 @@ export default class extends Controller {
 
   showError(_error) {
     const errorMessage = document.createElement("span")
-    errorMessage.innerText =
+    errorMessage.textContent =
       "Unable to complete download, please contact support"
     errorMessage.className = "govuk-error-message"
     errorMessage.classList.add("govuk-!-padding-left-5")
