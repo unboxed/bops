@@ -7,9 +7,17 @@ class EnforcementPresenter
   attr_reader :enforcement
 
   STATUS_COLOURS = {
-    closed: "red",
     not_started: "blue",
-    under_investigation: "green"
+    in_validation: "light-blue",
+    under_investigation: "green",
+    in_review: "yellow",
+    returned: "yellow",
+    notice_served: "purple",
+    notice_overdue: "red",
+    appeal: "purple",
+    prosecution: "purple",
+    closed: "grey",
+    withdrawn: "grey"
   }.freeze
 
   def initialize(enforcement, template = nil)
