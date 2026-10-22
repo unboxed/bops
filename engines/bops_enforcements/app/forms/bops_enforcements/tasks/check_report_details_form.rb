@@ -17,7 +17,7 @@ module BopsEnforcements
           enforcement.start_validation! if enforcement.not_started?
           enforcement.update!(urgent:, urgency_reason: urgent ? urgency_reason : nil)
 
-          task.parent.complete!
+          task.parent.in_progress! if task.parent.not_started?
         end
       end
     end
