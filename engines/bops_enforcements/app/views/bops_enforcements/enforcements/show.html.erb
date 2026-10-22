@@ -41,11 +41,15 @@
       <p>
         <strong>
           <% if @enforcement.target_date %>
-            <strong><%= @enforcement.target_date.to_fs %></strong>
+            <%= @enforcement.target_date.to_fs %>
           <% else %>
-            Not yet started
+            Not started
           <% end %>
         </strong>
+      </p>
+
+      <p>
+        <%= govuk_link_to "Edit", task_path(@enforcement, "set-target-date") %>
       </p>
     </div>
 

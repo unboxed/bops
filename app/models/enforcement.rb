@@ -112,10 +112,6 @@ class Enforcement < ApplicationRecord
     super || case_record.id
   end
 
-  def target_date
-    nil
-  end
-
   private
 
   def factory
