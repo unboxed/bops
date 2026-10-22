@@ -165,7 +165,7 @@ body:has(.bops-fullwidth-container) {
 
 .bops-sidebar ul h3 {
   @include govuk-font($size: 16);
-  font-weight: normal !important;
+  font-weight: normal;
   color: $govuk-secondary-text-colour;
 }
 

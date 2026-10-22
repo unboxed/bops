@@ -1,0 +1,27 @@
+{
+  "files": {
+    "includes": ["**", "!app/assets/stylesheets/leaflet.scss"]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended",
+      "correctness": {
+        "noUnknownFunction": "off" // false positives on govuk-colour()
+      },
+      "style": {
+        "noDescendingSpecificity": "off" // this is probably correct, but too much work to fix right now
+      }
+    }
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded"
+    }
+  }
+}

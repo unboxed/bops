@@ -29,10 +29,9 @@
   },
   "version": "0.1.0",
   "devDependencies": {
-    "@biomejs/biome": "^2.5.0",
+    "@biomejs/biome": "^2.6.2",
     "@herb-tools/formatter": "^0.10.3",
-    "@herb-tools/linter": "^0.10.3",
-    "prettier": "^3.6.1"
+    "@herb-tools/linter": "^0.10.3"
   },
   "scripts": {
     "build": "node esbuild.mjs --minify"
