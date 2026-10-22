@@ -28,7 +28,7 @@
     <div id="case-statuses-tags">
       <p class="govuk-body">
         <span class="govuk-!-margin-left-1">
-          <%= govuk_tag(text: enforcement.status.humanize, colour: enforcement.status_tag_colour) %>
+          <%= govuk_tag(text: t(enforcement.status, scope: "bops_enforcements.status", default: enforcement.status.humanize), colour: enforcement.status_tag_colour) %>
         </span>
 
         <% if enforcement.urgent? %>
