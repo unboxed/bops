@@ -3,13 +3,13 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds" id="dates-and-assignment-details">
     <% if @enforcement.urgent? %>
-      <p class="govuk-body">
+      <p>
         <strong>Urgent case:</strong>
         <%= @enforcement.urgency_reason %>
       </p>
     <% end %>
 
-    <p class="govuk-body">
+    <p>
       Assigned to:
       <strong><%= @enforcement.user&.name || "Unassigned" %></strong>
       <%= govuk_link_to (@enforcement.user.present? ? "Change" : "Assign application"), assign_users_path(@enforcement) %>
@@ -20,7 +20,7 @@
 <div class="status-bar-container" id="dates-details">
   <div class="status-bar">
     <div class="status-panel" id="started-date">
-      <p class="govuk-body">
+      <p>
         Investigation started
       </p>
 
@@ -34,23 +34,27 @@
     </div>
 
     <div class="status-panel" id="target-date">
-      <p class="govuk-body">
+      <p>
         Site visit target date
       </p>
 
       <p>
         <strong>
           <% if @enforcement.target_date %>
-            <strong><%= @enforcement.target_date.to_fs %></strong>
+            <%= @enforcement.target_date.to_fs %>
           <% else %>
-            Not yet started
+            Not started
           <% end %>
         </strong>
+      </p>
+
+      <p>
+        <%= govuk_link_to "Edit", task_path(@enforcement, "set-target-date") %>
       </p>
     </div>
 
     <div class="status-panel" id="expiry-date">
-      <p class="govuk-body">
+      <p>
         Notice served
       </p>
 

@@ -19,14 +19,14 @@
       <%= page_heading %>
     </h1>
 
-    <p class="govuk-body">
+    <p>
       <strong><%= enforcement.address %></strong>
       <br>
       Case reference <strong><%= enforcement.reference %></strong>
     </p>
 
     <div id="case-statuses-tags">
-      <p class="govuk-body">
+      <p>
         <span class="govuk-!-margin-left-1"><%= enforcement.status_tag %></span>
 
         <% if enforcement.urgent? %>
@@ -35,7 +35,7 @@
       </p>
     </div>
 
-    <p class="govuk-body">
+    <p>
       <%= enforcement.description || "No description" %>
     </p>
   </div>

@@ -63,3 +63,7 @@
 - name: "Close case"
   section: "Close"
   hidden: true
+
+- name: "Set target date"
+  section: "Target date"
+  hidden: true

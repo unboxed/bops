@@ -1,0 +1,16 @@
+<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
+
+<%= govuk_inset_text do %>
+  <p><strong>Current target date</strong></p>
+  <p><%= @enforcement.target_date || "Not started" %></p>
+<% end %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_date_field :target_date, target_date: true, legend: { text: 'Add site visit target date' } %>
+
+  <div class="govuk-button-group">
+    <%= form.govuk_task_button "Save", action: :save_and_complete do %>
+      <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
+    <% end %>
+  </div>
+<% end %>

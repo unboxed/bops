@@ -148,6 +148,9 @@ en:
               'false': Marked site location as incorrect
               'true': Successfully marked site location as correct
         failure: You cannot make changes to this case as it has already been closed
+        set-target-date:
+          failure: Failed to set target date
+          success: Target date successfully set
         start-investigation:
           failure: Unable to start investigation
           success: Investigation successfully started and complainant notified
