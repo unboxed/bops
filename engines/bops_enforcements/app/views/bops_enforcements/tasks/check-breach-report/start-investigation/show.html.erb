@@ -53,7 +53,7 @@
           <%= govuk_button_link_to "Back", task_path(@enforcement, @task.parent), secondary: true %>
         <% end %>
       <% else %>
-        <p class="govuk-body">The investigation has already been started.</p>
+        <p>The investigation has already been started.</p>
         <%= govuk_button_link_to "Back", task_path(@enforcement, @task.parent), secondary: true %>
       <% end %>
     <% end %>

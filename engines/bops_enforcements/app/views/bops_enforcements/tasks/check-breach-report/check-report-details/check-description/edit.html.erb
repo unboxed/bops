@@ -2,14 +2,14 @@
   <div class="govuk-grid-column-two-thirds" id="planning-application-details">
     <h1>Edit description</h1>
 
-    <p class="govuk-body">
+    <p>
       <strong><%= @enforcement.address %></strong>
       <br>
       Case reference <strong><%= @enforcement.reference %></strong>
     </p>
 
     <div id="planning-application-statuses-tags">
-      <p class="govuk-body">
+      <p>
         <span class="govuk-!-margin-left-1">
           <span class="govuk-tag"><%= @enforcement.status %></span>
         </span>
@@ -27,7 +27,7 @@
 <div class="govuk-inset-text">
   <h3 class="govuk-heading-small">Existing description</h3>
 
-  <p class="govuk-body">
+  <p>
     <%= @enforcement.description %>
   </p>
 </div>
