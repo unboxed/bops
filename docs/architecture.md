@@ -15,7 +15,7 @@ BOPS is organised into 11 Rails engines. Each engine groups related functionalit
 | **bops_core**        | Shared helpers, routing helpers and base configuration used by the other engines.  |
 | **bops_admin**       | Admin interface for managing users, application types, consultees and policy data per local authority. |
 | **bops_applicants**  | Interface for applicants to respond to officer requests and for neighbours to submit comments. |
-| **bops_config**      | Configuration dashboard for managing application types, local authorities and other global settings, including Sidekiq access. |
+| **bops_config**      | Configuration dashboard for managing application types, local authorities and other global settings, including background job monitoring. |
 | **bops_api**         | Provides public and authenticated API endpoints with Swagger documentation.        |
 | **bops_submissions** | Handles incoming submissions of application data.                                  |
 | **bops_consultees**  | Allows external consultees to view an application and submit comments.             |

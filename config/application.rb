@@ -42,9 +42,14 @@ module Bops
     config.i18n.default_locale = :en
     config.i18n.available_locales = %i[en]
 
-    # Use Sidekiq gem for processing background jobs
-    config.active_job.queue_adapter = :sidekiq
+    # Use Solid Queue gem for processing background jobs
+    config.active_job.queue_adapter = :solid_queue
     config.active_job.default_queue_name = "low_priority"
+
+    # Mission Control is mounted behind Devise authentication in the routes
+    # so don't inherit from ApplicationController or use HTTP basic auth
+    config.mission_control.jobs.base_controller_class = "ActionController::Base"
+    config.mission_control.jobs.http_basic_auth_enabled = false
 
     # Render PDF responses from generated HTML
     config.middleware.use Grover::Middleware

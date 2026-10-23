@@ -103,13 +103,13 @@ module Bops
       false
     end
 
-    def booting_sidekiq?
-      defined?(::Sidekiq::CLI) && $PROGRAM_NAME.to_s.match?(/sidekiq/i)
+    def booting_solid_queue?
+      File.basename($PROGRAM_NAME.to_s) == "jobs"
     end
 
     def auto_migrate?
       return false unless enabled?
-      return false unless booting_puma? || booting_sidekiq?
+      return false unless booting_puma? || booting_solid_queue?
 
       true
     end
