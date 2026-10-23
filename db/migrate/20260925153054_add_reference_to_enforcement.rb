@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 class AddReferenceToEnforcement < ActiveRecord::Migration[8.1]
+  class Enforcement < ActiveRecord::Base
+  end
+
   class CaseRecord < ActiveRecord::Base
     belongs_to :local_authority
     belongs_to :caseable, class_name: :Enforcement
