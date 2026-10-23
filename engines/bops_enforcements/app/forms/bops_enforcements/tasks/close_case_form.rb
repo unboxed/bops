@@ -2,29 +2,28 @@
 
 module BopsEnforcements
   module Tasks
-    class CloseCaseForm < BaseForm
-      attr_reader :enforcement
+    class CloseCaseForm < Form
+      attribute :reason, :string
+      attribute :other_reason, :string
+      attribute :detail, :string
 
-      def initialize(task)
-        super
+      validates :other_reason, presence: true, if: -> { reason == "other" }
 
-        @enforcement = case_record.caseable
+      def redirect_url
+        enforcement_path(enforcement)
       end
 
-      def permitted_fields(params)
-        params.require(:enforcement).permit(:reason, :other_reason, :detail)
-      end
+      private
 
-      def update(params)
-        ActiveRecord::Base.transaction do
-          closed_reason = (params[:reason] == "other") ? params[:other_reason] : I18n.t(params[:reason], scope: "bops_enforcements.tasks.close-case.show.reason")
+      def save_and_complete
+        super do
+          closed_reason = (reason == "other") ? other_reason : I18n.t(reason, scope: "bops_enforcements.tasks.close-case.show.reason")
           enforcement.update!(closed_reason:, closed_detail: params[:detail])
           enforcement.close!
-          task.update!(status: "completed")
           SendCloseInvestigationEmailJob.perform_later(enforcement,
-            closed_reason: params[:reason],
-            other_reason: params[:other_reason],
-            additional_comment: params[:detail])
+            closed_reason: reason,
+            other_reason: other_reason,
+            additional_comment: detail)
         end
       end
     end
