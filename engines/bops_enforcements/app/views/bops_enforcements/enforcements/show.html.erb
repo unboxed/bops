@@ -25,11 +25,13 @@
       </p>
 
       <p>
-        <% if @enforcement.under_investigation? %>
-          <strong><%= @enforcement.under_investigation_at.to_date.to_fs %></strong>
-        <% else %>
-          Not yet started
-        <% end %>
+        <strong>
+          <% if @enforcement.under_investigation? %>
+            <%= @enforcement.under_investigation_at.to_date.to_fs %>
+          <% else %>
+            Not yet started
+          <% end %>
+        </strong>
       </p>
     </div>
 
