@@ -1,0 +1,26 @@
+default: &default
+  close_red_line_boundary_change_request:
+    class: CloseRedLineBoundaryChangeValidationRequestJob
+    queue: low_priority
+    schedule: "0 9 * * *" # Runs at 9am every morning
+  close_description_change_request:
+    class: CloseDescriptionChangeJob
+    queue: low_priority
+    schedule: "0 9 * * *" # Runs at 9am every morning
+  close_pre_commencement_condition_validation_request:
+    class: ClosePreCommencementConditionValidationRequestJob
+    queue: low_priority
+    schedule: "0 9 * * *" # Runs at 9am every morning
+  enqueue_update_consultee_email_status:
+    class: EnqueueUpdateConsulteeEmailStatusJob
+    queue: low_priority
+    schedule: "9 * * * *" # Runs every hour at 9 minutes past
+  clear_solid_queue_finished_jobs:
+    command: "SolidQueue::Job.clear_finished_in_batches(sleep_between_batches: 0.3)"
+    schedule: every hour at minute 12
+
+development:
+  <<: *default
+
+production:
+  <<: *default
