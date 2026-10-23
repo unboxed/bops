@@ -60,10 +60,14 @@
 - name: "Process an appeal"
   section: "Appeal"
 
-- name: "Close case"
-  section: "Close"
+- name: "Assign user"
+  section: "Assign"
   hidden: true
 
 - name: "Set target date"
   section: "Target date"
+  hidden: true
+
+- name: "Close case"
+  section: "Close"
   hidden: true
