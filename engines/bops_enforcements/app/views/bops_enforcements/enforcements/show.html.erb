@@ -12,7 +12,7 @@
     <p>
       Assigned to:
       <strong><%= @enforcement.user&.name || "Unassigned" %></strong>
-      <%= govuk_link_to (@enforcement.user.present? ? "Change" : "Assign application"), assign_users_path(@enforcement) %>
+      <%= govuk_link_to (@enforcement.user.present? ? "Change" : "Assign application"), task_path(@enforcement, "assign-user") %>
     </p>
   </div>
 </div>

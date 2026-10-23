@@ -1,9 +1,6 @@
 ---
 en:
   bops_enforcements:
-    assign_users:
-      update:
-        success: Case record was successfully assigned.
     close_investigation_email:
       body:
         duplicate: |-
@@ -132,6 +129,8 @@ en:
       title:
         start-investigation: Start investigation and notify complainant
       update:
+        assign-user:
+          success: Case was successfully assigned
         check-description:
           failure: Unable to update site description
           success: Site description successfully updated
