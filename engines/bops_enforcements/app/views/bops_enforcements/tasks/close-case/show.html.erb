@@ -1,6 +1,6 @@
 <%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
 
-<%= form_with model: @enforcement, url: task_path(@enforcement, @task) do |form| %>
+<%= form_with model: @form, url: @form.url do |form| %>
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
       <%= form.govuk_radio_buttons_fieldset :reason, legend: {size: "m", text: t(".reason.legend")} do %>
@@ -18,7 +18,7 @@
     </div>
   </div>
 
-  <%= form.govuk_submit "Close case and notify complainant" do %>
+  <%= form.govuk_task_button "Close case and notify complainant", action: :save_and_complete do %>
     <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
   <% end %>
 <% end %>
