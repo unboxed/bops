@@ -59,7 +59,7 @@ RSpec.describe "Start investigation", type: :system do
     click_link "Change"
 
     select("Jane Smith")
-    click_button("Confirm")
+    click_button("Save")
 
     expect(page).to have_content("Assigned to: Jane Smith")
     click_link "Check breach report"

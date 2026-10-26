@@ -1,0 +1,19 @@
+<%= render "bops_enforcements/enforcements/enforcement", title: "Assign case", enforcement: @enforcement %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p>
+      Please select the officer you wish to assign this case to.
+    </p>
+
+    <%= form_with model: @form, url: @form.url do |form| %>
+      <%= form.govuk_fieldset(legend: {text: nil}) do %>
+        <%= form.govuk_select :user_id, User.menu(scope = @form.users), label: nil, options: {selected: @case_record.user&.id} %>
+      <% end %>
+
+      <%= form.govuk_task_button "Save", action: :save_and_complete do %>
+        <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

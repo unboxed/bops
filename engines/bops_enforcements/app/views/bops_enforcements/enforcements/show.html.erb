@@ -12,7 +12,7 @@
     <p>
       Assigned to:
       <strong><%= @enforcement.user&.name || "Unassigned" %></strong>
-      <%= govuk_link_to (@enforcement.user.present? ? "Change" : "Assign application"), assign_users_path(@enforcement) %>
+      <%= govuk_link_to (@enforcement.user.present? ? "Change" : "Assign application"), task_path(@enforcement, "assign-user") %>
     </p>
   </div>
 </div>
@@ -25,11 +25,13 @@
       </p>
 
       <p>
-        <% if @enforcement.under_investigation? %>
-          <strong><%= @enforcement.under_investigation_at.to_date.to_fs %></strong>
-        <% else %>
-          Not yet started
-        <% end %>
+        <strong>
+          <% if @enforcement.under_investigation? %>
+            <%= @enforcement.under_investigation_at.to_date.to_fs %>
+          <% else %>
+            Not yet started
+          <% end %>
+        </strong>
       </p>
     </div>
 

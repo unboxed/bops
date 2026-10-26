@@ -13,10 +13,6 @@ BopsEnforcements::Engine.routes.draw do
   end
 
   scope "/enforcements/:reference" do
-    resources :assign_users, only: %i[index] do
-      patch :update, on: :collection
-    end
-
     resources :complainants, controller: "enforcement/complainants", only: :create
 
     get "/check-breach-report", to: redirect(Bops::InitialTaskRedirector.new("Check")), defaults: {caseable_type: "Enforcement"}
