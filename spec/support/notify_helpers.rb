@@ -6,7 +6,7 @@ module NotifyHelper
   LETTER_URL = "#{BASE_URL}letter".freeze
 
   def stub_any_post_sms_notification
-    stub_request(:post, /#{BASE_URL}.*/o)
+    stub_request(:post, /\A#{Regexp.escape(BASE_URL)}/o)
   end
 
   def sms_notification_api_response(status, body = "{}")
