@@ -2,27 +2,20 @@
 
 module BopsEnforcements
   module Tasks
-    class CheckDescriptionForm < BaseForm
-      attr_reader :enforcement
-
-      def initialize(task)
-        super
-
-        @enforcement = case_record.caseable
-      end
-
-      def permitted_fields(params)
-        params.require(:enforcement).permit(:description)
-      end
-
-      def update(params)
-        enforcement.update!(params)
-        task.complete!
-        task.parent.in_progress! if task.parent.not_started!
-      end
+    class CheckDescriptionForm < Form
+      attribute :description, :string
 
       def redirect_url
-        edit_task_path(enforcement, parent)
+        edit_task_path(enforcement, task.parent)
+      end
+
+      private
+
+      def save_and_complete
+        super do
+          enforcement.update!(description:)
+          task.parent.in_progress! if task.parent.not_started!
+        end
       end
     end
   end
