@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
-require "sidekiq/web"
-
 BopsConfig::Engine.routes.draw do
   root to: redirect("dashboard")
 
   authenticate :user, ->(u) { u.global_administrator? } do
-    mount Sidekiq::Web, at: "/sidekiq"
+    mount MissionControl::Jobs::Engine, at: "/jobs"
   end
 
   resource :dashboard, only: %i[show]
