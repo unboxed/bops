@@ -11,23 +11,25 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
       received_at: Date.new(2022, 11, 11)
     )
   end
+
   let(:consultation) { planning_application.consultation }
 
   let(:component) do
     described_class.new(planning_application:)
   end
 
-  before { render_inline(component) }
-
   it "renders received at date" do
+    render_inline(component)
     expect(page).to have_content("Application received:\n  11 November 2022")
   end
 
   it "renders target date" do
+    render_inline(component)
     expect(page).to have_content("Target date:\n  17 December 2022")
   end
 
   it "renders expiry date" do
+    render_inline(component)
     expect(page).to have_content("Expiry date:\n  7 January 2023")
   end
 
@@ -37,6 +39,7 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "renders 'not yet valid' message" do
+      render_inline(component)
       expect(page).to have_content("Not yet valid")
     end
   end
@@ -47,6 +50,7 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "renders validation date" do
+      render_inline(component)
       expect(page).to have_content("Valid from:\n\n    #{planning_application.valid_from.to_date.to_fs}\n")
     end
   end
@@ -54,15 +58,15 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
   context "when there's a consultation" do
     before do
       consultation.start_deadline
-
-      render_inline(component)
     end
 
     it "renders consultation start date" do
+      render_inline(component)
       expect(page).to have_content("Consultation started:\n\n      #{consultation.start_date.to_date.to_fs}\n")
     end
 
     it "renders consultation deadline" do
+      render_inline(component)
       expect(page).to have_content("Consultation deadline:\n\n      #{consultation.end_date.to_date.to_fs}\n")
     end
   end
@@ -76,16 +80,14 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
     end
 
     it "does not render consultation deadline" do
+      render_inline(component)
       expect(page).not_to have_content("Consultation deadline:")
     end
   end
 
   context "when the consultation has not started" do
-    before do
-      render_inline(component)
-    end
-
     it "renders consultation deadline as not started" do
+      render_inline(component)
       expect(page).to have_content("Consultation deadline:\n\n      Not yet started")
     end
   end
@@ -93,11 +95,10 @@ RSpec.describe AccordionSections::KeyApplicationDatesComponent, type: :component
   context "when the consultation has finished" do
     before do
       consultation.update!(start_date: 4.weeks.ago, end_date: 1.week.ago)
-
-      render_inline(component)
     end
 
     it "renders publicity end date" do
+      render_inline(component)
       expect(page).to have_content("Consultation deadline:\n\n      #{consultation.end_date.to_date.to_fs}")
     end
   end
