@@ -134,7 +134,7 @@ RSpec.describe "Description change validation requests" do
           end
         end
 
-        it "displays an error when an invalid document type is uploaded" do
+        it "allows microsoft word documents" do
           visit "/replacement_document_validation_requests/#{validation_request.id}/edit?#{access_control_params}"
           expect(page).to have_selector("h1", text: "Provide a replacement document")
           expect(page).to have_content("You must submit your response by 16 June 2025")
@@ -151,6 +151,28 @@ RSpec.describe "Description change validation requests" do
           end
 
           attach_file "Upload a replacement document", "spec/fixtures/files/documents/example.docx"
+
+          click_button "Submit"
+          expect(page).not_to have_selector("[role=alert] p", text: "The selected file must be a PDF, DOC, DOCX, JPG or PNG")
+        end
+
+        it "displays an error when an invalid document type is uploaded" do
+          visit "/replacement_document_validation_requests/#{validation_request.id}/edit?#{access_control_params}"
+          expect(page).to have_selector("h1", text: "Provide a replacement document")
+          expect(page).to have_content("You must submit your response by 16 June 2025")
+          expect(page).to have_link("Read guidance on how to prepare plans correctly", href: "http://planx.bops.services/planning_guides")
+
+          within "#replacement-document-requested" do
+            expect(page).to have_selector("h3", text: "Name of document previously submitted:")
+            expect(page).to have_content("proposed-floorplan.png")
+          end
+
+          within "#replacement-document-comment" do
+            expect(page).to have_selector("h3", text: "Reason why you need to replace this document:")
+            expect(page).to have_content("The document is incorrectly labelled")
+          end
+
+          attach_file "Upload a replacement document", "spec/fixtures/files/documents/example.exe"
 
           click_button "Submit"
           expect(page).to have_selector("[role=alert] p", text: "The selected file must be a PDF, DOC, DOCX, JPG or PNG")

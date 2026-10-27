@@ -6,7 +6,7 @@ module BopsPreapps
     include BopsCore::Sidebar
     include BopsCore::PlanningApplicationPresenter
 
-    helper BopsPreapps::FileTypesHelper
+    helper BopsCore::FileTypesHelper
     helper PlanningApplicationHelper
     helper ValidationRequestHelper
     helper ConsulteesHelper
