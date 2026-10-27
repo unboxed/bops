@@ -224,7 +224,7 @@ class Document < ApplicationRecord
 
   TAGS = DRAWING_TAGS + EVIDENCE_TAGS + SUPPORTING_DOCUMENT_TAGS
 
-  PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg"].freeze
+  PERMITTED_CONTENT_TYPES = ["application/pdf", "image/png", "image/jpeg", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"].freeze
   EXCLUDED_OWNERS = %w[PressNotice SiteNotice SiteVisit Appeal Consultee::Response NeighbourResponse].freeze
 
   attr_accessor :replacement_file
