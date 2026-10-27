@@ -13,7 +13,7 @@
     "accessible-autocomplete": "^2.0.4",
     "esbuild": "^0.28.1",
     "govuk-frontend": "^5.2.0",
-    "is-svg": "^5.0.0",
+    "is-svg": "^6.1.0",
     "jspdf": "^4.2.1",
     "jszip": "^3.10.1",
     "leaflet": "^1.9.4",
@@ -23,9 +23,6 @@
     "stimulus": "^1.1.1",
     "toastr": "^2.1.4",
     "trix": "^2.1.18"
-  },
-  "resolutions": {
-    "is-svg": "^4.2.2"
   },
   "version": "0.1.0",
   "devDependencies": {
