@@ -6,6 +6,8 @@ module BopsCore
       colour = case task.status
       when "completed"
         "grey"
+      when "in_progress"
+        "light-blue"
       else
         "blue"
       end
