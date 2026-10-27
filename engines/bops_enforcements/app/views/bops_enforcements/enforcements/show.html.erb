@@ -85,12 +85,17 @@
       <% tasks.each do |task| %>
         <% if @enforcement.closed? %>
           <% task_list.with_item(title: task.name) %>
+        <% elsif task.section == "Check" || !@enforcement.status.in?(%w[not_started in_validation]) %>
+          <% task_list.with_item(
+              title: task.name,
+              href: task_path(@enforcement, task),
+              status: task_status_tag(task)
+              ) %>
         <% else %>
           <% task_list.with_item(
-               title: task.name,
-               href: task_path(@enforcement, task),
-               status: task_status_tag(task)
-             ) %>
+              title: task.name,
+              status: govuk_tag(text: "Cannot start yet", colour: "grey")
+              ) %>
         <% end %>
       <% end %>
     <% end %>
