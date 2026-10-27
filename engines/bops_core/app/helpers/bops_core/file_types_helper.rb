@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
-module BopsPreapps
+module BopsCore
   module FileTypesHelper
     def acceptable_file_mime_types
-      FileTypes::ACCEPTED.join(",")
+      Document::PERMITTED_CONTENT_TYPES.join(",")
     end
   end
 end
