@@ -8,7 +8,7 @@ module MapitHelper
   end
 
   def stub_any_mapit_api_request
-    stub_request(:get, /#{BASE_URL}.*/o)
+    stub_request(:get, /\A#{Regexp.escape(BASE_URL)}/o)
   end
 
   def mapit_api_response(status, body = "default", &block)
