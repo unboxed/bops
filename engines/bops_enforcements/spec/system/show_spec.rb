@@ -4,7 +4,7 @@ require "rails_helper"
 
 RSpec.describe "Enforcement show page", type: :system do
   let(:local_authority) { create(:local_authority, :default) }
-  let!(:submission) do
+  let(:submission) do
     create(
       :submission,
       :planning_portal,
@@ -27,7 +27,7 @@ RSpec.describe "Enforcement show page", type: :system do
       }
     ]
   end
-  let!(:case_record) { build(:case_record, local_authority:, submission: submission) }
+  let!(:case_record) { build(:case_record, local_authority:, submission:) }
   let!(:document) { create(:document, :with_tags, case_record:) }
   let!(:document_1) { create(:document, :with_file, case_record:) }
   let!(:enforcement) { create(:enforcement, case_record:, proposal_details: proposal_details) }
@@ -38,6 +38,7 @@ RSpec.describe "Enforcement show page", type: :system do
 
   before do
     enforcement.update(proposal_details: proposal_details)
+    enforcement.start_investigation!
 
     sign_in(user)
     visit "/enforcements/#{enforcement.reference}/"
@@ -114,9 +115,9 @@ RSpec.describe "Enforcement show page", type: :system do
 
   it "shows the correct grouping of tasks" do
     within("#enforcement-tasks") do
-      expect(page).to have_selector("h2", count: 5)
+      expect(page).to have_selector("h2", count: 6)
       expect(page).not_to have_selector("h2", text: "Close case")
-      h2s = all("h2", count: 5)
+      h2s = all("h2", count: 6)
 
       expect(h2s[0]).to have_text("Check")
       within("#Check-section") do
@@ -143,6 +144,12 @@ RSpec.describe "Enforcement show page", type: :system do
       within("#Appeal-section") do
         lis = all("li", count: 1)
         expect(lis[0]).to have_link("Process an appeal")
+      end
+
+      expect(h2s[5]).to have_text("Prosecution")
+      within("#Prosecution-section") do
+        lis = all("li", count: 1)
+        expect(lis[0]).to have_link("Instigate prosecution")
       end
     end
   end

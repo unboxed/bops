@@ -60,6 +60,9 @@
 - name: "Process an appeal"
   section: "Appeal"
 
+- name: "Instigate prosecution"
+  section: "Prosecution"
+
 - name: "Assign user"
   section: "Assign"
   hidden: true
