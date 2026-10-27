@@ -34,13 +34,13 @@
       <hr class="govuk-section-break govuk-section-break--m">
 
       <p>
-        <% if @enforcement.not_started? %>
+        <% if !@enforcement.checked? %>
           <strong>Notification to be sent to complainant(s)</strong> -
           <% @enforcement.complainants.each do |complainant| %>
             <%= complainant.name %> (<%= complainant.email %>)
           <% end %>
         <% else %>
-          <strong>Notification was sent to complainant on <%= @enforcement.under_investigation_at.to_fs %></strong>
+          <strong>Notification was sent to complainant on <%= @enforcement.under_investigation_at&.to_fs %></strong>
         <% end %>
       </p>
 
@@ -48,7 +48,7 @@
         <%= simple_format EnforcementPresenter.new(@enforcement).start_investigation_email[:body] %>
       <% end %>
 
-      <% if @enforcement.not_started? %>
+      <% if !@enforcement.checked? %>
         <%= form.govuk_task_button "Start investigation and notify complainant", action: "start_investigation" do %>
           <%= govuk_button_link_to "Back", task_path(@enforcement, @task.parent), secondary: true %>
         <% end %>

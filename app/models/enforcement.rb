@@ -112,6 +112,10 @@ class Enforcement < ApplicationRecord
     super || case_record.id
   end
 
+  def checked?
+    under_investigation_at.present?
+  end
+
   private
 
   def factory
