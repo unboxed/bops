@@ -6,6 +6,10 @@ on:
     types: [released]
   workflow_dispatch:
 
+permissions:
+  id-token: write # Required by deploy-environment for requesting the JWT
+  contents: read
+
 jobs:
   deploy:
     name: Deploy to production
