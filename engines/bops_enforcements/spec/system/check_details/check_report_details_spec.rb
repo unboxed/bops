@@ -29,7 +29,7 @@ RSpec.describe "Check report details", type: :system, capybara: true do
 
     it "shows the relevant report details" do
       expect(page).to have_content("Check report details")
-      expect(page).to have_content("Quick close")
+      expect(page).to have_content("Close case now")
       expect(page).to have_content("Is this case urgent?")
     end
 
@@ -51,7 +51,7 @@ RSpec.describe "Check report details", type: :system, capybara: true do
       check "Select here if the case is urgent"
       fill_in "Reason", with: "Because I say so"
 
-      click_button "Save and mark as complete"
+      click_button "Save"
       expect(page).to have_content("Report details successfully checked")
       expect(page).to have_content("urgent")
     end
