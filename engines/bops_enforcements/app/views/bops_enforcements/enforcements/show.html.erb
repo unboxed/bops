@@ -94,7 +94,7 @@
         <% else %>
           <% task_list.with_item(
               title: task.name,
-              status: govuk_tag(text: "Cannot start yet", colour: "grey")
+              status: "Cannot start yet"
               ) %>
         <% end %>
       <% end %>
