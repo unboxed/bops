@@ -114,9 +114,11 @@ en:
             hint: Optional detail to share with complainant
             label: Reason for closing
           reason:
+            anonymous: Anonymous report
             duplicate: An enforcement case already exists for this report
             legend: Why is this case being closed?
             not_enforcement_issue: Not an enforcement or planning issue
+            not_expedient: Not expedient to enforce
             other: Other
             other_detail: Reason
             permission_not_required: Permission not required for use or development
