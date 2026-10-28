@@ -54,5 +54,9 @@ module EnforcementStatus
         after { audit!(activity_type: "closed") }
       end
     end
+
+    def checked?
+      under_investigation_at.present?
+    end
   end
 end
