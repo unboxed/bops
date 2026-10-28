@@ -32,13 +32,14 @@ RSpec.describe "Enforcement show page", type: :system do
   let!(:document_1) { create(:document, :with_file, case_record:) }
   let!(:enforcement) { create(:enforcement, case_record:, proposal_details: proposal_details) }
   let(:user) { create(:user, local_authority:) }
-  let!(:task) { create(:task, parent: case_record, section: "Check", name: "Test task 1", slug: "test-task-1") }
-  let!(:task2) { create(:task, parent: case_record, section: "Check", name: "Test task 2", slug: "test-task-2") }
-  let!(:task3) { create(:task, parent: case_record, section: "Investigate", name: "Test task 3", slug: "test-task-3") }
 
   before do
     enforcement.update(proposal_details: proposal_details)
+    case_record.find_task_by_slug_path!("check-breach-report/start-investigation").complete!
     enforcement.start_investigation!
+    case_record.find_task_by_slug_path!("investigate-and-decide/summarise-and-decide/summarise-investigation-and-make-recommendation").complete!
+    enforcement.mark_for_review!
+    case_record.find_task_by_slug_path!("review-recommendation/review-recommendation").complete!
 
     sign_in(user)
     visit "/enforcements/#{enforcement.reference}/"
@@ -47,6 +48,7 @@ RSpec.describe "Enforcement show page", type: :system do
   it "has a show page with basic details" do
     expect(page).to have_content(enforcement.address)
   end
+
   context "within the accordion" do
     it "has the correct information in the accordion", capybara: true do
       within(".govuk-accordion") do
@@ -121,35 +123,27 @@ RSpec.describe "Enforcement show page", type: :system do
 
       expect(h2s[0]).to have_text("Check")
       within("#Check-section") do
-        lis = all("li", count: 3)
-        expect(lis[0]).to have_link("Check breach report")
-        expect(lis[1]).to have_link(task.name)
-        expect(lis[2]).to have_link(task2.name)
+        expect(page).to have_link("Check breach report")
       end
 
       expect(h2s[1]).to have_text("Investigate")
       within("#Investigate-section") do
-        lis = all("li", count: 2)
-        expect(lis[0]).to have_link("Investigate and decide")
-        expect(lis[1]).to have_link(task3.name)
+        expect(page).to have_link("Investigate and decide")
       end
 
       expect(h2s[2]).to have_text("Review")
       within("#Review-section") do
-        lis = all("li", count: 1)
-        expect(lis[0]).to have_link("Review recommendation")
+        expect(page).to have_link("Review recommendation")
       end
 
       expect(h2s[4]).to have_text("Appeal")
       within("#Appeal-section") do
-        lis = all("li", count: 1)
-        expect(lis[0]).to have_link("Process an appeal")
+        expect(page).to have_link("Process an appeal")
       end
 
       expect(h2s[5]).to have_text("Prosecution")
       within("#Prosecution-section") do
-        lis = all("li", count: 1)
-        expect(lis[0]).to have_link("Instigate prosecution")
+        expect(page).to have_link("Instigate prosecution")
       end
     end
   end

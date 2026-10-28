@@ -25,5 +25,26 @@ module BopsEnforcements
     rescue JSON::ParserError, TypeError
       false
     end
+
+    def task_enabled?(task)
+      enforcement = task.top_level_ancestor.parent
+
+      slug = case task.section
+      when "Check"
+        nil
+      when "Investigate"
+        "check-breach-report/start-investigation"
+      when "Review"
+        "investigate-and-decide/summarise-and-decide/summarise-investigation-and-make-recommendation"
+      else
+        "review-recommendation/review-recommendation"
+      end
+
+      return true if slug.nil?
+
+      depends_on = enforcement.find_task_by_slug_path!(slug)
+
+      depends_on.completed?
+    end
   end
 end
