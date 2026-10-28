@@ -4,12 +4,9 @@
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
       <%= form.govuk_radio_buttons_fieldset :reason, legend: {size: "m", text: t(".reason.legend")} do %>
-        <%= form.govuk_radio_button :reason, "not_enforcement_issue", label: {text: t(".reason.not_enforcement_issue")} %>
-        <%= form.govuk_radio_button :reason, "permission_not_required", label: {text: t(".reason.permission_not_required")} %>
-        <%= form.govuk_radio_button :reason, "not_expedient", label: {text: t(".reason.not_expedient")} %>
-        <%= form.govuk_radio_button :reason, "permission_previously_granted", label: {text: t(".reason.permission_previously_granted")} %>
-        <%= form.govuk_radio_button :reason, "duplicate", label: {text: t(".reason.duplicate")} %>
-        <%= form.govuk_radio_button :reason, "anonymous", label: {text: t(".reason.anonymous")} %>
+        <% @form.reasons.each do |reason| %>
+          <%= form.govuk_radio_button :reason, reason , label: {text: t(".reason.#{reason}")} %>
+        <% end %>
 
         <%= form.govuk_radio_button :reason, "other", label: {text: t(".reason.other")} do %>
           <%= form.govuk_text_field :other_reason, label: {text: t(".reason.other_detail")} %>

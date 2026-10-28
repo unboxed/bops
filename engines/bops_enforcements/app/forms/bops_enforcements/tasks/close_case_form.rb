@@ -9,6 +9,10 @@ module BopsEnforcements
 
       validates :other_reason, presence: true, if: -> { reason == "other" }
 
+      def reasons
+        %w[not_enforcement_issue permission_not_required not_expedient permission_previously_granted duplicate anonymous]
+      end
+
       def redirect_url
         enforcement_path(enforcement)
       end
