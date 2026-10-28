@@ -54,11 +54,10 @@ module BopsEnforcements
         enforcement.update!(valid_red_line_boundary:)
         if valid_red_line_boundary
           task.complete!
-          task.parent.complete!
         else
           task.in_progress!
-          task.parent.in_progress!
         end
+        task.parent.in_progress! if task.parent.not_started?
       end
 
       def edit_form
