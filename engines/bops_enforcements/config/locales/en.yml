@@ -111,8 +111,8 @@ en:
         failure: Unable to update case
         show:
           detail:
-            hint: Optional detail to share with complainant
-            label: Reason for closing
+            hint: Add any detail that may be useful to share with the complainant
+            label: Additional comments (optional)
           reason:
             anonymous: Anonymous report
             duplicate: An enforcement case already exists for this report

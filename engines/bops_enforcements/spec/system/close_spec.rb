@@ -30,7 +30,7 @@ RSpec.describe "Enforcement close page", type: :system do
     click_link "Close the case"
     choose "Other"
     fill_in "Reason", with: "Because I want to"
-    fill_in "Reason for closing", with: "Words words words."
+    fill_in "Additional comments (optional)", with: "Words words words."
   end
 
   context do
