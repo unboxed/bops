@@ -6,9 +6,12 @@ module BopsEnforcements
       attribute :reason, :string
       attribute :other_reason, :string
       attribute :detail, :string
+      attribute :manager_approval, :boolean
 
       validates :reason, presence: {message: "Select an option"}
       validates :other_reason, presence: true, if: -> { reason == "other" }
+      validates :manager_approval, inclusion: {in: [true, false], message: "Select an option"}
+      validates :manager_approval, acceptance: {message: I18n.t("bops_enforcements.tasks.close-case.show.manager_approval.required_error")}, if: -> { reason == "not_expedient" }
 
       def reasons
         %w[not_enforcement_issue permission_not_required not_expedient permission_previously_granted duplicate anonymous]

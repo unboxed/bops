@@ -13,6 +13,11 @@
 
   <%= form.govuk_text_area :detail, label: {text: t(".detail.label"), size: "m"}, hint: {text: t(".detail.hint")} %>
 
+  <%= form.govuk_radio_buttons_fieldset :manager_approval, legend: {size: "m", text: t(".manager_approval.label")}, hint: {text: t(".manager_approval.hint")} do %>
+    <%= form.govuk_radio_button :manager_approval, true , label: {text: t(".manager_approval.yes")} %>
+    <%= form.govuk_radio_button :manager_approval, false, label: {text: t(".manager_approval.no")} %>
+  <% end %>
+
   <%= form.govuk_task_button "Close case and notify complainant", action: :save_and_complete do %>
     <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
   <% end %>
