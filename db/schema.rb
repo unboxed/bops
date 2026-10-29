@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_23_090000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_29_150939) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -508,18 +508,25 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_090000) do
   create_table "enforcements", force: :cascade do |t|
     t.string "address_1"
     t.string "address_2"
+    t.datetime "appeal_at"
     t.geography "boundary", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.datetime "closed_at"
     t.string "closed_detail"
+    t.datetime "requested_closure_at"
     t.string "closed_reason"
     t.string "county"
     t.datetime "created_at", null: false
     t.string "description"
+    t.datetime "in_review_at"
+    t.datetime "in_validation_at"
     t.geography "lonlat", limit: {srid: 4326, type: "st_point", geographic: true}
     t.datetime "not_started_at"
+    t.datetime "notice_overdue_at"
     t.datetime "notice_served_at"
+    t.datetime "notice_withdrawn_at"
     t.string "postcode"
     t.jsonb "proposal_details"
+    t.datetime "prosecution_at"
     t.datetime "received_at", null: false
     t.string "reference", null: false
     t.datetime "started_at"
