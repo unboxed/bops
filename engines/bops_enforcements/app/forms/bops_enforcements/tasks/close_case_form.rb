@@ -7,6 +7,7 @@ module BopsEnforcements
       attribute :other_reason, :string
       attribute :detail, :string
 
+      validates :reason, presence: {message: "Select an option"}
       validates :other_reason, presence: true, if: -> { reason == "other" }
 
       def reasons
