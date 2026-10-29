@@ -111,12 +111,20 @@ en:
         failure: Unable to update case
         show:
           detail:
-            hint: Optional detail to share with complainant
-            label: Reason for closing
+            hint: Add any detail that may be useful to share with the complainant
+            label: Additional comments (optional)
+          manager_approval:
+            hint: If the case is not expedient to enforce, you must send the recommendation for approval
+            label: Is manager approval required?
+            'no': No, I want to close the case right away without manager review and notify complainant
+            required_error: Manager approval is required to close the case
+            'yes': Yes, I want to send my recommendation to a manager to review and sign off before the case is closed
           reason:
+            anonymous: Anonymous report
             duplicate: An enforcement case already exists for this report
             legend: Why is this case being closed?
             not_enforcement_issue: Not an enforcement or planning issue
+            not_expedient: Not expedient to enforce
             other: Other
             other_detail: Reason
             permission_not_required: Permission not required for use or development

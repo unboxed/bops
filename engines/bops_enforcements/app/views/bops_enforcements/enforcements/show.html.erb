@@ -83,7 +83,7 @@
 
     <%= govuk_task_list(id_prefix: "#{section}-section", html_attributes: {id: "#{section}-section"}) do |task_list| %>
       <% tasks.each do |task| %>
-        <% if @enforcement.closed? %>
+        <% if @enforcement.closed? || @enforcement.closed_pending_approval? %>
           <% task_list.with_item(title: task.name) %>
         <% elsif task_enabled?(task) %>
           <% task_list.with_item(
@@ -102,4 +102,6 @@
   <% end %>
 </div>
 
-<%= govuk_button_link_to "Close the case", task_path(@enforcement, "close-case"), warning: true %>
+<% unless @enforcement.closed? || @enforcement.closed_pending_approval? %>
+  <%= govuk_button_link_to "Close the case", task_path(@enforcement, "close-case"), warning: true %>
+<% end %>
