@@ -29,7 +29,7 @@ module BopsEnforcements
           enforcement.update!(closed_reason:, closed_detail: detail)
 
           if manager_approval
-            enforcement.request_approval_for_closure!
+            enforcement.request_closure!
           else
             enforcement.close!
 

@@ -1,4 +1,4 @@
-<% if @enforcement.closed_pending_approval? && current_user.reviewer? %>
+<% if @enforcement.requested_closure? && current_user.reviewer? %>
   <%= govuk_notification_banner(title_text: "Important") do %>
     <h2>
       The assigned case officer has recommended to close the case
@@ -116,6 +116,6 @@
   <% end %>
 </div>
 
-<% if @enforcement.open? || (@enforcement.closed_pending_approval? && current_user.reviewer?) %>
+<% if @enforcement.open? || (@enforcement.requested_closure? && current_user.reviewer?) %>
   <%= govuk_button_link_to "Close the case", task_path(@enforcement, "close-case"), warning: true %>
 <% end %>

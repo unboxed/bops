@@ -46,7 +46,7 @@ module BopsEnforcements
 
     def ensure_case_is_not_closed
       return if @enforcement.open?
-      return if @enforcement.closed_pending_approval? && current_user.reviewer?
+      return if @enforcement.requested_closure? && current_user.reviewer?
 
       redirect_to bops_enforcements.enforcement_path(@enforcement), alert: t(".failure")
     end

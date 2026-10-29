@@ -114,7 +114,7 @@ RSpec.describe "Enforcement close page", type: :system do
       it "can be closed" do
         expect(page).to have_content("Case successfully closed")
         enforcement.reload
-        expect(enforcement.status).to eq("closed_pending_approval")
+        expect(enforcement.status).to eq("requested_closure")
         expect(enforcement.closed_reason).to eq("Not expedient to enforce")
       end
 
