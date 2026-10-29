@@ -28,56 +28,112 @@ RSpec.describe "Enforcement close page", type: :system do
     visit "/enforcements/#{enforcement.reference}/"
 
     click_link "Close the case"
-    choose "Other"
-    fill_in "Reason", with: "Because I want to"
-    fill_in "Additional comments (optional)", with: "Words words words."
   end
 
-  context do
+  context "when manager approval is not required" do
     before do
-      click_button "Close case"
+      choose "Other"
+      fill_in "Reason", with: "Because I want to"
+      fill_in "Additional comments (optional)", with: "Words words words."
+      choose "No, I want to close the case right away without manager review and notify complainant"
     end
 
-    it "can be closed", :capybara do
-      expect(page).to have_content("Case successfully closed")
+    context do
+      before do
+        click_button "Close case"
+      end
 
-      enforcement.reload
-      expect(enforcement.status).to eq("closed")
-      expect(enforcement.closed_reason).to eq("Because I want to")
+      it "can be closed" do
+        expect(page).to have_content("Case successfully closed")
+
+        enforcement.reload
+        expect(enforcement.status).to eq("closed")
+        expect(enforcement.closed_reason).to eq("Because I want to")
+      end
+
+      it "shows an error navigating to tasks" do
+        expect(page).to have_content("Case successfully closed")
+
+        visit "/enforcements/#{enforcement.reference}/check-breach-report"
+        expect(page).to have_content("You cannot make changes to this case as it has already been closed")
+      end
     end
 
-    it "shows an error navigating to tasks", :capybara do
-      expect(page).to have_content("Case successfully closed")
+    it "sends an email when closing" do
+      notify = stub_request(:post, "#{notify_url}/email")
+        .with(body: hash_including(
+          {
+            personalisation: hash_including(
+              "body" => a_string_matching(/\n- Because I want to\n- Words words words.\n\n/)
+            )
+          }
+        ))
+        .to_return(
+          status: 200,
+          headers: {
+            "Content-Type" => "application/json"
+          },
+          body: {
+            id: "48025d96-abc9-4b1d-a519-3cbc1c7f700b"
+          }.to_json
+        )
 
-      visit "/enforcements/#{enforcement.reference}/check-breach-report"
-      expect(page).to have_content("You cannot make changes to this case as it has already been closed")
+      expect do
+        click_button "Close case"
+      end.to have_enqueued_job(BopsEnforcements::SendCloseInvestigationEmailJob).exactly(:once)
+
+      perform_enqueued_jobs
+      expect(notify).to have_been_requested
     end
   end
 
-  it "sends an email when closing" do
-    notify = stub_request(:post, "#{notify_url}/email")
-      .with(body: hash_including(
-        {
-          personalisation: hash_including(
-            "body" => a_string_matching(/\n- Because I want to\n- Words words words.\n\n/)
-          )
-        }
-      ))
-      .to_return(
-        status: 200,
-        headers: {
-          "Content-Type" => "application/json"
-        },
-        body: {
-          id: "48025d96-abc9-4b1d-a519-3cbc1c7f700b"
-        }.to_json
-      )
+  context "when manager approval is required" do
+    before do
+      choose "Not expedient to enforce"
+      fill_in "Additional comments (optional)", with: "Words words words."
+    end
 
-    expect do
+    it "cannot be submitted if approval is not selected" do
       click_button "Close case"
-    end.to have_enqueued_job(BopsEnforcements::SendCloseInvestigationEmailJob).exactly(:once)
+      expect(page).to have_content("Select an option")
+    end
 
-    perform_enqueued_jobs
-    expect(notify).to have_been_requested
+    it "cannot be submitted if choosing no approval needed" do
+      choose "No, I want to close the case right away without manager review and notify complainant"
+      click_button "Close case"
+      expect(page).to have_content("Manager approval is required to close the case")
+    end
+
+    context do
+      before do
+        choose "Yes, I want to send my recommendation to a manager to review and sign off before the case is closed"
+        click_button "Close case"
+      end
+
+      it "can be closed" do
+        expect(page).to have_content("Case successfully closed")
+        enforcement.reload
+        expect(enforcement.status).to eq("closed_pending_approval")
+        expect(enforcement.closed_reason).to eq("Not expedient to enforce")
+      end
+
+      it "shows an error navigating to tasks" do
+        expect(page).to have_content("Case successfully closed")
+
+        visit "/enforcements/#{enforcement.reference}/check-breach-report"
+        expect(page).to have_content("You cannot make changes to this case as it has already been closed")
+      end
+    end
+
+    it "does not send an email" do
+      notify = stub_request(:post, "#{notify_url}/email")
+
+      expect do
+        click_button "Close case"
+      end.not_to have_enqueued_job(BopsEnforcements::SendCloseInvestigationEmailJob)
+
+      perform_enqueued_jobs
+      expect(notify).not_to have_been_requested
+    end
   end
 end

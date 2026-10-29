@@ -26,12 +26,18 @@ module BopsEnforcements
       def save_and_complete
         super do
           closed_reason = (reason == "other") ? other_reason : I18n.t(reason, scope: "bops_enforcements.tasks.close-case.show.reason")
-          enforcement.update!(closed_reason:, closed_detail: params[:detail])
-          enforcement.close!
-          SendCloseInvestigationEmailJob.perform_later(enforcement,
-            closed_reason: reason,
-            other_reason: other_reason,
-            additional_comment: detail)
+          enforcement.update!(closed_reason:, closed_detail: detail)
+
+          if manager_approval
+            enforcement.request_approval_for_closure!
+          else
+            enforcement.close!
+
+            SendCloseInvestigationEmailJob.perform_later(enforcement,
+              closed_reason: reason,
+              other_reason: other_reason,
+              additional_comment: detail)
+          end
         end
       end
     end

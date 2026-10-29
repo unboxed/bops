@@ -765,6 +765,7 @@ en:
       replacement_document_validation_request_received: 'Received: request for change (replacement document#%{args})'
       replacement_document_validation_request_sent: 'Sent: validation request (replacement document#%{args})'
       replacement_document_validation_request_sent_post_validation: 'Sent: Post-validation request (replacement document#%{args})'
+      requested_approval_for_closure: Requested approval from a manager for closure
       returned: Application returned
       review_cil_liability: 'Reviewed: CIL liability'
       sent_to_committee: Application sent to committee

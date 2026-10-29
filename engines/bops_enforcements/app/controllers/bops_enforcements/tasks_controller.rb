@@ -45,7 +45,7 @@ module BopsEnforcements
     end
 
     def ensure_case_is_not_closed
-      return unless @enforcement.closed?
+      return unless @enforcement.closed? || @enforcement.closed_pending_approval?
 
       redirect_to bops_enforcements.enforcement_path(@enforcement), alert: t(".failure")
     end
