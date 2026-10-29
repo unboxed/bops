@@ -1,3 +1,17 @@
+<% if @enforcement.closed_pending_approval? && current_user.reviewer? %>
+  <%= govuk_notification_banner(title_text: "Important") do %>
+    <h2>
+      The assigned case officer has recommended to close the case
+    </h2>
+
+    <p>
+      Review the officer's recommendation, and
+      <%= govuk_link_to "sign off case closure", task_path(@enforcement, "close-case") %>
+      to approve or reject the closure.
+    </p>
+  <% end %>
+<% end %>
+
 <%= render @enforcement %>
 
 <div class="govuk-grid-row">
@@ -83,7 +97,7 @@
 
     <%= govuk_task_list(id_prefix: "#{section}-section", html_attributes: {id: "#{section}-section"}) do |task_list| %>
       <% tasks.each do |task| %>
-        <% if @enforcement.closed? || @enforcement.closed_pending_approval? %>
+        <% if @enforcement.closed_or_withdrawn? %>
           <% task_list.with_item(title: task.name) %>
         <% elsif task_enabled?(task) %>
           <% task_list.with_item(
@@ -102,6 +116,6 @@
   <% end %>
 </div>
 
-<% unless @enforcement.closed? || @enforcement.closed_pending_approval? %>
+<% if @enforcement.open? || (@enforcement.closed_pending_approval? && current_user.reviewer?) %>
   <%= govuk_button_link_to "Close the case", task_path(@enforcement, "close-case"), warning: true %>
 <% end %>

@@ -14,7 +14,8 @@ RSpec.describe "Enforcement close page", type: :system do
   end
   let!(:case_record) { build(:case_record, local_authority:, submission: submission) }
   let!(:enforcement) { create(:enforcement, case_record:) }
-  let(:user) { create(:user, local_authority:) }
+  let(:officer) { create(:user, local_authority:) }
+  let(:manager) { create(:user, :reviewer, local_authority:) }
   let!(:task) { create(:task, parent: case_record, section: "Check", name: "Test task 1", slug: "test-task-1") }
   let!(:task2) { create(:task, parent: case_record, section: "Check", name: "Test task 2", slug: "test-task-2") }
   let!(:task3) { create(:task, parent: case_record, section: "Investigate", name: "Test task 3", slug: "test-task-3") }
@@ -24,7 +25,7 @@ RSpec.describe "Enforcement close page", type: :system do
   end
 
   before do
-    sign_in(user)
+    sign_in(officer)
     visit "/enforcements/#{enforcement.reference}/"
 
     click_link "Close the case"
@@ -122,6 +123,19 @@ RSpec.describe "Enforcement close page", type: :system do
 
         visit "/enforcements/#{enforcement.reference}/check-breach-report"
         expect(page).to have_content("You cannot make changes to this case as it has already been closed")
+      end
+
+      context "manager actions" do
+        before do
+          expect(page).to have_content("Case successfully closed")  # waiting
+          sign_out officer
+          sign_in manager
+        end
+
+        it "has the expected landing page content" do
+          visit "/enforcements/#{enforcement.reference}"
+          expect(page).to have_content("The assigned case officer has recommended to close the case")
+        end
       end
     end
 

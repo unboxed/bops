@@ -65,5 +65,13 @@ module EnforcementStatus
     def checked?
       under_investigation_at.present?
     end
+
+    def open?
+      !closed_or_withdrawn?
+    end
+
+    def closed_or_withdrawn?
+      closed? || closed_pending_approval?
+    end
   end
 end
