@@ -83,6 +83,7 @@ class Audit < ApplicationRecord
     validation_complete
     investigation_complete
     requested_approval_for_closure
+    refused_approval_for_closure
   ] + VALIDATION_REQUEST_ACTIVITY_TYPES).index_with(&:to_s)
 
   validates :activity_type, presence: true

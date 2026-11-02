@@ -136,6 +136,44 @@ RSpec.describe "Enforcement close page", type: :system do
           visit "/enforcements/#{enforcement.reference}"
           expect(page).to have_content("The assigned case officer has recommended to close the case")
         end
+
+        it "has the expected content on the close page" do
+          visit "/enforcements/#{enforcement.reference}/close-case"
+          expect(page).to have_content "Under council protocol"
+          expect(page).to have_content "Close case recommendation Not expedient"
+        end
+
+        context "when the manager approves" do
+          before do
+            visit "/enforcements/#{enforcement.reference}/close-case"
+            choose "Yes, close the case and notify complainant"
+            click_button "Confirm"
+          end
+
+          it "can be closed" do
+            expect(page).to have_content("Case successfully closed")
+
+            enforcement.reload
+            expect(enforcement.status).to eq("closed")
+            expect(enforcement.closed_reason).to eq("Not expedient to enforce")
+          end
+        end
+
+        context "when the manager disapproves" do
+          before do
+            visit "/enforcements/#{enforcement.reference}/close-case"
+            choose "No, return the case to officer"
+            fill_in "Explain to the case officer why the case is being returned", with: "Do it anyway"
+            click_button "Confirm"
+          end
+
+          it "can be reopened" do
+            expect(page).to have_content("Case successfully reopened")
+
+            enforcement.reload
+            expect(enforcement.status).to eq("in_validation")
+          end
+        end
       end
     end
 

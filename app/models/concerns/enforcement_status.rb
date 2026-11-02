@@ -52,13 +52,18 @@ module EnforcementStatus
       end
 
       event :close do
-        transitions from: %i[not_started in_validation under_investigation in_review], to: :closed
+        transitions from: %i[not_started in_validation under_investigation in_review requested_closure], to: :closed
         after { audit!(activity_type: "closed") }
       end
 
       event :request_closure do
         transitions from: %i[not_started in_validation under_investigation in_review], to: :requested_closure
         after { audit!(activity_type: "requested_approval_for_closure") }
+      end
+
+      event :reject_closure do
+        transitions from: %i[requested_closure], to: :in_validation
+        after { audit!(activity_type: "refused_approval_for_closure") }
       end
     end
 
