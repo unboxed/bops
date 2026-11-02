@@ -10,6 +10,18 @@
       to approve or reject the closure.
     </p>
   <% end %>
+<% elsif @enforcement.closure_rejection_reason.present? %>
+  <%= govuk_notification_banner(title_text: "Important") do %>
+    <h2>
+      The requested closure of the case has been rejected
+    </h2>
+
+    <blockquote><%= @enforcement.closure_rejection_reason %></blockquote>
+
+    <p>
+      <%= govuk_link_to "Re-request closure", task_path(@enforcement, "close-case") %>
+    </p>
+  <% end %>
 <% end %>
 
 <%= render @enforcement %>

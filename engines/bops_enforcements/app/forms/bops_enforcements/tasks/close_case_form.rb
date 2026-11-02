@@ -26,6 +26,13 @@ module BopsEnforcements
         validates :closure_rejection_reason, presence: true, if: -> { !closure_confirmation }
       end
 
+      after_initialize do
+        if !enforcement.requested_closure? && !Current.user.reviewer? && enforcement.closure_rejection_reason.present?
+          # this is not really an ideal way of clearing the notification
+          enforcement.update(closure_rejection_reason: "")
+        end
+      end
+
       def reasons
         REASONS
       end
@@ -55,8 +62,7 @@ module BopsEnforcements
 
       def close_case
         closed_reason = (reason == "other") ? other_reason : I18n.t(reason, scope: "bops_enforcements.tasks.close-case.show.reason")
-        enforcement.update!(closed_reason:, closed_detail: detail)
-        # closure_rejection_reason: nil
+        enforcement.update!(closed_reason:, closed_detail: detail, closure_rejection_reason: nil)
 
         if manager_approval
           enforcement.request_closure!
@@ -74,8 +80,9 @@ module BopsEnforcements
           send_close_case_email!
         else
           enforcement.update!(closed_reason: "",
-            closed_detail: "")
-          # closure_rejection_reason:
+            closed_detail: "",
+            closure_rejection_reason:)
+
           enforcement.reject_closure!
         end
       end

@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_29_150939) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_02_162656) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -512,8 +512,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_150939) do
     t.geography "boundary", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.datetime "closed_at"
     t.string "closed_detail"
-    t.datetime "requested_closure_at"
     t.string "closed_reason"
+    t.string "closure_rejection_reason"
     t.string "county"
     t.datetime "created_at", null: false
     t.string "description"
@@ -529,6 +529,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_29_150939) do
     t.datetime "prosecution_at"
     t.datetime "received_at", null: false
     t.string "reference", null: false
+    t.datetime "requested_closure_at"
     t.datetime "started_at"
     t.string "status", default: "not_started", null: false
     t.date "target_date"
