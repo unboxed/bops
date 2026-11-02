@@ -41,7 +41,7 @@ RSpec.describe "Enforcement close page", type: :system do
 
     context do
       before do
-        click_button "Close case"
+        click_button "Confirm and submit"
       end
 
       it "can be closed" do
@@ -80,7 +80,7 @@ RSpec.describe "Enforcement close page", type: :system do
         )
 
       expect do
-        click_button "Close case"
+        click_button "Confirm and submit"
       end.to have_enqueued_job(BopsEnforcements::SendCloseInvestigationEmailJob).exactly(:once)
 
       perform_enqueued_jobs
@@ -95,20 +95,20 @@ RSpec.describe "Enforcement close page", type: :system do
     end
 
     it "cannot be submitted if approval is not selected" do
-      click_button "Close case"
+      click_button "Confirm and submit"
       expect(page).to have_content("Select an option")
     end
 
     it "cannot be submitted if choosing no approval needed" do
       choose "No, I want to close the case right away without manager review and notify complainant"
-      click_button "Close case"
+      click_button "Confirm and submit"
       expect(page).to have_content("Manager approval is required to close the case")
     end
 
     context do
       before do
         choose "Yes, I want to send my recommendation to a manager to review and sign off before the case is closed"
-        click_button "Close case"
+        click_button "Confirm and submit"
       end
 
       it "can be closed" do
@@ -143,7 +143,7 @@ RSpec.describe "Enforcement close page", type: :system do
       notify = stub_request(:post, "#{notify_url}/email")
 
       expect do
-        click_button "Close case"
+        click_button "Confirm and submit"
       end.not_to have_enqueued_job(BopsEnforcements::SendCloseInvestigationEmailJob)
 
       perform_enqueued_jobs
