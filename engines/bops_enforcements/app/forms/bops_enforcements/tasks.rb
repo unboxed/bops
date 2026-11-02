@@ -7,7 +7,7 @@ module BopsEnforcements
         form_name = "#{slug.underscore}_form".camelcase
         begin
           "BopsEnforcements::Tasks::#{form_name}".constantize
-        rescue
+        rescue NameError
           Form
         end
       end
