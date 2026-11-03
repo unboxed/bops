@@ -265,7 +265,7 @@ class Document < ApplicationRecord
   scope :for_consultees, -> { active.with_file_attachment.where(available_to_consultees: true) }
 
   before_validation on: :create do
-    if owner.present?
+    if owner.present? && owner.respond_to?(:planning_application)
       self.planning_application ||= owner.planning_application
     end
   end
