@@ -1,0 +1,53 @@
+<%# locals: (enforcement:, documents:) %>
+
+<% if documents.empty? %>
+  <p>There are no active documents</p>
+<% else %>
+  <p>
+    <%= govuk_link_to "Manage documents and photos", task_path(enforcement, "check-breach-report/documents-and-photos") %>
+  </p>
+
+  <%= govuk_table(classes: "govuk-!-margin-top-4") do |table| %>
+    <% table.with_head do |head| %>
+      <% head.with_row do |row| %>
+        <% row.with_cell(text: "Document name") %>
+        <% row.with_cell(text: "Date received") %>
+        <% row.with_cell(text: "Source") %>
+        <% row.with_cell(text: "Type of document") %>
+      <% end %>
+    <% end %>
+
+    <% table.with_body do |body| %>
+      <% documents.each do |document| %>
+        <% next unless document.representable? %>
+
+        <% body.with_row(
+            html_attributes: {
+                "data-document-url-value" => url_for_document(document.document),
+                "data-document-title-value" => document.file.filename
+            }
+        ) do |row| %>
+          <%= row.with_cell do %>
+            <p>
+              <%= link_to_document(truncate(document.reference_or_name, length: 50), document.document) %>
+            </p>
+
+            <% if document.tags.present? %>
+              <% document.tags.each do |tag| %>
+                <strong class="govuk-tag govuk-tag--grey document-tag"><%= I18n.t(:"#{tag}", scope: :document_tags) %></strong>
+              <% end %>
+            <% else %>
+              <p class="govuk govuk-!-margin-bottom-1">
+                <em>No tags added</em>
+              </p>
+            <% end %>
+          <% end %>
+
+          <%= row.with_cell(text: document.received_at_or_created || "-") %>
+          <%= row.with_cell(text: document.source) %>
+          <%= row.with_cell(text: govuk_tag(text: document.type.to_s.humanize, colour: document.type_tag_colour)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>
