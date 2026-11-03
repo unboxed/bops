@@ -759,6 +759,7 @@ en:
       red_line_boundary_change_validation_request_sent_post_validation: 'Sent: Post-validation request (red line boundary#%{args})'
       red_line_created: Red line drawing created
       red_line_updated: Red line drawing updated
+      refused_approval_for_closure: Rejected request to close case
       replacement_document_validation_request_added: 'Added: validation request (replacement document#%{args})'
       replacement_document_validation_request_cancelled: 'Cancelled: validation request (replace document#%{args})'
       replacement_document_validation_request_cancelled_post_validation: 'Cancelled: Post-validation request (replace document#%{args})'

@@ -19,7 +19,7 @@ module EnforcementStatus
       appeal
       prosecution
       closed
-      closed_pending_approval
+      requested_closure
     ].index_by(&:to_sym)
 
     aasm column: :status, enum: true, whiny_persistence: true, no_direct_assignment: true, timestamps: true do
@@ -33,7 +33,7 @@ module EnforcementStatus
       state :appeal
       state :prosecution
       state :closed
-      state :closed_pending_approval
+      state :requested_closure
 
       event :start_validation do
         transitions from: :not_started, to: :in_validation
@@ -52,18 +52,31 @@ module EnforcementStatus
       end
 
       event :close do
-        transitions from: %i[not_started in_validation under_investigation in_review], to: :closed
+        transitions from: %i[not_started in_validation under_investigation in_review requested_closure], to: :closed
         after { audit!(activity_type: "closed") }
       end
 
-      event :request_approval_for_closure do
-        transitions from: %i[not_started in_validation under_investigation in_review], to: :closed_pending_approval
+      event :request_closure do
+        transitions from: %i[not_started in_validation under_investigation in_review], to: :requested_closure
         after { audit!(activity_type: "requested_approval_for_closure") }
+      end
+
+      event :reject_closure do
+        transitions from: %i[requested_closure], to: :in_validation
+        after { audit!(activity_type: "refused_approval_for_closure") }
       end
     end
 
     def checked?
       under_investigation_at.present?
+    end
+
+    def open?
+      !closed_or_withdrawn?
+    end
+
+    def closed_or_withdrawn?
+      closed? || requested_closure?
     end
   end
 end

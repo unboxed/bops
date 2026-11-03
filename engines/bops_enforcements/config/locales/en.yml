@@ -110,6 +110,12 @@ en:
       close-case:
         failure: Unable to update case
         show:
+          confirmation:
+            label: Do you agree with the recommendation?
+            'no': No, return the case to officer
+            rejection_reason: Explain to the case officer why the case is being returned
+            required_error:
+            'yes': Yes, close the case and notify complainant
           detail:
             hint: Add any detail that may be useful to share with the complainant
             label: Additional comments (optional)
@@ -129,7 +135,7 @@ en:
             other_detail: Reason
             permission_not_required: Permission not required for use or development
             permission_previously_granted: Permission previously granted
-        success: Case successfully closed
+        success: Case successfully %{action}
       edit:
         failure: You cannot make changes to this case as it has already been closed
       show:

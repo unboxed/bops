@@ -14,7 +14,8 @@ RSpec.describe "Enforcement close page", type: :system do
   end
   let!(:case_record) { build(:case_record, local_authority:, submission: submission) }
   let!(:enforcement) { create(:enforcement, case_record:) }
-  let(:user) { create(:user, local_authority:) }
+  let(:officer) { create(:user, local_authority:) }
+  let(:manager) { create(:user, :reviewer, local_authority:) }
   let!(:task) { create(:task, parent: case_record, section: "Check", name: "Test task 1", slug: "test-task-1") }
   let!(:task2) { create(:task, parent: case_record, section: "Check", name: "Test task 2", slug: "test-task-2") }
   let!(:task3) { create(:task, parent: case_record, section: "Investigate", name: "Test task 3", slug: "test-task-3") }
@@ -24,7 +25,7 @@ RSpec.describe "Enforcement close page", type: :system do
   end
 
   before do
-    sign_in(user)
+    sign_in(officer)
     visit "/enforcements/#{enforcement.reference}/"
 
     click_link "Close the case"
@@ -40,7 +41,7 @@ RSpec.describe "Enforcement close page", type: :system do
 
     context do
       before do
-        click_button "Close case"
+        click_button "Confirm and submit"
       end
 
       it "can be closed" do
@@ -79,7 +80,7 @@ RSpec.describe "Enforcement close page", type: :system do
         )
 
       expect do
-        click_button "Close case"
+        click_button "Confirm and submit"
       end.to have_enqueued_job(BopsEnforcements::SendCloseInvestigationEmailJob).exactly(:once)
 
       perform_enqueued_jobs
@@ -94,26 +95,26 @@ RSpec.describe "Enforcement close page", type: :system do
     end
 
     it "cannot be submitted if approval is not selected" do
-      click_button "Close case"
+      click_button "Confirm and submit"
       expect(page).to have_content("Select an option")
     end
 
     it "cannot be submitted if choosing no approval needed" do
       choose "No, I want to close the case right away without manager review and notify complainant"
-      click_button "Close case"
+      click_button "Confirm and submit"
       expect(page).to have_content("Manager approval is required to close the case")
     end
 
     context do
       before do
         choose "Yes, I want to send my recommendation to a manager to review and sign off before the case is closed"
-        click_button "Close case"
+        click_button "Confirm and submit"
       end
 
       it "can be closed" do
         expect(page).to have_content("Case successfully closed")
         enforcement.reload
-        expect(enforcement.status).to eq("closed_pending_approval")
+        expect(enforcement.status).to eq("requested_closure")
         expect(enforcement.closed_reason).to eq("Not expedient to enforce")
       end
 
@@ -123,13 +124,64 @@ RSpec.describe "Enforcement close page", type: :system do
         visit "/enforcements/#{enforcement.reference}/check-breach-report"
         expect(page).to have_content("You cannot make changes to this case as it has already been closed")
       end
+
+      context "manager actions" do
+        before do
+          expect(page).to have_content("Case successfully closed")  # waiting
+          sign_out officer
+          sign_in manager
+        end
+
+        it "has the expected landing page content" do
+          visit "/enforcements/#{enforcement.reference}"
+          expect(page).to have_content("The assigned case officer has recommended to close the case")
+        end
+
+        it "has the expected content on the close page" do
+          visit "/enforcements/#{enforcement.reference}/close-case"
+          expect(page).to have_content "Under council protocol"
+          expect(page).to have_content "Close case recommendation Not expedient"
+        end
+
+        context "when the manager approves" do
+          before do
+            visit "/enforcements/#{enforcement.reference}/close-case"
+            choose "Yes, close the case and notify complainant"
+            click_button "Confirm"
+          end
+
+          it "can be closed" do
+            expect(page).to have_content("Case successfully closed")
+
+            enforcement.reload
+            expect(enforcement.status).to eq("closed")
+            expect(enforcement.closed_reason).to eq("Not expedient to enforce")
+          end
+        end
+
+        context "when the manager disapproves" do
+          before do
+            visit "/enforcements/#{enforcement.reference}/close-case"
+            choose "No, return the case to officer"
+            fill_in "Explain to the case officer why the case is being returned", with: "Do it anyway"
+            click_button "Confirm"
+          end
+
+          it "can be reopened" do
+            expect(page).to have_content("Case successfully reopened")
+
+            enforcement.reload
+            expect(enforcement.status).to eq("in_validation")
+          end
+        end
+      end
     end
 
     it "does not send an email" do
       notify = stub_request(:post, "#{notify_url}/email")
 
       expect do
-        click_button "Close case"
+        click_button "Confirm and submit"
       end.not_to have_enqueued_job(BopsEnforcements::SendCloseInvestigationEmailJob)
 
       perform_enqueued_jobs
