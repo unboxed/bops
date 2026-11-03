@@ -38,6 +38,10 @@ module BopsEnforcements
       end
 
       def flash(type, controller)
+        if action == "close_case" && invalid?(:close_case)
+          return "Manager approval is required. Submit the case closure recommendation to a senior officer or a manager"
+        end
+
         result = case type
         when :notice
           "success"
