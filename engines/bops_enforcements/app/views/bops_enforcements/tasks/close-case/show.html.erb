@@ -13,6 +13,13 @@
     </h2>
   <% end %>
 
+  <% if @enforcement.closed_detail %>
+    <%= govuk_inset_text do %>
+      <strong>Officer's comment</strong>
+      <p><%= @enforcement.closed_detail %></p>
+    <% end %>
+  <% end %>
+
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= form.govuk_radio_buttons_fieldset :closure_confirmation, legend: {size: "m", text: t(".confirmation.label")} do %>
       <%= form.govuk_radio_button :closure_confirmation, true , label: {text: t(".confirmation.yes")} %>

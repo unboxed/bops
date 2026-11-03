@@ -11,6 +11,7 @@ class EnforcementPresenter
     in_validation: "light-blue",
     under_investigation: "green",
     in_review: "yellow",
+    requested_closure: "yellow",
     returned: "yellow",
     notice_served: "purple",
     notice_overdue: "red",
