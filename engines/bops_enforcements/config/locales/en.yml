@@ -160,6 +160,10 @@ en:
             save_and_complete:
               'false': Marked site location as incorrect
               'true': Successfully marked site location as correct
+        documents-and-photos:
+          attach_file:
+            failure: Failed to attach file to case
+            success: Successfully attached file to case
         failure: You cannot make changes to this case as it has already been closed
         set-target-date:
           failure: Failed to set target date

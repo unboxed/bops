@@ -17,8 +17,8 @@ module Enforcements
     end
 
     def type
-      case document.owner&.class
-      when Enforcement, Submission
+      case document.owner_type
+      when "Enforcement", "Submission"
         :submission
       else
         :other

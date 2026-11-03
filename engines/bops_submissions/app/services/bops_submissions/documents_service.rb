@@ -12,14 +12,14 @@ module BopsSubmissions
     attr_reader :case_record, :user, :files, :metadata
 
     def call!
+      if user.file_downloader.blank?
+        raise Errors::FileDownloaderNotConfiguredError, "Please configure the file downloader for API user '#{user.id}'"
+      end
+
       files.each do |file|
         url = file["name"]
         tags = file["type"].flat_map { |type| Array(type["value"]) }
         description = file["description"]
-
-        if user.file_downloader.blank?
-          raise Errors::FileDownloaderNotConfiguredError, "Please configure the file downloader for API user '#{user.id}'"
-        end
 
         file = user.file_downloader.get(url: url)
         name = URI.decode_uri_component(File.basename(URI.parse(url).path))

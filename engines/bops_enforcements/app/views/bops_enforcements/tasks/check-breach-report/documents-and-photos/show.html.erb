@@ -1,0 +1,12 @@
+<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
+
+<%= govuk_details(summary_text: "Upload document", open: @form.errors.any?) do %>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <%= form.govuk_file_field :file, label: {text: "Attach file", size: "m"} %>
+
+    <%= form.govuk_task_button "Upload", action: :attach_file, secondary: true %>
+  <% end %>
+<% end %>
+
+<h2>Submitted and uploaded documents</h2>
+<%= render "bops_enforcements/shared/documents", enforcement: @enforcement, documents: @documents %>
