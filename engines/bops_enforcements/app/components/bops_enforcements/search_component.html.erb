@@ -45,7 +45,14 @@
 
       <div class="govuk-accordion__section-content govuk-!-padding-bottom-0">
         <p><strong>Status</strong></p>
-        <%= form.govuk_collection_check_boxes(:status, all_statuses, :to_s, :humanize, small: true, legend: nil, class: "display-flex") %>
+
+        <%= form.govuk_collection_check_boxes(:status,
+                                              all_statuses,
+                                              :to_s,
+                                              ->(it){ t(it, scope: "bops_enforcements.status", default: it.humanize) },
+                                              small: true,
+                                              legend: nil,
+                                              class: "display-flex") %>
 
         <hr
           class="
