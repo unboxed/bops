@@ -3,10 +3,6 @@
 <% if documents.empty? %>
   <p>There are no active documents</p>
 <% else %>
-  <p>
-    <%= govuk_link_to "Manage documents and photos", task_path(enforcement, "check-breach-report/documents-and-photos") %>
-  </p>
-
   <%= govuk_table(classes: "govuk-!-margin-top-4") do |table| %>
     <% table.with_head do |head| %>
       <% head.with_row do |row| %>

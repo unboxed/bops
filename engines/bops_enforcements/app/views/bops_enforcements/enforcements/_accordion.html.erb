@@ -68,9 +68,11 @@
         data-application-reference-value="<%= @enforcement.reference %>"
       >
         <div id="check-tag-documents-tasks">
-          <ul class="app-task-list__items govuk-!-padding-left-0">
-            <%= render "bops_enforcements/shared/documents", enforcement: @enforcement, documents: @documents %>
-          </ul>
+          <p>
+            <%= govuk_link_to "Manage documents and photos", task_path(@enforcement, "check-breach-report/documents-and-photos") %>
+          </p>
+
+          <%= render "bops_enforcements/shared/documents", enforcement: @enforcement, documents: @documents %>
         </div>
       </div>
     </div>
