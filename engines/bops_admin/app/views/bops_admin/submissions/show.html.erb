@@ -126,9 +126,9 @@
       </div>
     <% elsif @submission.case_record %>
       <p>
-        There is a case associated with this submission with type:
-        <%= @submission.case_record.caseable_type %> and case id:
-        <%= @submission.case_record.id + "." %>
+        There is a <%= @submission.case_record.caseable_type %> case associated
+        with this submission:
+        <%= govuk_link_to (@submission.case_record.caseable.respond_to?(:reference) ? @submission.case_record.caseable.reference : @submission.case_record.caseable.id), @submission.case_record.caseable.url -%>.
       </p>
     <% elsif @submission.submitted? %>
       <p><%= t(".awaiting_review.no_application_yet") %></p>
