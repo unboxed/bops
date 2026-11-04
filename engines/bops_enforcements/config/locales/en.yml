@@ -164,6 +164,7 @@ en:
           attach_file:
             failure: Failed to attach file to case
             success: Successfully attached file to case
+          success: Successfully marked task as complete
         failure: You cannot make changes to this case as it has already been closed
         set-target-date:
           failure: Failed to set target date

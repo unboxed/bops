@@ -10,3 +10,7 @@
 
 <h2>Submitted and uploaded documents</h2>
 <%= render "bops_enforcements/shared/documents", enforcement: @enforcement, documents: @documents %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_task_button "Save", action: :save_and_complete %>
+<% end %>
