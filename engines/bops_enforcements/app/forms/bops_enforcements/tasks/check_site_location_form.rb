@@ -52,6 +52,7 @@ module BopsEnforcements
 
       def save_and_complete
         enforcement.update!(valid_red_line_boundary:)
+
         if valid_red_line_boundary
           task.complete!
         else
