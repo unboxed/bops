@@ -9,7 +9,10 @@
 <% end %>
 
 <h2>Submitted and uploaded documents</h2>
-<%= render "bops_enforcements/shared/documents", enforcement: @enforcement, documents: @documents %>
+
+<div data-controller="download" data-download-target="documentsElement">
+  <%= render "bops_enforcements/shared/documents", enforcement: @enforcement, documents: @documents, download_button: true %>
+</div>
 
 <%= form_with model: @form, url: @form.url do |form| %>
   <%= form.govuk_task_button "Save", action: :save_and_complete %>

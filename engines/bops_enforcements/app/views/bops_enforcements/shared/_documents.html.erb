@@ -1,9 +1,15 @@
-<%# locals: (enforcement:, documents:) %>
+<%# locals: (enforcement:, documents:, download_button: false) %>
 
 <% if documents.empty? %>
   <p>There are no active documents</p>
 <% else %>
-  <%= govuk_table(classes: "govuk-!-margin-top-4") do |table| %>
+  <% if download_button %>
+    <p data-download-target="button">
+      <%= govuk_button_link_to "Download all documents", data: {action: "click->download#submit"}, secondary: true %>
+    </p>
+  <% end %>
+
+  <%= govuk_table(classes: "govuk-!-margin-top-4", ) do |table| %>
     <% table.with_head do |head| %>
       <% head.with_row do |row| %>
         <% row.with_cell(text: "Document name") %>
