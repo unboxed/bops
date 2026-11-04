@@ -1,6 +1,6 @@
 <%# locals: (enforcement:, task: nil, title: nil) %>
 
-<% add_parent_breadcrumb_link "Home", root_path %>
+<% add_parent_breadcrumb_link "Home", enforcements_path %>
 <% add_parent_breadcrumb_link "Application", enforcement_path(enforcement) %>
 
 <% page_heading = title || task&.title || "Enforcement case" %>
