@@ -11,7 +11,7 @@
 <h2>Submitted and uploaded documents</h2>
 
 <div data-controller="download" data-download-target="documentsElement">
-  <%= render "bops_enforcements/shared/documents", enforcement: @enforcement, documents: @documents, download_button: true %>
+  <%= render "bops_enforcements/shared/documents", enforcement: @enforcement, documents: @documents, actions: true %>
 </div>
 
 <%= form_with model: @form, url: @form.url do |form| %>

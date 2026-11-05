@@ -164,6 +164,9 @@ en:
           attach_file:
             failure: Failed to attach file to case
             success: Successfully attached file to case
+          edit_document:
+            failure: Failed to update document
+            success: Successfully updated document
           success: Successfully marked task as complete
         failure: You cannot make changes to this case as it has already been closed
         set-target-date:

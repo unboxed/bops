@@ -87,6 +87,14 @@ class Task < ApplicationRecord
     case_record.url_helpers.edit_task_path(case_record.caseable, self, **args)
   end
 
+  def component_url(component, **args)
+    case_record.url_helpers.task_component_path(case_record.caseable, self, component, **args)
+  end
+
+  def edit_component_url(component, **args)
+    case_record.url_helpers.edit_task_component_path(case_record.caseable, self, component, **args)
+  end
+
   private
 
   def raise_not_saved(transition)
