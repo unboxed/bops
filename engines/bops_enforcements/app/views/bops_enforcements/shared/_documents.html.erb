@@ -56,6 +56,11 @@
           <% if actions %>
             <% row.with_cell(text: "Actions") do %>
               <%= govuk_link_to "Edit", @task.edit_component_url(document) %><br>
+
+              <%= form_with model: @form, url: @task.component_url(document), method: :delete do |form| %>
+                <%= form.hidden_field :document_id, value: document.id %>
+                <%= form.govuk_task_button "Archive", class: "button-as-link", action: :archive_document %>
+              <% end %>
             <% end %>
           <% end %>
         <% end %>

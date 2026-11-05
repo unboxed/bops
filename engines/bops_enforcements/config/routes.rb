@@ -24,6 +24,7 @@ BopsEnforcements::Engine.routes.draw do
     get "/*slug/:id/edit", to: "tasks#edit", constraints: {id: /\d+/}, as: :edit_task_component
     get "/*slug/:id", to: "tasks#show", constraints: {id: /\d+/}, as: :task_component
     patch "/*slug/:id", to: "tasks#update", constraints: {id: /\d+/}
+    delete "/*slug/:id", to: "tasks#update", constraints: {id: /\d+/}
     get "/*slug/edit", to: "tasks#edit", as: :edit_task
     post "/*slug", to: "tasks#update"
     patch "/*slug", to: "tasks#update"

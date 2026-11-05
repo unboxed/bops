@@ -3,7 +3,7 @@
 module BopsEnforcements
   module Tasks
     class DocumentsAndPhotosForm < Form
-      self.task_actions = %w[save_and_complete attach_file edit_document]
+      self.task_actions = %w[save_and_complete attach_file edit_document archive_document]
 
       attribute :file
       attribute :numbers, :string
@@ -36,6 +36,10 @@ module BopsEnforcements
         task.in_progress! if task.not_started?
 
         document.update!(attributes.except("file"))
+      end
+
+      def archive_document
+        document.archive("archived")
       end
 
       def form_params(params)
