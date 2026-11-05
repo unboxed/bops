@@ -20,6 +20,7 @@ class CaseRecord < ApplicationRecord
   belongs_to :submission, optional: true
 
   delegate :email, to: :user, prefix: true, allow_nil: true
+  delegate :audits, to: :caseable, allow_nil: true
   delegate :url_helpers, to: :caseable
 
   after_initialize :generate_uuid

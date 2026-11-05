@@ -47,7 +47,7 @@ class Document < ApplicationRecord
     dependent: :destroy,
     inverse_of: false
 
-  delegate :audits, to: :planning_application, allow_nil: true
+  delegate :audits, to: :parent_record, allow_nil: true
   delegate :local_authority, to: :planning_application
   delegate :blob, :representable?, to: :file
   delegate :key, to: :blob, prefix: true
