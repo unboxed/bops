@@ -2,15 +2,6 @@
 
 module BopsEnforcements
   module Tasks
-    class << self
-      def form_for(slug)
-        form_name = "#{slug.underscore}_form".camelcase
-        begin
-          "BopsEnforcements::Tasks::#{form_name}".constantize
-        rescue NameError
-          Form
-        end
-      end
-    end
+    extend BopsCore::Tasksable
   end
 end

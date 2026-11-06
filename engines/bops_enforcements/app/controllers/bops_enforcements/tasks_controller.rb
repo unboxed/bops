@@ -4,6 +4,8 @@ module BopsEnforcements
   class TasksController < ApplicationController
     include BopsCore::TasksController
 
+    def tasks_modules = [BopsEnforcements::Tasks, BopsCore::Tasks]
+
     before_action :set_enforcement
     before_action :set_documents
     before_action :build_form
@@ -31,17 +33,6 @@ module BopsEnforcements
 
     def set_enforcement
       @enforcement = EnforcementPresenter.new(@case_record.caseable, view_context)
-    end
-
-    def template_for(action)
-      path = "bops_enforcements/tasks/#{@task.full_slug}/#{action}"
-      lookup_context.exists?(path) ? path : "bops_enforcements/tasks/generic/#{action}"
-    end
-
-    def build_form
-      klass = BopsEnforcements::Tasks.form_for(@task.slug)
-
-      @form = klass.new(@task)
     end
 
     def ensure_case_is_not_closed

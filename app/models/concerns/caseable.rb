@@ -8,5 +8,9 @@ module Caseable
     delegate :local_authority, to: :case_record
     delegate :submission, to: :case_record
     delegate :user, to: :case_record
+
+    def url
+      case_record.url_helpers.url_for([self, only_path: true])
+    end
   end
 end

@@ -6,7 +6,7 @@ module BopsEnforcements
       attribute :description, :string
 
       def redirect_url
-        edit_task_path(enforcement, task.parent)
+        task_path(enforcement, task.parent)
       end
 
       private

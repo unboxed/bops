@@ -1,9 +1,9 @@
-<%# locals: (enforcement:, documents:, download_button: false) %>
+<%# locals: (enforcement:, documents:, actions: false) %>
 
 <% if documents.empty? %>
   <p>There are no active documents</p>
 <% else %>
-  <% if download_button %>
+  <% if actions %>
     <p data-download-target="button">
       <%= govuk_button_link_to "Download all documents", data: {action: "click->download#submit"}, secondary: true %>
     </p>
@@ -16,6 +16,10 @@
         <% row.with_cell(text: "Date received") %>
         <% row.with_cell(text: "Source") %>
         <% row.with_cell(text: "Type of document") %>
+
+        <% if actions %>
+          <% row.with_cell(text: "Action") %>
+        <% end %>
       <% end %>
     <% end %>
 
@@ -48,6 +52,17 @@
           <%= row.with_cell(text: document.received_at_or_created || "-") %>
           <%= row.with_cell(text: document.source) %>
           <%= row.with_cell(text: govuk_tag(text: document.type.to_s.humanize, colour: document.type_tag_colour)) %>
+
+          <% if actions %>
+            <% row.with_cell(text: "Actions") do %>
+              <%= govuk_link_to "Edit", @task.edit_component_url(document) %><br>
+
+              <%= form_with model: @form, url: @task.component_url(document), method: :delete do |form| %>
+                <%= form.hidden_field :document_id, value: document.id %>
+                <%= form.govuk_task_button "Archive", class: "button-as-link", action: :archive_document %>
+              <% end %>
+            <% end %>
+          <% end %>
         <% end %>
       <% end %>
     <% end %>

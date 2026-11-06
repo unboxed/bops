@@ -1,0 +1,11 @@
+<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
+
+<%= form_with model: @form, url: @task.url do |form| %>
+  <%= form.hidden_field :document_id, value: @form.document.id %>
+  <%= form.govuk_date_field :received_at, legend: {text: "Date received"} %>
+
+  <%= render "documents/form_partials/tags", document_tags: ApplicationTypeDocumentTags.new, form: form %>
+
+  <%= form.govuk_text_field :numbers, label: {text: "Document title", size: "s"} %>
+  <%= form.govuk_task_button "Save", action: :edit_document %>
+<% end %>

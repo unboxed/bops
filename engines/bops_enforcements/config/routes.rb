@@ -21,7 +21,12 @@ BopsEnforcements::Engine.routes.draw do
     get "/serve-and-monitor", to: redirect(Bops::InitialTaskRedirector.new("Serve and monitor")), defaults: {caseable_type: "Enforcement"}
     # get "/process-an-appeal", to: redirect(Bops::InitialTaskRedirector.new('Appeal')), defaults: {caseable_type: "Enforcement"}
 
+    get "/*slug/:id/edit", to: "tasks#edit", constraints: {id: /\d+/}, as: :edit_task_component
+    get "/*slug/:id", to: "tasks#show", constraints: {id: /\d+/}, as: :task_component
+    patch "/*slug/:id", to: "tasks#update", constraints: {id: /\d+/}
+    delete "/*slug/:id", to: "tasks#update", constraints: {id: /\d+/}
     get "/*slug/edit", to: "tasks#edit", as: :edit_task
+    post "/*slug", to: "tasks#update"
     patch "/*slug", to: "tasks#update"
     get "/*slug", to: "tasks#show", as: :task
   end
