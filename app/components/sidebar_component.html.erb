@@ -21,11 +21,11 @@
     <%= section %> tasks
   <% end %>
 
-  <% if planning_application&.pre_application? && section == "Assessment" %>
+  <% if section == "Assessment" %>
     <div class="govuk-!-margin-bottom-4">
       <%= helpers.govuk_link_to "Preview report",
-        bops_reports.planning_application_path(planning_application, view_as: "applicant"),
-     new_tab: true, id: "preview-report-button-link" %>
+          planning_application&.pre_application? ? bops_reports.planning_application_path(planning_application, view_as: "applicant") : planning_application_recommendation_path(@planning_application),
+         new_tab: true, id: "preview-report-button-link" %>
     </div>
   <% end %>
 
