@@ -9,6 +9,7 @@ class Enforcement < ApplicationRecord
 
   has_many :audits, as: :auditable
   has_many :complainants
+  has_many :activities
 
   delegate :documents, to: :case_record
 
@@ -110,6 +111,10 @@ class Enforcement < ApplicationRecord
 
   def reference
     super || case_record.id
+  end
+
+  def site_history
+    activities.find_or_initialize_by(category: :site_history)
   end
 
   private

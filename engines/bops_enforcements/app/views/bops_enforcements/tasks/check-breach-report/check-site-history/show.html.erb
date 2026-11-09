@@ -1,0 +1,19 @@
+<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
+
+<h2>Summary of the relevant historical applications</h2>
+
+<p>Past applications for this site or relevant nearby locations:</p>
+
+<div class="grey-border-box">
+  <% if @form.details.present? %>
+    <p><%= @form.details %></p>
+  <% else %>
+    <p><strong>There is no site history for this property</strong></p>
+    <p>Add new site history that's relevant to this case</p>
+  <% end %>
+</div>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_rich_text_area :details, label: {text: "Planning history details", size: "m"} %>
+  <%= form.govuk_task_button "Save" %>
+<% end %>

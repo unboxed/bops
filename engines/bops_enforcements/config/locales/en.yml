@@ -151,6 +151,9 @@ en:
         check-report-details:
           failure: Unable to update task
           success: Report details successfully checked
+        check-site-history:
+          failure: Failed to update site history
+          success: Successfully updated site history
         check-site-location:
           failure:
             edit_form: Failed to update site location
