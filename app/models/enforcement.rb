@@ -113,6 +113,10 @@ class Enforcement < ApplicationRecord
     super || case_record.id
   end
 
+  def site_history
+    activities.find_or_initialize_by(category: :site_history)
+  end
+
   private
 
   def factory
