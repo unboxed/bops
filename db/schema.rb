@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_02_162656) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_09_091212) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -486,6 +486,17 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_02_162656) do
     t.index ["site_visit_id"], name: "ix_documents_on_site_visit_id"
     t.index ["submission_id"], name: "ix_documents_on_submission_id"
     t.index ["user_id"], name: "ix_documents_on_user_id"
+  end
+
+  create_table "enforcement_activities", force: :cascade do |t|
+    t.datetime "activity_date"
+    t.string "category"
+    t.datetime "created_at", null: false
+    t.string "details"
+    t.bigint "enforcement_id"
+    t.string "title"
+    t.datetime "updated_at", null: false
+    t.index ["enforcement_id"], name: "ix_enforcement_activities_on_enforcement_id"
   end
 
   create_table "enforcement_complainants", force: :cascade do |t|

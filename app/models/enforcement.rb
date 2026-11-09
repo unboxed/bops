@@ -9,6 +9,7 @@ class Enforcement < ApplicationRecord
 
   has_many :audits, as: :auditable
   has_many :complainants
+  has_many :activities
 
   delegate :documents, to: :case_record
 
