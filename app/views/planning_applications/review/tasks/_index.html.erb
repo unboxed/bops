@@ -21,6 +21,10 @@
       <% end %>
     <% end %>
 
+    <p>
+      <%= govuk_button_link_to "Preview report", planning_application_recommendation_path(@planning_application) %>
+    </p>
+
     <%= render(
           SiteMapComponent.new(
             planning_application: @planning_application
