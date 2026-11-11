@@ -1,0 +1,28 @@
+{
+  "metadata": {
+    "page": 1,
+    "results": 10,
+    "from": 1,
+    "to": 1,
+    "totalPages": 1,
+    "totalResults": 1
+  },
+  "links": {
+    "first": "http://planx.example.com/api/v2/neighbour_responses?page=1",
+    "last": "http://planx.example.com/api/v2/neighbour_responses?page=1",
+    "prev": null,
+    "next": null
+  },
+  "responses": [
+    {
+      "receivedAt": "2024-10-21T11:30:00.000+01:00",
+      "text": "I like it *****",
+      "sentiment": "supportive",
+      "respondent": { "postcode": "PE35 6AB" },
+      "application": {
+        "reference": "24-00100-HAPP",
+        "address": "1 The Mall, London, SW1A 1AA"
+      }
+    }
+  ]
+}
