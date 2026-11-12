@@ -1,4 +1,4 @@
-<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
+<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement, title: "Edit document" %>
 
 <%= form_with model: @form, url: @task.url do |form| %>
   <%= form.hidden_field :document_id, value: @form.document.id %>
