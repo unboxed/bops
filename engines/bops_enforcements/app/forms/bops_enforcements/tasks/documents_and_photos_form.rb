@@ -14,7 +14,7 @@ module BopsEnforcements
 
       after_initialize do |params|
         document_id = @params.dig("tasks_documents_and_photos_form", "document_id") || @params[:id]
-        @document = document_id.present? ? enforcement.documents.find(document_id) : nil
+        @document = document_id.present? ? enforcement.documents.find(document_id) : enforcement.documents.new
         @numbers = @document&.numbers
         @received_at = @document&.received_at
       end
@@ -26,9 +26,9 @@ module BopsEnforcements
         task.in_progress! if task.not_started?
 
         case_record.documents.create! do |doc|
-          doc.file = file
           doc.user = Current.user
           doc.owner = enforcement
+          doc.update!(attributes)
         end
       end
 

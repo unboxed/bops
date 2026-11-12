@@ -4,6 +4,8 @@
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= form.govuk_file_field :file, label: {text: "Attach file", size: "m"} %>
 
+    <%= render "bops_enforcements/#{@form.partial_path}/form", form: %>
+
     <%= form.govuk_task_button "Upload", action: :attach_file, secondary: true %>
   <% end %>
 <% end %>
