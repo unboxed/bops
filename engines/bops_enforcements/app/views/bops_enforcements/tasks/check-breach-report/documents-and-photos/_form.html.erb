@@ -1,0 +1,6 @@
+<%# locals: (form:) %>
+<%= form.govuk_date_field :received_at, legend: {text: "Date received"} %>
+
+<%= render "documents/form_partials/tags", document_tags: ApplicationTypeDocumentTags.new, form: form %>
+
+<%= form.govuk_text_field :numbers, label: {text: "Document title", size: "s"} %>
