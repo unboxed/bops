@@ -145,6 +145,11 @@ en:
       update:
         assign-user:
           success: Case was successfully assigned
+        check-constraints:
+          add_constraint:
+            success: Successfully added constraint
+          remove_constraint:
+            success: Successfully added constraint
         check-description:
           failure: Unable to update site description
           success: Site description successfully updated
