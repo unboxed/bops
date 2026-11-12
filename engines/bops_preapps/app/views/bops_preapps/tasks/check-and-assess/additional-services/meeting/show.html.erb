@@ -55,7 +55,7 @@
 
     <% unless @planning_application.determined? %>
       <%= govuk_details(summary_text: "Add a new meeting", open: @form.add_meeting_open?) do %>
-        <%= render "bops_preapps/tasks/check-and-assess/additional-services/meeting/form", form: form %>
+        <%= render "bops_preapps/#{@form.partial_path}/form", form: form %>
       <% end %>
     <% end %>
 
