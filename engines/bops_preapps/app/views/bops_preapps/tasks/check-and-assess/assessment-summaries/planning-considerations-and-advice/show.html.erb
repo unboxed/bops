@@ -50,7 +50,7 @@
             open: @form.consideration.errors.any? && @form.consideration.policy_area == policy_area,
             classes: "govuk-!-margin-bottom-2"
           ) do %>
-        <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/planning-considerations-and-advice/form",
+        <%= render "bops_preapps/#{@form.partial_path}/form",
               policy_area: policy_area, form_url: task_path(@planning_application, @task), form_method: :post, index: index + 1 %>
       <% end %>
     <% end %>

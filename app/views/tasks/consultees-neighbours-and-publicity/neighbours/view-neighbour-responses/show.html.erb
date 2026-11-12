@@ -39,7 +39,7 @@
     Responses (<%= @form.neighbour_responses.count %>)
   </h2>
   <% if @form.neighbour_responses.any? %>
-    <%= render "tasks/consultees-neighbours-and-publicity/neighbours/view-neighbour-responses/responses", neighbour_responses: @form.neighbour_responses %>
+    <%= render "#{@form.partial_path}/responses", neighbour_responses: @form.neighbour_responses %>
   <% else %>
     <p>No neighbour responses yet</p>
   <% end %>
