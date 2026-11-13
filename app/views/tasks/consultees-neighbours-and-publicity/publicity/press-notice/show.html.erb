@@ -34,7 +34,7 @@
   <% end %>
 <% elsif @form.press_notices.where(required: true).any? %>
   <% @planning_application.press_notices.required.each_with_index do |press_notice, index| %>
-    <%= render "tasks/consultees-neighbours-and-publicity/publicity/press-notice/table", press_notice: press_notice, index: index %>
+    <%= render "#{@form.partial_path}/table", press_notice: press_notice, index: index %>
   <% end %>
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= return_to_hidden_field %>

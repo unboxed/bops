@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_09_091212) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_12_205557) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -190,6 +190,21 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_09_091212) do
     t.index ["auditable_type", "auditable_id"], name: "ix_audits_on_auditable_type__auditable_id"
     t.index ["planning_application_id"], name: "index_audits_on_planning_application_id"
     t.index ["user_id"], name: "index_audits_on_user_id"
+  end
+
+  create_table "case_constraints", force: :cascade do |t|
+    t.bigint "constrainable_id", null: false
+    t.string "constrainable_type", null: false
+    t.bigint "constraint_id", null: false
+    t.datetime "created_at", null: false
+    t.jsonb "data"
+    t.boolean "identified", default: false, null: false
+    t.string "identified_by", null: false
+    t.jsonb "metadata"
+    t.datetime "removed_at"
+    t.string "status", default: "pending", null: false
+    t.datetime "updated_at", null: false
+    t.index ["constraint_id"], name: "ix_case_constraints_on_constraint_id"
   end
 
   create_table "case_records", id: :uuid, default: nil, force: :cascade do |t|
@@ -1607,6 +1622,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_09_091212) do
   add_foreign_key "audits", "api_users"
   add_foreign_key "audits", "planning_applications"
   add_foreign_key "audits", "users"
+  add_foreign_key "case_constraints", "constraints"
   add_foreign_key "case_records", "local_authorities"
   add_foreign_key "case_records", "submissions"
   add_foreign_key "case_records", "users"

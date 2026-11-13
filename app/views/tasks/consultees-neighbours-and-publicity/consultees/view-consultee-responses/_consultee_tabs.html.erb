@@ -26,7 +26,7 @@
         <p class="govuk-body"><%= t(".no_consultees_in_tab") %></p>
       <% else %>
         <% consultee_list.each_with_index do |consultee_presenter, presenter_index| %>
-          <%= render partial: "tasks/consultees-neighbours-and-publicity/consultees/view-consultee-responses/consultee_panel",
+          <%= render partial: "#{@form.partial_path}/consultee_panel",
                 locals: {
                   consultee: consultee_presenter,
                   planning_application: planning_application,

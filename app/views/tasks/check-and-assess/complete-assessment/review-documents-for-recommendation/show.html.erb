@@ -49,10 +49,10 @@
 
             <% if document.numbers.presence %>
               <td class="govuk-table__cell">
-                <%= render "tasks/check-and-assess/complete-assessment/review-documents-for-recommendation/checkboxes", document: document, field: "referenced_in_decision_notice" %>
+                <%= render "#{@form.partial_path}/checkboxes", document: document, field: "referenced_in_decision_notice" %>
               </td>
               <td class="govuk-table__cell">
-                <%= render "tasks/check-and-assess/complete-assessment/review-documents-for-recommendation/checkboxes", document: document, field: "publishable" %>
+                <%= render "#{@form.partial_path}/checkboxes", document: document, field: "publishable" %>
               </td>
             <% else %>
               <td class="govuk-table__cell text-align-centre" colspan="2">
