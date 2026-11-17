@@ -17,7 +17,7 @@ module BopsSubmissions
           address_1: ->(p) {
             sao = p.values_at(:sao, :saoEnd).compact_blank.join("–")
             pao = p.values_at(:pao, :paoEnd).compact_blank.join("–")
-            [sao, pao, p[:street]].compact_blank.join("–")
+            [sao, pao, p[:street]].compact_blank.join(", ")
           },
           address_2: ->(p) { p[:organisation] },
           town: ->(p) { p[:town] },
