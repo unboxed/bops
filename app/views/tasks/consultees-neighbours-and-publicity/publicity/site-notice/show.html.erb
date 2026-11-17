@@ -50,7 +50,7 @@
   <% end %>
 <% elsif @form.site_notices.where(required: true).any? %>
   <% @planning_application.site_notices.required.each_with_index do |site_notice, index| %>
-    <%= render "tasks/consultees-neighbours-and-publicity/publicity/site-notice/table", site_notice: site_notice, index: index %>
+    <%= render "#{@form.partial_path}/table", site_notice: site_notice, index: index %>
   <% end %>
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= return_to_hidden_field %>

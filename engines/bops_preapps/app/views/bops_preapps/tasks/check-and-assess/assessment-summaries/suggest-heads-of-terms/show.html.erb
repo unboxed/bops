@@ -39,7 +39,7 @@
     </summary>
 
     <div>
-      <%= render "bops_preapps/tasks/check-and-assess/assessment-summaries/suggest-heads-of-terms/form", url: main_app.planning_application_assessment_terms_path(@planning_application, redirect_to: @task.url) %>
+      <%= render "bops_preapps/#{@form.partial_path}/form", url: main_app.planning_application_assessment_terms_path(@planning_application, redirect_to: @task.url) %>
     </div>
 
     <hr
