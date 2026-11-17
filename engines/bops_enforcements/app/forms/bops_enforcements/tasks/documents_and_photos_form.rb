@@ -43,7 +43,7 @@ module BopsEnforcements
       end
 
       def form_params(params)
-        params.require(param_key).permit(*attribute_names, tags: [])
+        params.fetch(param_key, {}).permit(*attribute_names, tags: [])
       end
     end
   end
