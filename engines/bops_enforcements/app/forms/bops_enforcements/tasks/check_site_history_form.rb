@@ -7,7 +7,7 @@ module BopsEnforcements
 
       after_initialize do
         @site_history = enforcement.site_history
-        self.details ||= site_history.details
+        self.details ||= site_history&.details
       end
       attr_reader :site_history
 
@@ -15,7 +15,12 @@ module BopsEnforcements
 
       def save_and_complete
         super do
-          site_history.update!(details:, activity_date: Time.zone.now)
+          if site_history.present?
+            site_history.details.update!(body: details)
+          else
+            site_history ||= enforcement.activities.new(category: :site_history)
+            site_history.update!(details:, activity_date: Time.zone.now)
+          end
         end
       end
     end

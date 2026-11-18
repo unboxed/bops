@@ -4,16 +4,22 @@
 
 <p>Past applications for this site or relevant nearby locations:</p>
 
-<div class="grey-border-box">
-  <% if @form.details.present? %>
-    <p><%= @form.details %></p>
-  <% else %>
+<% if @form.details.present? %>
+  <div class="grey-border-box govuk-!-padding-4">
+    <%= @form.details %>
+  </div>
+  <p><%= govuk_link_to "Edit", @task.edit_url %></p>
+<% else %>
+  <div class="grey-border-box govuk-!-padding-4">
     <p><strong>There is no site history for this property</strong></p>
     <p>Add new site history that's relevant to this case</p>
-  <% end %>
-</div>
+  </div>
+<% end %>
 
 <%= form_with model: @form, url: @form.url do |form| %>
-  <%= form.govuk_rich_text_area :details, label: {text: "Planning history details", size: "m"} %>
+  <% unless @form.details.present? %>
+    <%= form.govuk_rich_text_area :details, label: {text: "Planning history details", size: "m"} %>
+  <% end %>
+
   <%= form.govuk_task_button "Save" %>
 <% end %>

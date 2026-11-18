@@ -116,7 +116,7 @@ class Enforcement < ApplicationRecord
   end
 
   def site_history
-    activities.find_or_initialize_by(category: :site_history)
+    activities.find_by(category: :site_history)
   end
 
   private
