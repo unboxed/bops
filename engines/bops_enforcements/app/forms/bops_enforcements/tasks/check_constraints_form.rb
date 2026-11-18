@@ -41,11 +41,11 @@ module BopsEnforcements
       end
 
       def non_applicable_constraints(applicable_constraints)
-        all.where.not(id: applicable_constraints.pluck(:constraint_id))
+        Constraint.all.where.not(id: applicable_constraints.pluck(:constraint_id))
       end
 
       def search_query
-        "#{CaseConstraint.quoted_table_name}.#{Constraint.quote_column_name("search")} @@ to_tsquery('simple', ?)"
+        "#{Constraint.quoted_table_name}.#{Constraint.quote_column_name("search")} @@ to_tsquery('simple', ?)"
       end
 
       def search_param(query)
