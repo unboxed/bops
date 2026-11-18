@@ -36,6 +36,6 @@
   <%= form.govuk_text_area :description, label: {text: "Enter an amended description", tag: "h3", size: "m"}, rows: 5 %>
 
   <%= form.govuk_task_button "Save", action: :save_and_complete do %>
-    <%= govuk_button_link_to "Back", enforcement_path(@enforcement), secondary: true %>
+    <%= govuk_button_link_to "Back", @task.parent.url, secondary: true %>
   <% end %>
 <% end %>
