@@ -7,12 +7,7 @@ module BopsEnforcements
 
       attribute :constraint_id, :integer
 
-      after_initialize do
-        @constraints = enforcement.constraints
-        @case_constraints = enforcement.case_constraints
-      end
-      attr_reader :constraints, :case_constraints
-      # delegate :constraints, :case_constraints, to: enforcement
+      delegate :constraints, :case_constraints, to: :enforcement
 
       def other_constraints(query: "")
         scope = Constraint.options_for_local_authority(case_record.local_authority_id).order(:category)
