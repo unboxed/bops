@@ -9,7 +9,7 @@
     <%= @enforcement.description %>
   </p>
 
-  <%= govuk_link_to "Edit description", @task.tasks.find_by(slug: "check-description").edit_url, class: "govuk-body-small govuk-!-margin-top-1", no_visited_state: true %>
+  <%= govuk_link_to "Edit description", @task.tasks.find_by(slug: "check-description").edit_url, class: "govuk-!-margin-top-1", no_visited_state: true %>
 
   <h2 class="govuk-!-margin-top-8">Is this case urgent?</h2>
 
