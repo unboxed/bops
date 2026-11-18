@@ -1,3 +1,5 @@
+<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
+
 <div class="govuk-grid-row govuk-!-margin-top-6 govuk-!-margin-bottom-6">
   <div class="govuk-grid-column-two-thirds">
     <h2>Add, remove and save constraints</h2>
@@ -15,7 +17,7 @@
     <h2>Identified constraints</h2>
 
     <p>
-      <%#= govuk_link_to "View map on Planning Data", planning_data_map_url(@form.constraints.flat_map(&:dataset).compact, @planning_application), new_tab: true %>
+      <%= govuk_link_to "View map on Planning Data", planning_data_map_url(@form.case_constraints.flat_map(&:dataset).compact, @enforcement), new_tab: true %>
     </p>
 
     <%= render(

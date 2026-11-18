@@ -7,12 +7,7 @@ module BopsEnforcements
 
       attribute :constraint_id, :integer
 
-      after_initialize do
-        @constraints = enforcement.constraints
-        @case_constraints = enforcement.case_constraints
-      end
-      attr_reader :constraints, :case_constraints
-      # delegate :constraints, :case_constraints, to: enforcement
+      delegate :constraints, :case_constraints, to: :enforcement
 
       def other_constraints(query: "")
         scope = Constraint.options_for_local_authority(case_record.local_authority_id).order(:category)
@@ -41,11 +36,11 @@ module BopsEnforcements
       end
 
       def non_applicable_constraints(applicable_constraints)
-        all.where.not(id: applicable_constraints.pluck(:constraint_id))
+        Constraint.all.where.not(id: applicable_constraints.pluck(:constraint_id))
       end
 
       def search_query
-        "#{CaseConstraint.quoted_table_name}.#{Constraint.quote_column_name("search")} @@ to_tsquery('simple', ?)"
+        "#{Constraint.quoted_table_name}.#{Constraint.quote_column_name("search")} @@ to_tsquery('simple', ?)"
       end
 
       def search_param(query)
