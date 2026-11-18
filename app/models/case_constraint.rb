@@ -6,6 +6,10 @@ class CaseConstraint < ApplicationRecord
 
   delegate :type, :category, :type_code, to: :constraint
 
+  def dataset
+    data&.pluck("dataset")
+  end
+
   def entities
     data&.pluck("name", "entity")
   end

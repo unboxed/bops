@@ -17,7 +17,7 @@
     <h2>Identified constraints</h2>
 
     <p>
-      <%#= govuk_link_to "View map on Planning Data", planning_data_map_url(@form.constraints.flat_map(&:dataset).compact, @planning_application), new_tab: true %>
+      <%= govuk_link_to "View map on Planning Data", planning_data_map_url(@form.case_constraints.flat_map(&:dataset).compact, @enforcement), new_tab: true %>
     </p>
 
     <%= render(
