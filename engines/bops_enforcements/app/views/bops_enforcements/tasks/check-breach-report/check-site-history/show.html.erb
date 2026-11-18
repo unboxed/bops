@@ -4,9 +4,9 @@
 
 <p>Past applications for this site or relevant nearby locations:</p>
 
-<div class="grey-border-box">
+<div class="grey-border-box govuk-!-padding-4">
   <% if @form.details.present? %>
-    <p><%= @form.details %></p>
+    <%= @form.details %>
   <% else %>
     <p><strong>There is no site history for this property</strong></p>
     <p>Add new site history that's relevant to this case</p>
