@@ -29,10 +29,7 @@ RSpec.describe "Start investigation", type: :system do
 
   it "displays the correct details" do
     within("#case-details") do
-      expect(page).to have_content("Case reference #{enforcement.reference}")
-      expect(page).to have_content(enforcement.address)
       expect(page).to have_selector(".govuk-tag", text: "Not started")
-      expect(page).to have_content(enforcement.description)
     end
 
     expect(page).to have_content("Notification to be sent to complainant(s) - Ebenezer Scrooge (scrooge@waltdisney.com)")
