@@ -1,5 +1,5 @@
 <% if @enforcement.requested_closure? && current_user.reviewer? %>
-  <%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement, title: "Sign off case closure" %>
+  <%= render @enforcement, task: @task, title: "Sign off case closure" %>
   <p>
     Under council protocol, decisions to close a case without enforcement
     require formal managerial sign-off. The assigned officer has submitted a
@@ -32,7 +32,7 @@
     <%= form.govuk_task_button "Confirm", action: :sign_off_closure %>
   <% end %>
 <% else %>
-  <%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
+  <%= render @enforcement, task: @task %>
 
   <%= form_with model: @form, url: @form.url do |form| %>
     <%= form.govuk_radio_buttons_fieldset :reason, legend: {size: "m", text: t(".reason.legend")} do %>
