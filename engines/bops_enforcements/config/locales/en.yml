@@ -138,6 +138,13 @@ en:
         success: Case successfully %{action}
       edit:
         failure: You cannot make changes to this case as it has already been closed
+      investigate-and-decide:
+        update-site-and-owner-details:
+          update-site-location:
+            edit:
+              submit: Save and mark as complete
+            show:
+              submit: Save and mark as complete
       show:
         failure: You cannot make changes to this case as it has already been closed
       title:
