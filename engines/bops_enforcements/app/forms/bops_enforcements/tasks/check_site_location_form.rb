@@ -59,6 +59,8 @@ module BopsEnforcements
           task.in_progress!
         end
         task.parent.in_progress! if task.parent.not_started?
+
+        true
       end
 
       def edit_form
