@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_12_205557) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_19_134056) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -534,6 +534,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_12_205557) do
   create_table "enforcements", force: :cascade do |t|
     t.string "address_1"
     t.string "address_2"
+    t.virtual "address_search", type: :tsvector, as: "to_tsvector('simple'::regconfig, (((((((((COALESCE(address_1, ''::character varying))::text || ' '::text) || (COALESCE(address_2, ''::character varying))::text) || ' '::text) || (COALESCE(town, ''::character varying))::text) || ' '::text) || (COALESCE(county, ''::character varying))::text) || ' '::text) || (COALESCE(postcode, ''::character varying))::text))", stored: true
     t.datetime "appeal_at"
     t.geography "boundary", limit: {srid: 4326, type: "geometry_collection", geographic: true}
     t.datetime "closed_at"
@@ -566,6 +567,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_12_205557) do
     t.string "urgency_reason"
     t.boolean "urgent", default: false, null: false
     t.boolean "valid_red_line_boundary", default: false, null: false
+    t.index ["address_search"], name: "ix_enforcements_on_address_search", using: :gin
   end
 
   create_table "environment_impact_assessments", force: :cascade do |t|

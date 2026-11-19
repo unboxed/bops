@@ -39,6 +39,10 @@ module BopsEnforcements
 
       @search = BopsEnforcements::SearchForm.new(filter_params)
 
+      if filter_params[:query].present?
+        @enforcements = text_search_filter.apply(@enforcements, filter_params)
+      end
+
       if filter_params[:urgent]
         @enforcements = @enforcements.where(urgent: true)
       end
@@ -72,7 +76,7 @@ module BopsEnforcements
     end
 
     def filter_params
-      params.permit(:urgent, status: [])
+      params.permit(:query, :urgent, status: [])
     end
 
     def set_case_record
@@ -93,6 +97,10 @@ module BopsEnforcements
       end
 
       @complainant
+    end
+
+    def text_search_filter
+      @text_search_filter ||= BopsCore::Filters::TextSearch::CascadingSearch.new
     end
   end
 end

@@ -5,6 +5,7 @@ module BopsEnforcements
     include ActiveModel::Model
     include ActiveModel::Attributes
 
+    attribute :query, :string
     attribute :urgent, :boolean
     attribute :status, :list, default: []
   end
