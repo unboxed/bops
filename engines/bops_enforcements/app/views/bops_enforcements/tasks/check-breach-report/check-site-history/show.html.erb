@@ -5,18 +5,18 @@
 <p>Past applications for this site or relevant nearby locations:</p>
 
 <% if @form.details.present? %>
-  <div class="grey-border-box govuk-!-padding-4">
+  <div class="grey-border-box govuk-!-padding-bottom-1">
     <%= @form.details %>
   </div>
   <p><%= govuk_link_to "Edit", @task.edit_url %></p>
 <% else %>
-  <div class="grey-border-box govuk-!-padding-4">
+  <div class="grey-border-box govuk-!-padding-bottom-1">
     <p><strong>There is no site history for this property</strong></p>
     <p>Add new site history that's relevant to this case</p>
   </div>
 <% end %>
 
-<%= form_with model: @form, url: @form.url do |form| %>
+<%= form_with model: @form, url: @form.url, class: "govuk-!-margin-top-8" do |form| %>
   <% unless @form.details.present? %>
     <%= form.govuk_rich_text_area :details, label: {text: "Planning history details", size: "m"} %>
   <% end %>

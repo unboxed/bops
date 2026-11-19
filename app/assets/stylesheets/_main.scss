@@ -452,7 +452,7 @@ body {
   background-color: govuk-colour("light-grey");
   margin-top: 1rem;
   margin-bottom: 1rem;
-  padding: 2rem;
+  padding: govuk-spacing(4);
 }
 
 .grey-border-box {
@@ -460,7 +460,7 @@ body {
   border: 1px solid $govuk-border-colour;
   margin-top: 1rem;
   margin-bottom: 1rem;
-  padding: 2rem;
+  padding: govuk-spacing(4);
 }
 
 .background-light-grey {
