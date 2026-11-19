@@ -16,7 +16,7 @@
   </div>
 <% end %>
 
-<%= form_with model: @form, url: @form.url do |form| %>
+<%= form_with model: @form, url: @form.url, class: "govuk-!-margin-top-8" do |form| %>
   <% unless @form.details.present? %>
     <%= form.govuk_rich_text_area :details, label: {text: "Planning history details", size: "m"} %>
   <% end %>
