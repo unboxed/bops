@@ -1,4 +1,4 @@
-<%= render "bops_enforcements/enforcements/enforcement", task: @task, enforcement: @enforcement %>
+<%= render @enforcement, task: @task %>
 
 <%= govuk_details(summary_text: "Upload document", open: @form.errors.any?) do %>
   <%= form_with model: @form, url: @form.url do |form| %>

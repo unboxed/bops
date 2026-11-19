@@ -1,4 +1,4 @@
-<%# locals: (enforcement:, task: nil, title: nil) %>
+<%# locals: (enforcement:, task: nil, title: nil, with_details: false) %>
 
 <% add_parent_breadcrumb_link "Home", enforcements_path %>
 <% add_parent_breadcrumb_link "Application", enforcement_path(enforcement) %>
@@ -19,11 +19,13 @@
       <%= page_heading %>
     </h1>
 
-    <p>
-      <strong><%= enforcement.address %></strong>
-      <br>
-      Case reference <strong><%= enforcement.reference %></strong>
-    </p>
+    <% if with_details %>
+      <p>
+        <strong><%= enforcement.address %></strong>
+        <br>
+        Case reference <strong><%= enforcement.reference %></strong>
+      </p>
+    <% end %>
 
     <div id="case-statuses-tags">
       <p>
@@ -35,8 +37,10 @@
       </p>
     </div>
 
-    <p>
-      <%= enforcement.description || "No description" %>
-    </p>
+    <% if with_details %>
+      <p>
+        <%= enforcement.description || "No description" %>
+      </p>
+    <% end %>
   </div>
 </div>
