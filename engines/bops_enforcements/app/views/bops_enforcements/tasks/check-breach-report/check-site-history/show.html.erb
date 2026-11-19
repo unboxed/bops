@@ -5,12 +5,12 @@
 <p>Past applications for this site or relevant nearby locations:</p>
 
 <% if @form.details.present? %>
-  <div class="grey-border-box govuk-!-padding-4">
+  <div class="grey-border-box govuk-!-padding-bottom-1">
     <%= @form.details %>
   </div>
   <p><%= govuk_link_to "Edit", @task.edit_url %></p>
 <% else %>
-  <div class="grey-border-box govuk-!-padding-4">
+  <div class="grey-border-box govuk-!-padding-bottom-1">
     <p><strong>There is no site history for this property</strong></p>
     <p>Add new site history that's relevant to this case</p>
   </div>
