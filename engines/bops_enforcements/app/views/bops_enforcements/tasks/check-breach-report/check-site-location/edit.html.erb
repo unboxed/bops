@@ -9,6 +9,7 @@
     <%= form.govuk_error_summary %>
 
     <%= form.govuk_text_area :boundary_geojson,
+                  value: @enforcement.boundary_geojson.to_json,
                   label: {text: @enforcement.boundary_geojson ? "Applicant's existing red line boundary" : "No digital red line boundary has been previously set",
                           size: "s",
                           class: "govuk-label govuk-label--s govuk-!-padding-bottom-4"},
