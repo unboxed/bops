@@ -1,0 +1,7 @@
+<%= render @enforcement, task: @task, title: "Edit interested party" %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.hidden_field :interested_party_id, value: @form.person&.id %>
+  <%= render "bops_enforcements/#{@form.partial_path}/form", form: %>
+  <%= form.govuk_task_button "Save", action: :add_party %>
+<% end %>

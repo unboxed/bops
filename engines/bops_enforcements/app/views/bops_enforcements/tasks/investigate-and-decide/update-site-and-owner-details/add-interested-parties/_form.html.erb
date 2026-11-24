@@ -1,0 +1,22 @@
+<%# locals: (form:) %>
+
+<%= form.govuk_text_field :name, label: {text: "Name", size: "s"} %>
+<%= form.govuk_text_field :company_name, label: {text: "Company name", size: "s"} %>
+<%= form.govuk_email_field :email_address, label: {text: "Email", size: "s"} %>
+<%= form.govuk_phone_field :phone, label: {text: "Phone", size: "s"} %>
+<%= form.govuk_text_field :address_1, label: {text: "Address line 1", size: "s"} %>
+<%= form.govuk_text_field :address_2, label: {text: "Address line 2", size: "s"} %>
+<%= form.govuk_text_field :town, label: {text: "Town/city", size: "s"} %>
+<%= form.govuk_text_field :county, label: {text: "County", size: "s"} %>
+<%= form.govuk_text_field :postcode, width: "one-quarter", label: {text: "Postcode", size: "s"} %>
+
+<%= form.govuk_radio_buttons_fieldset(:relationship, legend: { size: 'm', text: "Relation to the site" }) do %>
+  <% Enforcement::InterestedParty.relationships.keys.each_with_index do |rel, i| %>
+    <% next if rel == "other" %>
+    <%= form.govuk_radio_button :relationship, rel, label: { text: rel.humanize }, link_errors: i == 0 %>
+  <% end %>
+
+  <%= form.govuk_radio_button :relationship, 'other', label: { text: 'Other' } do %>
+    <%= form.govuk_text_field :other_relationship, label: { text: 'Describe relation to site' } %>
+  <% end %>
+<% end %>
