@@ -19,7 +19,7 @@
         "shared/location_map",
         locals: {
             geojson: @enforcement.boundary_geojson,
-            geojson_field: "tasks-check-site-location-form-boundary-geojson-field",
+            geojson_field: "tasks-#{@task.slug}-form-boundary-geojson-field",
             invalid_red_line_boundary: true
         }
     ) %>

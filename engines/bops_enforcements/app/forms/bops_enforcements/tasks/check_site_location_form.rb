@@ -65,6 +65,7 @@ module BopsEnforcements
 
       def edit_form
         enforcement.update!(boundary_geojson:, valid_red_line_boundary: true)
+        task.complete!
       end
     end
   end
