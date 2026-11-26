@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_19_134056) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_19_153043) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "btree_gin"
   enable_extension "pg_catalog.plpgsql"
@@ -529,6 +529,24 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_19_134056) do
     t.string "town"
     t.datetime "updated_at", null: false
     t.index ["enforcement_id"], name: "ix_enforcement_complainants_on_enforcement_id"
+  end
+
+  create_table "enforcement_interested_parties", force: :cascade do |t|
+    t.string "address_1"
+    t.string "address_2"
+    t.string "company_name"
+    t.string "county"
+    t.datetime "created_at", null: false
+    t.string "email_address"
+    t.bigint "enforcement_id"
+    t.string "name", null: false
+    t.string "other_relationship"
+    t.string "phone"
+    t.string "postcode"
+    t.string "relationship", null: false
+    t.string "town"
+    t.datetime "updated_at", null: false
+    t.index ["enforcement_id"], name: "ix_enforcement_interested_parties_on_enforcement_id"
   end
 
   create_table "enforcements", force: :cascade do |t|
@@ -1656,6 +1674,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_19_134056) do
   add_foreign_key "documents", "site_visits"
   add_foreign_key "documents", "submissions"
   add_foreign_key "documents", "users"
+  add_foreign_key "enforcement_interested_parties", "enforcements"
   add_foreign_key "evidence_groups", "immunity_details"
   add_foreign_key "fee_calculations", "planning_applications"
   add_foreign_key "heads_of_terms", "planning_applications"

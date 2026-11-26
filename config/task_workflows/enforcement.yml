@@ -19,6 +19,7 @@
       tasks:
         - name: "Update site location"
         - name: "Add site owners and interested parties"
+          slug: add-interested-parties
         - name: "Review site history"
         - name: "Review constraints"
 

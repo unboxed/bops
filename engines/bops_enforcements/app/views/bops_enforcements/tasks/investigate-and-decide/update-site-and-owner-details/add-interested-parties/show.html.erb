@@ -1,0 +1,27 @@
+<%= render @enforcement, task: @task %>
+
+<%= govuk_table(
+    head: ["Name", "Email", "Address", "Phone", "Interest in land", "Action"],
+    rows: @enforcement.interested_parties.select(&:persisted?).map { |person|
+        [
+            person.name,
+            person.email_address.presence || "—",
+            person.address.to_s,
+            person.phone.presence || "—",
+            (person.relationship == "other") ? person.other_relationship : person.relationship.humanize,
+
+            govuk_link_to("Edit", @task.edit_component_url(person.id)) + " " +form_with(model: @form, url:@task.component_url(person)) { |form| form.hidden_field(:person_id, value: person.id); form.govuk_task_button("Remove", class: "button-as-link", action: :remove_party) }
+        ]
+    }
+) %>
+
+<%= govuk_details(summary_text: "Add interested person", open: @enforcement.interested_parties.none?(&:persisted?)) do %>
+  <%= form_with model: @form, url: @form.url do |form| %>
+    <%= render "bops_enforcements/#{@form.partial_path}/form", form: %>
+    <%= form.govuk_task_button "Add interested party", action: :add_party, secondary: true %>
+  <% end %>
+<% end %>
+
+<%= form_with model: @form, url: @form.url do |form| %>
+  <%= form.govuk_task_button "Save", action: :save_and_complete %>
+<% end %>

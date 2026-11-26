@@ -150,6 +150,11 @@ en:
       title:
         start-investigation: Start investigation and notify complainant
       update:
+        add-interested-parties:
+          add_party:
+            failure: Failed to add interested party
+            success: Successfully added interested party
+          success: Successfully marked task as complete
         assign-user:
           success: Case was successfully assigned
         check-constraints:
