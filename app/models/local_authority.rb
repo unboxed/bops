@@ -6,7 +6,6 @@ class LocalAuthority < ApplicationRecord
   with_options dependent: :destroy do
     has_one_attached :signature
     has_many :users
-    has_many :planning_applications, -> { kept }
     has_many :constraints
     has_many :contacts
     has_many :informatives
@@ -21,6 +20,9 @@ class LocalAuthority < ApplicationRecord
     has_many :case_records
   end
 
+  has_many :planning_applications, -> { kept }, through: :case_records, source: :caseable, source_type: "PlanningApplication"
+  has_many :enforcements, through: :case_records, source: :caseable, source_type: "Enforcement"
+
   with_options through: :planning_applications do
     has_many :audits
     has_many :consultations
@@ -29,8 +31,6 @@ class LocalAuthority < ApplicationRecord
   end
 
   has_many :neighbour_responses, through: :consultations
-  has_many :enforcements, through: :case_records, source: :caseable, source_type: "Enforcement"
-
   has_many :enforcement_audits, through: :enforcements, source: :audits
 
   has_many :application_numbers
