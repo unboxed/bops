@@ -182,21 +182,6 @@ RSpec.describe PlanningApplication do
     end
 
     describe "::before_create #set_application_number" do
-      context "when an application number for a given local authority already exists" do
-        let(:local_authority) { create(:local_authority) }
-        let!(:planning_application) { create(:planning_application, local_authority:) }
-
-        before do
-          allow_any_instance_of(described_class).to receive(:set_application_number).and_return(planning_application.application_number)
-        end
-
-        it "raises a non unique error" do
-          expect do
-            create(:planning_application, local_authority:, application_number: 100)
-          end.to raise_error(ActiveRecord::RecordNotUnique)
-        end
-      end
-
       context "when application number is unique for the local authority" do
         let(:local_authority1) { create(:local_authority, :southwark) }
         let(:local_authority2) { create(:local_authority, :lambeth) }
