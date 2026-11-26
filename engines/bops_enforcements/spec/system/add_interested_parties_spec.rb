@@ -46,6 +46,8 @@ RSpec.describe "Add interested parties", type: :system do
       expect {
         click_on "Remove"
       }.to change(enforcement.interested_parties, :count).from(1).to(0)
+
+      expect(page).to have_content "Successfully removed"
     end
   end
 

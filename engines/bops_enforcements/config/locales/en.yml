@@ -154,6 +154,9 @@ en:
           add_party:
             failure: Failed to add interested party
             success: Successfully added interested party
+          remove_party:
+            failure: Failed to remove interested party
+            success: Successfully removed interested party
           success: Successfully marked task as complete
         assign-user:
           success: Case was successfully assigned
