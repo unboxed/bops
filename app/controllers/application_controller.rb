@@ -103,19 +103,4 @@ class ApplicationController < ActionController::Base
   def ensure_user_is_reviewer_checking_assessment
     render plain: "forbidden", status: :forbidden and return unless @planning_application.can_review_assessment?
   end
-
-  def use_new_sidebar_layout?(planning_application)
-    return false if current_user&.email&.in?(BLOCKED_SIDEBAR_EMAILS)
-
-    application_type = planning_application.application_type_name.to_sym
-
-    case Rails.configuration.use_new_sidebar_layout
-    when TrueClass, application_type
-      true
-    when Array
-      Rails.configuration.use_new_sidebar_layout.include?(application_type)
-    else
-      false
-    end
-  end
 end
