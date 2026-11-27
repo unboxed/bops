@@ -193,6 +193,12 @@ en:
             success: Successfully updated document
           success: Successfully marked task as complete
         failure: You cannot make changes to this case as it has already been closed
+        review-constraints:
+          add_constraint:
+            success: Successfully added constraint
+          remove_constraint:
+            success: Successfully added constraint
+          success: Constraints were marked as reviewed
         review-site-history:
           failure: Failed to update site history
           success: Successfully updated site history
