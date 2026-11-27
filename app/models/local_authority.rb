@@ -20,8 +20,10 @@ class LocalAuthority < ApplicationRecord
     has_many :case_records
   end
 
-  has_many :planning_applications, -> { kept }, through: :case_records, source: :caseable, source_type: "PlanningApplication"
-  has_many :enforcements, through: :case_records, source: :caseable, source_type: "Enforcement"
+  with_options dependent: :destroy, through: :case_records, source: :caseable do
+    has_many :enforcements, source_type: "Enforcement"
+    has_many :planning_applications, -> { kept }, source_type: "PlanningApplication"
+  end
 
   with_options through: :planning_applications do
     has_many :audits

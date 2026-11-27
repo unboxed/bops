@@ -32,11 +32,14 @@ module BopsSubmissions
       end
 
       def build_planning_application
-        case_record = submission&.case_record || local_authority.case_records.new(submission: submission)
-
         local_authority.planning_applications.new(planning_application_params).tap do |pa|
           pa.api_user_id = user.id
-          pa.case_record = case_record
+
+          if submission.case_record.present?
+            pa.case_record = submission.case_record
+          else
+            pa.case_record.submission = submission
+          end
         end
       end
 
